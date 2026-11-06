@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Shared technical findings and evidence boundaries."><title>Architecture findings · Wingman Research</title>
+<link rel="icon" href="../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/report.css"><script defer src="../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../index.html"><img src="../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../index.html">Overview</a><a class="nav-link active" href="index.html" aria-current=page>Architecture findings</a><a class="nav-link " href="purpose.html">Wingman purpose</a><a class="nav-link " href="method.html">Method and evidence</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../index.html">Wingman Research</a><span class="crumb">/</span><span>Architecture findings</span></div><span class="topbar-note">SOURCE REVIEW · 05 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Architecture findings</h1><p class="subtitle">Shared technical findings and evidence boundaries.</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#architecture-architecture-findings-for-wingman">Architecture findings for Wingman</a><a href="#architecture-main-finding">Main finding</a><a href="#architecture-candidate-groups">Candidate groups</a><a href="#architecture-identity-and-ownership">Identity and ownership</a><a href="#architecture-message-states">Message states</a><a href="#architecture-recovery-contract">Recovery contract</a><a href="#architecture-four-kinds-of-continuity">Four kinds of continuity</a><a href="#architecture-product-discovery-and-acceptance">Product discovery and acceptance</a><a href="#architecture-remote-execution">Remote execution</a><a href="#architecture-executive-visibility">Executive visibility</a><a href="#architecture-next-engineering-decisions">Next engineering decisions</a></div></nav><article class="technical"><h2 id="architecture-architecture-findings-for-wingman">Architecture findings for Wingman</h2>
+<h2 id="architecture-main-finding">Main finding</h2>
+<p>Wingman needs a persistent development organization. A coding-agent launcher provides only part of that system.
+The source assessments identify three useful layers: organization, execution, and engineering process.
+These layers can share a product. Their contracts still need separate review.</p>
+<p>An organization layer owns project identity, roles, work assignments, decisions, and portfolio state.
+An execution layer owns sessions, processes, workspaces, attempts, and recovery.
+An engineering process connects discovery, specifications, implementation, verification, and accepted delivery.
+The comparison table describes source behavior in these layers. It does not rank production reliability.</p>
+<h2 id="architecture-candidate-groups">Candidate groups</h2>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Layer</th>
+<th scope="col">Useful source studies</th>
+<th scope="col">What to inspect</th>
+<th scope="col">Main Wingman gap</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Standing organization</td>
+<td><a href="../paperclip/index.html">Paperclip</a>, <a href="../openrig/index.html">OpenRig</a>, <a href="../multica/index.html">Multica</a>, <a href="../crewly/index.html">Crewly</a>, <a href="../agent-swarm/index.html">Agent Swarm</a></td>
+<td>Agent records, assignment authority, durable decisions, wake policy</td>
+<td>The full Butler and project-leadership workflow needs explicit implementation.</td>
+</tr>
+<tr>
+<td>Coding workspace</td>
+<td><a href="../orca/index.html">Orca</a>, <a href="../codex-autorunner/index.html">CAR</a>, <a href="../maestro/index.html">Maestro</a>, <a href="../agent-deck/index.html">Agent Deck</a></td>
+<td>Native session identity, task attempts, inbox recovery, detailed workspace</td>
+<td>Portfolio discovery and authoritative product acceptance remain separate work.</td>
+</tr>
+<tr>
+<td>Distributed execution</td>
+<td><a href="../scion/index.html">Scion</a>, <a href="../hcom/index.html">Hcom</a>, <a href="../swarmos/index.html">SwarmOS</a>, <a href="../openclaw/index.html">OpenClaw</a></td>
+<td>Host registration, delivery acknowledgment, remote placement, recovery</td>
+<td>A remote process does not establish shared product state or common files.</td>
+</tr>
+<tr>
+<td>Engineering process</td>
+<td><a href="../gstack/index.html">gstack</a>, <a href="../babysitter/index.html">Babysitter</a>, <a href="../ralph-orchestrator/index.html">Ralph Orchestrator</a></td>
+<td>Reviewed plans, evidence receipts, state transitions, recovery checkpoints</td>
+<td>A process layer can depend on a separate host for agents and messages.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="architecture-identity-and-ownership">Identity and ownership</h2>
+<p>Use separate identifiers for project, agent, session, task, and attempt.
+An agent ID names a continuing responsibility. A session ID names a provider conversation.
+A task ID names an assignment. An attempt ID names one execution of that assignment.
+Include the host and current ownership version when a worker reports an outcome.</p>
+<p>This separation prevents a common failure. A worker can finish after the supervisor has replaced it.
+The system must reject a result from the old attempt when it targets the replacement attempt.
+An atomic task claim prevents two workers from winning the same claim.
+It does not prevent repeated external effects after an uncertain network result.</p>
+<p>Orca ties control messages and completion reports to execution attempts.
+OpenRig separates a continuing seat from its replaceable conversation.
+Paperclip separates the company agent from a run and its authorized issue work.
+These are useful designs for Wingman. They do not prove that the same model session must run forever.</p>
+<h2 id="architecture-message-states">Message states</h2>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">State</th>
+<th scope="col">Required evidence</th>
+<th scope="col">What the state does not prove</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accepted</td>
+<td>The receiver stored the request or admitted it to a queue.</td>
+<td>The destination has not necessarily received it.</td>
+</tr>
+<tr>
+<td>Delivered</td>
+<td>The runtime received the request for the intended target.</td>
+<td>The agent has not necessarily acted on it.</td>
+</tr>
+<tr>
+<td>Handled</td>
+<td>The destination recorded a handling result for that request.</td>
+<td>The resulting product has not necessarily passed verification.</td>
+</tr>
+<tr>
+<td>Work complete</td>
+<td>The current owner settled the assignment with an outcome.</td>
+<td>The outcome is not independent product acceptance.</td>
+</tr>
+<tr>
+<td>Product accepted</td>
+<td>Required checks and the authorized acceptance decision refer to the delivered version.</td>
+<td>Later changes need their own acceptance evidence.</td>
+</tr>
+</tbody>
+</table></div>
+<p>A message record should include sender, recipient, project, task, attempt, and correlation ID.
+Store a reply-to ID for questions. Keep a separate deduplication key for retries.
+An ordinary discussion message should not silently become an authorized product change.
+Live steering needs the expected active turn ID. A queued follow-up has a different execution contract.</p>
+<p>Agent Swarm separates discussion, tasks, and steering records.
+CAR separates queued execution from interrupt-and-restart behavior.
+Agent Deck uses durable inbox delivery and deduplication.
+Wingman should preserve these distinctions in its tracker and UI.</p>
+<h2 id="architecture-recovery-contract">Recovery contract</h2>
+<p>Persist the intended operation before starting the external action.
+Record the native execution identity as soon as the runtime supplies it.
+After restart, inspect that identity before starting another attempt.
+Represent an uncertain outcome explicitly. Do not convert a timeout into proof of failure.</p>
+<p>Use a durable outbox for network delivery. Use an inbox or receipt table for duplicate input.
+Commit task ownership changes in the same transaction as the related state transition.
+Use bounded leases only for the authority that the lease actually controls.
+A lease expiry cannot prove that a detached process stopped.
+Reconcile process state, task ownership, and provider state before replacing work.</p>
+<h2 id="architecture-four-kinds-of-continuity">Four kinds of continuity</h2>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Kind</th>
+<th scope="col">Durable record</th>
+<th scope="col">Recovery question</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agent identity</td>
+<td>Role, project, reporting relationship, permissions</td>
+<td>Which responsibility continues after a process exits?</td>
+</tr>
+<tr>
+<td>Conversation</td>
+<td>Provider thread binding and transcript</td>
+<td>Can the runtime resume this conversation safely?</td>
+</tr>
+<tr>
+<td>Work</td>
+<td>Task, attempt, owner, blockers, outcome</td>
+<td>Which assignment is still active?</td>
+</tr>
+<tr>
+<td>Product knowledge</td>
+<td>Scope, specification, decisions, test evidence</td>
+<td>Which product definition governs the next action?</td>
+</tr>
+</tbody>
+</table></div>
+<p>Agent Swarm reconstructs context in fresh Codex conversations at the assessed revision.
+CAR retains managed-thread bindings and execution history.
+Neither approach alone proves that all four kinds of continuity remain consistent.
+Wingman must connect them with explicit IDs and versioned records.</p>
+<h2 id="architecture-product-discovery-and-acceptance">Product discovery and acceptance</h2>
+<p>ProductMaster must resolve uncertainty before TechMaster commits a broad implementation plan.
+Use a short discovery cycle for a small mockup. Use deeper research for a substantial product.
+Record each question, answer, assumption, decision owner, and affected scope version.
+Keep researchable facts separate from choices that require the human's judgment.</p>
+<p>A useful discovery experiment starts with the same vague request for each candidate.
+For example, use “Build a loan origination system” without supplying a hidden specification.
+Observe whether the system identifies users, product boundaries, workflow, integrations, and acceptance needs.
+This is an experiment design. The retained research does not establish a measured winner for that experiment.</p>
+<p>Link each acceptance scenario to the relevant specification and delivered version.
+TestMaster records actual checks and unresolved defects.
+The authorized decision then accepts or rejects that delivery.
+After accepted delivery, stop active development until a new request arrives.
+A successful CLI exit, a green task badge, or an agent's completion message cannot replace this contract.</p>
+<h2 id="architecture-remote-execution">Remote execution</h2>
+<p>Review four properties separately: remote control, remote execution, shared coordination, and shared files.
+An HTTP endpoint can provide control without placing a worker on another host.
+An SSH process can run remotely without sharing task authority.
+A central task API can coordinate workers without copying their source workspaces.</p>
+<p>For a two-host experiment, disconnect one host during delivery and reconnect it later.
+Check ordered import, duplicate delivery, stale ownership, question routing, and cleanup.
+Verify the file version used by each worker. Do not infer consistency from a shared path string.
+The project reports state each candidate's source boundary for these properties.</p>
+<h2 id="architecture-executive-visibility">Executive visibility</h2>
+<p>The executive view needs recent results, current work, next work, blockers, and required decisions.
+Every summary should link to its task, conversation, attempt, or artifact.
+Keep the summary timestamp and evidence version visible.
+Show uncertainty when the underlying records disagree.</p>
+<p>A terminal grid provides execution detail. A transcript provides conversation history.
+A task activity chart provides timing and status.
+Wingman needs those views and an understandable account of each agent's responsibilities and progress.
+The individual agent timeline must connect the summary to the underlying work.</p>
+<h2 id="architecture-next-engineering-decisions">Next engineering decisions</h2>
+<ol>
+<li>Select the organization model before selecting a terminal UI.</li>
+<li>Define project, agent, task, attempt, and decision identifiers.</li>
+<li>Define delivery, handling, completion, and acceptance states.</li>
+<li>Prove one product journey from Telegram intake to accepted delivery.</li>
+<li>Prove restart recovery and two-host behavior for that same journey.</li>
+<li>Add portfolio summaries after the underlying records can support them.</li>
+</ol>
+<p>These steps are proposed Wingman design work. They are not implemented changes to the Wingman application.</p></article>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../index.html">Return to overview <img src="../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

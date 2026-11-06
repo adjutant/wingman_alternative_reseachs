@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Technical assessment against Wingman’s development organization."><title>Paradev · Wingman Research</title>
+<link rel="icon" href="../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/report.css"><script defer src="../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../index.html"><img src="../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../index.html">Overview</a><a class="nav-link " href="../generic/index.html">Architecture findings</a><a class="nav-link " href="../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../generic/method.html">Method and evidence</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../index.html">Wingman Research</a><span class="crumb">/</span><span>Paradev</span></div><span class="topbar-note">SOURCE REVIEW · 05 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Paradev</h1><p class="subtitle">Technical assessment against Wingman’s development organization.</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#decision">Decision summary</a><a href="#assessment-paradev-assessment-against-wingman">Paradev assessment against Wingman</a><a href="#assessment-1-architecture-and-actual-execution-model">1. Architecture and actual execution model</a><a href="#assessment-2-complete-wingman-feature-matrix">2. Complete Wingman feature matrix</a><a href="#assessment-3-agent-definition-creation-and-lifecycle-in-depth">3. Agent definition, creation and lifecycle in depth</a><a href="#assessment-4-coordination-mechanics-and-one-complete-request-trace">4. Coordination mechanics and one complete request trace</a><a href="#assessment-5-major-additional-capabilities-beyond-wingmans-description">5. Major additional capabilities beyond Wingman&#x27;s description</a><a href="#assessment-6-distinctive-mechanisms-and-grounded-innovation">6. Distinctive mechanisms and grounded innovation</a><a href="#assessment-7-practical-fit-adopt-adapt-and-build">7. Practical fit: adopt, adapt and build</a><a href="#assessment-8-verification-scope-and-confidence">8. Verification scope and confidence</a><a href="#source-record">Source and evidence</a></div></nav><section id="decision" class="decision"><h2>Decision summary</h2>
+<div class="brief-columns"><div><h3>Useful for Wingman</h3><p>Study durable Dev identities, main conversations, delegated writer and reviewer sessions, routines, and remote workspaces.</p></div><div><h3>Adoption boundary</h3><p>Autonomous Dev execution uses an external pdev engine. Separate Codex session support does not establish an all-Codex organization.</p></div></div>
+<p class="scope-note">Source assessment at the commit below. Runtime limits appear in the technical report.</p></section>
+<dl class="facts"><div><dt>Source group</dt><dd>Coding workspaces</dd></div><div><dt>Commit</dt><dd><code>3b5472d2fd07f9067f380a79525cf1200900f693</code></dd></div><div><dt>Coverage</dt><dd>24 Wingman features</dd></div></dl>
+<article id="technical-assessment" class="technical"><h2 id="assessment-paradev-assessment-against-wingman">Paradev assessment against Wingman</h2>
+<p class="url-text">Assessment date: <strong>2026-11-05</strong>. Repository: https://github.com/ParadevAI/Paradev . Local checkout: <code>researchs/paradev/repo</code>. Actual inspected commit: <strong><code>3b5472d2fd07f9067f380a79525cf1200900f693</code></strong>. The implementation still uses the Superset package namespace and <code>superset</code> CLI; Paradev is the product name. This is a source assessment of the local revision, not a claim about the current hosted service.</p>
+<p><strong>Verdict:</strong> a strong candidate for Wingman's execution and collaboration substrate, and substantially more than a terminal-grid IDE. This revision contains durable organization agents called <strong>Devs</strong>, human/Dev channels, persistent main conversations, delegated writer/reviewer task sessions, event/schedule routines, memory, real remote execution, a shared task tracker, and detailed coding workspaces. It does <strong>not</strong> implement Wingman's complete operating organization: Telegram/Butler intake, prescribed portfolio/product/technical leadership, proportionate product discovery, acceptance governance, autonomous peer-to-peer room discussion, and executive semantic summaries remain work. Crucially, the autonomous Dev service runs an external <strong><code>pdev</code></strong> engine; Codex support exists in the separate interactive host session/terminal stack. Those capabilities should not be conflated into an already functioning all-Codex organization.</p>
+<p>This report follows <a href="../generic/purpose.html">Wingman's purpose</a> and <a href="../generic/assessments/ASSESSMENT_GUIDE.md">the assessment guide</a>. The checkout was read without installation, service startup, or source modification. Links below are relative to this report; line references are for the inspected commit.</p>
+<h2 id="assessment-1-architecture-and-actual-execution-model">1. Architecture and actual execution model</h2>
+<h3 id="assessment-three-distinct-meanings-of-agent">Three distinct meanings of “agent”</h3>
+<ol>
+<li><strong>Organization Dev:</strong> a durable PostgreSQL <code>agents</code> row with UUID, organization, name, description, instructions, avatar, main-session reference, optional default repository environment, pause and archive timestamps. The <a href="repo/packages/db/src/schema/agents.ts">Dev schema</a>, lines 31–71, is an actual standing identity, not just a model persona. A Dev is also an <a href="repo/packages/db/src/schema/actors.ts">actor</a>, lines 6–32, enabling membership, authorship and mentions alongside humans.</li>
+<li><strong>Delegated Dev task session:</strong> a child conversation associated with that Dev, a tracker task, a writer/reviewer role and its own cloud workspace. It is independent execution with a parent report path, but it does not become a separately named standing Dev. <a href="repo/packages/db/src/schema/agents.ts">Session schema</a>, lines 94–159, and <a href="repo/packages/trpc/src/router/agent/tasks.ts">task launch</a>, lines 45–89 and 330–385, establish this distinction.</li>
+<li><strong>Host-configured coding agent / interactive session:</strong> a local configuration selects a CLI command, argv, prompt transport, resume/fork args and account environment. A launch starts a terminal process or a chat harness session on a particular host workspace. <a href="repo/packages/host-service/src/terminal-agents/agent-config.ts">Host config resolution</a>, lines 6–17 and 68–105, and <a href="repo/packages/host-service/src/trpc/router/agents/agents.ts">interactive agent launch</a>, lines 57–114 and 138–169, describe this machinery. A saved CLI preset is not itself a standing organization worker.</li>
+</ol>
+<h3 id="assessment-control-plane-durable-orchestration-and-execution-plane">Control plane, durable orchestration and execution plane</h3>
+<p>The TypeScript/Bun/Turborepo repository has Electron desktop, Next.js web/API surfaces, an Expo iOS client, Cloudflare realtime/relay services and a Temporal worker. The root <a href="repo/package.json">package manifest</a>, lines 1–88, establishes the package/workspace topology. The cloud tRPC layer owns organizations, actors, channels, tasks, projects, environments, cloud workspaces, automations and agent metadata in PostgreSQL via Drizzle. Hosts own machine/worktree/terminal state in SQLite; interactive chat has its own <code>chat.db</code> containing an event journal and provider-session bindings (<a href="repo/packages/chat-runtime/src/db/schema/schema.ts">chat schema</a>, lines 10–40).</p>
+<p>For Devs, a human channel message becomes a durable turn, then a Temporal session workflow. <a href="repo/packages/trpc/src/router/agent/turns.ts">Turn submission</a>, lines 59–185, first records an idempotent turn and either starts, steers or queues it. <a href="repo/apps/agent-worker/src/workflows/agentSession/agentSession.ts">The workflow</a>, lines 71–144 and 230–275, serializes work within a session, accepts steers, handles cancellation, and rolls its history over with <code>continueAsNew</code>. A workflow can exit after ten idle minutes without deleting the agent or its conversation.</p>
+<p>The <a href="repo/apps/agent-worker/src/main.ts">worker entry point</a>, lines 26–88, checks an externally installed <code>pdev</code> binary for remote-mode support, connects to Temporal and registers activities. A turn activity creates a temporary per-session home, restores the saved engine conversation, launches <code>pdev acp</code>, streams ACP updates into a session store, and deletes/reconstructs transient local state on later attempts (<a href="repo/apps/agent-worker/src/activities/createActivities/createActivities.ts">activities</a>, lines 217–289). The engine process is on the worker machine, while task filesystem/command tools are directed to an authenticated remote workspace using <code>PDEV_REMOTE_*</code> variables (same file, lines 139–165). Main sessions have no development machine and delegate code work to task sessions.</p>
+<p>The durable Dev transcript is served by a Cloudflare Durable Object per session. <a href="repo/apps/realtime/src/agent-session-hub.ts">AgentSessionHub</a>, lines 18–74 and 76–130, accepts idempotent appends, stores events/transcript, and replays a cursor before streaming live updates. This separates conversation durability from a worker process and from a viewing desktop.</p>
+<p>Interactive sessions follow a different path: <a href="repo/packages/host-service/src/chat-v3/mount.ts">host chat mounting</a>, lines 61–115 and 130–185, builds Claude, Codex and ACP adapters. The registry creates a live adapter per session and journals its events (<a href="repo/packages/chat-runtime/src/sessions/registry/registry.ts">registry</a>, lines 130–170). The host <a href="repo/packages/host-service/src/app.ts">Hono application</a>, lines 147–217, combines local DB, filesystem, Git watcher and pull-request runtime. Host chat exposes a tRPC command surface and resumable WebSocket stream (mount, lines 188–230).</p>
+<h3 id="assessment-distribution-is-real-but-its-boundaries-matter">Distribution is real, but its boundaries matter</h3>
+<p><a href="repo/packages/host-service/src/tunnel/connect.ts">Host relay registration</a>, lines 50–110, registers stable machine identity, platform and version, then connects an outbound authenticated tunnel. The <a href="repo/apps/relay/src/index.ts">relay server</a>, lines 129–168 and 177–206, handles control registration, dialing and presence by host routing key. This supports remote machines behind network boundaries, not just child processes on one laptop. Cloud Dev tasks additionally get provisioned/woken cloud workspaces; <a href="repo/packages/trpc/src/router/agent/turn-host.ts">turn-host resolution</a>, lines 37–95, checks both the agent's grant and the human's continuing access before returning a host target. <a href="repo/packages/host-service/src/trpc/router/agent-jobs/agent-jobs.ts">Remote jobs</a>, lines 103–161, expose workspace execution, output and kill operations. The <a href="repo/apps/agent-worker/src/clients/hostJobs/hostJobs.ts">client retry layer</a>, lines 15–46, retries transient host outages.</p>
+<p>However, the standing Dev task scheduler chooses cloud environments, not arbitrary registered Mac/Arch hosts. Interactive Codex work can use registered hosts; making Wingman's durable organization dispatch its workers directly onto the two requested personal machines needs an explicit adapter/routing policy.</p>
+<h2 id="assessment-2-complete-wingman-feature-matrix">2. Complete Wingman feature matrix</h2>
+<p>Verdicts describe implemented behavior, not what a suitably prompted model might improvise.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Capability</th>
+<th scope="col">Verdict</th>
+<th scope="col">Implementation evidence and concrete Wingman difference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F01</td>
+<td>Real independent coding agents and specialist instances</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/packages/trpc/src/router/agent/tasks.ts">Task sessions</a>, lines 45–89, 330–385, launch separate cloud workspaces and conversations; <a href="repo/packages/host-service/src/chat-v3/mount.ts">host adapters</a>, lines 61–115, include real Codex/Claude execution. Standing Dev identity is real, but delegated workers are task sessions under one Dev, and autonomous Dev execution uses <code>pdev</code>, not a standing roster of Codex BackendCoder/FrontendCoder/TestMaster instances.</td>
+</tr>
+<tr>
+<td>F02</td>
+<td>Extensible agent profiles, roles and team composition</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/packages/trpc/src/router/agent/agent.ts">Dev create/update</a>, lines 226–275, supports arbitrary names/descriptions/instructions; <a href="repo/packages/shared/src/agent-definition.ts">CLI definitions</a>, lines 16–67, allow custom command and prompt/resume/fork behavior. Room membership supplies flexible composition. There is no reusable role-profile → multiple persistent specialist instances → leadership/team graph equivalent to Wingman's model.</td>
+</tr>
+<tr>
+<td>F03</td>
+<td>Agent directory and visible working relationships</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/packages/trpc/src/router/agent/agent.ts">Agent list/get</a>, lines 50–152, returns identities, working state, shared channels and recent turns. <a href="repo/apps/desktop/src/renderer/routes/_authenticated/_dashboard/devs/$devId/components/DevScreen/DevScreen.tsx">Dev page</a>, lines 16–91, combines DM/profile/activity. Channel membership and parent/task session links show some relationships; project role, management chain and specialist-team relationships are not a complete directory graph.</td>
+</tr>
+<tr>
+<td>F04</td>
+<td>Telegram main human channel and Butler routing</td>
+<td><strong>Absent</strong></td>
+<td>Searches for <code>telegram</code>, <code>Telegram</code>, <code>Butler</code>, <code>ProjectMaster</code>, <code>ProductMaster</code> and <code>TechMaster</code> across implementation packages, agent worker and plugins found no implementation. <a href="repo/packages/trpc/src/router/agent/turns.ts">Channel routing</a>, lines 366–461, handles internal DM/mentions/channel routing, and <a href="repo/packages/trpc/src/router/agent/channel-routing.ts">Jev routing</a>, lines 14–35, chooses Devs for unmentioned messages. Neither supplies Telegram transport, Butler's human relationship or Telegram answer correlation.</td>
+</tr>
+<tr>
+<td>F05</td>
+<td>Cross-project registry, intake and existing/new project routing</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/packages/db/src/schema/schema.ts">Task project schema</a>, lines 1294–1339, has organization projects and task membership. <a href="repo/packages/trpc/src/router/agent/tasks.ts">Task environment selection</a>, lines 138–174, resolves explicit/default/single environments or asks for a choice. <a href="repo/packages/trpc/src/router/agent/turns.ts">Message project context</a>, lines 603–625, grounds “here.” Registry and contextual continuation exist; no ProjectMaster intake transaction decides new vs existing product and creates its leadership.</td>
+</tr>
+<tr>
+<td>F06</td>
+<td>Per-project product and technical leadership</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/packages/trpc/src/router/agent/agent.ts">Dev instructions</a>, lines 256–275, could define leaders; <a href="repo/packages/db/src/schema/schema.ts">project schema</a>, lines 1295–1311, has a human <code>leadUserId</code>. <a href="repo/apps/agent-worker/src/activities/createActivities/createActivities.ts">Main-session prompt</a>, lines 553–564, gives a Dev delegation/review responsibility. There is no separate ProductMaster/TechMaster lifecycle, project leadership assignment or enforced exchange of product definition and technical plan.</td>
+</tr>
+<tr>
+<td>F07</td>
+<td>Proportionate research, discovery and iterative human clarification</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/apps/agent-worker/src/activities/createActivities/createActivities.ts">Main-session instructions</a>, lines 554–564, tell the Dev to retrieve context before asking and preserve its conversation. Tasks can research with engine tools. This is general context gathering and Q&amp;A, not a product-risk-dependent discovery workflow, explicit uncertainty record or correlated Butler clarification cycle.</td>
+</tr>
+<tr>
+<td>F08</td>
+<td>Scope, specs, acceptance scenarios and definition of done</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/packages/db/src/schema/schema.ts">Task fields</a>, lines 204–247, store descriptions; <a href="repo/packages/trpc/src/router/page/publish.ts">Pages publication</a>, lines 62–97, stores durable versioned artifacts. These can hold specifications, but there is no required scope/spec/acceptance/DoD model or readiness gate. <a href="repo/apps/agent-worker/src/activities/createActivities/createActivities.ts">Worker completion prompt</a>, lines 566–570, focuses on PR/checks/review rather than product acceptance scenarios.</td>
+</tr>
+<tr>
+<td>F09</td>
+<td>Technical decomposition, assignment and shared task tracking</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/packages/trpc/src/router/agent/dev-tools.ts">Dev task tools</a>, lines 118–258, list/read/start/message/stop delegated work. <a href="repo/packages/db/src/schema/schema.ts">Task schema</a>, lines 204–265 and 274–306, provides statuses, priorities, comments/activity and human assignees. A main Dev can decompose through multiple <code>startTask</code> calls, but there is no first-class technical dependency DAG, specialist assignment policy or agent-valued <code>tasks.assigneeId</code>; actual Dev ownership is inferred from agent sessions.</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>Human portfolio/project management dashboard</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/apps/desktop/src/renderer/routes/_authenticated/_dashboard/tasks/components/TasksView/TasksView.tsx">TasksView</a>, lines 10–30 and 43–86, supports tracker sources, board/table views, assignee/status/project filters. <a href="repo/apps/desktop/src/renderer/routes/_authenticated/_dashboard/projects/$projectId/components/ProjectRecordView/components/ProjectProgressTab/ProjectProgressTab.tsx">ProjectProgressTab</a>, lines 35–79, connects project tasks, workspaces, repos and PRs. This is real project management, but lacks the integrated agent-team/blocker/open-decision/specification briefing Wingman specifies.</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>Agent chat rooms and direct collaboration</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/packages/db/src/schema/channels.ts">Channel schema</a>, lines 50–179, implements human/Dev membership, visibility, threads, ordered messages and mentions. <a href="repo/packages/trpc/src/router/agent/dev-tools.ts">Dev reply tool</a>, lines 93–115, posts as the Dev. <strong>Boundary:</strong> <a href="repo/packages/trpc/src/router/channel/channel-message.ts">sendChannelMessage</a>, lines 451–519, triggers agent turns only for human-authored messages. A Dev's post does not automatically wake peer Devs. Parent/task updates are active collaboration; autonomous Room2 peer dialogue is incomplete.</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>Management escalation and human decisions/approvals</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/apps/agent-worker/src/activities/createActivities/createActivities.ts">Task prompt</a>, lines 566–570, asks workers to report decisions to their parent; <a href="repo/packages/trpc/src/router/agent/tasks.ts">reportToParent</a>, lines 498–542, wakes that parent. Interactive chat has <a href="repo/packages/chat-runtime/src/router/router/router.ts">approval responses</a>, lines 179–193. But Dev ACP permissions are auto-allowed and elicitation declined (<a href="repo/apps/agent-worker/src/pdev/pdevSession/pdevSession.ts">PdevSession</a>, lines 205–226). No Room2 → Room1 → Butler escalation or durable business-decision state machine was found.</td>
+</tr>
+<tr>
+<td>F13</td>
+<td>Durable project knowledge and reusable directives</td>
+<td><strong>Similar</strong></td>
+<td>Repository files/worktrees, custom <a href="repo/packages/shared/src/agent-definition.ts">context templates</a>, lines 23–35, versioned <a href="repo/packages/trpc/src/router/page/publish.ts">Pages</a>, lines 62–97, and Dev <a href="repo/packages/trpc/src/router/agent/dev-tools.ts">remember/recall</a>, lines 260–292, provide durable knowledge primitives. Memories are per Dev and recall is capped to 50 results; no project-wide <code>DIRECTIVES/SCOPES/SPECS/HARNESS</code> convention or mandated knowledge handoff exists.</td>
+</tr>
+<tr>
+<td>F14</td>
+<td>Persistent identity, conversation and work continuity</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/packages/db/src/schema/agents.ts">Durable Dev/session schema</a>, lines 31–159; <a href="repo/packages/trpc/src/router/agent/turns.ts">single main-session creation</a>, lines 319–347; <a href="repo/apps/agent-worker/src/activities/createActivities/createActivities.ts">restore</a>, lines 265–277; and <a href="repo/apps/realtime/src/agent-session-hub.ts">realtime transcript store</a>, lines 18–74, retain identity and context beyond processes. This is substantial continuity, but role/project knowledge is not structured as Wingman's standing specialist organization, and Codex interactive sessions are a separate namespace.</td>
+</tr>
+<tr>
+<td>F15</td>
+<td>Proactive supervision, periodic wake and blocker follow-up</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/packages/trpc/src/router/agent/routines.ts">Routines</a>, lines 137–200, wake the existing main session with a scheduled/event prompt and reply target. <a href="repo/apps/agent-worker/src/main.ts">Worker schedule</a>, lines 154–170, runs reconciliation every minute; <a href="repo/packages/trpc/src/router/agent/reconcile.ts">reconcileDevs</a>, lines 32–91, repairs lost messages, stranded queues and workflows. A configured routine can inspect work, but infrastructure repair is not semantic ProjectMaster supervision, and blocker follow-up is prompt policy rather than a built-in portfolio behavior.</td>
+</tr>
+<tr>
+<td>F16</td>
+<td>Parallel products and concurrent specialists</td>
+<td><strong>Similar</strong></td>
+<td>Organization projects/environments separate work, and <a href="repo/packages/trpc/src/router/agent/tasks.ts">MAX_RUNNING_TASKS</a>, lines 20–23 and 233–291, permits three task sessions per Dev with further work queued. <a href="repo/packages/db/src/schema/agents.ts">Unique active writer constraint</a>, lines 154–158, limits simultaneous writers per task. Multiple Devs/workspaces can progress concurrently, but this is not a scalable role-instance allocation policy driven by product complexity.</td>
+</tr>
+<tr>
+<td>F17</td>
+<td>Real multi-host execution with shared coordination</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/packages/host-service/src/tunnel/connect.ts">Host registration/tunnel</a>, lines 50–92; <a href="repo/apps/relay/src/index.ts">relay routing/presence</a>, lines 129–206; and <a href="repo/packages/trpc/src/router/agent/turn-host.ts">authenticated cloud task targets</a>, lines 37–95, demonstrate remote execution and shared cloud coordination. This is not merely local subprocess concurrency. Wingman's Mac/Arch placement and Codex standing-agent routing still require adaptation. The current durable Dev task path creates cloud boxes.</td>
+</tr>
+<tr>
+<td>F18</td>
+<td>Executive overview: current/recent/next work and blockers</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/packages/trpc/src/router/agent/agent.ts">Agent get</a>, lines 94–152, returns current running reason and recent status/time entries. <a href="repo/packages/trpc/src/router/agent/dev-tools.ts">Dev work tool</a>, lines 118–160, has task status, PR and a truncated last reply. These supply raw material for an executive briefing, not a current/recent/next/blockers summary. No consolidated semantic briefing producer was found in Dev UI/router/schema paths.</td>
+</tr>
+<tr>
+<td>F19</td>
+<td>Individual summary timeline linked to underlying work</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/apps/desktop/src/renderer/routes/_authenticated/_dashboard/devs/$devId/components/DevActivityTab/DevActivityTab.tsx">DevActivityTab</a>, lines 21–50 and 81–114, shows status, elapsed time and “Answered … in #channel” links. <a href="repo/packages/trpc/src/router/agent/agent.ts">Activity API</a>, lines 155–223, filters by human visibility. It is a navigable turn/activity log, not meaningful development accomplishments, test outcomes, planned next work or blocker summaries.</td>
+</tr>
+<tr>
+<td>F20</td>
+<td>Detailed per-agent coding workspace drill-down</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/packages/trpc/src/router/agent/agent.ts">Dev session APIs</a>, lines 340–458, issue stream tickets, enumerate main/task sessions and allow prompts/interruption. <a href="repo/packages/chat-runtime/src/router/router/router.ts">Host chat commands</a>, lines 100–240, expose session state, tools, changes and checkpoint undo. The coding workbench is substantial. The Dev's ordinary page is a DM/profile/activity view, and the directory → executive summary → task/discussion → detailed session chain is less unified than Wingman requires.</td>
+</tr>
+<tr>
+<td>F21</td>
+<td>Live activity, lifecycle, steering and execution visibility</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/packages/chat-runtime/src/router/router/router.ts">Chat commands</a>, lines 100–240, cover prompt queues, cancellation, background tasks/subagents, approvals, configuration, fork/rewind/close and changes. <a href="repo/apps/agent-worker/src/workflows/agentSession/agentSession.ts">Dev workflow</a>, lines 98–144, supports steers and cancellation; <a href="repo/packages/trpc/src/router/agent/agent-worker.ts">settlement</a>, lines 216–249, records usage/cost/tool summaries. Capabilities vary by harness; no common Wingman continuing-goal/budget control was established, and main Dev permissions differ from interactive approval UX.</td>
+</tr>
+<tr>
+<td>F22</td>
+<td>Testing, integrated verification, acceptance and delivery</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/apps/agent-worker/src/activities/createActivities/createActivities.ts">Writer/reviewer instructions</a>, lines 558–570, ask for PRs, relevant tests, waiting for CI, fixes and independent review. <a href="repo/packages/trpc/src/router/agent/tasks.ts">Task result handling</a>, lines 388–419 and 458–495, records result/PR and reports to parent. These are real review/delivery primitives but prompt-driven; <code>completed</code> turn becomes task-session <code>done</code> without a product acceptance gate, reviewer-verdict parser or integrated scenario/DoD enforcement.</td>
+</tr>
+<tr>
+<td>F23</td>
+<td>Autonomous operation under human organizational direction</td>
+<td><strong>Similar</strong></td>
+<td>A human message can wake a durable Dev, which delegates code, receives completion events, requests review and replies; <a href="repo/apps/agent-worker/src/activities/createActivities/createActivities.ts">main prompt</a>, lines 553–570, and <a href="repo/packages/trpc/src/router/agent/tasks.ts">parent wake</a>, lines 498–542, make this more than manual launch supervision. Full discovery-to-delivery organization, cross-Dev managerial escalation and Telegram direction are not implemented as a coherent operating system.</td>
+</tr>
+<tr>
+<td>F24</td>
+<td>New profiles participate in chat, tracker and dashboards</td>
+<td><strong>Similar</strong></td>
+<td>New <a href="repo/packages/trpc/src/router/agent/agent.ts">agents</a>, lines 226–275, become <a href="repo/packages/db/src/schema/actors.ts">actors</a>, lines 6–32, and fit existing membership/activity/session APIs. No fixed specialist enum constrains their identity. Tracker assignees and project leads still point to humans (<a href="repo/packages/db/src/schema/schema.ts">task/project schema</a>, lines 223–232 and 1307–1309); agent assignment uses session joins. Adding a Dev is supported; adding a new fully modeled organizational role/workflow is not automatic.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="assessment-3-agent-definition-creation-and-lifecycle-in-depth">3. Agent definition, creation and lifecycle in depth</h2>
+<h3 id="assessment-definition-and-configuration">Definition and configuration</h3>
+<p>The Dev identity lives in <code>agents</code>, independently of any process. <code>description</code> gives the main model and router a responsibility hint, and <code>instructions</code> is appended as “Your team's instructions for you” to main, writer and reviewer system prompts (<a href="repo/apps/agent-worker/src/activities/createActivities/createActivities.ts">systemFor</a>, lines 545–572). These are powerful customization points but they are unstructured instructions. There is no separate role-profile table, typed competence matrix, per-project role instantiation policy, or organization hierarchy. Multiple durable Devs can use equivalent instructions, but they are independently configured rows.</p>
+<p>The model choice for this service is worker configuration (<code>AGENT_MODEL</code> and <code>AGENT_MAIN_MODEL</code>), not a per-Dev model field (<a href="repo/apps/agent-worker/src/main.ts">worker main</a>, lines 38–48 and 75–81). This differs from interactive agent presets, where command, arguments, account home and model/mode/effort selection form the launch configuration. The <a href="repo/packages/shared/src/agent-definition.ts">shared definition</a>, lines 16–67, is an extensible CLI template; <a href="repo/packages/host-service/src/terminal-agents/agent-config.ts">host resolution</a>, lines 68–105, prefers an instance UUID then a preset slug. These templates must not be mistaken for the Dev identity database.</p>
+<h3 id="assessment-creation-identity-and-first-activation">Creation, identity and first activation</h3>
+<p>A human organization member calls <code>agent.create</code> to insert name, description, avatar and creator; <code>agent.update</code> adds instructions (<a href="repo/packages/trpc/src/router/agent/agent.ts">agent router</a>, lines 226–275). Actor identity matches agent UUID, making new Devs valid room participants. The creator or organization administrators manage the Dev; other members can interact subject to channel access. A main conversation is created lazily under a database row lock and stored once on <code>agents.mainSessionId</code> (<a href="repo/packages/trpc/src/router/agent/turns.ts">ensureMainSession</a>, lines 319–347). This is a genuine persistent agent identity/conversation pairing.</p>
+<p>Creating a Dev does not immediately run a permanent model loop or create a team. A human DM, mention, router-selected message, routine, or child-task event supplies work. Main session inputs carry sender, channel description, project, optional recent/thread context and a reply target. This gives conversational context routing without a Butler or product-registry intake role.</p>
+<h3 id="assessment-routing-turns-and-concurrency">Routing, turns and concurrency</h3>
+<p><a href="repo/packages/trpc/src/router/agent/turns.ts">Message routing</a>, lines 366–461, loads unpaused/unarchived member Devs. A DM reaches its Dev. An explicit mention reaches mentioned Devs; otherwise a model router picks relevant Devs from names/descriptions and recent messages. Failed/uncertain routing can fall back to thread participants (same file, lines 464–515). This selects a teammate within a room, not a new-vs-existing-product decision across the portfolio.</p>
+<p><code>submitPrompt</code> uses prompt IDs and a running-turn uniqueness mechanism to deduplicate delivery. A message for the <strong>same human</strong> joins a running turn as a steer; work for another human queues (<a href="repo/packages/trpc/src/router/agent/turns.ts">turn recording</a>, lines 59–160). This is a meaningful authority boundary: a turn acts for one person. The main conversation nevertheless persists across those turns and people. It is not a separate memory per requestor. The main/task transcript viewer is therefore restricted to managers (agent router, lines 371–424 and 461–476).</p>
+<p>Task execution creates an <code>agentSessions.kind = task</code> child and optionally a new tracker task. It chooses a repository environment explicitly, from the Dev default, or from the sole environment available; ambiguous selection returns an error asking for an environment (<a href="repo/packages/trpc/src/router/agent/tasks.ts">tasks</a>, lines 50–89 and 138–174). The queue nominally runs three tasks per Dev, oldest first, with each task in its own box. A database unique partial index prevents multiple queued/running writers on a tracker task; reviewers can be separate sessions. The count-then-claim slot implementation is visible in <code>fillSlots</code>, lines 244–277. This assessment did not establish a globally serialized capacity allocator under competing callers, so the configured limit should not be treated as proven strict concurrency control under all races.</p>
+<p>Workers are independent conversations with their own execution environment, but inherit the parent Dev's name/instructions rather than a separately provisioned BackendCoder or TestMaster identity. A reviewer receives the existing task, PR and latest writer report (<a href="repo/packages/trpc/src/router/agent/tasks.ts">brief</a>, lines 176–198). This is a concrete writer/reviewer pattern that Wingman could adapt into specialist roles.</p>
+<h3 id="assessment-tools-and-permissions">Tools and permissions</h3>
+<p>The main Dev has no machine or native subagents. Its MCP tools provide room reply/read, channel tasks, work list/read/start/message/stop, environment discovery, routines and memory (<a href="repo/packages/trpc/src/router/agent/dev-tools.ts">dev tools</a>, lines 93–300; <a href="repo/packages/trpc/src/router/agent/dev-channel-tools.ts">channel tools</a>, lines 36–64 and 107–211). <code>writeAgentSettings</code> denies the engine's native <code>Task</code> tool when main MCP tools are supplied, keeping delegation in the product's durable task model (<a href="repo/apps/agent-worker/src/activities/createActivities/createActivities.ts">activities</a>, lines 503–540).</p>
+<p>Task sessions get a cloud box and engine remote command/filesystem capabilities. <a href="repo/packages/trpc/src/router/agent/agent-worker.ts">Credential resolution</a>, lines 137–213, only hands out credentials for a running turn and an unarchived Dev. <a href="repo/packages/trpc/src/router/agent/turn-host.ts">Turn-host access</a>, lines 37–95, intersects agent and human workspace rights. Tool tokens refresh during execution. This is stronger than trusting a prompt to enforce project access.</p>
+<p>It is <strong>not</strong> a human approval workflow in the Dev engine: the worker sets <code>PDEV_PERMISSION_MODE=bypassPermissions</code> (<a href="repo/apps/agent-worker/src/activities/createActivities/createActivities.ts">activities</a>, lines 139–165), and ACP permission requests select an allow option while elicitation is declined (<a href="repo/apps/agent-worker/src/pdev/pdevSession/pdevSession.ts">PdevSession</a>, lines 205–226). Product questions must be normal messages/reports. The interactive Codex/Claude chat stack separately exposes actual approval response controls. Wingman needs to decide which authority/approval model applies to each role and operation.</p>
+<h3 id="assessment-persistence-resume-and-process-boundaries">Persistence, resume and process boundaries</h3>
+<p>A Dev is durable. A Temporal session workflow is restartable. A <code>pdev acp</code> process is per turn/attempt. A cloud workspace persists independently. <a href="repo/apps/agent-worker/src/pdev/pdevSession/pdevSession.ts">PdevSession</a>, lines 25–29 and 82–143, either resumes a saved engine session or creates a fresh one before prompting. The activity restores the session file from the remote transcript and maintains delivery markers so retried attempts resume rather than resend already delivered inputs. It recreates the temporary home each attempt (<a href="repo/apps/agent-worker/src/activities/createActivities/createActivities.ts">activities</a>, lines 233–280). Thus durable context is in the remote store, not in a worker's temporary directory.</p>
+<p>The workflow history holds turn IDs/outcomes, not the complete model conversation; idle exit and <code>continueAsNew</code> reduce orchestration-history growth. This is a sensible long-lived-agent design. It does not guarantee exactly-once external side effects: after a crash the engine is instructed to check current state before repeating actions (activities, lines 99–100), while the remote job protocol deduplicates command launches by call ID. The <a href="repo/packages/host-service/src/runtime/agent-jobs/agent-jobs.ts">job runner</a>, lines 79–120, derives stable job IDs and starts shell processes. Model/tool behavior beyond the included adapter and RPC contract belongs to the external <code>pdev</code> binary and was not audited here.</p>
+<p>Interactive sessions have a different persistence mechanism: SQLite journal plus provider session ID, native-session discovery, resume/fork where supported, and update-resume bookkeeping (<a href="repo/packages/chat-runtime/src/db/schema/schema.ts">chat DB</a>, lines 12–40; <a href="repo/packages/host-service/src/chat-v3/mount.ts">mount</a>, lines 163–183). Provider capability differences remain real. A custom terminal command with resume args is not guaranteed to support the full chat lifecycle.</p>
+<h3 id="assessment-scheduling-and-active-supervision">Scheduling and active supervision</h3>
+<p>A routine belongs to a Dev, includes a prompt, optional schedule and event triggers, and records next/last run. It wakes the <strong>same main conversation</strong>, preserving organizational context and the location where a reply belongs (<a href="repo/packages/db/src/schema/agents.ts">routine schema</a>, lines 164–209; <a href="repo/packages/trpc/src/router/agent/routines.ts">fireRoutine</a>, lines 171–200). The schedule validation reports a minimum interval of an hour (routines, lines 46–65). Missed scheduled work is coalesced rather than replayed once for every missed occurrence (lines 35–36 and 77–85).</p>
+<p>The Temporal worker also installs a minute-based reconciliation schedule. Its purpose is delivery/execution repair: redeliver messages, restart stranded queued turns, detect wedged workflow tasks, settle lost turns and notify task parents (<a href="repo/packages/trpc/src/router/agent/reconcile.ts">reconciler</a>, lines 32–91). It is not a manager reasoning over product blockers. A Wingman ProjectMaster routine could be built on these primitives, but its tracker review, check-in policy, escalation and meaningful progress updates would be new behavior.</p>
+<h3 id="assessment-steering-interruption-and-cancellation">Steering, interruption and cancellation</h3>
+<p>Running and queued turns accept steers, with prompt-ID deduplication and explicit settlement checks to avoid losing inputs that arrive during completion (<a href="repo/apps/agent-worker/src/workflows/agentSession/agentSession.ts">workflow</a>, lines 98–144 and 146–227). Human managers can prompt or interrupt a Dev session (<a href="repo/packages/trpc/src/router/agent/agent.ts">agent router</a>, lines 360–369 and 426–458). <code>stopTask</code> marks active child sessions stopped, signals running workflows and refills slots (<a href="repo/packages/trpc/src/router/agent/dev-tools.ts">dev tools</a>, lines 238–258). Engine cancellation sends ACP <code>session/cancel</code>, waits up to a grace interval and closes its transport (<a href="repo/apps/agent-worker/src/pdev/pdevSession/pdevSession.ts">PdevSession</a>, lines 160–171). Cancellation is not proof that every externally started effect has rolled back.</p>
+<p>Pause prevents new routed/routine turns. It is not a stop-current-work command (<a href="repo/packages/trpc/src/router/agent/agent.ts">agent pause/resume</a>, lines 277–300). Wingman should distinguish pausing scheduling, interrupting a session, stopping a child task and retiring a standing worker.</p>
+<h3 id="assessment-failure-retry-and-recovery">Failure, retry and recovery</h3>
+<p>Temporal short control activities retry at most ten times. Execution activities send heartbeats and have a two-hour attempt timeout. They retry recoverable errors without a fixed attempt count. Exponential backoff is capped at five minutes (<a href="repo/apps/agent-worker/src/workflows/agentSession/agentSession.ts">workflow retry policy</a>, lines 32–56). Bad request/session failures are nonretryable. An engine startup or provider failure can therefore consume time and repeated attempts until stopped; Wingman's budget/goal accounting would need to sit above this.</p>
+<p>Task launch itself gets two attempts and can clear a failed/deleted box binding before recreating it. A first task-start turn whose box never came up can be requeued once without reporting a work failure to the parent (<a href="repo/packages/trpc/src/router/agent/tasks.ts">tasks</a>, lines 293–327 and 422–455). Infrastructure failure is usefully distinguished from task failure. Final failure is reported to the main session. The main prompt explicitly tells the Dev not to restart failed work unchanged, but this is a model instruction rather than an enforced semantic retry policy.</p>
+<h3 id="assessment-completion-acceptance-and-retirement">Completion, acceptance and retirement</h3>
+<p>The writer prompt asks for a branch, commit, push, PR, waiting for CI and fixing failing checks. The main prompt asks for a reviewer once a writer reports a PR. A reviewer should inspect the request, run relevant tests and return <code>APPROVE</code> or <code>CHANGES REQUESTED</code> (<a href="repo/apps/agent-worker/src/activities/createActivities/createActivities.ts">systemFor</a>, lines 558–570). These are concrete quality instructions, not a complete autonomous acceptance pipeline. There is no parser in the inspected task-settlement path enforcing the review verdict or product DoD before declaring successful delivery.</p>
+<p>When the engine goes idle and no tracked background tasks remain, a turn settles. Task <code>afterTaskTurn</code> maps completed/interrupted/failed turn states to done/stopped/failed session state, records a PR from the workspace or reply, wakes the parent with an idempotent event, and fills the next slot (<a href="repo/packages/trpc/src/router/agent/tasks.ts">tasks</a>, lines 388–419 and 458–542). A completed model turn is therefore not independent evidence of passing tests, accepted business behavior or merged delivery. The shared tracker task's final acceptance/status is a distinct concern.</p>
+<p>Archiving a Dev marks it archived and settles running turns as interrupted, revoking continued grants/credential acquisition (<a href="repo/packages/trpc/src/router/agent/agent.ts">archive</a>, lines 302–324). The <a href="repo/apps/desktop/src/renderer/routes/_authenticated/_dashboard/devs/$devId/components/DevScreen/DevScreen.tsx">UI</a>, lines 97–106, explicitly retains chats and work. The archive handler does not itself demonstrate immediate destruction of every task workspace or process; cleanup and durable history retention are separate lifecycles. Wingman should retain that separation but make stop/retire semantics explicit.</p>
+<h2 id="assessment-4-coordination-mechanics-and-one-complete-request-trace">4. Coordination mechanics and one complete request trace</h2>
+<p>Consider a human posting “Implement the export API” in a channel that contains a Dev and is linked to a project. This is a trace of the implemented code path, not a runtime experiment.</p>
+<ol>
+<li><strong>Durable message and access:</strong> <a href="repo/packages/trpc/src/router/channel/channel-message.ts">sendChannelMessage</a>, lines 451–519, validates posting authority and mentions, deduplicates a client ID, appends the message, anchors attachments, updates thread following and publishes it. The channel has ordered sequence numbers and a thread root rather than an unstructured terminal transcript.</li>
+<li><strong>Recipient and context:</strong> <a href="repo/packages/trpc/src/router/agent/turns.ts">startTurnsForMessage</a>, lines 366–461, selects DM/mention recipients or routes an unmentioned human message. The request includes channel description, linked project context and nearby/thread messages (lines 521–625). The Jev router uses recent conversation plus Dev descriptions. It does not instantiate product leadership.</li>
+<li><strong>Durable identity and delivery:</strong> <code>ensureMainSession</code> gives that Dev one continuing conversation. <code>submitPrompt</code> records the prompt and acting human before Temporal delivery (turns, lines 59–185 and 319–347). Same-person concurrent input becomes steering; another person's input queues. Failure to deliver is undone so a resend can retry.</li>
+<li><strong>Decision and decomposition:</strong> the main Dev is instructed to inspect existing work and use <code>start_task</code> for code work. <a href="repo/packages/trpc/src/router/agent/tasks.ts">startTask</a>, lines 50–89, creates or reuses a real tracker task and queues a child session. Multiple calls can decompose a request, but dependencies and acceptance criteria are whatever instructions the model supplies, not a typed project plan.</li>
+<li><strong>Environment and execution:</strong> a selected/default environment becomes a cloud workspace. <code>launchTask</code> persists that box binding before provisioning and moves writer work into a started tracker state (tasks, lines 330–385). The Temporal worker obtains scoped credentials, restores the conversation and launches the engine; remote jobs run against the box, with output in the coding session stream.</li>
+<li><strong>Review and follow-up:</strong> completed writer execution records its PR and wakes the main session (tasks, lines 388–419 and 498–542). The main prompt requests a reviewer for the same task. Review findings can be sent back to the writer through <code>messageTask</code> (<a href="repo/packages/trpc/src/router/agent/dev-tools.ts">dev tools</a>, lines 198–235), continuing its existing task conversation. There is no automatic scheduler gate requiring a reviewer or passing verdict. The model is responsible for this loop.</li>
+<li><strong>Human result:</strong> the main Dev replies using an explicit channel/thread target, or a completed final reply is posted if no reply tool was used (<a href="repo/packages/trpc/src/router/agent/dev-tools.ts">reply tool</a>, lines 99–115; <a href="repo/apps/agent-worker/src/activities/createActivities/createActivities.ts">fallback posting</a>, lines 167–180). Human history remains in the room, task state in the tracker, engine activity in the session store and code in the workspace/PR.</li>
+</ol>
+<p>These coordination mechanisms are substantial: durable shared chat, project-linked task context, idempotent events, parent/child work reports and human-origin authority. The critical limitation is <strong>peer activation</strong>. The message sender path only invokes <code>startTurnsForMessage</code> for a human principal. A Dev replying to another Dev in a shared room does not itself cause a turn in the recipient. The main reply tool also supplies target/body rather than a peer-directed wake operation. This avoids uncontrolled reply loops but prevents Wingman's autonomous Room2 conversations from emerging merely by adding members. A deliberate peer-message/event API, loop policy, participant authorization and escalation contract would be required.</p>
+<p>There is also no first-class dependency edge in the inspected task schema/start tool: writer exclusivity is a contention control, not technical dependency resolution. Human task assignment and Dev session ownership coexist. A dashboard must join them carefully to avoid presenting the human assignee as the executing agent.</p>
+<h2 id="assessment-5-major-additional-capabilities-beyond-wingmans-description">5. Major additional capabilities beyond Wingman's description</h2>
+<h3 id="assessment-heterogeneous-agent-engine-workbench">Heterogeneous agent engine workbench</h3>
+<p>Paradev supports terminal presets with custom command/prompt/resume/fork behavior, native Codex and Claude chat adapters, and additional ACP harnesses. <a href="repo/packages/shared/src/agent-definition.ts">Definition contract</a>, lines 16–67, and <a href="repo/packages/host-service/src/chat-v3/mount.ts">registry mounting</a>, lines 61–115, make multi-provider execution a substantive product capability. Wingman could compare or route specialized workloads across engines rather than committing its UI to one protocol. Integration cost is maintaining capability differences and refusing to assume that arbitrary custom CLIs support structured tools, approvals, checkpoints or native history.</p>
+<h3 id="assessment-versioned-shareable-pages-and-artifact-feedback">Versioned, shareable Pages and artifact feedback</h3>
+<p><a href="repo/packages/trpc/src/router/page/publish.ts">Page publication</a>, lines 62–97 and 154–213, validates uploaded artifacts, reserves versions and retries publication conflicts. Pages can be linked to workspaces; page comments, attachments and tool routes exist under the page routers. This is a real artifact publishing/feedback layer, useful for demos and generated deliverables beyond Wingman's requested internal project records. It introduces object storage, access/sharing and public-content boundaries. It should not be substituted automatically for source-controlled specifications.</p>
+<h3 id="assessment-connectorplugin-marketplace-and-credential-proxy">Connector/plugin marketplace and credential proxy</h3>
+<p>The repository has manifest-defined plugins and a hosted MCP proxy. <a href="repo/packages/trpc/src/router/plugins/proxy/plugin-server.ts">Plugin server</a>, lines 28–143, exposes an authenticate tool when disconnected, serves first-party tool implementations or forwards to remote MCP servers, and marks credentials for reauthentication on rejection. Its multi-account layer dynamically handles account arguments (same file, lines 145–180 onward). This could give organizational agents domain integrations for research and delivery without distributing vendor secrets into every workspace. It also adds a large permission/credential lifecycle and hosted-provider dependency beyond Wingman's basic Codex/Telegram organization.</p>
+<h3 id="assessment-general-automation-platform-beyond-agent-routines">General automation platform beyond agent routines</h3>
+<p>Separate automations target host or cloud workspaces, can reuse their own prior chat/terminal session, and pin a workspace safely to later runs. <a href="repo/packages/trpc/src/router/automation/run.ts">Automation session continuation</a>, lines 10–77 and 102–132, intentionally avoids injecting scheduled work into an unrelated human session. GitHub-event dispatch distinguishes safe same-repository PR heads from unproven/fork heads (lines 134–159). This is valuable for recurring issue/PR/event jobs and complements Dev routines. Wingman would need to unify automation jobs with its tracker and supervision semantics, because “dispatched” automation is not product work accepted or delivered.</p>
+<h3 id="assessment-browser-and-mobile-development-environment-integration">Browser and mobile development environment integration</h3>
+<p>The host exposes authenticated browser CDP forwarding through a desktop browser-pane bridge (<a href="repo/packages/host-service/src/runtime/browser-bridge/browser-cdp-route.ts">browser route</a>, lines 22–49). The host also tracks iOS simulator and Android emulator ownership, pane holds, timeout and cleanup (<a href="repo/packages/host-service/src/trpc/router/mobile/device-lifecycle.ts">device lifecycle</a>, lines 16–40 and 66–115). These go beyond a generic agent chat application and can support real development/test environments. They require platform-aware hosts and resource ownership. The Paradev mobile control application itself is explicitly iOS-only (<a href="repo/apps/mobile/AGENTS.md">mobile instructions</a>, lines 64–67).</p>
+<h3 id="assessment-file-change-checkpoints-rewind-and-detailed-interactive-controls">File-change checkpoints, rewind and detailed interactive controls</h3>
+<p><a href="repo/packages/chat-runtime/src/router/router/router.ts">Chat router commands</a>, lines 149–240, include subagent steering/backgrounding, provider approvals, rewind/fork, turn-change inspection and undoing turn files with workspace validation. <a href="repo/packages/chat-runtime/src/sessions/registry/registry.ts">Checkpoint binding</a>, lines 50–69 and 149–157, attaches Git checkpoint capture to live sessions. This is a useful review/recovery layer beyond Wingman's high-level organization. Wingman would need to coordinate rewinds with shared branches, task history and other workers; undoing one agent's files does not roll back external APIs or an organization's decisions.</p>
+<h2 id="assessment-6-distinctive-mechanisms-and-grounded-innovation">6. Distinctive mechanisms and grounded innovation</h2>
+<p>The following are useful engineering mechanisms in this checkout, not claims of historical novelty.</p>
+<p><strong>Standing teammate separated from coding execution.</strong> A persistent main Dev conversation handles intake, context, memory, communication and delegation while code work uses task-specific cloud boxes and conversations. The main engine's native Task tool is disabled in favor of product-owned task sessions (<a href="repo/apps/agent-worker/src/activities/createActivities/createActivities.ts">activities</a>, lines 503–570). This makes delegation inspectable, associates it with tracker tasks and lets review happen independently. Its limit is a comparatively fixed writer/reviewer child model and an external engine, rather than Wingman's named independent specialist organization.</p>
+<p><strong>Permission-aware conversational steering.</strong> Same-human messages can steer an active turn, whereas another human's request queues, even though the Dev retains one main history (<a href="repo/packages/trpc/src/router/agent/turns.ts">turns</a>, lines 59–160). Combined with current agent/human access checks at credential issuance, this reduces authority mixing during execution. It does not create memory isolation between humans: managers can inspect a main conversation containing all addressed work, so Wingman would need an explicit policy for private/business-sensitive cross-project context.</p>
+<p><strong>Crash-resumable engine transcript plus durable orchestration.</strong> Temporal contains only control state and retry semantics. The external session store contains ACP events and native engine-session material. An activity rebuilds its temporary home from that store, and saved delivery markers prevent simple prompt duplication (<a href="repo/apps/agent-worker/src/workflows/agentSession/agentSession.ts">workflow</a>, lines 41–55 and 269–274; <a href="repo/apps/agent-worker/src/activities/createActivities/createActivities.ts">restore/delivery</a>, lines 265–280). This enables worker replacement without losing the conversation. Its limits include external engine serialization compatibility and the inability to make arbitrary tool side effects exactly once.</p>
+<p><strong>Completion/steer race handling and repair.</strong> Settlement checks that the number of consumed steers matches the database. The workflow reruns if a newly recorded steer is still in flight. A minute reconciler repairs lost channel messages and stranded or wedged sessions (<a href="repo/packages/trpc/src/router/agent/agent-worker.ts">settler</a>, lines 216–278; <a href="repo/apps/agent-worker/src/workflows/agentSession/agentSession.ts">workflow</a>, lines 173–227; <a href="repo/packages/trpc/src/router/agent/reconcile.ts">reconciler</a>, lines 32–91). This addresses real distributed-state failure modes. It is infrastructure supervision, not evidence that tasks meet their business intent.</p>
+<p><strong>A common human/Dev actor and room model.</strong> A Dev receives the same actor-ID treatment as a person; ordered channel messages, membership and visibility work without hardcoding specialist roles (<a href="repo/packages/db/src/schema/actors.ts">actors</a>, lines 6–32; <a href="repo/packages/db/src/schema/channels.ts">channels</a>, lines 50–179). This is directly relevant to Wingman's growing roster. The limitation is that the current automatic activation path is deliberately human-only, so a communication storage model is ahead of autonomous peer orchestration.</p>
+<p><strong>Remote-host identity and continuation-aware automation.</strong> Machine registration and relay transport make remote hosts usable without exposing their service ports directly, while automation continuation reuses only that automation's own preceding session (<a href="repo/packages/host-service/src/tunnel/connect.ts">tunnel</a>, lines 50–92; <a href="repo/packages/trpc/src/router/automation/run.ts">automation</a>, lines 40–76). This is useful for Wingman's distributed background work and avoids accidental session cross-talk. It still needs a product/role-aware placement scheduler and explicit connection to the standing Dev layer.</p>
+<h2 id="assessment-7-practical-fit-adopt-adapt-and-build">7. Practical fit: adopt, adapt and build</h2>
+<p>Use directly as engineering reference or substrate:</p>
+<ul>
+<li>Durable agent/actor/channel models.</li>
+<li>Task and project CRUD/dashboard.</li>
+<li>Host registration/tunnels.</li>
+<li>Worktree/terminal/chat execution.</li>
+<li>Codex interactive adapters.</li>
+<li>Session replay, streaming and checkpoints.</li>
+<li>Parent/task update events.</li>
+<li>Routine scheduling and delivery reconciliation. These cover a considerable amount of infrastructure Wingman would otherwise build. The source demonstrates real backend paths, not merely UI claims.</li>
+</ul>
+<p>Adapt deliberately:</p>
+<ul>
+<li>Replace or abstract the autonomous <code>pdev</code> worker with Codex while preserving its durable task/session contracts.</li>
+<li>Add role profiles and reusable specialist instances.</li>
+<li>Support Dev task dispatch to registered personal hosts as well as cloud boxes.</li>
+<li>Unify task assignees with agent actors.</li>
+<li>Connect main-agent overviews to live detailed sessions and artifacts. The shared “one main session” model may be useful for Butler/ProjectMaster continuity, but per-project leadership should have deliberate isolation and permissions rather than using one unrestricted memory for all projects.</li>
+</ul>
+<p>Still build:</p>
+<ul>
+<li>Telegram transport and correlated Butler conversations.</li>
+<li>Portfolio intake identifying new/existing projects.</li>
+<li>ProductMaster/TechMaster responsibilities and lifecycles.</li>
+<li>Discovery proportional to request scope/risk.</li>
+<li>Required product scope/specifications/scenarios/DoD.</li>
+<li>Dependency-aware technical planning.</li>
+<li>Peer-directed agent messages with safe activation and escalation.</li>
+<li>Semantic ProjectMaster progress/blocker supervision.</li>
+<li>Executive current/recent/next/blocker briefings and accomplishment timelines.</li>
+<li>Product acceptance, delivery and stop-after-acceptance policy. A prompt can request these behaviors, but that alone does not make them a reliable product capability.</li>
+</ul>
+<p>The most consequential tradeoff is operational weight. Reusing the whole product brings Electron, API/PostgreSQL, realtime Durable Objects, relay, Temporal, object storage, cloud provisioning, authentication and external engines into scope. Extracting the contracts is lighter but forfeits the connected UI and recovery implementation. For a local personal Mac/Arch organization, the host/interactive session and actor/channel/task patterns are especially useful. The cloud-first Dev worker should be evaluated as a separate subsystem rather than assumed necessary.</p>
+<h2 id="assessment-8-verification-scope-and-confidence">8. Verification scope and confidence</h2>
+<p>This was a read-only static assessment at the stated commit. <strong>No dependencies were installed, no application/service was started, no model/provider call was made and no tests were run.</strong> Runtime correctness, hosted availability, actual cloud provisioning, Mac/Arch interoperability, successful Codex execution and product-delivery outcomes were not exercised. Test existence is evidence of intended and checked behavior, not a test-pass claim for this assessment.</p>
+<p>Important implementation inspected included:</p>
+<ul>
+<li>the Dev/actor/channel/task/project schemas.</li>
+<li>agent CRUD/activity/session APIs.</li>
+<li>Dev tools and channel access.</li>
+<li>message routing/turn creation.</li>
+<li>task queue/provision/retry/parent reporting.</li>
+<li>routine/reconcile paths.</li>
+<li>Temporal workflow and activity implementation.</li>
+<li>ACP subprocess handling.</li>
+<li>realtime session hub.</li>
+<li>host application, chat mounting/registry/journal/commands.</li>
+<li>host agent configuration and launch.</li>
+<li>authenticated turn-host/remote jobs.</li>
+<li>relay registration.</li>
+<li>project/task/Dev UI.</li>
+<li>Pages publication.</li>
+<li>plugin proxy.</li>
+<li>automation continuation.</li>
+<li>browser bridge and mobile-device lifecycle.</li>
+</ul>
+<p>Relevant tests read in detail or selected sections:</p>
+<ul>
+<li><a href="repo/apps/agent-worker/src/workflows/agentSession/agentSession.node-test.ts">Temporal workflow tests</a>, lines 132–230: deduplicated prompt delivery, provider-error retry and active/late steering. These use fake activities around a Temporal test environment, not a real provider/product task.</li>
+<li><a href="repo/apps/agent-worker/src/activities/createActivities/createActivities.test.ts">Activity tests</a>, lines 168–270: remote environment configuration, no-workspace mode, saved-session resume and a retry that does not resend the original prompt. These use a fixture engine and in-memory store. They do not establish external <code>pdev</code> behavior in production.</li>
+<li><a href="repo/packages/chat-runtime/src/sessions/liveSession/liveSessionFailure.test.ts">Interactive failure tests</a>, lines 64–137: stream failure is journaled, disposal remains possible and rejected prompts do not wedge the queue.</li>
+<li><a href="repo/packages/host-service/src/tunnel/tunnel-client.integration.test.ts">Tunnel integration test</a>, lines 108–114: source assertion covers real sockets recovering from a rejected upgrade and retry. It was inspected, not executed here.</li>
+<li><a href="repo/packages/trpc/src/router/agent/turns.test.ts">Turn message tests</a>, lines 4–70: source cases cover message-wrapper injection escaping and carrying thread/recent/project context.</li>
+</ul>
+<p>Negative findings were based on implementation searches and schema/control-path inspection:</p>
+<ul>
+<li>Telegram/Butler/leadership names were searched across <code>packages</code>, <code>apps/agent-worker</code> and <code>plugins</code>.</li>
+<li>discovery/acceptance gaps were checked against main/writer/reviewer prompts, task/project schemas and settlement.</li>
+<li>dependency/agent-assignment gaps against task schema/start tools.</li>
+<li>executive/timeline gaps against the actual Dev API and activity UI.</li>
+<li>peer collaboration against the message sender's principal gate.</li>
+</ul>
+<p>This does not assert that an external plugin or future hosted revision could never add them.</p>
+<p>The external <code>pdev</code> engine and provider CLIs are an explicit audit boundary. The repository shows how they are launched, configured, authorized, observed and resumed, but does not contain their complete reasoning/tool implementation. Likewise, a source-level remote protocol is strong evidence of actual multi-host design, but not an exercised installation on Wingman's two target machines. Confidence is high in the architectural distinctions and identified feature boundaries, moderate in unexercised distributed recovery guarantees, and intentionally limited for external engine/hosted-service behavior.</p></article>
+<section id="source-record"><h2>Source and evidence</h2><p class="url-text">https://github.com/ParadevAI/Paradev</p>
+<ul><li><a href="repo/">Open the pinned source checkout</a></li><li><a href="assessment/ASSESSMENT.md">Read the Markdown assessment</a></li>
+<li><a href="../generic/assessments/_audits/qa11.md">Read the historical independent source audit</a></li><li><a href="../generic/method.html">Read the method and evidence limits</a></li></ul></section>
+<nav class="report-switch" aria-label="Adjacent project reports"><a href="../paperclip/index.html">Previous project: Paperclip</a><a href="../paseo/index.html">Next project: Paseo</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../index.html">Return to overview <img src="../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Technical assessment against Wingman’s development organization."><title>SwarmOS · Wingman Research</title>
+<link rel="icon" href="../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/report.css"><script defer src="../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../index.html"><img src="../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../index.html">Overview</a><a class="nav-link " href="../generic/index.html">Architecture findings</a><a class="nav-link " href="../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../generic/method.html">Method and evidence</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../index.html">Wingman Research</a><span class="crumb">/</span><span>SwarmOS</span></div><span class="topbar-note">SOURCE REVIEW · 05 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>SwarmOS</h1><p class="subtitle">Technical assessment against Wingman’s development organization.</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#decision">Decision summary</a><a href="#assessment-swarmos-assessment-against-wingman">SwarmOS assessment against Wingman</a><a href="#assessment-1-product-identity-and-execution-architecture">1. Product identity and execution architecture</a><a href="#assessment-2-complete-feature-matrix">2. Complete feature matrix</a><a href="#assessment-3-agent-definition-and-lifecycle">3. Agent definition and lifecycle</a><a href="#assessment-4-coordination-mechanics-and-one-concrete-request-trace">4. Coordination mechanics and one concrete request trace</a><a href="#assessment-5-major-capabilities-beyond-wingmans-described-scope">5. Major capabilities beyond Wingman&#x27;s described scope</a><a href="#assessment-6-distinctive-mechanisms-and-grounded-innovation">6. Distinctive mechanisms and grounded innovation</a><a href="#assessment-7-practical-wingman-adoption">7. Practical Wingman adoption</a><a href="#assessment-8-verification-scope-and-limits">8. Verification scope and limits</a><a href="#source-record">Source and evidence</a></div></nav><section id="decision" class="decision"><h2>Decision summary</h2>
+<div class="brief-columns"><div><h3>Useful for Wingman</h3><p>Study approved issue contracts, fenced task claims, distributed delivery, artifacts, and pull-request evidence.</p></div><div><h3>Adoption boundary</h3><p>Planner and reviewer executions are not continuing employees. Product discovery and management views remain work.</p></div></div>
+<p class="scope-note">Source assessment at the commit below. Runtime limits appear in the technical report.</p></section>
+<dl class="facts"><div><dt>Source group</dt><dd>Delivery engines</dd></div><div><dt>Commit</dt><dd><code>76604741648a59b6d1cd7afab66ddfb4ea7e0aa9</code></dd></div><div><dt>Coverage</dt><dd>24 Wingman features</dd></div></dl>
+<article id="technical-assessment" class="technical"><h2 id="assessment-swarmos-assessment-against-wingman">SwarmOS assessment against Wingman</h2>
+<p class="url-text">Assessment date: 2026-11-05. Repository: https://github.com/supernovae/SwarmOS . Local checkout: <code>researchs/swarmos/repo</code>. Assessed commit: <code>76604741648a59b6d1cd7afab66ddfb4ea7e0aa9</code> (read from the checkout, rather than inferred from a release). This report follows <a href="../generic/purpose.html">Wingman's purpose</a> and the <a href="../generic/assessments/ASSESSMENT_GUIDE.md">assessment guide</a>. The checkout's <a href="repo/AGENTS.md">AGENTS.md</a> was read before implementation inspection. The embedded scaffold AGENTS template was not treated as instructions for this assessment.</p>
+<p><strong>Fit verdict:</strong> SwarmOS is a strong candidate for Wingman's bounded coding-task delivery layer, especially when several machines or external contributors must coordinate safely through GitHub. It is not a substitute for Wingman's standing development organization. Its durable actors are approved issue contracts, fenced task claims, artifacts and PRs; its planner, reviewer, developer and tester are successive harness executions. Butler, conversational product discovery, persistent employee identities, management rooms and connected executive/agent workspaces would remain a substantial product to build.</p>
+<p>This is an implementation assessment, not a runtime certification. Source and selected tests were read; no dependencies were installed, services launched, model calls made or tests executed. Statements about test behavior below describe assertions present in the checked-out tests.</p>
+<h2 id="assessment-1-product-identity-and-execution-architecture">1. Product identity and execution architecture</h2>
+<p>SwarmOS is a Go CLI with a concrete delivery engine, not just a collection of role prompts. <a href="repo/cmd/swarm/main.go">The entry point</a>, lines 10–15, delegates to Cobra. <a href="repo/internal/cli/root.go">Root command construction</a>, lines 71–146, registers <code>repo</code>, <code>node</code>, <code>issue</code>, <code>pr</code>, storage and fork-coordinator resources, establishes repository routing and creates a command-scoped sandbox inspection session. There is no resident organizational server in that entry path.</p>
+<p>The core path is:</p>
+<pre aria-label="Code or source excerpt" role="region" tabindex="0"><code class="language-text">repo policy + GitHub/local issue containing WorkUnit
+  → maintainer approval pins task/policy/base
+  → eligible worker selection + boundary preflight
+  → fenced claim in Git remote CAS state (or local file CAS)
+  → isolated issue worktree + compiled role/task bundle
+  → planner → human/agent/no plan gate → developer → tester
+  → trusted-base required checks → bounded repair if applicable
+  → checkpoint/artifacts → explicit submit → Draft PR
+  → GitHub review/merge → reconciled outcome and cleanup
+</code></pre>
+<p><a href="repo/internal/contract/types.go"><code>WorkUnit</code>, <code>Lease</code>, <code>Artifact</code>, workflow and configuration types</a>, lines 27–99 and 129–236, establish the data model. A WorkUnit carries objective, constraints, acceptance criteria, workflow, dependencies, required capabilities and task dimensions. The lease carries owner, node, harness, claim ID, phase, status and expiry. Artifacts are typed design/test-plan/review/implementation/validation records. This is task-centered continuity. A configured agent key is a policy selector rather than a durable employee record.</p>
+<p>The tracker abstraction has GitHub and local implementations. <a href="repo/internal/tracker/github.go">GitHub tracker construction</a>, lines 21–85, resolves repository and token policy and builds REST clients. The shared authority is <strong>not the issue comment stream</strong>: <a href="repo/internal/coordination/store.go"><code>Store</code> and implementations</a>, lines 21–52, 113–153 and 210–247, expose revision-based compare-and-swap. Local state is file-locked and atomically replaced; Git state uses the upstream remote. <a href="repo/internal/coordination/refs.go">Ref layout</a>, lines 16–80, supports the branch namespace <code>refs/heads/swarm-state/issue-N</code> or a trusted-policy-selected hidden <code>refs/swarm/state/</code> namespace, with separate checkpoint-retention and contributor-index families. This is real shared coordination across independent clones, not an implication drawn from local subprocess parallelism.</p>
+<p>The actual <a href="repo/internal/coordination/store.go">Git CAS write</a>, lines 303–328, creates a <code>state.json</code> blob/tree/commit and pushes with <code>--force-with-lease</code> against the captured state ref. Checkpoint publication at lines 446–527 and PR publication at lines 540–577 combine expected state/head leases with <code>git push --atomic</code>. They do not simulate atomicity by updating an issue comment after an ordinary branch push. The state-push path also inspects remote outcome before bounded retries (lines 373–405), which matters when transport failure leaves publication uncertain.</p>
+<p><a href="repo/internal/lease/manager.go"><code>IssueState</code></a>, lines 261–323, persists approvals and digests, plans and review history, claims, checkpoint heads, artifacts, role attestations and telemetry, PR linkage/revisions, recovery and cleanup records. <a href="repo/internal/lease/manager.go"><code>checkStateClaim</code>/<code>mutate</code></a>, lines 1455–1506, require the current owner, active unexpired lease, current local token and approved task, retrying bounded CAS conflicts. This is a meaningful stale-worker boundary.</p>
+<p><a href="repo/internal/workflow/engine.go"><code>ExecuteWork</code></a>, lines 552–660, runs setup, heartbeat, planning, review and implementation/validation. It does not execute an arbitrary agent graph supplied by the model. Although <code>WorkflowSpec</code> has steps, actual orchestration in this engine is explicitly coded around four roles and known phases. Role names are checked in <a href="repo/internal/harness/scaffold.go">harness configuration loading</a>, lines 653–659 and 809–816. Additional configured harness/model instances are easier to add than a new organizational responsibility with new lifecycle semantics.</p>
+<h2 id="assessment-2-complete-feature-matrix">2. Complete feature matrix</h2>
+<p>“Similar” credits substantial implemented behavior while preserving the difference in workflow or scope. “Resembles” identifies a useful primitive that does not deliver the whole Wingman capability. Absence judgments are based on source searches summarized in section 8.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Wingman capability</th>
+<th scope="col">Verdict</th>
+<th scope="col">Implementation evidence and concrete difference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F01</td>
+<td>Real independent coding agents and specialist instances</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/internal/agent/runner.go">Runner interface</a>, lines 11–62; <a href="repo/internal/agent/adapters.go">adapter execution</a>, lines 168–296; <a href="repo/internal/cli/node.go">node pool</a>, lines 224–288. Real coding harness processes can run concurrently on separate tasks. Within an issue, planner/reviewer/developer/tester are successive executions, not independent standing BackendCoder/FrontendCoder employees collaborating over time.</td>
+</tr>
+<tr>
+<td>F02</td>
+<td>Extensible agent profiles, roles and team composition</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/internal/contract/types.go">Agent/role config</a>, lines 129–146 and 198–211; <a href="repo/internal/contract/profile.go">task profiles</a>, lines 9–21 and 57–71. Named agents can choose models/harnesses and allowed roles; task dimensions select prompt variants/evidence. <a href="repo/internal/harness/scaffold.go">Role loading</a>, lines 653–659, accepts four role names. Profiles here are execution guidance, not extensible organizational positions or teams.</td>
+</tr>
+<tr>
+<td>F03</td>
+<td>Agent directory and visible working relationships</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/internal/contract/types.go">Node profile</a>, lines 220–236; <a href="repo/internal/lease/manager.go">issue state</a>, lines 301–323; <a href="repo/internal/cli/status.go">status records</a>, lines 20–38. Owner/node/harness/role attribution and provenance are inspectable by task. There is no person-like agent directory, membership graph or management relationship model.</td>
+</tr>
+<tr>
+<td>F04</td>
+<td>Telegram main channel and Butler routing</td>
+<td><strong>Absent</strong></td>
+<td><a href="repo/internal/cli/root.go">Root commands</a>, lines 71–146, and <a href="repo/internal/tracker/github.go">tracker backend</a>, lines 21–85, expose CLI/GitHub intake. Searches across implementation/docs found no Telegram adapter, Butler service or conversation router.</td>
+</tr>
+<tr>
+<td>F05</td>
+<td>Cross-project registry, intake and existing/new project routing</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/internal/registry/registry.go">Registry</a>, lines 25–60, 123–185 and 189–220; <a href="repo/internal/cli/selection.go">selection</a>, lines 78–132. Repositories are registered by slug/path and a worker can scan all of them. This routes explicit repository selections and ready issues, not natural-language intake into new/existing products with a central project registry.</td>
+</tr>
+<tr>
+<td>F06</td>
+<td>Per-project product and technical leadership</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/internal/workflow/engine.go">Role selection</a>, lines 273–314; <a href="repo/internal/workflow/project_plan.go">project planner</a>, lines 130–228. Planner and repository goals support technical preparation, but no persistent ProductMaster/TechMaster pair, product ownership or leadership conversations exist.</td>
+</tr>
+<tr>
+<td>F07</td>
+<td>Proportionate research, discovery and iterative human clarification</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/internal/workflow/task_shape.go">Task assessment</a>, lines 13–138; <a href="repo/internal/contract/profile.go">profile selection</a>, lines 57–71; <a href="repo/internal/workflow/execute_review.go">human gate</a>, lines 44–67. Small/uncertain/risky work can receive different prompts, and plans can be rejected and redrafted. This is useful preparation, not a domain/market discovery and routed clarification conversation. Default isolated tools also deny general network access.</td>
+</tr>
+<tr>
+<td>F08</td>
+<td>Scope, specifications, acceptance scenarios and definition of done</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/internal/contract/types.go">WorkUnit contract</a>, lines 27–44; <a href="repo/internal/workflow/execute_plan.go">planner</a>, lines 59–133; <a href="repo/internal/validation/acceptance_evidence.go">acceptance evidence</a>, lines 16–40 and 49–87. Objective/constraints/criteria plus design and test plans are real shared artifacts. Scope is an approved coding task; product specifications and definition of done across a whole product are not automatically produced/maintained.</td>
+</tr>
+<tr>
+<td>F09</td>
+<td>Decomposition, assignment and shared task tracking</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/internal/cli/issue.go">Decompose CLI</a>, lines 348–420; <a href="repo/internal/workflow/project_plan.go">roadmap planning</a>, lines 130–228; <a href="repo/internal/cli/selection.go">claim selection</a>, lines 129–237. Child WorkUnits, dependencies, execution waves and fenced pull-based ownership are substantial. Allocation is ready/capability-based claims rather than TechMaster assigning named specialists. The tracker is GitHub/local issues.</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>Human portfolio/project management dashboard</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/internal/cli/status.go">Status CLI</a>, lines 50–167, aggregates repositories/issues into text/JSON, and <a href="repo/internal/workflow/project_plan.go">project planning report</a>, lines 67–88 and 214–228, produces backlog/wave summaries. GitHub supplies issue/PR pages externally. There is no SwarmOS portfolio dashboard or web/mobile product view.</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>Agent chat app, rooms and direct collaboration</td>
+<td><strong>Absent</strong></td>
+<td><a href="repo/internal/tracker/tracker.go">Tracker comments</a>, lines 60–70; <a href="repo/internal/lease/manager.go">state projection</a>, lines 661–684 and 807–862. Issue comments expose artifacts/state and fork request transport, not agent rooms or direct peer conversations. Searches found no room, participant/history or messaging service model.</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>Management escalation and human approvals</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/internal/workflow/execute_review.go">Human gate and reviewer notification</a>, lines 44–67; <a href="repo/internal/lease/manager.go">authenticated human review</a>, lines 1727–1800; <a href="repo/internal/cli/next_action.go">next-action classification</a>, lines 116–210. Human decisions are concrete, permission checked and content-bound. Escalation terminates in CLI/GitHub maintainer actions, without a Room2 → Room1 → Butler management chain.</td>
+</tr>
+<tr>
+<td>F13</td>
+<td>Durable project knowledge and reusable directives</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/internal/workspace/worktree.go">Bundle compilation</a>, lines 789–882, loads approved project/architecture/conventions/goals/rules/skills and role guidance; <a href="repo/internal/workflow/lessons.go">lessons harvesting</a>, lines 20–32 and 136–180. Git-backed knowledge is reusable and reviewable. Layout is <code>.swarm/</code>, not <code>DIRECTIVES/SCOPES/SPECS/HARNESS</code>; adding authoritative guidance requires the approved-base policy path.</td>
+</tr>
+<tr>
+<td>F14</td>
+<td>Persistent identity, conversation and work continuity</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/internal/lease/manager.go">Issue state</a>, lines 261–323; <a href="repo/internal/lease/claims.go">claim token storage</a>, lines 18–93; <a href="repo/internal/sandbox/native.go">native turns</a>, lines 606–626. Work, artifact and checkpoint continuity are substantial, with recorded owner/node/harness provenance. Each native Codex exec turn is a fresh harness session. There is no managed durable employee conversation identity or resume/fork/compact/archive UI.</td>
+</tr>
+<tr>
+<td>F15</td>
+<td>Proactive supervision, periodic wake and blocker follow-up</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/internal/cli/node.go">Node watch loop</a>, lines 289–323; <a href="repo/internal/lease/heartbeat.go">lease heartbeat</a>, lines 22–103. Polling discovers ready work, renews claims and detects loss/budget limits. It does not reason over a portfolio, contact responsible leaders or resolve stale blockers. A batch failure ends the current pool invocation.</td>
+</tr>
+<tr>
+<td>F16</td>
+<td>Parallel products and concurrent specialists</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/internal/cli/node.go">All-repository worker pool</a>, lines 124–142, 224–288 and 318–332; <a href="repo/internal/cli/selection.go">overlap scheduling</a>, lines 352–422. Several repositories/tasks can execute at once with separate worktrees. Products remain repositories; concurrency does not create product teams or simultaneous roles inside one task.</td>
+</tr>
+<tr>
+<td>F17</td>
+<td>Real multi-host execution with shared coordination</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/internal/coordination/store.go">Git CAS store</a>, lines 210–247; <a href="repo/internal/coordination/refs.go">remote ref layout</a>, lines 43–80; <a href="repo/internal/node/profile.go">node detection</a>, lines 29–55. Independent nodes/clones can claim from one remote authority. SwarmOS does not remotely provision machines or dispatch via SSH: each host runs/configures its own worker and credentials. Local backend alone supplies no distributed authority.</td>
+</tr>
+<tr>
+<td>F18</td>
+<td>Executive agent overview: current/recent/next/blockers</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/internal/cli/status.go">Status record/display</a>, lines 20–38 and 167–210; <a href="repo/internal/workflow/progress.go">progress</a>, lines 13–39 and 86–105. Current phases, handoffs, failures, approvals and role runs can feed an overview. They are task status/provenance, not an agent-centered executive briefing with meaningful recent/next work across assignments.</td>
+</tr>
+<tr>
+<td>F19</td>
+<td>Individual summary timeline linked to underlying work</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/internal/contract/telemetry.go">Role telemetry</a>, lines 34–63; <a href="repo/internal/lease/manager.go">issue-state history</a>, lines 271–309. Timestamped runs, review history, artifacts and GitHub links provide traceable raw material. No per-agent narrative timeline exists, and the bounded role history is not an employee's continuing activity feed.</td>
+</tr>
+<tr>
+<td>F20</td>
+<td>Detailed per-agent coding workspace</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/internal/workspace/worktree.go">Worktree provisioning</a>, lines 316–347; <a href="repo/internal/agent/adapters.go">interactive adapter</a>, lines 249–273. A human can inspect files/commits/artifacts and use interactive CLI execution. There is no first-party agent workspace connecting session transcript, tools, browser observations, task, room and lifecycle controls. Host harness interfaces are external.</td>
+</tr>
+<tr>
+<td>F21</td>
+<td>Live activity, lifecycle controls, steering, visibility</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/internal/progress/activity.go">Activity tracker</a>, lines 26–36 and 73–125; <a href="repo/internal/cli/work.go">work flags/options</a>, lines 19–105; <a href="repo/internal/agent/adapters.go">cancellation</a>, lines 259–279. Stage/check progress, role/harness activity, interactive follow-ups, role-specific instructions and process stop exist. No detached conversation manager, queued attachment inbox, arbitrary session fork/rename/compact/archive or connected web/mobile control plane exists.</td>
+</tr>
+<tr>
+<td>F22</td>
+<td>Testing, integrated verification, acceptance/delivery</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/internal/workflow/execute_validation.go">Tester plus trusted checks</a>, lines 17–123; <a href="repo/internal/validation/validator.go">validator</a>, lines 210–286; <a href="repo/internal/cli/submit.go">submit contract</a>, lines 18–33. Task verification and Draft PR delivery are strong. Required checks can contain integration/browser tests if configured. Final product acceptance remains a maintainer's GitHub review, not a Wingman TestMaster/product delivery conversation.</td>
+</tr>
+<tr>
+<td>F23</td>
+<td>Autonomous work with human direction through organization</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/internal/cli/node.go">Pool execution/submission</a>, lines 164–222 and 289–323; <a href="repo/internal/workflow/execute_review.go">human pause</a>, lines 44–67. Approved backlog can drain or be watched with optional auto-submission. Autonomy is bounded by issue/policy/lease approval and Draft PR gates. There is no human-facing organizational intake or autonomous full product journey from an initial idea.</td>
+</tr>
+<tr>
+<td>F24</td>
+<td>Chat/tracker/dashboards grow with added profiles</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/internal/contract/types.go">Named agent map</a>, lines 129–146 and 198–211, and <a href="repo/internal/cli/status.go">attestation/status</a>, lines 20–46, accommodate configured harness/model names in records. Four known workflow roles and telemetry roles constrain expansion; no chat/dashboard/profile-registry layer exists to extend together.</td>
+</tr>
+</tbody>
+</table></div>
+<p>No feature receives Exact: even the strong delivery and distributed primitives differ materially from the organization described by Wingman. That is a scope distinction, not a judgment that the implementation is superficial.</p>
+<h2 id="assessment-3-agent-definition-and-lifecycle">3. Agent definition and lifecycle</h2>
+<h3 id="assessment-definition-creation-and-identity">Definition, creation and identity</h3>
+<p><code>.swarm/config.yaml</code> defines allowlisted agent keys with binary, harness, model, effort, allowed roles, authentication and execution-related settings. <a href="repo/internal/agent/configured.go"><code>NewConfiguredRunnerWithOptions</code></a>, lines 29–129, resolves approved execution policy, verifies environment restrictions and supported harness, and creates a CLI adapter. Supported configured drivers are <code>claude</code>, <code>codex</code>, <code>opencode</code> and <code>omp</code> in <a href="repo/internal/agent/configured.go"><code>resolveHarness</code></a>, lines 324–336. Broader switch cases in command construction and docs should not be mistaken for an unrestricted driver/plugin system: the configured runner's admission path is decisive. <code>mock</code> is deliberately restricted to explicit trusted-local execution.</p>
+<p>Configuration creates no persistent running entity. A role invocation constructs a runner and supplies a <a href="repo/internal/agent/runner.go"><code>RunRequest</code></a>, lines 11–36, containing role, task prompt, worktree, system prompt, model, mode, dependencies and coordinator callbacks. Execution starts a real harness process, or the native/delegated sandbox path starts it against a detached task snapshot. Identity has several separate meanings: tracker-authenticated human owner; node ID; configured agent/harness/model; random fenced claim ID; and per-run telemetry ID. None is an employee identity with a lifetime conversation. Node ID defaults to hostname/OS/architecture in <a href="repo/internal/node/profile.go">host-profile detection</a>, lines 29–55.</p>
+<p>Role selection follows per-role CLI override, configured mapping/defaults through <a href="repo/internal/workflow/engine.go"><code>resolveRoleAgent</code></a>, lines 273–314. The same model/harness may fill several roles; independent-review policy can require a different harness or model, and for humans a reviewer distinct from the claim owner. <a href="repo/internal/lease/reviewer_policy_test.go">Reviewer-policy tests</a>, lines 78–150, show both the allowlist enforcement and the narrower meaning of independence: a different model on the same harness may satisfy it. This is useful separation of evaluation, not proof of independently trained organizational judgment.</p>
+<h3 id="assessment-admission-routing-tools-and-permissions">Admission, routing, tools and permissions</h3>
+<p>A work invocation validates phase/gate combinations before mutation (<a href="repo/internal/cli/work.go">work command</a>, lines 19–69). Selection scans explicit or all registered repositories and lists ready issues. It skips parent, PR-open, completed and actively claimed items. It checks dependencies, capability matching and current task approval. It selects a handoff phase and checks harness readiness before claiming (<a href="repo/internal/cli/selection.go">selection</a>, lines 78–237). Dependencies are prepared from approved base before the role starts; <a href="repo/internal/workflow/dependencies.go"><code>AgentDependencies</code></a>, lines 16–59, explicitly stops on preparation errors.</p>
+<p>The default mode is isolated. A trusted-local override is rejected if repository policy requires isolation (<a href="repo/internal/contract/execution.go">execution resolution</a>, lines 25–82). Native Codex gets coordinator-selected filesystem/network permissions; <a href="repo/internal/sandbox/native.go">native policy</a>, lines 95–167, disables general network and features including external integrations and multi-agent delegation. Boundary inspection/canaries are part of the path, not a permissive fallback. Claude/OpenCode/OMP run through harness-specific mediated execution, with approved file/shell tools inside Bubblewrap. <a href="repo/internal/sandbox/delegated.go">Delegated execution</a>, lines 133–241, supplies the tool executor, controlled settings and driver-specific sessions; <a href="repo/internal/sandbox/tools.go"><code>executorTools</code></a>, lines 17–30, exposes read/write/edit/shell with bounded command lifetime and no ordinary host network/credentials.</p>
+<p>Planner/reviewer are source-read-only roles with explicitly imported output artifacts; developer/tester may change a detached snapshot subject to coordinator import checks (<a href="repo/internal/agent/isolated.go">isolated adapter</a>, lines 45–83; <a href="repo/internal/sandbox/native.go">native workspace boundary</a>, lines 700–840). Git worktrees alone are therefore not the security boundary. OCI is another boundary, but <a href="repo/internal/agent/configured.go">configured runner admission</a>, lines 88–113, currently limits it to offline/no-auth use rather than promising arbitrary credentialed container execution. Explicit trusted-local mode runs host harness commands with restricted environment and temp HOME, and must be treated as a different trust choice.</p>
+<h3 id="assessment-execution-concurrency-and-scheduling">Execution, concurrency and scheduling</h3>
+<p><code>ExecuteWork</code> controls the sequence. The planner writes <code>PLAN.md</code> and <code>TEST_PLAN.md</code>, records them as a pair, and may hand off or recommend decomposition. Human gates return a paused result and notify reviewers; agent gates run a sandboxed reviewer with content-bound verdicts. A rejected agent plan may be revised within an approved replan allowance. Developer execution produces a checkpoint and implementation artifact, tester execution produces acceptance evidence, and the coordinator runs required checks and records trusted validation. The sequence is visible in <a href="repo/internal/workflow/engine.go">engine</a>, lines 603–660, <a href="repo/internal/workflow/execute_plan.go">planner</a>, lines 26–165, and <a href="repo/internal/workflow/execute_validation.go">validation/repair</a>, lines 17–198.</p>
+<p><code>node run</code> creates <code>concurrency</code> goroutines, each pulling and executing its own issue; max-jobs counts admitted attempts, not a team capacity model. <code>--all</code> spans the local repository registry. <code>--watch</code> sleeps between scans after draining ready work, while failures end the invocation (<a href="repo/internal/cli/node.go">node loop</a>, lines 224–332). This is an on-demand or long-running worker-pool process. There is no durable scheduler that restarts itself after machine/process failure, no calendar, and no autonomous ProjectMaster examining management rooms. Multiple hosts must each start their worker; their remote CAS claims prevent duplicate authority.</p>
+<p>Touchpoint overlap ranking reduces likely collisions using paths inferred from task text and active tasks. It is advisory, preserves eligibility and reports incomplete information (<a href="repo/internal/cli/selection.go">overlap scheduling</a>, lines 352–422; <a href="repo/internal/workflow/task_shape.go">overlap definition</a>, lines 147–170). It is not a semantic conflict detector or distributed transaction across dependent products.</p>
+<h3 id="assessment-persistence-resumption-interruption-and-recovery">Persistence, resumption, interruption and recovery</h3>
+<p>Claims persist outside agent worktrees in a clone-identity-specific user-config location; local locks reject concurrent execution of the same issue on one machine (<a href="repo/internal/lease/claims.go">claim control</a>, lines 24–36 and 95–120). Across clones, Git remote CAS arbitrates ownership. Worktrees and checkpoints retain code; authoritative state retains artifact/digest/phase history. <a href="repo/internal/lease/manager.go"><code>Resume</code></a>, lines 1435–1453, binds and verifies a claim token. It resumes authority over a task. It is not a harness-chat resume API.</p>
+<p>That distinction matters in native execution: <a href="repo/internal/sandbox/native.go"><code>RunNativeCodex</code></a>, lines 606–626, runs each exec turn as its own session, discovers only that invocation's session IDs for telemetry and supplies continuation instructions via files. <a href="repo/internal/sandbox/delegated.go">Claude delegated execution</a>, lines 218–238, similarly documents fresh print-turn sessions. Harness-native logs may exist on the host, but SwarmOS does not present a unified durable conversation lifecycle for them.</p>
+<p>The <a href="repo/internal/lease/heartbeat.go">heartbeat</a>, lines 22–103, renews every third of the lease duration (minimum one second), reloads policy/budget and cancels work when renewal/fencing fails. <a href="repo/internal/agent/adapters.go">Process execution</a>, lines 259–279, stops the child when context is canceled. Isolated paths also own teardown and import policy. Active/wall-time budgets and interactive-idle accounting are implemented by <a href="repo/internal/sandbox/agent_budget.go">agent budgets</a>, lines 70–145, rather than merely prompting the agent to stop.</p>
+<p>Lease-budget exhaustion is a controlled pause: <a href="repo/internal/workflow/claim_budget.go">pause logic</a>, lines 82–154, records a resumable next phase and can preserve a checkpoint. Timeout/import rejection recovery is different: detached-snapshot changes are not silently adopted; <a href="repo/internal/sandbox/native.go">native workspace timeout handling</a>, lines 773–794, preserves a recovery patch with a bounded cleanup context. <a href="repo/internal/workflow/execute_run.go">Rejected-import handling</a>, lines 108–167, preserves private recovery evidence and records the failure. Recovery requires respecting task, head and policy identity, rather than replaying an arbitrary patch into a new claim.</p>
+<p>Validation failure can trigger bounded developer → tester/check repair. Pre-existing or outside-candidate failures are distinguished; exhausted repair allowance requires explicit continuation (<a href="repo/internal/workflow/execute_validation.go">validation loop</a>, lines 125–195). Provider capacity/quota/rate/network failure classification exists (<a href="repo/internal/agent/failure.go">failure classifier</a>, lines 55–123), but is not a general automatic provider-failover or endlessly restarting supervisor. The node loop returns failure after a failed attempt. A human/operator still has recovery work in cases the coordinator cannot safely automate.</p>
+<h3 id="assessment-completion-acceptance-and-retirement">Completion, acceptance and retirement</h3>
+<p>Passing checks completes the implementation phase, not final product acceptance. <a href="repo/internal/cli/submit.go"><code>issue submit</code></a>, lines 18–33 and 111–129, checks exact approval and checkpoint, validates or reuses appropriately bound evidence, and opens an idempotent Draft PR. Optional node auto-submission calls this same submit command (<a href="repo/internal/cli/node.go">node</a>, lines 197–222). Thus publication is an explicit operation in the CLI design, with an operator option authorizing automatic use after validation. It is not an agent deciding freely to push.</p>
+<p><a href="repo/internal/lease/lifecycle.go">Submission reconciliation</a>, lines 38–150, observes GitHub PR outcome. A submitted/completed execution attempt does not mean a merged product. Reviewers/maintainers still accept the finished change through GitHub. Acceptance mappings are explicitly advisory (<a href="repo/internal/validation/acceptance_evidence.go">acceptance snapshot</a>, lines 16–20): syntactically valid evidence can still be inaccurate, so it cannot replace review.</p>
+<p>Harness processes terminate after runs and native snapshots are cleaned up. Task worktrees/branches have explicit inspected retirement paths, with dirty/unexpected files blocking unsafe removal (<a href="repo/internal/workspace/cleanup.go">workspace cleanup</a>, lines 63–100 and 246–286). Checkpoint-retention refs are designed to remain independent of task-branch cleanup (<a href="repo/internal/coordination/refs.go">ref layout</a>, lines 68–75). There is no organizational employee retirement/archive operation because such durable agents are not the model.</p>
+<h2 id="assessment-4-coordination-mechanics-and-one-concrete-request-trace">4. Coordination mechanics and one concrete request trace</h2>
+<p>Coordination is contract-and-artifact exchange. Issues are tickets; WorkUnit dependency fields and tracker relationships establish ordering; claims decide who may mutate; typed artifacts pass context between roles; status comments are readable projections; GitHub Actions issue-comment events can carry fork-worker requests. There is no peer chat transport. A developer does not send a message to a separately active tester: the coordinator compiles the next role's bundle using authoritative artifacts and starts that role.</p>
+<p>A concrete supported request is an operator running <code>swarm issue work --next --all</code> against registered repositories:</p>
+<ol>
+<li><strong>Intake and target selection.</strong> <a href="repo/internal/cli/work.go">Work CLI</a>, lines 19–69 and 79–132, validates selectors, builds role/gate/instruction options, then calls <code>pullNextReadyIssue</code>. There is already a repository and structured approved issue. This is not discovery from a blank product idea.</li>
+<li><strong>Queue coordination.</strong> <a href="repo/internal/cli/selection.go">Selection</a>, lines 78–210, resolves registry targets and node capabilities, loads ready issues, ranks dependencies/overlap, verifies approval and plan/human prerequisites, and preflights selected harnesses. Active claims are skipped. Conflicting claim acquisition is expected and causes selection to continue, not double execution.</li>
+<li><strong>Authoritative ownership.</strong> <a href="repo/internal/cli/selection.go">Selection</a>, lines 211–270, locks the local claim, acquires through the lease manager, stores the token and provisions a checkpoint-aware worktree. <a href="repo/internal/lease/manager.go"><code>checkStateClaim</code>/<code>mutate</code></a>, lines 1480–1506, fence subsequent changes. Comments cannot mint this authority.</li>
+<li><strong>Shared instructions.</strong> <a href="repo/internal/workspace/worktree.go">Bundle compiler</a>, lines 789–882, combines approved-base role instructions, project knowledge, rules, skills, task profile and current artifact history. The worktree contains <code>.swarm/active/WORKUNIT.md</code> and <code>SYSTEM_PROMPT.md</code>; temporary AGENTS/CLAUDE pointers direct the harness there and are stripped before checkpoints.</li>
+<li><strong>Plan and decision.</strong> <a href="repo/internal/workflow/execute_plan.go">Planner</a>, lines 59–133, runs the selected planner and records paired plan/test-plan artifacts. <a href="repo/internal/workflow/execute_review.go">Review routing</a>, lines 10–23 and 44–67, either invokes reviewer, proceeds without a gate, or returns awaiting human approval. Authenticated human review binds verdict to exact task/policy/plan/test-plan hashes (<a href="repo/internal/lease/manager.go">human review</a>, lines 1727–1800); later plan changes cannot reuse an old approval.</li>
+<li><strong>Implementation, evidence and recovery.</strong> <a href="repo/internal/workflow/execute_implementation.go">Developer round</a>, lines 18–80, invokes the developer with import checks; <a href="repo/internal/workflow/execute_validation.go">tester/required checks</a>, lines 17–123, records independent tester output and coordinator-derived validation. Repair is limited by trusted policy. Handoffs persist a next phase that another suitable node can claim.</li>
+<li><strong>Delivery and subsequent changes.</strong> <code>issue submit</code> validates the approved checkpoint and opens the Draft PR; <a href="repo/internal/pr/service.go">PR service</a>, lines 155–166, 279–332 and 691–710, verifies authoritative issue↔PR linkage for continued development. <a href="repo/internal/pr/service.go">PR submission</a>, lines 1243–1280, starts the explicit update-publication path. GitHub merge/closure later reconciles the outcome. A PR body alone is only a lookup hint, not authority to revise an unrelated issue.</li>
+</ol>
+<p>There is code-level test evidence for this coordination design: <a href="repo/internal/coordination/store_test.go"><code>TestGitCASAcrossClonesAndAtomicCheckpointFence</code></a>, lines 19–101, races two independent clones and asserts exactly one winner, then asserts a stale state revision cannot publish its checkpoint. The following PR test, lines 104–161, separately fences captured PR head and state revision. These tests use a local bare Git remote. They do not by themselves establish a successful live two-machine GitHub deployment.</p>
+<h2 id="assessment-5-major-capabilities-beyond-wingmans-described-scope">5. Major capabilities beyond Wingman's described scope</h2>
+<p><strong>Untrusted contributor/fork delivery protocol.</strong> Wingman describes a personal organization operating its own agents; SwarmOS also supports people donating compute without upstream write credentials. <a href="repo/internal/fork/coordinator.go">Fork coordinator</a>, lines 119–198 and 199–220, re-fetches issue/comment data, verifies repository, issue state, unedited content, author and non-bot identity before interpreting operations. A comment is parameters, not authority. Together with contributor-index CAS, replay/cap controls and verified fork/PR operations, this allows an open contribution pool. Integration would add public-contributor trust policy and GitHub Actions operations to Wingman, not just another agent adapter.</p>
+<p><strong>Policy and publication fencing as a first-class delivery system.</strong> Approved-base prompts/checks/protected paths, claim tokens, content-digest approvals and atomic state/head publication form a stronger provenance chain than a generic shared ticket board. <a href="repo/internal/validation/validator.go">Trusted validation</a>, lines 210–286, refuses absent base and loads policy from that base; <a href="repo/internal/lease/manager.go">claim validation</a>, lines 1455–1506, ties writes to a still-approved task. Wingman could use this to prevent a stale or compromised worker publishing after reassignment. It would also need to reconcile conversational scope changes with explicit contract reapproval.</p>
+<p><strong>Controlled execution across several coding harnesses.</strong> Native Codex, delegated Claude/OpenCode/OMP, read-only review snapshots and offline OCI boundaries are significant infrastructure. <a href="repo/internal/agent/configured.go">Runner admission</a>, lines 29–129, rejects unqualified overrides rather than silently weakening isolation. The tradeoff is reduced tool freedom: default worker shells cannot use arbitrary internet, credentials, plugins, peer subagents or persistent background services. Wingman's research/browser/integration agents may need separate capabilities and host placement, not a broad bypass of these policies.</p>
+<p><strong>Trusted dependency preparation and isolated browser testing.</strong> <a href="repo/internal/workflow/dependencies.go">Dependency preparation</a>, lines 16–59, prefetches from the approved base and makes caches available under node-controlled policy; private module patterns are node-side settings (<a href="repo/internal/contract/types.go">node profile</a>, lines 226–235). <a href="repo/internal/sandbox/browser.go">Browser launch</a>, lines 20–89, uses a managed Linux systemd scope, explicit environment and memory constraints. This gives offline workers useful build/test capacity without exposing the general host. It introduces platform prerequisites: a Mac/Arch deployment must qualify the actual native/browser boundaries and assign Linux-only capabilities accordingly. Browser support here is task preview/testing, not Wingman's human-facing browser workspace.</p>
+<p><strong>PR continuation and rebase/recovery rather than one-shot generation.</strong> <a href="repo/internal/pr/service.go">PR service</a>, lines 279–332, 691–710, 890–920 and 1243–1280, verifies linked WorkUnits, stages revisions, rebases and publishes through claim/head fences. <a href="repo/internal/workflow/recovery_test.go">Checkpoint recovery tests</a>, lines 25–108, exercise retained-work recovery against a moved base in a fixture. This is useful for the long tail of delivery after initial generation. It requires Wingman's tracker to distinguish implementation, submission, open PR, requested changes and merged acceptance rather than a single “done” field.</p>
+<p><strong>Evidence-aware repair, backlog planning and lessons.</strong> <a href="repo/internal/workflow/project_plan.go">Project planning</a>, lines 130–228 and 469–575, can parse a Markdown/YAML roadmap or invoke an explicitly requested planner to produce WorkUnits, then calculate execution waves. <a href="repo/internal/workflow/task_shape.go">Task assessment</a>, lines 51–138, provides deterministic uncertainty/risk/scope hints; overlap ranking is advisory. <a href="repo/internal/workflow/lessons.go">Lessons</a>, lines 136–180, harvests only authoritatively linked merged work and proposes local rule updates for maintainer review. These are useful organizational inputs, but they are not an autonomous product research department or self-authorizing memory.</p>
+<p><strong>Operational storage accounting.</strong> <a href="repo/internal/storage/inventory.go">Storage inventory</a>, lines 25–51, 85–132 and 151–165, models resource/scan bounds and accounting; <a href="repo/internal/storage/discovery.go">discovery</a>, lines 313–324, scopes registered repositories. This matters when repeated snapshots, caches and worktrees consume worker disks. It is operational hygiene outside Wingman's stated executive experience; adopting it would require retaining provenance/active-use safety rather than treating all scratch-looking directories as disposable.</p>
+<h2 id="assessment-6-distinctive-mechanisms-and-grounded-innovation">6. Distinctive mechanisms and grounded innovation</h2>
+<p>The strongest design contribution for Wingman is <strong>using Git's remote compare-and-swap and atomic ref updates as the delivery control plane</strong>. Authority and checkpoints can move together without a bespoke central database. The separation between state refs, permanent checkpoint-retention refs and mutable PR heads gives recovery explicit objects rather than merely trusting a last log line. Independent-clone race tests ground the mechanism. Its limits are equally concrete: GitHub/Git availability and authorization remain infrastructure dependencies; repeated state writes/heartbeats are remote operations; local mode has different distribution properties; worker provisioning and team conversation are outside the mechanism. This is a distinctive composition in this codebase, not a claim of historical novelty.</p>
+<p>The second is <strong>artifact-bound delegation with coordinator-owned trust</strong>. A model may propose a plan, write code or claim tests passed. The coordinator owns claim fencing, content hashes, approved policy, import checks and required-check outcomes. Comments remain projections and telemetry remains descriptive. <a href="repo/internal/contract/telemetry.go">Telemetry contract</a>, lines 11–15 and 34–63, explicitly excludes telemetry from gates. <a href="repo/internal/validation/acceptance_evidence.go">Acceptance evidence</a>, lines 16–20 and 49–87, bounds/parses the tester's report without making it truth. This is a useful way to keep an agent organization's records informative without allowing those records to manufacture authority. It cannot establish that acceptance prose is semantically correct. The maintainer still reviews the product.</p>
+<p>Third, <strong>mediation adapts a logged-in harness to a narrow task capability set</strong>. Delegated tools keep model access with the harness while file/shell work runs in the selected boundary; native Codex gets an explicitly qualified policy. Detached snapshots allow outputs to be checked before import, and rejection/timeout patches preserve recoverable work without granting it execution authority. This solves a real tension between practical harness use and a trusted coordinator. It does not give arbitrary harnesses the same guarantees; driver/version/platform qualification and feature suppression are material restrictions.</p>
+<p>Fourth, <strong>bounded continuity is represented as explicit task-state transitions</strong>: paired plan generations, human/agent review digests, phase handoffs, renewal budgets, repair counts, dropped checkpoints and PR revisions. That is more precise than telling a model to “keep working until done.” It supports useful resumability across role and host changes, while making clear that Wingman would still need persistent conversations, manager identities and product context above the task engine.</p>
+<h2 id="assessment-7-practical-wingman-adoption">7. Practical Wingman adoption</h2>
+<p>Use directly as a delivery subsystem:</p>
+<ul>
+<li>Approved WorkUnits.</li>
+<li>GitHub/local task tracking.</li>
+<li>Dependency-aware pull queues.</li>
+<li>Parallel node workers.</li>
+<li>Git worktrees and checkpoints.</li>
+<li>Planner/reviewer/developer/tester execution.</li>
+<li>Human plan decisions.</li>
+<li>Required-check validation.</li>
+<li>Draft PR delivery.</li>
+<li>Continued PR revision/rebase.</li>
+<li>Provenance and recovery. A sensible boundary is for TechMaster to translate an agreed technical ticket into a WorkUnit and submit it to SwarmOS, while Wingman retains product ownership and human communication.</li>
+</ul>
+<p>Adapt rather than rename:</p>
+<ul>
+<li>Map Wingman project IDs to repository entries.</li>
+<li>Give every execution an organization agent/task/host correlation ID without misusing lease owner as employee identity.</li>
+<li>Translate scope/specification changes into contract revisions and reapproval.</li>
+<li>Expose structured status/progress/attestation records as events.</li>
+<li>Build an agent-centered timeline from actual run outcomes and planned assignments.</li>
+<li>Send approval requests through Butler and invoke the authenticated decision path.</li>
+<li>Enforce host capabilities for Mac versus Linux. Wingman needs a supervisor that starts/restarts workers and understands failures because <code>--watch</code> is a process-local queue loop, not durable organizational supervision.</li>
+</ul>
+<p>Still build:</p>
+<ul>
+<li>Telegram/Butler intake and reply routing.</li>
+<li>ProjectMaster's cross-product registry and ongoing supervision.</li>
+<li>ProductMaster's research and clarification.</li>
+<li>Persistent ProductMaster/TechMaster/specialist identities and conversations.</li>
+<li>Shared management/product rooms and direct peer messaging. A growing directory/team model.</li>
+<li>Portfolio/project/executive dashboards.</li>
+<li>Per-agent summary feeds and detailed live coding workspaces with steering, queued input, attachments and conversation lifecycle controls.</li>
+<li>Final integrated product acceptance and delivery communication. SwarmOS JSON and GitHub records can supply evidence to these views, but do not implement the experience.</li>
+</ul>
+<p>The integration decision is therefore architectural: SwarmOS can materially reduce the amount of delivery/security machinery Wingman must invent, while its contract-first repository workflow will shape how the organization authorizes and revises work. If Wingman expects specialists to debate interfaces continuously in shared rooms, keep those conversations above SwarmOS and publish their resolved decisions as explicit task inputs. If it expects broad internet/tool access inside every coding worker, the current qualified execution boundaries will require deliberate additional capability design.</p>
+<h2 id="assessment-8-verification-scope-and-limits">8. Verification scope and limits</h2>
+<p>Inspected implementation paths:</p>
+<ul>
+<li>CLI entry/root/work/node/selection/status/issue/submit paths.</li>
+<li>contract/config/profile/telemetry types.</li>
+<li>runner/adapters/configured/isolated/failure/recovery paths.</li>
+<li>registry/node profiles.</li>
+<li>coordination store/ref layouts.</li>
+<li>lease state/claims/heartbeat/human review/lifecycle.</li>
+<li>workspace bundle/provision/checkpoint/cleanup.</li>
+<li>workflow plan/review/developer/test/repair/project planning/lessons.</li>
+<li>validation/acceptance evidence.</li>
+<li>fork coordinator.</li>
+<li>PR service.</li>
+<li>native/delegated sandbox tools, budgets/browser paths.</li>
+<li>storage inventory/discovery.</li>
+</ul>
+<p>File links above identify the principal anchors and line ranges at the assessed revision.</p>
+<p>Relevant tests inspected included:</p>
+<ul>
+<li><a href="repo/internal/coordination/store_test.go">Git coordination races and PR fencing</a>, lines 19–161: independent clones, single CAS winner, stale checkpoint refusal and captured PR-head fencing.</li>
+<li><a href="repo/internal/lease/reviewer_policy_test.go">Reviewer policy</a>, lines 78–150: allowlisted reviewer, untrusted candidate policy edits and human/model independence.</li>
+<li><a href="repo/internal/agent/isolation_policy_test.go">Isolation policy</a>, lines 10–82: isolated defaults, no mock bypass, repository-required isolation and unsafe native/OCI overrides.</li>
+<li><a href="repo/internal/workflow/dependencies_test.go">Dependency preflight</a>, lines 81–115: failed prefetch must stop before claim or model execution.</li>
+<li><a href="repo/internal/validation/acceptance_evidence_test.go">Acceptance evidence</a>, lines 15–87: missing/malformed/duplicate/mismatched claims, bounds and advisory treatment. The fixture deliberately accepts syntactically valid evidence naming a fictional path, illustrating why this is not semantic verification.</li>
+<li><a href="repo/internal/workflow/recovery_test.go">Dropped checkpoint recovery</a>, lines 25–108, plus recovery fixture setup at lines 110–190: checkpoint/base continuity and trusted recovery policy inputs. These are test fixtures, not observed production recoveries.</li>
+</ul>
+<p>For missing organization features, searches covered the repository's implementation, commands, contracts, tracker, workflow, node, registry and docs for Telegram/Butler, dashboards, chat/rooms, agent directories, web-server entry points and conversation/session management. The positive alternatives found were CLI status/progress, issue comments, fork event transport, task profiles, role-run telemetry and external harness session observation. The <code>internal/</code> package inventory and root resource registration contain no first-party organization/chat/dashboard application. Incidental “dashboard” text in test task fixtures and websocket strings in network hardening tests were not counted as product features.</p>
+<p>No live GitHub API/coordinator/PR publication, actual two-host operation, logged-in model execution, native sandbox canary, OCI boundary, browser isolation, dependency network fetch or storage cleanup was exercised in this assessment. Test existence and static control flow support the findings but do not certify every runtime combination. Platform/version qualification, GitHub repository policy and actual required-check definitions would be the first deployment verification work. The source checkout was not modified.</p></article>
+<section id="source-record"><h2>Source and evidence</h2><p class="url-text">https://github.com/supernovae/SwarmOS</p>
+<ul><li><a href="repo/">Open the pinned source checkout</a></li><li><a href="assessment/ASSESSMENT.md">Read the Markdown assessment</a></li>
+<li><a href="../generic/assessments/_audits/qa16.md">Read the historical independent source audit</a></li><li><a href="../generic/method.html">Read the method and evidence limits</a></li></ul></section>
+<nav class="report-switch" aria-label="Adjacent project reports"><a href="../swarm/index.html">Previous project: Swarm</a><a href="../swe-agent/index.html">Next project: SWE-agent</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../index.html">Return to overview <img src="../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

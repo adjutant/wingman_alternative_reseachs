@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Technical assessment against Wingman’s development organization."><title>Agent Orchestrator · Wingman Research</title>
+<link rel="icon" href="../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/report.css"><script defer src="../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../index.html"><img src="../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../index.html">Overview</a><a class="nav-link " href="../generic/index.html">Architecture findings</a><a class="nav-link " href="../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../generic/method.html">Method and evidence</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../index.html">Wingman Research</a><span class="crumb">/</span><span>Agent Orchestrator</span></div><span class="topbar-note">SOURCE REVIEW · 05 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Agent Orchestrator</h1><p class="subtitle">Technical assessment against Wingman’s development organization.</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#decision">Decision summary</a><a href="#assessment-agent-orchestrator-assessment">Agent Orchestrator assessment</a><a href="#assessment-identity-revision-and-verdict">Identity, revision and verdict</a><a href="#assessment-architecture-and-execution-model">Architecture and execution model</a><a href="#assessment-feature-comparison-against-wingman">Feature comparison against Wingman</a><a href="#assessment-agent-definition-creation-and-lifecycle-in-detail">Agent definition, creation and lifecycle in detail</a><a href="#assessment-coordination-mechanics-and-a-source-traced-request">Coordination mechanics and a source-traced request</a><a href="#assessment-major-capabilities-beyond-wingmans-description">Major capabilities beyond Wingman&#x27;s description</a><a href="#assessment-distinctive-mechanisms-worth-studying">Distinctive mechanisms worth studying</a><a href="#assessment-practical-fit-and-remaining-work">Practical fit and remaining work</a><a href="#assessment-verification-scope-and-uncertainty">Verification scope and uncertainty</a><a href="#source-record">Source and evidence</a></div></nav><section id="decision" class="decision"><h2>Decision summary</h2>
+<div class="brief-columns"><div><h3>Useful for Wingman</h3><p>Study persistent worker sessions, orchestrator delegation, PR and CI reactions, and remote-host control.</p></div><div><h3>Adoption boundary</h3><p>Portfolio intake, product discovery, management rooms, and product acceptance remain separate application work.</p></div></div>
+<p class="scope-note">Source assessment at the commit below. Runtime limits appear in the technical report.</p></section>
+<dl class="facts"><div><dt>Source group</dt><dd>Coding workspaces</dd></div><div><dt>Commit</dt><dd><code>fc92e7ec6f43fc06317cd47cdf8813956612fe50</code></dd></div><div><dt>Coverage</dt><dd>24 Wingman features</dd></div></dl>
+<article id="technical-assessment" class="technical"><h2 id="assessment-agent-orchestrator-assessment">Agent Orchestrator assessment</h2>
+<h2 id="assessment-identity-revision-and-verdict">Identity, revision and verdict</h2>
+<ul>
+<li><strong>Product:</strong> Agent Orchestrator / Orchestrator.inc, a desktop supervisor for fleets of coding sessions.</li>
+<li class="url-text"><strong>Repository:</strong> https://github.com/OrchestratorInc/agent-orchestrator</li>
+<li><strong>Checkout:</strong> <code>researchs/agent-orchestrator/repo/</code></li>
+<li><strong>Assessed commit:</strong> <code>fc92e7ec6f43fc06317cd47cdf8813956612fe50</code>.</li>
+<li><strong>Assessment date:</strong> 2026-11-05.</li>
+<li><strong>Basis:</strong> static inspection of this checkout, including implementation and selected test bodies. No dependencies installed, services launched, model calls made, or runtime tests executed. The checkout was not modified.</li>
+</ul>
+<p><strong>Verdict:</strong> Agent Orchestrator (AO) provides a strong execution and detailed-workspace foundation for Wingman. Independent coding sessions retain conversations and work state. An orchestrator coordinates workers and reacts to pull-request (PR), continuous-integration (CI), and review events. Recurring automation and remote-host controls support ongoing operation.</p>
+<p>Wingman still needs Telegram Butler, portfolio intake, and separate product and technical leaders. Proportionate discovery, organizational rooms, product acceptance, and executive work summaries also need implementation.</p>
+<p>This revision matters: the live architecture is a Go daemon and Electron/React client, not the older TypeScript in-process CLI/plugin architecture sometimes associated with this project. The public checkout includes remote-daemon clients and cloud contracts. The hosted cloud control plane is explicitly outside it. See <a href="repo/AGENTS.md">repository guidance</a>, lines 7–16, and <a href="repo/docs/architecture.md">current architecture</a>, lines 3–19. Findings below credit public implementation rather than assuming the private service works as advertised.</p>
+<p>The companion <a href="index.html#support-agent-lifecycle-and-continuity">agent lifecycle and continuity chapter</a> expands identity lifetimes, asynchronous provisioning, host adoption, task continuation, branching/fork limits, delivery receipts and cleanup generations. The verdict and complete feature comparison remain in this master report.</p>
+<h2 id="assessment-architecture-and-execution-model">Architecture and execution model</h2>
+<p>The <code>ao</code> executable enters the Cobra CLI through <a href="repo/backend/cmd/ao/main.go">cmd/ao/main.go</a>, lines 10–14. The compatibility backend executable calls the daemon directly (<a href="repo/backend/main.go">backend/main.go</a>, lines 1–16). The service-facing boundary is HTTP: session creation, task delegation, orchestrator creation, send, kill, restore, interface transitions, workspace inspection and artifact versioning are registered in <a href="repo/backend/internal/httpd/controllers/sessions.go">sessions controller</a>, lines 210–283. Electron is a supervisor rather than the authoritative lifecycle owner.</p>
+<p>The main path is controller → session service → session manager → workspace/agent/runtime or native Chat driver → durable lifecycle facts. <code>SessionManager.Spawn</code> resolves the project and harness, composes role instructions and task context, validates model and interface capability, creates a durable session, materializes its workspace, provisions it, and starts exactly one controller. The key split is in <a href="repo/backend/internal/session_manager/manager.go">manager.go</a>, lines 989–1115 and 1344–1435:</p>
+<ul>
+<li>A <strong>TUI</strong> session runs an installed agent CLI in a native PTY/ConPTY runtime, with tmux compatibility/fallback. Its terminal is streamed to viewers, while provider hooks and runtime probes supply facts.</li>
+<li>A <strong>Chat</strong> session uses a native protocol driver. Codex is driven through <code>codex app-server</code>; other supported providers use ACP or provider-specific drivers. It has no agent terminal runtime. A shell terminal can still be opened alongside it.</li>
+<li>Both modes share the AO session identity, workspace, project association and lifecycle machinery. A durable transition can move a compatible native conversation between interfaces; two controllers are not supposed to own it simultaneously.</li>
+</ul>
+<p>Projects are durable registry rows, not inferred businesses or product organizations. They can be a single repository, a root with child repositories, or a scratch directory. A workspace project has a registered root plus child repositories and per-session worktree inventory (<a href="repo/backend/internal/domain/project.go">project domain</a>, lines 5–39 and 62–91). Workers normally receive separate branches/worktrees. Scratch and standalone workers provide a genuine non-Git execution path, not a fictitious PR workflow.</p>
+<p>SQLite stores projects, sessions, conversation branches, turns, messages, activities, reviews, reports, automation definitions/runs and related facts. The crucial distinction is between facts and presentation. Session status is derived from activity, termination and SCM facts at read time (<a href="repo/backend/internal/service/session/status.go">status.go</a>, lines 19–58). A board column is not a second stored workflow state. Database triggers feed a change log, a CDC poller fans changes to clients, and durable catch-up is separate from live fan-out (<a href="repo/backend/internal/daemon/cdc_wiring.go">cdc_wiring.go</a>, lines 11–35). This is a useful foundation for several connected Wingman views without letting every UI invent its own truth.</p>
+<p>Independent detached Chat hosts are particularly consequential. The provider process can outlive daemon or desktop replacement, and the replacement daemon attaches to its authenticated local host rather than replaying a live task into a fresh process. ACP hosts retain initialization/session snapshots, request correlation, pending interactions and prompt-result acknowledgements (<a href="repo/backend/internal/adapters/chatdriver/persistenthost/host.go">persistent host</a>, lines 1–4, 31–88 and 123–142). Host identity is not a second execution machine: this mechanism is local process continuity. Real remote execution is a separate feature described below.</p>
+<h2 id="assessment-feature-comparison-against-wingman">Feature comparison against Wingman</h2>
+<p>Verdicts use the guide's meanings. “Similar” credits a substantial implementation with a concrete boundary; “Resembles” identifies a useful primitive that does not supply the whole requested capability.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Capability</th>
+<th scope="col">Verdict</th>
+<th scope="col">Implementation evidence and concrete difference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F01</td>
+<td>Real independent coding agents and specialist instances</td>
+<td><strong>Similar</strong></td>
+<td>Each worker is an independently launched native provider/CLI in its own workspace, not merely a persona within the orchestrator's turn: <a href="repo/backend/internal/session_manager/manager.go">manager</a>, lines 1344–1435; <a href="repo/backend/internal/adapters/chatdriver/codexappserver/driver.go">Chat driver</a>, lines 80–97 and 545–621. Multiple backend/frontend/test specialists could be instantiated through task instructions, but AO represents task sessions rather than enduring named professional identities.</td>
+</tr>
+<tr>
+<td>F02</td>
+<td>Extensible profiles, roles and team composition</td>
+<td><strong>Resembles</strong></td>
+<td>Project defaults, role overrides, model/effort/permission choices, worker/orchestrator rules and reviewers are configurable: <a href="repo/backend/internal/domain/projectconfig.go">project config</a>, lines 43–91 and 165–169. Built-in session roles are just worker/orchestrator (<a href="repo/backend/internal/domain/session.go">session</a>, lines 19–26), and harnesses are a validated compiled vocabulary (<a href="repo/backend/internal/domain/harness.go">harness</a>, lines 3–70). There is no first-class user-defined role/profile/team registry comparable to Wingman's growing organization.</td>
+</tr>
+<tr>
+<td>F03</td>
+<td>Agent directory and visible relationships</td>
+<td><strong>Resembles</strong></td>
+<td>Session boards, kinds, project membership, provider identity and the orchestrator/worker distinction expose active execution units: <a href="repo/frontend/src/renderer/components/SessionsBoard.tsx">SessionsBoard</a>, lines 150–181; <a href="repo/backend/internal/service/session/service.go">session service</a>, lines 356–389. This is a directory of work sessions, without a durable organization chart, distinct role instances or agent working-relationship records.</td>
+</tr>
+<tr>
+<td>F04</td>
+<td>Telegram and Butler routing</td>
+<td><strong>Absent</strong></td>
+<td>No Telegram/Butler implementation found in domain, services, HTTP/CLI controllers or renderer searches. Actual human entry points are native Chat/TUI, desktop and paired remote/mobile API access: <a href="repo/backend/internal/httpd/router.go">mobile routes</a>, lines 163–188; <a href="repo/backend/internal/httpd/controllers/sessions.go">session routes</a>, lines 264–283. No organization-wide conversational representative routes Telegram replies back to responsible agents.</td>
+</tr>
+<tr>
+<td>F05</td>
+<td>Cross-project registry and new/existing project intake</td>
+<td><strong>Similar</strong></td>
+<td>Durable registered projects and per-project session/orchestrator creation exist (<a href="repo/backend/internal/domain/project.go">project record</a>, lines 27–39; <a href="repo/backend/internal/service/session/service.go">session service</a>, lines 738–829). Opt-in issue intake scans configured projects and spawns eligible workers (<a href="repo/backend/internal/observe/trackerintake/observer.go">intake observer</a>, lines 119–210). The human selects/registers the project; no ProjectMaster interprets ambiguous natural-language requests across the portfolio.</td>
+</tr>
+<tr>
+<td>F06</td>
+<td>Per-project product and technical leadership</td>
+<td><strong>Resembles</strong></td>
+<td>A genuine per-project orchestrator delegates implementation and coordinates workers; active-orchestrator creation is serialized (<a href="repo/backend/internal/service/session/service.go">session service</a>, lines 369–389, 738–829). Its role is expressed in <a href="repo/backend/internal/session_manager/prompt.go">prompt construction</a>, lines 215–267. There are no separate ProductMaster/TechMaster instances or structured product/technical ownership model.</td>
+</tr>
+<tr>
+<td>F07</td>
+<td>Proportionate discovery and iterative clarification</td>
+<td><strong>Resembles</strong></td>
+<td>Agents can research, plan and ask the human through normal conversations and structured provider input; pending input/approval is durable (<a href="repo/backend/internal/service/chat/controller.go">Chat controller store contract</a>, lines 149–168). The orchestrator is instructed to plan complex coordination (<a href="repo/backend/internal/session_manager/prompt.go">prompt</a>, lines 222–237). There is no discovery workflow that adapts to product size, records uncertainty, or routes iterative clarification across Butler and project leadership.</td>
+</tr>
+<tr>
+<td>F08</td>
+<td>Scope/specs/acceptance scenarios/definition of done</td>
+<td><strong>Absent</strong></td>
+<td>Domain/config, service, prompt and renderer searches found no product-definition or acceptance-record subsystem. Workers receive a freeform brief or issue context (<a href="repo/backend/internal/session_manager/prompt.go">task prompt</a>, lines 58–78; <a href="repo/backend/internal/service/session/delegation.go">delegation input</a>, lines 27–43). Repository files can contain specifications, but AO neither creates a canonical product definition nor evaluates delivery against it.</td>
+</tr>
+<tr>
+<td>F09</td>
+<td>Technical decomposition, assignment and shared tracking</td>
+<td><strong>Similar</strong></td>
+<td>The orchestrator can decompose requests by spawning named workers, send instructions and inspect ownership. Desktop tasks directly spawn worker sessions (<a href="repo/backend/internal/service/session/delegation.go">delegation</a>, lines 68–133); reports persist meaningful checkpoints and outputs (<a href="repo/backend/internal/service/report/service.go">report service</a>, lines 94–150). Tasks are largely session briefs plus external issues/PRs; no independent shared ticket/dependency model spans product planning and execution.</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>Human portfolio/project management dashboard</td>
+<td><strong>Similar</strong></td>
+<td>Project-specific Kanban groups worker sessions by derived activity/SCM state and opens detailed workspaces (<a href="repo/frontend/src/renderer/components/SessionsBoard.tsx">SessionsBoard</a>, lines 150–210). It is a substantive task-session management view, but does not supply product goals, project-level acceptance progress, specifications, an upcoming ticket backlog or portfolio decisions.</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>Agent chat rooms and direct collaboration</td>
+<td><strong>Similar</strong></td>
+<td><code>ao send</code> actually addresses another running session, preserves sender identity and supports semantic steering (<a href="repo/backend/internal/cli/send.go">CLI send</a>, lines 23–38 and 68–110). Durable reports route workers to the current project orchestrator (<a href="repo/backend/internal/service/report/coordinator.go">coordinator</a>, lines 156–220). There is no multi-party room/channel model, membership or Room1/Room2 history; direct session conversations are not a shared chat application.</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>Management escalation and human approvals</td>
+<td><strong>Similar</strong></td>
+<td>Reports distinguish needs-input and stuck, and can wake/interrupt an orchestrator with durable retry (<a href="repo/backend/internal/service/report/service.go">report service</a>, lines 120–138; <a href="repo/backend/internal/service/report/coordinator.go">coordinator</a>, lines 156–203). Native approvals and human input are exposed in Chat. Missing are Wingman's multi-level management escalation and Butler-mediated decision routing across projects.</td>
+</tr>
+<tr>
+<td>F13</td>
+<td>Durable knowledge and reusable directives</td>
+<td><strong>Similar</strong></td>
+<td>Per-project worker/orchestrator rules, repo-relative rule files, repository content and durable project-scoped orchestrator conversations provide reusable context (<a href="repo/backend/internal/domain/projectconfig.go">project config</a>, lines 43–59; <a href="repo/backend/internal/session_manager/prompt.go">rules loader</a>, lines 165–206; <a href="repo/backend/internal/domain/conversation.go">conversation record</a>, lines 181–209). No managed <code>DIRECTIVES/SCOPES/SPECS/HARNESS</code> knowledge structure or product-decision governance is provided.</td>
+</tr>
+<tr>
+<td>F14</td>
+<td>Identity, conversation and work continuity</td>
+<td><strong>Similar</strong></td>
+<td>Durable AO session IDs are separate from native provider IDs and controller generations. Project orchestrator conversation identity survives replacement (<a href="repo/backend/internal/domain/conversation.go">conversation</a>, lines 181–209). Provider hosts survive daemon replacement and native resume repairs actual process loss (<a href="repo/backend/internal/adapters/chatdriver/persistenthost/host.go">persistent host</a>, lines 74–142; <a href="repo/backend/internal/session_manager/manager.go">restore selection</a>, lines 7100–7142). Continuity belongs primarily to a task/session/project narrative, not a person-like agent across changing assignments.</td>
+</tr>
+<tr>
+<td>F15</td>
+<td>Proactive supervision, wake and blocker follow-up</td>
+<td><strong>Similar</strong></td>
+<td>Runtime probes, SCM reactions, report scheduling, auto-review and recurring automations are actual daemon loops: <a href="repo/backend/internal/observe/reaper/reaper.go">reaper</a>, lines 19–33; <a href="repo/backend/internal/lifecycle/reactions.go">reactions</a>, lines 67–165; <a href="repo/backend/internal/autoreview/coordinator.go">auto-review</a>, lines 15–39; <a href="repo/backend/internal/service/automation/scheduler.go">scheduler</a>, lines 52–98. These cover operational events and configured prompts, not an organization-wide ProjectMaster reasoning over every product and silently stalled assignment.</td>
+</tr>
+<tr>
+<td>F16</td>
+<td>Parallel products and concurrent specialists</td>
+<td><strong>Similar</strong></td>
+<td>Registered projects and independent workers can run concurrently. Targeted gates protect workspace changes and orchestrator creation. See <a href="repo/backend/internal/session_manager/manager.go">manager</a>, lines 560–581 and 1286–1341, and <a href="repo/backend/internal/service/session/service.go">session service</a>, lines 369–389. Specialist titles supply instructions. The system does not automatically staff an organization from workload.</td>
+</tr>
+<tr>
+<td>F17</td>
+<td>Multi-host execution with shared coordination</td>
+<td><strong>Similar</strong></td>
+<td>Public code really connects to distinct AO daemons, creates host-specific API clients and displays remote project/session boards (<a href="repo/frontend/src/renderer/lib/host-clients.ts">host clients</a>, lines 44–85; <a href="repo/frontend/src/main/remote-proxy.ts">remote proxy</a>, lines 29–50; <a href="repo/frontend/src/renderer/components/SessionsBoard.tsx">board</a>, lines 150–190). This is real control of remote execution, but each daemon owns its local registry/lifecycle. No shared Mac/Endeavour agent organization, cross-daemon report routing or placement policy was found. Hosted cloud workers have a public client but private server, so server execution guarantees remain <strong>Unclear</strong>.</td>
+</tr>
+<tr>
+<td>F18</td>
+<td>Executive current/recent/next/blocker overview</td>
+<td><strong>Resembles</strong></td>
+<td>Boards and inspector expose current state, task labels, SCM problems and recent output facts; session metadata preserves latest user prompt and assistant update (<a href="repo/backend/internal/domain/session.go">session metadata</a>, lines 188–202; <a href="repo/backend/internal/service/session/status.go">status derivation</a>, lines 19–58). There is no unified plain-language briefing with independently grounded just-finished/current/planned-next work for every organizational agent.</td>
+</tr>
+<tr>
+<td>F19</td>
+<td>Agent summary timeline linked to work</td>
+<td><strong>Resembles</strong></td>
+<td>A real activity timeline includes workspace creation, the latest five commits, PR opening/merging, termination and current activity/SCM state (<a href="repo/frontend/src/renderer/components/SessionInspector.tsx">SessionInspector</a>, lines 1100–1236). PR entries link underlying PRs. It is a session work-history projection, not the required narrative timeline of milestones, questions, test outcomes and plans across an enduring agent's assignments.</td>
+</tr>
+<tr>
+<td>F20</td>
+<td>Detailed individual coding workspace</td>
+<td><strong>Similar</strong></td>
+<td>SessionView integrates Chat/TUI, file explorer/editor/diffs, browser, artifacts, shell terminals and reviews (<a href="repo/frontend/src/renderer/components/SessionView.tsx">SessionView</a>, lines 21–90; <a href="repo/backend/internal/httpd/controllers/sessions.go">workspace API</a>, lines 215–255). This is close to Wingman's drill-down experience, but it opens task sessions and has provider-dependent capabilities rather than one full Codex feature contract.</td>
+</tr>
+<tr>
+<td>F21</td>
+<td>Live activity, lifecycle, steering and visibility</td>
+<td><strong>Similar</strong></td>
+<td>Session controls include rename, delete, restore, exit/resume, kill, rollback, interface switching, and send. See <a href="repo/backend/internal/httpd/controllers/sessions.go">routes</a>, lines 257–283. Chat adds queues, steering, compaction, interruption, and branching. See <a href="repo/backend/internal/service/chat/controller.go">controller</a>, lines 100–164, 2491, 2578, and 2773; and <a href="repo/backend/internal/httpd/controllers/conversations.go">branch API</a>, lines 475–509. These controls do not establish Wingman's full continuing-goal and per-goal budget behavior.</td>
+</tr>
+<tr>
+<td>F22</td>
+<td>Testing, integrated verification and product acceptance</td>
+<td><strong>Similar</strong></td>
+<td>Agents are prompted to run verification; CI/review failures are observed and routed back; native reviewers have durable per-head results (<a href="repo/backend/internal/session_manager/prompt.go">task prompt</a>, lines 58–78; <a href="repo/backend/internal/review/review.go">review engine</a>, lines 245–282; <a href="repo/backend/internal/lifecycle/reactions.go">reactions</a>, lines 67–165). Browser tools support verification, but AO does not provide TestMaster's functional acceptance against product scenarios. PR merge/completion facts are not product acceptance.</td>
+</tr>
+<tr>
+<td>F23</td>
+<td>Autonomous operation with human direction</td>
+<td><strong>Similar</strong></td>
+<td>The project orchestrator is a coding agent with worker-coordination instructions. Issue intake, durable reports, and PR follow-up support authorized work without constant polling. See <a href="repo/backend/internal/session_manager/prompt.go">prompt</a>, lines 215–281, and <a href="repo/backend/internal/observe/trackerintake/observer.go">intake</a>, lines 109–210. Human conversations remain project/session-specific. Organization-wide discovery, delivery, and portfolio accountability need implementation.</td>
+</tr>
+<tr>
+<td>F24</td>
+<td>Views accommodate newly added profiles</td>
+<td><strong>Resembles</strong></td>
+<td>Generic session/task/Chat surfaces accommodate different harnesses, settings and named assignments; typed overrides and the harness registry extend execution support (<a href="repo/backend/internal/domain/projectconfig.go">project config</a>, lines 55–68; <a href="repo/backend/internal/domain/harness.go">harness</a>, lines 51–70). Adding ProductMaster or a new persistent organizational profile does not create directory, room membership, leadership and tracker semantics. Those concepts need a new common model.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="assessment-agent-definition-creation-and-lifecycle-in-detail">Agent definition, creation and lifecycle in detail</h2>
+<h3 id="assessment-what-an-agent-actually-is">What an “agent” actually is</h3>
+<p>AO distinguishes a <strong>harness</strong> (provider/CLI integration), an <strong>AO session</strong> (durable task execution identity), a <strong>native conversation</strong> (provider-owned transcript), a <strong>controller generation</strong> (one AO owner of a conversation), and a <strong>runtime/host process</strong> (execution resource). An orchestrator is an AO session with a different role prompt and project-scoped conversation continuity. A worker is another independently launched AO session, not an internal subagent inside the orchestrator. Reviewer processes have their own review records and conversations, rather than pretending to be ordinary implementation workers.</p>
+<p>Consequently an AO session is more durable than a subprocess and more concrete than a prompt, but less organizationally persistent than Wingman's BackendCoder identity. It can retain files and context over many turns or PRs, yet there is no separate stable employee/profile record above the session. The available role set and provider vocabulary are explicit in <a href="repo/backend/internal/domain/session.go">session.go</a>, lines 19–26, and <a href="repo/backend/internal/domain/harness.go">harness.go</a>, lines 3–70.</p>
+<h3 id="assessment-definition-and-configuration">Definition and configuration</h3>
+<p>A project stores its default branch, environment, shared symlinks, setup/cleanup commands, worker and orchestrator instructions, default model/configuration, reviewer selection and opt-in intake/review policy. Inline instructions can be supplemented by repo-relative files; missing/escaping files fail preparation rather than silently dropping rules. Worker and orchestrator overrides pick a harness and tune model, effort, mode and permissions. Spawn arguments override the resolved role/project defaults. These are meaningful reusable behavior templates, but there is no arbitrary named profile object or team composition DSL (<a href="repo/backend/internal/domain/projectconfig.go">ProjectConfig</a>, lines 20–91; <a href="repo/backend/internal/domain/agentconfig.go">AgentConfig</a>, lines 5–58; <a href="repo/backend/internal/session_manager/prompt.go">rules loader</a>, lines 165–206).</p>
+<p>The orchestrator's coordinator-only boundary is primarily prompt policy: it is told to inspect state, delegate changes, communicate via AO and report progress. This is not evidence that its process lacks filesystem write authority. Wingman should separate organizational authority from executable tool permission if it requires enforceable managerial boundaries.</p>
+<h3 id="assessment-creation-identity-and-routing">Creation, identity and routing</h3>
+<p>A desktop task submits a project, brief, harness, model, approval mode, attachments and optional idempotency/preparation handles. <code>DelegateTask</code> directly spawns a worker. The “delegate” route does not imply an intervening intelligent project manager (<a href="repo/backend/internal/service/session/delegation.go">delegation.go</a>, lines 27–50 and 68–133). An orchestrator may separately call the CLI spawn route for named workers. One active orchestrator per project is guarded by a project lock; replacement retires the old orchestrator and verifies the replacement (<a href="repo/backend/internal/service/session/service.go">session service</a>, lines 738–845).</p>
+<p>Spawn validates the harness/model and Chat readiness before durable resources are created where possible. It resolves permission inheritance from a stored parent when supplied, never merely trusts a request's claim that it is an orchestrator, and refuses unsupported explicit interface requests. Default Chat may fall back to TUI for selected availability failures; explicit unsupported Chat requests return an error. Client request IDs/hashes make task creation replayable without casually duplicating workers (<a href="repo/backend/internal/session_manager/manager.go">manager</a>, lines 989–1109).</p>
+<p>A session is seeded, receives an AO ID/branch/workspace, has setup and attachments prepared, then launches its chosen controller. Async Chat creation may return an addressable session before provisioning finishes. The pending state is real, not proof the provider is already running. Project workspace gates serialize sensitive Git preparation, while provider work remains concurrent. Speculative task preparation can pre-create worktrees and is cancellable independently of a claimed task (<a href="repo/backend/internal/session_manager/manager.go">manager</a>, lines 1286–1435; <a href="repo/backend/internal/service/session/delegation.go">delegation</a>, lines 52–65).</p>
+<h3 id="assessment-tools-permissions-and-execution">Tools, permissions and execution</h3>
+<p>The installed harness provides code editing, commands and native tools. AO adds session communication, reporting, reviews, browser/preview, workspace and artifact APIs. It does not implement every provider tool itself. Chat controllers record tool activity and provider interactions into a durable projection. Capability checks determine which providers support features such as Chat, native resume, fork, compaction, permission modes or interface handoff.</p>
+<p>Permissions are provider-specific. Codex Chat maps accept-edits/auto to on-request approval with workspace-write sandboxing; auto chooses the provider's auto reviewer. Other modes in that adapter map to never/danger-full-access. Read-only reviewers receive read-only policy. Worktree separation alone is not an OS sandbox, and a managerial role prompt does not impose permissions (<a href="repo/backend/internal/adapters/chatdriver/codexappserver/driver.go">Codex driver</a>, lines 678–727). AO's browser service checks a session-scoped capability verifier before dispatching actions to the Electron panel or configured Chrome runtime (<a href="repo/backend/internal/service/browser/service.go">browser service</a>, lines 26–55, 90–141 and 175–188).</p>
+<h3 id="assessment-persistence-resume-and-interface-migration">Persistence, resume and interface migration</h3>
+<p>AO IDs, native transcript IDs, runtime launch IDs and provider-controller generations are deliberately different. Session metadata retains user task direction separately from AO-authored coordination, preventing internal handoff traffic from replacing the visible assignment (<a href="repo/backend/internal/domain/session.go">session metadata</a>, lines 181–215). Project-scoped orchestrator conversation IDs can survive clean replacement even though the current controlling session changes (<a href="repo/backend/internal/domain/conversation.go">conversation record</a>, lines 181–209).</p>
+<p>A surviving detached host can be adopted without relaunching or reinitializing the native provider. Host control is authenticated and exclusive, and an inconclusive ownership probe is not treated as death. A per-session launch lock prevents duplicate hosts. Actual provider failure falls back to native load/resume when supported. For TUI restore, AO selects a native restore command when a conversation exists; otherwise it may start fresh in the retained workspace and explicitly distinguish the restore mode. This is an important limit: preserving an AO session/worktree is not a universal guarantee of preserving the full provider transcript (<a href="repo/backend/internal/adapters/chatdriver/persistenthost/host.go">persistent host</a>, lines 74–121 and 185–210; <a href="repo/backend/internal/session_manager/manager.go">restoreArgv</a>, lines 7100–7142).</p>
+<p>TUI↔Chat transitions are durable sagas with phases, preflight checks, cancellation, rollback and a message outbox. They require evidence that the source native identity belongs to its current launch and stop the old controller before starting the target. The transition persists the mode/controller epoch rather than letting the UI toggle two live interfaces. This is richer than opening the same terminal in another view (<a href="repo/backend/internal/session_manager/interface_transition.go">interface_transition.go</a>, lines 34–58 and 167–206). Provider capability and transcript replay remain boundaries. The implementation does not make every harness interoperable.</p>
+<p>Idle worker Chat hibernation is another distinct state: it stops a safely settled provider to save resources, retains the native conversation and wakes it on viewing or work. View leases avoid shutting down a provider currently being viewed; renewals do not repeatedly retry a failed wake. Current code has a 90-second idle threshold, whereas an architecture-doc table still discusses shorter sweeps; implementation takes precedence (<a href="repo/backend/internal/service/chat/hibernate.go">hibernate.go</a>, lines 16–24 and 63–110). Ordinary idle hibernation excludes orchestrators through the durable eligibility filter (<a href="repo/backend/internal/domain/session.go">session.go</a>, lines 449–457). Hibernation is not retirement or product completion.</p>
+<h3 id="assessment-scheduling-interruption-failure-and-recovery">Scheduling, interruption, failure and recovery</h3>
+<p>Recurring automations persist canonical timezone-aware RRULE schedules, accepting a supported cron subset and rejecting sub-minute or finite COUNT/UNTIL schedules. They materialize durable run occurrences and claim them with leases before calling the normal spawn boundary. Claims prevent sibling runs of the same definition from dispatching simultaneously; expired claims are reconciled with already-created sessions to avoid duplicate execution. Transient launch errors can release a run for retry, while invalid/not-found and incomplete retained launches become failed runs (<a href="repo/backend/internal/service/automation/schedule.go">schedule.go</a>, lines 13–79; <a href="repo/backend/internal/service/automation/scheduler.go">scheduler</a>, lines 52–98, 135–179 and 185–286). This could schedule supervision prompts, but those are scheduled tasks rather than a continuing ProjectMaster identity automatically reasoning across the portfolio.</p>
+<p>Chat supports interrupting a turn separately from terminating the session, provider-dependent compaction/rollback, queued inputs, steering handles, retries and branch activation. Durable delivery reservations avoid treating an uncertain provider response as permission to resend blindly (<a href="repo/backend/internal/service/chat/controller.go">controller store contract</a>, lines 100–164; <a href="repo/backend/internal/cli/send.go">send recovery</a>, lines 99–120). Stop/rollback are not a general filesystem transaction: code and external effects still require the harness/workspace-specific treatment appropriate to the action.</p>
+<p>Conversation branching must also be distinguished from creating an independently forked AO worker/workspace. <code>ForkConversation</code> exists as an internal provider call but is deliberately not exposed over HTTP: native history fork does not copy the source worktree changes. Message-edit branches and branch activation operate within the existing session/worktree. A full session fork with a coherent source workspace snapshot remains adaptation work (<a href="repo/backend/internal/service/chat/history.go">history.go</a>, lines 127–162 and 863–876). Continue likewise adds a bounded interrupted-task reminder rather than resuming an executable checkpoint. The companion chapter traces this distinction.</p>
+<p>The runtime reaper samples approximately every five seconds. It keeps unknown probe results separate from confirmed process death. A circuit breaker limits correlated false death reports during infrastructure failure. See <a href="repo/backend/internal/observe/reaper/reaper.go">reaper</a>, lines 1–33. Spawn failure rolls back seed rows and newly created resources where safe. Later failures can retain terminated records and workspaces for inspection. See <a href="repo/backend/internal/session_manager/manager.go">manager</a>, lines 986–988, 1356–1389, and 2201–2314. Startup reconciliation removes a host only when its durable ownership is no longer live. A failed session-list read cannot prove orphanhood. See <a href="repo/backend/internal/daemon/persistent_chat_wiring.go">persistent_chat_wiring.go</a>, lines 19–49.</p>
+<h3 id="assessment-completion-acceptance-and-retirement">Completion, acceptance and retirement</h3>
+<p>A worker's <code>done</code> report is a coordination claim with optional PR/artifact outputs. It does not terminate the session or prove acceptance. The report service explicitly separates these claims from authoritative lifecycle state (<a href="repo/backend/internal/service/report/service.go">report service</a>, lines 94–138). PR-driven automatic termination is optional and requires no remaining open PR plus at least one merged PR. It also waits for actual quiescence, avoiding termination while an agent prepares another PR (<a href="repo/backend/internal/lifecycle/reactions.go">reactions</a>, lines 82–117 and 291–329). This is an engineering-delivery heuristic, not Wingman's product definition of done.</p>
+<p>Explicit kill stops the mode-specific controller, reviewers, previews/browser and session shell terminals, persists termination intent, and attempts workspace retirement. Cleanup failures or unsafe worktree teardown preserve inventory and record the refusal; restore markers must not resurrect deliberately killed sessions. Setup and pre-remove commands are project configuration, and cleanup may continue as daemon-owned background work (<a href="repo/backend/internal/session_manager/manager.go">manager</a>, lines 2650–2783 and 2790–2849). Cleanup scripts operate only under the managed workspace root; ordinary failures preserve the worktree for retry. Forced orchestrator replacement has a bounded exception that logs cleanup-script failure and proceeds, so integration should preserve that distinction (<a href="repo/backend/internal/session_manager/workspace_cleanup.go">workspace_cleanup.go</a>, lines 55–76 and 92–150). Deleting/archiving task sessions is not a personnel-retirement workflow because there is no separate personnel model.</p>
+<h2 id="assessment-coordination-mechanics-and-a-source-traced-request">Coordination mechanics and a source-traced request</h2>
+<p>AO's coordination substrate combines direct messages, durable worker reports, external issues/PRs, shared configuration/files, and daemon events. It does not offer a multi-party room bus or an independent internal ticket dependency graph. PR stacks are derived from source/target branches: an open parent blocks the child and influences merge-conflict handling (<a href="repo/backend/internal/service/session/stack.go">stack.go</a>, lines 8–33). That is a useful engineering dependency, not a general task dependency.</p>
+<p>A concrete implementation path is an orchestrator assigning a worker a task and receiving a decision blocker:</p>
+<ol>
+<li>The human speaks to a project's native conversation. The orchestrator's role instructions encourage inspecting current state before spawning or redirecting a named AO worker. This policy resides in the prompt. The program does not deterministically decompose the request (<a href="repo/backend/internal/session_manager/prompt.go">prompt.go</a>, lines 215–267).</li>
+<li>Worker creation goes through <code>POST /sessions</code> and the service/manager path. The controller passes the project, parent, kind, harness, branch, task brief, settings and attachments to the service (<a href="repo/backend/internal/httpd/controllers/sessions.go">sessions.go</a>, lines 327–393). The manager validates, seeds, provisions and launches the independently addressable worker described above.</li>
+<li>If the worker needs a product decision, it creates a <code>needs_input</code> report. The service validates that the reporting session is a worker, derives project ownership from the stored session, and persists an immediately available pending report. A checkpoint normally has an hour fallback deadline. A done report starts a five-minute settlement window (<a href="repo/backend/internal/service/report/service.go">report service</a>, lines 94–138; <a href="repo/backend/internal/domain/report.go">report constants</a>, lines 46–64). These delays intentionally batch informational traffic rather than waking management for every tool call.</li>
+<li>The coordinator selects the current live project orchestrator at delivery time, claims a batch and submits semantic context with an idempotency key. If management has been replaced, pending work follows the replacement. A stuck report may interrupt an active Chat orchestrator, rate-limited per worker to three minutes; TUI orchestrators are not Ctrl-C interrupted by this path. Busy unsent human drafts defer delivery for 30 seconds rather than starving other projects (<a href="repo/backend/internal/service/report/coordinator.go">coordinator.go</a>, lines 20–51, 156–220).</li>
+<li>An accepted submission acknowledges the durable batch; failure releases or defers it for retry. SQLite tables retain claim/delivery state, ordered outputs, deadlines and attempts (<a href="repo/backend/internal/storage/sqlite/migrations/0153_reports.sql">reports migration</a>, lines 3–42; <a href="repo/backend/internal/storage/sqlite/migrations/0154_report_delivery.sql">delivery migration</a>, lines 3–11). The orchestrator then reasons about the blocker and asks the human or redirects another worker. That final management choice is model behavior, not a programmed escalation ladder.</li>
+<li>The answer can be sent directly to the worker with <code>ao send</code>. CLI-authored messages include the sender session identity and use HTTP, with optional steer-or-send and recover-only handling (<a href="repo/backend/internal/cli/send.go">send.go</a>, lines 68–120). Delivery is mode-aware; TUI readiness checks avoid assuming that an existing process can already receive a pasted message (<a href="repo/backend/internal/session_manager/message_delivery.go">message_delivery.go</a>, lines 19–35 and 81–119).</li>
+<li>As the implementation produces PRs, SCM observation persists checks/reviews/comments and lifecycle reactions send deduplicated CI/review/conflict work back to the owning worker. Reaction signatures persist over daemon restart. Multiple actionable conditions are queued independently, while permission-blocked sessions remain protected from unsolicited injection (<a href="repo/backend/internal/lifecycle/reactions.go">reactions.go</a>, lines 42–70, 139–165 and 938–1053). Final completion is still separate from the worker's self-report.</li>
+</ol>
+<p>This is a meaningful autonomous feedback loop. Its limitation for Wingman is structural: there is one project coordinator, the human remains in that project's session, and decisions are not moved through organizational rooms and a common Butler conversation. Reports are project-local; remote UI aggregation does not turn local report stores into a distributed collaboration fabric.</p>
+<h2 id="assessment-major-capabilities-beyond-wingmans-description">Major capabilities beyond Wingman's description</h2>
+<p><strong>Heterogeneous native harness operation and interface migration.</strong> AO supports a much wider provider vocabulary than Wingman's Codex-only starting point and distinguishes native terminal from structured protocol interfaces. Moving one native conversation across Chat/TUI with checkpoint evidence, controller fencing and rollback is a major operational capability. It enables an operator to switch observation/control surfaces without abandoning work. Integration would need to select which providers and capabilities Wingman guarantees, because a broad provider list is not uniform behavioral parity (<a href="repo/backend/internal/domain/harness.go">harness vocabulary</a>, lines 6–70; <a href="repo/backend/internal/session_manager/interface_transition.go">transition API</a>, lines 34–58 and 167–206).</p>
+<p><strong>PR maintenance and independent review.</strong> AO tracks multiple PRs per worker, branch-stack blockers, and current heads. It runs separately configured reviewers. It avoids repeated review of the same head unless the caller requests a rerun. Automatic reviews wait for a quiet worker and bound repeated failures on one head. This supports engineering review. It does not replace functional acceptance or provider-account approval. See <a href="repo/backend/internal/review/review.go">review engine</a>, lines 245–282 and 394–461; <a href="repo/backend/internal/autoreview/coordinator.go">autoreview</a>, lines 15–39 and 84–124; and <a href="repo/backend/internal/service/session/stack.go">stack derivation</a>, lines 8–33. Reviewer manifests authorize one worker and an exact target SHA. The host-trusted path explicitly disclaims universal containment. See <a href="repo/backend/internal/reviewgateway/gateway.go">review gateway</a>, lines 29–76.</p>
+<p><strong>Recurring automation and tracker intake.</strong> The scheduler stores timezone schedules and leases each occurrence. It can adopt a committed launch after a crash. Issue intake selects eligible GitHub or GitLab issues, removes duplicates, and applies per-project failure backoff. These mechanisms can support maintenance and supervision. Repeatable tasks still need bounded policies. Intake reads the external tracker. It does not provide Wingman's shared task-update workflow. See <a href="repo/backend/internal/service/automation/scheduler.go">scheduler</a>, lines 52–98 and 135–179; <a href="repo/backend/internal/observe/trackerintake/observer.go">intake</a>, lines 19–31 and 164–210; and <a href="repo/backend/internal/domain/projectconfig.go">project config</a>, lines 65–68.</p>
+<p><strong>Remote-machine supervision and mobile access.</strong> An Electron main-process proxy authenticates to the remote machine and forwards streams. It keeps remote credentials outside the renderer. Host-qualified IDs separate local and remote resources. This supports Mac and Endeavour visibility.</p>
+<p>Desktop remote-host IPC requires an AO Cloud account. Each machine still owns independent local state. Hosted Cloud sessions have public client contracts and UI, but a private execution control plane. Wingman must choose whether to accept this service dependency or implement its own federation. See <a href="repo/frontend/src/main/remote-proxy.ts">remote proxy</a>, lines 29–50; <a href="repo/frontend/src/renderer/lib/hosts.ts">host identity keys</a>, lines 1–34; <a href="repo/frontend/src/main/remotes-main.ts">remote account gate</a>, lines 58–120; and <a href="repo/AGENTS.md">public/private boundary</a>, lines 7–16.</p>
+<p><strong>Multi-repository task workspaces, browser operation and artifact history.</strong> Workspace projects create a coherent root plus child worktree inventory, useful for products with separate applications/services. The detailed workspace includes session-bound browser execution and preview, versioned artifacts and source file/diff/history inspection. Artifact versions are immutable content-addressed snapshots with provenance and explicit restoration metadata, which can support reviewable deliverables beyond code (<a href="repo/backend/internal/domain/project.go">project.go</a>, lines 62–91; <a href="repo/backend/internal/domain/session.go">artifact version domain</a>, lines 131–151; <a href="repo/backend/internal/httpd/controllers/sessions.go">artifact/workspace routes</a>, lines 215–255). These are substantive workspace features; Wingman would still need to connect artifacts to product acceptance and project knowledge.</p>
+<h2 id="assessment-distinctive-mechanisms-worth-studying">Distinctive mechanisms worth studying</h2>
+<p>These are mechanisms supported by this checkout, not claims of historical uniqueness.</p>
+<ol>
+<li><strong>Continuity as three identities rather than one process handle.</strong> Durable AO session, native conversation and current controller epoch are kept distinct. Detached host adoption preserves live execution, while native resume repairs actual host loss and mode transitions fence stale owners. This enables UI/daemon replacement and interface movement without declaring a new worker every time. Its limits are provider-native resumability, verified history and local-host health, not a promise of flawless restart under all failures (<a href="repo/backend/internal/adapters/chatdriver/persistenthost/host.go">host</a>, lines 74–142; <a href="repo/backend/internal/domain/conversation.go">conversation</a>, lines 181–209; <a href="repo/backend/internal/session_manager/interface_transition.go">transition store</a>, lines 34–58).</li>
+<li><strong>Durable worker-report settlement and urgency.</strong> Reports have semantics, output references and delivery deadlines separate from lifecycle state. Checkpoints can batch, completion allows a settlement window, and urgent stuck reports wake a manager under a persisted rate limit. Target selection happens when delivery occurs, so management replacement does not strand messages. This is a strong starting point for Wingman's supervision/escalation service, but not yet a room conversation or decision-resolution protocol (<a href="repo/backend/internal/service/report/service.go">report service</a>, lines 94–138; <a href="repo/backend/internal/service/report/coordinator.go">coordinator</a>, lines 156–220).</li>
+<li><strong>Facts-first status and repairable event-driven views.</strong> Operational state is observed and persisted once, derived into display status, then exposed through CDC/live transports. Probe failures do not assert death, and a circuit breaker protects against correlated false failures. This reduces contradictory status across board, terminal and mobile views and would suit Wingman's connected dashboards. It still requires a new semantic summary layer: activity/PR facts alone do not explain product progress (<a href="repo/backend/internal/service/session/status.go">status.go</a>, lines 19–58; <a href="repo/backend/internal/daemon/cdc_wiring.go">CDC wiring</a>, lines 11–35; <a href="repo/backend/internal/observe/reaper/reaper.go">reaper</a>, lines 1–33).</li>
+<li><strong>Automation launch reconciliation instead of simple timers.</strong> A scheduled occurrence is durably materialized and leased, linked to a session, and adopted after a crash if launch completion was committed. An incomplete seed is rolled back rather than adopted as successful work. This mechanism is useful for reliable supervision jobs and recurring maintenance. It does not judge whether a completed session fulfilled a business objective (<a href="repo/backend/internal/service/automation/scheduler.go">scheduler</a>, lines 52–98, 135–179 and 185–286).</li>
+<li><strong>Host-qualified addressing with a credential-holding local proxy.</strong> Remote resources carry host plus ID, and the renderer resolves an owning daemon at request time. This avoids an easy multi-machine failure mode where identical IDs or stale UI state act on the wrong machine. It is a practical building block for Wingman routing, but does not supply cross-host agent messaging or distributed project ownership (<a href="repo/frontend/src/renderer/lib/hosts.ts">hosts.ts</a>, lines 7–34; <a href="repo/frontend/src/renderer/lib/host-clients.ts">host-clients.ts</a>, lines 44–85; <a href="repo/frontend/src/main/remote-proxy.ts">proxy</a>, lines 29–50).</li>
+</ol>
+<h2 id="assessment-practical-fit-and-remaining-work">Practical fit and remaining work</h2>
+<p>Use directly or with a thin integration:</p>
+<ul>
+<li>The Go HTTP daemon and lifecycle/workspace engine.</li>
+<li>Independently addressable Codex Chat workers.</li>
+<li>Native resume and detached-host continuity.</li>
+<li>Session steering and approval UI.</li>
+<li>File/diff/browser/artifact workspace.</li>
+<li>Project boards.</li>
+<li>Report delivery and SCM follow-up.</li>
+<li>Scheduling and reviewer machinery.</li>
+</ul>
+<p>Use the CLI/API boundary for integration. It preserves lifecycle ownership and avoids external manipulation of the Electron UI or provider PTYs.</p>
+<p><strong>Adapt deliberately:</strong> introduce a durable organizational agent/profile identity above AO sessions, mapping an agent's assignment/history to one or more task sessions. Extend project-local coordination into host-qualified organizational routing and a shared tracker/room store. Use AO reports as evidence for summary generation while retaining separate authoritative lifecycle facts. Either align project knowledge with the repository rules/files mechanism or add a managed directive service whose artifacts are visible in the workspace. Remote-host account gating, private cloud dependencies, provider capability differences and lifecycle ownership need explicit deployment decisions. A long-lived manager should not be confused with an automation that repeatedly spawns fresh sessions.</p>
+<p>Build as Wingman's distinct product layer:</p>
+<ul>
+<li>Telegram Butler, portfolio ProjectMaster and request disambiguation.</li>
+<li>Persistent role/profile/team directory.</li>
+<li>Separate ProductMaster and TechMaster leadership.</li>
+<li>Scalable discovery/clarification and decision routing.</li>
+<li>Product scopes/specs/acceptance/definition-of-done records.</li>
+<li>Independent tickets and general dependencies.</li>
+<li>Browsable Room1/Room2 collaboration.</li>
+<li>Integrated functional TestMaster acceptance and post-acceptance stop policy.</li>
+<li>Executive plain-language briefings and long-lived agent timelines.</li>
+<li>Shared Mac/Endeavour project placement and collaboration.</li>
+</ul>
+<p>Role prompts alone cannot supply these durable records and connected views.</p>
+<p>The strongest architectural fit is <strong>Wingman organizational services above AO execution services</strong>. Replacing AO's facts/lifecycle system with an independent competing status database would discard one of its best mechanisms. Conversely, treating AO's task board as the entire organization would leave the main Wingman product requirements unmet.</p>
+<h2 id="assessment-verification-scope-and-uncertainty">Verification scope and uncertainty</h2>
+<p>The original review read repository instructions, contribution guidance, README, and architecture/status notes. It recorded the actual Git HEAD and remote. Implementation inspection covered these areas:</p>
+<ul>
+<li>CLI entry and send paths; HTTP session, mobile, and conversation routes.</li>
+<li>Project, session, harness, configuration, conversation, and report models.</li>
+<li>Delegation, status derivation, PR stacks, creation, provisioning, restore, and termination.</li>
+<li>Cleanup, interface transitions, message readiness, Chat persistence, and hibernation.</li>
+<li>Codex Chat launch and permissions; detached hosts and startup reconciliation.</li>
+<li>Tracker intake, runtime reaper, PR reactions, automated review, and review gateway.</li>
+<li>Schedule parsing, occurrence handling, and SQLite report migrations.</li>
+<li>Desktop boards, detailed workspaces, inspector timelines, remote account checks, proxies, and host-qualified clients.</li>
+</ul>
+<p>The cited implementation locations and line ranges support the findings.</p>
+<p>Selected tests were read as additional evidence, <strong>not run</strong>:</p>
+<ul>
+<li><a href="repo/backend/internal/service/report/coordinator_test.go">Report coordinator tests</a>, lines 15–149: fixed batching/settlement, replacement routing, urgent coalescing/rate limit, and a busy project's failure not starving another project.</li>
+<li><a href="repo/backend/internal/session_manager/interface_transition_test.go">Interface transition test</a>, lines 1111–1145: requires native-history replay, retains the native ID, and asserts source TUI stops before target Chat starts.</li>
+<li><a href="repo/backend/internal/service/automation/scheduler_test.go">Automation scheduler tests</a>, lines 218–275: adopts a completed launch under an expired lease, completes a terminated linked session, and kills/fails an incomplete seed rather than duplicating it.</li>
+<li><a href="repo/frontend/src/renderer/lib/host-clients.test.ts">Remote client tests</a>, lines 13–46: rejects the local sentinel as remote, removes stale host identities on re-pairing, and publishes endpoint changes.</li>
+<li>Additional test coverage locations inspected by named cases: <a href="repo/backend/internal/session_manager/cleanup_lifecycle_test.go">cleanup lifecycle tests</a>, lines 78–226 and 254–295; <a href="repo/backend/internal/observe/trackerintake/observer_test.go">tracker intake tests</a>, lines 16–117 and 178–242; <a href="repo/backend/internal/adapters/chatdriver/persistenthost/acp_relay_restart_test.go">ACP relay restart tests</a>, lines 10–80. These establish what the repository tests intend to defend, not a locally observed pass.</li>
+</ul>
+<p>Absence claims were checked against likely implementation surfaces: domain vocabulary and project configuration; service/CLI/HTTP routing; orchestration/worker prompt assembly; tracker/report/automation state; renderer board/workspace/timeline components. A targeted search for Telegram, Butler, ProductMaster, TechMaster, Room1/Room2 and product acceptance/definition-of-done terms in domain/services/controllers/CLI/renderer found no corresponding subsystem. Generic agent research, arbitrary Markdown files, approval prompts, Chat timelines and external issue links are therefore credited only as primitives, not promoted into missing Wingman features.</p>
+<p>No live desktop/mobile/remote pairing, actual provider execution, process survival, browser operation, authenticated SCM observation or cloud service behavior was exercised. Provider-specific integration breadth beyond the inspected Codex/ACP mechanisms remains unverified. The private cloud server cannot be assessed from this checkout. The report evaluates the checked-out revision's code, not latest hosted behavior or claims of production reliability.</p></article><section id="support-agent-lifecycle-and-continuity" class="technical supporting"><h2 id="support-agent-lifecycle-and-continuity-ao-agent-lifecycle-and-continuity-mechanics">AO agent lifecycle and continuity mechanics</h2>
+<p>Companion to <a href="index.html">Agent Orchestrator assessment</a>, at revision <code>fc92e7ec6f43fc06317cd47cdf8813956612fe50</code>. Static implementation review, 2026-11-05; no runtime or tests executed. Re-audited against the master report and cited source on 2026-11-05. This chapter adds detail without changing the master verdict.</p>
+<h2 id="support-agent-lifecycle-and-continuity-1-identity-has-several-independent-lifetimes">1. Identity has several independent lifetimes</h2>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Concept</th>
+<th scope="col">Actual meaning</th>
+<th scope="col">Wingman implication</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Project</td>
+<td>Durable registry row with path, kind, repository identity and configuration.</td>
+<td>A useful product workspace identity. It does not contain product ownership/discovery/acceptance by itself.</td>
+</tr>
+<tr>
+<td>Harness</td>
+<td>Provider/CLI adapter identity and capability set.</td>
+<td>Codex is an execution technology, not an employee role.</td>
+</tr>
+<tr>
+<td>AO session</td>
+<td>Persistent execution/work ownership, optionally associated with a project, with worker/orchestrator kind, title, metadata and lifecycle facts.</td>
+<td>Useful binding target for a Wingman agent instance, but it is not already the employee/profile/team model.</td>
+</tr>
+<tr>
+<td>Native provider conversation</td>
+<td>Opaque provider context handle.</td>
+<td>Preserve separately from AO IDs; not every harness proves identity interchangeability.</td>
+</tr>
+<tr>
+<td>Controller generation/runtime launch</td>
+<td>One particular owner of a live provider/runtime.</td>
+<td>Fence obsolete events so a replaced process cannot update the current agent.</td>
+</tr>
+<tr>
+<td>Chat turn</td>
+<td>One queued/dispatched provider request with outcome and history.</td>
+<td>A turn is not a ticket, product or standing employee.</td>
+</tr>
+<tr>
+<td>Report</td>
+<td>Worker-originated checkpoint/input/stuck/done claim with output references and delivery lifecycle.</td>
+<td>A meaningful coordination event; do not promote it automatically to verified task completion.</td>
+</tr>
+<tr>
+<td>Review run</td>
+<td>Separate reviewer execution against an owned worker's PR/head.</td>
+<td>Useful quality role, distinct from TestMaster's integrated product acceptance.</td>
+</tr>
+<tr>
+<td>Side conversation</td>
+<td>Separate native context/host attached to a session and explicit boundary.</td>
+<td>Useful focused questions; not a project room or a new permanent employee.</td>
+</tr>
+</tbody>
+</table></div>
+<p>The distinctions come directly from <a href="repo/backend/internal/domain/project.go">project.go</a>, lines 27–91; <a href="repo/backend/internal/domain/session.go">session.go</a>, lines 19–26, 226–237 and 264–290; <a href="repo/backend/internal/domain/report.go">report.go</a>, lines 55–135; and <a href="repo/backend/internal/domain/side_chat.go">side_chat.go</a>, lines 8–46.</p>
+<h2 id="support-agent-lifecycle-and-continuity-2-definition-durable-creation-one-controller">2. Definition → durable creation → one controller</h2>
+<p>The caller selects a registered project and submits a worker prompt or requests its orchestrator. Project configuration supplies reusable rules and defaults. The session manager resolves the harness and mode. It combines project, role, and request settings. It checks model and permission support before durable creation. An unsupported explicit Chat request fails. An inherited Chat preference can fall back to TUI for selected capability or readiness errors. This preserves the caller's explicit interaction contract.</p>
+<p>Creation can use a client request key/hash to return an already committed session on retry. Scheduled runs have a separate durable automation-run association. Hidden task-preparation rows reserve speculative workspaces, then become real sessions at claim/commit rather than multiplying unused worktrees on every interaction. A session receives an artifact directory and composed task/system instructions; AO provisions its workspace and attachments before the mode-specific launch. Role rules become provider instructions, not an enforced filesystem permission boundary.</p>
+<p>Chat can return early with a durable <code>provisioning</code> session. That row has progress steps (<code>fetch</code>, <code>worktree</code>, <code>setup</code>, <code>agent</code>) and a persistent error message if startup fails. Queued input can survive startup failure and await retry. This is an important boundary: “addressable in the dashboard” does not yet mean “agent running.” AO's explicit provisioning facts give Wingman a way to show the truth.</p>
+<p>Source: <a href="repo/backend/internal/session_manager/manager.go">manager.go</a>, lines 989–1188, 1205–1238 and 1370–1429; <a href="repo/backend/internal/service/session/delegation.go">delegation.go</a>, lines 52–133; <a href="repo/backend/internal/domain/session.go">session.go</a>, lines 334–353 and 418–478.</p>
+<p>After shared setup, exactly one mode launches. TUI uses native runtime I/O; Chat starts a protocol controller and delivers an initial prompt as a turn or drains a durable queue. It has no agent pane into which text should be injected. The Chat launcher contract retains semantic message identity and sender attribution for relayed session messages. The mode-aware boundary avoids accidentally delivering the same task through both a terminal paste and a protocol call.</p>
+<p>Source: <a href="repo/backend/internal/session_manager/chat_spawn.go">chat_spawn.go</a>, lines 15–59; <a href="repo/backend/internal/session_manager/manager.go">manager.go</a>, lines 1395–1435.</p>
+<h2 id="support-agent-lifecycle-and-continuity-3-live-execution-and-truthful-observation">3. Live execution and truthful observation</h2>
+<p>AO's durable activity facts are separate from the board's derived status. The read model combines session activity, signal freshness, termination and SCM facts. There is a grace period for an expected terminal hook that has not arrived. An unobserved worker need not be confidently labelled idle. PR state is also separate from runtime activity. These distinctions prevent a single status enum from having to represent all execution and delivery facts at once.</p>
+<p>The reaper polls runtime liveness and sends observations to lifecycle logic. It does not write session rows directly. An adapter or probe error does not establish process death. A circuit breaker requires at least five dead conclusions in one pass. It also requires dead conclusions to exceed half of all observations. The breaker changes those conclusions to failed probes. This can delay recognition of genuine simultaneous exits. It prevents a temporary backend outage from terminating the entire board.</p>
+<p>Source: <a href="repo/backend/internal/service/session/status.go">status.go</a>, lines 10–39; <a href="repo/backend/internal/observe/reaper/reaper.go">reaper.go</a>, lines 1–6, 19–33 and 139–190.</p>
+<h2 id="support-agent-lifecycle-and-continuity-4-three-different-ways-to-continue-work">4. Three different ways to continue work</h2>
+<h3 id="support-agent-lifecycle-and-continuity-adopt-a-still-live-provider">Adopt a still-live provider</h3>
+<p>The strongest continuity case is not resume at all. A detached per-session host still owns the provider process while the desktop/daemon disappears. The new daemon authenticates to that host and reattaches. A host descriptor retains session identity, protocol, ownership fingerprint, address and PID. Explicit “already attached,” “ownership inconclusive,” “not running” and “incompatible” errors prevent treating every reconnect failure as permission to spawn a duplicate provider.</p>
+<p>ACP retains initialization state, session state, request correlation, and pending requests. Its prompt journal appends provider frames before daemon delivery. The journal has a 256 MiB limit. Event and request identities survive daemon reattachment. Replacement hosts use different identities. A pending completion needs acknowledgment before another prompt can overwrite its recovery state. This protects the gap between provider completion and SQLite projection.</p>
+<p>The mechanism primarily survives supervisor replacement while the host lives. It is not a VM checkpoint or durable serialization of arbitrary running tools after host/machine loss. The journal appender shown here writes bytes but is not evidence of a full power-loss-safe distributed transaction. Avoid expanding its guarantees beyond the implementation.</p>
+<p>Source: <a href="repo/backend/internal/adapters/chatdriver/persistenthost/host.go">persistenthost/host.go</a>, lines 74–141; <a href="repo/backend/internal/adapters/chatdriver/persistenthost/acp_journal.go">acp_journal.go</a>, lines 11–61; <a href="repo/backend/internal/adapters/chatdriver/persistenthost/acp_relay_restart_test.go">acp_relay_restart_test.go</a>, lines 10–86.</p>
+<h3 id="support-agent-lifecycle-and-continuity-resume-a-provider-conversation-after-actual-controllerhost-failure">Resume a provider conversation after actual controller/host failure</h3>
+<p>AO persists native handles separately from its session ID and rotates controller generations for replacement owners. Native resume capability and provider history are adapter-dependent. The restore path returns whether it used native resume, saved-prompt fallback or fresh launch. These are semantically different outcomes. A terminated session needs enough workspace metadata to be restorable, and fallible restore I/O runs before durable resurrection.</p>
+<p>For Wingman, fallback should be visible in the agent timeline: “native conversation resumed” and “fresh process started with task context” preserve different amounts of working context. Simply retaining an AO row does not prove that the provider kept all previous reasoning/history.</p>
+<p>Source: <a href="repo/backend/internal/domain/session.go">session.go</a>, lines 226–237; <a href="repo/backend/internal/session_manager/manager.go">manager.go</a>, lines 3045–3104 and <code>restoreArgv</code> beginning at line 7105.</p>
+<h3 id="support-agent-lifecycle-and-continuity-continue-an-interrupted-task-with-a-reminder">Continue an interrupted task with a reminder</h3>
+<p>The Continue mechanism locates the interrupted turn in the active lineage. It derives bounded task context and stores that reminder with the new request. It refuses continuation when it cannot establish the stopped task. The reminder omits reasoning and tool outputs. It is not an execution checkpoint. It cannot restore a command at its exact instruction pointer.</p>
+<p>Source: <a href="repo/backend/internal/service/chat/continuation.go">continuation.go</a>, lines 15–59 and 62–87.</p>
+<h2 id="support-agent-lifecycle-and-continuity-5-interface-handoff-branching-and-fork-limits">5. Interface handoff, branching and fork limits</h2>
+<p>The public interface transition API durably records source, target and policy, then runs the drain/interrupt transition in background so the request timeout does not own its lifetime. It checks whether the session is terminated, the target differs, the workspace exists and native conversation identity can be established. Source intake is fenced while ownership moves. Some adapter paths permit explicitly degraded identity reset; such paths must not be described as preservation of the same native context.</p>
+<p>This is a good model for Wingman's detailed agent workspace: the dashboard can change interaction mode without granting two controllers authority over one agent. It is not live migration between the Mac and Endeavour. The same session/workspace remains on its owning execution host.</p>
+<p>Chat also supports rollback, message edits that branch before a prior prompt, and activation of stored conversation branches. However, the standalone <code>ForkConversation</code> function explicitly says it is <strong>not reachable over HTTP</strong> pending a coherent second-session/workspace-state decision. Native provider history fork copies conversational memory, not filesystem changes; giving a new worktree to an agent that remembers edits missing from that tree would be misleading. Thus full-session fork must remain a Wingman gap/adaptation even though provider branch tools exist.</p>
+<p>Source: <a href="repo/backend/internal/session_manager/interface_transition.go">interface_transition.go</a>, lines 167–222 and 278–292; <a href="repo/backend/internal/service/chat/history.go">history.go</a>, lines 110–162 and 865–879. <a href="repo/backend/internal/session_manager/interface_transition_history_integration_test.go">Native ownership integration tests</a>, lines 22–37, cover transcript preservation/unavailability, identity change and project coordinator replacement under controlled external I/O.</p>
+<h2 id="support-agent-lifecycle-and-continuity-6-steering-queued-input-and-human-decisions">6. Steering, queued input and human decisions</h2>
+<p>AO separates queueing, steering, and interruption. Cancelling a queued item does not cancel the running turn. Queue edits and reordering apply to undispatched items with conflict and idempotency checks. Steering requires provider capability. It retains the provider turn ID and records a delivery result. Provider acceptance can occur before persistence becomes certain. A typed uncertainty state prevents automatic double delivery in that case. The CLI offers receipt recovery. Provider acceptance alone does not prove agent action.</p>
+<p>Approvals and structured input are native-provider interactions. These are valuable execution controls and can return a human answer to the correct provider request. They do not contain Wingman's product-question lifecycle: a question such as “which lending jurisdiction?” still needs project discovery context, Butler transport and an accountable agent, rather than merely a provider permission dialog.</p>
+<p>Source: <a href="repo/backend/internal/service/chat/queue.go">queue.go</a>, lines 23–108; <a href="repo/backend/internal/service/chat/steer.go">steer.go</a>, lines 15–74; <a href="repo/backend/internal/cli/send.go">send.go</a>, lines 99–148; <a href="repo/frontend/src/renderer/components/chat/ChatTimelineItems.tsx">ChatTimelineItems.tsx</a>, lines 57–70, maps approval/input/usage/error activity kinds to presentation icons. The controller, rather than this icon map, owns native interaction handling.</p>
+<h2 id="support-agent-lifecycle-and-continuity-7-wake-completion-retirement-and-cleanup-are-different-operations">7. Wake, completion, retirement and cleanup are different operations</h2>
+<p>The automation scheduler creates durable run occurrences and claims with leases before spawning. It reconciles existing run/session associations on retry, distinguishes completed launch from a seed and supports bounded catch-up. These are scheduled executions. A new scheduled worker is not automatically the same persistent organizational employee.</p>
+<p>Optional worker Chat hibernation conserves resources after a settled idle period when no active view/work/pending interaction prevents it and native resume is available. Opening a view or sending work can wake the cold session. View lease expiry and a 90-second idle threshold are implementation facts, not a product completion judgment. Orchestrators are excluded by the cheap durable eligibility check.</p>
+<p>Worker done reports are meaningful progress claims with references, but do not mutate authoritative lifecycle. PR-based automatic termination is an optional delivery rule: no open PR remains, at least one merged and the worker is quiescent. This differs from product acceptance, especially for multi-application products or artifacts without PRs.</p>
+<p>Kill uses a guarded multistep operation with its own teardown budget. Browser or request cancellation must not leave a dead provider with a logically live row. Cleanup processes terminated records and checks workspace ownership. Cleanup generations prevent an earlier episode from claiming current success. The system reports skipped or refused cleanup. Repeated cleanup does not revisit settled workspaces. Pre-remove scripts apply only to AO-managed workspaces. Forced orchestrator replacement has a separate cleanup policy. Wingman's reusable agent profiles still need an explicit retirement workflow.</p>
+<p>Source: <a href="repo/backend/internal/service/automation/scheduler.go">scheduler.go</a>, lines 52–98 and 135–179; <a href="repo/backend/internal/service/chat/hibernate.go">hibernate.go</a>, lines 16–24 and 63–110; <a href="repo/backend/internal/domain/session.go">session.go</a>, lines 449–457; <a href="repo/backend/internal/service/report/service.go">report/service.go</a>, lines 94–141; <a href="repo/backend/internal/lifecycle/reactions.go">reactions.go</a>, lines 82–118; <a href="repo/backend/internal/session_manager/manager.go">manager.go</a>, lines 2670–2733 and 5532–5623; <a href="repo/backend/internal/session_manager/workspace_cleanup.go">workspace_cleanup.go</a>, lines 55–71 and 92–145.</p>
+<p>The practical design lesson for Wingman is to retain these separate lifetimes: employee identity, assignment, native context, live controller, report delivery, code-delivery outcome, accepted product outcome and workspace reclamation. AO provides substantial machinery for several of them, but collapsing them into a single “agent status” would discard one of its strongest architectural ideas.</p></section>
+<section id="source-record"><h2>Source and evidence</h2><p class="url-text">https://github.com/OrchestratorInc/agent-orchestrator</p>
+<ul><li><a href="repo/">Open the pinned source checkout</a></li><li><a href="assessment/ASSESSMENT.md">Read the Markdown assessment</a></li>
+<li><a href="../generic/assessments/_audits/qa09.md">Read the historical independent source audit</a></li><li><a href="../generic/method.html">Read the method and evidence limits</a></li></ul></section>
+<nav class="report-switch" aria-label="Adjacent project reports"><a href="../agent-of-empires/index.html">Previous project: Agent of Empires</a><a href="../agent-swarm/index.html">Next project: Agent Swarm</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../index.html">Return to overview <img src="../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

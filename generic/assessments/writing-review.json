@@ -1,0 +1,1079 @@
+{
+  "scope": "Editorial queue. Counts include some citations. A short sentence can still be unclear or inaccurate.",
+  "detailed_assessment_review": "editorial_pass_complete",
+  "documents": [
+    {
+      "path": "agency/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 36,
+          "text": "integrations/ init .py , lines 51\u201377, 217\u2013239; integrations.yaml , lines 1\u201310; gemini.py , lines 33\u201354; aider.py , lines 33\u201353; goose.py , lines 33\u201354; opencode.py , lines 31\u201352; pi.py , lines 31\u201352; sdk.py , lines 14\u201320, 53\u201359."
+        }
+      ]
+    },
+    {
+      "path": "agent-deck/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 38,
+          "text": "Conductors have optional heartbeat settings, can use OS heartbeat scripts without Telegram, and the bridge avoids sending duplicate ticks when the OS timer already owns that job ( conductor.go , lines 87\u2013105 and 1322\u20131339; conductor_bridge.py , lines 5008\u20135024)."
+        }
+      ]
+    },
+    {
+      "path": "agent-deck/assessment/Execution_and_Coordination.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "agent-of-empires/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "agent-orchestrator/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "agent-orchestrator/assessment/Agent_Lifecycle_and_Continuity.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 37,
+          "text": "Source: scheduler.go , lines 52\u201398 and 135\u2013179; hibernate.go , lines 16\u201324 and 63\u2013110; session.go , lines 449\u2013457; report/service.go , lines 94\u2013141; reactions.go , lines 82\u2013118; manager.go , lines 2670\u20132733 and 5532\u20135623; workspace_cleanup.go , lines 55\u201371 and 92\u2013145."
+        }
+      ]
+    },
+    {
+      "path": "agent-swarm/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "agent-swarm/assessment/LEGACY_EVIDENCE.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "agentopology/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "agentrail/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "amux/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 37,
+          "text": "The merge function deliberately performs CODE into current HEAD, leaving verification of the intended base to its caller, and does not fetch, rebase, squash, autostash or push; conflicts remain available for resolution/abort ( merge.go , lines 103\u2013191)."
+        },
+        {
+          "word_count": 48,
+          "text": "Relevant test code inspected includes agent_cli_test.go , lines 28\u2013170, exercising real-binary fleet discovery, reported-state precedence, literal send, carriage return and dead/ambiguous targets; status_protocol_test.go , starting line 19, covering the status protocol against real tmux; and workspace_service_delete_kill_order_test.go , starting lines 16, 95, 133 and 197, documenting deletion ordering/failure boundaries."
+        },
+        {
+          "word_count": 40,
+          "text": "Additional test-source checks covered records_test.go , lines 14\u2013129 (replace/clear, priority fold, lifetime and eviction); model_tabs_launch_config_test.go , lines 86\u2013160 (captured configuration across fresh launch, restore, reattach and restart); and on_done_completion_test.go , lines 92\u2013163 (single-owner hook reaping, nonzero-exit notification and teardown drain)."
+        },
+        {
+          "word_count": 43,
+          "text": "Negative findings were checked beyond README silence: searches over non-test Go implementation in CODE and CODE for Telegram/Butler, ticket/product leadership, chat rooms, acceptance/definition-of-done, remote-host/SSH execution and scheduling concepts; examination of the complete workspace/profile schemas and main dispatch; and the explicit local-only runtime contract."
+        }
+      ]
+    },
+    {
+      "path": "antfarm/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "automaker/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "ax/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "babysitter/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "bernstein/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "claude-squad/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "claw-empire/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "claw-empire/assessment/Agent_Lifecycle_and_Request_Trace.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "clawteam/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "cli-agent-orchestrator/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "cmux/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "codex-autorunner/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "codex-autorunner/assessment/LEGACY_EVIDENCE.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "companyhelm/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "continuous-claude-v3/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "crewly/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "deepcode/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "edict/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 36,
+          "text": "This is more operationally specific than a collection of role prompts: installer relationships , lines 138\u2013150, state maps , lines 34\u201383, review actions , lines 739\u2013792, and scheduler wake messages (server lines 1368\u20131377) reinforce the organization."
+        }
+      ]
+    },
+    {
+      "path": "emdash/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "gastown/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "golutra/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "gstack/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "gstack/assessment/LEGACY_EVIDENCE.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "hamlet/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "happy/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "hcom/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "herdr/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 36,
+          "text": "Pre-submission identity/event cursors, prompt-effect timeout and post-state-change waiting are stronger than naive \u201csend text; wait until idle.\u201d They can detect a paste that never started work and stop a replacement agent from satisfying an old wait."
+        },
+        {
+          "word_count": 43,
+          "text": "Negative checks searched likely implementation paths under CODE (especially CODE , CODE , CODE , CODE , CODE , CODE and CODE ), plus CODE and CODE , for Telegram/Butler, task tracker/tickets, roles/profiles, rooms, discovery, definition of done, cron/scheduling, supervision, approvals and acceptance."
+        }
+      ]
+    },
+    {
+      "path": "intent/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 39,
+          "text": "The explicit two-cycle guard and acknowledged deeper-cycle limitation show that this is a state-machine problem, not simply \u201csend a message when idle.\u201d Wingman needs the same distinction to avoid delivering a product while tests or workers are still pending."
+        },
+        {
+          "word_count": 37,
+          "text": "Negative and narrower-fit findings used searches across available CODE , protocol method catalogs, CODE , root documentation, resource names and the component directory inventory for Telegram/Butler, ProductMaster/TechMaster, Room1/Room2, portfolio, discovery, acceptance, timeline, digest, specialist/delegation and remote execution."
+        }
+      ]
+    },
+    {
+      "path": "kander/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 36,
+          "text": "There is a real task dashboard, not merely a terminal grid: dsh shows board columns, card IDs/sizes/agent states, Start and terminal drill-down, with a board selector ( dsh view , lines 7\u201331; boards.js , lines 136\u2013155)."
+        },
+        {
+          "word_count": 36,
+          "text": "Publication records uncertainty before calling the provider and reconciles matching observed comments; issue closure requires a fresh target-bound user decision/reference and refuses blind retry or old consent reuse ( result_sync.go , lines 16\u2013100, 130\u2013218 and 221\u2013285)."
+        }
+      ]
+    },
+    {
+      "path": "maestro/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 36,
+          "text": "AgentRun producers , lines 1-21 and 82-97, automatically enrich repository/usage/PR information; its check/review functions are pure mappers without production call sites (lines 225-276); Pianola orchestrator , lines 175-253, gates on recorded failures and supports bounded fixes."
+        },
+        {
+          "word_count": 37,
+          "text": "Negative searches covered CODE and CODE for Telegram/bot integration, portfolio/project registry, Wingman leadership names and role ownership; then inspected actual agent/session, group-chat, CLI, manager, wizard and dashboard data models rather than treating missing README claims as absence."
+        }
+      ]
+    },
+    {
+      "path": "mission-control/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "multi-agent-shogun/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 36,
+          "text": "The README also records that the author later moved their personal practice toward a single-agent successor; that is project context, not evidence that the pinned code cannot operate or that the successor has been assessed here."
+        }
+      ]
+    },
+    {
+      "path": "multi-agent-shogun/assessment/Execution_Protocol_Audit.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "multica/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 36,
+          "text": "Agents can execute test/browser tooling; workflow steps can route implementation \u2192 test \u2192 human review; squad parent completion waits for leader assessment and leaves CODE to human/integration by default: workflow , 1\u201318, 158\u2013172; brief , 114\u2013157."
+        }
+      ]
+    },
+    {
+      "path": "multiclaude/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "munder-difflin/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 36,
+          "text": "There is also an organization-peer trigger settings surface, but its implementation explicitly persists configuration only: the peer messaging service and transport do not exist in this snapshot ( index.ts , lines 4263\u20134278; shared/triggers.ts , lines 1\u201314)."
+        }
+      ]
+    },
+    {
+      "path": "myclaude/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 38,
+          "text": "CODE analyzes completeness then asks only blocking questions ( do , lines 93\u2013147); Product Requirements scores five dimensions and iterates targeted questions ( skill , lines 19\u2013124); OmO conditionally invokes a documentation librarian ( omo , lines 18\u201343)."
+        },
+        {
+          "word_count": 38,
+          "text": "PRD templates contain scope/priorities and testable user-story criteria ( requirements , lines 45\u201368 and 147\u2013217); test-case generation maps requirements to scenarios ( test cases , lines 23\u201364); SPARV requires a verifiable completion promise ( SPARV , lines 84\u2013100)."
+        },
+        {
+          "word_count": 36,
+          "text": "This matters operationally because the checked-in optional module defaults include empty models for several roles: installing modules is not itself proof that those agents can run without user configuration ( module config , CODE agent definitions)."
+        },
+        {
+          "word_count": 39,
+          "text": "Claude forwards allowed/disallowed tool lists, whereas the Codex/Gemini/OpenCode argument builders do not implement an equivalent common permission policy ( Codex adapter , lines 47\u201378; Claude adapter , lines 112\u2013148; Gemini adapter , lines 85\u2013109; OpenCode adapter , lines 14\u201328)."
+        },
+        {
+          "word_count": 42,
+          "text": "This offers a library of policies that Wingman could translate into its own role instructions, but activating several together can yield duplicate stop gates, unrelated artifact formats and competing completion criteria ( SPARV , lines 12\u201345 and 97\u2013149; BMAD , lines 80\u201398)."
+        }
+      ]
+    },
+    {
+      "path": "nasiko/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "oh-my-claudecode/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "oh-my-codex/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 52,
+          "text": "Its command enum is a useful boundary: it contains authority, dispatch, replay, snapshots, and mailbox commands, not a Rust implementation of every team task or product workflow ( team operations , lines 1\u201313 and 58\u2013146; bridge , lines 1\u20138 and 81\u2013121; Rust engine , lines 90\u2013180; mailboxes , lines 1\u20136 and 130\u2013166)."
+        },
+        {
+          "word_count": 36,
+          "text": "Ultragoal keeps a repository-native brief, goal rows, and append ledger, reconciled with snapshots of native Codex goals ( state operations , lines 850\u2013970; Autopilot CLI , lines 9\u201320 and 87\u201399; Ultragoal , lines 20\u201330 and 177\u2013225)."
+        },
+        {
+          "word_count": 37,
+          "text": "Those are useful operational views, but neither a portfolio dashboard nor executive prose summaries of every agent's recent/current/next work ( HUD rendering , lines 214\u2013254; HUD types , lines 12\u201341 and 113\u2013135; team CLI , lines 1504\u20131622)."
+        },
+        {
+          "word_count": 41,
+          "text": "Manual scale-up/down code also exists behind an environment gate, but searches found no production caller in the inspected CLI/API command surface; do not count it as a finished staffing UI ( scaling , lines 1\u201310, 150\u2013154, 580 onward and 1927 onward)."
+        },
+        {
+          "word_count": 38,
+          "text": "Worker bootstrap requires blocked-status/help reporting; leader monitoring surfaces stalled work; structured questions and task approval records exist ( worker bootstrap , lines 338\u2013400; runtime , lines 4680\u20134748; approvals , lines 4\u201311 and 30\u201360; interview questions , lines 93\u2013168)."
+        },
+        {
+          "word_count": 39,
+          "text": "Project memory/notepad tools add notes and directives; wiki pages store source links, categories, confidence and cross-links; lifecycle injects a bounded knowledge index ( memory , lines 41\u201394 and 188\u2013268; wiki types , lines 17\u201342; wiki lifecycle , lines 43\u201397)."
+        },
+        {
+          "word_count": 39,
+          "text": "Concurrent specialist processes and separate cwd/session/team state support multiple independent team runs; default governance permits one active team per leader session and disallows nested teams ( runtime , lines 3562\u20133698; state , lines 543\u2013555; worker types , lines 385\u2013386)."
+        },
+        {
+          "word_count": 37,
+          "text": "Start/status/await/resume/shutdown plus messaging and pane inspection are real controls; native session tools reveal tool/turn metadata; reply listener injects remote steering ( team CLI , lines 1424\u20131759; runtime , lines 5068\u20135195 and 5918\u20135979; reply listener , lines 782\u2013828)."
+        },
+        {
+          "word_count": 37,
+          "text": "Generic worker role strings, directory-loaded prompts, mailbox addresses and table rows accommodate new role names without a separate screen per role ( worker types , lines 36\u201349; role router , lines 15\u201357; HUD rendering , lines 214\u2013254)."
+        },
+        {
+          "word_count": 45,
+          "text": "A scoped internal team name derives from the leader identity to keep same display names from colliding; run identity and role identity are different concepts ( agents CLI , lines 39\u201357, 99\u2013190 and 220\u2013243; runtime , lines 3590\u20133622 and 3885\u20133938; worker types , lines 150\u2013155)."
+        },
+        {
+          "word_count": 43,
+          "text": "Startup is not considered successful solely because a pane exists: ready-prompt detection, a bootstrap ACK/status/task claim and dispatch receipt evidence are used, with bounded dispatch retries and recovery classification ( runtime , lines 3795\u20134058 and 4180\u20134320; worker bootstrap , lines 338\u2013400 and 884\u2013920)."
+        },
+        {
+          "word_count": 44,
+          "text": "Default governance disallows nested teams and allows only one team per leader session, so broader concurrency comes from separate leader sessions rather than a central portfolio scheduler ( worker types , lines 113\u2013146 and 385\u2013386; task state , lines 28\u2013119; state , lines 543\u2013555)."
+        },
+        {
+          "word_count": 41,
+          "text": "At this revision its exported functions have tests but no production caller found outside that module, so dynamic staffing should be treated as an internal/experimental capability requiring integration ( scaling , lines 1\u201310, 150\u2013154 and 580 onward; state , lines 892\u20131075)."
+        },
+        {
+          "word_count": 42,
+          "text": "A standalone runtime CLI contains a repeated polling loop, but the inspected production source has no auto-launch caller for that helper, so ordinary team startup should not be assumed to start that poller ( team CLI , lines 1400, 1515 and 1645)."
+        },
+        {
+          "word_count": 41,
+          "text": "None of this establishes a long-lived portfolio supervisor that wakes to discover new work across arbitrary products ( runtime CLI , lines 296\u2013322 and 447\u2013489; idle nudges , lines 19\u201335; fallback watcher , lines 1850\u20131905; HUD authority , line 342 onward)."
+        },
+        {
+          "word_count": 43,
+          "text": "On terminal complete/failed/cancelled phases, the background runtime CLI preserves team state for inspection and explicitly asks for separate cleanup, rather than silently treating a failed run as success ( runtime , lines 5068\u20135195; runtime CLI , lines 193\u2013213; Autopilot skill , lines 98\u2013112)."
+        },
+        {
+          "word_count": 52,
+          "text": "The completion transition can require a coordination evidence line, but this proves only that the worker recorded a statement, not that the collaborating agent understood or a handoff was correct ( coordination , lines 8\u201337 and 122 onward; worker bootstrap , lines 689\u2013710 and 768\u2013783; task state , lines 155\u2013179 and 230\u2013247)."
+        },
+        {
+          "word_count": 37,
+          "text": "CODE resolves leader and internal team identity; validates current execution/Ultragoal binding when supplied; establishes workspaces and state; creates task rows, converts symbolic dependencies to concrete IDs and stores assignment metadata ( runtime , lines 3590\u20133675 and 3795\u20133866)."
+        },
+        {
+          "word_count": 38,
+          "text": "The locked task code rejects a blocked dependency, unknown worker, version mismatch or live competing claim, and returns the new claim token ( worker bootstrap , lines 884\u2013920; team API , lines 105\u2013144; task state , lines 59\u2013119)."
+        },
+        {
+          "word_count": 37,
+          "text": "It must not be cited as a current detached autonomous research launcher ( interview skill , lines 30\u2013126 and 177\u2013210; Autopilot gate , lines 165\u2013235; research CLI , lines 4\u201330 and 104\u2013111; research validation , lines 133\u2013178)."
+        },
+        {
+          "word_count": 47,
+          "text": "Integration would introduce credential/configuration ownership and permission-policy differences: translating a Codex launch policy to another CLI is intentionally restricted, and execution role defaults can request a provider's bypass mode ( runtime CLI , lines 216\u2013232; ask CLI , lines 9\u201315 and 169\u2013201; tmux worker , lines 1784\u20131835)."
+        }
+      ]
+    },
+    {
+      "path": "oh-my-openagent/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "omnigent/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 47,
+          "text": "The local default is a SQLite CODE ; external store configuration is an implementation option, not evidence that this review exercised a distributed deployment ( CLI wiring , lines 1304\u20131314, 4899\u20134960; database models , tables at lines 190, 635, 731, 817, 932, 1045, 1329, 1510 and 1633)."
+        },
+        {
+          "word_count": 36,
+          "text": "The loader also accepts portable single-file YAML and tarball/byte bundles, validates them, and distinguishes trusted operator-authored input from tenant input ( spec types , lines 1473\u20131602; parser , lines 202\u2013264 and 3324\u20133358; loader , lines 159\u2013245)."
+        },
+        {
+          "word_count": 37,
+          "text": "This is precisely the useful distinction between profile , instance , and dispatch that Wingman needs, although it lacks an employee record independent of conversations ( send tool , lines 65\u2013113; dispatch , lines 2618\u20132654 and 3064\u20133079)."
+        },
+        {
+          "word_count": 39,
+          "text": "Child work receives a dispatch ID distinct from the durable child session ID, allowing later turns of the same child to produce separate results ( send contract , lines 96\u2013107 and 138\u2013159; work registry , lines 85\u201390 and 107\u2013162)."
+        },
+        {
+          "word_count": 49,
+          "text": "Either scheduler can repeatedly instruct a manager, but a saved prompt is not a prebuilt ProjectMaster supervision policy ( scheduled entity , lines 45\u2013127; default scheduler , lines 138\u2013172 and 267\u2013341; persistent scheduler , lines 1\u201339 and 152 onward; feature defaults , lines 43\u201385; scheduler selection , lines 2063\u20132125)."
+        },
+        {
+          "word_count": 44,
+          "text": "Thus a parent can follow up on a stalled approval without polling, and is told when that specific block clears ( notifier , lines 45\u201355, 143\u2013207, 250\u2013396 and 430\u2013477; publish hook , lines 152\u2013180; server wiring , lines 10612\u201310724; lifespan installation , lines 1967\u20131980)."
+        },
+        {
+          "word_count": 46,
+          "text": "The process manager detects dead processes/missing sockets and lazily respawns under a per-conversation lock; that reconstructs execution capacity, while transcript/receipt recovery restores context and pending results ( LLM retries , lines 50\u201357 and 289\u2013385; tool retries , lines 61\u201390 and 120\u2013145; process recovery , lines 726\u2013750)."
+        },
+        {
+          "word_count": 44,
+          "text": "Runtime dispatch verifies the child exists, resolves the parent's bundle, finds an existing matching child or posts a create request, validates overrides and registers child\u2192parent state plus a fresh work ID ( tool schema , lines 213\u2013246; runtime , lines 2618\u20132654, 2921\u20132986 and 3018\u20133079)."
+        },
+        {
+          "word_count": 39,
+          "text": "The parent's composed instructions explain the known wake shape and tell it to drain CODE ; persisted dispatch/delivery receipts support restart recovery ( work registry , lines 857\u2013912; framework prompt , lines 25\u201342 and 62\u201386; recovery , lines 125\u2013158)."
+        },
+        {
+          "word_count": 49,
+          "text": "It also introduces a capability matrix Wingman must respect: terminal takeover, native tools, MCP, fork/resume and policy enforcement are harness-specific, so role contracts need minimum supported capabilities rather than assuming interchangeability ( workflow provider adapters , lines 605\u2013773 and 1269\u20131323; scaffold , lines 1\u201333; Polly workers , lines 45\u201364)."
+        },
+        {
+          "word_count": 48,
+          "text": "Wingman could use these for expert review or branching an investigation, but must define how a fork relates to the canonical agent identity, project decisions and accepted deliverable ( review comments , lines 1\u20134 and 31\u201355; fork implementation , lines 4209\u20134255 and 4303\u20134488; sharing authority , lines 164\u2013172)."
+        },
+        {
+          "word_count": 36,
+          "text": "Both are valuable examples for a Telegram Butler adapter, but require the appropriate external credentials/tools and Wingman's project/decision correlation ( trigger definitions , lines 1\u201349 and 114 onward; Slack service , lines 203\u2013236, 309\u2013376 and 606\u2013698)."
+        },
+        {
+          "word_count": 38,
+          "text": "Recovery tests , lines 61\u201395 and 127\u2013176: real recovery builder with mocked HTTP, multi-page child/history results; further cases at lines 183, 217, 247, 310, 349, 392, 437, 493 and 507 target partial failures, races, deletion and stale dispatches."
+        }
+      ]
+    },
+    {
+      "path": "open-multi-agent/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 40,
+          "text": "A snapshot includes in-flight runner messages and pending/committed tool state as well as task results; restore rehydrates shared memory and message bus, resets in-progress queue states and supplies runner continuation state ( task-execution.ts , lines 189\u2013275; orchestrator.ts , lines 2476\u20132498)."
+        },
+        {
+          "word_count": 36,
+          "text": "It validates agent eligibility and graph changes, optionally seeks patch approval, checkpoints the revision, rolls it back on checkpoint failure, and only then publishes readiness events ( recovery.ts , lines 20\u201367, 99\u2013149; task-execution.ts , lines 485\u2013737)."
+        }
+      ]
+    },
+    {
+      "path": "open-swe/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 45,
+          "text": "The backend retains title, transcript and read state under the same cloud thread ID ( local thread store , lines 11\u201332). \"This Mac\" can therefore be driven from elsewhere while the app serves its bridge, but task workers all share the coordinator's chosen execution location."
+        },
+        {
+          "word_count": 37,
+          "text": "A long-lived system curator thread wakes daily only for workspaces with undecided memories, queues behind an existing run and uses deterministic workspace identity ( memory store , lines 1\u20136, 26\u201339, 43\u201395; curator , lines 1\u20135, 26\u201329, 47\u201399)."
+        },
+        {
+          "word_count": 38,
+          "text": "An CODE checks that the incident and policy still permit the run, collects evidence from human inputs/tool results, records failed-tool evidence gaps and exposes report/search/read tools ( incident runtime , lines 50\u2013156; incident service , lines 37\u201358, 122\u2013132)."
+        },
+        {
+          "word_count": 39,
+          "text": "Negative-feature search scope: searched CODE , CODE , UI routes/features, task/project/workspace models, tools and system/task prompts for Telegram, named product/technical/specialist leaders, agent-profile/team models, acceptance scenarios/definition of done, room collaboration and task dependencies; excluded migration boilerplate/generated bundles when interpreting matches."
+        }
+      ]
+    },
+    {
+      "path": "openclaw/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 39,
+          "text": "Project keys normalize origin identities or fall back to local roots; bootstrap admits only eligible facts whose project annotations match active scope, orders them deterministically and caps total/entry characters ( project-memory-scope.ts , lines 22\u201355; project-memory-bootstrap.ts , lines 25\u201360, 76\u2013135)."
+        }
+      ]
+    },
+    {
+      "path": "openclaw/assessment/Runtime_and_Coordination.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "openhands/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 36,
+          "text": "The result is shown as a toast/link and normally returned to the parent as a prefixed synthetic user message, which runs the parent so it can explain the launch (lines 467\u2013502; result transport , lines 4\u201328)."
+        },
+        {
+          "word_count": 36,
+          "text": "The tunnel client , lines 127\u2013188 and 244 onward, maps each local TCP connection to an authenticated upstream WebSocket dial with keepalive; bridge , lines 411\u2013438, binds tunnel opening to the active credential and owns teardown."
+        }
+      ]
+    },
+    {
+      "path": "openrig/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 38,
+          "text": "The worker claims through the next route; repository claim , lines 2799\u20132868, checks that the claimant matches the destination and the row is claimable, then transactionally marks it in progress, stamps the occupant generation and records a transition."
+        },
+        {
+          "word_count": 39,
+          "text": "Hand off: A worker hands implementation to QA/review through repository handoff , lines 2250\u20132290 and 2353\u20132424: it rejects an already-terminal source, validates the new destination, inherits or replaces work context, records successor lineage, propagates blocker completion and persists events."
+        },
+        {
+          "word_count": 40,
+          "text": "The executive/timeline gap was evaluated against node inventory, strict current-work/work-candidate fields, seat overview/details, project views and the For You feed; raw events, queue lineage, pending candidates and activity labels were credited as those primitives, not promoted into semantic agent briefings."
+        },
+        {
+          "word_count": 38,
+          "text": "Not established here: successful two-host deployment, live native permission enforcement, throughput at Wingman's desired team size, automatic quality of discovery/decomposition, provider compatibility at other versions, correct product delivery from arbitrary natural-language requests, or equivalence of all environment/runtime backends."
+        }
+      ]
+    },
+    {
+      "path": "orca/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "orca/assessment/LEGACY_EVIDENCE.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "orkas/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 39,
+          "text": "Core CODE resolves the provider, flushes pending persisted writes before new work and enters a bounded model/tool loop; parallel-safe tool calls execute under a cap and results commit in declared order ( core runner , lines 1505\u20131548 and 2860\u20132895)."
+        },
+        {
+          "word_count": 40,
+          "text": "Codex uses an especially useful concrete integration: the backend spawns CODE , initializes JSON-RPC, starts or resumes a native thread, starts a turn and normalizes native activity back into Orkas events ( Codex backend , lines 1\u201326, 335\u2013345 and 1437\u20131459)."
+        },
+        {
+          "word_count": 41,
+          "text": "Listing/detail APIs enrich definitions with memory and runtime stats ( agents , lines 1516\u20131680 and 1786\u20131852); agent UI renders profiles and delivery counters ( agent UI , lines 186\u2013229, 333\u2013385); project rail shows bound agents ( project UI , lines 300\u2013310)."
+        },
+        {
+          "word_count": 40,
+          "text": "Persistent floor/ledger preserves the owner and suspended goal while a user answers; backend approval and connector-action confirmations route real decisions to the UI ( state , lines 69\u201389 and 142\u2013170; connector confirmation , lines 163\u2013266; CLI registry , lines 52\u201390)."
+        },
+        {
+          "word_count": 36,
+          "text": "Agent creation, ID-based project bindings, dynamic roster membership and schema-driven tools/forms feed the same chat and project UI ( agents , lines 1879\u20131973; projects , lines 745\u2013799; state , lines 1\u201317; project UI , lines 300\u2013310)."
+        },
+        {
+          "word_count": 39,
+          "text": "If clarification is needed, the input-form protocol parks the execution as waiting_input and stores enough floor/ledger/resume metadata to route the answer back to the original owner ( board , lines 88\u201396; state , lines 69\u201389; group , lines 1172\u20131309)."
+        }
+      ]
+    },
+    {
+      "path": "paperclip/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 38,
+          "text": "Case handoff application , lines 242\u2013281, checks the case handoff version, task status version, old assignee, current execution ownership, original actor authority and recipient visibility before assigning that same task to the next agent and saving CODE ."
+        }
+      ]
+    },
+    {
+      "path": "paradev/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 36,
+          "text": "A turn activity creates a temporary per-session home, restores the saved engine conversation, launches CODE , streams ACP updates into a session store, and deletes/reconstructs transient local state on later attempts ( activities , lines 217\u2013289)."
+        },
+        {
+          "word_count": 36,
+          "text": "A human message can wake a durable Dev, which delegates code, receives completion events, requests review and replies; main prompt , lines 553\u2013570, and parent wake , lines 498\u2013542, make this more than manual launch supervision."
+        },
+        {
+          "word_count": 37,
+          "text": "It is not a human approval workflow in the Dev engine: the worker sets CODE ( activities , lines 139\u2013165), and ACP permission requests select an allow option while elicitation is declined ( PdevSession , lines 205\u2013226)."
+        },
+        {
+          "word_count": 36,
+          "text": "It does not guarantee exactly-once external side effects: after a crash the engine is instructed to check current state before repeating actions (activities, lines 99\u2013100), while the remote job protocol deduplicates command launches by call ID."
+        },
+        {
+          "word_count": 37,
+          "text": "Task CODE maps completed/interrupted/failed turn states to done/stopped/failed session state, records a PR from the workspace or reply, wakes the parent with an idempotent event, and fills the next slot ( tasks , lines 388\u2013419 and 458\u2013542)."
+        }
+      ]
+    },
+    {
+      "path": "paseo/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 40,
+          "text": "CLI deploy/export commands and public guides describe external event workflows, but the service owning conversation keys, triggers and execution records is Paseo Cloud, outside this checkout ( hub/relationship-controller.ts , 212\u2013294; docs/hub.md , \u201cSession grants and agent operations\u201d and \u201cCross-repository compatibility\u201d)."
+        }
+      ]
+    },
+    {
+      "path": "plano/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 42,
+          "text": "The template supplies configurable retry policy on the LLM provider route, including selected 429/5xx failures and bounded backoff; agent/filter headers request retries, but the inspected internal agent route does not itself declare the same retry policy ( envoy.template.yaml , lines 265\u2013282, 539\u2013549)."
+        },
+        {
+          "word_count": 37,
+          "text": "The external weather FastAPI implementation uses the model gateway to extract a city, then calls Open-Meteo geocoding/weather APIs and handles some errors with a New York fallback ( pipeline.rs , lines 570\u2013595; weather_agent.py , lines 64\u2013141, 143\u2013195)."
+        }
+      ]
+    },
+    {
+      "path": "ralph-orchestrator/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 38,
+          "text": "Legacy Node code instead contains SQLite queue storage, dispatcher, task bridge, detached-process supervisor and planning child processes ( schema.ts , lines 17\u201379; Dispatcher.ts , lines 330\u2013383; ProcessSupervisor.ts , lines 44\u2013120; PlanningService.ts , lines 178\u2013196 and its session/process methods)."
+        },
+        {
+          "word_count": 36,
+          "text": "Resume restores saved counters, cumulative cost and state, hydrates historical topics, and replays events appended after the last CODE ; older records remain history rather than rerunning completed phases ( event_loop/mod.rs , lines 503\u2013564 and 912\u2013995)."
+        },
+        {
+          "word_count": 36,
+          "text": "RPC distinguishes guidance/follow-up intended for the next iteration from urgent steering intended for the current work; urgent markers also gate emission until steering is addressed ( rpc_stdin.rs , lines 84\u2013174; loop_runner.rs , lines 612\u2013660 and 1030\u20131045)."
+        },
+        {
+          "word_count": 37,
+          "text": "Hooks resolve around named lifecycle phases, receive structured context/metadata, execute commands and can stop or suspend progress with retry/resume policies ( hooks/engine.rs , lines 24\u201383 and 204\u2013246; hooks/suspend_state.rs , lines 26\u201355 and 97\u2013153; loop_runner.rs , lines 3291\u20133705)."
+        }
+      ]
+    },
+    {
+      "path": "rocketride-server/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 37,
+          "text": "Tools are discovered only on connected CODE channels, namespaced as CODE , with re-discovery on a missing tool; model providers can be swapped without changing framework logic ( IInstance.py , lines 26\u201372; host.py , lines 70\u2013158, 190\u2013225)."
+        },
+        {
+          "word_count": 36,
+          "text": "Git URL-backed clones are temporary and deleted when the node's global lifetime ends ( Git IGlobal , 26\u201335); Daytona handles may be recreated after remote expiry, losing ephemeral sandbox state ( Daytona IInstance , 44\u201347, 79\u201392)."
+        }
+      ]
+    },
+    {
+      "path": "routa/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 37,
+          "text": "For standard CLI execution, AcpProcessManager , lines 223\u2013295, prepares session-specific MCP configuration, builds a provider command, starts an CODE , initializes it, calls CODE , sets execution context and stores the process under the Routa session ID."
+        },
+        {
+          "word_count": 38,
+          "text": "Real network boundaries exist: configurable ACP runner proxying with ownership metadata ( runner routing , lines 17\u201386; execution binding , lines 11\u201357), plus outbound remote A2A tasks connected to Kanban lifecycle events ( agent trigger , lines 749\u2013839)."
+        },
+        {
+          "word_count": 37,
+          "text": "A configured runner receives HTTP-proxied session operations; embedded ownership leases prevent taking a still-owned session onto another instance, and even an expired embedded lease is reported as non-resumable on another instance ( execution backend , lines 47\u201397)."
+        },
+        {
+          "word_count": 36,
+          "text": "Conversely, Kanban has explicit restart recovery: it sanitizes stale trigger/lane sessions using process/lease ownership, retains their attempt history and revives entry automation or resumes the next review step ( restart recovery , lines 21\u2013118 and 180\u2013210)."
+        },
+        {
+          "word_count": 37,
+          "text": "Fork creates a new linked metadata record with inherited provider/cwd/role/model, without copying the parent's transcript or starting a runtime in that handler ( session CRUD , lines 106\u2013194; HTTP store , lines 280\u2013293; fork , lines 77\u2013119)."
+        },
+        {
+          "word_count": 38,
+          "text": "During work, task changes and notes provide shared state; CODE appends direct collaboration, artifact request/provision tools exchange structured outputs, and a permission request can be addressed to the coordinator ( agent tools , lines 461\u2013494, 1050\u20131180 and 1421\u20131475)."
+        },
+        {
+          "word_count": 43,
+          "text": "That service gathers the Git diff, configuration snippets, optional graph context and historical related files, and makes three sequential model calls: context gathering, candidate findings, then finding validation using the previous outputs ( review route , lines 7\u201319; review analysis , lines 43\u2013107)."
+        },
+        {
+          "word_count": 39,
+          "text": "They call an Anthropic-compatible CODE endpoint directly; CODE or CODE is required, base URL is configurable, and the fallback model is CODE , so endpoint/model compatibility must be configured rather than assumed from an existing Codex login (lines 142\u2013200)."
+        },
+        {
+          "word_count": 40,
+          "text": "RepoSlide is another substantive product surface: its repository page launches a workspace-scoped DEVELOPER ACP session, passes a generated repository-presentation prompt plus the selected slide skill as pending input, and navigates to the detailed session ( RepoSlide client , lines 124\u2013173)."
+        },
+        {
+          "word_count": 37,
+          "text": "A session-result reader extracts that result from history/traces, and an explicit download route proxies runner-owned sessions or serves the resolved deck with a PPTX content type ( result reader , lines 13\u201326; download route , lines 17\u201351)."
+        }
+      ]
+    },
+    {
+      "path": "ruflo/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 37,
+          "text": "Evidence: agent execution core , lines 257\u2013283 and 615\u2013687; team tools , lines 1\u201311 and 100\u2013129; dual-mode orchestrator , lines 157\u2013278; Mission Control , lines 1\u20138; managed tools , lines 1\u201318; AI Team server , lines 84\u2013138."
+        },
+        {
+          "word_count": 37,
+          "text": "An alternative real multi-process trace is CODE : dual-mode CLI , lines 61\u2013115, resolves automation/template configuration, prepares worker specifications and creates the orchestrator; runCollaboration , lines 336\u2013395, initializes shared memory, runs bounded dependency levels and collects results."
+        },
+        {
+          "word_count": 38,
+          "text": "Held-out evaluation separated from promotion, signed measured managed outcomes, and optional memory branches let an installation experiment without treating every experiment as accepted shared knowledge ( harness-flywheel.ts , lines 5\u201320; managed-learning-loop.ts , lines 25\u201362; swarm-memory-branches.ts , lines 13\u201339)."
+        }
+      ]
+    },
+    {
+      "path": "scion/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 48,
+          "text": "The combination of outbound broker control channels, persisted intent, compare-and-swap claiming and exact run targeting is more valuable than simply \u201cremote containers.\u201d Reconciliation , lines 30\u2013100, and exact-run manager contracts , lines 75\u2013110 and 505\u2013558, let commands outlive a transient transport failure without casually stopping the next incarnation."
+        },
+        {
+          "word_count": 36,
+          "text": "The review must name a still-current base; stale bases and a concurrent newer publication are rejected/discarded with CODE , while unmarked changes yield CODE ( review finalization , lines 185\u2013245; finalize race checks , lines 824\u2013849)."
+        },
+        {
+          "word_count": 41,
+          "text": "Streaming is implemented, but transport boundaries differ: the legacy channel-based SSE path sends as the bridge administrator and refuses federated callers, whereas the SDK executor supports caller-aware routing ( stream , lines 267\u2013278 and 325\u2013338; SDK streaming adapter , lines 349\u2013360)."
+        },
+        {
+          "word_count": 40,
+          "text": "Tests inspected as source included scheduler tests , lines 32\u201390 (deterministic scheduling setup/start/stop/tick), exact run selection , lines 23\u201345 (reject legacy/other-run targets), broker inbound conversation identity , lines 88\u2013179, and Telegram V2 input tests , lines 612\u2013710 (echo/empty/DM help/command/unlinked-group behavior)."
+        }
+      ]
+    },
+    {
+      "path": "scion/assessment/Lifecycle_and_Coordination.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 38,
+          "text": "A project-local management room can therefore appoint a coordinator, but native groups do not span projects: creation requires a project ID and adding an agent from another project is refused ( conversation handlers , lines 740\u2013748 and 1070\u20131097)."
+        }
+      ]
+    },
+    {
+      "path": "sortie/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 38,
+          "text": "Session resume is a checked proposition: the shared continuity layer probes the runtime, carries history only on an affirmative verdict, fails when transport is lost, and otherwise warns and starts a new conversation ( continuity.go , lines 70\u2013111)."
+        },
+        {
+          "word_count": 38,
+          "text": "A human-written Jira comment is selected for a subsequent prompt with delivery tracking, while an agent CODE call can send a contextual decision-needed message to configured channels ( worker.go , lines 1299\u20131315 and 1496\u20131549; notify.go , lines 120\u2013153)."
+        },
+        {
+          "word_count": 42,
+          "text": "CI follows the current PR head, merge attempts bind the head SHA and review decision, and merge completion uses the real merge SHA as its durable latch ( ci_reconcile.go , lines 45\u201357; auto_merge_reconcile.go , lines 256\u2013290 and 357\u2013364; merge_completion_reconcile.go , lines 240\u2013305)."
+        }
+      ]
+    },
+    {
+      "path": "squad/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "stagewise/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "superplane/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "swarm/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "swarmos/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 41,
+          "text": "That is more precise than telling a model to \u201ckeep working until done.\u201d It supports useful resumability across role and host changes, while making clear that Wingman would still need persistent conversations, manager identities and product context above the task engine."
+        }
+      ]
+    },
+    {
+      "path": "swe-agent/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 37,
+          "text": "Shell mode is the substantial human-control variant: Ctrl-C swaps in CODE and an action-only parser, Ctrl-D restores the AI model, and AI completion triggers human mode so the human must submit; shell_agent.py , lines 31\u201357 and 80\u201398."
+        },
+        {
+          "word_count": 38,
+          "text": "Second, forward_with_handling , lines 1088\u20131149, lets a model correct malformed output, blocked actions and Bash syntax errors up to CODE ; failed steps remain in the trajectory while temporary correction history can be excluded from ongoing model history."
+        }
+      ]
+    },
+    {
+      "path": "symphony/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "teammcp/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 42,
+          "text": "On Linux, CODE launches Claude in that agent's directory; on Mac the intended path generates a shell script and uses Terminal.app; on Windows it launches Claude via local PTY or an optional detached PTY daemon, and dispatches CODE to the Codex runner."
+        }
+      ]
+    },
+    {
+      "path": "tinyagi/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 44,
+          "text": "Codex receives a developer-instruction config override and CODE ; Claude receives CODE ; tool execution is delegated to those harnesses, inheriting the daemon environment plus provider credentials and CODE ( Codex adapter , lines 18\u201346; Claude adapter , lines 27\u201343; invoke.ts , lines 216\u2013252)."
+        },
+        {
+          "word_count": 42,
+          "text": "These interactions create source-visible risks of killed work being requeued, later marked complete, or work overlapping after stop; no runtime race reproduction was attempted ( invoke.ts , lines 18\u201323 and 110\u2013119; queue API , lines 163\u2013178; main/index.ts , lines 158\u2013196 and 247\u2013251)."
+        },
+        {
+          "word_count": 38,
+          "text": "Adapter exceptions are caught inside CODE , converted to a user-facing error response and then return normally: the outer queue usually marks that message complete rather than exercising the retry policy ( main/index.ts , lines 100\u2013137 and 175\u2013185)."
+        },
+        {
+          "word_count": 39,
+          "text": "The balanced-bracket parser tolerates nested brackets in code expressions; text outside DM tags is attached as shared context, comma-separated recipients fan out, invalid/self/nonteammate recipients are filtered and recipients are deduplicated per response ( routing.ts , lines 19\u201359 and 139\u2013169)."
+        },
+        {
+          "word_count": 43,
+          "text": "Outbound assistant text is signed, hooks process it, files are extracted and a response row is queued; Telegram polls pending responses and uses the original message mapping or CODE to select a target chat ( response.ts , lines 52\u201392; telegram.ts , lines 489\u2013515)."
+        },
+        {
+          "word_count": 43,
+          "text": "CODE attaches agent invokes/mentions/responses to the most recently open root and closes them on CODE ; CODE emits that event for each streamed text response, not only after the whole team finishes ( use-office-sse.ts , lines 46\u201375 and 120\u2013166; response.ts , line 92)."
+        }
+      ]
+    },
+    {
+      "path": "warren/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 36,
+          "text": "Its pod boundary has explicit capability differences: no preview ports, no long-lived conversation pods, coarse network policy, and no host workspace archive ( K8s provider , lines 2\u201318, 170\u2013195; pod builder , lines 9\u201326 and 119\u2013163)."
+        },
+        {
+          "word_count": 36,
+          "text": "A plan-run deliberately selects one child at a time, waits for its run and PR, then dispatches the next with the plan's single CODE ( dispatch , lines 63\u201369 and 291\u2013303; plan dispatcher , lines 65\u2013107)."
+        },
+        {
+          "word_count": 39,
+          "text": "This is an operator-controlled background work engine, not a ProjectMaster periodically waking with a durable conversational identity ( scheduler , lines 4\u201320; trigger tick , lines 4\u201334 and 159\u2013193; plan tick , lines 9\u201322; automatic policy , lines 3\u201365)."
+        },
+        {
+          "word_count": 49,
+          "text": "Consequently a running default Pi job can reject an operator's steer despite the runtime's CODE ; changing this responsibly requires role policy and tests as well as adapter support ( Pi adapter , lines 13\u201326; Claude adapter , lines 21\u201324; steering , lines 160\u2013192; Pi role , lines 60\u201366)."
+        },
+        {
+          "word_count": 38,
+          "text": "They let an operator control failure domains and compute cost, at the price of maintaining images, cluster credentials/networking and provider-specific acceptance tests ( Docker provider , lines 69\u201393; K8s provider , lines 170\u2013195; Spot placement , lines 23\u201355)."
+        },
+        {
+          "word_count": 37,
+          "text": "Durable storage/backup and retention policy remain necessary, particularly because a vanished K8s emptyDir may already be unrecoverable and project removal deletes associated history ( dispatch , lines 104\u2013111, 191\u2013222; reap , lines 192\u2013279; destroy , lines 23\u201333)."
+        }
+      ]
+    },
+    {
+      "path": "wrenyard/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 41,
+          "text": "Relevant verification tooling inspected: release check script , lines 1\u201316, explicitly excludes tests and typechecking, and bot demo , lines 1\u201325 and 45\u201362, describes isolated end-to-end assertions but references an older CODE /inbox mode and a guide absent from this checkout."
+        }
+      ]
+    },
+    {
+      "path": "zeroshot/assessment/ASSESSMENT.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 36,
+          "text": "The experimental ACP facade , lines 1\u20134, 100\u2013165 and 195\u2013210, is a deliberate exception to normal run-scoped session ownership: an outer local session owns a reusable runner/workspace lease and each prompt is a separate durable run."
+        }
+      ]
+    },
+    {
+      "path": "WINGMAN_PURPOSE.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "AGENTS.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "generic/assessments/ARCHITECTURE.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "generic/assessments/ASSESSMENT_GUIDE.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "generic/assessments/CHECKOUT_INDEX.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "generic/assessments/COMPLETION_AUDIT.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "generic/assessments/FEATURE_MATRIX.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "generic/assessments/METHOD.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "generic/assessments/README.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "generic/assessments/_audits/qa01.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "generic/assessments/_audits/qa02.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "generic/assessments/_audits/qa03.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "generic/assessments/_audits/qa04.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 36,
+          "text": "F15: Watchdog code is actually composed and started, not an unused scheduler example: startup.ts , lines 2466\u20132473, instantiates the scheduler and reconciles wait reminders; index.ts , lines 353\u2013366, starts it after the HTTP listener is ready."
+        }
+      ]
+    },
+    {
+      "path": "generic/assessments/_audits/qa05.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "generic/assessments/_audits/qa06.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 44,
+          "text": "Lifecycle/extras/innovation: Source checks confirm that archive/delete do not themselves abort interactive sessions ( agent-service.ts , lines 989\u20131034), pipeline merge retains worktree/branch and returns conflicts without launching a new resolver (pipeline orchestrator, lines 579\u2013629), and maintenance status is explicitly declared in LICENSE , lines 1\u20139."
+        }
+      ]
+    },
+    {
+      "path": "generic/assessments/_audits/qa07.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "generic/assessments/_audits/qa08.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "generic/assessments/_audits/qa09.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "generic/assessments/_audits/qa10.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "generic/assessments/_audits/qa11.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "generic/assessments/_audits/qa12.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 39,
+          "text": "Recommended correction: say \u201ca visible session/profile roster with API-level creator/group metadata; visible organizational or creator relationships were not established.\u201d F03's CODE can be retained only with this explicit partial boundary; CODE is also defensible for the full directory-and-working-relationships requirement."
+        },
+        {
+          "word_count": 36,
+          "text": "Replace with \u201csuccessful terminal submission marks a message delivered; delivered messages are not automatically reinjected, and read/ack are separate operations.\u201d The report already correctly explains that terminal delivery is not proof of model receipt or action."
+        }
+      ]
+    },
+    {
+      "path": "generic/assessments/_audits/qa13.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "generic/assessments/_audits/qa14.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "generic/assessments/_audits/qa15.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "generic/assessments/_audits/qa16.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 40,
+          "text": "Child creation is nevertheless a concrete local implementation: WebSocket context , lines 922\u2013929, dispatches the received client tool; child launcher , lines 265\u2013343 and 511\u2013550, creates the independent conversation, supports worktree/shared modes, reports fallback isolation and returns a launch result."
+        }
+      ]
+    },
+    {
+      "path": "generic/assessments/_audits/qa17.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "generic/assessments/_audits/qa18.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "generic/assessments/_audits/qa19.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 39,
+          "text": "A useful minor strengthening is to cite the executable compiler feedback already described in extras: CODE lines 71\u2013109 really invokes Lean/Lake, while CODE lines 65\u2013135 blocks one stop attempt on fresh same-session error state and bypasses recursive stop-hook activation."
+        }
+      ]
+    },
+    {
+      "path": "generic/assessments/_audits/qa20.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "generic/assessments/_audits/qa21.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "generic/assessments/_audits/qa22.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "generic/assessments/_audits/qa23.md",
+      "long_sentence_candidates": [
+        {
+          "word_count": 48,
+          "text": "The report also includes important lifecycle caveats beyond its feature matrix: CreateTask , lines 199\u2013217, starts suspended; initialization uses a marker outside the declared durable volume; Git setup failure can return nil and still let the runner mark readiness ( setup.go , lines 85\u2013108; runner.go , lines 126\u2013150)."
+        }
+      ]
+    },
+    {
+      "path": "generic/assessments/_audits/qa24.md",
+      "long_sentence_candidates": []
+    },
+    {
+      "path": "generic/assessments/_audits/qa25.md",
+      "long_sentence_candidates": []
+    }
+  ]
+}

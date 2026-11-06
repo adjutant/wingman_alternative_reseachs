@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Technical assessment against Wingman’s development organization."><title>TinyAGI · Wingman Research</title>
+<link rel="icon" href="../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/report.css"><script defer src="../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../index.html"><img src="../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../index.html">Overview</a><a class="nav-link " href="../generic/index.html">Architecture findings</a><a class="nav-link " href="../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../generic/method.html">Method and evidence</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../index.html">Wingman Research</a><span class="crumb">/</span><span>TinyAGI</span></div><span class="topbar-note">SOURCE REVIEW · 05 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>TinyAGI</h1><p class="subtitle">Technical assessment against Wingman’s development organization.</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#decision">Decision summary</a><a href="#assessment-tinyagi-assessment-against-wingman">TinyAGI assessment against Wingman</a><a href="#assessment-architecture-and-execution-model">Architecture and execution model</a><a href="#assessment-feature-by-feature-comparison">Feature-by-feature comparison</a><a href="#assessment-agent-definition-creation-and-full-lifecycle">Agent definition, creation and full lifecycle</a><a href="#assessment-concrete-coordination-trace">Concrete coordination trace</a><a href="#assessment-substantial-additional-capabilities">Substantial additional capabilities</a><a href="#assessment-grounded-mechanisms-and-innovation-assessment">Grounded mechanisms and innovation assessment</a><a href="#assessment-practical-use-and-remaining-work">Practical use and remaining work</a><a href="#assessment-verification-scope-and-uncertainty">Verification scope and uncertainty</a><a href="#source-record">Source and evidence</a></div></nav><section id="decision" class="decision"><h2>Decision summary</h2>
+<div class="brief-columns"><div><h3>Useful for Wingman</h3><p>Study local CLI workers, persistent team rooms, Telegram, project tasks, and periodic wakeups.</p></div><div><h3>Adoption boundary</h3><p>Product-aware intake, discovery, cross-host placement, and stronger run cancellation remain work.</p></div></div>
+<p class="scope-note">Source assessment at the commit below. Runtime limits appear in the technical report.</p></section>
+<dl class="facts"><div><dt>Source group</dt><dd>Standing teams</dd></div><div><dt>Commit</dt><dd><code>2db3a03a891b302c460f624d6c5a0523b8aa3528</code></dd></div><div><dt>Coverage</dt><dd>24 Wingman features</dd></div></dl>
+<article id="technical-assessment" class="technical"><h2 id="assessment-tinyagi-assessment-against-wingman">TinyAGI assessment against Wingman</h2>
+<ul>
+<li class="url-text">Repository: https://github.com/TinyAGI/tinyagi</li>
+<li>Local checkout: <code>researchs/tinyagi/repo</code></li>
+<li>Assessed commit: <code>2db3a03a891b302c460f624d6c5a0523b8aa3528</code></li>
+<li>Assessment date: 2026-11-05</li>
+<li>Product at this revision: TinyAGI, package version <code>0.0.20</code>, a local daemon for persistent, independently configured assistants, multiple teams, messaging channels and a TinyOffice web interface.</li>
+<li>Method: fresh static implementation assessment against <a href="../generic/purpose.html">WINGMAN_PURPOSE.md</a> and the complete <a href="../generic/assessments/ASSESSMENT_GUIDE.md">assessment guide</a>. No dependency installation, CLI execution against providers, service startup or browser use. The checkout was kept read-only.</li>
+</ul>
+<p><strong>Fit verdict:</strong> a credible starting point for Wingman's standing-agent communication and local execution plane, with more implemented project management than a simple assistant router. It has actual CLI-backed workers, persistent team rooms, Telegram, a task/project database, web task dispatch, per-agent prompts and memory, heartbeat and cron. It does not implement Wingman's product organization: project-aware intake, product/technical leadership, proportionate discovery, acceptance-driven delivery, cross-host placement, or a reliable executive account of each agent's current/recent/next work. Adopting it would mean building that product layer and strengthening its run/cancellation semantics, not merely supplying a few personas.</p>
+<h2 id="assessment-architecture-and-execution-model">Architecture and execution model</h2>
+<p>The shipped CLI points to <a href="repo/packages/cli/bin/tinyagi.mjs">packages/cli/bin/tinyagi.mjs</a>; <a href="repo/package.json">package.json</a>, lines 1–34, defines the workspace build/start entry points. The operational center is <a href="repo/packages/main/src/index.ts">packages/main/src/index.ts</a>, lines 220–302: initialize SQLite, recover previous in-flight messages, start the Hono API, subscribe to queue events, poll every five seconds, prune old queue records, load plugins, and start scheduler/channels/heartbeat. Channels are separate managed processes; agent invocations are fresh local child processes. A durable agent is a configuration key plus workspace and resumable external CLI state, not a permanently running model process.</p>
+<p>There are deliberately different persistence planes. Settings hold agents, teams, channels and provider configuration; <code>tinyagi.db</code> holds inbound jobs, outbound responses, room posts and agent message history (<a href="repo/packages/core/src/queues.ts">queues.ts</a>, lines 12–76). <code>tasks.db</code> independently stores projects, tasks and comments (<a href="repo/packages/server/src/tasks-db.ts">tasks-db.ts</a>, lines 23–55 and 129–177). Schedules use <code>schedules.json</code>; per-agent files store instructions, memory and heartbeat prompts. Claude/Codex/OpenCode own the actual resumable coding conversation. The task records and message queue have no relational task-to-run association: a <code>[task:id]</code> token can carry that relationship as prompt text.</p>
+<p>The API message route resolves the target before enqueueing, persists the user's message, and emits an incoming event (<a href="repo/packages/server/src/routes/messages.ts">messages.ts</a>, lines 22–67). The queue transaction claims all pending messages for an agent; <code>agentChains</code> serializes them per agent while separate agents run concurrently (<a href="repo/packages/core/src/queues.ts">queues.ts</a>, lines 104–121; <a href="repo/packages/main/src/index.ts">main/index.ts</a>, lines 158–196). This is useful actor-like scheduling on one host, not a distributed actor system. There is no global worker pool limit or host-placement field in the inspected model.</p>
+<p><code>processMessage</code> reloads config, routes, consumes reset flags, transforms incoming text through plugins, invokes the adapter, emits progress and delegates final text to team-message extraction (<a href="repo/packages/main/src/index.ts">main/index.ts</a>, lines 43–137). <a href="repo/packages/core/src/invoke.ts">invoke.ts</a>, lines 181–276, constructs prompts, resolves working directories/provider environment and calls an adapter. The default Codex adapter invokes <code>codex exec resume --last</code> unless reset; Claude uses <code>-c</code>; OpenCode uses <code>run -c</code>. These are real coding harness processes with their own tools, not multiple names in one model prompt.</p>
+<p>TinyOffice is a Next.js client over these APIs. Its project routes redirect into a task board. The board loads tasks, agents, teams and projects, supports board/list views and project filtering (<a href="repo/tinyoffice/src/app/(office)/projects/tasks/page.tsx">tasks/page.tsx</a>, lines 44–108). Its office scene combines polling and SSE, while per-agent pages expose chat, skills, schedule, prompt, memory and heartbeat tabs. These are genuine useful management surfaces, with important limits discussed below.</p>
+<h2 id="assessment-feature-by-feature-comparison">Feature-by-feature comparison</h2>
+<p>Verdicts describe implemented behavior at the assessed commit. A configurable prompt or tool primitive receives credit for that primitive, not for an unimplemented organizational workflow.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Capability</th>
+<th scope="col">Verdict</th>
+<th scope="col">Implementation evidence and concrete difference from Wingman</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F01</td>
+<td>Real independent coding agents and specialist instances</td>
+<td>Similar</td>
+<td><a href="repo/packages/core/src/invoke.ts">invoke.ts</a>, lines 181–276; <a href="repo/packages/core/src/adapters/codex.ts">Codex adapter</a>, lines 18–47. Each configured ID has its own cwd and local CLI invocation; multiple coder IDs can run concurrently. Specialists are user-defined configurations rather than supplied Wingman responsibilities, and independent histories depend on distinct cwd/CLI behavior.</td>
+</tr>
+<tr>
+<td>F02</td>
+<td>Extensible profiles, roles and team composition</td>
+<td>Similar</td>
+<td><a href="repo/packages/core/src/types.ts">types.ts</a>, lines 9–27; <a href="repo/packages/cli/src/agent.ts">agent CLI</a>, lines 14–102; <a href="repo/packages/core/src/agent.ts">prompt builder</a>, lines 140–177. Add arbitrary named IDs, prompts, models and team membership. There is no separate reusable profile-versus-instance schema or workload-based team scaling.</td>
+</tr>
+<tr>
+<td>F03</td>
+<td>Agent directory and visible working relationships</td>
+<td>Similar</td>
+<td><a href="repo/tinyoffice/src/app/(office)/company/page.tsx">company/page.tsx</a>, lines 141–149, constructs leader/worker columns from team config; <a href="repo/tinyoffice/src/components/office/use-office-data.ts">use-office-data.ts</a>, lines 22–42, loads agent/team/task/history data. Team relationships are visible, but project leadership/host and dependable current assignment are not agent directory fields.</td>
+</tr>
+<tr>
+<td>F04</td>
+<td>Telegram and Butler-style routing</td>
+<td>Similar</td>
+<td><a href="repo/packages/channels/src/telegram.ts">telegram.ts</a>, lines 272–280, 349–359, 431–465 and 489–515, implements private-chat intake, sender pairing, default-agent routing, attachments and reply delivery; <a href="repo/packages/core/src/router.ts">router.ts</a>, lines 9–44, resolves <code>@agent</code>/<code>@team</code>. A Butler can be configured, but semantic routing across projects and clarification ownership remain prompt/application work.</td>
+</tr>
+<tr>
+<td>F05</td>
+<td>Project registry and new/existing project intake</td>
+<td>Resembles</td>
+<td><a href="repo/packages/server/src/tasks-db.ts">tasks-db.ts</a>, lines 23–32 and 283–335; <a href="repo/packages/server/src/routes/projects.ts">projects API</a>, lines 10–53. A durable CRUD registry exists. Message types/routing carry agent/channel identity, not project identity; no implemented intake resolves an ordinary-language reference to existing/new projects.</td>
+</tr>
+<tr>
+<td>F06</td>
+<td>Per-project product and technical leadership</td>
+<td>Resembles</td>
+<td><a href="repo/packages/core/src/types.ts">types.ts</a>, lines 9–27, provides team leader and arbitrary prompts; <a href="repo/packages/server/src/tasks-db.ts">tasks-db.ts</a>, lines 23–46, has no project leadership fields. ProductMaster/TechMaster could be configured but their per-project responsibilities and relationship are not implemented.</td>
+</tr>
+<tr>
+<td>F07</td>
+<td>Proportionate research/discovery/iterative clarification</td>
+<td>Resembles</td>
+<td><a href="repo/packages/core/src/agent.ts">agent.ts</a>, lines 198–220, loads customized instructions; <a href="repo/packages/server/src/routes/messages.ts">messages API</a>, lines 7–69, permits conversation. Coding harnesses can research and ask questions, but searches of packages, skills and UI found no discovery phase, uncertainty/answer records or scale-dependent clarification policy.</td>
+</tr>
+<tr>
+<td>F08</td>
+<td>Scope/specs/acceptance scenarios/definition of done</td>
+<td>Resembles</td>
+<td><a href="repo/packages/server/src/tasks-db.ts">tasks-db.ts</a>, lines 23–55, stores free-text descriptions/comments; <a href="repo/packages/core/src/agent.ts">agent.ts</a>, lines 180–205, injects memory and instructions. Agents can write such documents, but there is no product artifact schema, required scope/spec workflow or acceptance gate.</td>
+</tr>
+<tr>
+<td>F09</td>
+<td>Decomposition, assignment and shared task tracking</td>
+<td>Similar</td>
+<td><a href="repo/packages/server/src/tasks-db.ts">tasks-db.ts</a>, lines 340–487; <a href="repo/.agents/skills/tasks/scripts/tasks.sh">tasks.sh</a>, lines 69–202; <a href="repo/tinyoffice/src/components/task/task-detail-panel.tsx">task-detail-panel.tsx</a>, lines 98–118. Agents can create/update/comment on shared tasks, and the UI sends assigned work when moving a task to <code>in_progress</code>. Decomposition is model-directed, dependencies are not modeled, and a task token is not a durable run record.</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>Portfolio/project management dashboard</td>
+<td>Similar</td>
+<td><a href="repo/tinyoffice/src/app/(office)/projects/tasks/page.tsx">tasks/page.tsx</a>, lines 44–108; <a href="repo/tinyoffice/src/components/task/task-detail-panel.tsx">task detail</a>, lines 98–158. Actual project-filtered board/list, assignees, statuses and comments exist. No integrated portfolio goals/progress assessment, decision queue or linked product specification view was found.</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>Chat application, rooms and direct collaboration</td>
+<td>Similar</td>
+<td><a href="repo/packages/teams/src/conversation.ts">conversation.ts</a>, lines 11–32 and 60–108; <a href="repo/packages/teams/src/routing.ts">routing.ts</a>, lines 139–195. Durable team rooms broadcast to members and bracket-tag DMs enqueue independent agents; TinyOffice has room/chat views. Team-local first-match routing and flat jobs differ from project-aware management/execution rooms.</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>Management escalation and human decisions/approvals</td>
+<td>Resembles</td>
+<td><a href="repo/packages/teams/src/conversation.ts">conversation.ts</a>, lines 88–104; <a href="repo/.agents/skills/send-user-message/scripts/send_message.js">send_message.js</a>, lines 59–105. DMs and explicit paired-user outbound messaging can carry a question. No tracked decision owner, suspended work item, approval resume token or escalation hierarchy is implemented; CLI permissions are bypassed by default. Sender pairing is access control, not product approval.</td>
+</tr>
+<tr>
+<td>F13</td>
+<td>Durable project knowledge and reusable directives</td>
+<td>Similar</td>
+<td><a href="repo/packages/core/src/agent.ts">agent.ts</a>, lines 86–119 and 180–220; <a href="repo/packages/core/src/memory.ts">memory.ts</a>, lines 19–42 and 118–131. Hierarchical memory index, instructions and synced skills persist and are reloaded into prompts. Knowledge is agent-workspace-oriented, with no canonical per-project <code>DIRECTIVES/SCOPES/SPECS/HARNESS</code> or cross-agent project knowledge contract.</td>
+</tr>
+<tr>
+<td>F14</td>
+<td>Persistent identity, conversation and work continuity</td>
+<td>Similar</td>
+<td><a href="repo/packages/core/src/queues.ts">queues.ts</a>, lines 25–62 and 217–237; <a href="repo/packages/core/src/adapters/codex.ts">Codex adapter</a>, lines 22–30. Named config/workspaces, message history and external CLI resume support continuity. There is no explicit session/thread ID in the job model, so concurrent projects through one agent share its latest CLI context.</td>
+</tr>
+<tr>
+<td>F15</td>
+<td>Proactive supervision, periodic wake and blocker follow-up</td>
+<td>Similar</td>
+<td><a href="repo/packages/main/src/heartbeat.ts">heartbeat.ts</a>, lines 37–90; <a href="repo/packages/core/src/schedules.ts">schedules.ts</a>, lines 33–99. Per-agent heartbeat reads a prompt file and queues work; cron/one-shot jobs can direct a supervisor. Periodic wake is implemented, but portfolio review, blocker classification and escalation are supplied instructions rather than a supervising state machine.</td>
+</tr>
+<tr>
+<td>F16</td>
+<td>Parallel products and concurrent specialists</td>
+<td>Similar</td>
+<td><a href="repo/packages/main/src/index.ts">main/index.ts</a>, lines 158–196; <a href="repo/packages/server/src/tasks-db.ts">tasks-db.ts</a>, lines 340–362. Separate agents execute concurrently and tasks belong to different projects. Product workspaces/leadership are not automatically provisioned; one agent's queue serializes all its projects, with no resource scheduling or repository worktree isolation.</td>
+</tr>
+<tr>
+<td>F17</td>
+<td>Real multi-host execution and shared coordination</td>
+<td>Absent</td>
+<td><a href="repo/packages/core/src/invoke.ts">invoke.ts</a>, lines 90–101 and 204–209, uses local <code>spawn</code> and local cwd; <a href="repo/packages/core/src/types.ts">types.ts</a>, lines 9–27, has no host/runner identity. Searches across execution, API, CLI and UI found no remote worker protocol, host placement, leases or shared distributed coordination. HTTP channels/custom model endpoints do not constitute remote coding execution.</td>
+</tr>
+<tr>
+<td>F18</td>
+<td>Executive current/recent/next/blocker overview</td>
+<td>Resembles</td>
+<td><a href="repo/tinyoffice/src/components/office/use-office-data.ts">use-office-data.ts</a>, lines 22–42; <a href="repo/tinyoffice/src/components/office/use-office-sse.ts">use-office-sse.ts</a>, lines 46–75 and 120–166. The office displays live agents, tasks, responses and inferred work sessions. It does not synthesize the requested briefing. There is no structured planned-next or blocker model, and root association is a UI heuristic.</td>
+</tr>
+<tr>
+<td>F19</td>
+<td>Per-agent summary timeline linked to underlying work</td>
+<td>Resembles</td>
+<td><a href="repo/tinyoffice/src/components/agent/chat-view.tsx">chat-view.tsx</a>, lines 26–54 and 81–108, displays timestamped messages with message IDs. <a href="repo/packages/core/src/queues.ts">queues.ts</a>, lines 49–57, stores content rather than structured activity/outcome/task links. A chat history is not an executive timeline of meaningful outcomes.</td>
+</tr>
+<tr>
+<td>F20</td>
+<td>Detailed per-agent coding workspace</td>
+<td>Resembles</td>
+<td><a href="repo/tinyoffice/src/app/agents/[id]/page.tsx">agents/[id]/page.tsx</a>, lines 53–62 and 101–135, exposes six configuration/chat tabs; <a href="repo/packages/core/src/adapters/codex.ts">Codex adapter</a>, lines 8–12, retains agent-message text only. No command/file-edit/test/diff/artifact inspector comparable to a coding session is implemented.</td>
+</tr>
+<tr>
+<td>F21</td>
+<td>Live activity, lifecycle controls, steering and visibility</td>
+<td>Similar</td>
+<td><a href="repo/packages/main/src/index.ts">main/index.ts</a>, lines 98–128; <a href="repo/packages/server/src/routes/queue.ts">queue API</a>, lines 142–178; <a href="repo/tinyoffice/src/components/agent/chat-view.tsx">chat-view.tsx</a>, lines 111–149. Progress, queue/process status, stop API, reset and queued input exist. No in-flight input injection, fork/compact/archive conversation lifecycle, budgets or full tool/usage stream; stop is not reliable terminal cancellation.</td>
+</tr>
+<tr>
+<td>F22</td>
+<td>Integrated testing and acceptance/delivery</td>
+<td>Resembles</td>
+<td><a href="repo/packages/core/src/adapters/claude.ts">Claude adapter</a>, lines 12–17, exposes tool names; <a href="repo/packages/server/src/tasks-db.ts">tasks-db.ts</a>, lines 14–15 and 421–440, permits review/done statuses. Harnesses can run tests and a tester role can be configured. No enforced acceptance criteria, test-result model, integration gate or accepted-delivery transition stops development/heartbeat.</td>
+</tr>
+<tr>
+<td>F23</td>
+<td>Autonomous work with human organizational direction</td>
+<td>Similar</td>
+<td><a href="repo/packages/teams/src/conversation.ts">conversation.ts</a>, lines 71–104; <a href="repo/packages/main/src/heartbeat.ts">heartbeat.ts</a>, lines 46–83. Agents can autonomously message teammates, update tasks through skills and wake later while the human uses Telegram. It is an autonomous assistant substrate. The end-to-end product organization and accountable completion are not implemented.</td>
+</tr>
+<tr>
+<td>F24</td>
+<td>New profiles propagate through chat/tracker/dashboards</td>
+<td>Similar</td>
+<td><a href="repo/tinyoffice/src/components/office/use-office-data.ts">use-office-data.ts</a>, lines 23–39; <a href="repo/tinyoffice/src/app/(office)/projects/tasks/page.tsx">tasks/page.tsx</a>, lines 72–78; <a href="repo/packages/core/src/agent.ts">agent.ts</a>, lines 140–170. Views and prompts derive agents/teams from config, and assignees accept agent/team IDs. New roles require no hardcoded role enum, but specialized project workflow and executive semantics must still be added; not every page refreshes agent lists continuously.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="assessment-agent-definition-creation-and-full-lifecycle">Agent definition, creation and full lifecycle</h2>
+<p><strong>Definition and identity.</strong> <code>AgentConfig</code> is a persistent settings entry containing name, provider, model, working directory, optional inline/file prompt, and optional heartbeat configuration. <code>TeamConfig</code> is a name, member IDs and one leader. There is no template/profile object separate from an instance, project membership, host field, budget or explicit conversation identifier (<a href="repo/packages/core/src/types.ts">types.ts</a>, lines 9–27). A task is a tracker record. A queue job is an incoming message. The external CLI conversation is a separate continuation mechanism. Treating these as interchangeable would overstate the model.</p>
+<p><strong>Creation and provisioning.</strong> The interactive agent CLI validates an ID, asks for name/provider/model and optional instructions, writes settings, provisions <code>&lt;workspace&gt;/&lt;id&gt;</code>, and writes the supplied instructions to <code>AGENTS.md</code> (<a href="repo/packages/cli/src/agent.ts">agent CLI</a>, lines 14–102). The API also provisions new agents at a chosen/default working directory, but saves config before provisioning and logs provisioning errors without rolling back (<a href="repo/packages/server/src/routes/agents.ts">agents API</a>, lines 42–85). Provisioning copies Claude config, heartbeat and soul templates, creates an initially empty user <code>AGENTS.md</code>, creates memory, and synchronizes packaged skills with a Claude symlink (<a href="repo/packages/core/src/agent.ts">agent.ts</a>, lines 49–119). No live model starts until a message reaches that identity.</p>
+<p><strong>Prompt construction and role behavior.</strong> Every invocation builds built-in communication instructions plus self/team information, memory index, workspace instructions and finally config customization. <code>prompt_file</code> takes precedence over inline config prompt. A missing prompt file is silently ignored. A hash cache tracks prompt composition (<a href="repo/packages/core/src/agent.ts">agent.ts</a>, lines 126–241). Specialist competence and leadership policy are therefore actual configured instructions, not separate orchestration logic. Packaged skills are recopied on every <code>ensureAgentDirectory</code>, overwriting packaged skill directories while preserving unrelated custom ones. A notable custom-cwd limitation: <code>invokeAgent</code> provisions and reads prompts from <code>&lt;workspace&gt;/&lt;agentId&gt;</code> but executes in <code>agent.working_directory</code>; API prompt/memory editing instead targets that configured working directory. Nondefault cwd configurations can therefore split identity/configuration files from those actually injected into the run (<a href="repo/packages/core/src/invoke.ts">invoke.ts</a>, lines 191–209; <a href="repo/packages/server/src/routes/agents.ts">agents API</a>, lines 211–247).</p>
+<p><strong>Execution, tools and permissions.</strong> Providers are adapters over executable CLIs. Codex receives a developer-instruction config override and <code>--dangerously-bypass-approvals-and-sandbox</code>; Claude receives <code>--dangerously-skip-permissions</code>; tool execution is delegated to those harnesses, inheriting the daemon environment plus provider credentials and <code>TINYAGI_AGENT_ID</code> (<a href="repo/packages/core/src/adapters/codex.ts">Codex adapter</a>, lines 18–46; <a href="repo/packages/core/src/adapters/claude.ts">Claude adapter</a>, lines 27–43; <a href="repo/packages/core/src/invoke.ts">invoke.ts</a>, lines 216–252). Separate cwd/configs provide organization and continuation boundaries, not OS-level access isolation. There is no TinyAGI capability broker, per-tool approval policy or role-specific permission system in this path.</p>
+<p><strong>Routing and concurrency.</strong> Public routing matches a leading agent/team mention, team names resolve to leader, and unknown/unmentioned routes default to <code>tinyagi</code>, with fallback to the first configured agent during processing. Messages are claimed transactionally and processed serially per queue target, concurrently across targets. Consecutive room notifications are batched into one prompt. A non-room message flushes that batch (<a href="repo/packages/core/src/router.ts">router.ts</a>, lines 9–56; <a href="repo/packages/teams/src/chatroom.ts">chatroom.ts</a>, lines 8–42). This reduces repeated invocations without a dependency graph or a global concurrency limiter. A shared working directory can also undermine independent external-CLI continuation even when IDs differ.</p>
+<p><strong>Persistence and resume.</strong> SQLite persists pending/queued/processing/completed/dead state, outbound acknowledgement state, room history and an assistant/user message mirror. It is not the full coding transcript: Codex output filtering retains <code>agent_message</code> text, while Claude includes text and tool-name markers rather than structured tool arguments/results. Claude continues its cwd conversation; Codex resumes the last conversation rather than a stored TinyAGI-selected thread ID (<a href="repo/packages/core/src/queues.ts">queues.ts</a>, lines 25–62; adapters cited above). Reset creates a workspace <code>reset_flag</code>, consumed on the next job to omit continuation. It does not itself erase transcripts or cancel a current subprocess (<a href="repo/packages/cli/src/agent.ts">agent CLI</a>, lines 355–383; <a href="repo/packages/main/src/index.ts">main/index.ts</a>, lines 90–96).</p>
+<p><strong>Scheduling and supervision.</strong> Heartbeat loops over configured agents, respects enabled/interval settings, reads <code>heartbeat.md</code> or a generic pending-task prompt and posts to the API. <code>lastSentAt</code> is memory-only, updated on enqueue success rather than useful completion. Busy agents accumulate those jobs. The heartbeat is not a liveness lease or stuck-job detector (<a href="repo/packages/main/src/heartbeat.ts">heartbeat.ts</a>, lines 13–90). Cron and one-shot schedules persist JSON and enqueue ordinary messages. Past one-shot dates are skipped at startup, and a one-shot is disabled after enqueueing rather than successful execution. There is no durable missed-run catch-up or completion-dependent recurrence (<a href="repo/packages/core/src/schedules.ts">schedules.ts</a>, lines 33–119).</p>
+<p><strong>Interruption and steering.</strong> The active-process map allows a per-agent SIGTERM. The kill endpoint calls <code>failMessage</code>, emits <code>agent:killed</code> and clears the current serialization chain. That is a retryable failure, not a terminal cancelled state. Existing promise closures are not invalidated, and a new chain can be created while an earlier child/queued closure is settling. <code>runCommandStreaming</code> treats <code>code === null</code> as success, including signal-exit cases. These interactions create source-visible risks of killed work being requeued, later marked complete, or work overlapping after stop; no runtime race reproduction was attempted (<a href="repo/packages/core/src/invoke.ts">invoke.ts</a>, lines 18–23 and 110–119; <a href="repo/packages/server/src/routes/queue.ts">queue API</a>, lines 163–178; <a href="repo/packages/main/src/index.ts">main/index.ts</a>, lines 158–196 and 247–251). New chat input is queued behind existing work, not injected into a live model turn. The UI has no full session fork/compact/archive control plane.</p>
+<p><strong>Failure, retry and recovery.</strong> SQLite retries failed jobs up to five attempts, then exposes dead jobs for manual retry/delete; startup returns all queued/processing messages to pending. This is useful crash recovery but replays whole messages and side effects, without a step checkpoint or exactly-once tool semantics (<a href="repo/packages/core/src/queues.ts">queues.ts</a>, lines 13, 132–147 and 195–212). Adapter exceptions are caught inside <code>processMessage</code>, converted to a user-facing error response and then return normally: the outer queue usually marks that message complete rather than exercising the retry policy (<a href="repo/packages/main/src/index.ts">main/index.ts</a>, lines 100–137 and 175–185). Failures outside that catch can retry. Claude has a 30-second post-result grace timer, but no general maximum invocation duration; Codex does not call <code>signalDone</code> (<a href="repo/packages/core/src/invoke.ts">invoke.ts</a>, lines 122–134; <a href="repo/packages/core/src/adapters/claude.ts">Claude adapter</a>, lines 46–55).</p>
+<p><strong>Completion, acceptance and retirement.</strong> Job completion means <code>processMessage</code> returned; task completion is an unrestricted tracker status update. There is no cross-check against tests, required reviewer, human product acceptance or done-triggered schedule shutdown. CLI removal cleans team membership, deletes empty teams/reassigns leaders and recursively removes the canonical agent workspace, whereas the API deletion only removes the settings key. Neither path provides a complete audit-preserving retirement transaction over queued jobs, schedules, active processes, task references and provider history (<a href="repo/packages/cli/src/agent.ts">agent CLI</a>, lines 107–163; <a href="repo/packages/server/src/routes/agents.ts">agents API</a>, lines 88–97). Queue maintenance prunes completed jobs and acknowledged responses after the default day, while agent/room history is separately retained (<a href="repo/packages/core/src/queues.ts">queues.ts</a>, lines 207–249).</p>
+<h2 id="assessment-concrete-coordination-trace">Concrete coordination trace</h2>
+<p>A source-traced request can begin as the human changing an assigned task to <code>in_progress</code> in TinyOffice. The detail panel first updates the task and then sends <code>@&lt;assignee&gt; &lt;title&gt;\n\n&lt;description&gt;\n\n[task:&lt;id&gt;]</code> to <code>/api/message</code> (<a href="repo/tinyoffice/src/components/task/task-detail-panel.tsx">task-detail-panel.tsx</a>, lines 98–106). This is a real implementation bridge between tracker and agent. The bridge is UI-specific: the tasks API merely writes a record; changing status through the shell skill/API does not universally dispatch a run. A failed send is swallowed after the task has already changed status. Board drag-and-drop and the explicit assignment action also dispatch messages, with the opposite ordering: enqueue first, then persist status (<a href="repo/tinyoffice/src/app/(office)/projects/tasks/page.tsx">tasks/page.tsx</a>, lines 130–145 and 164–175). These paths are not atomic with the tracker update, so either side can disagree after an error.</p>
+<p>The message route resolves the mention to an agent/team leader, persists user text and enqueues under that target. The queue transaction claims it and the per-agent promise chain invokes the local harness. Team-routed text has a subtle boundary: enqueue resolves the team to an explicit agent, and <code>processMessage</code> uses the pre-routed branch without re-parsing or stripping the original mention. It therefore loses explicit team-route context and can fall back to that agent's first configured team. An agent in multiple teams is not guaranteed to retain the originating project/team for its next DM (<a href="repo/packages/server/src/routes/messages.ts">messages.ts</a>, lines 22–42; <a href="repo/packages/main/src/index.ts">main/index.ts</a>, lines 69–84; <a href="repo/packages/teams/src/conversation.ts">conversation.ts</a>, lines 37–49).</p>
+<p>Suppose the worker replies <code>Auth implementation ready. [@reviewer: Check login.ts and run regression tests] [#dev: Ready for review]</code>. The balanced-bracket parser tolerates nested brackets in code expressions; text outside DM tags is attached as shared context, comma-separated recipients fan out, invalid/self/nonteammate recipients are filtered and recipients are deduplicated per response (<a href="repo/packages/teams/src/routing.ts">routing.ts</a>, lines 19–59 and 139–169). The room post is saved and separately enqueued to every other member. The DM becomes another flat job with a new message ID and <code>fromAgent</code>, not a child task or awaited future. Separate recipients can execute in parallel; multiple DMs to one agent serialize. Reviewer updates/comments can go through the tasks shell API (<a href="repo/.agents/skills/tasks/scripts/tasks.sh">tasks.sh</a>, lines 102–124 and 170–202).</p>
+<p>Dispatch waits for invocation completion: the streaming callback persists and sends each assistant text event to the human, but DM/room extraction runs only after <code>await invokeAgent</code> returns (<a href="repo/packages/main/src/index.ts">main/index.ts</a>, lines 100–108 and 134–136). In the Codex adapter, each <code>agent_message</code> overwrites <code>response</code> rather than accumulating it (<a href="repo/packages/core/src/adapters/codex.ts">codex.ts</a>, lines 32–47). A handoff or room tag in an earlier streamed message can therefore appear in the human-facing conversation without ever being dispatched if the final retained message omits it. Fan-out starts after the originating invocation ends, and reliable handoff requires the tags in the retained final response.</p>
+<p>The reviewer must mention the requester again to route an answer back. There is no durable request/reply correlation, join over all recipients, maximum conversation hop count, supervisor loop detector or shared decision object. Room post fan-out can therefore also produce repeated invocations. The packaged agent instructions request restraint, and room batching reduces prompt count but does not enforce termination. Per-agent queue ordering is the hard coordination mechanism; plan quality and closure remain agent behavior.</p>
+<p>Telegram follows the same API path after pairing and media download. Outbound assistant text is signed, hooks process it, files are extracted and a response row is queued; Telegram polls pending responses and uses the original message mapping or <code>senderId</code> to select a target chat (<a href="repo/packages/core/src/response.ts">response.ts</a>, lines 52–92; <a href="repo/packages/channels/src/telegram.ts">telegram.ts</a>, lines 489–515). Internal DMs inherit the original channel/sender, but room notifications use channel <code>chatroom</code>. Their subsequent answers are not automatically Butler-mediated decisions to the human. Heartbeats use channel <code>heartbeat</code>, not a selected human Telegram recipient. A proactive escalation needs explicit paired-user send tooling or another deliberate routing step.</p>
+<h2 id="assessment-substantial-additional-capabilities">Substantial additional capabilities</h2>
+<p><strong>Multiple harnesses and custom model endpoints.</strong> Claude, Codex and OpenCode can coexist agent by agent. Custom provider config selects a Claude/Codex harness and injects compatible API endpoints/credentials (<a href="repo/packages/core/src/invoke.ts">invoke.ts</a>, lines 211–259; <a href="repo/packages/core/src/adapters/opencode.ts">opencode.ts</a>, lines 15–43). This would let Wingman experiment with role-specific harnesses/models, beyond its described Codex organization. Integration must normalize resume, permissions and event fidelity. An alternate model endpoint is not another execution host.</p>
+<p><strong>Multi-channel media and controlled sender access.</strong> Telegram, Discord and WhatsApp adapters extend the human interface, with pairing and inbound/outbound file handling. Telegram accepts photos/documents/audio/voice/video/stickers and embeds local file references in prompts (<a href="repo/packages/channels/src/telegram.ts">telegram.ts</a>, lines 281–357 and 447–465). That is useful for product references and demonstrations. It needs an explicit organization-level channel/identity policy to prevent unrelated chats sharing an agent's latest coding conversation. Pairing protects sender intake. It does not create a sandbox around file/tool access.</p>
+<p><strong>Hierarchical agent memory and deployable skills.</strong> The memory loader parses per-file name/summary metadata and formats a hierarchy for prompt injection; full text remains on disk for selective reading. Skills are synchronized into agents, and the API supports skill registry search/install (<a href="repo/packages/core/src/memory.ts">memory.ts</a>, lines 19–131; <a href="repo/packages/server/src/routes/agents.ts">agents API</a>, lines 102–207). This provides selective reusable knowledge/capabilities beyond fixed role instructions. Wingman would need project-scoped ownership/versioning and protection against packaged skill refresh replacing edited packaged skills. Registry installation uses external <code>npx</code> execution. It was inspected, never run.</p>
+<p><strong>Arbitrary scheduled assistant work.</strong> Cron and one-shot jobs are first-class schedule records rather than only a ProjectMaster supervision timer. They could support scheduled research, reporting or maintenance across roles. Their enqueue-based completion, skipped overdue one-shots and absent missed-run ledger constrain unattended reliability (<a href="repo/packages/core/src/schedules.ts">schedules.ts</a>, lines 67–119 and 131–185).</p>
+<p><strong>Daemon plugins for transformation and event integration.</strong> Plugins dynamically load from the TinyAGI home, receive event subscription/logging context, and can transform incoming/outgoing messages and metadata (<a href="repo/packages/core/src/plugins.ts">plugins.ts</a>, lines 37–45, 82–144 and 150–170). This creates a practical extension seam for routing/notification/instrumentation. Plugins execute in the daemon process and hooks are best-effort, not a transactional durable workflow or isolation boundary.</p>
+<h2 id="assessment-grounded-mechanisms-and-innovation-assessment">Grounded mechanisms and innovation assessment</h2>
+<p>The strongest design is the combination of durable per-agent queues with a small textual collaboration protocol. A model can emit individual DMs, parallel fan-out and persistent room posts without a custom tool-call API. Balanced-bracket parsing allows programming expressions in messages; shared context plus directed content reduces duplicated handoff text; team validation reduces accidental dispatch to arbitrary identities. The queue makes recipients independent and room batching amortizes consecutive updates. This is a useful compact mechanism supported by <a href="repo/packages/teams/src/routing.ts">routing.ts</a>, lines 19–195, <a href="repo/packages/teams/src/conversation.ts">conversation.ts</a>, lines 11–108, and <a href="repo/packages/teams/src/chatroom.ts">chatroom.ts</a>, lines 8–42. Its limits are prompt compliance, first-team ambiguity, unbounded conversation chains and lack of durable workflow correlation. It is not evidence of historical novelty.</p>
+<p>A second useful combination is dynamic team/memory prompt construction with file-backed local identity. A new member becomes visible in teammate instructions on the next invocation, and memory summaries provide a small index instead of loading every remembered document. The implementation cleanly separates runtime self/team information from user-customized <code>AGENTS.md</code> (<a href="repo/packages/core/src/agent.ts">agent.ts</a>, lines 126–241). This makes reconfiguration cheap but does not enforce organizational responsibilities or guarantee CLI conversation isolation when cwd is shared.</p>
+<p>The office activity view is an interesting visibility experiment, but should not be treated as a stronger execution model. <code>useOfficeSse</code> attaches agent invokes/mentions/responses to the most recently open root and closes them on <code>message:done</code>; <code>streamResponse</code> emits that event for each streamed text response, not only after the whole team finishes (<a href="repo/tinyoffice/src/components/office/use-office-sse.ts">use-office-sse.ts</a>, lines 46–75 and 120–166; <a href="repo/packages/core/src/response.ts">response.ts</a>, line 92). Parallel human requests and intermediate model text can therefore make its apparent work sessions misleading. Wingman should derive executive activity from authoritative run/task events with parent/root IDs and explicit completion, not copy this heuristic as business truth.</p>
+<h2 id="assessment-practical-use-and-remaining-work">Practical use and remaining work</h2>
+<p>TinyAGI can contribute the local worker/harness adapter, named-agent settings, SQLite message/outbound queues, Telegram integration, dynamic team-room messaging, task/comment primitives, customizable agent memory and scheduling. The task-board dispatch and packaged task skill already connect human assignment to agent actions, so a prototype Wingman need not start from an empty orchestration framework.</p>
+<p>Before making it the core,:</p>
+<ul>
+<li>adapt agent identity to include stable profile, project and execution host.</li>
+<li>explicitly persist provider thread IDs and task/run/root relationships.</li>
+<li>fix custom-cwd prompt divergence and team-origin routing.</li>
+<li>implement deterministic cancellation and late-event guards.</li>
+<li>preserve adapter failures in queue state.</li>
+<li>introduce replay-aware tool/workflow semantics.</li>
+<li>normalize structured tool, usage, test and artifact events.</li>
+</ul>
+<p>Current bypassed harness permissions and unauthenticated API route registration also need deliberate deployment treatment before exposing a control plane beyond a trusted environment (<a href="repo/packages/server/src/index.ts">server/index.ts</a>, lines 39–66 and 107–111). This is a concrete consequence of the execution/control architecture, not a claim that sender pairing is absent.</p>
+<p>The main new product work remains substantial:</p>
+<ul>
+<li>Butler/ProjectMaster intake tied to a registry.</li>
+<li>per-project ProductMaster/TechMaster instances.</li>
+<li>discovery/question/answer and scope/specification/acceptance records.</li>
+<li>ticket dependencies and integration supervision.</li>
+<li>test evidence and accepted delivery states.</li>
+<li>Mac/Endeavour workers with shared coordination and coherent project placement.</li>
+<li>structured executive briefings and linked activity timelines.</li>
+<li>a real per-agent coding workspace.</li>
+</ul>
+<p>Those capabilities could be layered on the substrate, but are not established merely by naming existing agents after Wingman roles.</p>
+<h2 id="assessment-verification-scope-and-uncertainty">Verification scope and uncertainty</h2>
+<p>Inspected source includes:</p>
+<ul>
+<li>the CLI agent lifecycle.</li>
+<li>main daemon/heartbeat.</li>
+<li>core types/config/routing/invocation/queues/response/memory/schedules/plugins.</li>
+<li>all three provider adapters.</li>
+<li>team parser/DM/room/batching.</li>
+<li>Telegram intake/outbound sections.</li>
+<li>server message/agent/queue/project/task APIs and database.</li>
+<li>TinyOffice task board/detail.</li>
+<li>company relationships.</li>
+<li>per-agent tabs/chat.</li>
+<li>office data and SSE state.</li>
+</ul>
+<p>Packaged task and paired-user-send scripts were read as implementation evidence, not invoked as skills. Checked the repository's root and docs <code>AGENTS.md</code>; no ancestor instruction files were present in the searched path. The documentation's older queue-processor layout and future-dashboard language were not used to override the actual packages/TinyOffice implementation.</p>
+<p>Missing-capability searches covered <code>packages/</code>, <code>tinyoffice/src/</code>, CLI/provider paths and packaged skill inventory for project identity, dependencies, approvals/acceptance, discovery, host/remote runner, workflow and blocked-state terms. Project IDs appeared in tracker/UI code rather than the execution job model. Searches found no test/spec files in the tracked source inventory, and root <code>package.json</code> has build/start/development commands but no test script. No automated test suite was run, and that inventory result is not proof of runtime correctness or complete absence of external tests.</p>
+<p>All described execution paths and edge cases are static findings. Provider CLI flag compatibility, actual resume behavior, Telegram delivery, race outcomes, database replay under crash, and browser rendering were not exercised. The report assesses the checkout at its stated commit, with no claims about newer upstream releases or hosted behavior.</p></article>
+<section id="source-record"><h2>Source and evidence</h2><p class="url-text">https://github.com/TinyAGI/tinyagi</p>
+<ul><li><a href="repo/">Open the pinned source checkout</a></li><li><a href="assessment/ASSESSMENT.md">Read the Markdown assessment</a></li>
+<li><a href="../generic/assessments/_audits/qa04.md">Read the historical independent source audit</a></li><li><a href="../generic/method.html">Read the method and evidence limits</a></li></ul></section>
+<nav class="report-switch" aria-label="Adjacent project reports"><a href="../teammcp/index.html">Previous project: TeamMCP</a><a href="../warren/index.html">Next project: Warren</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../index.html">Return to overview <img src="../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

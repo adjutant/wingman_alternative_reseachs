@@ -1,0 +1,71 @@
+{
+  "scope": "Representative final-build browser checks with WCAG 2A and 2AA rules. Automated checks do not establish full accessibility conformance.",
+  "resolved_finding": "Made every code block keyboard-focusable after a mobile check found a horizontally scrolling excerpt without keyboard access. All five final checks passed.",
+  "checks": [
+    {
+      "page": "index.html",
+      "viewport": 1440,
+      "html_sha256": "feec0701f40a782f5b3a082f22fb8d102d3edc4d17ab233f0b19f7b63f4c6366",
+      "axe_version": "4.12.1",
+      "counts": {
+        "inapplicable": 32,
+        "incomplete": 0,
+        "passes": 28,
+        "violations": 0
+      },
+      "violations": []
+    },
+    {
+      "page": "gstack/index.html",
+      "viewport": 1440,
+      "html_sha256": "d741056a143c31ef7f6fe9cb460fed3a028d33005f3c12c25d344dc7f3e9c880",
+      "axe_version": "4.12.1",
+      "counts": {
+        "inapplicable": 35,
+        "incomplete": 0,
+        "passes": 25,
+        "violations": 0
+      },
+      "violations": []
+    },
+    {
+      "page": "gstack/index.html",
+      "viewport": 390,
+      "html_sha256": "d741056a143c31ef7f6fe9cb460fed3a028d33005f3c12c25d344dc7f3e9c880",
+      "axe_version": "4.12.1",
+      "counts": {
+        "inapplicable": 32,
+        "incomplete": 0,
+        "passes": 28,
+        "violations": 0
+      },
+      "violations": []
+    },
+    {
+      "page": "generic/index.html",
+      "viewport": 390,
+      "html_sha256": "5755885931cd445805ebc94a3f094dbffcc759fdebf8cc304cc7b8b50d68dd9e",
+      "axe_version": "4.12.1",
+      "counts": {
+        "inapplicable": 35,
+        "incomplete": 0,
+        "passes": 25,
+        "violations": 0
+      },
+      "violations": []
+    },
+    {
+      "page": "index.html",
+      "viewport": 390,
+      "html_sha256": "feec0701f40a782f5b3a082f22fb8d102d3edc4d17ab233f0b19f7b63f4c6366",
+      "axe_version": "4.12.1",
+      "counts": {
+        "inapplicable": 32,
+        "incomplete": 0,
+        "passes": 28,
+        "violations": 0
+      },
+      "violations": []
+    }
+  ]
+}

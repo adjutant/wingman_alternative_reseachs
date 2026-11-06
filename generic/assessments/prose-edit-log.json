@@ -1,0 +1,492 @@
+{
+  "scope": "Conservative terminology, clause, filler, and inventory edits. Full semantic prose review remains required.",
+  "backup": "/var/folders/v4/ygpb7xgn3vd_p18mtk1ggmfr0000gn/T/wingman-prose-before-krlp1v0g",
+  "documents": [
+    {
+      "path": "agency/assessment/ASSESSMENT.md",
+      "before_sha256": "74d9161bf3d50ce3fc86611f8af972d910be5424b19099a6eab5ccfd7afd4aaf",
+      "after_sha256": "3952ff4026f6da54e75d99578f42f646c759efb302e95d466d8963252fcddabe",
+      "inventories_changed_to_lists": 3
+    },
+    {
+      "path": "agent-deck/assessment/ASSESSMENT.md",
+      "before_sha256": "57c818faeed6e3f8cb426d42acf37b97c8c3c8980ff60e1de5f1b7d3b8eddb85",
+      "after_sha256": "c346ad28dcf5974b543b8cfeaa7bcc2def434478b38c32eac15cdd0f18cd3682",
+      "inventories_changed_to_lists": 1
+    },
+    {
+      "path": "agent-deck/assessment/Execution_and_Coordination.md",
+      "before_sha256": "c099191c0e93dc5f58e93eaf356f89812524c0cfc154a5a74c67e79f1e544f70",
+      "after_sha256": "d76a9ea51aab3a8f100526784c4e401ea9c510a17154e5b86376a29b40ec173b",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "agent-of-empires/assessment/ASSESSMENT.md",
+      "before_sha256": "b47b07a4483355eb6efb83fcedd5d9308d35483f27b130e4620bf43537c87eb1",
+      "after_sha256": "b55943572f22235e9450e6d0f166bcf98515f9f01980e3888d5ab9be5bf81b60",
+      "inventories_changed_to_lists": 3
+    },
+    {
+      "path": "agent-orchestrator/assessment/ASSESSMENT.md",
+      "before_sha256": "e0487a4951eaaf889d617d2b34cf3902d1bf117ec4b3e36e30abf169a50a543c",
+      "after_sha256": "10c679ab7cf729d8844e31d7d746873daf3cb18cb0ee2886ab5b57cd0171e570",
+      "inventories_changed_to_lists": 2
+    },
+    {
+      "path": "agent-orchestrator/assessment/Agent_Lifecycle_and_Continuity.md",
+      "before_sha256": "0484890c5444e88965fca8159eab243770b9bc9dcf6c2cb9d68808199e66f5e0",
+      "after_sha256": "9a2c8912abf0ab2e5015248e859377d3c6d83cf8a1e1881a4bffafe4920b4f63",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "agent-swarm/assessment/ASSESSMENT.md",
+      "before_sha256": "d5a88857f17ac6f7b3c6da3cb7883a4919cbd5aae837ceccaccf23fa849a3134",
+      "after_sha256": "262853975f628de6ef0c37ef76e78508508ef0d850423d7c851360b761e78961",
+      "inventories_changed_to_lists": 1
+    },
+    {
+      "path": "agentopology/assessment/ASSESSMENT.md",
+      "before_sha256": "5dd72221dd9298fa9d0a1c1ba6bf44631f8873110082f115ef1dd67954927377",
+      "after_sha256": "c15778feb7303197d195065028be5f713eeec94d055287e77c346118f3f89b6e",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "agentrail/assessment/ASSESSMENT.md",
+      "before_sha256": "0e363307ec46e53b7bdf63a22e5fb9a42a2c7e0a1b340f1627d5c029b8c02613",
+      "after_sha256": "333f60958b919a98901e5418e57de5368fef47539892cba115b126562fc84f1b",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "amux/assessment/ASSESSMENT.md",
+      "before_sha256": "373435b9d945d5cdd80919df1efc1bb912338c34d0d02c80d2efc83208220164",
+      "after_sha256": "f3a82da4e71f7b0e32ed984e31274a708bc31f792f0fc6a2d38c42fd02609634",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "antfarm/assessment/ASSESSMENT.md",
+      "before_sha256": "08b456a34bd4f769f707ecb00ad9bf24d65fb1e78790c853a568edaa8c9680d7",
+      "after_sha256": "c7db6a929a495d23fb64f2d29c68a7e77150d7644ae20c32e53c463dd955760a",
+      "inventories_changed_to_lists": 4
+    },
+    {
+      "path": "automaker/assessment/ASSESSMENT.md",
+      "before_sha256": "eed1e3a32c660920c15dd58e3dd564c257165930b43c20345740280e5a3ca400",
+      "after_sha256": "97fb90e5cfefc6bf0b29a4bd160550950a0afcbe9abf62f3ed5482fe71223d16",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "ax/assessment/ASSESSMENT.md",
+      "before_sha256": "b92c0457e49e18288cc5ccbda7d3bcc356ba0371b154ff1198939310fc41dbd5",
+      "after_sha256": "8254eece4a15a340e433b90c230d1a12c719f63b3205ec08df4f54f52032fc49",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "babysitter/assessment/ASSESSMENT.md",
+      "before_sha256": "fb38c873e137163f48ec7c59964a75a3099af1de153e411887ec134b78bdc1d0",
+      "after_sha256": "a6bedbb5acdf671886cf4553bfd85448a2d2203efaae1c2839ceaa5ceaab2501",
+      "inventories_changed_to_lists": 1
+    },
+    {
+      "path": "bernstein/assessment/ASSESSMENT.md",
+      "before_sha256": "6a9f10537ee15b17ce5387f56fc0109208f1f6cf59689bb7d4aba76955197f22",
+      "after_sha256": "7f655c2442a4516b8d5c89307364600b1c44501256677d9b29fe331f9b333a55",
+      "inventories_changed_to_lists": 1
+    },
+    {
+      "path": "claude-squad/assessment/ASSESSMENT.md",
+      "before_sha256": "1ede89a0c612247d53ca122f2aa1841670a0e78f87aa5cda87831ffc26a3afbe",
+      "after_sha256": "304ac325b808b313cb65c1eac4149482d3a55686ea8218cb10c5ac75f9917888",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "claw-empire/assessment/ASSESSMENT.md",
+      "before_sha256": "0dada27e820c17e1c6fd56e634a8dc602255adfbcf683e4caac6229f9f2cf2f4",
+      "after_sha256": "448b9ab70ffcb3cba6f6471bee42c76618d796f57fd52b8eca153ff41c2f4f32",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "claw-empire/assessment/Agent_Lifecycle_and_Request_Trace.md",
+      "before_sha256": "6bfdbeca6d376a67f93e421f11552d7c6f28700e33a0e7b0f6ca481eb04f6795",
+      "after_sha256": "fdbe78b193c4976bfad000ae2f56725c0f17609aa375b87172fe406ec7cccf2e",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "clawteam/assessment/ASSESSMENT.md",
+      "before_sha256": "67a367a50b60752e5c5bdb5e5c3fee7078dd7b301d5d8f60328e27678fdf4eb2",
+      "after_sha256": "16ae1ad41dd8e635c9f60d5d896fd895fc2790420f04ad21c659ce1f65ad5da6",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "cli-agent-orchestrator/assessment/ASSESSMENT.md",
+      "before_sha256": "50eb3aa27b3640c1fb4d4f60b22ff88564b47fbc90cc508c9f82061e40816707",
+      "after_sha256": "c894d7817cabdb9aaba6a83ee8fb6f00569819ec537d410846f1e7180cbeba18",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "cmux/assessment/ASSESSMENT.md",
+      "before_sha256": "9425fcca966d8675dd6d0046f6b2df18b4d8add316e5f24ce7139dbd511ca0d3",
+      "after_sha256": "aa02182bb995cad7e81b8a26a9b5e46e38de26299f1442d77f7ef593a20deec6",
+      "inventories_changed_to_lists": 2
+    },
+    {
+      "path": "codex-autorunner/assessment/ASSESSMENT.md",
+      "before_sha256": "a60b3f4780c9936b30db290aebd9c31f2dc52c2d5dd9dd1dbe866c117b08c89a",
+      "after_sha256": "31e9c0bdcac68828d32a76f2ead86938d17b099bb055253300fd3de0cf147940",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "companyhelm/assessment/ASSESSMENT.md",
+      "before_sha256": "c831c2548da3ad3357f25cf70f5087741c37419b5a4cd31aeab466ad01715de3",
+      "after_sha256": "fe030098a7cc8054bfbca4fdeb3c817faae5c5ec921accc877aff4ef4b6f0a15",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "continuous-claude-v3/assessment/ASSESSMENT.md",
+      "before_sha256": "d7f8e7db4b3dc0a5a01d0cf06827da3d6d5f7e4a1949814940d8faa3caec9f52",
+      "after_sha256": "45c269ec40d789938cc61fb9b386bf009e1d2f3cdbff70d764b7e9c6a14aca21",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "crewly/assessment/ASSESSMENT.md",
+      "before_sha256": "dd3a79932b720296176ce24616260bbb3421600276a938a86bf3fd2b33b3df74",
+      "after_sha256": "9d68b7a84e487d27adb2c89387e40fd2f7a9e69e806af926feece3ee01e01c82",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "deepcode/assessment/ASSESSMENT.md",
+      "before_sha256": "c044df51e78d2e6b5e9100e633dd5cf4e7db7f4675a6a8e516027e8f76c1ea99",
+      "after_sha256": "723858497b1c11aa0bc2a2bafd9fbc7cb351a46e9f3229d4aaf8afe284c66b86",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "edict/assessment/ASSESSMENT.md",
+      "before_sha256": "8d1b65d5173a27c2d0928daa20dbc5da205f0a848e35102c15f166e780218176",
+      "after_sha256": "2c0604276c725b1340301e63093aa1b9d0d80328ff5ab17a9ce91d44081b9409",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "emdash/assessment/ASSESSMENT.md",
+      "before_sha256": "2fcef7e3faab9b793c991c0a51e37371b35f8ad8ef730419a5a925a59fabd65f",
+      "after_sha256": "3efce518022301b7964eae4a9e9d675d95368877e3c38b64636400f258fe8e03",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "gastown/assessment/ASSESSMENT.md",
+      "before_sha256": "cc014c88c1d24431fd68578b647fe9b23fff0a0290a607a95f8ce767bf7fa2d2",
+      "after_sha256": "0da384a292779915dda8c65380ef6f7f768ac76ae4e73c95e8bb4d1bac591293",
+      "inventories_changed_to_lists": 1
+    },
+    {
+      "path": "golutra/assessment/ASSESSMENT.md",
+      "before_sha256": "a6429e8cd7ac163636f390b7f736d144759a68e3176507ad8003d7add5a113c5",
+      "after_sha256": "12cba8018b28e6f2cd189c7b4324fa9c3c8f324ebd5e2c90a003027864c1968d",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "gstack/assessment/ASSESSMENT.md",
+      "before_sha256": "1a4dab7511fc7fb2fdbe63e873658715aba0aad3dece9f8403bd7b27cc0c093d",
+      "after_sha256": "b125aca0487924238df0366aa3df82845618207c12295197e9707203c17b1593",
+      "inventories_changed_to_lists": 2
+    },
+    {
+      "path": "hamlet/assessment/ASSESSMENT.md",
+      "before_sha256": "e2fc05070dff3996c355ec14b4e16ede6a6dca0b8d9b4a018d321237e5f36e55",
+      "after_sha256": "c665f51329e41be925e1740bff8bfe315e7fa3c83fc55170bcafd71ef72847db",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "happy/assessment/ASSESSMENT.md",
+      "before_sha256": "55974cc4b2e751291d4d15a12b6c27ebffb6a9f69bce701f8ee6276980eb3ad5",
+      "after_sha256": "5fe593e33dc2f6ff64d5c9ab3f427a784b8f92f6ab7bfbbce83d7c48fcbcd38d",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "hcom/assessment/ASSESSMENT.md",
+      "before_sha256": "b8e043a87b5aedd607cd50f891b9d7322f18f3a4017fa0b815b3e8958904b755",
+      "after_sha256": "23be8262a1bf203a1e6d832cb66ef38965713739b2511fbd46fd447f72e05f83",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "herdr/assessment/ASSESSMENT.md",
+      "before_sha256": "05c90b95e73d04a59d205d6f69c11771caf46865833eec1a48625d9a66eccb2c",
+      "after_sha256": "a53fde889a2713fbecf326db4571ada95c053d2bd08281bdadfedcd5d05eae9b",
+      "inventories_changed_to_lists": 2
+    },
+    {
+      "path": "intent/assessment/ASSESSMENT.md",
+      "before_sha256": "ec9978bb72923cb8f941c42a62fec7e4d77ecb93fd525ff181bbc9dec28f32ed",
+      "after_sha256": "def2eafa8a4b24c53e1229dd6d1c636ea1bcb2b152b6f31bbfb5add597a1f215",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "kander/assessment/ASSESSMENT.md",
+      "before_sha256": "cb351db57f4e6855f405ddab872b11a5b91bb576c3a78f0666a6def24ddeb7dd",
+      "after_sha256": "77a15d291079fe644205819af5e8cb68879792c8d349988ae200a777905f2705",
+      "inventories_changed_to_lists": 2
+    },
+    {
+      "path": "maestro/assessment/ASSESSMENT.md",
+      "before_sha256": "a47c3597139737784eeb1f875fd178ebe892619cf2acfd42fbceedc71a9a8100",
+      "after_sha256": "2ca030c4e4f3cf81e8567f29be8757b41eb92f7d886bc062a170112a5e0d47fe",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "mission-control/assessment/ASSESSMENT.md",
+      "before_sha256": "71612fd00f0e60db0418daacb14377f897f17d75fb09c12ef31a145bece82210",
+      "after_sha256": "781a3d8f77f9df356d6e2c7a3b6e65484c8615674c652fe3d02c099ff8647555",
+      "inventories_changed_to_lists": 1
+    },
+    {
+      "path": "multi-agent-shogun/assessment/ASSESSMENT.md",
+      "before_sha256": "3178faccab8d408c8945754e7b38f72dc730759d0c642aeedcd5a2615f896f6c",
+      "after_sha256": "724497be5d7b2aa188d883369a92d411b347dc49c537530f169bbabda7469387",
+      "inventories_changed_to_lists": 1
+    },
+    {
+      "path": "multi-agent-shogun/assessment/Execution_Protocol_Audit.md",
+      "before_sha256": "fd5b7eb9030500b554bc05a923d95a9569a08781e4cca1b09d096fe869487c2d",
+      "after_sha256": "0dddcf82c89b217ea707cf643a6aca492206dc1c09f4e57801e726f2090cc527",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "multica/assessment/ASSESSMENT.md",
+      "before_sha256": "40cabb39bb47ed9891bee50e9e9603548625f72ce1f9f078f8410e877e30558d",
+      "after_sha256": "acbd23633bf0746123e623c7e1b219be4faba4be72a1d0d20c2f276a22aabf44",
+      "inventories_changed_to_lists": 2
+    },
+    {
+      "path": "multiclaude/assessment/ASSESSMENT.md",
+      "before_sha256": "732f9727d9b742e7cde8236440518f99c2dfe3b1c4afb288588eaba5745071bb",
+      "after_sha256": "74540275ab80e62a1d20060c17a9409f987d563fbd3678908573e2dd8b90bc5a",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "munder-difflin/assessment/ASSESSMENT.md",
+      "before_sha256": "f9b108e37d5b0407d5cbcb4cdd4efd2078e5c7bccfc383aae1f2c24b5de61f10",
+      "after_sha256": "33f752ef3410fda2f326b107fea2e716b805eaa30dd4ad97730f4514e67bc1bf",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "myclaude/assessment/ASSESSMENT.md",
+      "before_sha256": "05f03428280f72fe029f4416c9345e348f49725d95a5bb9bc97521b2a8b16d54",
+      "after_sha256": "5dbd2f20bafbd35b910d3c7b6b590f81cb389639180d8e63c8f121539ce7c7a8",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "nasiko/assessment/ASSESSMENT.md",
+      "before_sha256": "c31c6cb439828c8d38be101acf46c62693bf2d72bede8e292f5f628bb4b6aafa",
+      "after_sha256": "53b8da98b8b3ac1614cbe236a4e315a3f57f876fb0829e17dfcd21762b138843",
+      "inventories_changed_to_lists": 1
+    },
+    {
+      "path": "oh-my-claudecode/assessment/ASSESSMENT.md",
+      "before_sha256": "d7b52278e346c53dc33d57ca32114ef021b912ca5b195acd5faa8c6062f458c3",
+      "after_sha256": "ea5f86517f3bfd573563abd1ff9a129b5cf9f7ca91de3d40f622f44ce4e6693e",
+      "inventories_changed_to_lists": 2
+    },
+    {
+      "path": "oh-my-codex/assessment/ASSESSMENT.md",
+      "before_sha256": "04f050108c7c6cb80bfa35e8292f20d2d21b6a0e08eeeac835a5e2eea4708ebe",
+      "after_sha256": "0892d0613b5ee28c22b4f8dff50385905fabb20f47d36387295a2de91149c1f0",
+      "inventories_changed_to_lists": 3
+    },
+    {
+      "path": "oh-my-openagent/assessment/ASSESSMENT.md",
+      "before_sha256": "65fbcc4df2fa511dd89fa2dc70236460a6a7ccc93c40dd57fbfe931764cfd604",
+      "after_sha256": "16b5682df21d1afb2582a635304f2cd37e288201cf7f2f99c8fe3fc1b3649a14",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "omnigent/assessment/ASSESSMENT.md",
+      "before_sha256": "5651d029b4720cde17c16a9e486bca53ed695a1e27793d9540329e49f7e4982a",
+      "after_sha256": "d1c094aa22328f1584cd73a7f1c94bcf6765f9fed164daec27ceb251f11f592d",
+      "inventories_changed_to_lists": 1
+    },
+    {
+      "path": "open-multi-agent/assessment/ASSESSMENT.md",
+      "before_sha256": "179d09f4164db8bf3f53f0f4a80e6e4e542c4ed88e9d93aff1a7046bd6ba5e6a",
+      "after_sha256": "5134f74329fd4d08eefbfcf2f1ebd1a91b3d7b0e881a0b0338e9c6302334b130",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "open-swe/assessment/ASSESSMENT.md",
+      "before_sha256": "7700982a896e138cb3da0ea5188cedfb9166087234ad8e300742d90bcd90329d",
+      "after_sha256": "0af587c1e5b7c445e0d08877186a29851f19e1e4828f79da3aca04000c0fd375",
+      "inventories_changed_to_lists": 1
+    },
+    {
+      "path": "openclaw/assessment/ASSESSMENT.md",
+      "before_sha256": "ace6a3d4c30fed63135f5ca963c42e36249a34c479a2d5133290ba43bb92c4d7",
+      "after_sha256": "fe253fdb8911b8a6071d123173f0c7bb493c96bdc75d6344a04b46e986633762",
+      "inventories_changed_to_lists": 2
+    },
+    {
+      "path": "openclaw/assessment/Runtime_and_Coordination.md",
+      "before_sha256": "15d67410a594767216e0eb00684d419f15c1cf1948d7a652c8c30fe038743eec",
+      "after_sha256": "a7f60f4ccc49abd90859423284d2ea8ae9ca6975cb18393c00453ca076094399",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "openhands/assessment/ASSESSMENT.md",
+      "before_sha256": "71016601d65cc0b0fa3355b5e5de6bc2c0de74e979d0ccbe253f8295e4ec7f2e",
+      "after_sha256": "46bd5963f4cdf0684ed891888df631b2f5549333816852610e15be936cdc0ff6",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "openrig/assessment/ASSESSMENT.md",
+      "before_sha256": "673864b0e1e14e79e8edbee8b837b0224f178ea840636f6b22cb93c23a449ba7",
+      "after_sha256": "586e971e8c108ade3f269cc367ebe4218e90c2d409281af8fa3338f2cf5e191c",
+      "inventories_changed_to_lists": 2
+    },
+    {
+      "path": "orca/assessment/ASSESSMENT.md",
+      "before_sha256": "a0abee2d125d897d719a83732130033e261cd8b5329b28b391227e56d96c88a4",
+      "after_sha256": "69f537c29b6652b389b1ec96ad1074f23bf3e7fabf47d80178fa2508c5cfe9d1",
+      "inventories_changed_to_lists": 1
+    },
+    {
+      "path": "orkas/assessment/ASSESSMENT.md",
+      "before_sha256": "9c60611ad76ae417ae204aee13543deaa016f56baec5b400976fa326236eea22",
+      "after_sha256": "e7bbbcdbffdde3966973144e925d1bf3bfaf53fbc8f6ebd2d2a89937b8869783",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "paperclip/assessment/ASSESSMENT.md",
+      "before_sha256": "68391844655ff1a9d35390418b2dbfa1bc596bb20a55861fcde1f5b034871ffe",
+      "after_sha256": "e46967bb8d66095f64f7d3ce8599cec2e238a32117bd15b4a24b8ed40c69f06c",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "paradev/assessment/ASSESSMENT.md",
+      "before_sha256": "c2c9f4f3fc494778c25d126ffdb5c85d69c2f63aa7a4362cf4c8cbb9318f0067",
+      "after_sha256": "7ec94a7c12f3c781e484e9c10688dc65e7a1809cea9730d82b6c0db751a67983",
+      "inventories_changed_to_lists": 3
+    },
+    {
+      "path": "paseo/assessment/ASSESSMENT.md",
+      "before_sha256": "0fe088dd4ec7ffe0086c02f2344fda58dede003cb9cf65862d7ada13f3571495",
+      "after_sha256": "3c49c6952ba1d92be2bcee60e98fb79e1366cad06170d9a13294423837d760f3",
+      "inventories_changed_to_lists": 1
+    },
+    {
+      "path": "plano/assessment/ASSESSMENT.md",
+      "before_sha256": "7edce3e1ae247fdb729f7078874ed2866544be9687b895db7f085eab30a48404",
+      "after_sha256": "bb218858251893a0f9a608f90108f7f94a2db4512935a0767657b24cd052e2cd",
+      "inventories_changed_to_lists": 3
+    },
+    {
+      "path": "ralph-orchestrator/assessment/ASSESSMENT.md",
+      "before_sha256": "c36e90c9ecc1c9d7bfa832c1eda1852e6c71393cc376f6c5554426ea71f46c9b",
+      "after_sha256": "fcd2f030ddc8bce908f86b5d90d15e6789917277ffed02418903743385c488e8",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "rocketride-server/assessment/ASSESSMENT.md",
+      "before_sha256": "c5200fea52153fcc1f6ed5d8077e888e30b2b686d6db740a32a3806eda373302",
+      "after_sha256": "0277db320afda557232a649a5bf7fe101d844ee303ec6f2dc39701e0da3f91ef",
+      "inventories_changed_to_lists": 2
+    },
+    {
+      "path": "routa/assessment/ASSESSMENT.md",
+      "before_sha256": "188b1dd0b022eda0279ad31eeaa1d5d812a5d0ccdcafa449b785928a81400756",
+      "after_sha256": "37a9de9803d3146d115d03925d393bcf621461b2f53de13c162703007984aca3",
+      "inventories_changed_to_lists": 3
+    },
+    {
+      "path": "ruflo/assessment/ASSESSMENT.md",
+      "before_sha256": "b6099b3deeffd1ecedf89095c5e15aaaff5b478f21d621912ad189893ed22075",
+      "after_sha256": "4165c9f9895231481af01c9d39d2d162f57385f3f9352789a18d938b6423183e",
+      "inventories_changed_to_lists": 1
+    },
+    {
+      "path": "scion/assessment/ASSESSMENT.md",
+      "before_sha256": "7ae01f105e016b2ee6996ebd119ed4d84ac4b88ee86d8319604c586eb5db784f",
+      "after_sha256": "0035d0464898405b789eaaa2b017effb93238e1001358db47677cb5b2632579d",
+      "inventories_changed_to_lists": 1
+    },
+    {
+      "path": "scion/assessment/Lifecycle_and_Coordination.md",
+      "before_sha256": "100f8dbaae096b84653f3515ed7986339598e99a432ff2a9a0a37b53b6af3e79",
+      "after_sha256": "e4fdb34524952b5ecac30e675867446d5d49e284bca78b05e866090cf44a75f0",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "sortie/assessment/ASSESSMENT.md",
+      "before_sha256": "005e33a255f44cf2d4e6da1319ac56585961fdfde2c19788f3a3496ea8e5c43e",
+      "after_sha256": "f152d3bac72a1faf7d15cfcf58a9d5594b5dbb131a16365ffdf0663ff5bce1b7",
+      "inventories_changed_to_lists": 1
+    },
+    {
+      "path": "squad/assessment/ASSESSMENT.md",
+      "before_sha256": "a4981dfbc3ee0f0488d2ca62e669eb817172a6e2286bf4c9eb62f1882ce9d3b5",
+      "after_sha256": "b44c1a4c1e6bc5d1d42c438f1d4bbe960921933b8795e0d92dd024c812800eb1",
+      "inventories_changed_to_lists": 1
+    },
+    {
+      "path": "stagewise/assessment/ASSESSMENT.md",
+      "before_sha256": "bfd2d8bebe6d9489dfe3cc740c917f32794b67fa237c5bc73eb2e57d838b8557",
+      "after_sha256": "6a9771f9d1be5bea3186ea9a397f7fdc5f95a0e0c4af8d5e4ea3e429ca6945d2",
+      "inventories_changed_to_lists": 1
+    },
+    {
+      "path": "superplane/assessment/ASSESSMENT.md",
+      "before_sha256": "aad89eac89f2c3f0057fb620b0ec279058d7d76f39ccd22a4dd4ed06dd541695",
+      "after_sha256": "1c5980353ddc597c32b608f9bd52be1cb1cea18743208e3099226d02604c4d41",
+      "inventories_changed_to_lists": 1
+    },
+    {
+      "path": "swarm/assessment/ASSESSMENT.md",
+      "before_sha256": "1854ea02ccc088344c9e3d2d7b8a92a0a5eea77342c2de837006fe3dc5c48f42",
+      "after_sha256": "51ada30eedda20d10a7e72ee8fdbbe49152892d27cd2d8e6381d930543d52771",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "swarmos/assessment/ASSESSMENT.md",
+      "before_sha256": "7fa656148e7e144a0098e7cef0af6a648c6045b827cf36285aac1b0223af7e51",
+      "after_sha256": "4ff860cc7526123a5138b894612fd3a0cc96b00e89983e91a3c3a39ded48a783",
+      "inventories_changed_to_lists": 3
+    },
+    {
+      "path": "swe-agent/assessment/ASSESSMENT.md",
+      "before_sha256": "44407a96ce920a989f1aef76ad0d03fa030f978dd485cfc8febccaed0c000464",
+      "after_sha256": "e3dd6d319af3c99dfed8544507659a3b1369aac655a81b890cd934513fa1e9f0",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "symphony/assessment/ASSESSMENT.md",
+      "before_sha256": "48c909c9e0b60cc302bccd65964dcb91043ce8de216b98f36efcec35a4161e97",
+      "after_sha256": "b6076b4a6a97d7e7f3850f359e84bb12468b9cbb99c010fbff1e65baa6b7c71a",
+      "inventories_changed_to_lists": 1
+    },
+    {
+      "path": "teammcp/assessment/ASSESSMENT.md",
+      "before_sha256": "b76a78841b5e1aee1202b5330912ce03d464c9e36e65fca0792f55e5bb39ec09",
+      "after_sha256": "71a005c9a877d530e497b973e2d2360dc4deb68a85c778e54242262b7393ad44",
+      "inventories_changed_to_lists": 2
+    },
+    {
+      "path": "tinyagi/assessment/ASSESSMENT.md",
+      "before_sha256": "302fd28d271f4a2c11c235ab479ebdbf37684fef7593366fc00a555b71ea5e04",
+      "after_sha256": "5e55241ce413a46126d810130152afe9926d89e4693bd9f32a173d4f67b14867",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "warren/assessment/ASSESSMENT.md",
+      "before_sha256": "cdb6bed538fb2d7d8ee8bd59bd4287bb12d19a833537afdc1019434c37485ba3",
+      "after_sha256": "603c61b92c5d0f16273647d21cc521e7fba413c2f8a2cdafa00a027d59223f58",
+      "inventories_changed_to_lists": 0
+    },
+    {
+      "path": "wrenyard/assessment/ASSESSMENT.md",
+      "before_sha256": "25a05cbe9a1969ed75f7a4363fb5c89e7ea50961c9b97dad3dfbe6214f6829d9",
+      "after_sha256": "6f691c3a02740196a16e38aaf3225f08bc6a1edb76eea93976713465f1ccc167",
+      "inventories_changed_to_lists": 1
+    },
+    {
+      "path": "zeroshot/assessment/ASSESSMENT.md",
+      "before_sha256": "439769ccd81b269d2e4f820429931b5872f75ff4e68f21f1155634015e2a5945",
+      "after_sha256": "f3f66e0f59f3117e61c21f8398e28b99633b91b7b45b68a95ad9dc68ba09540c",
+      "inventories_changed_to_lists": 0
+    }
+  ]
+}

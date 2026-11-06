@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Technical assessment against Wingman’s development organization."><title>Omnigent · Wingman Research</title>
+<link rel="icon" href="../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/report.css"><script defer src="../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../index.html"><img src="../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../index.html">Overview</a><a class="nav-link " href="../generic/index.html">Architecture findings</a><a class="nav-link " href="../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../generic/method.html">Method and evidence</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../index.html">Wingman Research</a><span class="crumb">/</span><span>Omnigent</span></div><span class="topbar-note">SOURCE REVIEW · 05 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Omnigent</h1><p class="subtitle">Technical assessment against Wingman’s development organization.</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#decision">Decision summary</a><a href="#assessment-omnigent-assessment">Omnigent assessment</a><a href="#assessment-architecture-and-actual-execution-model">Architecture and actual execution model</a><a href="#assessment-feature-comparison">Feature comparison</a><a href="#assessment-agent-definition-creation-and-lifecycle">Agent definition, creation and lifecycle</a><a href="#assessment-coordination-mechanics-and-a-concrete-request-trace">Coordination mechanics and a concrete request trace</a><a href="#assessment-major-additional-capabilities-and-integration-consequences">Major additional capabilities and integration consequences</a><a href="#assessment-grounded-mechanisms-worth-carrying-forward">Grounded mechanisms worth carrying forward</a><a href="#assessment-practical-fit-and-remaining-construction">Practical fit and remaining construction</a><a href="#assessment-verification-scope-and-uncertainty">Verification scope and uncertainty</a><a href="#source-record">Source and evidence</a></div></nav><section id="decision" class="decision"><h2>Decision summary</h2>
+<div class="brief-columns"><div><h3>Useful for Wingman</h3><p>Study versioned agent definitions, real hosted sessions, child relationships, steering, and approvals.</p></div><div><h3>Adoption boundary</h3><p>Session groups and automation schedules do not provide Wingman&#x27;s product tracker or project leadership.</p></div></div>
+<p class="scope-note">Source assessment at the commit below. Runtime limits appear in the technical report.</p></section>
+<dl class="facts"><div><dt>Source group</dt><dd>Coding workspaces</dd></div><div><dt>Commit</dt><dd><code>539fe5da7769fde0f6d2ed48fca10ef93e174a23</code></dd></div><div><dt>Coverage</dt><dd>24 Wingman features</dd></div></dl>
+<article id="technical-assessment" class="technical"><h2 id="assessment-omnigent-assessment">Omnigent assessment</h2>
+<ul>
+<li class="url-text">Repository: https://github.com/omnigent-ai/omnigent</li>
+<li>Checkout: <code>researchs/omnigent/repo</code></li>
+<li>Assessed commit: <code>539fe5da7769fde0f6d2ed48fca10ef93e174a23</code></li>
+<li>Assessment date: 2026-11-05</li>
+<li>Basis: local implementation review against <a href="../generic/purpose.html">Wingman purpose</a>; no services, models, installations or tests executed.</li>
+</ul>
+<p><strong>Verdict: a strong candidate for Wingman's execution substrate and detailed agent workbench, with meaningful coordination primitives, but not a ready standing development organization.</strong> Omnigent does execute independent coding sessions across real hosts, retains their histories, makes child relationships visible, supports steering and approvals, and supplies an instructive multi-harness coding orchestrator, Polly. Its first-class projects group sessions rather than describe products, its task page is an automation scheduler rather than ProjectTracker, and its management relationships are mostly spawn trees rather than portfolio/product/technical leadership. Wingman would still need the organizational domain, Telegram Butler, discovery-to-acceptance workflow, shared tickets and rooms, and executive summaries.</p>
+<p>The distinction is consequential: a durable <strong>registered agent</strong> is a versioned definition/bundle. An actual working <strong>instance</strong> is a conversation/session bound to that definition and an execution host. A Polly worker is a real child coding session, not just a persona in one model response. Neither the bundle nor a surviving transcript automatically constitutes an employee with a project, reporting line and continuing remit. See <a href="repo/omnigent/entities/agent.py">agent entity</a>, lines 11–57, and <a href="repo/omnigent/entities/conversation.py">conversation entity</a>, lines 41–95 and 173–219.</p>
+<h2 id="assessment-architecture-and-actual-execution-model">Architecture and actual execution model</h2>
+<p>The package exposes both <code>omni</code> and <code>omnigent</code> through <code>omnigent.cli:main</code> (<a href="repo/pyproject.toml">pyproject.toml</a>, lines 409–417). Relevant CLI paths are <code>server</code> (<code>cli.py</code>, line 4687), <code>run</code> (line 9134), and <code>host</code> (line 9813). The server command wires SQLAlchemy conversation, agent, comment, policy, permission, scheduled-task and project stores, plus an artifact store and <code>AgentCache</code>. It then initializes runtime capabilities and constructs the application. The local default is a SQLite <code>chat.db</code>; external store configuration is an implementation option, not evidence that this review exercised a distributed deployment (<a href="repo/omnigent/cli.py">CLI wiring</a>, lines 1304–1314, 4899–4960; <a href="repo/omnigent/db/db_models.py">database models</a>, tables at lines 190, 635, 731, 817, 932, 1045, 1329, 1510 and 1633).</p>
+<p>The control plane is a FastAPI server with routes for sessions, agents, projects, hosts, sharing, resources, policies, MCP, usage and automations (<a href="repo/omnigent/server/app.py">server assembly</a>, lines 120–155 and 1549 onward). The browser workbench consumes persisted snapshots and streamed events; terminals and native harness transcripts are additional views over the same session. It is not necessary for the human to keep that UI open for an already launched runner to execute.</p>
+<p>Execution is deliberately separated into three layers:</p>
+<ol>
+<li>A <strong>host daemon</strong> on a machine establishes an outbound WebSocket, advertises readiness, and receives launch/stop controls. The server retains host metadata and an active connection registry. This is actual remote-machine infrastructure, not a local process relabeled as a host (<a href="repo/omnigent/server/routes/host_tunnel.py">host tunnel</a>, lines 1–15; <a href="repo/omnigent/host/connect.py">host implementation</a>, lines 2215–2240 and 2358–2455).</li>
+<li>A <strong>runner</strong> is launched on that host and connects to the server through its own outbound tunnel. Framed HTTP requests are dispatched to its ASGI application; session data retains <code>host_id</code> and <code>runner_id</code> affinity. A disconnected host cannot magically execute queued work (<a href="repo/omnigent/server/routes/runner_tunnel.py">runner tunnel</a>, lines 1–14; <a href="repo/omnigent/runner/app.py">runner application</a>, lines 1298–1367).</li>
+<li>A <strong>harness adapter/process</strong> drives the selected native CLI or SDK and transports model output, tool calls, approval requests and lifecycle events. The process manager describes and implements per-conversation subprocess allocation, IPC, idle reaping and crash cleanup. Native terminal-backed sessions additionally involve tmux/bridges; different harnesses do not have identical controls or recovery semantics (<a href="repo/omnigent/runtime/harnesses/process_manager.py">process manager</a>, lines 1–17 and 99–140; <a href="repo/omnigent/runtime/harnesses/_scaffold.py">harness scaffold</a>, lines 1–33, 87–150).</li>
+</ol>
+<p>A session create first resolves a project/defaults, authorizes its agent, resolves routing/placement and binds a persisted conversation. It may use a registered agent or uploaded bundle. The route does not infer a business product or instantiate a fixed managerial hierarchy (<a href="repo/omnigent/server/routes/sessions/routes_core.py">create route</a>, lines 926–1083; <a href="repo/omnigent/server/routes/_sessions/orchestration.py">creation orchestration</a>, lines 11493–11583). Bundle and transcript durability are distinct from process liveness. A live process can be reaped while its conversation remains available. A resumed native session may also need its vendor's native transcript, recorded by <code>external_session_id</code>.</p>
+<h2 id="assessment-feature-comparison">Feature comparison</h2>
+<p>Verdicts use the assessment guide's meanings. “Similar” credits implemented equivalents while retaining the stated limits; “Resembles” denotes useful infrastructure that does not deliver the Wingman feature alone. Every row concerns this checked-out revision.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Capability</th>
+<th scope="col">Verdict</th>
+<th scope="col">Implementation evidence and concrete Wingman difference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F01</td>
+<td>Independent coding agents and specialist instances</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/omnigent/runner/tool_dispatch.py">Dispatch</a>, lines 2618–2654, 2921–2986 and 3064–3079, creates/continues actual child conversations; <a href="repo/omnigent/runtime/harnesses/process_manager.py">process manager</a>, lines 1–17, supplies separate execution. Many instances of a declared type can run under distinct titles. Polly's types are mostly harness choices, not Wingman's backend/frontend/mobile/test responsibilities.</td>
+</tr>
+<tr>
+<td>F02</td>
+<td>Extensible profiles, roles and teams</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/omnigent/spec/types.py">AgentSpec</a>, lines 1473–1586, and <a href="repo/omnigent/spec/parser.py">recursive parser</a>, lines 3324–3358, support prompts, skills, tools, nested definitions and spawning. <a href="repo/omnigent/server/routes/builtin_agents.py">Agent routes</a>, lines 1–15, install reusable user agents. Team membership/reporting roles are not first-class organizational records.</td>
+</tr>
+<tr>
+<td>F03</td>
+<td>Agent directory and working relationships</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/omnigent/server/routes/builtin_agents.py">Agent listing/conversion</a>, lines 70–115, exposes registered definitions; <a href="repo/web/src/shell/SubagentsPanel.tsx">SubagentsPanel</a>, lines 1–15 and 83–126, offers a navigable tree and graph. This is a session-tree directory, not a global directory connecting each employee to product/team/manager responsibilities.</td>
+</tr>
+<tr>
+<td>F04</td>
+<td>Telegram and Butler routing</td>
+<td><strong>Absent</strong></td>
+<td>Searches across <code>omnigent</code>, <code>integrations</code>, <code>examples</code> and <code>web/src</code> found no Telegram transport or Butler/ProjectMaster router. The concrete communication integration is <a href="repo/integrations/slack/src/omnigent_slack/service.py">Slack service</a>, lines 256–376 and 606–698. Translating a Slack thread bridge would still leave Butler's project routing and decision-return semantics to implement.</td>
+</tr>
+<tr>
+<td>F05</td>
+<td>Portfolio registry and existing/new intake</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/omnigent/entities/project.py">Project entity</a>, lines 1–42, and <a href="repo/omnigent/server/routes/projects.py">project CRUD</a>, lines 66–111 and 151–181, create durable owner-private session containers with launch defaults. No semantic intake determines whether a new conversational request continues a product or starts one.</td>
+</tr>
+<tr>
+<td>F06</td>
+<td>Per-project product/technical leadership</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/examples/polly/config.yaml">Polly definition</a>, lines 33–64 and 120–145, provides a tech-lead-like decomposition/delegation prompt. <a href="repo/omnigent/entities/project.py">Project schema</a>, lines 16–42, has no ProductMaster/TechMaster assignments. Leadership can be authored as profiles, but the paired persistent roles and interaction contract are not shipped.</td>
+</tr>
+<tr>
+<td>F07</td>
+<td>Research/discovery/iterative clarification</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/omnigent/server/ask_user_question.py">Structured AskUserQuestion</a>, lines 18–76, carries real multi-option questions, while <a href="repo/examples/deep-research/config.yaml">research example</a>, lines 23–47, supplies a research-oriented agent. Neither establishes proportionate product discovery or a project-scoped question/answer cycle through Butler.</td>
+</tr>
+<tr>
+<td>F08</td>
+<td>Scope/specs/scenarios/definition of done</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/examples/polly/skills/fanout/SKILL.md">Polly fanout</a>, lines 16–28, carries an acceptance contract; <a href="repo/examples/polly/skills/cross-review/SKILL.md">cross-review</a>, lines 13–39, checks a diff against it. These are authored task contracts and files, not managed product scope/scenario/DoD records. Entity and route searches found no corresponding product-definition model.</td>
+</tr>
+<tr>
+<td>F09</td>
+<td>Decomposition, assignment and shared tracking</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/examples/polly/skills/fanout/SKILL.md">Fanout</a>, lines 12–43, decomposes assignments into worker sessions and <code>.polly/registry.json</code>. <a href="repo/web/src/shell/TodoPanel.tsx">TodoPanel</a>, lines 25–70, displays harness todo snapshots. There is no common ticket/dependency/assignee service shared across the organization; “scheduled tasks” are automation instructions, not technical tickets.</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>Portfolio/project dashboard</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/omnigent/server/routes/projects.py">Projects API</a>, lines 1–12 and 92–111, underlies session grouping; <a href="repo/web/src/pages/TasksPage.tsx">TasksPage</a>, lines 1–10 and 48–95, manages recurring automations. Neither exposes product goals, ticket progress, leadership, blockers and delivery readiness together.</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>Agent rooms and direct collaboration</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/omnigent/tools/builtins/session_message.py">Session messaging tool</a>, lines 8–40, sends ordinary input to another owned session; <a href="repo/omnigent/server/session_orchestration.py">source authorization</a>, lines 79–123, checks private source ownership and bound runner identity. It enables direct collaboration, but has no persistent multi-agent room/membership abstraction or Room1/Room2 history.</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>Escalation and human decisions/approvals</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/omnigent/runtime/policies/engine.py">Policy engine</a>, lines 302–415, composes ALLOW/ASK/DENY; <a href="repo/omnigent/server/ask_user_question.py">structured questions</a>, lines 18–76, make human input actionable. The <a href="repo/omnigent/runtime/subagent_block_notifier.py">block notifier</a>, lines 45–55 and 250–329, wakes the recorded immediate parent after a child elicitation remains unanswered for 120 seconds, retries delivery, suppresses resolved blocks and follows delivered wakes with the human verdict. <a href="repo/omnigent/server/routes/_sessions/orchestration.py">Observer wiring</a>, lines 10661–10724, makes this executable session-level escalation; Wingman's Room2→Room1→Butler management routing remains absent.</td>
+</tr>
+<tr>
+<td>F13</td>
+<td>Durable project knowledge/directives</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/omnigent/spec/__init__.py">Spec loader</a>, lines 159–225, persists portable instructions/skills/tools as bundles, and <a href="repo/omnigent/spec/types.py">AgentSpec</a>, lines 1492–1504, represents those directives. Workspace files and optional <a href="repo/omnigent/tools/builtins/hindsight.py">Hindsight memory</a>, lines 1–31, add reusable knowledge. Wingman's project-specific SCOPES/SPECS/HARNESS organization and retrieval conventions remain to define.</td>
+</tr>
+<tr>
+<td>F14</td>
+<td>Identity/conversation/work continuity</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/omnigent/entities/conversation.py">Conversation</a>, lines 46–107, 173–219, retains identity, lineage, state, usage, native session and workspace. <a href="repo/omnigent/runner/subagent_recovery.py">Recovery</a>, lines 125–158, restores undrained child results. Durable employee identity across many assignments is an organizational layer above these strong session identities.</td>
+</tr>
+<tr>
+<td>F15</td>
+<td>Proactive supervision and periodic wake</td>
+<td><strong>Similar</strong></td>
+<td>Built-in <a href="repo/omnigent/runtime/subagent_block_notifier.py">block follow-up</a>, lines 250–329 and 365–396, waits 120 seconds, wakes the immediate parent once per unanswered child elicitation, retries up to three attempts and closes the loop on resolution. This is automatic event-driven supervision, beyond recurring prompts. The <a href="repo/omnigent/server/scheduled/scheduler.py">scheduler</a>, lines 138–172 and 267–341, also runs saved periodic instructions; <a href="repo/omnigent/entities/scheduled_task.py">scheduled tasks</a>, lines 45–86, can continue a manager session. The built-in follow-up is limited to elicitation blocks within a session tree; general ticket blockers, cross-project progress assessment and ProjectMaster policy still need implementation.</td>
+</tr>
+<tr>
+<td>F16</td>
+<td>Parallel products/specialists</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/omnigent/entities/project.py">Projects</a>, lines 1–42, segregate session groups; <a href="repo/omnigent/tools/builtins/spawn.py">send contract</a>, lines 125–159, supports parallel child sessions; <a href="repo/omnigent/policies/builtins/orchestration.py">spawn policy</a>, lines 425–492, bounds fanout in waves. Concurrent project leadership/knowledge isolation still needs Wingman conventions.</td>
+</tr>
+<tr>
+<td>F17</td>
+<td>Real multi-host shared coordination</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/omnigent/server/routes/host_tunnel.py">Host tunnel</a>, lines 1–15, <a href="repo/omnigent/server/routes/runner_tunnel.py">runner tunnel</a>, lines 1–14, and <a href="repo/omnigent/host/connect.py">host spawn</a>, lines 2358–2455, connect actual machines to the central session service. This meets the distributed execution primitive; shared product files, credentials and cross-host review snapshots must be arranged, not assumed.</td>
+</tr>
+<tr>
+<td>F18</td>
+<td>Executive current/recent/next/blockers overview</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/web/src/shell/subagentStatus.ts">Subagent status classifier</a>, lines 8–22 and 92–129, distinguishes working, awaiting, failed and disconnected; <a href="repo/web/src/shell/SubagentsPanel.tsx">SubagentsPanel</a>, lines 83–126, renders relationships. No implemented executive briefing synthesizes recent accomplishments and planned next work for every organizational agent.</td>
+</tr>
+<tr>
+<td>F19</td>
+<td>Linked per-agent summary timeline</td>
+<td><strong>Absent</strong></td>
+<td>Source searches across <code>web/src/pages</code>, <code>web/src/shell</code>, session schemas/entities and server session routes found transcript/event history and status, not a separate summary timeline linked to tickets, discussions and verified outcomes. <a href="repo/omnigent/db/db_models.py">Conversation items</a>, line 932 onward, and <a href="repo/omnigent/runner/session_history.py">session history</a>, lines 1–40, are underlying records, not the requested executive feed.</td>
+</tr>
+<tr>
+<td>F20</td>
+<td>Detailed per-agent coding workspace</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/web/src/shell/WorkspacePanel.tsx">WorkspacePanel</a>, lines 350–407 and 1819–1926, hosts files, shells, browsers and side chats; <a href="repo/web/src/shell/SubagentsPanel.tsx">SubagentsPanel</a>, lines 1–15, links into each child. The substantial coding workbench exists; links to organizational tickets/rooms require new domain integration.</td>
+</tr>
+<tr>
+<td>F21</td>
+<td>Live activity/lifecycle/steering/control</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/omnigent/runtime/harnesses/_scaffold.py">Harness scaffold</a>, lines 12–27, implements interrupt/steering/signals; <a href="repo/omnigent/server/routes/sessions/routes_core.py">core routes</a>, lines 4135–4488, handle forks; <a href="repo/omnigent/runner/tool_dispatch.py">close dispatch</a>, lines 6775–6831, archives and reaps children. Native harness capabilities differ. A uniform session UI does not imply every harness supports every control.</td>
+</tr>
+<tr>
+<td>F22</td>
+<td>Testing/integration/acceptance/delivery</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/examples/polly/agents/codex/config.yaml">Worker contract</a>, lines 20–45, requires tests/lint/typechecking and a PR; <a href="repo/examples/polly/skills/cross-review/SKILL.md">cross-review skill</a>, lines 21–61, uses deterministic gates plus independent review. Product-wide acceptance scenarios, TestMaster integration and delivery assessment are not an enforced product lifecycle. Human PR merge is Polly's delivery boundary.</td>
+</tr>
+<tr>
+<td>F23</td>
+<td>Autonomous organization with human direction</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/examples/polly/config.yaml">Polly config</a>, lines 120–145, and <a href="repo/examples/polly/skills/fanout/SKILL.md">fanout skill</a>, lines 30–59, support autonomous task completion and event-driven supervision. <a href="repo/omnigent/server/session_orchestration.py">Session orchestration</a>, lines 79–108, permits owner-authorized independent work. This does not ship the continuing organization that owns discovery, planning, implementation, acceptance and portfolio routing.</td>
+</tr>
+<tr>
+<td>F24</td>
+<td>New profiles work through all views</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/omnigent/spec/parser.py">Recursive specs</a>, lines 3324–3358, <a href="repo/omnigent/tools/builtins/spawn.py">dynamic dispatch schema</a>, lines 213–246, and <a href="repo/web/src/shell/SubagentsPanel.tsx">generic tree UI</a>, lines 83–126, accommodate new types without fixed role enums. A shared organizational tracker/chat/dashboard trio does not yet exist for them to join.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="assessment-agent-definition-creation-and-lifecycle">Agent definition, creation and lifecycle</h2>
+<h3 id="assessment-what-is-defined-and-what-is-instantiated">What is defined and what is instantiated</h3>
+<p><code>AgentSpec</code> is a parsed executable definition containing model/executor settings, instructions, tools, skills, MCP servers, nested agents, history-passing controls, concurrency settings, compaction, guardrails, OS environment, terminals, timers and spawning rights. The directory parser reads <code>config.yaml</code>, resolves executor configuration, discovers instruction/skill/tool files and recursively discovers children under <code>agents/</code>. The loader also accepts portable single-file YAML and tarball/byte bundles, validates them, and distinguishes trusted operator-authored input from tenant input (<a href="repo/omnigent/spec/types.py">spec types</a>, lines 1473–1602; <a href="repo/omnigent/spec/parser.py">parser</a>, lines 202–264 and 3324–3358; <a href="repo/omnigent/spec/__init__.py">loader</a>, lines 159–245).</p>
+<p>Registration gives that definition an <code>ag_…</code> identity, content-addressed bundle location, ownership, version and timestamps. Server agents are shared definitions; user agents are reusable owner-scoped installations, while session-scoped copies can share a name across sessions. These records are not themselves live model processes. Starting a session creates a conversation, authorizes the chosen definition/parent, selects placement and workspace, and binds the runner/harness (<a href="repo/omnigent/entities/agent.py">agent entity</a>, lines 16–57; <a href="repo/omnigent/server/routes/builtin_agents.py">agent routes</a>, lines 1–15; <a href="repo/omnigent/server/routes/_sessions/orchestration.py">create orchestration</a>, lines 11493–11583).</p>
+<p>A named worker is addressed by <code>(agent, title)</code>. Its first <code>sys_session_send</code> creates a child session. A later call to the same address continues the existing history. The runner first checks that the named type is present in the parent specification. Inline children normally share the parent's registered bundle identity, with <code>sub_agent_name</code> selecting the nested definition, but have their own conversation IDs, turn state and execution. This is precisely the useful distinction between <strong>profile</strong>, <strong>instance</strong>, and <strong>dispatch</strong> that Wingman needs, although it lacks an employee record independent of conversations (<a href="repo/omnigent/tools/builtins/spawn.py">send tool</a>, lines 65–113; <a href="repo/omnigent/runner/tool_dispatch.py">dispatch</a>, lines 2618–2654 and 3064–3079).</p>
+<h3 id="assessment-tools-authority-and-routing">Tools, authority and routing</h3>
+<p>The runtime derives the exposed tool surface from the definition. Declared child agents grant <code>sys_session_send</code> and <code>sys_session_close</code>; <code>spawn: true</code> separately grants creation outside that declared set. Tool groups can suppress whole categories. Session sharing is another distinct authority, not an accidental consequence of being able to spawn. Model and harness overrides are validated against child capabilities rather than indiscriminately inheriting the parent's choices (<a href="repo/omnigent/tools/manager.py">tool registration</a>, lines 470–525; <a href="repo/omnigent/spec/types.py">spec grants</a>, lines 1572–1602; <a href="repo/omnigent/runner/tool_dispatch.py">override validation</a>, lines 2787–2911).</p>
+<p>Policies compose ALLOW, ASK and DENY around execution. State/label updates associated with ASK are withheld until the human approves; DENY takes precedence in composition. OS environment/sandbox configuration controls the underlying execution boundary, separately from these model-facing permissions. It would be a mistake to infer that every supplied example is conservatively sandboxed: Polly's Codex worker explicitly uses <code>yolo: true</code> and <code>sandbox.type: none</code>, with a blast-radius policy retaining a narrower destructive-command guard. That is an example configuration choice Wingman would need to revisit (<a href="repo/omnigent/runtime/policies/engine.py">policy engine</a>, lines 302–415; <a href="repo/examples/polly/agents/codex/config.yaml">Codex worker</a>, lines 5–12 and 48–65; <a href="repo/omnigent/policies/builtins/orchestration.py">blast-radius implementation</a>, lines 352–400).</p>
+<p>Host and runner IDs route execution, and the workspace is an immutable, canonical host path for a host-bound conversation. Smart routing can choose a compatible model/harness using provider and host availability; native child hooks can consult an authenticated loopback routing relay. Routing is advisory and can fall back unchanged on failure. This is infrastructure/model selection, not business-project intake (<a href="repo/omnigent/entities/conversation.py">conversation fields</a>, lines 70–82, 148–163 and 202–219; <a href="repo/omnigent/runner/subagent_routing.py">native routing</a>, lines 1–21 and 97–145; <a href="repo/omnigent/server/routes/_sessions/orchestration.py">creation routing</a>, lines 11380–11489).</p>
+<h3 id="assessment-concurrency-and-coordination-state">Concurrency and coordination state</h3>
+<p>Independent child titles support concurrent workers. Sending a continuation while a child is already running steers that existing turn at a step boundary rather than starting two concurrent turns in one session. An agent blocked inside one long tool step cannot consume the nudge until it yields. A transient “still starting” state is distinguishable from a running turn. Child work receives a dispatch ID distinct from the durable child session ID, allowing later turns of the same child to produce separate results (<a href="repo/omnigent/tools/builtins/spawn.py">send contract</a>, lines 96–107 and 138–159; <a href="repo/omnigent/runner/subagent_work.py">work registry</a>, lines 85–90 and 107–162).</p>
+<p>The create path explicitly documents an unresolved race: automatic ordinal collisions receive bounded 409 retries, but the server’s parent/title check can still admit concurrent creates because it is SELECT-then-INSERT without a database uniqueness constraint. Stable addressing should therefore not be interpreted as an atomic, globally unique work-claim protocol (<a href="repo/omnigent/runner/tool_dispatch.py">dispatch</a>, lines 2913–2935; <a href="repo/omnigent/db/db_models.py">current database model</a>, lines 880–889).</p>
+<p>The schema exposes <code>max_sessions</code>, but the report does not assume that field alone globally enforces resource capacity. The <code>spawn_bounds</code> policy counts selected dispatch tools and denies excess dispatches. It persists the counter in session state because each call can recreate the policy engine. Request events, including completion wakes, reset the counter. This bounds a wave, not lifetime fleet size or an organization's total simultaneous spend. Polly opts into policy-backed fanout and purpose declarations; choosing disjoint files/worktrees and honoring dependencies remains a skill/prompt responsibility (<a href="repo/omnigent/policies/builtins/orchestration.py">spawn policy</a>, lines 425–562; <a href="repo/examples/polly/skills/fanout/SKILL.md">Polly skill</a>, lines 8–34 and 48–62).</p>
+<h3 id="assessment-continuity-scheduling-and-stopping">Continuity, scheduling and stopping</h3>
+<p>The database stores conversation items, labels, policy state, usage, relationships and native session references. Runner-local inboxes are ephemeral, so durable child labels record dispatch and delivered IDs. Recovery scans server child/history records and requeues undrained terminal results. It also retains results when the parent's local inbox has not yet been recreated. A transcript is therefore more than an audit log: it helps reconstruct pending coordination after runner restart. This is still recovery logic with explicit failure cases, not an unconditional exactly-once distributed-execution guarantee (<a href="repo/omnigent/runner/subagent_work.py">work registry</a>, lines 85–104 and 187–198; <a href="repo/omnigent/runner/subagent_recovery.py">recovery</a>, lines 82–158; <a href="repo/omnigent/runner/session_history.py">history</a>, lines 31–94).</p>
+<p>Recurring automations save an RFC 5545 RRULE, timezone, agent, host/managed target, workspace, budget and new-vs-continue-session mode. The default scheduler reloads active saved tasks and arms process-local timers, skipping invalid rules and preventing overlapping local firing of a running job. A newer persistent scheduler adds database polling, startup leases and recovery. <strong>It is important to retain the release boundary:</strong> <code>AUTOMATIONS_V2</code> defaults false, while <code>SESSION_ORCHESTRATION</code> defaults true; application lifespan selects one scheduler, so the persistent scheduler must not be credited as unconditional default behavior. Either scheduler can repeatedly instruct a manager, but a saved prompt is not a prebuilt ProjectMaster supervision policy (<a href="repo/omnigent/entities/scheduled_task.py">scheduled entity</a>, lines 45–127; <a href="repo/omnigent/server/scheduled/scheduler.py">default scheduler</a>, lines 138–172 and 267–341; <a href="repo/omnigent/server/scheduled/dispatch_scheduler.py">persistent scheduler</a>, lines 1–39 and 152 onward; <a href="repo/omnigent/server/feature_flags.py">feature defaults</a>, lines 43–85; <a href="repo/omnigent/server/app.py">scheduler selection</a>, lines 2063–2125).</p>
+<p>There is also <strong>built-in unattended blocker follow-up</strong>, independent of recurring automation prompts. Server lifespan installs <code>SubagentBlockNotifier</code> on <code>pending_elicitations.record_publish</code>, so published child elicitation requests and resolutions reach it. The notifier arms a process-local <code>(conversation_id, elicitation_id)</code> record and waits 120 seconds. It checks whether the same block remains unanswered. It then resolves the child's recorded <strong>immediate parent</strong> and sends a wake notice through the session event/runner path. Top-level sessions have no parent to wake. Delivery makes one initial attempt plus two retries with 0.5-second backoff. An exhausted failure releases its debounce arm so a later republish can retry. Resolution during the grace or retry suppresses stale notices. After a confirmed wake it waits for the matching resolution and sends a follow-up carrying <code>accept</code>, <code>decline</code> or <code>cancel</code>. An absent verdict is explicitly treated as not approved. Thus a parent can follow up on a stalled approval without polling, and is told when that specific block clears (<a href="repo/omnigent/runtime/subagent_block_notifier.py">notifier</a>, lines 45–55, 143–207, 250–396 and 430–477; <a href="repo/omnigent/runtime/pending_elicitations.py">publish hook</a>, lines 152–180; <a href="repo/omnigent/server/routes/_sessions/orchestration.py">server wiring</a>, lines 10612–10724; <a href="repo/omnigent/server/app.py">lifespan installation</a>, lines 1967–1980). This is a concrete supervision capability, but its debounce/timer state is process-local and its trigger is an elicitation, rather than arbitrary product/ticket stagnation. It does not itself implement a portfolio-wide management escalation ladder.</p>
+<p>Interrupts and input steering travel through the harness event interface. Signals set cancellation state and drain pending work within a grace window. Native subprocess cancellation has harness-specific edges: the work registry distinguishes a requested/provisional cancellation from a confirmed abort and allows a later genuine completion to correct a provisional report. Launch timeouts similarly report uncertainty and may be corrected when a child eventually reports its actual outcome (<a href="repo/omnigent/runtime/harnesses/_scaffold.py">scaffold</a>, lines 17–27 and 87–150; <a href="repo/omnigent/runner/subagent_work.py">work-entry states</a>, lines 135–162). This is a stronger account of failure than equating a missing heartbeat with task failure.</p>
+<p>Failure handling also exists below orchestration: the common LLM retry helper classifies permanent versus retryable failures, applies configured bounded backoff and emits retry events; unknown context-overflow shapes are kept out of automatic compact/retry loops. The common tool helper retries timeout failures but stops on other exceptions and returns an error string for the model to handle. A timeout is not proof that an arbitrary side-effecting operation failed before taking effect. These helpers do not establish identical vendor-internal retry behavior across every native harness. The process manager detects dead processes/missing sockets and lazily respawns under a per-conversation lock; that reconstructs execution capacity, while transcript/receipt recovery restores context and pending results (<a href="repo/omnigent/runtime/llm_retry.py">LLM retries</a>, lines 50–57 and 289–385; <a href="repo/omnigent/runtime/tool_retry.py">tool retries</a>, lines 61–90 and 120–145; <a href="repo/omnigent/runtime/harnesses/process_manager.py">process recovery</a>, lines 726–750).</p>
+<p>A child turn completing means its execution returned terminal output. It does not mean a product passed acceptance. Polly adds deterministic gates, independent review and a human-merged PR convention. Retirement is explicit: <code>sys_session_close</code> scope-checks the target, writes <code>omnigent.closed=true</code>, renames its internal address and archives it so future sends can create a fresh child. Archiving triggers best-effort stop of the execution tree, intentional host-runner teardown where owned, and optional worktree cleanup after stopping. Processes can also be idle-reaped without deleting history (<a href="repo/omnigent/runner/tool_dispatch.py">close implementation</a>, lines 6775–6831; <a href="repo/omnigent/server/routes/_sessions/orchestration.py">archive stop</a>, lines 945–1047; <a href="repo/omnigent/runtime/harnesses/process_manager.py">process reaping</a>, lines 125–140).</p>
+<h2 id="assessment-coordination-mechanics-and-a-concrete-request-trace">Coordination mechanics and a concrete request trace</h2>
+<p>There are three different communication mechanisms, which should not be collapsed into “agent chat.” A parent sends an assignment or nudge to a child and receives a completion through an inbox. Independent sessions under one owner can send one another ordinary messages through the normal steering/queue path. Humans can also share and co-drive a session with ACL-governed access. None creates a room whose membership comprises product and technical leadership plus all workers.</p>
+<p>The independent-message path is particularly bounded. The server verifies the sending session is owned, available and private or read-only shared. It checks the sender's bound runner token and the destination's ownership. The delivered text becomes a normal input message with a display label. It does not change session parentage, forward replies automatically, or prove that queued input has executed; destination policy can still reject it. This is useful for Wingman agent-to-agent questions, provided an organization layer supplies addressing, membership, decision correlation and acknowledgment rules (<a href="repo/omnigent/tools/builtins/session_message.py">message tool</a>, lines 8–40; <a href="repo/omnigent/server/session_orchestration.py">authorization/message construction</a>, lines 36–123).</p>
+<p>A representative <strong>Polly coding request</strong> follows an actual code/definition path. This is a static trace, not a claimed observed model run:</p>
+<ol>
+<li>The human starts the registered/uploaded Polly bundle on a chosen host. <code>POST /v1/sessions</code> validates ownership, resolves the project/defaults and creates the conversation. The host launches a runner and its selected harness. Polly's prompt directs a first-turn harness-readiness check so unavailable workers are excluded (<a href="repo/omnigent/server/routes/sessions/routes_core.py">create route</a>, lines 926–1083; <a href="repo/examples/polly/config.yaml">Polly definition</a>, lines 66–105).</li>
+<li>Polly decomposes independent work, creates one git worktree per task and records paths/branches in <code>.polly/registry.json</code>. This is an instruction-following orchestration workflow, not a database transaction that atomically assigns tickets. It passes the task, acceptance contract and worktree in <code>sys_session_send(agent="codex", title="auth-refactor", args={purpose:"implement", input:…})</code> (<a href="repo/examples/polly/skills/fanout/SKILL.md">fanout</a>, lines 12–34).</li>
+<li>The registered tool advertises the allowed child names dynamically. Runtime dispatch verifies the child exists, resolves the parent's bundle, finds an existing matching child or posts a create request, validates overrides and registers child→parent state plus a fresh work ID (<a href="repo/omnigent/tools/builtins/spawn.py">tool schema</a>, lines 213–246; <a href="repo/omnigent/runner/tool_dispatch.py">runtime</a>, lines 2618–2654, 2921–2986 and 3018–3079).</li>
+<li>
+<p>The child executes its actual coding harness, test commands and PR work. Source edits and tests are the worker's tool operations; Omnigent does not independently establish correctness merely because the session ends. The worker prompt requires exact test evidence and confines review/exploration behavior (<a href="repo/examples/polly/agents/codex/config.yaml">Codex worker</a>, lines 14–45).
+If that worker instead blocks on a human elicitation, the server observer arms the 120-second unanswered-block follow-up and wakes Polly as its immediate parent only if the block persists. A delivered block notice is paired with a verdict-bearing resolution notice when answered. This branch can wake the orchestrator before any child completion (<a href="repo/omnigent/runtime/subagent_block_notifier.py">block notifier</a>, lines 250–329).</p>
+</li>
+<li>
+<p>Child terminal state/output enters the work registry, is delivered to the parent's inbox and causes a runtime completion wake. The parent's composed instructions explain the known wake shape and tell it to drain <code>sys_read_inbox</code>; persisted dispatch/delivery receipts support restart recovery (<a href="repo/omnigent/runner/subagent_work.py">work registry</a>, lines 857–912; <a href="repo/omnigent/runtime/prompt.py">framework prompt</a>, lines 25–42 and 62–86; <a href="repo/omnigent/runner/subagent_recovery.py">recovery</a>, lines 125–158).</p>
+</li>
+<li>Polly runs deterministic gates, saves an immutable diff snapshot plus base/head SHAs, and dispatches another vendor to review only that contract/diff. Blocking findings go back to the same implementation conversation, preserving its branch/context. A passing PR is marked ready for human merge; Polly does not merge. A few failed loops lead to human escalation (<a href="repo/examples/polly/skills/cross-review/SKILL.md">cross-review</a>, lines 13–69).</li>
+<li>The workbench surfaces the worker's tree/status and lets the human open its conversation/workspace. Cleanup removes an eligible finished worktree under the skill's rules; closing a session invokes the runtime archive/reaping path (<a href="repo/web/src/shell/SubagentsPanel.tsx">SubagentsPanel</a>, lines 1–15 and 83–126; <a href="repo/examples/polly/skills/fanout/SKILL.md">fanout cleanup</a>, lines 40–59; <a href="repo/omnigent/runner/tool_dispatch.py">close</a>, lines 6804–6818).</li>
+</ol>
+<p>Dependencies here are primarily the orchestrator's plan and file-scope decisions. The code does not supply a shared task DAG with dependency transitions, organization-wide assignees or enforced integrated acceptance. Shared files must actually be accessible: the cross-review skill explicitly requires transferring its snapshot for another host/sandbox. Likewise, project ownership is private to the human rather than a shared project ACL carried by agents (<a href="repo/omnigent/entities/project.py">project entity</a>, lines 21–34; <a href="repo/examples/polly/skills/cross-review/SKILL.md">cross-review</a>, lines 13–20).</p>
+<h2 id="assessment-major-additional-capabilities-and-integration-consequences">Major additional capabilities and integration consequences</h2>
+<p><strong>A meta-harness over heterogeneous execution stacks.</strong> Wingman is described around Codex agents. Omnigent's adapter/scaffold and portable definition boundary let an orchestrator mix Codex, Claude and other native/SDK workers, with model/provider configuration independent of the role prompt. This enables cross-vendor review and task-specific model choice. It also introduces a capability matrix Wingman must respect: terminal takeover, native tools, MCP, fork/resume and policy enforcement are harness-specific, so role contracts need minimum supported capabilities rather than assuming interchangeability (<a href="repo/omnigent/runtime/workflow.py">workflow provider adapters</a>, lines 605–773 and 1269–1323; <a href="repo/omnigent/runtime/harnesses/_scaffold.py">scaffold</a>, lines 1–33; <a href="repo/examples/polly/config.yaml">Polly workers</a>, lines 45–64).</p>
+<p><strong>Managed disposable execution and remote-host operation.</strong> Besides connected personal machines, session creation can select a managed host; automations can provision a fresh managed sandbox for each occurrence. Wingman could isolate product work and avoid requiring the viewing computer to execute agents. Integration needs repository/bootstrap access, credentials, durable artifacts and a policy for sandbox deletion versus resumable product work. Multi-host coordination is real, but it does not replicate local worktrees automatically (<a href="repo/omnigent/entities/scheduled_task.py">scheduled placement</a>, lines 72–86; <a href="repo/omnigent/server/managed_hosts.py">managed-host implementation</a>, lines 3828–3895; <a href="repo/omnigent/server/routes/host_tunnel.py">host tunnel</a>, lines 1–15).</p>
+<p><strong>Programmable governance and spend-aware execution.</strong> Policy phases, persisted state and compositional ASK/DENY provide operational controls beyond Wingman's broad human-judgment description. Spawn bounds and cost-policy attachment can cap delegation/spend and surface approvals. This is valuable for an unattended organization, but policy deployment and permissions need explicit ownership. Child budget-policy installation is non-fatal in the dispatch code. If attachment fails, the requested child budget is not guaranteed. Wingman must decide whether its unattended runs must fail closed (<a href="repo/omnigent/runtime/policies/engine.py">engine</a>, lines 302–415; <a href="repo/omnigent/policies/builtins/orchestration.py">spawn bounds</a>, lines 425–492; <a href="repo/omnigent/runner/tool_dispatch.py">budget attachment</a>, lines 2988–3016).</p>
+<p><strong>Multi-person co-driving, review comments and portable forks.</strong> Session permissions and ownership support shared viewing/editing, and source-anchored comments can be formatted and sent directly as an agent instruction. Fork routes copy history and remap attachment ownership while preserving appropriate project filing and selecting a new harness/host. Wingman could use these for expert review or branching an investigation, but must define how a fork relates to the canonical agent identity, project decisions and accepted deliverable (<a href="repo/omnigent/server/routes/comments.py">review comments</a>, lines 1–4 and 31–55; <a href="repo/omnigent/server/routes/sessions/routes_core.py">fork implementation</a>, lines 4209–4255 and 4303–4488; <a href="repo/omnigent/entities/conversation.py">sharing authority</a>, lines 164–172).</p>
+<p><strong>Scheduled external-work intake templates and Slack service.</strong> Trigger templates construct manager prompts for Jira, Slack, GitHub and Linear, including conditions, scopes and worker placement. This is an agent polling pattern, not proof of a native event-ingestion engine for each external system. The separate Slack integration does implement thread/session routing, streamed answers and elicitation coordination. Both are valuable examples for a Telegram Butler adapter, but require the appropriate external credentials/tools and Wingman's project/decision correlation (<a href="repo/web/src/components/scheduled/triggerTemplates.ts">trigger definitions</a>, lines 1–49 and 114 onward; <a href="repo/integrations/slack/src/omnigent_slack/service.py">Slack service</a>, lines 203–236, 309–376 and 606–698).</p>
+<p><strong>Optional semantic long-term memory.</strong> Hindsight retain/recall/reflect tools can persist and retrieve knowledge across runs, with bank identity resolved from agent configuration or agent ID. This complements files and transcripts and could support reusable domain learning. It is an optional external dependency/service, and bank ownership/isolation should match Wingman products and roles instead of accepting an incidental definition-level default (<a href="repo/omnigent/tools/builtins/hindsight.py">Hindsight implementation</a>, lines 1–31 and 63–85).</p>
+<h2 id="assessment-grounded-mechanisms-worth-carrying-forward">Grounded mechanisms worth carrying forward</h2>
+<p>These are distinctive implementation choices in this checkout, not claims of historical novelty.</p>
+<ul>
+<li><strong>Stable session addresses plus per-dispatch receipts.</strong> <code>(agent, title)</code> preserves a worker conversation, while dispatch and delivered IDs distinguish successive assignments. The parent inbox can be reconstructed from durable server records after a local queue disappears. This enables continuing specialists without losing unfinished coordination; stale-dispatch/cancellation races still require explicit handling (<a href="repo/omnigent/tools/builtins/spawn.py">send contract</a>, lines 65–113; <a href="repo/omnigent/runner/subagent_work.py">receipts</a>, lines 85–90; <a href="repo/omnigent/runner/subagent_recovery.py">recovery</a>, lines 125–158).</li>
+<li><strong>Event-driven parent wake instead of constant model polling.</strong> A terminal child result queues an inbox payload and posts a known runtime notice, starting the parent if idle. Separately, unanswered child elicitations wake the immediate parent after a 120-second grace, with bounded retries, stale-block suppression and a verdict-bearing resolution follow-up (<a href="repo/omnigent/runtime/subagent_block_notifier.py">block notifier</a>, lines 250–396 and 430–477). Framework-owned prompt composition teaches the parent how to handle it separately from portable user-authored role instructions. This reduces supervisory polling and makes the orchestration contract explicit. The model must still drain/process the inbox correctly (<a href="repo/omnigent/runtime/prompt.py">prompt composition</a>, lines 25–42 and 62–95; <a href="repo/omnigent/runner/subagent_work.py">work registry</a>, lines 93–104).</li>
+<li><strong>Completion truth can correct a provisional cancellation.</strong> Work entries retain <code>cancellation_confirmed</code>, <code>corrected_status</code> and <code>launch_timed_out</code>, rather than treating requested cancellation or a launch acknowledgment timeout as definitive proof. This makes supervision more honest under distributed/native-process uncertainty. It does not itself undo side effects from a worker that outlived its intended cancellation (<a href="repo/omnigent/runner/subagent_work.py">work-entry model</a>, lines 135–162).</li>
+<li><strong>Cross-vendor review of an isolated diff contract.</strong> Polly deliberately separates implementer workspace/transcript from reviewer input and ties fixes to the same continuing implementer. This can lower shared-context bias and preserve task continuity. Vendor independence, file-scope isolation and the decision to accept a review are workflow instructions, not a mathematically enforced guarantee of reviewer independence or product correctness (<a href="repo/examples/polly/skills/cross-review/SKILL.md">cross-review</a>, lines 13–20 and 29–75).</li>
+<li><strong>Persisted policy counters across recreated evaluators.</strong> Spawn bounds uses a stored counter and incremental writes so a newly constructed engine cannot reset delegation limits and delayed ASK approval cannot overwrite intervening increments. This is a useful pattern for Wingman governance, while remaining a per-turn wave limit rather than full resource scheduling (<a href="repo/omnigent/policies/builtins/orchestration.py">policy code</a>, lines 425–506).</li>
+</ul>
+<h2 id="assessment-practical-fit-and-remaining-construction">Practical fit and remaining construction</h2>
+<p>Wingman could directly reuse the registered-agent/spec/bundle layer, child conversation execution, host/runner transport, live workbench, lifecycle controls, structured questions and policy hooks. Polly is a useful technical-team prototype, and its receipt-backed inbox/wake model is especially relevant for manager-to-worker delegation. A Codex-only Wingman could initially narrow the supported harness set rather than carrying every adapter into its product contract.</p>
+<p>Adaptation is needed to make an agent instance an organizational actor:</p>
+<ul>
+<li>Introduce an employee/role/project identity above conversations.</li>
+<li>Preserve that identity across forks, task sessions, host changes and retirement.</li>
+<li>Select secure role defaults.</li>
+<li>Connect every delegated session to a real ticket.</li>
+<li>Arrange actual cross-host artifact access. Agent definitions can remain reusable profiles, but neither their ID nor their active session title should be the sole record of a person's responsibilities.</li>
+</ul>
+<p>The major new work remains:</p>
+<ul>
+<li>Butler's Telegram transport and correlation.</li>
+<li>ProjectMaster's registry/intake and portfolio-wide supervision policies beyond the existing child-elicitation follow-up.</li>
+<li>per-project ProductMaster/TechMaster leadership.</li>
+<li>proportionate discovery and scope/spec/DoD records.</li>
+<li>ProjectTracker with dependencies/assignees/blockers.</li>
+<li>shared room histories and decision routing.</li>
+<li>integrated TestMaster acceptance.</li>
+<li>executive current/recent/next briefings with evidence-linked timelines.</li>
+</ul>
+<p>The existing UI could host those views, but a session tree, todo panel or automation list should not be presented as though those domains already exist.</p>
+<p>A practical architecture is therefore <strong>Wingman organizational services over Omnigent execution/workspaces</strong>, with explicit links among project, ticket, role instance, conversation, host and artifact. Replacing Wingman wholesale with a Polly prompt would lose the product/portfolio continuity and shared human-facing records that define the target.</p>
+<h2 id="assessment-verification-scope-and-uncertainty">Verification scope and uncertainty</h2>
+<p>This was read-only static research. The repository was not modified, dependencies were not installed, services and model sessions were not launched, and no tests were run. Line numbers identify the assessed checkout and can drift at another revision. No hosted product behavior, advertised harness availability, provider provisioning or actual model adherence is claimed verified.</p>
+<p>Important implementation inspected includes:</p>
+<ul>
+<li>the CLI/store wiring.</li>
+<li>agent/conversation/project/scheduled-task entities.</li>
+<li>spec loader/parser/types.</li>
+<li>session creation/archive orchestration and core routes.</li>
+<li>host and runner tunnel endpoints and host process launching.</li>
+<li>runner application, tool dispatch, work registry/recovery/history.</li>
+<li>harness scaffold/process manager.</li>
+<li>tool registration.</li>
+<li>policy engine, orchestration policies and the wired child-elicitation block notifier.</li>
+<li>project routes, session-message authorization and question extraction.</li>
+<li>SubagentsPanel/status, TodoPanel, TasksPage and WorkspacePanel.</li>
+<li>Polly definitions/fanout/cross-review.</li>
+<li>trigger template definitions.</li>
+<li>Slack service.</li>
+<li>Hindsight tool configuration.</li>
+</ul>
+<p>Some very large modules were inspected in the relevant ranges rather than read exhaustively.</p>
+<p>Relevant tests were <strong>inspected, not executed</strong>:</p>
+<ul>
+<li><a href="repo/tests/runtime/test_subagent_block_notifier.py">Block notifier tests</a>, lines 261–350, 499–624, 630–658 and 954–1004: real conversation-store lookup with controlled wake callbacks verifies immediate-parent targeting, deduplication, grace-period suppression, post-grace wake, resolution/decline notices and bounded retry/re-arm behavior. These are source-inspected tests; no 120-second runtime wait or live delivery was exercised.</li>
+<li><a href="repo/tests/runner/test_subagent_recovery.py">Recovery tests</a>, lines 61–95 and 127–176: real recovery builder with mocked HTTP, multi-page child/history results; further cases at lines 183, 217, 247, 310, 349, 392, 437, 493 and 507 target partial failures, races, deletion and stale dispatches.</li>
+<li><a href="repo/tests/runner/test_session_orchestration.py">Session orchestration tests</a>, lines 15–19 and 22–131: native schema exposure, child/same-host/managed placement and capability/profile validation using a mock server. These support wire contracts, not an exercised remote-host deployment.</li>
+<li><a href="repo/tests/runner/test_subagent_dispatch_process_leak.py">Dispatch process-leak test</a>, lines 67–141: simulates session creation committing before an HTTP read timeout and checks the cleanup path. This gives targeted failure-model evidence rather than runtime reliability statistics.</li>
+</ul>
+<p>Negative findings used targeted searches for Telegram/Butler/ProjectMaster, product and technical leadership, rooms, tickets/kanban/dependencies, acceptance/definition-of-done, executive summaries and timelines across the implementation (<code>omnigent/entities</code>, <code>server/routes</code>, <code>tools/builtins</code>), shipped examples, integrations and web pages/shell. Related results were inspected and credited in the matrix: Slack thread routing, private session messaging, project session containers, harness todos, automation runs and Polly's file registry. Repository contributor automation under <code>dev/</code> is not treated as the end-user product's organizational feature. The absent findings mean no corresponding first-class implementation was established within those likely paths, not that a user could never script the missing behavior through arbitrary tools or role prompts.</p>
+<p>To review this assessment without starting the application, open the cited local files at the stated lines, confirm the revision with <code>git -C researchs/omnigent/repo rev-parse HEAD</code>, and compare the feature-flag defaults before evaluating the scheduler or orchestration claims. An eventual runtime trial should specifically check a two-worker Codex fanout, running-worker steering, approval propagation, runner restart with an undrained result, remote-host disconnection/reconnect, and completion versus accepted-delivery semantics. Those are proposed validation scenarios, not work performed here.</p></article>
+<section id="source-record"><h2>Source and evidence</h2><p class="url-text">https://github.com/omnigent-ai/omnigent</p>
+<ul><li><a href="repo/">Open the pinned source checkout</a></li><li><a href="assessment/ASSESSMENT.md">Read the Markdown assessment</a></li>
+<li><a href="../generic/assessments/_audits/qa09.md">Read the historical independent source audit</a></li><li><a href="../generic/method.html">Read the method and evidence limits</a></li></ul></section>
+<nav class="report-switch" aria-label="Adjacent project reports"><a href="../oh-my-openagent/index.html">Previous project: oh-my-openagent</a><a href="../open-multi-agent/index.html">Next project: Open Multi Agent</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../index.html">Return to overview <img src="../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

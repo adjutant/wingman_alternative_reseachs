@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Shared technical findings and evidence boundaries."><title>Method and evidence · Wingman Research</title>
+<link rel="icon" href="../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/report.css"><script defer src="../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../index.html"><img src="../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../index.html">Overview</a><a class="nav-link " href="index.html">Architecture findings</a><a class="nav-link " href="purpose.html">Wingman purpose</a><a class="nav-link active" href="method.html" aria-current=page>Method and evidence</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../index.html">Wingman Research</a><span class="crumb">/</span><span>Method and evidence</span></div><span class="topbar-note">SOURCE REVIEW · 05 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Method and evidence</h1><p class="subtitle">Shared technical findings and evidence boundaries.</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#method-assessment-method-and-evidence">Assessment method and evidence</a><a href="#method-scope">Scope</a><a href="#method-review-path">Review path</a><a href="#method-verdicts">Verdicts</a><a href="#method-evidence-levels">Evidence levels</a><a href="#method-retained-older-evidence">Retained older evidence</a><a href="#method-writing-review">Writing review</a><a href="#method-report-design">Report design</a></div></nav><article class="technical"><h2 id="method-assessment-method-and-evidence">Assessment method and evidence</h2>
+<h2 id="method-scope">Scope</h2>
+<p>The collection contains 75 source assessments. Each assessment uses one pinned local checkout.
+The common baseline is <a href="purpose.html">Wingman's purpose</a>.
+The original source review date is November 5, 2026.
+The report reorganization started on November 6, 2026.</p>
+<p>The reports assess source behavior. They do not certify a current upstream release or a production deployment.
+No candidate repository was updated during reorganization.
+The Wingman application folders <code>main/</code> and <code>newman/</code> remain outside this review.</p>
+<h2 id="method-review-path">Review path</h2>
+<ol>
+<li>Record the repository URL, full commit, and Git status.</li>
+<li>Read applicable checkout instructions.</li>
+<li>Locate the executable entry point and state owner.</li>
+<li>Trace agent creation, identity, tools, permissions, and execution.</li>
+<li>Trace one request through routing, persistence, worker activity, and completion.</li>
+<li>Inspect concurrency, interruption, retries, recovery, and cleanup.</li>
+<li>Compare all 24 Wingman features with cited implementation evidence.</li>
+<li>Describe substantial extra capabilities and their integration cost.</li>
+<li>State tests inspected, tests run, missing source, and unverified runtime behavior.</li>
+</ol>
+<p>Use targeted searches for an absent feature. State the code areas searched.
+A missing README section is insufficient evidence for an Absent verdict.
+An externally hosted implementation can require an Unclear verdict.</p>
+<h2 id="method-verdicts">Verdicts</h2>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Verdict</th>
+<th scope="col">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Exact</td>
+<td>The inspected behavior meets the stated feature within the report's boundary.</td>
+</tr>
+<tr>
+<td>Similar</td>
+<td>A substantial equivalent exists. Its workflow, scope, or persistence differs.</td>
+</tr>
+<tr>
+<td>Resembles</td>
+<td>A related mechanism exists. It does not supply the complete feature.</td>
+</tr>
+<tr>
+<td>Absent</td>
+<td>Targeted source searches found no corresponding implementation.</td>
+</tr>
+<tr>
+<td>Unclear</td>
+<td>Missing source or an external dependency prevents a reliable finding.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Do not sum these labels into a maturity score.
+A workflow compiler, a workbench, and an organization service solve different problems.
+Read the evidence beside each label before using it for a design decision.</p>
+<h2 id="method-evidence-levels">Evidence levels</h2>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Level</th>
+<th scope="col">What it supports</th>
+<th scope="col">Limit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Source traced</td>
+<td>A concrete implementation path at the pinned commit</td>
+<td>Deployment configuration can change observed behavior.</td>
+</tr>
+<tr>
+<td>Test inspected</td>
+<td>The assertion and its intended contract</td>
+<td>The test was not necessarily executed.</td>
+</tr>
+<tr>
+<td>Isolated test executed</td>
+<td>The named contract in the recorded environment</td>
+<td>It does not establish a complete deployed agent organization.</td>
+</tr>
+<tr>
+<td>Documentation inspected</td>
+<td>The documented interface or hosted behavior at the recorded date</td>
+<td>It can differ from the local implementation or later releases.</td>
+</tr>
+<tr>
+<td>Proposed design</td>
+<td>A possible Wingman contract or experiment</td>
+<td>It is not an observed candidate capability.</td>
+</tr>
+</tbody>
+</table></div>
+<p>The 25 historical audit records are in <a href="assessments/_audits">the audit folder</a>.
+They record independent source checks from the original assessment work.
+Their document hashes are historical. Use current validation records for current file hashes.</p>
+<h2 id="method-retained-older-evidence">Retained older evidence</h2>
+<p>The older collection used an earlier Wingman definition.
+The reorganization removed its duplicated landscape tables, workspace operations, and old Wingman assessment.
+Current project assessments govern the fit verdicts.
+Selected focused experiment evidence remains with the relevant project.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Project</th>
+<th scope="col">Retained historical result</th>
+<th scope="col">Evidence limit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../orca/index.html">Orca</a></td>
+<td>Six initial checks and 15 communication checks; a later combined log records 21 passes.</td>
+<td>Source-derived bundles and isolated SQLite state. No full desktop team was exercised.</td>
+</tr>
+<tr>
+<td><a href="../agent-swarm/index.html">Agent Swarm</a></td>
+<td>363 tests across 14 files; five additional in-memory probes.</td>
+<td>The probes expose specific cursor, notification, steering, and async-result behavior. They do not establish all integration behavior.</td>
+</tr>
+<tr>
+<td><a href="../codex-autorunner/index.html">CAR</a></td>
+<td>The old narrative reports 237 focused passes.</td>
+<td>No raw run log was retained. Treat the count as a historical narrative claim.</td>
+</tr>
+<tr>
+<td><a href="../gstack/index.html">gstack</a></td>
+<td>Initial run: 180 passes and five failures. A two-file rerun: 84 passes and zero failures.</td>
+<td>The rerun overlaps the first run. It does not erase the failures or add 84 distinct tests.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Each project has a <a href="../orca/index.html#support-legacy-evidence">legacy evidence note</a> with its own links and limits.
+Do not run retained scripts blindly. Some imports name historical paths or temporary dependencies.
+Keep raw logs unchanged. An edited log cannot serve as the original observation.</p>
+<h2 id="method-writing-review">Writing review</h2>
+<p>Use ASD-STE100 principles for authored assessments and reports.
+Use short sentences, active voice, one topic per sentence, and consistent terminology.
+Preserve API names, state names, code paths, and necessary technical terms.
+Explain a technical term at its first use when the reader needs that definition.
+Avoid a formal compliance claim without a controlled-vocabulary review.</p>
+<p>A sentence-length check can locate difficult prose. It cannot establish active voice or technical accuracy.
+Source excerpts and raw experiment evidence retain their original wording.
+The report review must distinguish those records from authored explanations.</p>
+<h2 id="method-report-design">Report design</h2>
+<p>The reports share one stylesheet and one script.
+They use the supplied Manrope fonts, navy navigation, pale surfaces, red accents, and compact tables.
+Project detail uses readable technical prose and evidence links.
+The overview uses high-impact findings and a filterable comparison table.
+All report content remains available without network access or JavaScript.</p><section><h2>Common Wingman requirements</h2><div class="table-scroll" tabindex="0" role="region" aria-label="Wingman requirements"><table><thead><tr><th scope="col">ID</th><th scope="col">Requirement</th></tr></thead><tbody><tr id="feature-f01"><th scope="row">F01</th><td>Real independent coding agents and specialist instances</td></tr><tr id="feature-f02"><th scope="row">F02</th><td>Extensible agent profiles, roles and team composition</td></tr><tr id="feature-f03"><th scope="row">F03</th><td>Agent directory and visible working relationships</td></tr><tr id="feature-f04"><th scope="row">F04</th><td>Telegram as the main human channel and Butler-style routing</td></tr><tr id="feature-f05"><th scope="row">F05</th><td>Cross-project registry, intake and existing/new project routing</td></tr><tr id="feature-f06"><th scope="row">F06</th><td>Per-project product and technical leadership</td></tr><tr id="feature-f07"><th scope="row">F07</th><td>Proportionate research, discovery and iterative human clarification</td></tr><tr id="feature-f08"><th scope="row">F08</th><td>Product scope, specifications, acceptance scenarios and definition of done</td></tr><tr id="feature-f09"><th scope="row">F09</th><td>Technical decomposition, assignment and shared task tracking</td></tr><tr id="feature-f10"><th scope="row">F10</th><td>Human-facing portfolio/project management dashboard</td></tr><tr id="feature-f11"><th scope="row">F11</th><td>Agent chat application, rooms and direct collaboration</td></tr><tr id="feature-f12"><th scope="row">F12</th><td>Management escalation and human decisions/approvals</td></tr><tr id="feature-f13"><th scope="row">F13</th><td>Durable project knowledge and reusable directives</td></tr><tr id="feature-f14"><th scope="row">F14</th><td>Persistent identity, conversation and work continuity</td></tr><tr id="feature-f15"><th scope="row">F15</th><td>Proactive supervision, periodic wake and blocker follow-up</td></tr><tr id="feature-f16"><th scope="row">F16</th><td>Parallel products and concurrent specialists</td></tr><tr id="feature-f17"><th scope="row">F17</th><td>Real multi-host execution with shared coordination</td></tr><tr id="feature-f18"><th scope="row">F18</th><td>Executive agent overview: current/recent/next work and blockers</td></tr><tr id="feature-f19"><th scope="row">F19</th><td>Individual agent summary timeline linked to underlying work</td></tr><tr id="feature-f20"><th scope="row">F20</th><td>Drill-down into detailed per-agent coding workspace</td></tr><tr id="feature-f21"><th scope="row">F21</th><td>Live activity, lifecycle controls, steering and execution visibility</td></tr><tr id="feature-f22"><th scope="row">F22</th><td>Testing, integrated verification and product acceptance/delivery</td></tr><tr id="feature-f23"><th scope="row">F23</th><td>Autonomous operation with human direction through the organization</td></tr><tr id="feature-f24"><th scope="row">F24</th><td>Chat, tracker and dashboards accommodate newly added agent profiles</td></tr></tbody></table></div></section><p><a href="assessments/ASSESSMENT_GUIDE.md">Read the complete assessment guide</a></p></article>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../index.html">Return to overview <img src="../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

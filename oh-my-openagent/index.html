@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Technical assessment against Wingman’s development organization."><title>oh-my-openagent · Wingman Research</title>
+<link rel="icon" href="../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/report.css"><script defer src="../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../index.html"><img src="../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../index.html">Overview</a><a class="nav-link " href="../generic/index.html">Architecture findings</a><a class="nav-link " href="../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../generic/method.html">Method and evidence</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../index.html">Wingman Research</a><span class="crumb">/</span><span>oh-my-openagent</span></div><span class="topbar-note">SOURCE REVIEW · 05 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>oh-my-openagent</h1><p class="subtitle">Technical assessment against Wingman’s development organization.</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#decision">Decision summary</a><a href="#assessment-oh-my-openagent-assessment-against-wingman">oh-my-openagent assessment against Wingman</a><a href="#assessment-scope-and-evidence-conventions">Scope and evidence conventions</a><a href="#assessment-architecture-and-actual-execution-model">Architecture and actual execution model</a><a href="#assessment-feature-matrix">Feature matrix</a><a href="#assessment-agent-definition-and-lifecycle-walkthrough">Agent definition and lifecycle walkthrough</a><a href="#assessment-coordination-mechanics-and-a-concrete-code-trace">Coordination mechanics and a concrete code trace</a><a href="#assessment-major-capabilities-beyond-wingmans-described-scope">Major capabilities beyond Wingman&#x27;s described scope</a><a href="#assessment-grounded-innovation-assessment">Grounded innovation assessment</a><a href="#assessment-practical-fit-and-integration-consequences">Practical fit and integration consequences</a><a href="#assessment-verification-scope-tests-inspected-and-limits">Verification scope, tests inspected and limits</a><a href="#source-record">Source and evidence</a></div></nav><section id="decision" class="decision"><h2>Decision summary</h2>
+<div class="brief-columns"><div><h3>Useful for Wingman</h3><p>Study independent coding sessions, durable mailboxes, dependency scheduling, addressing, and lifecycle recovery.</p></div><div><h3>Adoption boundary</h3><p>The deepest lifecycle path depends on Senpi. Codex support is a lighter host-dependent edition.</p></div></div>
+<p class="scope-note">Source assessment at the commit below. Runtime limits appear in the technical report.</p></section>
+<dl class="facts"><div><dt>Source group</dt><dd>Workflow layers</dd></div><div><dt>Commit</dt><dd><code>8c9e1a991b3603dca14dd1a8dd6ebcaeff2cd26f</code></dd></div><div><dt>Coverage</dt><dd>24 Wingman features</dd></div></dl>
+<article id="technical-assessment" class="technical"><h2 id="assessment-oh-my-openagent-assessment-against-wingman">oh-my-openagent assessment against Wingman</h2>
+<p class="url-text">Assessed <strong>2026-11-05</strong>, from the local checkout at <code>researchs/oh-my-openagent/repo</code>, commit <strong><code>8c9e1a991b3603dca14dd1a8dd6ebcaeff2cd26f</code></strong>. The checkout's origin is https://github.com/code-yeongyu/oh-my-openagent.git and its complete GitHub URL is https://github.com/code-yeongyu/oh-my-openagent. Root package metadata reports version <strong>5.1.60</strong>, still named <code>oh-my-opencode</code>; <code>oh-my-openagent</code>, <code>lazycodex</code>, and <code>lazycodex-ai</code> are aliases in the same distribution. This assessment concerns that revision, not the current hosted product or a release inferred from documentation.</p>
+<p><strong>Verdict: a substantial source of execution, planning, coordination, memory, and verification mechanisms, but not a replacement for Wingman's persistent development organization.</strong> It has real independently executing coding sessions, named teams, durable mailboxes and tasks, dependency scheduling, cross-session addressing, and increasingly sophisticated lifecycle recovery. Its strongest organizational equivalents are a task leader and resident team members within a workspace. It does not establish Butler, a portfolio-owning ProjectMaster, persistent product/technical leadership per project, a product registry, Room1/Room2 chat application, or Wingman's executive and project dashboards. Codex support is real but is a lighter, host-dependent edition. The extensive native lifecycle implementation is Senpi-dependent, not a Codex orchestration backend ready to adopt unchanged.</p>
+<h2 id="assessment-scope-and-evidence-conventions">Scope and evidence conventions</h2>
+<p>The implementation is now a multi-harness monorepo. Treating the whole checkout as the old OpenCode plugin would miss major capabilities; treating every capability as available identically in Codex would overstate it. Findings distinguish <strong>OpenCode</strong>, <strong>Codex Light</strong>, and <strong>Senpi/native</strong>. The native <code>omo</code> launcher stages the Senpi adapter and runs an exact-pinned external Senpi engine. The actual Senpi host/supervisor and the external remote-device service are not fully implemented in this checkout. A local RPC “host” is a process endpoint, not evidence of execution on another machine.</p>
+<p>Links below are local source links; accompanying line ranges refer to this revision. Repeated evidence IDs keep the matrix readable. Source and tests were inspected read-only. No dependencies were installed, services launched, model calls made, or tests executed.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Evidence</th>
+<th scope="col">Implementation inspected and what it establishes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E01</td>
+<td><a href="repo/package.json">package.json</a>, lines 1–46 and 98–111: version, workspace boundaries, CLI aliases, OpenCode exports. <a href="repo/packages/omo-opencode/src/testing/create-plugin-module.ts">create-plugin-module.ts</a>, lines 161–264: startup migration, configuration validation, live route, optional OpenClaw/team setup. <a href="repo/packages/omo-opencode/src/create-managers.ts">create-managers.ts</a>, lines 64–140: host managers, monitor gate, process cleanup, background manager.</td>
+</tr>
+<tr>
+<td>E02</td>
+<td><a href="repo/packages/omo-opencode/src/features/background-agent/manager.ts">background manager</a>, lines 599–700, 795–920, 2510–2595: pending task allocation, queueing, actual SDK child-session creation, model and cwd binding, cancellation. <a href="repo/packages/omo-opencode/src/features/background-agent/concurrency.ts">concurrency.ts</a>, lines 25–121: provider/model limits and FIFO slot handoff.</td>
+</tr>
+<tr>
+<td>E03</td>
+<td><a href="repo/packages/team-core/src/types.ts">team schemas</a>, lines 26–188 and 190–236: named member kinds, lead, task ownership/dependencies, runtime identity/status, and OpenCode eligibility restrictions. <a href="repo/packages/team-core/src/team-registry/paths.ts">paths.ts</a>, lines 68–126 and 146 onward: actual spec, runtime, inbox, task and worktree paths.</td>
+</tr>
+<tr>
+<td>E04</td>
+<td><a href="repo/packages/omo-opencode/src/features/team-mode/team-runtime/create.ts">OpenCode createTeamRun</a>, lines 124–274: caller-lead reuse, bounded concurrent launches, session registration before state update, active transition and rollback. Notably lines 76–79 only create the requested directory. This call path does not itself run <code>git worktree add</code>.</td>
+</tr>
+<tr>
+<td>E05</td>
+<td><a href="repo/packages/team-core/src/team-mailbox/send.ts">mailbox send</a>, lines 135–175 onward: recipient validation, lead-only broadcast, payload/backpressure checks and per-inbox locking. <a href="repo/packages/team-core/src/team-mailbox/reservation.ts">reservation.ts</a>, lines 22–104: reserve, commit-to-processed, release and stale reservation recovery.</td>
+</tr>
+<tr>
+<td>E06</td>
+<td><a href="repo/packages/team-core/src/team-tasklist/claim.ts">claim.ts</a>, lines 45–96: dependency checks repeated under a claim lock. <a href="repo/packages/team-core/src/team-tasklist/update.ts">update.ts</a>, lines 9–71: permitted lifecycle transitions, automatic claim before in-progress and owner checks. In native Senpi the lead's <a href="repo/packages/omo-senpi/src/components/task/team-service.ts">team-service.ts</a>, lines 187–205, calls these primitives with a supplied owner. Native <a href="repo/packages/omo-senpi/src/components/task/index.ts">task component</a>, lines 74–81, skips the full task surface for team members. The <a href="repo/packages/senpi-task/src/team/member-extension/index.ts">member extension</a>, lines 86–93, registers only <code>task_send</code>. Core claiming is not a native member-callable task tool.</td>
+</tr>
+<tr>
+<td>E07</td>
+<td><a href="repo/packages/senpi-task/src/agents/schema.ts">Senpi agent schema</a>, lines 19–78; <a href="repo/packages/senpi-task/src/agents/task-agents.ts">task-agents.ts</a>, lines 7–20; <a href="repo/packages/senpi-task/src/agents/builtin/index.ts">builtins</a>, lines 14–43: extensible definitions, field overlays, tool/depth/model policies, curated research and review agents pinned in-process.</td>
+</tr>
+<tr>
+<td>E08</td>
+<td><a href="repo/packages/senpi-task/src/state/types.ts">Senpi task states</a>, lines 37–59 and 98–147; <a href="repo/packages/senpi-task/src/manager/manager.ts">manager.ts</a>, lines 168–242; <a href="repo/packages/senpi-task/src/store/record-store.ts">record-store.ts</a>, lines 59–85 and 208–290: separate task/residency states, durable records, live handles, run epochs and store loading.</td>
+</tr>
+<tr>
+<td>E09</td>
+<td><a href="repo/packages/senpi-task/src/runners/in-process.ts">in-process runner</a>, lines 56–69, 145–153 and 177–224: a real child <code>AgentSession</code>, isolated transcript directory and inherited trust. <a href="repo/packages/senpi-task/src/runners/rpc-process.ts">RPC process runner</a>, lines 39–105: child process launch, tracked async prompt and session restore. <a href="repo/packages/senpi-task/src/manager/execution-mode.ts">execution-mode.ts</a>, lines 18–50: precedence and capability-gated auto mode.</td>
+</tr>
+<tr>
+<td>E10</td>
+<td><a href="repo/packages/senpi-task/src/team/runtime.ts">Senpi team runtime</a>, lines 46–110, 146–178 and 187–219: lead-session ownership, durable sidecar, rollback and deletion. <a href="repo/packages/senpi-task/src/team/spawn-members.ts">spawn-members.ts</a>, lines 99–178: process-mode members, task/session IDs and resident-message bootstrap. <a href="repo/packages/senpi-task/src/team/member-extension/self-poller.ts">self-poller.ts</a>, lines 64–109 and 112 onward: consumer lease, transcript-confirmed acknowledgment and recovery.</td>
+</tr>
+<tr>
+<td>E11</td>
+<td><a href="repo/packages/senpi-task/src/lifecycle/reconcile.ts">reconcile.ts</a>, lines 25–138: ownership fencing, live-sibling protection and parent-scoped revival. <a href="repo/packages/senpi-task/src/lifecycle/shutdown.ts">shutdown.ts</a>, lines 13–99: suspension/teardown semantics. <a href="repo/packages/senpi-task/src/lifecycle/ttl.ts">ttl.ts</a>, lines 17–41 and 215–250: retained live/undelivered state and terminal cleanup. <a href="repo/packages/omo-senpi/src/components/task/event-bridge.ts">event-bridge.ts</a>, lines 122–165 and 225–254: actual adapter recovery and shutdown wiring.</td>
+</tr>
+<tr>
+<td>E12</td>
+<td><a href="repo/packages/senpi-task/src/completion/routing.ts">completion routing</a>, lines 4–35: which terminals notify and wake/stream/buffer routing. <a href="repo/packages/senpi-task/src/steering/engine.ts">steering engine</a>, lines 33–177: resolving live/resident/paused tasks, steering and revival decisions.</td>
+</tr>
+<tr>
+<td>E13</td>
+<td><a href="repo/packages/omo-senpi/src/components/thread/address-book.ts">thread address book</a>, lines 50–112: durable versus routing identity, cwd, timestamps, endpoint, surface and liveness. <a href="repo/packages/omo-senpi/src/components/thread/tools.ts">thread tools</a>, lines 57–130: gateway-backed tools, durable receipt admission and recovery bounds. <a href="repo/packages/omo-senpi/src/components/thread/gateway/schema.ts">gateway schema</a>, lines 10–105: deliveries, receipts, causal edges and external bindings. <a href="repo/packages/omo-senpi/src/components/thread/gateway/relay.ts">relay.ts</a>, lines 23–46 and 58–74: binding, outbox, acknowledgments, scoped human answers and connector inbound contract.</td>
+</tr>
+<tr>
+<td>E14</td>
+<td><a href="repo/packages/openclaw-core/src/reply-listener-telegram.ts">Telegram listener</a>, lines 30–96: real Telegram polling, chat filter, reply-message lookup, injection and acknowledgment. <a href="repo/packages/openclaw-core/src/reply-listener-injection.ts">reply injection</a>: local pane validation, sanitization and injection. The native relay in E13 is a connector API, not itself a Telegram bot implementation.</td>
+</tr>
+<tr>
+<td>E15</td>
+<td><a href="repo/packages/prompts-core/prompts/prometheus/default.md">planning prompt</a>, lines 1–5: plan-only persona delegates its procedure to <code>ulw-plan</code>. <a href="repo/packages/shared-skills/skills/ulw-plan/references/full-workflow.md">planning workflow</a>, lines 13–19, 142–161 and 254: proportionate discovery, gap analysis, scope/acceptance/QA artifacts and explicit execution handoff. These are shipped model instructions, not guaranteed state-machine transitions.</td>
+</tr>
+<tr>
+<td>E16</td>
+<td><a href="repo/packages/omo-codex/plugin/components/ulw-loop/src/checkpoint.ts">ULW checkpoint</a>, lines 91–114 and 155 onward: repeated authorization blockers escalate to <code>needs_user_decision</code>; completion calls criteria and quality-gate validators. <a href="repo/packages/omo-codex/plugin/components/ulw-loop/src/quality-gate.ts">quality-gate.ts</a>, lines 67–150: surface-specific reviewer fields, full criteria coverage, QA artifact/report checks, passed verdicts and no blockers. <a href="repo/packages/omo-senpi/src/components/ulw-loop/index.ts">native loop component</a>, lines 11–23 and 53–100: session-bound status and continuation wiring.</td>
+</tr>
+<tr>
+<td>E17</td>
+<td><a href="repo/packages/omo-opencode/src/features/tui-sidebar/state-types.ts">sidebar state</a>, lines 3–64; <a href="repo/packages/omo-opencode/src/features/tui-sidebar/compute-view.ts">compute-view.ts</a>, lines 20–35 and 87–121: agent state, jobs, last tool/tool counts and loop summary. <a href="repo/packages/omo-opencode/src/features/background-agent/task-history.ts">TaskHistory</a>, lines 3–53 and 80–122: bounded in-memory per-parent history and compaction text, not an enduring agent timeline application.</td>
+</tr>
+<tr>
+<td>E18</td>
+<td><a href="repo/packages/omo-opencode/src/hooks/goal/index.ts">goal idle hook</a>, lines 38–103: persisted active-goal lookup, idle continuation, reentry guard and deletion. <a href="repo/packages/omo-opencode/src/features/monitor/manager.ts">monitor manager</a>, lines 31–105: managed watcher processes with ring buffers, filters and batched delivery. Neither is a portfolio manager waking to inspect all projects.</td>
+</tr>
+<tr>
+<td>E19</td>
+<td><a href="repo/packages/senpi-task/src/dag/scheduler.ts">DAG scheduler</a>, lines 64–83 and 100–163; <a href="repo/packages/senpi-task/src/dag/scheduler-admission.ts">admission</a>, lines 11–82; <a href="repo/packages/senpi-task/src/dag/scheduler-frontier.ts">frontier</a>, lines 9–74: durable journal projection, dependency-frontier admission, owned tasks, suspension/retry/send controls and deferred failure cascade.</td>
+</tr>
+<tr>
+<td>E20</td>
+<td><a href="repo/packages/memory-core/src/compile/compile.ts">memory compiler</a>, lines 24–41 and 59–97: compile committed revisions, persona/identity/agreements and expiry. <a href="repo/packages/memory-core/src/agreements/guard.ts">agreement guard</a>, lines 10–75: automation cannot forge, change or remove human-authored agreements, reduce violation counts or clear human-needed state.</td>
+</tr>
+<tr>
+<td>E21</td>
+<td><a href="repo/packages/omo-codex/plugin/.codex-plugin/plugin.json">Codex manifest</a>, lines 21–49: hooks, skills and MCP entry points. <a href="repo/packages/omo-codex/plugin/components/teammode/skills/teammode/scripts/team-transport.mjs">team transport</a>, lines 1–16 and 37–54: immutable V2-agent versus Codex-App-thread transport and address validation. <a href="repo/packages/omo-codex/plugin/components/teammode/skills/teammode/scripts/team-worktree.mjs">team worktrees</a>: actual git provisioning and integration.</td>
+</tr>
+<tr>
+<td>E22</td>
+<td><a href="repo/packages/omo-native/remote-cli.ts">remote CLI</a>, lines 18–31 and 92–123; <a href="repo/packages/omo-native/remote-attach.ts">remote attach</a>, lines 9–24; <a href="repo/packages/device-service-core/src/remote-attach.ts">device attach SDK</a>, lines 66–146: account/device inventory and remote observation plumbing, explicitly rejecting remote input. <a href="repo/packages/device-service-core/src/release/release-signature.ts">release-signature.ts</a>, lines 4–7 and 24–29: all-zero release key and empty macOS identifier currently block normal acquisition.</td>
+</tr>
+<tr>
+<td>E23</td>
+<td><a href="repo/packages/hashline-core/src/validation.ts">hashline validation</a>, lines 18–20 and 67–135: optimistic line/content validation and mismatch remediation. <a href="repo/packages/team-core/src/team-worktree/manager.ts">team worktree primitive</a>, lines 42–62: real detached git worktree provisioning exists as a distinct primitive, unlike the directory-only team launch path in E04/E10.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="assessment-architecture-and-actual-execution-model">Architecture and actual execution model</h2>
+<p>There are three materially different integrations. <strong>OpenCode</strong> loads a plugin module into an existing OpenCode server/session lifecycle. Startup migrates legacy workspace/configuration state, validates merged configuration and creates background, skills/MCP, tmux and optional monitor managers. Tool factories and hooks adapt the server's session API. The LLM loop, credentials, conversation store and base coding environment belong to OpenCode. A specialist is initially an <code>AgentConfig</code>/prompt/model policy. It becomes an independently running agent session only when the delegation or team runtime calls <code>client.session.create</code> and sends its task prompt. The parent can continue while that child executes. The queue and live task bookkeeping are largely manager memory, while host sessions and selected project records persist separately (E01–E04, E17).</p>
+<p><strong>Codex Light</strong> registers the <code>omo</code> plugin namespace, with rules, LSP, comment checking, workflow/continuation hooks and shared skills. Its team implementation stores a team manifest and invokes capabilities supplied by the Codex host: native flat agents addressed through <code>/root/&lt;task_name&gt;</code>, or actual Codex App threads addressed by thread ID. Transport identity is persisted and checked rather than silently mixing address types. The team script prepares state, guides and optional git worktrees. The skill instructs the model to call the host's spawn/message tools. It does not embed the OpenCode background manager or the Senpi task engine into Codex. That distinction matters for Wingman's requirement that all organizational roles be real Codex agents (E21).</p>
+<p><strong>Senpi/native</strong> is the most extensive execution substrate in this revision. The native <code>omo</code> distribution launches the pinned external Senpi engine with a staged TypeScript extension. Its task component wires the <code>senpi-task</code> manager to real child sessions, record persistence, concurrency, steering, lifecycle reconciliation, teams, DAGs and workpools. A child can be a separate session in the same JS process, an RPC subprocess, or a session in a local engine host. “In-process” still creates a real conversation with its own transcript. It is not merely asking the parent's model to pretend to be another role. It does share execution resources and permitted tool closures, so it is not an OS isolation boundary. Process-mode auto routing checks host capabilities and otherwise selects in-process; explicit per-spawn/agent choices take precedence (E07–E12).</p>
+<p>Shared packages hold harness-neutral pieces: <code>team-core</code>, <code>memory-core</code>, <code>model-core</code>, <code>boulder-state</code>, <code>hashline-core</code>, rules/AGENTS discovery, MCP/LSP and skills. <code>senpi-task</code> is deliberately adapter-coupled. It is not another neutral core. The checked-in <code>packages/web</code> app is a marketing/docs/download site: its routes are localized landing/docs/support/download/design pages and download/stat APIs. It is not an organizational project dashboard. References to a Desktop surface and session shards expose integration contracts. This checkout does not contain a complete Wingman-style desktop workbench UI.</p>
+<h2 id="assessment-feature-matrix">Feature matrix</h2>
+<p>“Similar” credits substantive behavior while retaining its boundary. “Resembles” credits a useful primitive, not the complete Wingman experience. No “Exact” verdict is used merely because a related noun exists.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Wingman capability</th>
+<th scope="col">Verdict</th>
+<th scope="col">Implemented behavior and concrete gap</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F01</td>
+<td>Real independent coding agents and specialist instances</td>
+<td><strong>Similar</strong></td>
+<td>OpenCode creates actual child sessions; Senpi constructs child sessions/processes and can keep named members resident; Codex teammode binds real host agents/threads (E02, E09–E10, E21). Multiple instances can use the same profile. Standing autonomous Codex employees with organization-wide responsibilities are not established by these task-scoped mechanisms.</td>
+</tr>
+<tr>
+<td>F02</td>
+<td>Extensible agent profiles, roles and team composition</td>
+<td><strong>Similar</strong></td>
+<td>Senpi's arbitrary agent definitions include prompts, model chains, tools, depth/turn policy and execution mode; named teams contain category or agent members (E03, E07). OpenCode team eligibility is explicitly restricted to its supported writing agents. A new persona is not automatically a valid team member. Codex uses host agent/thread capabilities plus team metadata.</td>
+</tr>
+<tr>
+<td>F03</td>
+<td>Agent directory and visible working relationships</td>
+<td><strong>Resembles</strong></td>
+<td>Native address-book entries expose identity, cwd, liveness, endpoint, surface and times; team state links lead/member sessions and tasks; OpenCode sidebar lists agents/jobs (E03, E13, E17). There is no human-facing organization directory joining role, project, reporting relationships, current work and personal history.</td>
+</tr>
+<tr>
+<td>F04</td>
+<td>Telegram main channel and Butler routing</td>
+<td><strong>Resembles</strong></td>
+<td>OpenClaw really polls Telegram and routes a reply to the session/pane associated with the replied-to notification (E14). Native thread bindings/outbox/reply tokens are useful transport primitives (E13). They do not implement a persistent Butler that understands an ordinary incoming cross-project request; native relay platforms require a connector to perform external API delivery.</td>
+</tr>
+<tr>
+<td>F05</td>
+<td>Cross-project registry, intake and existing/new routing</td>
+<td><strong>Resembles</strong></td>
+<td>Sessions have cwd/workspace and durable address records; explicit all-scope addressing can reach other workspace sessions (E13). Team specs have project/user scope. No product registry with product goals, project creation/intake classification or ambiguous product-reference resolution was found in task/team/thread/config/web implementation searches.</td>
+</tr>
+<tr>
+<td>F06</td>
+<td>Per-project product and technical leadership</td>
+<td><strong>Resembles</strong></td>
+<td>Prometheus is a planning consultant, Atlas/Sisyphus orchestrate, and a named team has a lead (E03, E15). These are modes/profiles and session ownership, not paired persistent ProductMaster/TechMaster agents assigned to every registered product. Custom profiles can approximate them but their organizational wiring remains to build.</td>
+</tr>
+<tr>
+<td>F07</td>
+<td>Proportionate discovery and iterative clarification</td>
+<td><strong>Similar</strong></td>
+<td>Shipped planning instructions explicitly scale discovery, separate researchable facts from decisions, preserve draft/plan artifacts and route interview versus research (E15). There is genuine workflow depth. Execution is model-mediated in the current planning session, with no Butler-routed question queue or isolated clarification cycles for several products.</td>
+</tr>
+<tr>
+<td>F08</td>
+<td>Scope, specifications, acceptance scenarios and done</td>
+<td><strong>Similar</strong></td>
+<td>Plans carry affected user/ideal state, scope boundaries, success criteria, dependencies, references and executable happy/failure QA scenarios. ULW has structured criteria/evidence gates (E15–E16). This is a change/work-plan contract. There is no maintained per-product <code>DIRECTIVES/SCOPES</code>, <code>SPECS</code>, <code>HARNESS</code> knowledge schema or full product acceptance workflow.</td>
+</tr>
+<tr>
+<td>F09</td>
+<td>Decomposition, assignment and shared task tracking</td>
+<td><strong>Similar</strong></td>
+<td>Durable team tasks have owners, dependency edges, guarded claims and status transitions; native DAG execution additionally schedules dependent real tasks (E03, E06, E19). In native teams the lead owns task creation/updates and supplies the member owner; members report through <code>task_send</code> rather than calling task-list claim/update tools themselves. This is substantive shared tracking, but run/task scoped rather than one portfolio-wide ProjectTracker linking specifications, blockers, discussions and deliveries.</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>Portfolio/project management dashboard</td>
+<td><strong>Absent</strong></td>
+<td>Searches of web routes, sidebar, task/team status and native/thread surfaces found no portfolio/project dashboard. E17's job/loop sidebar is useful runtime telemetry. The web app is marketing/docs. Neither provides project goals, specification navigation, project progress and organization assignments.</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>Agent chat application, rooms and direct collaboration</td>
+<td><strong>Similar</strong></td>
+<td>Named members exchange durable direct/broadcast mail, and native peer sessions can send/handoff through a durable gateway (E05, E10, E13). Direct collaboration is implemented. Room-based human-browsable chat with Room1/Room2 membership/history, project rooms and task-linked discussion views is absent; mailbox history is not a chat application.</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>Management escalation and human decisions/approvals</td>
+<td><strong>Similar</strong></td>
+<td>Planning has explicit handoff/approval instruction; repeated external authorization blockers become structured <code>needs_user_decision</code>; native relay ties UI answers to a specific binding/token/incarnation (E13, E15–E16). These support meaningful decisions but do not route Worker → Room2 → Room1 → Butler → human and back through organizational roles. Team shutdown approval is a lifecycle handshake, not product approval.</td>
+</tr>
+<tr>
+<td>F13</td>
+<td>Durable project knowledge and reusable directives</td>
+<td><strong>Similar</strong></td>
+<td>Project plans, drafts, boulder state, rules/AGENTS loading and native git-backed compiled memory preserve reusable context (E15, E20). Memory includes persona, identity and agreements with committed revision semantics. Wingman's project knowledge layout, ownership and links to product/tracker records must be designed separately.</td>
+</tr>
+<tr>
+<td>F14</td>
+<td>Persistent identity, conversation and work continuity</td>
+<td><strong>Similar</strong></td>
+<td>Native durable session IDs, transcripts, task records, suspension, scoped revival and offline queued messages support continuity across process/session restarts (E08–E13). Identity is a session/task/member or memory namespace. It is not automatically a long-lived organizational agent instance. OpenCode manager maps/history are weaker than native durable lifecycle and should not be conflated.</td>
+</tr>
+<tr>
+<td>F15</td>
+<td>Proactive supervision, periodic wake and blockers</td>
+<td><strong>Resembles</strong></td>
+<td>Idle goals, child completion wakes, mailbox pollers, stale/failure handling, lifecycle probes and optional process monitors keep active work moving (E10–E12, E18). No periodic product-level ProjectMaster cycle that reviews the whole tracker, checks agents and coordinates unresolved blockers across projects was found. A process supervisor or watcher is a different responsibility.</td>
+</tr>
+<tr>
+<td>F16</td>
+<td>Parallel products and concurrent specialists</td>
+<td><strong>Similar</strong></td>
+<td>Real concurrent child sessions, per-model/provider queues, bounded member launches and independent workspace/session records support parallel coding efforts (E02, E04, E08–E10). Several workspace sessions can coexist. Cross-product leadership, shared priority/capacity policy and a coherent portfolio view remain absent.</td>
+</tr>
+<tr>
+<td>F17</td>
+<td>Real multi-host execution with shared coordination</td>
+<td><strong>Resembles</strong></td>
+<td>Native remote/device CLI and attach SDK expose actual other-device session observation, so this is more than a local subprocess claim (E22). However attach is observe-only, normal service acquisition is blocked by placeholder signing configuration, service implementation is external, and no network-distributed team mailbox/task execution is established. Local <code>p-*</code>/<code>i-*</code> socket hosts do not satisfy multi-machine shared coordination.</td>
+</tr>
+<tr>
+<td>F18</td>
+<td>Executive overview: recent/current/next and blockers</td>
+<td><strong>Resembles</strong></td>
+<td>Sidebar combines busy/idle/error agents, jobs/last tools and goal pass/fail/pending/blocked counts (E17); native task state includes suspension/awaiting-input facts. It does not synthesize an executive per-agent recent/current/next narrative, responsibility or organizational blocker view.</td>
+</tr>
+<tr>
+<td>F19</td>
+<td>Individual summary timeline linked to work</td>
+<td><strong>Resembles</strong></td>
+<td>Session transcripts, task timestamps/events, run journals and OpenCode bounded task summaries exist (E08, E13, E17, E19). They support reconstructing history. No authored per-agent summary timeline joined to tickets, chats and product artifacts was found; raw transcript/event history is not that timeline.</td>
+</tr>
+<tr>
+<td>F20</td>
+<td>Detailed per-agent coding workspace drill-down</td>
+<td><strong>Similar</strong></td>
+<td>OpenCode children are inspectable host sessions with optional tmux visualization; native thread reads, endpoints, transcript paths and attach/adopt plumbing expose real coding conversations (E02, E13, E22). The editor/terminal/workspace experience is supplied by the host and there is no Wingman directory-to-agent-workspace navigation product in this repository.</td>
+</tr>
+<tr>
+<td>F21</td>
+<td>Live activity, control, steering and visibility</td>
+<td><strong>Similar</strong></td>
+<td>Cancellation, native steering/resident revival, thread interrupt/model/reasoning operations, task output, status and sidebar telemetry are substantial (E02, E12–E13, E17). Supported control varies by host/session state; remote attach explicitly rejects input. A unified organization control surface is missing.</td>
+</tr>
+<tr>
+<td>F22</td>
+<td>Testing, integrated verification, acceptance/delivery</td>
+<td><strong>Similar</strong></td>
+<td>Planning requires executable QA and ULW completion validates criterion coverage, artifacts, reports and reviewer verdicts; reviewer agent profiles exist (E07, E15–E16). These exceed a mere “run tests” prompt, but validation still checks reported evidence/structure, not semantic truth or deployed product acceptance. No portfolio delivery/acceptance state owned by ProductMaster/TestMaster exists.</td>
+</tr>
+<tr>
+<td>F23</td>
+<td>Autonomous operation with human organizational direction</td>
+<td><strong>Similar</strong></td>
+<td>Async delegation, continuation hooks, resident teams and dependency scheduling can drive substantial work with occasional human steering (E02, E10–E12, E16, E18–E19). Autonomy is a session/run workflow; durable company-wide product intake, portfolio supervision and acceptance-stop/resume policy remain application work.</td>
+</tr>
+<tr>
+<td>F24</td>
+<td>Chat/tracker/dashboards grow with new profiles</td>
+<td><strong>Resembles</strong></td>
+<td>Member names and agent dictionaries are data-driven and task/mailbox schemas do not require Wingman's starting role names (E03, E07, E13). OpenCode eligibility introduces constraints. There is no combined chat/tracker/dashboard application whose views adapt to added roles; extensible schemas alone do not deliver that product behavior.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="assessment-agent-definition-and-lifecycle-walkthrough">Agent definition and lifecycle walkthrough</h2>
+<h3 id="assessment-definition-creation-and-identity">Definition, creation and identity</h3>
+<p>A <strong>profile</strong> is a reusable model/prompt/tool policy. An <strong>instance</strong> is a created conversation/session with an assignment. A <strong>task</strong> is a managed execution record; its ID differs from the child session ID. A <strong>team member</strong> adds a member name and team-run association. A <strong>process</strong> may host one or many sessions. A <strong>memory identity</strong> selects persistent knowledge and is not itself proof of a running employee. These distinctions are explicit in the native task states and thread address book (E07–E09, E13).</p>
+<p>OpenCode builtins are factory-built host agent configurations. Delegation chooses an agent or task category and skills. The background manager reserves descendant/depth capacity, creates a <code>bg_*</code> record in pending state, records parent/root lineage, queues by resolved concurrency key and returns promptly. Once a slot is available it creates a real child session in <code>input.cwd</code> or the parent directory, attaching parentID, title, permissions and selected model. It binds the returned session to the current attempt before starting polling/prompt delivery. A profile existing in the agent list does not mean a standing instance is already running (E02).</p>
+<p>OpenCode team creation loads/normalizes a TeamSpec and runtime UUID. It can reuse the caller as lead, creates inbox directories, resolves each category/agent and launches members through the same background manager. Each <code>sessionID</code> is registered immediately through the launch callback, before later hooks might look it up; that closes the race between spawning and persisting a member. On partial failure it cancels acquired children and removes resources with an explicit cleanup report (E03–E04).</p>
+<p>Native agent definitions are more general: named configuration overlays can change description, prompt, model list/distribution, tools, background status, execution mode, allowed subagents and turn/depth policy. Research/plan-review builtin agents are pinned in-process, so process mode does not accidentally omit their persona/tool restrictions. Native tasks maintain <code>task_id</code>, parent/root/child session identity, run epoch, resolved/effective model, residency, host/session attachment and spawn specification. The manager seeds its ID floor from stored records and separates live handles from durable records (E07–E09). Named-team creation persists a member-task mapping before declaring the team active; otherwise failed sidecar writes could leave uncancellable live members. The current session is the lead sentinel. Actual member spawn code forces process mode and supplies its scoped mailbox extension (E10). An older comment in <code>team/runtime.ts</code> still describes in-process members. The executable <code>spawn-members.ts:149</code> is the decisive evidence.</p>
+<p>Codex teammode has another identity model: durable team manifest plus immutable transport. On V2 it binds task name and canonical agent path; on Codex App it binds a real thread ID. The scripts validate identity and guide bootstrap/routing but do not manufacture missing host APIs. A fallback from one transport to the other is a new orchestration choice, not a transparently shared runtime (E21).</p>
+<h3 id="assessment-execution-tools-routing-and-concurrency">Execution, tools, routing and concurrency</h3>
+<p>OpenCode children run through the host session API. Agent restrictions include read-only research/consultation roles, delegation restrictions for some executors and team-tool restrictions; team creation also denies direct child questions so decisions route through the lead. These are tool/host permission and hook policies, not independent OS sandboxes. See <a href="repo/packages/omo-opencode/src/shared/agent-tool-restrictions.ts">agent-tool-restrictions.ts</a>, lines 9–75, and E04 lines 194–208. Some policies live in prompts, some in tool lists, and some in actual guards; their enforcement strength differs.</p>
+<p>Native in-process execution calls Senpi <code>createAgentSession</code>, builds a child SessionManager with lineage and a dedicated transcript directory, filters shared parent tools and applies trust/model policy. RPC execution launches a child with an isolated session directory and tracked async prompt, with steering/abort over the protocol. Host-session mode is selected only after supported capability checks. Model/category selection, model availability and fallback belong to an execution planner. A role name is not synonymous with one hardcoded model. Routing and spawn restrictions also apply to DAG agent nodes so graph execution cannot bypass the direct task policy (E07, E09, E19).</p>
+<p>OpenCode's default concurrency is five per resolved key, with model overrides taking precedence over provider overrides and a zero meaning unlimited. FIFO queues hand released slots to waiting tasks. Team <code>max_parallel_members</code> bounds the creation worker loop, not a proof of a global lifetime cap across all teams; model/provider queues and spawn guards enforce separate limits. Native concurrency also supports configured global/provider/model limits and distinguishes active execution from resident sessions. A completed but resident member may still be messageable and consume residency until eviction/cleanup. No admission system here is an organization-wide fair scheduler across products (E02, E04, E08–E10).</p>
+<p>Workspace isolation requires following the specific path. The core has real detached git worktree creation and Codex teammode has real provisioning/integration. OpenCode <code>createMemberWorktree</code>, and native team <code>spawnOneMember</code>, simply mkdir a supplied path then use it as cwd. Declaring <code>worktreePath</code> there does not prove an isolated checkout was created. Native task isolation separately provides baseline/clone/settle/salvage integration through <code>isolation-core</code>: <a href="repo/packages/senpi-task/src/isolation/prepare.ts">prepare.ts</a>, lines 27–73, refuses a spawn when it cannot establish the sandbox; <a href="repo/packages/senpi-task/src/isolation/settle.ts">settle.ts</a>, lines 19–57 and 78–90, controls merge and retain/cleanup. Wingman should deliberately select and test that path rather than infer isolation from team metadata (E04, E10, E23).</p>
+<h3 id="assessment-persistence-resumption-and-scheduling">Persistence, resumption and scheduling</h3>
+<p>Core team specs are project- or user-scoped configuration. Default runtime data is under <code>~/.omo/runtime/&lt;teamRunId&gt;/state.json</code>, <code>inboxes/&lt;member&gt;/</code> and <code>tasks/&lt;decimal-id&gt;.json</code>; worktrees use a separate root. This is confirmed by path functions, and supersedes an older team AGENTS example showing JSONL mailboxes beneath the team spec. Native tasks default to a project-derived directory under the canonical agent home, preserve an existing project <code>.omo/senpi-task</code> store when appropriate, and allow <code>task.state_dir</code> overrides. Its team base is inside that task store. Thus shared state is durable local filesystem state with locks, not a network coordination service (E03, E08, E10).</p>
+<p>OpenCode can continue existing child sessions and uses compaction-aware result retrieval and bounded task history, but its active maps, queue and history are process memory. Host conversation persistence and a persisted team state are not equivalent to automatic reconstruction of the full background manager after arbitrary process death. Native lifecycle is stronger: session-start wiring reconciles children, re-observes member liveness, recovers mailbox reservations, redelivers unnotified completions, performs awaited TTL cleanup and polls the lead. Reconciliation checks live foreign ownership before terminality/residency and refuses to seize sibling-owned tasks. Scoped revival targets the resumed parent, preserving other sessions' children (E11, E17).</p>
+<p>Scheduling is principally event-driven: asynchronous completion wakes a parent, resident member mail wakes/steers the recipient, idle hooks continue unfinished goals, and DAG frontier admission starts dependents when ready. These are useful persistent-work mechanisms. They are not a cron-driven ProjectMaster that wakes tomorrow, reads all products and initiates management follow-up. Optional monitors start long-running commands and batch observations into the owning session. They are closer to CI/log watching than organization supervision (E10–E12, E18–E19).</p>
+<h3 id="assessment-steering-cancellation-failure-and-recovery">Steering, cancellation, failure and recovery</h3>
+<p>OpenCode cancellation distinguishes pending queue removal from running session abort. It finalizes the attempt, releases concurrency, updates history/continuation markers and notifies or schedules removal. Failure handling includes fallback attempts, stale-task/session checks and loop guards. Attempt/session binding prevents stale callbacks from overwriting a later attempt. Native steering resolves task/name, sends into a running child or revives an eligible resident conversation; non-continuable state produces a typed refusal rather than silently spawning a replacement. Thread tools additionally expose interrupt and model/reasoning changes through supported host APIs (E02, E08, E12–E13).</p>
+<p>Native lifecycle separates <strong>task status</strong> (<code>pending</code>, <code>running</code>, <code>paused</code>, <code>completed</code>, <code>error</code>, <code>cancelled</code>, <code>interrupted</code>, <code>lost</code>) from <strong>residency</strong> (<code>resident</code>, <code>evicted</code>, <code>disposed</code>, <code>persisted_only</code>, <code>rpc_detached</code>). An interrupted task is not inherently dead forever, and a completed task is not inherently destroyed. Shutdown is reason-aware; owned host-session tasks can keep running when the parent quits/new-sessions, while other children suspend for later revival according to configuration and context. The bridge warns the user about continuing children and resume instructions. <code>resume_children=false</code> selects disposal semantics. Reconciliation, run epochs and ownership fences are necessary because multiple local processes/sessions may read the same store (E08, E11–E12).</p>
+<p>Completion delivery distinguishes idle parent wake, streaming delivery at a safe boundary and buffering during compaction/session switch/shutdown. Normal completion/error/lost notify; parent-requested cancellation/interruption already returns synchronously and does not generate the same notification. Durable receipts, run epochs and transcript confirmation support deduplication/recovery, but they should not be described as universal exactly-once execution of arbitrary tool side effects (E10–E13).</p>
+<h3 id="assessment-completion-acceptance-retirement-and-cleanup">Completion, acceptance, retirement and cleanup</h3>
+<p>A child becoming idle/completed establishes an execution outcome, not product acceptance. The core team-task completion transition checks the supplied owner and lifecycle. Native member sessions receive only the scoped <code>task_send</code> coordination tool. The lead therefore calls the completion service for a member, using messages or other evidence. This is not automatic completion by the working member or independent validation of the result. DAG completion means graph nodes reached their terminal contract. The scheduler can mark failed dependent branches skipped. ULW adds a stronger optional evidence contract: criteria must pass, required batches close, reviewer/QA fields validate and artifacts/report paths exist before a final aggregate checkpoint. The validator still cannot decide whether a screenshot proves the desired behavior or a test oracle is correct. Independent reviewer work and honest evidence generation remain essential (E06, E12, E16, E19).</p>
+<p>Resident team members end turns while remaining available for injected work; shutdown uses request/approve/reject messaging, and team deletion cancels mapped members and removes runtime directories. Native TTL cleanup uses a two-phase process and retains live ownership or undelivered terminal notification state so pruning does not orphan a handle or lose a result. OpenCode has bounded terminal/archive retention and process cleanup rather than a standing employee retirement record. Wingman must separately preserve employment/role history, product acceptance, deactivation and future reactivation policy (E10–E11, E17).</p>
+<h2 id="assessment-coordination-mechanics-and-a-concrete-code-trace">Coordination mechanics and a concrete code trace</h2>
+<p>Consider a lead organizing backend and frontend implementation. The following is a <strong>source trace through the real Senpi team path</strong>, not an executed demonstration or a claim that natural-language intake automatically creates such a team.</p>
+<ol>
+<li>The team tool resolves/normalizes a named or inline TeamSpec. <code>createTeam</code> checks member bounds before spawning, writes <code>creating</code> state, creates inbox/runtime directories and invokes <code>spawnTeamMembers</code>. The caller remains lead; backend/frontend are distinct named member instances, not two labels inside the lead prompt (E10).</li>
+<li><code>spawnOneMember</code> builds a process-mode background start request with parent/root IDs, member-specific task name, team identifiers, prompt and optional cwd. It waits for slow admission when needed, then records the real task/session identity. The bootstrap tells the member to report with <code>task_send</code>, end its turn and await injected work (E10, <code>spawn-members.ts:99–178</code>).</li>
+<li>The lead creates shared tasks such as “API contract” and “UI integration,” making the latter blocked by the former, and assigns/updates them with the intended member owner. In this native trace the member reports progress/completion through <code>task_send</code>. It cannot call the lead's <code>task_create</code>/<code>task_update</code> surface. <code>team-service.ts:202–205</code> passes the supplied owner to the core claim/status primitive on the lead's behalf. The claim primitive checks status/dependencies, takes the task lock, rereads both and atomically writes owner/claimed time, preventing two successful claims. These library guarantees do not establish native member self-service task claiming or owner-authenticated completion (E03, E06).</li>
+<li>The backend member reports the API contract through a durable message to frontend/lead. <code>sendMessage</code> validates recipients and limits, serializes one JSON message, locks the recipient inbox and accounts for reserved deliveries when checking backpressure. Broadcast requires lead role. Structured references can point to artifacts, but they are references rather than a foreign-key ticket/chat system (E03, E05).</li>
+<li>Member self-polling acquires an inbox consumer lease and reserves a message by renaming it to <code>.delivering-&lt;id&gt;.json</code>. Injection does not immediately count as acknowledgment. The poller checks the session JSONL for the message ID before moving the reservation into <code>processed/</code>. On restart it can distinguish a transcript-confirmed prior delivery from a reservation needing recovery. This is a material improvement over tailing a shared text file and assuming the model saw it (E05, E10).</li>
+<li>Native task completion routes a wake/steer/buffer notification to the lead depending on its actual state. The lead can inspect output, steer another turn, create follow-up tasks or initiate QA. If the lead's session restarts, the adapter's ordered recovery chain reconstructs task ownership/liveness and redelivery. These mechanisms recover coordination, not a forgotten product requirement that was never written down (E11–E12).</li>
+<li>The lead records evidence and closes work via ULW if that workflow was selected, or simply updates team tasks otherwise. The difference is consequential: only the former calls the evidence validators. On acceptance/stop it uses the shutdown handshake or deletion; no automatic ProductMaster acceptance or organization-wide archival follows (E06, E10, E16).</li>
+</ol>
+<p>Cross-session collaboration outside a team uses another mechanism. Native <code>thread_send</code>/<code>thread_handoff</code> resolve a durable session address from live endpoints plus disk sessions, write durable gateway deliveries/receipts, and wake a registered receiver or leave work queued offline. The SQLite schema records state (<code>queued</code> through <code>applied</code>/<code>refused</code>/<code>uncertain</code>), per-target sequence and causal edges, rather than equating a successful socket write with execution. The relay layer binds an external conversation to a session and supplies outbox cursors, idempotent acknowledgments and binding-scoped reply tokens. This is promising for Butler's transport and human-decision continuity, but the business routing and Telegram connector still need to be supplied (E13–E14).</p>
+<h2 id="assessment-major-capabilities-beyond-wingmans-described-scope">Major capabilities beyond Wingman's described scope</h2>
+<p><strong>Dependency-frontier DAG execution and reusable worker pools.</strong> The native DAG engine journals run/node transitions and admits every ready node through the task manager instead of waiting for an entire presentation “wave” to finish. It can suspend a controller without cancelling children, reattach owned work, send to a node and retry failed/cancelled/skipped nodes with a new scheduler. Failure cascade waits until frontier quiescence, permitting an eligible failed task to be revived while siblings still run. <code>senpi-task/src/workpool/engine.ts</code> additionally creates durable named pools, queues items, exposes push/close/cancel and worker yield/results, with dispatcher/policy integration. Wingman describes tasks and independent workers but not these reusable execution engines. Adapting them could improve throughput and recovery. It would also import Senpi coupling and require translation into project/ticket identities (E19; <a href="repo/packages/senpi-task/src/workpool/engine.ts">workpool engine</a>, lines 18–19, 61, 95–103 and 156–168).</p>
+<p><strong>Versioned agent memory and background maintenance.</strong> The memory engine is much more than a product documentation directory. It has git-backed MemFS, committed-revision prompt compilation, explicit persona/identity, expiry, transcript search, people records, facts/reflection pipelines and agreement governance. Compiling only a committed revision prevents uncommitted edits from silently changing authoritative memory. Background reflection uses separate execution/merge machinery. It is not the same as a ProductMaster maintaining requirements. Reuse could help organizational continuity, but Wingman needs separate namespaces for human preferences, agent-private memory, shared product truth and approved specifications (E20 and <a href="repo/packages/memory-core/AGENTS.md">memory-core source map</a>, lines 7–42).</p>
+<p><strong>Durable session gateway and external conversation relay.</strong> Addressing terminal, child, desktop and daemon sessions through durable IDs plus endpoint-specific routing is a stronger primitive than terminal injection. Queued-offline work, receipt recovery, causal loop controls, outbox cursors and question reply scoping are valuable for reliable coordination. These contracts could underpin Butler and human decisions, but platform vocabulary such as <code>telegram</code> in a schema is not a delivered Telegram user experience. External connectors and authenticated human/project routing remain integration work (E13).</p>
+<p><strong>Model routing, host interoperability and coding intelligence.</strong> The project bundles provider/model fallback, category-based routing, shared LSP services/MCP tools, structural search/edit support, Claude-compatible configuration/skill loaders and rules injection. These can make each execution agent more capable and efficient without being part of Wingman's organization specification. Their cost is configuration/model-version churn and edition-specific behavior. A Codex-first Wingman should adopt selected pieces through explicit adapters, not install the whole OpenCode/Senpi stack and assume parity (E01, E07, E09, E21).</p>
+<p><strong>Computer-use execution and process observation.</strong> Additional desktop packages implement protocol/engine/service/tool layers for computer actions and observations, while OpenCode's monitor engine manages continuous command output. The desktop service is an execution capability, not a dashboard showing the agent organization. These could expand TestMaster's real-surface QA, but require independent host permission, lifecycle and platform validation. This assessment inspected the package boundaries and <a href="repo/packages/senpi-desktop-service/src/service/service.ts">desktop service</a>, lines 33–100, <a href="repo/packages/senpi-desktop-tool/src/index.ts">desktop tool exports</a>, lines 1–57, and monitor code. It did not deeply audit the desktop engine or exercise computer control (E18).</p>
+<p><strong>Native distribution and device observation.</strong> Canonical agent state, setup/import, daemon lifecycle and remote-session observation are significant operational capabilities. They help make local agents usable beyond an individual terminal. However remote release bootstrap is deliberately fail-closed at this revision, and remote input is explicitly unavailable. Wingman cannot treat the remote client scaffold or external service promise as implemented distributed organizational execution (E22).</p>
+<h2 id="assessment-grounded-innovation-assessment">Grounded innovation assessment</h2>
+<p>Several mechanisms are especially worth learning from. These are claims about this implementation's design, not historical novelty or uniqueness across the industry.</p>
+<ul>
+<li><strong>Delivery acknowledgment follows durable conversation evidence.</strong> Team mail remains reserved until its message ID appears in the recipient transcript; consumer leases and processed history support recovery. This ties delivery state to the actual conversation rather than a best-effort enqueue. Limits include local filesystem semantics, retained transcript availability and no guarantee that the model correctly understood or acted on the message (E05, E10).</li>
+<li><strong>Task execution, residency and ownership are separate axes.</strong> Native tasks can be completed yet resident, detached from an RPC host, suspended or awaiting input. Reconciliation checks live owners and run epochs before revival; DAG controllers can retire without terminating their children. That separation enables restart and host lifecycle recovery without pretending every ended turn is agent retirement. It also creates a complex state space and substantial adapter obligations (E08–E12, E19).</li>
+<li><strong>Cross-session messaging represents uncertainty explicitly.</strong> Gateway receipts and delivery states distinguish admitted/applied from queued or uncertain; durable session IDs are separate from per-endpoint routing IDs. An offline target can remain addressable. This is a useful basis for reliable agent collaboration, but arbitrary tool side effects still require their own idempotency/acceptance contract (E13).</li>
+<li><strong>Evidence-gated completion is partly executable policy.</strong> ULW validators inspect criteria coverage, expected reviewer identities, required QA/report artifacts and blocker state, and repeated authorization failures become a human-decision state. This is stronger than a completion instruction in a prompt. Evidence content remains agent-authored, and surface-specific gates differ: native Senpi currently rejects the Codex <code>codeReview</code> lane instead of sharing every field identically (E16).</li>
+<li><strong>Memory governance preserves human-authored rules.</strong> Committed-revision compilation plus immutable human agreement entries and nondecreasing violation counts gives the human's durable directions stronger protection than generic append-only notes. This is directly relevant to Wingman's standing relationship with one person. It does not replace human ownership of product scope or ensure every agent consults the correct project namespace (E20).</li>
+<li><strong>Hashline edits detect stale read assumptions.</strong> The edit protocol compares line/content fingerprints and returns updated context/remappings on mismatch. That provides a low-level optimistic concurrency check useful when multiple agents touch code. Two-character fingerprints are a heuristic, and this does not serialize whole-file transactions or solve semantic merge conflicts; work ownership and isolated integration are still needed (E23).</li>
+</ul>
+<h2 id="assessment-practical-fit-and-integration-consequences">Practical fit and integration consequences</h2>
+<p>Wingman could use the <strong>Codex Light team scripts and workflow components</strong> most directly: they already reason about real Codex agents versus App threads, durable team manifests, communication addresses, worktrees and integration. The planning templates and QA/evidence contract are also useful design inputs. They should be evaluated as components in Wingman's own authorized agent runtime, with explicit host capability detection and persistence tests. The implementation's own distinction between a member profile and a running bound instance should carry through to Wingman's directory.</p>
+<p>The most reusable neutral mechanisms are team/task/mailbox schema and locking, boulder plan progress, memory compilation/governance, rules/AGENTS discovery, hashline validation and selected LSP/MCP components. Their data should map to Wingman-owned <code>agent_instance_id</code>, <code>project_id</code>, ticket and conversation identities. Team-run UUIDs and session IDs should remain execution attachments, so retiring a run does not erase an employee's or project's history. A unified event projection could turn these low-level records into directory, tracker, chat and timeline views.</p>
+<p>The <strong>Senpi task lifecycle, DAG/workpool and peer gateway</strong> offer the deepest machinery, but require adaptation or reimplementation for a Codex-only organization. Their external engine APIs, capabilities, session files, control endpoints and shutdown semantics are part of the contract. A wrapper that merely renames tool calls would not preserve revival, ownership or delivery guarantees. The native remote device client should remain an experimental integration until acquisition, the external service and actual cross-host execution/coordination are verified.</p>
+<p>Wingman still needs its core application layer:</p>
+<ul>
+<li>Telegram Butler intake.</li>
+<li>a persistent project registry.</li>
+<li>new/existing project resolution.</li>
+<li>standing organization identities.</li>
+<li>per-project product and technical leads.</li>
+<li>durable discovery questions/answers.</li>
+<li>maintained product directives.</li>
+<li>shared ProjectTracker and room history.</li>
+<li>periodic portfolio supervision.</li>
+<li>navigable executive/project/agent views.</li>
+</ul>
+<p>It also needs product-level acceptance/delivery and quiescence after acceptance. Existing task completion and ULW aggregate completion can feed that policy but do not define it.</p>
+<p>Reuse must account for licensing. The <strong>root <a href="repo/LICENSE.md">LICENSE.md</a>, lines 3–8 and 24–29, uses the Sustainable Use License</strong> for content outside separately licensed components, with internal-business/personal/noncommercial use and distribution restrictions. The Codex plugin manifest says MIT (E21 line 12), which is insufficient evidence that every source file proposed for reuse is MIT. This is a repository inconsistency requiring component-level provenance review before redistribution, not a claim of legal clearance. No external legal interpretation was performed.</p>
+<h2 id="assessment-verification-scope-tests-inspected-and-limits">Verification scope, tests inspected and limits</h2>
+<p>The source trace covers:</p>
+<ul>
+<li>plugin initialization/managers.</li>
+<li>actual OpenCode launch/cancel paths.</li>
+<li>team runtime/spec/path primitives.</li>
+<li>task claim/update.</li>
+<li>mailbox reservation/delivery.</li>
+<li>native agent definitions and runners.</li>
+<li>task/residency state.</li>
+<li>ownership reconciliation/shutdown/TTL.</li>
+<li>completion/steering.</li>
+<li>native thread/gateway/relay.</li>
+<li>Telegram polling.</li>
+<li>planner artifacts.</li>
+<li>ULW validators.</li>
+<li>sidebar/history.</li>
+<li>memory compiler/agreements.</li>
+<li>DAG admission/frontier.</li>
+<li>native remote observation and release acquisition guards.</li>
+</ul>
+<p>Applicable root/package/subsystem AGENTS guidance was read for the inspected areas. No change-execution/worktree/QA protocol inside the alternative was invoked because its source was not modified.</p>
+<p>Relevant tests were <strong>read</strong>, not run:</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Test source</th>
+<th scope="col">Assertions inspected and evidentiary boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="repo/packages/team-core/src/team-tasklist/claim.test.ts">claim.test.ts</a>, lines 13–96</td>
+<td>Exactly one concurrent claimant, blocking dependencies, stale claim recovery and traversal rejection; filesystem-backed unit cases, not multi-machine locks.</td>
+</tr>
+<tr>
+<td><a href="repo/packages/omo-opencode/src/features/team-mode/team-runtime/create.test.ts">OpenCode create.test.ts</a>, lines 114–188 and 228–342</td>
+<td>Launch via BackgroundManager, immediate session registration, persisted resolved role/model, rollback and cwd propagation; mocked host manager, not observed OpenCode execution.</td>
+</tr>
+<tr>
+<td><a href="repo/packages/senpi-task/src/team/runtime-create-failure.test.ts">native runtime-create-failure.test.ts</a>, lines 36–141</td>
+<td>Reject bounds before spawn, cancel earlier members on failure, fail activation if sidecar persistence fails and deadline refusal; fake team manager.</td>
+</tr>
+<tr>
+<td><a href="repo/packages/senpi-task/src/team/member-extension/index.test.ts">member-extension/index.test.ts</a>, lines 73–88</td>
+<td>Registers exactly <code>task_send</code> for the member bundle, then starts hidden message injection on session start. This bounds the native coordination trace and rules out importing OpenCode member task tools into it.</td>
+</tr>
+<tr>
+<td><a href="repo/packages/omo-senpi/src/components/task/event-bridge-session-lifecycle.test.ts">event-bridge-session-lifecycle.test.ts</a>, lines 8–145 and 223–306</td>
+<td>Ordered restart chain, liveness re-observation, cleanup and scoped/reason-aware shutdown; adapter harness, not an exercised real Senpi process restart here.</td>
+</tr>
+<tr>
+<td><a href="repo/packages/omo-senpi/src/components/thread/offline-address.test.ts">offline-address.test.ts</a>, lines 110–145 and 201 onward</td>
+<td>Disk-only/offline addresses queue delivery and a fake resumed runtime drains it; demonstrates intended receipt/replay contract, not successful external connector delivery.</td>
+</tr>
+<tr>
+<td><a href="repo/packages/hashline-core/src/validation.test.ts">validation.test.ts</a>, lines 101–171</td>
+<td>Matching/mismatching refs, updated hash/context and legacy reference compatibility; not proof of semantic edit correctness.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Absence claims were checked across likely implementation boundaries rather than inferred from README silence:</p>
+<ul>
+<li>task/team/thread and agent schemas for organizational identity.</li>
+<li>workspace/addressing and config for registry/intake.</li>
+<li>web routes/sidebar/status for dashboards/timeline.</li>
+<li>OpenClaw/relay code for Telegram/Butler.</li>
+<li>goal/monitor/lifecycle/pollers for supervision.</li>
+<li>remote CLI/device SDK for multi-host claims.</li>
+<li>planner/ULW state for acceptance.</li>
+</ul>
+<p>Searches included <code>ProjectMaster</code>, <code>ProductMaster</code>, <code>portfolio</code>, <code>DIRECTIVES</code>, <code>Room1</code>, <code>Room2</code>, Telegram and supervision/wake/interval terms. Generic words or shipped prompts were not counted as complete applications.</p>
+<p>There may be additional behavior in external Senpi, remote-device services or separately distributed Desktop products. This report credits only the contracts and code available here and explicitly marks those boundaries. It establishes a source-grounded implementation assessment, <strong>not a live performance, robustness, model-quality, security or deployment certification</strong>. The local alternative checkout was left unchanged; only this report was written.</p></article>
+<section id="source-record"><h2>Source and evidence</h2><p class="url-text">https://github.com/code-yeongyu/oh-my-openagent</p>
+<ul><li><a href="repo/">Open the pinned source checkout</a></li><li><a href="assessment/ASSESSMENT.md">Read the Markdown assessment</a></li>
+<li><a href="../generic/assessments/_audits/qa20.md">Read the historical independent source audit</a></li><li><a href="../generic/method.html">Read the method and evidence limits</a></li></ul></section>
+<nav class="report-switch" aria-label="Adjacent project reports"><a href="../oh-my-codex/index.html">Previous project: oh-my-codex</a><a href="../omnigent/index.html">Next project: Omnigent</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../index.html">Return to overview <img src="../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

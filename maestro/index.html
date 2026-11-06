@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Technical assessment against Wingman’s development organization."><title>Maestro · Wingman Research</title>
+<link rel="icon" href="../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/report.css"><script defer src="../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../index.html"><img src="../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../index.html">Overview</a><a class="nav-link " href="../generic/index.html">Architecture findings</a><a class="nav-link " href="../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../generic/method.html">Method and evidence</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../index.html">Wingman Research</a><span class="crumb">/</span><span>Maestro</span></div><span class="topbar-note">SOURCE REVIEW · 05 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Maestro</h1><p class="subtitle">Technical assessment against Wingman’s development organization.</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#decision">Decision summary</a><a href="#assessment-maestro-assessment">Maestro assessment</a><a href="#assessment-identity-and-fit-verdict">Identity and fit verdict</a><a href="#assessment-architecture-and-actual-execution-model">Architecture and actual execution model</a><a href="#assessment-complete-feature-comparison">Complete feature comparison</a><a href="#assessment-agent-definition-creation-and-lifecycle">Agent definition, creation and lifecycle</a><a href="#assessment-coordination-mechanics-and-a-concrete-request-trace">Coordination mechanics and a concrete request trace</a><a href="#assessment-major-additional-capabilities-and-integration-consequences">Major additional capabilities and integration consequences</a><a href="#assessment-distinctive-mechanisms-and-grounded-innovation">Distinctive mechanisms and grounded innovation</a><a href="#assessment-practical-adoption-fit">Practical adoption fit</a><a href="#assessment-verification-scope-and-remaining-uncertainty">Verification scope and remaining uncertainty</a><a href="#source-record">Source and evidence</a></div></nav><section id="decision" class="decision"><h2>Decision summary</h2>
+<div class="brief-columns"><div><h3>Useful for Wingman</h3><p>Study coding providers, group delegation, SSH execution, cross-agent briefings, and Pianola supervision.</p></div><div><h3>Adoption boundary</h3><p>The automatic Pianola manager uses Claude Code. Wingman&#x27;s Codex leadership and product acceptance remain work.</p></div></div>
+<p class="scope-note">Source assessment at the commit below. Runtime limits appear in the technical report.</p></section>
+<dl class="facts"><div><dt>Source group</dt><dd>Coding workspaces</dd></div><div><dt>Commit</dt><dd><code>5b4d5e4f190a1701024d0567fa85aad458c59104</code></dd></div><div><dt>Coverage</dt><dd>24 Wingman features</dd></div></dl>
+<article id="technical-assessment" class="technical"><h2 id="assessment-maestro-assessment">Maestro assessment</h2>
+<h2 id="assessment-identity-and-fit-verdict">Identity and fit verdict</h2>
+<ul>
+<li><strong>Product:</strong> Maestro, package version 1.0.3. A multi-provider coding-agent workbench with desktop, browser/mobile, CLI and opt-in automation subsystems.</li>
+<li class="url-text"><strong>Repository:</strong> https://github.com/RunMaestro/Maestro</li>
+<li><strong>Local checkout:</strong> <code>researchs/maestro/repo/</code>.</li>
+<li><strong>Actual checked-out commit:</strong> <code>5b4d5e4f190a1701024d0567fa85aad458c59104</code>.</li>
+<li><strong>Assessment date:</strong> 2026-11-05.</li>
+<li><strong>Method:</strong> read-only source and test inspection. No dependencies installed, application launched, services started, model calls made or SSH connections exercised. The checkout was not modified.</li>
+</ul>
+<p><strong>Verdict: a substantial execution, collaboration and visibility foundation for Wingman, with more organizational machinery than a terminal manager, but not a ready-made Wingman organization.</strong> It runs independent coding providers and persists identities and conversations. Group chats support delegation. SSH hosts supply remote execution. It generates cross-agent briefings. Its optional Pianola manager supplies durable task dependencies, polling supervision and human escalation. These deserve credit as implemented mechanisms rather than roadmap promises. The missing center is Wingman's product organization: Telegram/Butler intake, an explicit product registry, separately accountable ProductMaster and TechMaster instances, discovery-to-specification ownership, and integrated product acceptance.</p>
+<p>Several limits materially affect adoption. Pianola's automatically created manager is Claude Code, not Codex. Agent specialization is chiefly configuration and prompts rather than a reusable role/profile domain model. Some supervision and dashboards are opt-in Encore features. Background execution is owned by the desktop process, not an independently deployed organizational service. A process returning idle or checking off Markdown can still mean completion without independent acceptance evidence. The Pianola auto-merge hook explicitly records a skipped merge because no merge execution path is available there. These are boundaries of this revision, not claims about all future releases.</p>
+<p>The comparison uses <a href="../generic/purpose.html">Wingman's purpose</a> and the full <a href="../generic/assessments/ASSESSMENT_GUIDE.md">assessment guide</a>. The checkout's <code>AGENTS.md</code> is a symlink to <a href="repo/CLAUDE.md">CLAUDE.md</a>; its terminology distinguishes a user-visible Maestro agent from provider sessions (lines 398-405). That distinction is essential throughout this report.</p>
+<h2 id="assessment-architecture-and-actual-execution-model">Architecture and actual execution model</h2>
+<h3 id="assessment-one-local-control-plane-several-execution-paths">One local control plane, several execution paths</h3>
+<p>The application entry is the Electron main process declared in <a href="repo/package.json">package.json</a>, lines 1-21. <a href="repo/src/main/index.ts">main/index.ts</a>, lines 304-347, 985-1012, 1267 onward and 2882-3009, initializes persisted stores, constructs <code>ProcessManager</code>, constructs Cue, initializes history/stats, wires IPC, and attaches run capture. A React renderer owns the active workspace and substantial session, tab, queue and batch-run behavior. The preload namespaces expose main-process functions to that renderer. This is a desktop application with a main-process automation substrate, not a server fleet that happens to have a desktop client.</p>
+<p>A named sidebar agent is represented by the historically named <code>Session</code> interface. It contains an ID, name, provider, working directory/project root, group, logs, execution queue, AI tabs, terminal/browser/file tabs, worktree relationships, model/environment overrides and SSH configuration. See <a href="repo/src/renderer/types/index.ts">renderer/types/index.ts</a>, lines 1317-1575. Each AI tab can bind a different provider conversation. Creating an agent initially allocates a durable configuration/workspace record and idle tab. It does not launch an always-running intelligent process.</p>
+<p>When prompted, main-process spawn handlers resolve provider arguments and account/model settings and call <code>ProcessManager</code>. <a href="repo/src/main/process-manager/ProcessManager.ts">ProcessManager.ts</a>, lines 43-91 and 208-274, chooses a PTY for terminals, a child-process runner for ordinary agent turns, or an opt-in OpenCode SDK server path. Output parsers translate provider-specific JSON streams into text, tool activity, usage, session IDs and error events. An agent therefore has independent execution when active, but many provider turns are short-lived processes resumed by provider session ID rather than a resident process with a durable brain.</p>
+<p>The command line has two meanings. Commands such as <code>create-agent</code> use <code>withMaestroClient</code> to send WebSocket commands into the running desktop control plane: <a href="repo/src/cli/commands/create-agent.ts">create-agent.ts</a>, lines 129-168. Batch playbook/goal execution also has CLI-owned spawn loops that can execute providers and record their activity: <a href="repo/src/cli/services/batch-processor.ts">batch-processor.ts</a>, lines 58-112, and <a href="repo/src/cli/services/goal-runner.ts">goal-runner.ts</a>, lines 125-137. “Has a CLI” consequently does not mean every organizational action is available with the desktop shut down.</p>
+<p>The browser desktop reuses renderer behavior through a WebSocket IPC bridge. The main <a href="repo/src/main/web-server/WebServer.ts">WebServer.ts</a>, lines 1-25 and 33-65, is Fastify plus WebSocket, token-scoped routes, origin validation, optional login and a live-session manager. Its current header describes loopback binding for the always-on CLI channel and optional LAN access for Live Mode. A phone is a remote viewing/control surface. It is not a separate execution host. The desktop can keep running when the viewer disconnects, while app exit ends desktop-owned processes.</p>
+<h3 id="assessment-persistence-is-deliberately-split">Persistence is deliberately split</h3>
+<p>The identity/session registry and settings use Electron stores, while append-oriented history, group-chat logs, provider-native conversations, Cue state and run ledgers have distinct stores. <a href="repo/src/main/ipc/handlers/persistence.ts">persistence.ts</a>, lines 501-513 and 545-597, exposes bootstrap/deferred-content reads and serialized incremental merge/removal writes. <a href="repo/src/renderer/hooks/utils/useDebouncedPersistence.ts">useDebouncedPersistence.ts</a>, lines 68-82, 107-158 and 234-246, resets ordinary runtime busy state to idle, preserves special quota pauses and the execution queue, and excludes temporary wizard state. Persisted state is not proof that a process is still working.</p>
+<p><a href="repo/src/main/history-manager.ts">history-manager.ts</a>, lines 489-514, appends per-agent JSONL history under serialized writes. Group chat has <code>metadata.json</code>, <code>chat.log</code> and image attachments, with per-chat write queues plus atomic JSON replacement: <a href="repo/src/main/group-chat/group-chat-storage.ts">group-chat-storage.ts</a>, lines 20-34, 47-95 and 120-162. Provider transcripts remain provider-specific; Maestro adds navigation, names, usage and context operations rather than replacing them with one universal conversation store.</p>
+<p>The AgentRun ledger binds executions to provider, agent, session/tab, cwd/worktree, branch, prompt, artifacts, touched files, checks, reviews, PR and merge outcome. Its record is richer than a log line: <a href="repo/src/shared/agent-run/types.ts">agent-run/types.ts</a>, lines 1-12 and 109-150. Capture is attached to spawn/exit, uses unique run IDs, and explicitly excludes terminal and group-chat processes: <a href="repo/src/main/agent-run/capture-service.ts">capture-service.ts</a>, lines 2-19 and 71-84. Thus even this useful ledger is not a comprehensive transcript of every collaboration process.</p>
+<h3 id="assessment-three-coordination-engines-coexist">Three coordination engines coexist</h3>
+<ol>
+<li><strong>Group Chat:</strong> a moderator provider emits actionable participant mentions. The router spawns participant turns and then a moderator synthesis. It is a real model-mediated communication and delegation mechanism, with persistent room metadata and message history.</li>
+<li><strong>Pianola:</strong> a pinned Claude manager uses the CLI; separate supervised watcher/orchestrator processes apply policies and run durable task DAGs. The reasoning agent and the deterministic supervisor are distinct components.</li>
+<li><strong>Cue:</strong> project-local YAML subscriptions turn time, filesystem, task, GitHub, webhook and completion events into prompts, commands or notifications. It has its own subprocess lifecycle, concurrency limits, persistent queue and SQLite event history.</li>
+</ol>
+<p>The <a href="repo/src/shared/campaign/types.ts">Campaign model</a>, lines 26-57, also persists objectives, task dependencies, run IDs, worktree/branch and check/review/merge summaries. Pianola projects its plan into a campaign, and the <a href="repo/src/renderer/components/AgentRunDashboard/CampaignList.tsx">campaign list</a>, lines 28-51, presents titles, status, objectives, run/task counts and drill-down. This is a real effort-level dashboard primitive, not merely a terminal grid. Campaigns still lack the continuing product registry, leadership, discovery records and accepted specification ownership Wingman requires.</p>
+<p>These mechanisms can cooperate, but their task/message/run identities are not one unified Wingman tracker. An adoption plan needs explicit mappings rather than assuming a room mention, a playbook checkbox, a Pianola task and an AgentRun are interchangeable.</p>
+<h2 id="assessment-complete-feature-comparison">Complete feature comparison</h2>
+<p>Verdicts describe this revision. <strong>Exact</strong> means the bounded capability is implemented; <strong>Similar</strong> means a substantial equivalent with a material workflow/scope difference; <strong>Resembles</strong> means a useful primitive rather than the whole capability. Negative findings are based on the implementation searches described at the end.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Wingman capability</th>
+<th scope="col">Verdict</th>
+<th scope="col">Implementation evidence and concrete difference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F01</td>
+<td>Real independent coding agents and specialist instances</td>
+<td><strong>Exact</strong>, execution primitive</td>
+<td><a href="repo/src/main/process-manager/ProcessManager.ts">ProcessManager</a>, lines 43-91, 208-274, launches independent provider processes; <a href="repo/src/renderer/hooks/session/useSessionCrud.ts">session creation</a>, lines 152-247, allocates distinct identities/tabs. Multiple named instances can share a provider. Backend/frontend/test responsibilities must be supplied as configuration/prompts. They are not built-in Wingman responsibilities.</td>
+</tr>
+<tr>
+<td>F02</td>
+<td>Extensible agent profiles, roles and team composition</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/renderer/types/index.ts">Session config</a>, lines 1510-1575, has nudges, first-message instructions, per-agent model/environment/provider and SSH overrides; <a href="repo/src/main/group-chat/group-chat-storage.ts">GroupChat</a>, lines 73-95, has mutable participants. This supports configurable teams, but no separately versioned reusable role/profile-to-instance model. <a href="repo/src/shared/plugins/agent-registry.ts">Runtime provider registry</a>, lines 1-19, explicitly says registration alone does not enable spawning.</td>
+</tr>
+<tr>
+<td>F03</td>
+<td>Agent directory and visible working relationships</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/renderer/types/index.ts">Session model</a>, lines 1317-1375, exposes group, parent agent and worktree relationships; <a href="repo/src/renderer/components/PianolaDashboard/PianolaDashboard.tsx">Pianola dashboard</a>, lines 83-150, shows navigable agent and child rows; room participants are persisted in <a href="repo/src/main/group-chat/group-chat-storage.ts">chat metadata</a>, lines 47-95. Useful directory-like surfaces exist, but there is no product/role/reporting-line organizational directory.</td>
+</tr>
+<tr>
+<td>F04</td>
+<td>Telegram as main channel and Butler routing</td>
+<td><strong>Absent</strong></td>
+<td>Search of <code>src/</code> and <code>packages/</code> for Telegram, bot API/library terms and Wingman role names found no implemented Telegram intake/router. Actual human surfaces are the <a href="repo/src/main/web-server/WebServer.ts">WebServer</a>, lines 1-25, desktop chat and <a href="repo/src/prompts/pianola-system.md">Pianola manager prompt</a>, lines 3-24. Pianola is a plausible bridge target, but no Butler channel/session correlation exists.</td>
+</tr>
+<tr>
+<td>F05</td>
+<td>Cross-project registry and new/existing project routing</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/src/prompts/pianola-system.md">Pianola instructions</a>, lines 30-37 and 75-82, ask the manager to match existing agents by name/cwd and create where needed; <a href="repo/src/renderer/types/index.ts">Session</a>, lines 1317-1330, retains projectRoot/group. This is agent/workspace selection by a model, not a durable portfolio entity with project identity, intake history and a definitive existing/new routing decision.</td>
+</tr>
+<tr>
+<td>F06</td>
+<td>Per-project product and technical leadership</td>
+<td><strong>Resembles</strong></td>
+<td>The <a href="repo/src/renderer/hooks/session/usePianolaAgent.ts">Pianola agent constructor</a>, lines 12-30 and 85-137, creates one organization-wide Claude manager. <a href="repo/src/main/group-chat/group-chat-router.ts">Group Chat router</a>, lines 1533-1686, gives a moderator participants and delegation. Users could create ProductMaster/TechMaster-shaped named agents, but source searches found no automatic per-project leadership pair or enforced responsibilities.</td>
+</tr>
+<tr>
+<td>F07</td>
+<td>Proportionate research/discovery and iterative clarification</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/renderer/services/inlineWizardConversation.ts">inlineWizardConversation</a>, lines 87-119 and 123-159, carries confidence/readiness, conversation/provider ID, existing documents and project context; its <a href="repo/src/prompts/wizard-inline-system.md">system prompt</a>, lines 20-67, directs context reading and focused clarification. This is actual iterative planning support, not merely an approval prompt. Domain/market research and cross-project human routing remain model instructions rather than a persistent ProductMaster service.</td>
+</tr>
+<tr>
+<td>F08</td>
+<td>Scope, specifications, acceptance scenarios and DoD</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/src/prompts/wizard-document-generation.md">Wizard document prompt</a>, lines 1-60 and 90-110, generates phase documents with actionable checkboxes and validation work. The files can hold detailed specifications, but the execution contract is checkbox tasks. There is no required scope/spec/acceptance/DoD artifact set or owner. Project content could implement Wingman's DIRECTIVES convention without application changes, but lifecycle enforcement must be added.</td>
+</tr>
+<tr>
+<td>F09</td>
+<td>Technical decomposition, assignment and shared tracking</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/shared/pianola/pianola-tasks.ts">PianolaTask/PianolaPlan</a>, lines 19-60, stores prompts, dependencies, status, agent/tab/run binding and fix attempts. <a href="repo/src/shared/pianola/pianola-orchestrator.ts">Orchestrator</a>, lines 147-205 and 263-310, dispatches ready tasks and propagates blockers. This is substantive assigned work tracking. It is plan-oriented and separate from Markdown Auto Run, rooms and product scope rather than Wingman's common project-ticket record.</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>Portfolio/project management dashboard</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/renderer/components/AgentRunDashboard/RunDetail.tsx">AgentRun RunDetail</a>, lines 35-76 and 119-180, shows prompt, status, branch, files, checks, findings and nextAction; <a href="repo/src/renderer/components/PianolaDashboard/usePianolaDashboardData.ts">Pianola dashboard data</a>, lines 138-205, derives working/waiting/recent agent buckets. The <a href="repo/src/renderer/components/AgentRunDashboard/CampaignList.tsx">Campaign list</a>, lines 28-51, also shows effort objectives, status and run/task counts. These are substantial effort/task/run/agent management views, with no continuing product leadership, specifications or business decision model.</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>Agent chat rooms and direct collaboration</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/main/group-chat/group-chat-router.ts">Group Chat router</a>, lines 818-895, 1767-1849 and 2277-2333, persists user/moderator/participant conversation and delegates real work. <a href="repo/src/main/cross-agent/cross-agent-router.ts">Cross-agent router</a>, lines 1-31, supports direct consultations with separate resumable consult tabs. Room1/Room2 hierarchy and organization-owned escalation rules are not built in; group-chat turns are predominantly moderator-mediated.</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>Management escalation and human decisions/approvals</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/shared/pianola/pianola-policy.ts">Pianola policy</a>, lines 121-190, routes high-risk or uncertain requests to a human and supports scoped auto-answer rules; <a href="repo/src/shared/pianola/pianola-watcher.ts">watcher</a>, lines 83-145, defines notifications and manager judgment handoffs. <a href="repo/src/main/permission-relay/PermissionRelayServer.ts">PermissionRelayServer</a>, lines 1-16, separately carries tool approval/questions. These are real decisions, but no Room2 -&gt; Room1 -&gt; Butler -&gt; Telegram management protocol.</td>
+</tr>
+<tr>
+<td>F13</td>
+<td>Durable knowledge and reusable directives</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/main/memory-manager.ts">Memory Manager</a>, lines 1-18, 93-125 and 250-291, reads/writes provider persistent memory; <a href="repo/src/cli/services/batch-processor.ts">batch processor</a>, lines 153-178, reads durable runner documents. Nudges/system prompts and project-local YAML are reusable directives. Memory scope varies by provider, including account-wide Codex memory. There is no universal per-product DIRECTIVES/SCOPES/SPECS/HARNESS schema.</td>
+</tr>
+<tr>
+<td>F14</td>
+<td>Persistent identity, conversation and work continuity</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/main/ipc/handlers/persistence.ts">Persistence handlers</a>, lines 501-513 and 545-597, retain identity/tab/log state; <a href="repo/src/main/agents/definitions.ts">provider definition</a>, lines 272-282, defines Codex resume; <a href="repo/src/shared/pianola/pianola-watcher.ts">watch rehydration</a>, lines 172-227, restores decision cursors. Continuity is substantial, but provider IDs, desktop agent IDs, room participants, tasks and run IDs remain separate. Restart does not preserve a live process or automatically certify unfinished work.</td>
+</tr>
+<tr>
+<td>F15</td>
+<td>Proactive supervision and periodic blocker follow-up</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/main/pianola/pianola-supervisor.ts">Pianola supervisor</a>, lines 1-16, 134-209, persists watcher/orchestration targets, restarts children and relaunches stale ones; <a href="repo/src/shared/pianola/pianola-watcher.ts">watcher</a>, lines 1-49, classifies waiting tabs, retries and retires. Cue supplies periodic triggers. This is true periodic supervision of explicitly enrolled tabs/plans, not an always-present ProjectMaster inspecting every active product and collaborating with each leadership team.</td>
+</tr>
+<tr>
+<td>F16</td>
+<td>Parallel products and concurrent specialists</td>
+<td><strong>Similar</strong></td>
+<td>Distinct cwd-bound agents can run concurrently via <a href="repo/src/main/process-manager/ProcessManager.ts">ProcessManager</a>, lines 51-91 and 208-274; <a href="repo/src/shared/pianola/pianola-orchestrator.ts">Pianola scheduling</a>, lines 263-310, bounds simultaneous task runs. <a href="repo/src/renderer/utils/sessionValidation.ts">Directory validation</a>, lines 16-23 and 48-66, allows acknowledged same-directory agents and distinguishes hosts. Product isolation/leadership/context is a naming, directory and worktree convention rather than a first-class product boundary.</td>
+</tr>
+<tr>
+<td>F17</td>
+<td>Real multi-host execution with shared coordination</td>
+<td><strong>Similar</strong>, real SSH execution</td>
+<td><a href="repo/src/main/group-chat/spawnGroupChatAgent.ts">spawnGroupChatAgent</a>, lines 179-239 and 253-270, wraps actual provider turns over SSH and refuses unresolved remotes. Local and remote participants share central chat/control. <a href="repo/src/main/utils/director-notes-shared-history.ts">Cross-host history collector</a>, lines 1-32, reads other Maestro instances' project history. This is more than local subprocesses, but not a distributed scheduler/replicated organizational tracker; remote CLI, repo, auth and context availability remain host setup responsibilities.</td>
+</tr>
+<tr>
+<td>F18</td>
+<td>Executive overview of current/recent/next/blockers</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/renderer/components/PianolaDashboard/usePianolaDashboardData.ts">Pianola derivation</a>, lines 65-70 and 138-205, uses busy tab names, waiting state and decision topics. <a href="repo/src/prompts/director-notes.md">Director's Notes prompt</a>, lines 37-88, produces agent-attributed accomplishments, challenges and next steps. This is genuinely semantic briefing plus live state. Next steps are inferred qualitative suggestions, and “recently done” in Pianola is an idle agent with a decision topic, not verified delivery. No single continuously maintained current/recent/assigned-next record exists for every organizational role.</td>
+</tr>
+<tr>
+<td>F19</td>
+<td>Per-agent semantic timeline linked to underlying work</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/renderer/components/History/HistoryEntryItem.tsx">HistoryEntryItem</a>, lines 92-153 and 260, renders a summary, detail modal and provider-session navigation; <a href="repo/src/shared/agent-run/types.ts">run model</a>, lines 109-150, supplies run events/checks/artifacts. These are meaningful summarized histories, not just raw terminal logs. They are not a unified timeline of each agent's product tasks, decisions, room discussions and committed upcoming work, and coverage differs by execution path.</td>
+</tr>
+<tr>
+<td>F20</td>
+<td>Detailed per-agent coding workspace</td>
+<td><strong>Exact</strong>, workbench scope</td>
+<td><a href="repo/src/renderer/types/index.ts">Session type</a>, lines 1440-1505, supports AI/file/browser/terminal tabs and split groups; <a href="repo/src/renderer/components/AgentRunDashboard/RunDetail.tsx">run detail</a>, lines 53-76, jumps to the owning agent/tab. The actual <a href="repo/src/renderer/components/MainPanel/MainPanelContent.tsx">MainPanelContent</a>, lines 3-20, 84-123, wires terminal output, input, wizard, browser, file and tiled panes. Independent agent conversations, files, live tools and terminal work are the product's core. External product-tracker and room cross-links are only as complete as the available IDs and records.</td>
+</tr>
+<tr>
+<td>F21</td>
+<td>Live activity, lifecycle controls, steering and visibility</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/main/process-manager/ProcessManager.ts">ProcessManager</a>, lines 361-448 and 472-565, supports interrupt, escalation and kill including remote signaling. <a href="repo/src/cli/index.ts">CLI entry</a>, lines 972-1048, registers resume and queued Auto Run steering. <a href="repo/src/main/ipc/handlers/context.ts">Context IPC</a>, lines 117-220, handles grooming/cancellation. Rich controls exist, but resume/fork/compact/archive depend on conversation/provider surface, and there is no uniform Wingman organization-level budget/goal/lifecycle contract.</td>
+</tr>
+<tr>
+<td>F22</td>
+<td>Integrated testing and acceptance/delivery</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/src/main/agent-run/producers.ts">AgentRun producers</a>, lines 1-21 and 82-97, automatically enrich repository/usage/PR information; its check/review functions are pure mappers without production call sites (lines 225-276); <a href="repo/src/shared/pianola/pianola-orchestrator.ts">Pianola orchestrator</a>, lines 175-253, gates on recorded failures and supports bounded fixes. Yet <a href="repo/src/shared/pianola/pianola-completion-detector.ts">completion detector</a>, lines 131-169, can finish on working-to-idle, and absent check producers permit completion. No mandatory TestMaster, integrated acceptance scenario execution or human product sign-off. The <a href="repo/src/cli/commands/pianola-orchestrate.ts">merge hook</a>, lines 705-740, records skipped rather than performing a merge.</td>
+</tr>
+<tr>
+<td>F23</td>
+<td>Autonomous work with human direction through organization</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/renderer/hooks/session/usePianolaAgent.ts">Real Pianola constructor</a>, lines 12-30 and 85-137, plus <a href="repo/src/shared/pianola/pianola-orchestrator.ts">orchestrator</a>, lines 147-310, and Cue execute continuing work. <a href="repo/src/prompts/pianola-system.md">Manager prompt</a>, lines 56-82, requests user approval for creation/dispatch and then enrolls watchers. This is autonomous execution/supervision behind a conversational manager, but not the full discovery, leadership, verification and delivery organization. Its gate policy is partly prompt-level and the auto-created manager is Claude-specific.</td>
+</tr>
+<tr>
+<td>F24</td>
+<td>New profiles accommodated by chat/tracker/dashboards</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/renderer/types/index.ts">Session</a>, lines 1317-1330, <a href="repo/src/main/group-chat/group-chat-storage.ts">chat participant</a>, lines 47-95, and <a href="repo/src/shared/pianola/pianola-tasks.ts">PianolaTask</a>, lines 29-51, are identity/name/provider driven, so new named specialists join these views without hardcoded Wingman roles. They do not carry a coherent reusable profile, organizational relationship or product ownership model. New provider types require deeper integration than naming a role.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="assessment-agent-definition-creation-and-lifecycle">Agent definition, creation and lifecycle</h2>
+<h3 id="assessment-what-is-actually-an-agent">What is actually an agent?</h3>
+<p>There are at least six different objects that must not be collapsed:</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Concept</th>
+<th scope="col">Actual meaning and durability</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Provider definition</td>
+<td>A built-in executable/argument/capability description, such as <code>codex</code> or <code>claude-code</code>. It is neither a worker instance nor a persona.</td>
+</tr>
+<tr>
+<td>Maestro agent (<code>Session</code>)</td>
+<td>Durable named workspace/configuration, with group, project root, tabs and overrides. It is independently executable when prompted.</td>
+</tr>
+<tr>
+<td>AI tab/provider session</td>
+<td>A conversation context; its provider-issued ID permits resume. A tab is not a new organization-wide role by itself.</td>
+</tr>
+<tr>
+<td>Process session</td>
+<td>An execution handle used by ProcessManager, Cue or room/consult routers. It may live for one turn.</td>
+</tr>
+<tr>
+<td>Pianola task / playbook checkbox</td>
+<td>A work unit assigned to an agent or executed by a runner. It is not an independent agent.</td>
+</tr>
+<tr>
+<td>AgentRun</td>
+<td>A durable execution/evidence record, not a continuously running person or a project specification.</td>
+</tr>
+</tbody>
+</table></div>
+<p><a href="repo/src/main/agents/definitions.ts">AgentConfig</a>, lines 85-162, specifies binary, mode arguments, resume/read-only/model/working-directory/image/prompt builders and capability behavior. Codex's particular definition, lines 258-290, shows the consequence: a normal batch turn uses <code>exec --json</code> with approval/sandbox bypass, while read-only turns use a different sandbox argument set. Provider “supports read-only” is executable-specific behavior. Additional directory access is explicitly provider-dependent or prompt-only, lines 109-124. One cannot treat a named specialist as a sandbox boundary simply because its instructions mention a directory.</p>
+<p>Role specialization is possible through name, <code>nudgeMessage</code>, <code>newSessionMessage</code>, configurable system prompts, cwd, environment/model/effort and external instructions. The <code>Session</code> model has no required role ID, responsibility taxonomy, project leader linkage or declared team membership beyond generic groups and room/worktree relationships. A Wingman implementation could add those while reusing the execution objects, but a “BackendCoder” name alone would not provide the ownership semantics Wingman expects.</p>
+<h3 id="assessment-creation-and-identity">Creation and identity</h3>
+<p>Manual/wizard creation converges on <code>createNewSession</code>: it looks up a provider, validates name/path, generates agent and initial-tab IDs, probes local Git state unless remote, then builds an idle record with <code>aiPid = 0</code>. The implementation is <a href="repo/src/renderer/hooks/session/useSessionCrud.ts">useSessionCrud.ts</a>, lines 152-280. <a href="repo/src/renderer/utils/sessionValidation.ts">sessionValidation.ts</a>, lines 16-69, makes names globally case-insensitive unique and allows same-host same-directory sharing with a warning. Multiple specialists can run in one repo, but worktree separation is preferable because the directory warning does not coordinate writes.</p>
+<p>CLI creation sends a <code>create_session</code> command including provider, cwd, group and optional nudge, environment, model, effort, SSH and runner-folder settings. <a href="repo/src/cli/commands/create-agent.ts">create-agent.ts</a>, lines 37-48 and 101-168, validates the provider against built-in <code>AGENT_IDS</code>. Its successful return has the new <code>agentId</code>; execution is a separate dispatch. An important extension boundary follows: a plugin runtime provider descriptor is not automatically accepted by this built-in-only creation validation.</p>
+<p>Pianola creation is special rather than a generic manager-role template. <a href="repo/src/renderer/hooks/session/usePianolaAgent.ts">usePianolaAgent.ts</a>, lines 32-83 and 85-137, waits for hydration, gates on <code>encoreFeatures.pianola</code>, deduplicates and creates one <code>isPianola: true</code>, <code>toolType: 'claude-code'</code> agent. Disabling the feature hides the persisted manager and halts its supervised targets, rather than erasing its history. Wingman's Codex-only standing-manager requirement would require a deliberate provider-neutral manager change.</p>
+<h3 id="assessment-execution-tools-and-routing">Execution, tools and routing</h3>
+<p>Normal interactive work follows renderer input/queue -&gt; main spawn handler -&gt; provider argument builder -&gt; ProcessManager -&gt; provider parser -&gt; renderer events and persisted tab/session. Batch providers spawn per turn and resume their provider-native context using the stored conversation ID. Terminal tabs use PTYs. Optional OpenCode server execution is another adapter, not evidence that all providers have a persistent server runtime.</p>
+<p>Maestro delegates actual coding tools to the installed provider CLI and its account/config. The application can supply working directory, mode, environment, additional directories, model and system instructions. It also has approval/question relay infrastructure: <a href="repo/src/main/permission-relay/PermissionRelayServer.ts">PermissionRelayServer.ts</a>, lines 1-16 and 94-131, creates a per-user local socket with per-spawn tokens and forwards requests to a renderer callback. This is a separate channel from Pianola's transcript-classification policy. Default unattended coding arguments can bypass provider approvals, so a permission relay is not proof every automated action awaits user authorization.</p>
+<p>Direct <code>@mention</code> consultation intentionally launches a fresh ephemeral process for the target, not a write into its active user conversation. <a href="repo/src/main/cross-agent/cross-agent-router.ts">cross-agent-router.ts</a>, lines 6-31 and 164-182, forwards source context and defaults consults to read-only. A dedicated target consult tab/provider ID preserves the source-tab-to-target relationship across calls. Writable consults require the corresponding setting. Group chats instead use participant metadata and moderator routing. They do not run the same conversation as a user's direct tab merely because the participant has the same name.</p>
+<p>For SSH, per-agent host config is resolved centrally and the spawn is wrapped with remote cwd/environment/prompt delivery. <code>spawnGroupChatAgent</code> explicitly fails if SSH is enabled without a store or the wrapper returns no resolved remote, lines 179-239. This prevents the wrong-host fallback identified by comments in that code. The remote provider is a real process on that host; central logs/room state remain local to the controlling Maestro instance unless separately mirrored.</p>
+<h3 id="assessment-concurrency-scheduling-and-supervision">Concurrency, scheduling and supervision</h3>
+<p>Different agents/tabs can execute concurrently. A session also has an execution queue for sequential input. Shared-directory safety is not automatic. Group Chat normally waits when a target agent is busy, polling until it is free and giving up after 15 minutes: <a href="repo/src/main/group-chat/group-chat-router.ts">group-chat-router.ts</a>, lines 1245-1359 and 2140-2166. That protects a delegated turn from overlapping the person's own conversation by default, but it is not a repository-wide transaction/merge scheduler.</p>
+<p>Pianola's task DAG has explicit readiness and blocked propagation. <a href="repo/src/shared/pianola/pianola-orchestrator.ts">pianola-orchestrator.ts</a>, lines 147-205 and 263-310, polls live tasks first, updates outcomes, blocks dependents and fills available concurrency slots. Creation/dispatch failures leave tasks pending. A failed dispatch preserves the chosen agent ID so the next poll does not create orphan workers. The CLI default concurrency is 3 and default polling cadence is 5 seconds: <a href="repo/src/cli/commands/pianola-orchestrate.ts">pianola-orchestrate.ts</a>, lines 170-183 and 744-791. If a task has no pinned provider, the CLI counts live provider types and the plan's in-flight load. It selects a ready type before creating a fresh task agent. But all candidates are assigned the same <code>DEFAULT_CAPABILITIES</code>, and an empty/busy pool falls back to Claude Code rather than a validated Codex-only resource pool: <a href="repo/src/cli/commands/pianola-orchestrate.ts">pianola-orchestrate.ts</a>, lines 600-658. This is load-aware provider allocation, not specialist skill matching or a host placement policy. These tasks are durable plans, not a guaranteed portfolio scheduling policy.</p>
+<p>The watcher acts when agents await input. It combines structured signals/transcript heuristics with scoped rules; high-risk always escalates, low-confidence classifications do not auto-answer, and broad rules without narrowing predicates are rejected by policy. <a href="repo/src/shared/pianola/pianola-policy.ts">pianola-policy.ts</a>, lines 121-190. The watcher can hand uncovered non-high-risk asks to Pianola with a learned project decision profile, then escalate if the manager does not answer. Its dispatch attempt limit is 3, handoff timeout is 12 polls, missing-tab grace is 2 minutes and default idle retirement is 6 hours: <a href="repo/src/shared/pianola/pianola-watcher.ts">pianola-watcher.ts</a>, lines 25-49 and 102-145. This is actual blocker follow-up, with heuristic limits, rather than a guaranteed product-management judgment.</p>
+<p>A desktop-owned supervisor stores enabled watcher/orchestrator targets and reconciles them at startup and on store changes. It caps consecutive crash restarts at 5, exponentially backs off from 1 second to 30 seconds, and escalates termination after 5 seconds: <a href="repo/src/main/pianola/pianola-supervisor.ts">pianola-supervisor.ts</a>, lines 34-51 and 134-209. It distinguishes long-running watches from orchestrations that have cleanly completed. Its children are explicitly not detached and die with the app. The environment survives a closed browser view. It does not become an unattended service independent of the Electron app.</p>
+<p>Cue provides a second scheduling substrate. <a href="repo/src/shared/cue/contracts.ts">contracts.ts</a>, lines 24-51, 115-154 and 349-393, defines trigger/action types, per-session concurrency and queue defaults. <a href="repo/src/main/cue/cue-run-manager.ts">cue-run-manager.ts</a>, lines 255-380, guards root-trigger self-overlap, honors concurrency and expires stale queue entries. Cue triggers spawn their own background process via <a href="repo/src/main/cue/cue-executor.ts">cue-executor.ts</a>, lines 1-27 and 34-61. It is not necessarily an interruption/steering into the visible active tab.</p>
+<h3 id="assessment-continuity-interruption-and-failure-recovery">Continuity, interruption and failure recovery</h3>
+<p>Persistence keeps agent identity, tab/provider-session bindings, logs, settings and queued work. It deliberately does not serialize live PIDs as proof of continued execution. <a href="repo/src/renderer/hooks/utils/useDebouncedPersistence.ts">useDebouncedPersistence.ts</a>, lines 68-82 and 107-158. Resume is often a new process using a native provider conversation ID, such as the Codex resume builder in <a href="repo/src/main/agents/definitions.ts">definitions.ts</a>, line 275. Memory edits and context grooming are additional continuity aids, not a substitute for a shared product specification.</p>
+<p>Conversation lifecycle controls have concrete, different semantics. <a href="repo/src/renderer/hooks/agent/useForkConversation.ts">useForkConversation.ts</a>, lines 24-114 and 184-220, slices displayed conversation logs at a raw message ID, formats the retained user/assistant/tool text into a context prompt, creates a new tab and spawns a fresh provider turn. This is a transcript-seeded fork, not a native provider state snapshot or a new organizational worker identity. <a href="repo/src/renderer/hooks/agent/useSummarizeAndContinue.ts">useSummarizeAndContinue.ts</a>, lines 1-15, 51-68 and 269-282, summarizes context into a new compacted tab while retaining the source. <a href="repo/src/cli/commands/tab.ts">tab.ts</a>, lines 116-138, exposes close and rename through the shared control plane. Group-chat archival is distinct from closing a coding tab or deleting an agent.</p>
+<p>Stop is implemented as process control. <a href="repo/src/main/process-manager/ProcessManager.ts">ProcessManager.ts</a>, lines 361-448, marks interruption before signaling, sends Ctrl+C or SIGINT/SDK interruption, signals remote execution and escalates if the process remains alive. Kill handles PTY and process-tree cases. Cross-agent fan-out cancellation has an authoritative main-process registry keyed by source agent so an early stop cannot miss consults that have started but not yet been returned to the renderer: <a href="repo/src/main/cross-agent/cross-agent-router.ts">cross-agent-router.ts</a>, lines 91-130. Group-chat stop clears both active processes and queued delegation state: <a href="repo/src/main/ipc/handlers/groupChat.ts">groupChat.ts</a>, lines 779-814.</p>
+<p>Recovery is deliberately honest about lost executions. <a href="repo/src/main/agent-run/recover-runs.ts">recover-runs.ts</a>, lines 35-65, marks nonterminal run records with no live session as failed and appends a recovery event. Its header mentions stale, but the actual implementation targets <code>failed</code> for all those ambiguous nonterminal states. <a href="repo/src/main/cue/cue-recovery-service.ts">cue-recovery-service.ts</a>, lines 86-106 and 110-155, marks orphaned running events failed and reconciles missed time events after sleep gaps. Queue persistence can restore waiting work. An interrupted active execution is not silently certified or necessarily replayed. Pianola watcher rehydration reads its decision audit to avoid answering the same waiting prompt twice after restart, while allowing failed auto-answer attempts to retry: <a href="repo/src/shared/pianola/pianola-watcher.ts">pianola-watcher.ts</a>, lines 172-227.</p>
+<p>Provider failures also have a separate resilience layer. <a href="repo/src/shared/retryClassification.ts">retryClassification.ts</a>, lines 1-26, 34-66 and 118-161, separates upstream availability from exhausted account quota, with exponential availability backoff and quota/reset-aware polling while excluding permanent request/auth/model failures. <a href="repo/src/renderer/hooks/agent/useAutoResumeCoordinator.ts">useAutoResumeCoordinator.ts</a>, lines 1-25, 47-64 and 153-179, resumes paused standard queries or in-memory spec/goal loops and retains a give-up anchor across restarts. Claude local quota can be probed, whereas non-Claude and SSH-backed sessions use the retry itself as a probe. This helps continuity but requires the relevant renderer/app and does not make already-executed tool effects idempotent.</p>
+<p>Group chats have liveness-aware watchdogs plus a hard 30-minute turn ceiling, distinguish silence from long active tool work, queue busy targets, and move toward synthesis even when a participant times out. See <a href="repo/src/main/group-chat/group-chat-router.ts">group-chat-router.ts</a>, lines 247-264, 316-365 and 412-525. These bounds prevent leaked work. They cannot decide whether a timed-out specialist's product change is correct.</p>
+<h3 id="assessment-completion-acceptance-and-retirement">Completion, acceptance and retirement</h3>
+<p>Pianola's baseline completion detector considers errors and latest output failure markers, then a working/connecting -&gt; idle transition as done. A waiting-for-input state remains working, leaving the ask to the watcher: <a href="repo/src/shared/pianola/pianola-completion-detector.ts">pianola-completion-detector.ts</a>, lines 131-169. The orchestrator enriches this with a ledger: critical/high findings or failing checks route a task to <code>needs_review</code>; opt-in autopilot can dispatch up to 3 fix attempts and then fail/escalate. The check/reviewer feeds are not wired: production searches find <code>recordCheck</code> and <code>ingestReviewFindings</code> only at their definitions, and their comments explicitly defer runner/feed wiring. The actual completion enrichment gathers only touched files, usage and PR data, <a href="repo/src/main/agent-run/producers.ts">producers.ts</a>, lines 225-276 and 340-361. Generic record APIs can store supplied evidence, but no automatic test runner/reviewer ingestion was established. Missing checks are <code>undefined</code>, not failure, so an idle task without recorded evidence may complete. <a href="repo/src/cli/commands/pianola-orchestrate.ts">pianola-orchestrate.ts</a>, lines 125-143; <a href="repo/src/shared/pianola/pianola-orchestrator.ts">orchestrator</a>, lines 175-253.</p>
+<p>The manual AgentRun merge button also only records <code>skipped</code>, <a href="repo/src/main/ipc/handlers/agent-run.ts">agent-run.ts</a>, lines 275-297. The Pianola merge hook is a particularly important partial implementation: even after green checks and risk screening, <a href="repo/src/cli/commands/pianola-orchestrate.ts">pianola-orchestrate.ts</a>, lines 705-740, says no git-merge path is reachable and records <code>skipped</code>. The pure engine can then mark the reviewed task done regardless of merge outcome, lines 215-232. A done task therefore does not establish merged code or accepted delivery. Goal mode has a similar honesty boundary: completion is the agent's self-reported complete/100% marker, with deterministic deadlock/iteration/stall exits, not an independently executed acceptance oracle. <a href="repo/src/shared/goalDriven/goalExitEvaluator.ts">goalExitEvaluator.ts</a>, lines 60-131.</p>
+<p>Retirement occurs at multiple scopes. A finished orchestration stops its loop; idle/missing watcher targets retire with a designated exit code rather than endlessly restarting; disabling/removing supervised targets terminates them. Group chats support archive/delete with participant/moderator stop, <a href="repo/src/main/ipc/handlers/groupChat.ts">groupChat.ts</a>, lines 407-432. Agents are explicitly removable. The delete UI distinguishes agent-only removal from also trashing its directory and requires the name before directory deletion: <a href="repo/src/renderer/components/DeleteAgentConfirmModal.tsx">DeleteAgentConfirmModal.tsx</a>, lines 74-100 and 112-145. History may outlive the sidebar agent, as <a href="repo/src/main/ipc/handlers/director-notes.ts">Director's Notes corpus handling</a>, lines 154-167, explicitly accounts for deleted agents with retained history. There is no organizational rule that automatically retires a project team after human product acceptance.</p>
+<h2 id="assessment-coordination-mechanics-and-a-concrete-request-trace">Coordination mechanics and a concrete request trace</h2>
+<p>Consider a user writing a Group Chat request that explicitly names existing agents <code>@Backend</code> and <code>@Frontend</code> to resolve an API/UI integration issue. The names are illustrative. This trace follows the implemented production path rather than claiming a runtime experiment.</p>
+<ol>
+<li><strong>Receive and locate the room.</strong> Desktop/CLI/web entry reaches the Group Chat main handler. <a href="repo/src/main/ipc/handlers/groupChat.ts">groupChat.ts</a>, lines 636-707, ensures the moderator is available and forwards to <code>routeUserMessage</code>. <a href="repo/src/main/group-chat/group-chat-router.ts">group-chat-router.ts</a>, lines 818-895, loads room metadata, verifies active moderator state, resolves mentions and auto-adds matching registered agents with their provider/cwd/config/SSH overrides. Ambiguous names do not arbitrarily choose a worker.</li>
+<li><strong>Retain conversation and ask the moderator.</strong> The router supplies the persistent room log and participant context to a batch moderator turn. <code>spawnGroupChatAgent</code> applies the configured provider, token-source/Windows handling and SSH wrapper, <a href="repo/src/main/group-chat/spawnGroupChatAgent.ts">spawnGroupChatAgent.ts</a>, lines 119-177, 179-239 and 253-270. Log append is an actual append-only pipe-delimited record with escaped content and optional images/read-only flag, <a href="repo/src/main/group-chat/group-chat-log.ts">group-chat-log.ts</a>, lines 85-108.</li>
+<li><strong>Interpret actionable delegation.</strong> When moderator output arrives, <code>routeModeratorResponse</code> extracts mentions and internal <code>!autorun</code> directives, resolves/auto-adds participants and classifies the round as delegation, response or synthesis. It also checks that an explicitly requested set of targets was actually included rather than accepting a prose-only acknowledgment, <a href="repo/src/main/group-chat/group-chat-router.ts">group-chat-router.ts</a>, lines 1533-1578, 1686-1764. That is a notable defense against “I delegated” text that never dispatches anything.</li>
+<li><strong>Spawn or wait for each specialist.</strong> A valid ordinary handoff starts a participant provider process in its matching agent's cwd with its overrides. If the user's direct agent is already busy, the router queues instead of racing a second write process, lines 2135-2166. Each participant has watchdog/pending tracking. <code>!autorun</code> is different: it emits an event to the renderer's full batch runner and later expects <code>reportAutoRunComplete</code>, lines 1797-1849. This path depends on renderer batch orchestration as well as main-process routing.</li>
+<li><strong>Record answers and synthesize.</strong> <code>routeAgentResponse</code> appends the participant's content, emits the message immediately, extracts a first-sentence summary, updates activity/message counts and adds a response-history entry, lines 2277-2333. After pending participants finish, a new moderator synthesis process summarizes the room. The moderator is not a resident process receiving writes while the workers run.</li>
+<li><strong>Surface intervention or follow-on work.</strong> The human sees the room and participant state. Separately enrolled Pianola watchers can recognize blocked/waiting tabs, auto-answer a covered low-risk request or escalate through notifications/judgment handoff. This is not an automatic Room2-to-Room1-to-Telegram chain. A room conversation does not inherently create a durable ticket or test scenario. An Auto Run document or Pianola plan must be authored/bound for that work-tracking layer.</li>
+</ol>
+<p>The two other coordination data paths offer useful complementary semantics. A Pianola DAG expresses “API must finish before integration tests”; its pure task model validates cycles/dependencies and propagates blocked tasks. Cue expresses “when both backend and frontend runs complete, prompt the verifier.” <a href="repo/src/main/cue/cue-fan-in-tracker.ts">cue-fan-in-tracker.ts</a>, lines 97-119 and 122-175, resolves/deduplicates source identities and permits configurable partial continuation on timeout. <a href="repo/src/main/cue/cue-dispatch-service.ts">cue-dispatch-service.ts</a>, lines 99-158, fans a subscription out to stable agent IDs with per-target prompts. These are events/dependencies, not themselves acceptance criteria or a team chat.</p>
+<h2 id="assessment-major-additional-capabilities-and-integration-consequences">Major additional capabilities and integration consequences</h2>
+<h3 id="assessment-provider-and-context-portability">Provider and context portability</h3>
+<p>Maestro is substantially broader than Wingman's stated Codex execution choice. The provider definition/configuration system supports different binaries, parsers, mode arguments, resume methods, models and capability differences. It also supports cross-agent consultation without polluting the user's normal target conversation, with provider-ID continuity in dedicated consult tabs. See <a href="repo/src/main/agents/definitions.ts">definitions.ts</a>, lines 85-162, and <a href="repo/src/main/cross-agent/cross-agent-router.ts">cross-agent-router.ts</a>, lines 1-31. This enables a heterogeneous organization and targeted second opinions. Integrating it requires treating provider-specific permissions, storage, model selection and session capabilities as real differences. Existing Pianola creation still selects Claude, so provider agnosticism of the overall workbench does not imply a Codex-neutral manager.</p>
+<h3 id="assessment-event-driven-pipelines-beyond-periodic-management">Event-driven pipelines beyond periodic management</h3>
+<p>Cue can respond to file/task changes, completion, recurring or one-shot time, app startup, GitHub events and webhooks, and can run direct shell/CLI commands or notifications as well as model prompts. <a href="repo/src/shared/cue/contracts.ts">contracts.ts</a>, lines 24-51 and 115-168. Fan-out, fan-in, source-output propagation and chain lineage allow reproducible workflows richer than Wingman's periodic supervisory wake. Persistent queueing, self-overlap guards and sleep reconciliation are valuable engineering building blocks. They also introduce another authority for launching work and another durable store. Wingman would need explicit ownership, idempotency, permission and tracker-update rules so the same product task is not launched by a manager, room and pipeline independently.</p>
+<h3 id="assessment-goal-driven-fresh-context-execution">Goal-driven fresh-context execution</h3>
+<p>Goal Auto Run supplies a goal/exit criteria and repeatedly invokes fresh agent contexts with progress markers, keeping a short predecessor handoff. <a href="repo/src/cli/services/goal-runner.ts">goal-runner.ts</a>, lines 1-10, 83-115 and 125-137, shares pure exit logic with desktop. <a href="repo/src/shared/goalDriven/goalExitEvaluator.ts">goalExitEvaluator.ts</a>, lines 60-131, deterministically stops on self-reported completion, deadlock, iteration limit or stalled progress. This is useful for bounded autonomous improvement where a fixed ticket sequence is inadequate. Wingman should label the progress as self-reported and add independent tests/product acceptance before translating it into delivered status.</p>
+<h3 id="assessment-learned-decision-profiles-and-auditable-delegation-policy">Learned decision profiles and auditable delegation policy</h3>
+<p>Pianola can mine ask/reply pairs from provider history, maintain per-project decision profiles and stage new suggestions rather than silently overwrite live rules. <a href="repo/src/main/pianola/pianola-lifecycle.ts">pianola-lifecycle.ts</a>, lines 25-77 and 121-143, wires transcript mining and scheduled proposal generation. Policy and watchers combine hard rules with manager judgment, bounded retries, a decision log and escalation. This can reduce repetitive human questions while preserving a reviewable record of delegated judgment. It is not historical proof of what a user will want in a new domain; classifiers and profile inference need evaluation, and a product organization needs explicit consent/decision semantics across the Telegram boundary.</p>
+<h3 id="assessment-cross-provider-evidence-ledger-and-repair-workflow">Cross-provider evidence ledger and repair workflow</h3>
+<p>AgentRun separates execution identity from a conversation and attaches files, checks, findings, usage, PR and next action. <a href="repo/src/shared/agent-run/types.ts">types.ts</a>, lines 109-150, <a href="repo/src/main/agent-run/producers.ts">producers.ts</a>, lines 1-21 and 82-103, and <a href="repo/src/renderer/components/AgentRunDashboard/RunDetail.tsx">RunDetail.tsx</a>, lines 35-117, provide the record, enrichment and navigable UI. This is stronger delivery evidence than a plain ticket status. Check/review types and mapping functions exist, but their production feeds remain unwired. Completion enrichment at lines 340-361 collects files, usage and PRs only. Git touched-file collection uses a repository snapshot/branch diff. It cannot attribute each write precisely. Producer failures can return empty information. The system excludes group-chat processes. Green merge orchestration remains incomplete. Wingman would need mandatory evidence producers for TestMaster and distinguish unknown from passed.</p>
+<h3 id="assessment-provider-limit-resilience-and-resource-observability">Provider-limit resilience and resource observability</h3>
+<p>The retry system distinguishes an overloaded upstream from spent account quota and permanent configuration failures rather than blindly retrying everything. <a href="repo/src/shared/retryClassification.ts">retryClassification.ts</a>, lines 1-26 and 118-161, has distinct schedules and permanent-failure exclusions. <a href="repo/src/renderer/hooks/agent/useAutoResumeCoordinator.ts">useAutoResumeCoordinator.ts</a>, lines 1-25 and 153-179, resumes the correct query/spec/goal pathway and avoids treating a local Claude account's usage as the remote account's state. This is useful for a standing organization running long unattended jobs. Wingman would need resource-aware placement and clear replay semantics. A renewed prompt is not a transaction rollback, and retry modes do not all share one attempt cap or service-independent scheduler.</p>
+<h3 id="assessment-a-permission-brokered-plugin-platform">A permission-brokered plugin platform</h3>
+<p>The plugin system includes runtime discovery/contributions, signed identity/grants hooks and code-tier execution in separate Electron utility processes. <a href="repo/src/main/plugins/plugin-manager.ts">plugin-manager.ts</a>, lines 57-102, wires lifecycle and verified grant/identity checks; <a href="repo/src/main/plugins/plugin-sandbox-host.ts">plugin-sandbox-host.ts</a>, lines 1-12 and 81-96, mediates host requests and bounds message size/concurrency/rate. This is a possible place to add organizational adapters without forking all core UI. It also creates a host API/security maintenance obligation. A runtime agent registration is explicitly not a fully launched provider integration. This assessment inspected these mechanisms but did not conduct a complete sandbox security audit.</p>
+<h3 id="assessment-open-source-contribution-workflow">Open-source contribution workflow</h3>
+<p>Symphony is an issue/contribution workflow beyond the described personal product organization. <a href="repo/src/main/services/symphony-runner.ts">symphony-runner.ts</a>, lines 42-69, 97-138 and 157-160, clones, branches, pushes and creates a draft PR using GitHub CLI, including fork setup. It uses draft PR claiming and Auto Run documents rather than merely opening an editor on a repository. This could serve Wingman's external maintenance/contribution work, but it adds GitHub credentials, fork/claim conventions and a workflow distinct from internal product intake. It is not evidence that all Wingman delivery flows already have accepted PRs.</p>
+<h3 id="assessment-shared-provider-memory-and-host-aware-history">Shared provider memory and host-aware history</h3>
+<p>The memory editor manipulates Claude project memory and Codex account memory layouts and detects orphaned entries, <a href="repo/src/main/memory-manager.ts">memory-manager.ts</a>, lines 1-18, 93-125 and 342-381. Director's Notes also reads project <code>.maestro/history/history-&lt;hostname&gt;.jsonl</code> from peer instances or SSH locations with a time-budgeted cached fallback, <a href="repo/src/main/utils/director-notes-shared-history.ts">director-notes-shared-history.ts</a>, lines 1-32 and 79-155. These provide interoperability and visibility beyond a single application history store. Neither grants shared-memory consistency: provider scopes differ, peer files need actual shared/synchronized availability, and offline-host summaries may be stale.</p>
+<h2 id="assessment-distinctive-mechanisms-and-grounded-innovation">Distinctive mechanisms and grounded innovation</h2>
+<p>The following are strong design mechanisms in this checkout. No claim of historical novelty or industry uniqueness is implied.</p>
+<p><strong>A conversational manager with a separate deterministic supervision substrate.</strong> Pianola does not require a model to stay alive and repeatedly decide whether a process exists. A real manager conversation proposes/dispatches work through CLI, while task readiness, polling, backoff, target retirement and policy are explicit code. The same pure orchestration core is used by the CLI loop and tested with injected I/O. This allows transparent task dependencies and recoverable management without hiding all behavior in a large prompt. Its limit is that product intent, task decomposition and many judgments remain model-authored, and the desktop remains the lifecycle owner.</p>
+<p><strong>Audit-aware decision recovery.</strong> A restarted watcher seeds its handled cursor and pending handoff from decision records instead of answering the same still-visible question again. Failed auto-answer dispatch is deliberately not treated as handled. <a href="repo/src/shared/pianola/pianola-watcher.ts">pianola-watcher.ts</a>, lines 172-227. This is a concrete continuity design for an agent manager, not simply “logs are saved.” Its boundary is at-least-retry behavior under recorded failures. It does not establish a distributed exactly-once transaction between log and provider message delivery. Likewise the orchestration auto-action audit function catches logging failure and continues, <a href="repo/src/cli/commands/pianola-orchestrate.ts">pianola-orchestrate.ts</a>, lines 146-167, so that particular hook is best-effort rather than a fail-closed audit guarantee.</p>
+<p><strong>Executable handoff validation in model-mediated rooms.</strong> Group Chat interprets moderator output as commands but checks an explicitly requested target set before treating the response as successful delegation. It also waits for busy agents and uses liveness-aware watchdogs instead of killing long tool use merely because one timeout elapsed. <a href="repo/src/main/group-chat/group-chat-router.ts">group-chat-router.ts</a>, lines 1691-1764, 1245-1359 and 412-525. This bridges natural-language collaboration and concrete processes with useful checks. Output syntax, naming ambiguity, non-enrolled agents and shared-directory collisions remain limits.</p>
+<p><strong>Separate consult continuity without contaminating the target's main conversation.</strong> Source-tab/target pairings get dedicated resumable consult tabs while a fresh process carries each new forwarded source transcript. <a href="repo/src/main/cross-agent/cross-agent-router.ts">cross-agent-router.ts</a>, lines 18-31. It enables repeated specialist advice with both local history and current caller context. This is not a free-standing peer organization: a consultation still has a source/caller, a bounded process and explicit permission mode.</p>
+<p><strong>Event pipelines with identity-stable fan-out and failure-aware fan-in.</strong> Cue targets stable IDs where available, deduplicates source names/IDs, records parent/root lineage, protects root self-overlap, persists waiting events and supports partial continuation on timeout. <a href="repo/src/main/cue/cue-dispatch-service.ts">cue-dispatch-service.ts</a>, lines 99-158; <a href="repo/src/main/cue/cue-fan-in-tracker.ts">cue-fan-in-tracker.ts</a>, lines 97-175; <a href="repo/src/main/cue/cue-run-manager.ts">cue-run-manager.ts</a>, lines 255-380. This supplies explicit coordination semantics beyond prompt chains. A completed event still describes execution outcome rather than functional correctness, and partial fan-in must not accidentally satisfy a mandatory verification dependency.</p>
+<p><strong>Semantic briefings separated from deterministic counts.</strong> Director's Notes aggregates history, asks a provider for agent-attributed accomplishments/challenges/next steps, and renders usage/volume statistics from deterministic data. The <a href="repo/src/prompts/director-notes.md">synopsis prompt</a>, lines 29-35, 37-88 and 95-108, requires reading actual history and forbids inferring work from agent names. This is directly relevant to Wingman's executive briefing goal. It is a prompt/output contract, not a proof of factual grounding; source completeness, model compliance and stale remote reads still bound trust. Pianola's “recently done” data should not be mistaken for independently verified accomplishment.</p>
+<h2 id="assessment-practical-adoption-fit">Practical adoption fit</h2>
+<p><strong>Usable directly as infrastructure:</strong></p>
+<ul>
+<li>per-agent coding workspaces.</li>
+<li>installed Codex execution.</li>
+<li>provider-session history/navigation.</li>
+<li>local and SSH worker launching.</li>
+<li>project directories and worktrees.</li>
+<li>room transcripts and moderator delegation.</li>
+<li>live process/tool/output visibility.</li>
+<li>per-run evidence objects.</li>
+<li>browser/mobile access.</li>
+<li>CLI automation.</li>
+</ul>
+<p>Cue and Pianola's pure policy/DAG components are credible substrates for periodic supervision and task orchestration, subject to exercising them in the intended deployment.</p>
+<p><strong>Needs adaptation:</strong></p>
+<ul>
+<li>replace or generalize Pianola's Claude-specific auto-created manager and prompts.</li>
+<li>add an explicit project ID/registry independent of cwd/name.</li>
+<li>distinguish role profile from agent instance.</li>
+<li>persist project/leadership/team relationships.</li>
+<li>map tracker tasks to run IDs, room messages and provider tabs.</li>
+<li>define common specification/acceptance artifact links.</li>
+<li>build a uniform executive current/recent/assigned-next record.</li>
+</ul>
+<p>A Telegram adapter would need identity and project/conversation correlation, attachments, pending questions/decisions and durable answer routing into the correct agent/tab rather than simply broadcasting bot messages into one manager conversation.</p>
+<p><strong>Still needs product work:</strong></p>
+<ul>
+<li>Standing Butler and ProjectMaster responsibilities.</li>
+<li>A per-project ProductMaster/TechMaster pair and proportionate discovery ownership.</li>
+<li>Direct specialist discussion and prescribed escalation across management/project rooms.</li>
+<li>A shared lightweight ProjectTracker.</li>
+<li>TestMaster execution bound to product scenarios and definition of done.</li>
+<li>Product delivery, acceptance and team quiescence.</li>
+<li>Placement and continuity policy for Mac and Endeavour.</li>
+<li>Service operation if the organization must remain active independently of the desktop app. Existing primitives reduce construction effort, but these are domain behaviors rather than renames of tabs.</li>
+</ul>
+<p>A practical integration should preserve the distinction between execution success, evidence availability, task completion and accepted product delivery. Maestro already exposes enough real state to implement that distinction. Treating “idle,” “all checkboxes checked,” “goal 100%,” “recently done” and “merged” as synonyms would erase exactly the organizational accountability Wingman describes.</p>
+<p>There is also a licensing consequence if code is reused: <a href="repo/package.json">package.json</a>, line 11, declares AGPL 3.0 and the checkout includes <a href="repo/LICENSE">LICENSE</a>. This is a repository fact, not a legal interpretation. The reuse/distribution model should be evaluated separately from technical fit.</p>
+<h2 id="assessment-verification-scope-and-remaining-uncertainty">Verification scope and remaining uncertainty</h2>
+<p>This was a static assessment of the commit above. Statements that a code path “does” something mean the implementation is present and traced, not that it was executed successfully in this environment. There was no browser automation, application launch, dependency installation, remote connection, provider invocation, load test or live end-to-end delivery test. No claims about current hosted services or releases beyond the local revision were needed.</p>
+<p>Inspected implementation paths:</p>
+<ul>
+<li>the Electron bootstrap.</li>
+<li>ProcessManager selection/control.</li>
+<li>provider definitions.</li>
+<li>session type/creation/validation/persistence.</li>
+<li>CLI agent creation and task orchestration.</li>
+<li>group-chat handlers/router/spawn/storage/log.</li>
+<li>direct consult routing.</li>
+<li>Pianola agent creation, policy, watcher, completion detector, DAG/orchestrator, supervisor and relearn wiring.</li>
+<li>Cue contracts, dispatch, run manager, executor, recovery and fan-in.</li>
+<li>AgentRun capture/recovery/producers/types and UI, Campaign effort records/list.</li>
+<li>provider retry classification and quota-resume coordination.</li>
+<li>Director's Notes corpus/synopsis and Pianola dashboard derivation.</li>
+<li>memory layouts.</li>
+<li>plugin manager/sandbox interfaces.</li>
+<li>Symphony clone/PR machinery.</li>
+</ul>
+<p>Source comments were checked against executable branches where they mattered: run recovery actually marks failed. The plugin runtime registry does not imply launch support; Pianola and AgentRun manual merge actually record skipped; automatic check/reviewer feeds are not wired despite their types/mappers.</p>
+<p>Relevant tests inspected, without running them:</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Test evidence</th>
+<th scope="col">What it establishes about intended coverage, not runtime success here</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="repo/src/__tests__/shared/pianola/pianola-orchestrator.test.ts">pianola-orchestrator.test.ts</a>, lines 19-82, 89-155</td>
+<td>Injected agent/dispatch/run-state fakes; linear dependency advancement and concurrency cap. It is a pure coordinator test, not a live multi-agent build.</td>
+</tr>
+<tr>
+<td><a href="repo/src/__tests__/shared/pianola/pianola-watcher.test.ts">pianola-watcher.test.ts</a>, lines 1-20 and 50-73</td>
+<td>Tests invoke the actual pure watcher with fake dispatch/log/profile effects; audit, retry and rehydration behavior have dedicated coverage intent.</td>
+</tr>
+<tr>
+<td><a href="repo/src/__tests__/main/group-chat/spawnGroupChatAgent.test.ts">spawnGroupChatAgent.test.ts</a>, lines 12-47 and 60-94</td>
+<td>Shared helper regression coverage for maestro-p timeout argument propagation and SSH wrapper behavior; ProcessManager is mocked.</td>
+</tr>
+<tr>
+<td><a href="repo/src/__tests__/main/group-chat/group-chat-router.test.ts">group-chat-router.test.ts</a>, lines 217-392</td>
+<td>Mention extraction, normalization, ambiguous aliases and punctuation/Markdown routing cases. Room orchestration was additionally traced into production source, not inferred from test names alone.</td>
+</tr>
+<tr>
+<td><a href="repo/src/__tests__/main/utils/ssh-spawn-wrapper.test.ts">ssh-spawn-wrapper.test.ts</a>, lines 70-151</td>
+<td>Blank environment handling and unresolved-remote return behavior. The caller's explicit fail-closed check is separately present in the production helper. No SSH host was contacted.</td>
+</tr>
+<tr>
+<td><a href="repo/src/__tests__/main/cue/cue-recovery-service.test.ts">cue-recovery-service.test.ts</a>, lines 58-90 and 191-243</td>
+<td>Database/prune/orphan and sleep catch-up behavior through fakes. This does not validate native SQLite or a suspended desktop here.</td>
+</tr>
+<tr>
+<td><a href="repo/src/__tests__/main/ipc/handlers/director-notes.test.ts">director-notes.test.ts</a>, lines 1-7 and 28-74</td>
+<td>IPC aggregation/synopsis tests mock Electron, history and cross-host reads/writes. They do not establish factual quality of a generated executive synopsis.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Negative searches covered <code>src/</code> and <code>packages/</code> for Telegram/bot integration, portfolio/project registry, Wingman leadership names and role ownership; then inspected actual agent/session, group-chat, CLI, manager, wizard and dashboard data models rather than treating missing README claims as absence. A Telegram mention in build-provenance commentary is about a fork, not an implemented channel. No first-class continuing product-registry or ProductMaster/TechMaster ownership model was found in those paths. The actual Campaign effort registry was separately inspected and credited. Generic prompts, shell commands or plugins could be used to build these features, but that possibility was not credited as existing implementation.</p>
+<p>Uncertainty remains around provider/version compatibility, full plugin confinement guarantees, all optional Encore-feature combinations, app-restart timing across pending tasks, and end-to-end remote filesystem/authentication behavior. Those require targeted runtime verification before adoption. The source does establish substantial reusable mechanisms. It does not establish that a complete Wingman-like organization has been operated or accepted successfully.</p></article>
+<section id="source-record"><h2>Source and evidence</h2><p class="url-text">https://github.com/RunMaestro/Maestro</p>
+<ul><li><a href="repo/">Open the pinned source checkout</a></li><li><a href="assessment/ASSESSMENT.md">Read the Markdown assessment</a></li>
+<li><a href="../generic/assessments/_audits/qa10.md">Read the historical independent source audit</a></li><li><a href="../generic/method.html">Read the method and evidence limits</a></li></ul></section>
+<nav class="report-switch" aria-label="Adjacent project reports"><a href="../kander/index.html">Previous project: Kander</a><a href="../mission-control/index.html">Next project: Mission Control</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../index.html">Return to overview <img src="../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

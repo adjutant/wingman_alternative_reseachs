@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Technical assessment against Wingman’s development organization."><title>AgentRail · Wingman Research</title>
+<link rel="icon" href="../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/report.css"><script defer src="../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../index.html"><img src="../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../index.html">Overview</a><a class="nav-link " href="../generic/index.html">Architecture findings</a><a class="nav-link " href="../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../generic/method.html">Method and evidence</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../index.html">Wingman Research</a><span class="crumb">/</span><span>AgentRail</span></div><span class="topbar-note">SOURCE REVIEW · 05 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>AgentRail</h1><p class="subtitle">Technical assessment against Wingman’s development organization.</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#decision">Decision summary</a><a href="#assessment-agentrail-assessment">AgentRail assessment</a><a href="#assessment-identity-and-fit-verdict">Identity and fit verdict</a><a href="#assessment-architecture-and-execution-model">Architecture and execution model</a><a href="#assessment-wingman-feature-matrix">Wingman feature matrix</a><a href="#assessment-agent-definition-creation-and-full-lifecycle">Agent definition, creation and full lifecycle</a><a href="#assessment-coordination-mechanics-and-a-traced-request">Coordination mechanics and a traced request</a><a href="#assessment-major-additional-capabilities-and-distinctive-mechanisms">Major additional capabilities and distinctive mechanisms</a><a href="#assessment-practical-use-for-wingman">Practical use for Wingman</a><a href="#assessment-verification-scope-and-uncertainty">Verification scope and uncertainty</a><a href="#source-record">Source and evidence</a></div></nav><section id="decision" class="decision"><h2>Decision summary</h2>
+<div class="brief-columns"><div><h3>Useful for Wingman</h3><p>Study issue assignment, local coding runners, task events, CI feedback, human blockers, and shipping APIs.</p></div><div><h3>Adoption boundary</h3><p>Runs start fresh. The normal automatic path submits a PR without calling the shipping API.</p></div></div>
+<p class="scope-note">Source assessment at the commit below. Runtime limits appear in the technical report.</p></section>
+<dl class="facts"><div><dt>Source group</dt><dd>Delivery engines</dd></div><div><dt>Commit</dt><dd><code>ac75225f090ac67fafbdf63b3fdcd5ad520d867d</code></dd></div><div><dt>Coverage</dt><dd>24 Wingman features</dd></div></dl>
+<article id="technical-assessment" class="technical"><h2 id="assessment-agentrail-assessment">AgentRail assessment</h2>
+<h2 id="assessment-identity-and-fit-verdict">Identity and fit verdict</h2>
+<ul>
+<li class="url-text"><strong>Repository:</strong> https://github.com/oxnw/agentrail</li>
+<li><strong>Local checkout:</strong> <code>researchs/agentrail/repo</code></li>
+<li><strong>Assessed commit:</strong> <code>ac75225f090ac67fafbdf63b3fdcd5ad520d867d</code></li>
+<li><strong>Assessment date:</strong> 2026-11-05</li>
+<li><strong>Product at this revision:</strong> <code>@agentrail-core/cli</code> 0.1.8, Node.js &gt;=24, a self-managed, single-instance coding-task control plane; see <a href="repo/package.json">package.json</a>, lines 1–25, and <a href="repo/README.md">README</a>, lines 9–18.</li>
+</ul>
+<p><strong>Verdict: a useful delivery subsystem and design reference, but a weak replacement for Wingman's standing development organization.</strong> AgentRail implements real local coding processes, durable specialist profiles, issue assignment, PR submission, actionable CI/review feedback, human blockers, task events, and shipping APIs. Its strongest fit is the execution-and-delivery portion after someone has already established a repository and a well-defined issue. It does not implement Butler, Telegram intake, product/technical leadership, product discovery, organizational rooms, an executive dashboard, or distributed host management. Planned cloud team/fleet/history/dashboard features must not be credited to this checkout.</p>
+<p>Two boundaries materially affect adoption. The managed runner launches fresh executions rather than resuming a durable Codex conversation, and its normal automatic path submits a PR but does not call the shipping API. Also, the role-template tool preferences are configuration data without an enforcement path into the runner. These are implementation findings, explained below, rather than conclusions drawn only from marketing language.</p>
+<h2 id="assessment-architecture-and-execution-model">Architecture and execution model</h2>
+<p>AgentRail uses a TypeScript CLI, Node HTTP service, provider adapters, and local JSON/JSONL storage. It does not supply a conversational team framework or operational workspace UI. <a href="repo/src/server.ts">server.ts</a>, lines 116–182, constructs authentication, run, subscription, delivery-worker, and runner-supervisor objects. It injects lifecycle, provider, and routing services into HTTP. It starts the supervisor after listening, then starts provider and outbound event delivery.</p>
+<p><a href="repo/src/server-runtime.ts">server-runtime.ts</a>, lines 103–223, wires <code>AgentTaskQueue</code> and <code>AgentProfileStore</code>. It also wires routing rules, audits, cursors, and background polling. Adapters provide GitHub/Linear intake, GitHub submission/review, and GitHub Actions/CircleCI status. Provider operations require real credentials. Unsupported runtime configurations return errors.</p>
+<p>The authoritative coordination entity is a <strong>task</strong>. <a href="repo/src/task-store.ts">task-store.ts</a>, lines 96–145, stores status, assignee, criteria, project/goal context, source issue, submissions, CI, review outcome, blocker, ship/rollback state, and routing provenance. The service exposes agent-scoped task reads/mutations and operator routing/run APIs; <a href="repo/src/app.ts">app.ts</a>, lines 414–705 and 732–1190, is the relevant route inventory. The root HTTP page serves the static marketing landing page, not an operational dashboard (<a href="repo/src/app.ts">app.ts</a>, lines 304–306).</p>
+<p>A local <strong>agent profile</strong> is a durable identity and routing configuration, backed by an env file and API key. The supervisor discovers those env files and starts one <code>agent run --env-file ...</code> Node child per valid agent. Each child continuously reads assigned tasks, starts work, constructs a fresh run, launches an external coding CLI, consumes its structured handoff, publishes changes, and returns to its queue. This gives genuinely independent coding processes across profiles. It does not create an organizational hierarchy or peer chat: see <a href="repo/src/cli/local-runner-supervisor.ts">local-runner-supervisor.ts</a>, lines 103–179, and <a href="repo/src/cli/agent-runner.ts">agent-runner.ts</a>, lines 547–750.</p>
+<p>Persistence is deliberately local. Profiles are JSON snapshots (<a href="repo/src/agent-profile-store.ts">agent-profile-store.ts</a>, lines 90–117); events are appended JSONL, with a 72-hour in-memory replay window (<a href="repo/src/task-event-store.ts">task-event-store.ts</a>, lines 4–5, 74–126 and 142–150). The run store adds file locking, reloads, and atomic temp-file rename for multiple local processes (<a href="repo/src/agent-run-store.ts">agent-run-store.ts</a>, lines 312–409 and 426–483). These are useful single-host coordination mechanisms, not a shared database or distributed lease service.</p>
+<h2 id="assessment-wingman-feature-matrix">Wingman feature matrix</h2>
+<p>Verdicts describe the checked-out implementation against <a href="../generic/purpose.html">Wingman's purpose</a>. “Absent” includes the searches documented in the verification section. A related primitive is identified wherever one exists.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Capability</th>
+<th scope="col">Verdict</th>
+<th scope="col">Evidence and concrete difference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F01</td>
+<td>Real independent coding agents and specialist instances</td>
+<td><strong>Similar</strong></td>
+<td>Supervisor starts a separate persistent polling process per agent env. Each launches a real external coding CLI. <a href="repo/src/cli/local-runner-supervisor.ts">Supervisor</a>, lines 103–156; <a href="repo/src/cli/agent-runner.ts">runner</a>, lines 1060–1075 and 3134–3142. Different profile IDs can use the same template. Executions are task runs, without Wingman's separate continuing role conversations.</td>
+</tr>
+<tr>
+<td>F02</td>
+<td>Extensible profiles, roles and team composition</td>
+<td><strong>Similar</strong></td>
+<td>Validated YAML roles contain routing capabilities, instructions, workspace areas, checks/evidence and escalation hints; custom templates can be installed. <a href="repo/src/agent-role-template.ts">Template</a>, lines 18–55 and 139–175; <a href="repo/src/agent-profile-store.ts">profiles</a>, lines 21–35. No team/hierarchy model; tool preferences are not wired into enforcement.</td>
+</tr>
+<tr>
+<td>F03</td>
+<td>Agent directory and visible relationships</td>
+<td><strong>Resembles</strong></td>
+<td>Profile records list names/roles/capabilities/repo allowlists; run records link agent and task. <a href="repo/src/agent-profile-store.ts">Profiles</a>, lines 21–35 and 145–151; <a href="repo/src/agent-run-store.ts">runs</a>, lines 46–74. No human directory, project-team graph or reporting relationships.</td>
+</tr>
+<tr>
+<td>F04</td>
+<td>Telegram and Butler routing</td>
+<td><strong>Absent</strong></td>
+<td>Actual intake routes are GitHub/Linear/operator HTTP APIs, with no Telegram connector or Butler actor. <a href="repo/src/app.ts">Routes</a>, lines 531–552 and 934–1080; <a href="repo/src/server-runtime.ts">runtime</a>, lines 168–184. Human use is CLI/provider oriented.</td>
+</tr>
+<tr>
+<td>F05</td>
+<td>Cross-project registry/intake/routing</td>
+<td><strong>Resembles</strong></td>
+<td>Connected repos have path, slug and branch; issues acquire project context and deterministic identifiers. <a href="repo/src/cli/global-management.ts">Repo management</a>, lines 59–100; <a href="repo/src/github-issue-intake-adapter.ts">GitHub intake</a>, lines 314–355. Routes issue work among configured agents, without new-product creation or semantic existing-project conversation routing.</td>
+</tr>
+<tr>
+<td>F06</td>
+<td>Product and technical project leadership</td>
+<td><strong>Absent</strong></td>
+<td>Profiles permit arbitrary role strings, but routing assigns one agent/triage target. There are no per-project ProductMaster/TechMaster actors, leadership instances or delegation workflow. <a href="repo/src/agent-profile-store.ts">Profile schema</a>, lines 21–35; <a href="repo/src/intake-routing-control-plane.ts">routing decision</a>, lines 847–934. A leadership persona alone would not supply that system.</td>
+</tr>
+<tr>
+<td>F07</td>
+<td>Proportionate discovery and iterative clarification</td>
+<td><strong>Resembles</strong></td>
+<td>Classifier missing-information/low-confidence output sends work to triage; roles contain “ask user when” hints. <a href="repo/src/intake-routing-control-plane.ts">Routing</a>, lines 1003–1029; <a href="repo/src/managed-run-role-brief.ts">role brief</a>, lines 119–140. No domain-research workflow or iterative project-linked human question/answer cycle.</td>
+</tr>
+<tr>
+<td>F08</td>
+<td>Scope/specifications/scenarios/definition of done</td>
+<td><strong>Resembles</strong></td>
+<td>Tasks contain acceptance criteria; GitHub intake extracts a heading/list from an existing issue body. <a href="repo/src/task-store.ts">Task schema</a>, lines 96–106; <a href="repo/src/github-issue-intake-adapter.ts">parser</a>, lines 483–506. Does not author or manage a product specification/DoD hierarchy.</td>
+</tr>
+<tr>
+<td>F09</td>
+<td>Decomposition, assignment and shared tracking</td>
+<td><strong>Similar</strong></td>
+<td>Durable task lifecycle and rich assignment provenance; rule/classifier selection and triage are substantial. <a href="repo/src/task-store.ts">Task schema</a>, lines 96–145; <a href="repo/src/intake-routing-control-plane.ts">intake routing</a>, lines 666–702 and 1442–1519. No technical decomposition planner or task dependency DAG; primarily imports already-separated issues.</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>Portfolio/project dashboard</td>
+<td><strong>Absent</strong></td>
+<td>Repo listing and HTTP task/run data are primitives for another UI. Root serves a landing page, with no project dashboard implementation. <a href="repo/src/cli/global-management.ts">Repo CLI</a>, lines 59–76; <a href="repo/src/app.ts">root handler</a>, lines 304–306.</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>Chat application, rooms and direct collaboration</td>
+<td><strong>Resembles</strong></td>
+<td>Linear comment and workflow-state APIs plus inbound comment events provide task-bound provider communication. <a href="repo/src/app.ts">Routes</a>, lines 1016–1080; <a href="repo/src/linear-comment-webhook-adapter.ts">comment adapter</a>, lines 48–72. No rooms, memberships, direct peer messaging or organizational conversation application.</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>Management escalation and human decisions</td>
+<td><strong>Similar</strong></td>
+<td>Explicit awaiting-user blocker includes reason/action/resume instructions; operator resolution returns task to <code>todo</code>. <a href="repo/src/task-store.ts">Blocker</a>, lines 56–64; <a href="repo/src/agent-task-queue.ts">resolution</a>, lines 545–643. PR review is another approval mechanism. No Worker→management→Butler escalation chain.</td>
+</tr>
+<tr>
+<td>F13</td>
+<td>Durable knowledge and reusable directives</td>
+<td><strong>Resembles</strong></td>
+<td>Reusable role YAML and repo maps yield per-run instructions, paths and commands. <a href="repo/src/managed-run-role-brief.ts">Role brief</a>, lines 40–90; <a href="repo/src/cli/global-management.ts">repo map setup</a>, lines 102–137. Tasks/prompts/artifacts persist, but no project knowledge workspace equivalent to DIRECTIVES/SCOPES/SPECS/HARNESS.</td>
+</tr>
+<tr>
+<td>F14</td>
+<td>Identity/conversation/work continuity</td>
+<td><strong>Similar</strong></td>
+<td>Durable agent IDs, tasks, run histories and task branches; retries fetch an existing remote task branch. <a href="repo/src/agent-run-store.ts">Runs</a>, lines 46–74 and 446–483; <a href="repo/src/cli/agent-runner.ts">workspace preparation</a>, lines 3023–3035. Conversation continuity is missing: Codex receives <code>--ephemeral</code> (<a href="repo/src/runner-execution-policy.ts">execution policy</a>, lines 533–556).</td>
+</tr>
+<tr>
+<td>F15</td>
+<td>Proactive supervision and follow-up</td>
+<td><strong>Similar</strong></td>
+<td>Background provider polls, SSE-triggered queue wakes, stale-run reclaim and bounded process restart implement real automation. <a href="repo/src/server-runtime.ts">Runtime</a>, lines 429–523; <a href="repo/src/cli/agent-runner.ts">runner waits</a>, lines 596–683. This monitors mechanical lifecycle state, without a ProjectMaster interpreting portfolio progress or discussing blockers.</td>
+</tr>
+<tr>
+<td>F16</td>
+<td>Parallel products and specialists</td>
+<td><strong>Similar</strong></td>
+<td>Multiple repos/profiles and supervisor children allow concurrent independent specialists. <a href="repo/src/cli/local-runner-supervisor.ts">Supervisor</a>, lines 103–156; <a href="repo/src/cli/global-management.ts">repo configuration</a>, lines 91–100. One run loop awaits selected tasks serially (<a href="repo/src/cli/agent-runner.ts">runner</a>, lines 686–745); use separate profiles for effective concurrency. No per-product team leadership.</td>
+</tr>
+<tr>
+<td>F17</td>
+<td>Real multi-host execution/shared coordination</td>
+<td><strong>Absent</strong></td>
+<td>Launch uses local <code>spawn</code>, local env discovery and local PID checks; no host registration/placement/remote execution/replication. <a href="repo/src/cli/local-runner-supervisor.ts">Supervisor</a>, lines 131–156 and 214–225; <a href="repo/src/agent-run-store.ts">reclaim</a>, lines 520–542. HTTP clients can connect elsewhere, but do not deliver Wingman's Mac/Linux organization.</td>
+</tr>
+<tr>
+<td>F18</td>
+<td>Executive current/recent/next/blocker overview</td>
+<td><strong>Resembles</strong></td>
+<td>Run status/summary/userAction plus queue counts/waiting reason are useful raw briefing inputs. <a href="repo/src/agent-run-store.ts">Run schema</a>, lines 46–74; <a href="repo/src/cli/agent-runner.ts">queue summary</a>, lines 2140–2163. No executive agent summary view or actual next-work narrative.</td>
+</tr>
+<tr>
+<td>F19</td>
+<td>Agent timeline linked to underlying work</td>
+<td><strong>Resembles</strong></td>
+<td>Timestamped progress/blocked/completed reports persist per run with task/agent links. <a href="repo/src/agent-run-store.ts">Report persistence</a>, lines 648–704. Task events are replayable. No curated cross-run agent timeline UI; API/in-memory event replay is limited to 72 hours, while the append-only JSONL file is not pruned (<a href="repo/src/task-event-store.ts">events</a>, lines 4–5, 101–126 and 147–150).</td>
+</tr>
+<tr>
+<td>F20</td>
+<td>Detailed per-agent coding workspace</td>
+<td><strong>Resembles</strong></td>
+<td>Run records expose prompt/log/result/workspace paths and optional Markdown exports; operator can list/get runs. <a href="repo/src/cli/agent-runner.ts">Run construction</a>, lines 870–979; <a href="repo/src/app.ts">routes</a>, lines 605–652. No embedded coding-session UI/tool-call/diff/browser-artifact viewer.</td>
+</tr>
+<tr>
+<td>F21</td>
+<td>Live activity/lifecycle/steering/visibility</td>
+<td><strong>Resembles</strong></td>
+<td>Task SSE, reports, status inspection and timeout control exist. Child stdout/stderr are buffered until close, not streamed as live tool activity. <a href="repo/src/cli/agent-runner.ts">Child execution</a>, lines 3130–3202. No conversation fork/compact/archive, queued steering/attachments, goals/budgets, or individual cancel API.</td>
+</tr>
+<tr>
+<td>F22</td>
+<td>Testing/integration/acceptance/delivery</td>
+<td><strong>Similar</strong></td>
+<td>Role briefs request checks/evidence; task handoffs carry results; GitHub Actions/CircleCI/review state gates ship availability; ship merges a PR. <a href="repo/src/cli/agent-runner.ts">Handoff</a>, lines 1722–1751; <a href="repo/src/agent-task-queue.ts">review gating</a>, lines 1460–1489; <a href="repo/src/github-submit-adapter.ts">ship</a>, lines 245–279. No integrated TestMaster/product acceptance journey; recorded checks are not independent verification. Managed loop does not auto-ship.</td>
+</tr>
+<tr>
+<td>F23</td>
+<td>Autonomous organization under human direction</td>
+<td><strong>Resembles</strong></td>
+<td>An unattended task→code→PR→feedback/fix loop is implemented, with human blockers. <a href="repo/src/cli/agent-runner.ts">Runner</a>, lines 596–750; <a href="repo/src/managed-run-task-queue.ts">queue lanes</a>, lines 85–158. Autonomous issue execution is much narrower than autonomous discovery, leadership, coordination, product acceptance and continued organizational direction.</td>
+</tr>
+<tr>
+<td>F24</td>
+<td>New profiles accommodated in connected views</td>
+<td><strong>Resembles</strong></td>
+<td>Generic profile IDs/roles flow into tasks/runs/routing and templates can be installed. <a href="repo/src/agent-profile-store.ts">Profiles</a>, lines 154–195; <a href="repo/src/intake-routing-control-plane.ts">routing application</a>, lines 1442–1459. No chat/tracker-dashboard/directory views to evolve together. Supervisor discovers envs at start, requiring manual launch or restart for newly created agents (<a href="repo/src/cli/local-runner-supervisor.ts">supervisor</a>, lines 103–115).</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="assessment-agent-definition-creation-and-full-lifecycle">Agent definition, creation and full lifecycle</h2>
+<h3 id="assessment-what-is-actually-an-agent">What is actually an agent?</h3>
+<p>The durable <strong>profile</strong> carries <code>agentId</code>, display name, arbitrary role, template ID, active/paused/disabled routing status, capability/ownership tags, repo allowlist and maximum concurrent tasks. Its stored source/change reason/updated-by fields support auditability (<a href="repo/src/agent-profile-store.ts">agent-profile-store.ts</a>, lines 21–35 and 171–193). A <strong>template</strong> is reusable specialization content. It is not a running agent. A <strong>managed runner process</strong> is the queue-watching Node process attached to one profile/env. A <strong>run</strong> is one task execution by an external CLI, with a newly generated <code>run_...</code> identity and local artifacts. A <strong>task</strong> outlives runs and carries delivery state. There is no persistent model conversation ID in <code>AgentRunRecord</code>; see <a href="repo/src/agent-run-store.ts">run schema</a>, lines 46–74.</p>
+<p>Templates can express specialist focus without code changes: frontend, backend and review roles use routing metadata, instructions, preferred/caution/forbidden workspace areas, checks, required evidence and escalation cases. The loader validates YAML, disallows unknown keys and resolves installed versus built-in IDs; ambiguous duplicate IDs fail (<a href="repo/src/agent-role-template.ts">agent-role-template.ts</a>, lines 73–95 and 139–175). That is strong extensibility for issue workers, but adding “ProductMaster” as a string would not create product-scoped leadership, conversations or delegation semantics.</p>
+<p>A crucial distinction is <strong>declared preferences versus effective permissions</strong>. <code>runtime.cleanSlate</code> and builtin/MCP/skills allow/prefer/deny lists are parsed and validated (<a href="repo/src/agent-role-template.ts">agent-role-template.ts</a>, lines 30–37 and 254–263), but a search of <code>src</code> finds no consumer of <code>template.runtime</code>. The role-brief builder includes instructions, paths, checks, evidence, escalation and commands, and omits runtime tools (<a href="repo/src/managed-run-role-brief.ts">managed-run-role-brief.ts</a>, lines 63–89). Therefore a role's <code>deny: browser</code> is not an enforced capability boundary. Effective restrictions come from the separate global runner execution policy.</p>
+<h3 id="assessment-creation-and-provisioning">Creation and provisioning</h3>
+<p><code>agent create</code> performs these steps:</p>
+<ol>
+<li>Collect runner, model, name, template, repository, capacity, and scopes.</li>
+<li>Prepare instructions and PUT the routing profile.</li>
+<li>Configure routing and create a setup verification task.</li>
+<li>POST an API key and build the per-agent environment.</li>
+<li>Run the doctor check. Write the environment only if that check succeeds.</li>
+</ol>
+<p>Failure reports identify completed provisioning steps and recovery information. Creation is not one atomic transaction. See <a href="repo/src/cli/agent-management.ts">agent-management.ts</a>, lines 449–673. Instances can share a template while retaining separate IDs, keys, queues, and histories.</p>
+<p>The env selects the executable family and optional model, stores the API credential and repo allowlist, and supplies capacity to the managed queue. Creation does not itself launch a model. On server startup the local supervisor discovers managed envs once and spawns queue watchers; newly created profiles are not dynamically discovered by that running supervisor (<a href="repo/src/cli/local-runner-supervisor.ts">local-runner-supervisor.ts</a>, lines 103–115). An explicit agent-run command starts one without restarting the server.</p>
+<h3 id="assessment-assignment-scheduling-concurrency-and-workspace-selection">Assignment, scheduling, concurrency and workspace selection</h3>
+<p>Provider routing first considers enabled deterministic rules. A single top-priority target wins; conflicting targets go to triage. Otherwise a configured local classifier extracts work requirements, with confidence/missing-information gates and suitable-agent versus explicitly configured best-effort fallback. Selection scores optional capabilities, ownership hints and idle/load information. An agent's capacity is a score penalty, not a hard intake exclusion. Paused/disabled profiles are excluded from new routing. See <a href="repo/src/intake-routing-control-plane.ts">routing control plane</a>, lines 847–934, 1003–1097, 1197–1223 and 1542–1552. There is no agent-created technical work breakdown or dependency scheduler.</p>
+<p>A watcher counts active local runs and builds a priority/due-date queue: resume in-progress work first, retry CI/review feedback second, new tasks next, setup verification only when no normal work is runnable. Blocked/terminal/already-running tasks are skipped (<a href="repo/src/managed-run-task-queue.ts">managed-run-task-queue.ts</a>, lines 49–178). When idle it waits for task SSE with a timeout, then rereads state; wake events include task updates, CI failure/recovery, review changes and user blockers (<a href="repo/src/cli/agent-runner.ts">agent-runner.ts</a>, lines 2184–2244). This is continuous reactive scheduling, not a calendar or a reasoning supervisor periodically inspecting a portfolio.</p>
+<p>Although capacity/open-slot accounting is real, the selected tasks run in an awaited <code>for</code> loop, so one watcher does not concurrently execute its selected batch (<a href="repo/src/cli/agent-runner.ts">agent-runner.ts</a>, lines 614–655 and 686–745). Concurrency is naturally obtained through different profile processes. The capacity test only proves that an already-active run prevents another launch. It does not establish parallel batch execution (<a href="repo/test/agent-runner.test.ts">test</a>, lines 2782–2885).</p>
+<p>Another multi-project limitation is repository selection: a watcher resolves one repository from the first configured allowlisted match, or a primary/default repo, <strong>before</strong> entering its task loop (<a href="repo/src/cli/agent-runner.ts">agent-runner.ts</a>, lines 581–586 and 2616–2636). It does not select a local repo afresh from each task's source. A Wingman adapter should therefore bind profiles to one repo or change this path before allowing broad multi-repo assignments.</p>
+<h3 id="assessment-execution-permissions-and-reporting">Execution, permissions and reporting</h3>
+<p>Each run creates prompt, log, result, report, and context paths. It allocates a run-scoped context token. It resolves the role brief and repository map, then fetches CI and review context. It compiles policy, stores a starting record, prepares the workspace, and transitions to running. See <a href="repo/src/cli/agent-runner.ts">agent-runner.ts</a>, lines 870–1008.</p>
+<p>The implementation calls its workspace a <code>worktree</code>. Default preparation actually uses <code>git clone --no-local --no-hardlinks</code>. It rewrites origin and selects a stable task branch. A retry prefers the existing remote branch. See the same file, lines 3023–3043. Each run consumes a full clone rather than linked-worktree storage.</p>
+<p>Codex execution uses sandboxed <code>exec</code>, <code>--ephemeral</code>, <code>--ignore-user-config</code>, <code>--ignore-rules</code>, disabled hooks, JSON output and a filtered environment. Claude gets generated sandbox/settings and a recipe prompt; Cursor/custom execution has weaker mappings and strict validation can block unsupported enforcement. External sandbox wrapping can supply an additional boundary, but source labels should not be mistaken for proof of an installed sandbox's behavior. See <a href="repo/src/runner-execution-policy.ts">runner-execution-policy.ts</a>, lines 450–517 and 526–730. Provider credentials and operator API keys are filtered; AgentRail owns push/submission. Pre/post filesystem checks can block denied files and unauthorized changes (<a href="repo/src/cli/agent-runner.ts">agent-runner.ts</a>, lines 1009–1057 and 1090–1110).</p>
+<p>The child can inspect a live run-scoped context or fall back to the snapshot when networking is unavailable (<a href="repo/src/cli/run-context.ts">run-context.ts</a>, lines 131–175). Progress, completed results and blocked metadata go through local mailbox JSON/JSONL files or report APIs. The wrapper archives and consumes local files after the launch returns, validates handoffs and persists reports. See <a href="repo/src/cli/agent-runner.ts">agent-runner.ts</a>, lines 1083–1129 and 1768–1859. Run reports are useful durable milestones, but there is no live semantic tool-call viewer: stdout/stderr accumulate in memory and are written to <code>runner.log</code> on child close (<a href="repo/src/cli/agent-runner.ts">agent-runner.ts</a>, lines 3130–3202).</p>
+<h3 id="assessment-continuity-interruption-failure-and-recovery">Continuity, interruption, failure and recovery</h3>
+<p>Identity, task state, provider metadata, reports and branches survive process restarts. A resumed task starts a <strong>new run</strong>, with latest task/CI/review and previous user-action context. It does not resume the Codex conversation. The stable task branch preserves published code changes, while uncommitted/unpublished state in an abandoned clone is not automatically rebased into a new run. See <a href="repo/src/cli/agent-runner.ts">prompt/run setup</a>, lines 870–914, <a href="repo/src/cli/agent-runner.ts">previous user action lookup</a>, lines 2166–2169, and workspace preparation above.</p>
+<p>Runner timeouts SIGTERM then SIGKILL the child (<a href="repo/src/cli/agent-runner.ts">agent-runner.ts</a>, lines 3150–3156). Service SIGINT/SIGTERM invokes controller/supervisor shutdown. The supervisor signals managed Node children, but there is no dedicated per-run cancellation/steering API, and this inspection did not establish recursive descendant cleanup (<a href="repo/src/server.ts">server.ts</a>, lines 172–176; <a href="repo/src/cli/local-runner-supervisor.ts">supervisor</a>, lines 118–128). A <code>cancelled</code> enum is not equivalent to a human lifecycle control.</p>
+<p>The run store checks owner process liveness and age to reclaim orphaned active runs into failed records. Repeated infrastructure failures become an awaiting-user task blocker. The supervisor separately applies restart delay/window/limit and pauses automatic restarts when failures repeat. See <a href="repo/src/agent-run-store.ts">run reclaim</a>, lines 506–594, <a href="repo/src/cli/agent-runner.ts">reclaim handling</a>, lines 753–824, and <a href="repo/src/cli/local-runner-supervisor.ts">supervisor restart</a>, lines 158–194. Exceptions during setup/launch/handoff are recorded and can block the task (<a href="repo/src/cli/agent-runner.ts">agent-runner.ts</a>, lines 1151–1196). CI/review failures instead make the existing task runnable for a new corrective execution. This is a meaningful operational recovery system, with local PID semantics that should not be extended unchanged across hosts.</p>
+<p>A human blocker includes a reason, action required and resume instructions. Operator resolution requires an idempotency key and resolution summary, clears the blocker, restores <code>todo/start</code>, and appends a task event (<a href="repo/src/agent-task-queue.ts">agent-task-queue.ts</a>, lines 545–643). That is an explicit handoff to a human. It is not an ongoing discovery conversation or a management-level escalation.</p>
+<h3 id="assessment-completion-acceptance-and-retirement">Completion, acceptance and retirement</h3>
+<p>A zero exit code alone is insufficient. The wrapper requires a meaningful structured handoff/state transition. It can commit uncommitted changes, push the stable task branch and submit through AgentRail. Submission records summary, checks and artifact references and results in reviewable task state (<a href="repo/src/cli/agent-runner.ts">agent-runner.ts</a>, lines 1712–1764 and 2040–2056). Checks are supplied by the coding runner; required-check names in a role brief do not independently execute tests or prove acceptance.</p>
+<p>CI/review observations project allowed actions onto tasks, reject stale observations for an older submission, and expose <code>fix</code> or <code>ship</code> as appropriate (<a href="repo/src/agent-task-queue.ts">agent-task-queue.ts</a>, lines 1100–1204 and 1425–1489). The ship API validates task eligibility and delegates to GitHub merge, then marks the task done and emits shipment state (<a href="repo/src/agent-task-queue.ts">agent-task-queue.ts</a>, lines 823–922). <strong>The managed queue does not select ship-only tasks, and no automatic ship caller exists in its runner or provider poller.</strong> Shipping must be driven by another API client/agent/operator. Thus “run succeeded” can mean “PR submitted,” not “product shipped/accepted.”</p>
+<p>Profile paused/disabled status prevents future routing, but the watcher does not poll profile status to kill already-running work. Source searches found no agent archive/delete lifecycle, conversation rename/fork/compact, or automatic post-run clone garbage collection. Repository removal edits configuration only (<a href="repo/src/cli/global-management.ts">global-management.ts</a>, lines 141–160). Runs, clones and exports are retained for inspection. A Wingman deployment would need explicit retirement, retention and storage cleanup policy rather than assuming task completion cleans them up.</p>
+<h2 id="assessment-coordination-mechanics-and-a-traced-request">Coordination mechanics and a traced request</h2>
+<p>AgentRail coordinates by durable task state, assignment rules, provider observations and events. Agents normally see their own assigned queue; operator scopes handle configuration and broader run inspection. API scopes distinguish tasks, routing, review, CI, shipping and webhook access (<a href="repo/src/agent-auth-store.ts">agent-auth-store.ts</a>, lines 10–24). It does not implement Wingman's all-agent shared conversational tracker: a frontend worker and backend worker cannot simply join a room, discuss an API and create dependency-linked subtasks through a built-in coordination protocol.</p>
+<p>The following is a concrete <strong>source trace of an ordinary GitHub issue</strong>, not a claim that a live issue was executed during this assessment:</p>
+<ol>
+<li><strong>Intake and continuity:</strong> GitHub polling/webhook handling feeds the intake adapter. It resolves the repo, creates a deterministic <code>github:owner/repo:issues/N</code> identifier and recognizes already-imported tasks; updates preserve the existing lifecycle while refreshing issue data. Criteria come from the issue's acceptance-criteria list. <a href="repo/src/github-issue-intake-adapter.ts">GitHubIssueIntakeAdapter</a>, lines 148–260, 314–355 and 483–506.</li>
+<li><strong>Route and explain:</strong> New intake asks <code>RoutingControlPlane.ingestProviderIssue</code>, which evaluates rules/classifier, persists assignee/triage and a routing reason plus decision ID, records an audit and emits an assigned-task update. Conflicts or missing information remain triaged, without automatically asking the human product questions. <a href="repo/src/intake-routing-control-plane.ts">Routing control plane</a>, lines 666–702, 847–934 and 1442–1519.</li>
+<li><strong>Wake and start:</strong> The assigned profile's queue watcher wakes from SSE or timeout, selects the task, starts it, assembles context and launches the coding CLI in its own clone. <a href="repo/src/cli/agent-runner.ts">Runner</a>, lines 647–713 and 870–1008. A task start is not a peer delegation conversation.</li>
+<li><strong>Implement and hand off:</strong> Runner returns mailbox JSON. The wrapper checks policy/files and handoff, commits/pushes the branch, and calls submit with a run-derived idempotency key. <a href="repo/src/cli/agent-runner.ts">Runner</a>, lines 1083–1129 and 1722–1751. GitHub submission reuses an existing PR by idempotency marker or head/base before creating another. It can post back to the issue and request reviewers. <a href="repo/src/github-submit-adapter.ts">Submit adapter</a>, lines 38–128.</li>
+<li><strong>Observe and correct:</strong> Provider CI/review delivery projects fresh state onto the task. CI failure or review changes can expose <code>fix</code>, emit events and awaken another clean execution with compact failure/review context. <a href="repo/src/agent-task-queue.ts">Task queue</a>, lines 1100–1204 and 1207–1245; <a href="repo/src/managed-run-task-queue.ts">queue classification</a>, lines 129–150.</li>
+<li><strong>Human decision or shipment:</strong> A blocked runner can persist a human action and pause that task until operator resolution; otherwise CI/review eventually expose ship. A caller invokes the separate ship API to merge and mark done. <a href="repo/src/agent-task-queue.ts">Resolution</a>, lines 545–643; <a href="repo/src/agent-task-queue.ts">shipment</a>, lines 823–922. Neither branch creates a Butler/Telegram exchange or a product-wide acceptance ceremony.</li>
+</ol>
+<p>Task events carry task versions, trace IDs, actors, changed fields, summaries and links. SSE supports replay/filtering, and outbound subscriptions deliver signed events with persisted retry state. These are good integration seams for Wingman's tracker and notification services. They remain event transport rather than chat history, a dependency graph or executive summaries.</p>
+<h2 id="assessment-major-additional-capabilities-and-distinctive-mechanisms">Major additional capabilities and distinctive mechanisms</h2>
+<h3 id="assessment-provider-lifecycle-control-idempotency-and-compact-agent-facing-state">Provider lifecycle control, idempotency and compact agent-facing state</h3>
+<p>Beyond Wingman's broad product description, AgentRail supplies a concrete GitHub/Linear/CI adapter layer with retry-safe task mutations, persisted source metadata, PR reuse and actionable <code>availableActions</code>. Provider operations sit outside the sandboxed model process, separating code production from authenticated publishing. <a href="repo/src/github-submit-adapter.ts">GitHub submit adapter</a>, lines 38–128, and <a href="repo/src/agent-task-queue.ts">task queue</a>, lines 823–922, ground this behavior. Wingman could avoid making every specialist rediscover provider APIs, but must define who may submit/merge and make its own product acceptance rule authoritative. Idempotency is bounded by local persistence/provider lookups, not a general distributed transaction guarantee.</p>
+<p>The <strong>task affordance projection</strong> converts provider state into a compact set of next actions. Actions include <code>fix</code>, <code>view_ci_status</code>, <code>resolve_blocker</code>, and <code>ship</code>. Agents can use those actions without replaying raw service logs. Submission-head and timestamp checks reject stale CI/review feedback that would regress a newer submission. See <a href="repo/src/agent-task-queue.ts">agent-task-queue.ts</a>, lines 1425–1489. This supports economical repeated execution. It does not evaluate the product's business definition of done. This assessment makes no historical or industry-wide novelty claim.</p>
+<h3 id="assessment-role-templates-combined-with-repository-maps">Role templates combined with repository maps</h3>
+<p>Reusable roles name semantic areas such as frontend source or tests; repository maps translate those areas into actual paths and commands. Brief construction caps paths/lists/instruction length and falls back with warnings if mapping/template data is missing (<a href="repo/src/managed-run-role-brief.ts">managed-run-role-brief.ts</a>, lines 36–115 and 143–161). Repo setup can obtain an AI proposal but retains a deterministic starter fallback (<a href="repo/src/cli/global-management.ts">global-management.ts</a>, lines 102–137).</p>
+<p>This is a useful portable-specialist mechanism: one BackendCoder profile definition can be mapped to different codebases without embedding all repository paths in its identity. Its limits matter: instructions truncate at 600 characters and lists at six items; runtime tool preferences never reach effective permissions. Wingman would need a richer versioned directive/context system for leadership and product knowledge, and should preserve the distinction between instruction advice and enforced policy.</p>
+<h3 id="assessment-runner-policy-and-run-scoped-read-context">Runner policy and run-scoped read context</h3>
+<p>The system compiles sandbox and environment policy for each run and coding CLI. It refuses unsupported strict mappings. It checks protected filesystem paths before and after execution. A hashed run token and snapshot fallback expose task context without giving provider credentials to the child. See <a href="repo/src/runner-execution-policy.ts">execution policy</a>, lines 450–517 and 526–730; <a href="repo/src/agent-run-store.ts">token verification</a>, lines 597–605; and <a href="repo/src/cli/run-context.ts">context loading</a>, lines 131–175.</p>
+<p>The valuable mechanism is a <strong>restricted coding execution that hands results back to a privileged lifecycle owner</strong>. It maps well to specialist agents producing code while TechMaster/delivery services own publishing. It is runner-dependent, not universally enforced: Cursor/custom adapters and arbitrary commands have explicit limitations, and role-template denies are separate from these global restrictions. Runtime compatibility with the installed vendor CLIs was not exercised.</p>
+<h3 id="assessment-event-subscriptions-and-bounded-recovery">Event subscriptions and bounded recovery</h3>
+<p>Signed webhook subscriptions have persisted per-event/per-subscription delivery records, retry schedule, attempt numbers, delivery IDs, response/error state and exhaustion. Success is 2xx; 410 deactivates the subscription; network/5xx failures retry (<a href="repo/src/event-delivery-worker.ts">event-delivery-worker.ts</a>, lines 12–25, 69–96 and 122–230). This could connect lifecycle events to Butler notifications, tracker updates or independent review services, with receiver deduplication and a plan for the 72-hour event replay boundary.</p>
+<p>Local process restart limits and stale-run reclaim complement event delivery recovery. They prevent an infrastructure fault from endlessly consuming model runs while still allowing new work after a recoverable exit. These mechanisms are operationally useful but do not replace semantic supervision: a stalled product, missing design decision or inter-agent disagreement requires a reasoning/management layer.</p>
+<h3 id="assessment-rollback-api-sdks-and-evaluation-harness">Rollback API, SDKs and evaluation harness</h3>
+<p>The GitHub rollback adapter creates a revert-style commit from the merged commit's parent tree, creates a rollback branch/PR and best-effort reopens the source issue (<a href="repo/src/github-rollback-adapter.ts">github-rollback-adapter.ts</a>, lines 49–159). That is a concrete code rollback proposal, beyond Wingman's described acceptance flow. It is not application/database deployment rollback; Wingman must assess it alongside later repository changes and operational state.</p>
+<p>TypeScript and Python SDKs expose task/provider/shipping/event APIs; see <a href="repo/sdk/typescript/src/client.ts">TypeScript client</a>, lines 41–225, and <a href="repo/sdk/python/src/agentrail/client.py">Python client</a>. They make an adapter integration more plausible than wrapping interactive CLI output. The repository also contains a lifecycle benchmark with control, AgentRail, paired and phase-attribution execution, local lifecycle artifacts and aggregate results (<a href="repo/benchmarks/agentrail-swe-lifecycle/run.mjs">benchmark entry</a>, lines 5–45 and 68–85). That supplies a reusable evaluation approach for lifecycle overhead and correctness. No benchmark performance claim is adopted here. The harness was not run and its existence does not prove product success.</p>
+<h2 id="assessment-practical-use-for-wingman">Practical use for Wingman</h2>
+<p><strong>Usable directly as an internal delivery component:</strong> specialist profile IDs, provider issue intake/routing, structured task state, PR submit/reuse, CI/review adapters, blocker/resume protocol, task events and SDK surfaces. The intended integration boundary would be TechMaster-created implementation tickets entering AgentRail, with task/run/provider events reflected back into ProjectTracker. Butler and project leadership would remain Wingman actors above that boundary. Separate single-repo specialist profiles are the safest match to the current runner's fixed repository resolution.</p>
+<p>Adapt these areas:</p>
+<ul>
+<li>Retain native Codex conversation IDs where Wingman requires conversation continuity.</li>
+<li>Connect role profiles to the agent directory and team model.</li>
+<li>Enforce real permissions through profile tooling.</li>
+<li>Adapt run snapshots and brief truncation for authoritative product directives.</li>
+<li>Add a shipping caller that follows acceptance decisions.</li>
+<li>Route blockers through Butler and retain answers as project knowledge.</li>
+<li>Generate human summaries and timelines from reports and events.</li>
+</ul>
+<p>Multi-host work needs registration, placement, shared coordination, leases, remote runner state, and host-aware recovery. Local file locks and PID checks cannot provide that distributed contract.</p>
+<p><strong>Still to build:</strong> Telegram/Butler, portfolio/new-project intake, per-project leadership and discovery, research/clarification records, specifications and product DoD, technical decomposition/dependencies, rooms/direct collaboration, ProjectMaster supervision, executive/project dashboards, directory/timeline/workspace drill-down, conversation lifecycle/steering controls and integrated product acceptance. These dominate Wingman's organizational product experience, so adopting AgentRail would accelerate a bounded subsystem rather than supply most of the platform.</p>
+<p>The repository is source-available under a custom license, not a permissive open-source license. The checked-in text explicitly describes internal use/modification and restricts third-party offerings incorporating/exposing the software (<a href="repo/LICENSE">LICENSE</a>, lines 7–13, 22–42 and 69–98). That is a material reuse constraint for deciding between internal deployment, source incorporation and a separately distributed Wingman product. This report does not establish permission for a particular future distribution.</p>
+<h2 id="assessment-verification-scope-and-uncertainty">Verification scope and uncertainty</h2>
+<p>This was a fresh, source-only assessment of the recorded commit. I read the complete assessment guide and Wingman purpose. No applicable on-disk <code>AGENTS.md</code> was found in the checkout or its relevant ancestor directories. The user-provided global instructions were followed. I did not install dependencies, start services, execute provider operations, run models, run tests or alter the checkout. Runtime behavior is <strong>source-traced, not exercised</strong>.</p>
+<p>The implementation review covered these areas:</p>
+<ul>
+<li>Server startup, runtime composition, and HTTP routes.</li>
+<li>Task, profile, run, authentication, and event stores.</li>
+<li>Deterministic/classifier routing, task queue, and local supervisor.</li>
+<li>Profile creation, blockers, resume, sandbox policy, and clone preparation.</li>
+<li>Reports, handoffs, submission, and failure recovery.</li>
+<li>GitHub intake/submission/rollback and Linear comments.</li>
+<li>Role/repository brief assembly, SDK interfaces, and benchmark entry.</li>
+</ul>
+<p>Relevant tests inspected as evidence of intended contracts (not counted as passed):</p>
+<ul>
+<li><a href="repo/test/agent-runner.test.ts">agent-runner.test.ts</a>, lines 178–449 (injected runner→submitted task/run artifacts), 2782–2885 (capacity gating); associated wake/retry/reclaim/no-handoff/policy cases were located in that file. The core happy-path test replaces the real vendor runner/publisher, so it cannot establish vendor authentication or sandbox behavior.</li>
+<li><a href="repo/test/local-runner-supervisor.test.ts">local-runner-supervisor.test.ts</a>, lines 36–100, uses fake children to assert one watcher per env and SIGTERM on stop.</li>
+<li><a href="repo/test/runner-execution-policy.test.ts">runner-execution-policy.test.ts</a>, lines 39–114, checks defaults, credential filtering and generated Codex/Claude settings; filesystem protection and unsupported adapter tests were also located.</li>
+<li><a href="repo/test/intake-routing-control-plane.test.ts">intake-routing-control-plane.test.ts</a>, lines 113–149, deterministic assignment/provenance; ambiguity, busy-agent assignment, classifier confidence/capability and fallback tests were located at lines 688–1238.</li>
+<li><a href="repo/test/submit-idempotency-persistence.test.ts">submit-idempotency-persistence.test.ts</a>, lines 237–252, reconstructs the store and checks persisted keys; <a href="repo/test/task-auth-isolation.test.js">task-auth-isolation.test.js</a>, lines 69–116 and following, constructs separate agent tasks and an authenticated server fixture.</li>
+</ul>
+<p>For negative findings I inventoried <code>src</code>, CLI, defaults, SDK, tests and documentation paths and searched for Telegram/Butler, rooms/chat, portfolio/dashboard, leadership/discovery, remote-host/SSH/host identity, conversation resume/fork/compact/archive, cancellation/cleanup and shipping call sites. The implementations found are local process runners, task APIs, provider comments and static landing pages; <code>ssh</code> hits concerned parsing Git remotes. Searches for <code>runtime.tools</code>, <code>runtime.cleanSlate</code> and <code>template.runtime</code> found validation but no runtime consumer. The ship call sites are the API, queue delegate and provider adapter, not the managed runner/poller. These scopes support the specific absent/narrow verdicts. They do not establish what an externally planned cloud product may later implement.</p>
+<p>Operational uncertainties remain around compatibility with actual installed coding CLI versions, real provider permissions/webhook delivery, descendant termination after supervisor shutdown, concurrent failure behavior under sustained load, and end-to-end product delivery. None is silently treated as verified by the checked-in tests or benchmark tooling.</p></article>
+<section id="source-record"><h2>Source and evidence</h2><p class="url-text">https://github.com/oxnw/agentrail</p>
+<ul><li><a href="repo/">Open the pinned source checkout</a></li><li><a href="assessment/ASSESSMENT.md">Read the Markdown assessment</a></li>
+<li><a href="../generic/assessments/_audits/qa15.md">Read the historical independent source audit</a></li><li><a href="../generic/method.html">Read the method and evidence limits</a></li></ul></section>
+<nav class="report-switch" aria-label="Adjacent project reports"><a href="../agentopology/index.html">Previous project: AgenTopology</a><a href="../amux/index.html">Next project: amux</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../index.html">Return to overview <img src="../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

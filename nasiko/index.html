@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Technical assessment against Wingman’s development organization."><title>Nasiko · Wingman Research</title>
+<link rel="icon" href="../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/report.css"><script defer src="../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../index.html"><img src="../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../index.html">Overview</a><a class="nav-link " href="../generic/index.html">Architecture findings</a><a class="nav-link " href="../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../generic/method.html">Method and evidence</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../index.html">Wingman Research</a><span class="crumb">/</span><span>Nasiko</span></div><span class="topbar-note">SOURCE REVIEW · 05 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Nasiko</h1><p class="subtitle">Technical assessment against Wingman’s development organization.</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#decision">Decision summary</a><a href="#assessment-nasiko-assessment-against-wingman">Nasiko assessment against Wingman</a><a href="#assessment-identity-and-fit-verdict">Identity and fit verdict</a><a href="#assessment-architecture-and-execution-model">Architecture and execution model</a><a href="#assessment-feature-comparison">Feature comparison</a><a href="#assessment-agent-definition-and-lifecycle-in-detail">Agent definition and lifecycle in detail</a><a href="#assessment-coordination-trace-a-saved-two-agent-workflow-with-a-human-pause">Coordination trace: a saved two-agent workflow with a human pause</a><a href="#assessment-major-capabilities-beyond-wingmans-description">Major capabilities beyond Wingman&#x27;s description</a><a href="#assessment-distinctive-mechanisms-and-innovation-assessment">Distinctive mechanisms and innovation assessment</a><a href="#assessment-practical-adoption-path-and-remaining-work">Practical adoption path and remaining work</a><a href="#assessment-verification-scope-and-limitations">Verification scope and limitations</a><a href="#source-record">Source and evidence</a></div></nav><section id="decision" class="decision"><h2>Decision summary</h2>
+<div class="brief-columns"><div><h3>Useful for Wingman</h3><p>Study A2A agent hosting, coding-harness observation, model and tool authorization, workflows, and cost attribution.</p></div><div><h3>Adoption boundary</h3><p>Deployment infrastructure does not provide Wingman&#x27;s product intake, standing leadership, shared tickets, or rooms.</p></div></div>
+<p class="scope-note">Source assessment at the commit below. Runtime limits appear in the technical report.</p></section>
+<dl class="facts"><div><dt>Source group</dt><dd>Infrastructure</dd></div><div><dt>Commit</dt><dd><code>10a085818d585fcc487487df89d09c87f74bd577</code></dd></div><div><dt>Coverage</dt><dd>24 Wingman features</dd></div></dl>
+<article id="technical-assessment" class="technical"><h2 id="assessment-nasiko-assessment-against-wingman">Nasiko assessment against Wingman</h2>
+<h2 id="assessment-identity-and-fit-verdict">Identity and fit verdict</h2>
+<ul>
+<li class="url-text"><strong>Upstream:</strong> https://github.com/Nasiko-Labs/nasiko</li>
+<li><strong>Checkout:</strong> <code>researchs/nasiko/repo</code></li>
+<li><strong>Assessed commit:</strong> <code>10a085818d585fcc487487df89d09c87f74bd577</code></li>
+<li><strong>Assessment date:</strong> 2026-11-05.</li>
+<li><strong>Scope:</strong> the checked-out open-source edition, not the enterprise implementation referenced by extension interfaces and comments. Apache-2.0 license: <a href="repo/LICENSE">LICENSE</a>.</li>
+</ul>
+<p><strong>Nasiko is a useful infrastructure candidate underneath Wingman, but a poor direct replacement for Wingman's product.</strong> It hosts separately executing A2A agents, registers and observes existing coding harnesses, controls model/tool access, stores conversations and agent state, and executes reusable multi-agent workflows. Its strongest implemented concerns are deployment, authorization, attribution, cost optimization and human-in-the-loop continuation. It does not supply Wingman's portfolio intake, standing product/technical leadership, product discovery process, shared engineering tickets, collaboration rooms or supervisory organization.</p>
+<p>Two distinctions materially change the fit. A hosted agent is a deployable service with a durable catalog identity. A recorded Codex/Claude/OpenCode/Cursor session is activity reported by an independently operated harness, not a process Nasiko created and now supervises. Also, the open-source runtime is Docker on one local daemon, with one replica per deployed agent. Kubernetes, organizational context/memory, org-aware controls and richer scaling references do not establish those capabilities in this checkout. See <a href="repo/server/src/main.rs">main.rs</a>, lines 106–124; <a href="repo/server/src/agent_scaling.rs">agent_scaling.rs</a>, lines 1–8 and 66–108; <a href="repo/server/src/prompt_context.rs">prompt_context.rs</a>, lines 75–87.</p>
+<h2 id="assessment-architecture-and-execution-model">Architecture and execution model</h2>
+<p>The executable is a Rust/Tokio/Axum control plane. Startup loads configuration, connects PostgreSQL, constructs authentication and S3-compatible OCI storage, selects Docker or the explicit simulated runtime, runs migrations, initializes shared state and serves the embedded web UI and API. The UI build is embedded by <code>rust-embed</code>. It is not a separately required public gateway. <a href="repo/server/src/main.rs">main.rs</a>, lines 17–19 and 60–130. <a href="repo/server/src/lib.rs">lib.rs</a>, lines 317–384 and 413–433, mounts catalog, chat, workflow, observability, HITL, MCP, state, agent proxy and LLM router routes.</p>
+<p>There are three execution paths worth separating:</p>
+<ol>
+<li><strong>A2A chat orchestration.</strong> The dispatcher identifies the user, resolves a named/UUID target or the orchestrator, selects stored conversation context, and streams A2A events. A direct target gets a guarded HTTP call. The routed chat implementation enumerates active, accessible agents and constructs a ReAct orchestrator with each agent exposed as an A2A tool. The model reasons, delegates, consumes responses and eventually produces text. This is a per-request orchestration loop, not a persistent ProjectMaster agent. <a href="repo/server/src/router/a2a_dispatch.rs">a2a_dispatch.rs</a>, lines 189–290, 467–565 and 786–824; <a href="repo/react-agent/src/react_loop.rs">react_loop.rs</a>, lines 263–286.</li>
+<li><strong>Reusable Multi-Agent Flows (MAF).</strong> PostgreSQL stores workflow definitions and execution snapshots; Redis Streams carries execution jobs. A background worker consumes one job at a time within its loop. Each workflow is a sequence of assigned agent steps, with LLM-generated prompts, extraction goals and final synthesis. Successes are persisted and reused across ordinary retries. This is durable workflow execution, not a ticket board or general dependency DAG. The worker starts only when <code>OPENAI_API_KEY</code> is configured; otherwise the API can accept runs whose Redis jobs remain unprocessed. <a href="repo/server/src/lib.rs">lib.rs</a>, lines 172–216. <a href="repo/orchestrator/src/maf/types.rs">maf/types.rs</a>, lines 5–25; <a href="repo/orchestrator/src/maf/worker.rs">maf/worker.rs</a>, lines 23–26 and 85–125; <a href="repo/orchestrator/src/maf/executor.rs">maf/executor.rs</a>, lines 297–329 and 385–473.</li>
+<li><strong>Existing coding harness reporting/routing.</strong> CLI adapters discover supported local tools and install reporting hooks; completed turns are queued and sent to the control plane. Registration and reporting preserve the harness's own operating interface. They do not establish central dispatch, stop, fork or live steering of that harness. Separate routing configuration redirects its LLM traffic through Nasiko. <a href="repo/cli/src/commands/integration/mod.rs">integration/mod.rs</a>, lines 1–9 and 81–149; <a href="repo/server/src/coding_agent_telemetry.rs">coding_agent_telemetry.rs</a>, lines 39–54 and 90–126.</li>
+</ol>
+<p>The semantic agent selector is another component, used for routing decisions such as assigning unspecified MAF steps. It fetches authorized agents and context, optionally shortlists by embeddings, reranks with conversation context and asks an LLM to select. Provider/parsing failures can fall back to the first candidate. An explicit policy refusal is propagated. This selector should not be confused with either the ReAct delegation loop or the LLM <strong>model</strong> router. <a href="repo/orchestrator/src/engine.rs">engine.rs</a>, lines 127–153, 166–243 and 245–299.</p>
+<p>Persistence is deliberately split. PostgreSQL holds catalog identities, grants, versions/builds, chat rows, workflow snapshots, HITL decisions and encrypted agent task/KV rows. Redis holds flow counters, routing caches and workflow queue state. S3 stores OCI blobs and uploaded artifacts. Optional OTel/Tempo/Loki paths add traces, logs and usage inspection. The main process also launches build recovery, HITL delivery, telemetry materialization and state cleanup workers: <a href="repo/server/src/state.rs">state.rs</a>, lines 342–459. This creates meaningful operational machinery and an equally meaningful deployment burden compared with Wingman's proposed lightweight shared tracker and Markdown knowledge.</p>
+<h2 id="assessment-feature-comparison">Feature comparison</h2>
+<p>Verdicts compare shipped behavior with the complete Wingman capability, rather than awarding equivalence for a useful primitive. “Absent” below means absent from the relevant implementation paths searched, not impossible to build using Nasiko.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Wingman capability</th>
+<th scope="col">Verdict</th>
+<th scope="col">Implementation evidence and concrete difference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F01</td>
+<td>Real independent coding agents and specialist instances</td>
+<td><strong>Similar</strong></td>
+<td>Hosted agents are separate Docker services, and the bundled coding agent actually invokes a model, edits files and runs commands/tests: <a href="repo/runtime/src/docker/mod.rs">Docker runtime</a>, lines 108–138; <a href="repo/agents/coding/src/main.rs">coding loop</a>, lines 191–248 and 302–448. Different catalog registrations can implement specialists. There is no standing team of independent Codex role conversations; imported harness telemetry does not create workers.</td>
+</tr>
+<tr>
+<td>F02</td>
+<td>Extensible profiles, roles and team composition</td>
+<td><strong>Similar</strong></td>
+<td>Agent cards/catalog records accept descriptions, skills, tags, capabilities, metadata and images: <a href="repo/server/src/catalog/models.rs">models</a>, lines 8–50 and 113–127. Arbitrary A2A images are extensible executors. These are deployable capabilities, without a native role-profile/instance distinction or project team composition model.</td>
+</tr>
+<tr>
+<td>F03</td>
+<td>Directory and visible working relationships</td>
+<td><strong>Similar</strong></td>
+<td>Catalog search/by-skill/list routes and a UUID-based detail page provide a real directory: <a href="repo/server/src/catalog/routes.rs">catalog routes</a>, lines 21–38; <a href="repo/ui/common/src/features/agents/AgentDetailPage.tsx">AgentDetailPage</a>, lines 59–63 and 110–170. The estate overview maps observed flows; coding subagent links preserve ancestry: <a href="repo/server/src/overview/mod.rs">overview</a>, lines 1–12; <a href="repo/server/src/coding_agent_subagents.rs">subagents</a>, lines 1–43. These are ownership/access/call relationships, not product leadership and team membership.</td>
+</tr>
+<tr>
+<td>F04</td>
+<td>Telegram and Butler routing</td>
+<td><strong>Absent</strong></td>
+<td>The actual ingress is CLI/web/REST/A2A: <a href="repo/server/src/lib.rs">route composition</a>, lines 317–359; <a href="repo/server/src/chat/models.rs">chat model</a>, lines 15–25. Searches of server, CLI, orchestrator, migrations and feature UI found no Telegram adapter or Butler implementation. A2A routing selects an executor, not a project conversation in a Telegram relationship.</td>
+</tr>
+<tr>
+<td>F05</td>
+<td>Project registry, intake and existing/new routing</td>
+<td><strong>Absent</strong></td>
+<td>Durable objects are agents, chat sessions and MAF definitions/executions: <a href="repo/server/src/catalog/models.rs">catalog model</a>, lines 8–50; <a href="repo/server/src/chat/models.rs">chat model</a>, lines 15–25; <a href="repo/orchestrator/src/maf/types.rs">MAF definition</a>, lines 17–25. Catalog/chat/MAF routes and migrations reveal no product registry or existing-versus-new project intake. Session reuse is not product identity resolution.</td>
+</tr>
+<tr>
+<td>F06</td>
+<td>Product and technical leadership per project</td>
+<td><strong>Absent</strong></td>
+<td>The built-in coordinator is a bounded ReAct loop with agent tools, and MAF steps name executor agents: <a href="repo/react-agent/src/react_loop.rs">ReAct protocol</a>, lines 263–286; <a href="repo/orchestrator/src/maf/types.rs">MAF step</a>, lines 5–14. No ProductMaster/TechMaster lifecycle, responsibilities or project leadership records were found in server, agents, orchestration or schema. Custom agents could implement them.</td>
+</tr>
+<tr>
+<td>F07</td>
+<td>Proportionate discovery and iterative clarification</td>
+<td><strong>Resembles</strong></td>
+<td>A2A input/auth-required states become durable human questions and can resume execution: <a href="repo/server/src/router/a2a_dispatch.rs">pause persistence</a>, lines 2398–2517; <a href="repo/server/src/router/hitl.rs">HITL resolution</a>, lines 329–353 and 512–546. Research agents/tools can be deployed. No product discovery assessment, depth policy, research-to-question cycle or scoped discovery record is supplied.</td>
+</tr>
+<tr>
+<td>F08</td>
+<td>Scope, specs, scenarios and definition of done</td>
+<td><strong>Absent</strong></td>
+<td>MAF stores task descriptions and output-generation guidance, not product acceptance artifacts: <a href="repo/orchestrator/src/maf/types.rs">types</a>, lines 5–25. Agent files and KV can hold arbitrary text, but searches of workflow, chat, coding tools and migrations found no maintained scope/spec/scenario/DoD model or completion gate.</td>
+</tr>
+<tr>
+<td>F09</td>
+<td>Decomposition, assignment and shared tracking</td>
+<td><strong>Similar</strong></td>
+<td>MAF decomposes instructions, resolves an executor for each step and persists incremental results: <a href="repo/server/src/maf.rs">creation</a>, lines 938–1063 and 1142–1204; <a href="repo/orchestrator/src/maf/types.rs">step result</a>, lines 28–46. It tracks workflow steps rather than project tickets, worker-owned backlogs, blockers/comments and cross-ticket dependencies. Automatic decomposition also needs the configured external model service.</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>Portfolio/project dashboard</td>
+<td><strong>Resembles</strong></td>
+<td>Workflows/runs, agent detail and overview pages display real operational state: <a href="repo/server/src/maf.rs">MAF routes</a>, lines 27–71; <a href="repo/server/src/overview/mod.rs">estate overview</a>, lines 37–40 and 74–87. The overview centers on agent estate, spend and operational problems. There are no product goals, project ticket progress or deliverable acceptance views.</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>Agent chat rooms and direct collaboration</td>
+<td><strong>Resembles</strong></td>
+<td>User-agent/orchestrator chat has persistent sessions; agents can call one another through A2A tools/proxy: <a href="repo/server/src/chat/models.rs">chat models</a>, lines 15–25 and 53–78; <a href="repo/react-agent/src/react_loop.rs">ReAct protocol</a>, lines 270–286. There is no room membership, group discussion history, management/project rooms or shared conversational collaboration application. A2A request/response delegation is the actual coordination primitive.</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>Management escalation and decisions/approvals</td>
+<td><strong>Similar</strong></td>
+<td>HITL offers pending/get/resolve/cancel/stream/requeue routes, typed input/auth/tool approval requests and delivered continuation: <a href="repo/server/src/router/hitl.rs">HITL routes</a>, lines 1–4, 35–42 and 256–260; <a href="repo/hitl/src/dispatcher.rs">dispatcher</a>, lines 84–120. Real human decisions reach paused work. There is no worker → project leadership → Butler management escalation chain.</td>
+</tr>
+<tr>
+<td>F13</td>
+<td>Durable project knowledge/directives</td>
+<td><strong>Resembles</strong></td>
+<td>Encrypted task/KV state and optional writable per-agent storage exist: <a href="repo/server/src/agent_state/mod.rs">state API</a>, lines 1–50; <a href="repo/runtime/src/docker/mod.rs">volume layout</a>, lines 439–497. The coding agent discovers/maintains instruction files: <a href="repo/agents/coding/src/main.rs">coding loop</a>, lines 251–300. These are agent-local, often expiring records; no shared per-product <code>DIRECTIVES/SCOPES/SPECS/HARNESS</code> contract exists. Enterprise prompt context is a no-op here.</td>
+</tr>
+<tr>
+<td>F14</td>
+<td>Identity, conversation and work continuity</td>
+<td><strong>Similar</strong></td>
+<td>Agent UUID survives version operations, chat rows persist, MAF snapshots resume, and SDK adapters can externalize A2A tasks: <a href="repo/cli/src/commands/deploy.rs">deployment binding</a>, lines 14–24 and 102–130; <a href="repo/server/src/chat/models.rs">chat model</a>, lines 15–25; <a href="repo/agents/common/nasiko_state.py">task adapter</a>, lines 1028–1088. Durable task storage is opt-in by agent implementation and bounded by TTL/body limits. It does not guarantee persistence of the agent's complete internal process or planning state.</td>
+</tr>
+<tr>
+<td>F15</td>
+<td>Proactive supervision and blocker follow-up</td>
+<td><strong>Resembles</strong></td>
+<td>Build recovery, startup agent reconciliation, HITL delivery and overview problem detection are real: <a href="repo/server/src/agents/build_worker.rs">build worker</a>, lines 40–61 and 142–163; <a href="repo/server/src/agents/reconcile.rs">reconciliation</a>, lines 31–59; <a href="repo/server/src/overview/mod.rs">overview</a>, lines 74–117. These repair/describe infrastructure. No periodic reasoning agent reviews product tickets, contacts workers and resolves organizational blockers.</td>
+</tr>
+<tr>
+<td>F16</td>
+<td>Parallel products and concurrent specialists</td>
+<td><strong>Resembles</strong></td>
+<td>Many independently hosted agent services and simultaneous incoming requests can coexist. Builds have bounded concurrency: <a href="repo/server/src/agents/build_worker.rs">build worker</a>, lines 52–78. A single MAF worker awaits one execution at a time and steps are sequential: <a href="repo/orchestrator/src/maf/worker.rs">worker</a>, lines 85–119; <a href="repo/orchestrator/src/maf/executor.rs">executor</a>, lines 422–458. No product-level allocation/isolation exists; one service replica is not several separately assigned specialist identities.</td>
+</tr>
+<tr>
+<td>F17</td>
+<td>Multi-host execution with shared coordination</td>
+<td><strong>Resembles</strong></td>
+<td>Registered A2A endpoints and remote control-plane clients provide network-call primitives. Managed execution is explicitly Docker <code>connect_with_local_defaults</code>, with one container per agent: <a href="repo/runtime/src/docker/mod.rs">Docker</a>, lines 108–138; <a href="repo/server/src/catalog/models.rs">catalog URL</a>, lines 113–126. No Mac/Endeavour host enrollment, placement scheduler, remote worker daemon or managed cross-host coding session routing was found. Kubernetes comments are not shipped backend code.</td>
+</tr>
+<tr>
+<td>F18</td>
+<td>Executive current/recent/next/blocker overview</td>
+<td><strong>Resembles</strong></td>
+<td>Agent hub includes Needs You, recent sessions/flows, cost narrative and metrics: <a href="repo/ui/common/src/features/hub/components/HubTimeline.tsx">HubTimeline</a>, lines 1–6 and 129–150; <a href="repo/ui/common/src/features/narrative/agentHub.ts">narrative</a>, lines 1–12 and 70–95. This is an operational briefing, without the agent's current assignment, actual recent product accomplishment and planned next work as a connected executive record.</td>
+</tr>
+<tr>
+<td>F19</td>
+<td>Personal summary timeline linked to work</td>
+<td><strong>Resembles</strong></td>
+<td>Hub history has build/version/change markers and session/flow links; harness ledgers list turns/tools/cost: <a href="repo/ui/common/src/features/hub/events.ts">events</a>, lines 1–15 and 25–42; <a href="repo/ui/common/src/features/hub/components/LedgerPage.tsx">LedgerPage</a>, lines 1–10 and 100–139. A metric timeline and build markers are not Wingman's chronological accomplishments/questions/blockers feed. Some richer event sources are mock-only, explicitly so in the code.</td>
+</tr>
+<tr>
+<td>F20</td>
+<td>Detailed individual coding workspace</td>
+<td><strong>Resembles</strong></td>
+<td>Chat, per-turn tool ledger, trace drill-down, logs and downloadable files expose meaningful evidence: <a href="repo/ui/common/src/features/hub/components/LedgerPage.tsx">LedgerPage</a>, lines 1–10 and 130–148; <a href="repo/ui/common/src/features/agents/detail/ActivityTab.tsx">ActivityTab</a>, lines 32–49 and 111–118; <a href="repo/server/src/chat/routes.rs">file routes</a>, lines 1498–1594. No full editable coding session, terminal/diff/review workspace or native harness lifecycle UI is supplied. Recorded harness chats are read-only.</td>
+</tr>
+<tr>
+<td>F21</td>
+<td>Live activity, lifecycle, steering and visibility</td>
+<td><strong>Similar</strong></td>
+<td>SSE chat, trace/log inspection, container stop/start/restart/scale and version operations exist: <a href="repo/server/src/admin/routes.rs">admin routes</a>, lines 17–36 and 408–459; <a href="repo/ui/common/src/features/chat/SessionView.tsx">SessionView</a>, lines 107–120. Controls apply to service deployments and new chat turns, not a complete Codex conversation lifecycle. “Stop receiving” explicitly leaves the agent running: <a href="repo/ui/common/src/features/chat/turnRegistry.ts">turnRegistry</a>, lines 75–100. Fork, conversation compaction and queued running-task steering were not found.</td>
+</tr>
+<tr>
+<td>F22</td>
+<td>Testing, integrated verification, acceptance/delivery</td>
+<td><strong>Resembles</strong></td>
+<td>Bundled coding tools run auto-detected tests and the prompt requests iterative fixes: <a href="repo/agents/coding/src/tools.rs">tools</a>, lines 103–150; <a href="repo/agents/coding/src/main.rs">coding prompt</a>, lines 141–170. A2A completion and MAF final synthesis represent execution success, not validated product acceptance. There is no independent TestMaster, integration/DoD gate, acceptance record or delivered-product lifecycle.</td>
+</tr>
+<tr>
+<td>F23</td>
+<td>Autonomous operation through the organization</td>
+<td><strong>Resembles</strong></td>
+<td>ReAct automatically delegates and MAF runs independently after enqueue, including human pauses: <a href="repo/react-agent/src/react_loop.rs">ReAct</a>, lines 263–286; <a href="repo/orchestrator/src/maf/worker.rs">worker</a>, lines 263–407 and 469–558. This supports bounded autonomous requests/workflows. Wingman's continuing organization that turns product intent into accepted software remains to implement.</td>
+</tr>
+<tr>
+<td>F24</td>
+<td>New profiles propagate across chat/tracker/dashboards</td>
+<td><strong>Similar</strong></td>
+<td>Catalog data drives dynamic agent detail, accessible-agent delegation and workflow step assignment: <a href="repo/ui/common/src/features/agents/AgentDetailPage.tsx">AgentDetailPage</a>, lines 110–170; <a href="repo/server/src/router/a2a_dispatch.rs">dispatcher</a>, lines 507–565; <a href="repo/server/src/maf.rs">MAF creation</a>, lines 951–1063. New services can participate without hard-coded specialist names. There is no shared project tracker or room model to extend, and local harness discovery adapters are an explicit supported set rather than arbitrary new role instances.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="assessment-agent-definition-and-lifecycle-in-detail">Agent definition and lifecycle in detail</h2>
+<h3 id="assessment-what-the-identities-actually-mean">What the identities actually mean</h3>
+<p>The durable <strong>agent</strong> is a catalog row containing UUID, owner, endpoint, version, protocol metadata, capabilities and skills. A deployed image is one implementation of that identity. An A2A <strong>task</strong> is a single execution/continuation addressed through that service. A <strong>context/session</strong> groups conversation and traces. A MAF <strong>workflow</strong> is a reusable ordered definition, and a MAF <strong>execution</strong> is one durable run. A ReAct orchestrator is constructed for a turn and uses its own model to call registered agents as tools. None of these types intrinsically represents a permanently employed ProductMaster or a Codex conversation with a role and product assignment. <a href="repo/server/src/catalog/models.rs">catalog/models.rs</a>, lines 8–50; <a href="repo/server/src/chat/models.rs">chat/models.rs</a>, lines 15–25; <a href="repo/orchestrator/src/maf/types.rs">maf/types.rs</a>, lines 5–25 and 98–124.</p>
+<h3 id="assessment-definition-creation-and-deployment">Definition, creation and deployment</h3>
+<p>The CLI reads <code>AgentCard.json</code> and a buildable image/source project. Its <code>.nasiko/agent.json</code> binding remembers the catalog UUID. A stale/missing binding falls back to lookup by name. The deploy path then creates or updates the registered agent and deploys/restarts the workload. This allows code/version replacement while retaining identity and history. It does not clone a conversation. <a href="repo/cli/src/commands/deploy.rs">deploy.rs</a>, lines 14–24, 102–130 and 163–196.</p>
+<p>Source uploads, updates and rollbacks can enter a durable build queue. The worker polls every five seconds and wakes on notifications, runs a configured number of jobs concurrently and serializes jobs targeting the same agent/connector. It tracks attempts, recovers abandoned work and isolates panics. These jobs build and deploy agents, not software-product tickets assigned to autonomous engineers. <a href="repo/server/src/agents/build_worker.rs">build_worker.rs</a>, lines 40–163 and 257–339. The live backend maps an agent UUID to <code>nasiko-agent-{id}</code> on the local Docker daemon, discovers its ephemeral endpoint, and applies CPU/memory limits. Docker explicitly clamps replicas above one: <a href="repo/runtime/src/docker/mod.rs">docker/mod.rs</a>, lines 108–138 and 475–512.</p>
+<p>Registering a coding harness is a different lifecycle. <code>agents install</code> registers/fetches an agent record and installs native hooks. It does not provision Codex itself. <code>agents uninstall</code> removes local reporting and preserves the remote agent/history. A harness's own subagents are stored as linked child sessions under the same harness agent, not automatically separate catalog employees. <a href="repo/cli/src/commands/integration/mod.rs">integration/mod.rs</a>, lines 81–144; <a href="repo/server/src/coding_agent_subagents.rs">coding_agent_subagents.rs</a>, lines 1–43.</p>
+<h3 id="assessment-execution-tools-and-permissions">Execution, tools and permissions</h3>
+<p>The bundled Rust coding agent demonstrates genuine tool execution: it constructs model messages, exposes read/list/search/write/edit/command/test tools and iterates up to twelve model rounds. Its private tools execute against a <code>Sandbox</code> trait. Today only <code>LocalSandbox</code> is implemented; <code>SANDBOX_MODE=remote</code> returns an error. Its file-path helper rejects lexical traversal, but shell execution is simply <code>sh -c</code> in the workspace directory. A changed current directory is not an OS-level shell sandbox; deployment/container policy must supply the stronger boundary. <a href="repo/agents/coding/src/main.rs">coding main</a>, lines 15–27 and 302–448; <a href="repo/agents/coding/src/sandbox/mod.rs">sandbox selection</a>, lines 65–80; <a href="repo/agents/coding/src/sandbox/local.rs">local implementation</a>, lines 31–59 and 180–211.</p>
+<p>At the platform layer, all deploy paths compose secrets and caller environment with platform-generated state, MCP and model-routing credentials. Credential keys override user-supplied values. State access has a separate scoped token; missing configuration can leave an agent in memory mode. MCP connectors have reachability/permission filtering; tool approvals are represented as durable HITL requests. Runtime hardening is a flag with real effects: read-only root, optional per-agent persistent mount, capability dropping and no-new-privileges where enabled. An ordinary unhardened deployment does not inherit those settings merely because the agent is called “sandboxed.” <a href="repo/server/src/agents/deploy_env.rs">deploy_env.rs</a>, lines 62–120 and 129–156; <a href="repo/mcp-gateway/src/authorizer.rs">MCP authorizer</a>, lines 19–65; <a href="repo/runtime/src/docker/mod.rs">Docker host config</a>, lines 439–537.</p>
+<h3 id="assessment-routing-and-concurrency">Routing and concurrency</h3>
+<p>Named and UUID direct targets are resolved before authorization. Routed chat enumerates agents visible to the caller and exposes them as tools, with <code>CpCallGuard</code> tracking per-leg authorization/flow participation and usage. MAF can use explicit assignments or the semantic routing engine. The control plane is concurrent; unrelated agent services can execute requests independently. However, the bundled ReAct protocol asks for sequential delegation, MAF's execution loop is sequential, and its one worker awaits each workflow before reading the next job. Adding backend replicas is also distinct from adding role instances with independent assignments. <a href="repo/server/src/router/a2a_dispatch.rs">a2a_dispatch.rs</a>, lines 215–234, 507–565 and 786–824; <a href="repo/orchestrator/src/maf/worker.rs">MAF worker</a>, lines 85–119; <a href="repo/orchestrator/src/maf/executor.rs">MAF loop</a>, lines 422–458.</p>
+<h3 id="assessment-persistence-resume-and-scheduling">Persistence, resume and scheduling</h3>
+<p>Chat sessions/messages are durable server records. Subsequent turns can retrieve history through configurable context selection. This restores conversational input, not the old model process. MAF persists a fixed workflow snapshot, per-step plans, progress and synthesis guidance. Completed steps survive ordinary retries. A human continuation resumes the specific A2A task using stored plans rather than re-running discovery/planning from scratch. <a href="repo/server/src/router/a2a_dispatch.rs">a2a_dispatch.rs</a>, lines 242–261 and 484–505; <a href="repo/orchestrator/src/maf/executor.rs">MAF executor</a>, lines 297–329, 401–430 and 476–483.</p>
+<p>For agent-internal persistence, the state API provides encrypted opaque task snapshots and KV rows with optimistic versions, expiry, pagination and per-agent limits. SDK task-store adapters make status-changing saves synchronous and coalesce artifact updates, by default into 500 ms windows. This does not persist every arbitrary framework cache or heap object. Nor is it permanent project knowledge: retention applies from the last write, and the platform explicitly warns when state expires before HITL questions. <a href="repo/server/src/agent_state/mod.rs">agent_state/mod.rs</a>, lines 21–50 and 87–97; <a href="repo/agents/common/nasiko_state.py">nasiko_state.py</a>, lines 1028–1088.</p>
+<p>“Scheduling” here is queue consumption, polling/recovery, background telemetry and cleanup. No user/product cron or periodic ProjectMaster reasoning loop was found. The startup reconciliation pass redeploys ordinary agents recorded as running when their runtime resource is missing. It is not repeated project progress supervision. <a href="repo/server/src/agents/reconcile.rs">reconcile.rs</a>, lines 31–59; <a href="repo/server/src/state.rs">state initialization</a>, lines 469–505.</p>
+<h3 id="assessment-interruption-cancellation-and-recovery">Interruption, cancellation and recovery</h3>
+<p>Operators can stop/start a service by scaling to zero/one and restart it with resolved environment. This controls the container, not a single conversation task. The UI's direct-chat Stop action says exactly what it does: abort receiving the stream and save the partial response. The agent may continue running. Routed chats hide this control. The bundled coding executor's <code>cancel</code> merely returns completed status and does not wire a cancellation token into its active model/shell loop. HITL cancellation is separately available for pending human requests. <a href="repo/server/src/admin/routes.rs">admin/routes.rs</a>, lines 408–459; <a href="repo/ui/common/src/features/chat/turnRegistry.ts">turnRegistry.ts</a>, lines 75–100; <a href="repo/agents/coding/src/main.rs">coding main</a>, lines 454–459; <a href="repo/server/src/router/hitl.rs">HITL router</a>, lines 35–42.</p>
+<p>Ordinary MAF failures retry up to the stored attempt cap (default three at enqueue); earlier successful steps are skipped. Failed human-resume jobs are terminal rather than silently restarting from step zero and discarding the answer. Redis pending jobs can be reclaimed on worker startup after a ten-minute idle threshold. The generic HITL delivery machinery distinguishes permanent errors from retryable transport/endpoint problems, leases deliveries and permits explicit operator handling of ambiguous outcomes. These are valuable recovery mechanics, but not an exactly-once guarantee for external agent side effects: a process can fail after a side effect and before persisting successful progress. <a href="repo/server/src/maf.rs">maf.rs</a>, lines 1803–1820; <a href="repo/orchestrator/src/maf/worker.rs">MAF worker</a>, lines 23–26, 69–81 and 533–558; <a href="repo/hitl/src/dispatcher.rs">HITL dispatcher</a>, lines 27–80 and 94–149.</p>
+<h3 id="assessment-completion-acceptance-and-retirement">Completion, acceptance and retirement</h3>
+<p>The coding agent emits an artifact then A2A completed status. Reaching its turn limit can still produce a completed artifact explaining that it exhausted steps; completion is not an independently checked acceptance decision. MAF records <code>success</code> after obtaining final synthesis. Wingman would need its own test evidence, definition-of-done and human acceptance transition above these protocol states. <a href="repo/agents/coding/src/main.rs">coding main</a>, lines 428–448; <a href="repo/orchestrator/src/maf/worker.rs">MAF worker</a>, lines 469–492.</p>
+<p>Retirement is implemented: deleting an agent atomically soft-deletes its row, revokes gateway/state credentials, invokes a deletion hook and attempts runtime teardown, returning runtime errors rather than pretending rollback. Historical builds, usage and chat associations remain. State sweepers remove deleted-agent state. This is service deregistration with audit retention, not archiving/forking a Codex conversation. <a href="repo/server/src/catalog/routes.rs">catalog/routes.rs</a>, lines 1110–1234; <a href="repo/server/src/agent_state/mod.rs">state API</a>, lines 35–40; <a href="repo/server/tests/agent_delete.rs">delete tests</a>, lines 1–17.</p>
+<h2 id="assessment-coordination-trace-a-saved-two-agent-workflow-with-a-human-pause">Coordination trace: a saved two-agent workflow with a human pause</h2>
+<p>This is a code-path trace of supported behavior, not a claim that a live run was executed during assessment. Consider a saved instruction split into research and summarization steps, with the first agent asking a question.</p>
+<ol>
+<li><code>POST /api/maf/workflow/from-instruction</code> authenticates the caller and sends the compound instruction to the configured decomposer service. The server rejects an unconfigured service with 503. Each resulting task is assigned an accessible agent, either explicitly or using semantic routing, and becomes an ordered <code>MafStep</code> with stable step and agent IDs. <a href="repo/server/src/maf.rs">maf.rs</a>, lines 938–1063 and 1142–1204. This produces a workflow draft/definition, not a new product/project.</li>
+<li><code>POST /api/maf/workflow/{id}/run</code> verifies ownership, rechecks current access to every distinct step agent and rejects empty/invalid definitions. It inserts a <code>maf_executions</code> row containing the exact workflow snapshot and enqueues that same definition to <code>nasiko:maf:execute</code>, returning 202 and an execution ID. <a href="repo/server/src/maf.rs">maf.rs</a>, lines 1725–1877.</li>
+<li>The Redis consumer marks the run running and increments its attempt count. The executor registers the execution as a platform session, asks its LLM to generate step prompt templates/extraction goals, persists the plans and begins step zero. It combines extracted output from preceding successful steps into the next step's context. There is no room broadcast or shared editable ticket. <a href="repo/orchestrator/src/maf/worker.rs">worker.rs</a>, lines 263–355; <a href="repo/orchestrator/src/maf/executor.rs">executor.rs</a>, lines 331–420 and 422–458.</li>
+<li>When the first A2A agent returns input-required, the executor yields <code>AwaitingHuman</code> with that agent's actual task ID. The worker records awaiting-human, creates a durable HITL row and acknowledges the current queue item without automatically retrying the question. Failure to persist the question makes the run failed rather than leaving an unanswerable pause. <a href="repo/orchestrator/src/maf/types.rs">types.rs</a>, lines 106–124; <a href="repo/orchestrator/src/maf/worker.rs">worker.rs</a>, lines 494–529.</li>
+<li>The human answers through the pending-question UI/CLI/API. The generic resolution route checks identity, answer shape and the pending request; server delivery then enqueues a continuation targeting the same paused step/task with the saved workflow snapshot. The worker loads stored plans/results and calls <code>run_maf_from</code>. <a href="repo/server/src/router/hitl.rs">HITL router</a>, lines 329–353 and 512–546; <a href="repo/server/src/hitl/mod.rs">MAF resume enqueue</a>, lines 820–930; <a href="repo/orchestrator/src/maf/worker.rs">worker continuation</a>, lines 358–379; <a href="repo/orchestrator/src/maf/executor.rs">resume contract</a>, lines 476–483.</li>
+<li>After the answer, the executor extracts the first step's result, runs the second step and synthesizes the final output. The worker saves output, per-step state, tokens, cost and completion time; execution and usage endpoints feed the runs UI. <a href="repo/orchestrator/src/maf/worker.rs">worker finalization</a>, lines 469–492; <a href="repo/server/src/maf.rs">MAF API</a>, lines 68–71. No product DoD, independent test acceptance, management escalation or Telegram delivery is inserted by this pipeline.</li>
+</ol>
+<p>Ordinary chat uses a different human-decision path. A server-side resume dispatcher drives the resumed A2A exchange independently of the browser. A bounded in-memory continuation buffer lets a tab replay or tail events. That buffer is process-local and capped at 500 events/1 MiB. It is not a durable distributed session event bus. <a href="repo/server/src/hitl/continuation.rs">continuation.rs</a>, lines 1–17 and 26–40.</p>
+<h2 id="assessment-major-capabilities-beyond-wingmans-description">Major capabilities beyond Wingman's description</h2>
+<p><strong>Provider-neutral model governance and attribution.</strong> The LLM router verifies an agent identity token, resolves credentials server-side and translates inbound protocols to provider-specific requests. It includes model catalogs, price resolution, per-agent usage and cost, and independently opt-in coding-harness routing. This could give Wingman an infrastructure cost layer without replacing the native coding harness. It also makes Nasiko part of the critical request path: provider compatibility, credentials, trace propagation and gateway availability become operational responsibilities. <a href="repo/llm-router/src/lib.rs">llm-router/lib.rs</a>, lines 1–15 and 62–93; <a href="repo/llm-router/src/providers/mod.rs">provider modules</a>.</p>
+<p><strong>A permission-filtered MCP estate.</strong> Custom connectors and Composio toolkits can be exposed through one gateway with agent/user reachability and allow/ask/block behavior. Approvals persist and are later delivered rather than being transient browser popups. This is useful for giving workers differentiated access while keeping tool credentials centrally managed. Integration requires choosing which Wingman identity maps to each deployed agent and preserving trace/user correlation. It does not create project-room access semantics automatically. <a href="repo/mcp-gateway/src/authorizer.rs">authorizer.rs</a>, lines 19–65; <a href="repo/mcp-gateway/tests/tool_approval.rs">tool approval test</a>, lines 7–11 and 64–104; <a href="repo/server/src/agents/deploy_env.rs">deployment credentials</a>, lines 93–120.</p>
+<p><strong>Packaging and operational deployment.</strong> The embedded OCI registry, server-side source builds, version history/rollback, encrypted deployment secrets and recoverable build queue form an agent distribution platform. Wingman's purpose does not require an OCI supply chain. GitHub OAuth/repository listing and queued clone-to-build/deploy are also implemented. This is agent-service deployment rather than issue-to-PR engineering execution: <a href="repo/server/src/github.rs">github.rs</a>, lines 35–43 and 659–898. This would be useful if roles are independently deployed A2A services, while adding little to a design based entirely on native Codex processes until adapters exist. <a href="repo/server/src/runtime.rs">runtime wiring</a>, lines 50–81; <a href="repo/server/src/agents/build_worker.rs">build worker</a>, lines 40–163; <a href="repo/server/src/catalog/models.rs">version model</a>, lines 159–171; <a href="repo/server/src/agents/update.rs">update/rollback implementation</a>.</p>
+<p><strong>Cross-harness accounting and historical ingestion.</strong> Adapters can observe already-running supported harnesses, import stored history, queue completed turns while offline and merge native subagent ancestry. The server makes ingestion replay-safe and exposes turn/tool ledgers with cost/trace links. This could supply visibility into Wingman agents even before a deeper harness-control integration is built. Historical/finished-turn reporting must not be presented as live process supervision. <a href="repo/cli/src/commands/integration/mod.rs">integration/mod.rs</a>, lines 1–9 and 128–175; <a href="repo/server/src/coding_agent_telemetry.rs">ingestion</a>, lines 49–54 and 90–126; <a href="repo/server/src/coding_agent_subagents.rs">subagents</a>, lines 1–43.</p>
+<p><strong>Cost-oriented context and wire transformations.</strong> PACMS selects diverse relevant history under an estimated token budget; structural compression elides portions of JSON/log/diff/search payloads; compact tools replace verbose schemas with signatures and decode validated calls. These are substantive optimization mechanisms beyond Wingman's specification. They should be evaluated against representative coding tasks because reduced payload size can change what a model sees; token savings are not evidence of preserved acceptance quality. <a href="repo/orchestrator/src/pacms_selector.rs">pacms_selector.rs</a>, lines 8–24 and 33–47; <a href="repo/compress/src/lib.rs">compress/lib.rs</a>, lines 1–17; <a href="repo/tool-compact/src/lib.rs">tool-compact/lib.rs</a>, lines 1–7 and 83–120.</p>
+<p><strong>Operational estate analysis.</strong> Overview computes problems and opportunities over observed agents/flows and retains human assignments, snoozes and handled decisions. It can help an operator triage expensive/unhealthy infrastructure. It does not know whether an LOS acceptance scenario is blocked. <a href="repo/server/src/overview/mod.rs">overview/mod.rs</a>, lines 1–12 and 74–117. This is a useful separate view to connect to Wingman's product/agent briefings.</p>
+<h2 id="assessment-distinctive-mechanisms-and-innovation-assessment">Distinctive mechanisms and innovation assessment</h2>
+<p>These are concrete engineering mechanisms, not claims of historical novelty.</p>
+<ul>
+<li><strong>Two identities at tool-call time.</strong> A deployed agent carries its own gateway credential while the user's identity rides the propagated flow trace and participation record. That separates “which agent is calling” from “on whose work it is acting.” It enables per-user attribution and tool authorization across delegated agent hops. The constraint is mandatory propagation by heterogeneous agents; simply hosting an A2A endpoint is insufficient. <a href="repo/server/src/router/a2a_dispatch.rs">a2a_dispatch.rs</a>, lines 795–810; <a href="repo/server/src/agent_state/mod.rs">state credentials</a>, lines 23–29. Wingman could reuse this concept for distributed specialists, but would still need project/task identity alongside it.</li>
+<li><strong>Flow-aware delegation guards.</strong> Redis tracks recursion depth, call chains, fan-out, total tokens and elapsed time; admission rejects cycles and exhausted budgets. This constrains runaway cascading requests across agents instead of relying solely on each agent's prompt. It is flow-local operational control, not a persistent organizational budget or supervisor that can reason about a stalled product. Accounting and admission also depend on correct flow initialization and trace participation. <a href="repo/flow/src/guard.rs">flow/guard.rs</a>, lines 18–34 and 174–233.</li>
+<li><strong>Human pause as durable execution continuation.</strong> A question binds an owner, agent, task/context and origin, and resolution feeds a background dispatcher. MAF resumes from saved plans; resumed chat replays actual agent events without depending on an open tab. This is more useful than an approval notification alone. Its limits include agent task durability, expiry, ambiguous delivery outcomes and the process-local bounded replay buffer. <a href="repo/orchestrator/src/maf/types.rs">maf/types.rs</a>, lines 106–124; <a href="repo/orchestrator/src/maf/executor.rs">maf/executor.rs</a>, lines 476–483; <a href="repo/server/src/hitl/continuation.rs">continuation.rs</a>, lines 1–40.</li>
+<li><strong>Boundary-safe, learned model-tier routing.</strong> Model selection can reuse a conversation/agent decision, classify only at safe boundaries, avoid pinning a session to a greeting and update provider-specific quality cells from later feedback. This enables cost/quality adaptation across conversations while keeping tool-loop continuations sticky. It requires valid boundary signals and heuristic feedback, so it is not evidence that a cheap tier meets a product's correctness requirement. Pinned/configured fallbacks remain distinct. <a href="repo/llm-router/src/routing/mod.rs">routing/mod.rs</a>, lines 103–128, 166–206 and 228–277.</li>
+<li><strong>Optimistic encrypted state with bounded write coalescing.</strong> The task-store adapter synchronously commits status changes but batches high-frequency artifact updates, using versions to prevent stale replicas overwriting newer snapshots. This balances restart survivability against write volume and explicitly bounds some crash loss. It does not preserve arbitrary in-process framework state, and default expiry makes it unsuitable as Wingman's sole permanent product knowledge. <a href="repo/server/src/agent_state/mod.rs">agent_state/mod.rs</a>, lines 30–50; <a href="repo/agents/common/nasiko_state.py">nasiko_state.py</a>, lines 1028–1078.</li>
+<li><strong>Instruction provenance kept outside the live prompt.</strong> The bundled coding agent can annotate instructions with a trigger, hypothesis and pending/confirmed/revoked outcome. It strips metadata before prompt injection and excludes revoked instructions, while opt-in maintenance/pruning can update the source file. That offers a concrete pattern for auditable evolving directives without continually expanding the model-facing rationale. It is workspace-local and model-assisted, not a validated organizational knowledge system. The source explicitly attributes the prompt-comments method to prior work. <a href="repo/agents/coding/src/prompt_comments.rs">prompt_comments.rs</a>, lines 1–17 and 67–81; <a href="repo/agents/coding/src/instructions.rs">instructions.rs</a>, lines 49–85, 204–243 and 287–298.</li>
+<li><strong>Strict tool-schema compaction with bypass.</strong> The compact tool grammar has a decoder that validates against original schemas; unsupported schema features bypass transformation instead of being silently lost. That makes an optimization boundary inspectable. Literal compact-call markers, unsupported JSON Schema constructs and provider/model behavior still constrain applicability. <a href="repo/tool-compact/src/lib.rs">tool-compact/lib.rs</a>, lines 76–120. Structural compression explicitly credits Caveman's published behavior and PACMS describes a port. Neither should be claimed as an invention of this repository. <a href="repo/compress/src/lib.rs">compression attribution</a>, lines 25–30; <a href="repo/orchestrator/src/pacms_selector.rs">PACMS provenance</a>, lines 1–6.</li>
+</ul>
+<h2 id="assessment-practical-adoption-path-and-remaining-work">Practical adoption path and remaining work</h2>
+<p><strong>Use directly where infrastructure is the problem:</strong> catalog/skill discovery for A2A services, container deployment, central secrets and tool grants, provider routing, usage accounting, per-agent operational drill-down, durable A2A task state and reusable sequential workflows. Native harness reporting could be useful early for consolidated visibility into Codex/Claude sessions, with the UI explicitly labeling the distinction between recorded activity and managed execution.</p>
+<p>Before use as Wingman's control plane, adapt these interfaces:</p>
+<ul>
+<li>Map role profiles to independent catalog instances.</li>
+<li>Bind each instance to a project and an actual Codex conversation.</li>
+<li>Add a harness adapter for execution and control.</li>
+<li>Propagate host, project, task and session IDs.</li>
+<li>Connect HITL continuation to Butler/Telegram.</li>
+<li>Connect agent, session and trace views to a shared tracker and rooms. Decide which tasks are A2A workflows and which are long-lived coding sessions. They have different resume, cancellation, concurrency and acceptance semantics; wrapping both behind an “agent” label will obscure control gaps.</li>
+</ul>
+<p>Build the core organization:</p>
+<ul>
+<li>Multi-product registry and intake routing.</li>
+<li>Butler, ProjectMaster and per-product leadership.</li>
+<li>Proportionate product research/clarification.</li>
+<li>Scopes/specifications/acceptance evidence.</li>
+<li>Shared tickets and dependencies.</li>
+<li>Room membership and multi-agent discussion.</li>
+<li>Autonomous periodic blocker supervision.</li>
+<li>Multi-host enrollment/placement and coherent workspaces.</li>
+<li>Executive current/recent/next briefings.</li>
+<li>Full per-agent coding session controls. The bundled coding agent is a tool-using example, not a substitute for those organizational capabilities.</li>
+</ul>
+<p>The main integration tradeoff is architectural. Nasiko is well aligned with <strong>A2A agent services governed through a central gateway</strong>. Wingman specifically wants <strong>standing autonomous Codex agents across two hosts</strong>, carrying project identity and native session continuity. A deployment of Nasiko alone does not bridge those execution models. Borrowing its governance/telemetry patterns or placing it under the organization is more plausible than repurposing its workflow/estate UI as the whole product.</p>
+<h2 id="assessment-verification-scope-and-limitations">Verification scope and limitations</h2>
+<p>This assessment used read-only source inspection, <code>rg</code> searches, Git metadata and line-numbered implementation reads. No dependency installation, builds, test execution, model calls, browser sessions or services were launched. <strong>No runtime behavior is claimed as exercised.</strong> Repository source was left unchanged; only this report was written.</p>
+<p>No applicable on-disk <code>AGENTS.md</code> was found in this checkout or the ancestor/report directories checked. The supplied global instructions and the assessment guide were followed. The checkout's clean Git status was checked during inspection.</p>
+<p>Important implementation paths inspected include:</p>
+<ul>
+<li>startup/composition (<code>main.rs</code>, <code>lib.rs</code>, <code>state.rs</code>).</li>
+<li>catalog/models/routes.</li>
+<li>CLI deploy and integration registration.</li>
+<li>Docker runtime/spec/configuration.</li>
+<li>build queue/recovery and deploy env.</li>
+<li>A2A dispatcher.</li>
+<li>ReAct loop/tools.</li>
+<li>routing engine/PACMS.</li>
+<li>MAF creation/worker/executor/types.</li>
+<li>chat models/routes.</li>
+<li>HITL routes/dispatch/replay.</li>
+<li>state API/adapters.</li>
+<li>MCP authorization.</li>
+<li>LLM routing and optimization libraries.</li>
+<li>agent/overview/chat/hub/ledger UI.</li>
+</ul>
+<p>The absence findings additionally searched likely server, CLI, orchestration, agents, runtime, migrations and feature UI paths for Telegram/Butler/management roles, project/ticket/room models, scheduling/supervision and task cancellation controls. Fixture/demo text about support tickets and mocked UI previews was not credited as production implementation.</p>
+<p>Relevant tests inspected as source, not run:</p>
+<ul>
+<li><a href="repo/server/tests/maf_flow.rs">MAF API tests</a>, lines 1–7 and 68–114: creation/retrieval and infra prerequisites; additional test names cover ownership, run creation, deletion and draft semantics. These do not by themselves exercise a real agent's successful research-to-delivery behavior.</li>
+<li><a href="repo/server/tests/build_worker_claim.rs">Build claim tests</a>, lines 1–16 and 72–100: same-target serialization and advisory-lock contention. They require disposable PostgreSQL.</li>
+<li><a href="repo/server/tests/agent_state.rs">Agent state tests</a>, lines 1–10 and 83–115: real HTTP storage fixture and encrypted/versioned/scoped-state contract; require backing infrastructure.</li>
+<li><a href="repo/hitl/tests/dispatcher.rs">HITL dispatcher tests</a>, lines 1–7 and 49–111: real PostgreSQL plus stand-in HTTP agent, including both approve and reject continuation fixtures. <a href="repo/mcp-gateway/tests/tool_approval.rs">MCP tool approval tests</a>, lines 64–104, inspect persisted approval IDs.</li>
+<li><a href="repo/server/tests/agent_delete.rs">Deletion tests</a>, lines 1–17 and 70–83: soft-delete/history retention and authentication expectations.</li>
+<li><a href="repo/orchestrator/tests/engine.rs">Router tests</a>, lines 6–19 and 96–129: configuration tests and explicitly ignored live DB/LLM coverage. <a href="repo/runtime/tests/docker_runtime.rs">Docker tests</a>, lines 1–5 and 16–27: live Docker tests are ignored by default; pure defaults are separately tested.</li>
+<li>Inline tests in <a href="repo/llm-router/src/routing/mod.rs">model routing</a>, beginning around line 601, cover pinned/cache/boundary/fallback behavior. The <a href="repo/ui/common/src/features/chat/turnRegistry.ts">UI stop implementation</a>, lines 75–100, and its tests are particularly relevant to avoiding a false claim of server-side cancellation.</li>
+</ul>
+<p>Confidence is high in the architectural and product-boundary findings. Performance, provider compatibility, actual end-to-end HITL recovery, isolation under hostile code, effectiveness of compression/tier selection, multi-instance correctness and operational maturity require execution in a suitable disposable environment. The external instruction-decomposition service and enterprise implementations are outside this checkout's verification boundary. UI comments explicitly identifying mock-only controls/event sources were treated as limits, not as completed features.</p></article>
+<section id="source-record"><h2>Source and evidence</h2><p class="url-text">https://github.com/Nasiko-Labs/nasiko</p>
+<ul><li><a href="repo/">Open the pinned source checkout</a></li><li><a href="assessment/ASSESSMENT.md">Read the Markdown assessment</a></li>
+<li><a href="../generic/assessments/_audits/qa24.md">Read the historical independent source audit</a></li><li><a href="../generic/method.html">Read the method and evidence limits</a></li></ul></section>
+<nav class="report-switch" aria-label="Adjacent project reports"><a href="../myclaude/index.html">Previous project: myclaude</a><a href="../oh-my-claudecode/index.html">Next project: oh-my-claudecode</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../index.html">Return to overview <img src="../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

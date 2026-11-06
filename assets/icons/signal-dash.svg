@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="2" viewBox="0 0 16 2" role="img" aria-labelledby="title description">
+  <title id="title">Signal dash</title>
+  <desc id="description">Red section marker.</desc>
+  <path d="M0 1H16" stroke="#ff0000" stroke-width="2"/>
+</svg>

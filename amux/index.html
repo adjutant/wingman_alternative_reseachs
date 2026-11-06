@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Technical assessment against Wingman’s development organization."><title>amux · Wingman Research</title>
+<link rel="icon" href="../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/report.css"><script defer src="../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../index.html"><img src="../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../index.html">Overview</a><a class="nav-link " href="../generic/index.html">Architecture findings</a><a class="nav-link " href="../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../generic/method.html">Method and evidence</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../index.html">Wingman Research</a><span class="crumb">/</span><span>amux</span></div><span class="topbar-note">SOURCE REVIEW · 05 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>amux</h1><p class="subtitle">Technical assessment against Wingman’s development organization.</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#decision">Decision summary</a><a href="#assessment-amux-assessment-against-wingman">amux assessment against Wingman</a><a href="#assessment-architecture-and-execution-model">Architecture and execution model</a><a href="#assessment-feature-by-feature-comparison">Feature-by-feature comparison</a><a href="#assessment-agent-definition-and-lifecycle-in-detail">Agent definition and lifecycle in detail</a><a href="#assessment-coordination-mechanics-a-concrete-request-path">Coordination mechanics: a concrete request path</a><a href="#assessment-major-capabilities-beyond-wingmans-described-product">Major capabilities beyond Wingman&#x27;s described product</a><a href="#assessment-distinctive-mechanisms-and-innovation-assessment">Distinctive mechanisms and innovation assessment</a><a href="#assessment-practical-use-for-wingman">Practical use for Wingman</a><a href="#assessment-verification-scope-and-confidence">Verification scope and confidence</a><a href="#source-record">Source and evidence</a></div></nav><section id="decision" class="decision"><h2>Decision summary</h2>
+<div class="brief-columns"><div><h3>Useful for Wingman</h3><p>Study local coding-process control, session addressing, execution states, and worktree inspection.</p></div><div><h3>Adoption boundary</h3><p>Wingman still needs its organization, product discovery, task tracker, and shared collaboration records.</p></div></div>
+<p class="scope-note">Source assessment at the commit below. Runtime limits appear in the technical report.</p></section>
+<dl class="facts"><div><dt>Source group</dt><dd>Coding workspaces</dd></div><div><dt>Commit</dt><dd><code>ce8542b8a2764a14f6dbce2a3ce443f4ac0c5b21</code></dd></div><div><dt>Coverage</dt><dd>24 Wingman features</dd></div></dl>
+<article id="technical-assessment" class="technical"><h2 id="assessment-amux-assessment-against-wingman">amux assessment against Wingman</h2>
+<p class="url-text">Assessment date: 2026-11-05. Repository: https://github.com/andyrewlee/amux</p>
+<p>Local source: <code>researchs/amux/repo</code>. Inspected commit: <code>ce8542b8a2764a14f6dbce2a3ce443f4ac0c5b21</code>. Baseline: <a href="../generic/purpose.html">WINGMAN_PURPOSE.md</a>.</p>
+<p><strong>Fit verdict:</strong> amux supplies a substantial local execution and inspection workbench for real coding-agent processes. Its strongest contribution to Wingman is the detailed agent workspace, durable worktree/session association, and a small agent-facing control protocol. It does not supply Wingman's standing organization, discovery process, shared ticket system, organizational chat, Telegram representative, or distributed execution control plane. Building the organization around amux would still require most of Wingman's coordination product.</p>
+<p>This distinction should not obscure a useful finding: the current revision is more than a passive terminal grid. Hosted programs can discover siblings, deliver input to one exact session, report meaningful execution states, and wait for state or process outcomes. Those are real coordination primitives, though they are not an implemented organization workflow.</p>
+<h2 id="assessment-architecture-and-execution-model">Architecture and execution model</h2>
+<p>The interactive application is Go with Bubble Tea and an embedded terminal emulator. <a href="repo/cmd/amux/main.go">main.go</a>, lines 64–118, first dispatches private launch helpers and the headless status/agent verbs. The remaining invocation requires a real TTY and starts the TUI. This is not a web or mobile dashboard server. There is no supported headless workspace-creation API in this revision. The bounded verbs are <code>--skill</code>, <code>agent ls</code>, <code>send</code>, <code>report</code>, and <code>wait</code>.</p>
+<p>A <strong>project</strong> is a registered existing Git repository path. <code>AddProject</code> validates both its path and Git identity before registering it. It does not infer a product from natural-language intake. A <strong>workspace</strong> is principally a branch/worktree and its persisted execution metadata. Creation resolves a base ref, validates names, creates or attaches a branch/worktree, waits for its Git metadata, saves the workspace, and rolls back on failure. See <a href="repo/internal/app/workspacesvc/workspace_service.go">workspace_service.go</a>, lines 23–180, and <a href="repo/internal/git/workspace.go">workspace.go</a>, lines 27–93.</p>
+<p>An <strong>assistant profile</strong> is a named shell command plus interrupt behavior. An <strong>agent instance</strong> is the running assistant command inside a tmux session, with an amux PTY client attached to it. <code>AgentManager.CreateAgentWithConfig</code> takes an immutable launch configuration, constructs the workspace environment, and launches the configured command. On command exit it resets terminal modes and drops to a login shell. Therefore a surviving pane is not proof that its coding agent is still executing. See <a href="repo/internal/pty/agent.go">agent.go</a>, lines 25–46 and 168–236.</p>
+<p>tmux is the process-lifetime and reconnect layer. <a href="repo/internal/tmux/command.go">command.go</a>, lines 26–109, builds create-or-reattach commands, installs settings/tags and the status tap, and attaches without evicting other clients. The command and environment are transferred through a private launch payload rather than being exposed directly in process arguments. amux's terminal client can close while the server-side session continues. The native coding CLI owns the model/tool loop; amux owns shell launch, byte transport, terminal parsing/rendering, workspace association and observation. There is no central model planner dispatching work to these processes.</p>
+<p>Durable state consists of the project registry, per-workspace JSON, environment/script registries, port reservations, and script transcript metadata. <a href="repo/internal/data/workspace.go">workspace.go</a>, lines 39–107, shows exactly what survives: branch/base/repository/root, assistant name, scripts, environment, open-tab metadata, and lifecycle flags. It contains neither a task DAG nor an agent organization schema. <a href="repo/internal/data/workspace_store.go">workspace_store.go</a>, lines 123–194 and 257–303, implements persisted metadata; <a href="repo/internal/data/registry.go">registry.go</a>, lines 44–73 and 159–230, implements project paths.</p>
+<p>The <code>Runtime</code> field contains Docker and cloud-sandbox names. The implementation marks them as legacy/forward-compatible data. <strong>Actual execution uses local worktrees.</strong> No code selects an execution backend from this field. See <a href="repo/internal/data/workspace.go">workspace.go</a>, lines 10–36. The names do not establish remote, container, or cloud execution.</p>
+<h2 id="assessment-feature-by-feature-comparison">Feature-by-feature comparison</h2>
+<p>Verdicts describe the inspected revision: <strong>Exact</strong> meets the capability within its stated boundary; <strong>Similar</strong> implements a substantial equivalent; <strong>Resembles</strong> supplies a related primitive; <strong>Absent</strong> means no corresponding implementation was found in the inspected implementation paths. Negative findings are scoped in the verification section.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Wingman capability</th>
+<th scope="col">Verdict</th>
+<th scope="col">Implemented behavior and remaining difference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F01</td>
+<td>Real independent coding agents and specialist instances</td>
+<td><strong>Similar</strong></td>
+<td>Each tab can launch an independent real Codex, Claude, or another configured CLI process; multiple instances are possible. <a href="repo/internal/pty/agent.go">agent.go</a>, lines 158–215. BackendCoder/TestMaster identity and responsibilities are not modeled. They would live in custom commands/prompts.</td>
+</tr>
+<tr>
+<td>F02</td>
+<td>Extensible profiles, roles and team composition</td>
+<td><strong>Similar</strong></td>
+<td>Arbitrary named assistant command overrides extend the built-in roster. <a href="repo/internal/config/config.go">config.go</a>, lines 218–251. This extends launch profiles, not project teams, leadership, role obligations, or staffing policies.</td>
+</tr>
+<tr>
+<td>F03</td>
+<td>Directory and working relationships</td>
+<td><strong>Resembles</strong></td>
+<td>Fleet enumeration returns workspace, assistant, session and state. <a href="repo/cmd/amux/cli_agent.go">cli_agent.go</a>, lines 79–116. No reporting relationships, team membership, task ownership or interpersonal collaboration graph.</td>
+</tr>
+<tr>
+<td>F04</td>
+<td>Telegram and Butler routing</td>
+<td><strong>Absent</strong></td>
+<td>The entry surfaces are local TUI and bounded CLI dispatch. <a href="repo/cmd/amux/main.go">main.go</a>, lines 64–118. No Telegram receiver, outbound question bridge, Butler identity, or project-aware reply routing was found.</td>
+</tr>
+<tr>
+<td>F05</td>
+<td>Cross-project registry and intake routing</td>
+<td><strong>Resembles</strong></td>
+<td>Durable repository-path registry and explicit project addition exist. <a href="repo/internal/app/workspacesvc/workspace_service.go">workspace_service.go</a>, lines 23–82. No semantic existing/new product classification or conversational intake.</td>
+</tr>
+<tr>
+<td>F06</td>
+<td>Per-project product and technical leadership</td>
+<td><strong>Absent</strong></td>
+<td>Workspace configuration chooses an assistant command, not product/technical leaders. <a href="repo/internal/data/workspace.go">workspace.go</a>, lines 59–86; <a href="repo/internal/config/config.go">config.go</a>, lines 28–38. Leader prompts can be supplied externally, but no leadership workflow is implemented.</td>
+</tr>
+<tr>
+<td>F07</td>
+<td>Proportionate discovery and iterative clarification</td>
+<td><strong>Absent</strong></td>
+<td>Interactive CLI conversations can ask questions, and status can identify a blocked question, but no research/discovery controller or project-scoped clarification cycle exists. <a href="repo/internal/agentstatus/agentstatus.go">agentstatus.go</a>, lines 57–78; <a href="repo/cmd/amux/cli_status.go">cli_status.go</a>, lines 54–129.</td>
+</tr>
+<tr>
+<td>F08</td>
+<td>Scope/specifications/acceptance/definition of done</td>
+<td><strong>Absent</strong></td>
+<td>A branch/base and generic scripts are recorded; no product definition or acceptance schema/process was found. <a href="repo/internal/data/workspace.go">workspace.go</a>, lines 49–107. An agent may write documents in its worktree, but amux does not define or enforce their meaning.</td>
+</tr>
+<tr>
+<td>F09</td>
+<td>Technical decomposition, assignment, shared tracking</td>
+<td><strong>Absent</strong></td>
+<td>No task/ticket entity or dependency/assignment engine. Workspace names and run-script slots do not constitute shared technical tickets. <a href="repo/internal/data/workspace.go">workspace.go</a>, lines 59–107; <a href="repo/cmd/amux/cli_agent.go">cli_agent.go</a>, lines 79–116.</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>Portfolio/project management dashboard</td>
+<td><strong>Resembles</strong></td>
+<td>The TUI navigates projects/workspaces and execution state. That is useful repository/workspace inventory, but no product goals, task progress, responsible teams or linked decisions/specifications. <a href="repo/internal/app/workspacesvc/workspace_service.go">workspace_service.go</a>, lines 23–82; <a href="repo/internal/app/app_tmux_activity_result.go">app_tmux_activity_result.go</a>, lines 130–190.</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>Chat rooms and direct collaboration</td>
+<td><strong>Resembles</strong></td>
+<td><code>send</code> can deliver a prompt into another hosted session after discovery, enabling an agent to contact a sibling. <a href="repo/cmd/amux/cli_send.go">cli_send.go</a>, lines 27–100. No durable room, sender/recipient message ledger, thread, membership, or browsable inter-agent discussion exists.</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>Management escalation and human decisions</td>
+<td><strong>Resembles</strong></td>
+<td>Programs can report <code>blocked</code> with <code>question</code>, <code>permission</code>, or <code>auth</code>; humans can answer through the terminal. <a href="repo/cmd/amux/cli_status.go">cli_status.go</a>, lines 54–129. Script trust is also explicit. These are attention/input primitives, not Worker→leadership→Butler escalation with durable decision routing.</td>
+</tr>
+<tr>
+<td>F13</td>
+<td>Durable project knowledge/directives</td>
+<td><strong>Resembles</strong></td>
+<td>Git worktrees retain ordinary project files and shell-script configuration, so external directives can be used by the hosted CLI. <a href="repo/internal/git/workspace.go">workspace.go</a>, lines 27–93. No <code>SCOPES/SPECS/HARNESS</code> knowledge lifecycle or project-context retrieval is managed by amux.</td>
+</tr>
+<tr>
+<td>F14</td>
+<td>Persistent identity, conversation, work continuity</td>
+<td><strong>Similar</strong></td>
+<td>Stable workspace IDs, saved tabs, and reattachment preserve an existing live native CLI conversation across UI restarts. <a href="repo/internal/data/workspace.go">workspace.go</a>, lines 111–158; <a href="repo/internal/ui/center/model_tabs_session.go">model_tabs_session.go</a>, lines 245–295. There is no amux-owned durable conversation model or resurrection of its full context after the native process dies.</td>
+</tr>
+<tr>
+<td>F15</td>
+<td>Proactive supervision and blocker follow-up</td>
+<td><strong>Resembles</strong></td>
+<td>Activity scans publish states and trigger on-done hooks; <code>wait</code> lets an external supervisor react. <a href="repo/internal/app/app_tmux_activity_result.go">app_tmux_activity_result.go</a>, lines 130–190 and 292–332. No autonomous ProjectMaster assesses blockers or contacts workers periodically.</td>
+</tr>
+<tr>
+<td>F16</td>
+<td>Parallel products/concurrent specialists</td>
+<td><strong>Similar</strong></td>
+<td>Several repository workspaces and independent tmux agent sessions can run concurrently. <a href="repo/internal/pty/agent.go">agent.go</a>, lines 34–46 and 122–126. This is real parallel execution but lacks product leadership, per-product coordination and workload-driven team scaling.</td>
+</tr>
+<tr>
+<td>F17</td>
+<td>Real multi-host execution/shared coordination</td>
+<td><strong>Absent</strong></td>
+<td>All actual workspace execution is local; runtime enum alternatives are explicitly nonfunctional. <a href="repo/internal/data/workspace.go">workspace.go</a>, lines 10–36. Multiple amux clients sharing one tmux server are local shared viewing, not distributed agent placement and coordination.</td>
+</tr>
+<tr>
+<td>F18</td>
+<td>Executive current/recent/next/blocker overview</td>
+<td><strong>Resembles</strong></td>
+<td>Live <code>working/done/idle/blocked/error</code> state can inform a fleet view. <a href="repo/internal/app/activity/reported.go">reported.go</a>, lines 27–85. The dashboard receives folded workspace state; <code>agent ls</code> exposes per-session state/source, not accomplishment or next-task summaries (<a href="repo/cmd/amux/cli_agent.go">cli_agent.go</a>, lines 80–92). Quiet-derived <code>done</code> is weaker than an accomplished task.</td>
+</tr>
+<tr>
+<td>F19</td>
+<td>Per-agent summary timeline linked to work</td>
+<td><strong>Absent</strong></td>
+<td>Status records are replacement records with a bounded in-memory set, not chronological durable summaries. <a href="repo/internal/agentstatus/records.go">records.go</a>, lines 23–68. Script transcripts are not an agent/task outcome feed.</td>
+</tr>
+<tr>
+<td>F20</td>
+<td>Detailed per-agent coding workspace</td>
+<td><strong>Similar</strong></td>
+<td>The terminal presents the real native agent interaction; workspace tools include file/viewer and diff tabs (<a href="repo/internal/ui/center/model_tabs_viewer.go">model_tabs_viewer.go</a>, lines 21–76 and 146–192), and retained terminal text can be extracted (<a href="repo/internal/ui/center/model_tabs_actions.go">model_tabs_actions.go</a>, lines 366–397). It lacks structured joins from tracker/rooms/timeline, normalized tool events/usage, and a web/mobile workspace.</td>
+</tr>
+<tr>
+<td>F21</td>
+<td>Live activity/lifecycle/steering/control</td>
+<td><strong>Similar</strong></td>
+<td>Start tabs, stream output, send text/keys, interrupt, detach/reattach and close sessions are implemented. <a href="repo/internal/pty/agent.go">agent.go</a>, lines 158–215 and 374–402; <a href="repo/internal/ui/center/model_tabs_actions.go">model_tabs_actions.go</a>, lines 25–103. Native CLI may expose further controls, but amux has no uniform fork/compact/goal/budget API.</td>
+</tr>
+<tr>
+<td>F22</td>
+<td>Testing, integrated acceptance and delivery</td>
+<td><strong>Resembles</strong></td>
+<td>Run scripts can execute tests; diff review and explicit branch merge support integration. <a href="repo/internal/git/merge.go">merge.go</a>, lines 122–211. No TestMaster, acceptance-scenario tracking, or organization-level completion gate. An on-done hook can run commands but does not prove acceptance.</td>
+</tr>
+<tr>
+<td>F23</td>
+<td>Autonomous work with organizational human direction</td>
+<td><strong>Resembles</strong></td>
+<td>Underlying coding CLIs may work autonomously, and scripts can coordinate their input/state. <a href="repo/cmd/amux/cli_agent.go">cli_agent.go</a>, lines 38–56; <a href="repo/cmd/amux/cli_status.go">cli_status.go</a>, lines 131–178. The human or an external orchestrator still supplies organizational behavior.</td>
+</tr>
+<tr>
+<td>F24</td>
+<td>New profiles propagate across connected views</td>
+<td><strong>Resembles</strong></td>
+<td>Custom assistant names participate in launch configuration and chat-assistant classification. <a href="repo/internal/config/config.go">config.go</a>, lines 170–190 and 218–251. There is no shared chat/tracker/dashboard organization in which added roles can participate.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="assessment-agent-definition-and-lifecycle-in-detail">Agent definition and lifecycle in detail</h2>
+<h3 id="assessment-definition-and-identity">Definition and identity</h3>
+<p>The canonical built-in roster includes Claude, Codex, OpenCode, Droid, Cursor, Pi and other harnesses. <a href="repo/internal/config/agents.go">agents.go</a>, lines 8–36, defines the command and how many Ctrl-C signals to send. A custom profile needs a valid normalized name and command. It is not limited to those built-ins. <code>AssistantConfig</code> contains no system prompt, model policy, tools list, reporting manager, skills, project assignment, token budget or durable persona. Such behavior can be encoded into a wrapper command or the CLI's own configuration, but remains outside amux's agent model.</p>
+<p>The workspace's persisted store key is stable even when symlinks or worktree existence change a path-derived identity. This matters because sessions, ports, lifecycle gates and metadata all join on that ID. Tab metadata records assistant/name/session/status/creation time. It does not record a universal native conversation ID. The meaningful durable object is a workspace and its associated terminal sessions, rather than a standing employee with an assignment history. See <a href="repo/internal/data/workspace.go">workspace.go</a>, lines 39–47 and 111–158.</p>
+<h3 id="assessment-creation-execution-routing-and-concurrency">Creation, execution, routing and concurrency</h3>
+<p>The human creates a workspace through the TUI. The service selects or resolves a base and creates a worktree. It saves metadata and tracks branch ownership for rollback. Cleanup deletes a new branch only if that creation attempt owned it. See <a href="repo/internal/app/workspacesvc/workspace_service.go">workspace_service.go</a>, lines 85–180, and <a href="repo/internal/git/workspace.go">workspace.go</a>, lines 37–106.</p>
+<p>Agent creation snapshots the selected assistant configuration before asynchronous work, composes workspace environment and terminal settings, and attaches a real PTY to a named tmux session. This snapshot prevents a concurrent settings update from changing an in-flight launch. Agents have independent processes and can run concurrently, including multiple tabs of one assistant kind. The profile name is not their unique instance address. The exact session name is. Workspace-directed <code>send</code> refuses an ambiguous workspace with multiple sessions and returns candidates rather than guessing. <a href="repo/internal/pty/agent.go">agent.go</a>, lines 158–215; <a href="repo/cmd/amux/cli_send.go">cli_send.go</a>, lines 153–197.</p>
+<p>The creation path stamps workspace ID, tab ID, assistant, creation time, amux instance/owner and display labels as tmux tags. New interactive tabs generate an independent tab ID and derive <code>amux-&lt;workspaceID&gt;-&lt;tabID&gt;</code> from it; labels such as <code>codex 1</code> are UI names rather than business identities. <a href="repo/internal/ui/center/model_tabs.go">model_tabs.go</a>, lines 22–49 and 112–185. Multiple agents inside the same workspace share its files and branch: independence means separate processes/conversations, not a separate worktree per agent. Independent branch isolation requires separate workspaces.</p>
+<p>An optional launch-time “task” is a queued prompt string, not a tracked work item. The tab actor waits until the terminal has seen a private-mode sequence, then admits the prompt through the normal input FIFO with a carriage return. The input binding generation prevents a stale launch prompt being delivered to a replacement session. Only queue-full rejection re-arms the prompt; failed/replaced/missing bindings drop it. <a href="repo/internal/ui/center/tab_actor_write.go">tab_actor_write.go</a>, lines 46–61 and 139–147. Readiness here is a terminal-mode heuristic. An arbitrary custom assistant that never emits such modes cannot be assumed to receive a queued first task. This feature neither persists a task identity nor schedules later work.</p>
+<p>The environment includes workspace identity and layered user settings. The separate run-script system provides setup/run/archive/on-done hooks and concurrent versus nonconcurrent policy. It is infrastructure for commands, not a task scheduler: nonconcurrent mode stops a previous run; concurrent mode permits overlaps. <a href="repo/internal/data/workspace.go">workspace.go</a>, lines 49–57 and 261–281; <a href="repo/internal/process/lifecycle_coordinator.go">lifecycle_coordinator.go</a>, lines 111–205.</p>
+<h3 id="assessment-tools-and-permissions">Tools and permissions</h3>
+<p>amux hosts the agent shell command with local filesystem/process access inherited from its environment. Coding tool permissions, model credentials and approval UX belong primarily to the hosted CLI. Worktrees isolate branches and working files, not operating-system authority.</p>
+<p>Interactive sessions intentionally receive the inherited environment, injected amux variables, user-owned project environment and workspace overrides, but exclude repository-authored <code>.amux/workspaces.json</code> environment values even after script approval. This keeps script trust from silently widening what an agent process inherits. <a href="repo/internal/process/session_env.go">session_env.go</a>, lines 7–32. The private pane-launch handoff uses an expiring payload in a 0700 attempt directory with a 0600 file, validates it and consumes it before the final shell command. This protects argv/tmux command surfaces, not same-user or privileged inspection of the running process. <a href="repo/internal/panelaunch/spec.go">spec.go</a>, lines 1–17 and 50–54; <a href="repo/internal/panelaunch/prepare.go">prepare.go</a>, lines 85–113 and 125–147.</p>
+<p>There is nevertheless an explicit amux security boundary around repository-supplied executable workspace configuration. Script trust is bound to a SHA-256 hash of reviewed <code>.amux/workspaces.json</code> bytes. A later config change invalidates approval. It does not hash every file the approved command might execute. <a href="repo/internal/process/script_trust.go">script_trust.go</a>, lines 23–68. Git operations additionally neutralize hostile repository execution hooks/drivers as documented in <a href="repo/internal/git/operations.go">operations.go</a>, around lines 448 onward. These protections do not sandbox the agent's own arbitrary tool calls.</p>
+<p>tmux is a shared trust domain. Session tags and name checks are useful ownership hygiene, but same-server actors can forge tags and inject input. An external organizational controller using these primitives must treat the tmux socket as privileged infrastructure. <a href="repo/docs/ORCHESTRATION.md">ORCHESTRATION.md</a>, “Trust boundary,” explicitly documents this limitation.</p>
+<h3 id="assessment-continuity-and-resume">Continuity and resume</h3>
+<p>Detaching closes the amux PTY client and keeps the tmux session. Restoring saved tabs reattaches running sessions and preserves deliberately detached placeholders. Exiting amux intentionally does not kill server-side sessions: <code>CleanupTmuxOnExit</code> is a no-op. See <a href="repo/internal/ui/center/model_tabs_session.go">model_tabs_session.go</a>, lines 16–76 and 245–295; <a href="repo/internal/app/app_tmux.go">app_tmux.go</a>, lines 98–100.</p>
+<p>This is valuable continuity while the original CLI remains alive. It does not imply native conversation reconstruction after machine reboot, tmux loss or agent exit. Because agent exit drops the pane into a shell, amux cannot infer from pane existence alone that the original conversation still exists. Forking, compacting or resuming a native conversation may be possible by typing native CLI commands, but they are not modeled as consistent amux operations.</p>
+<p>Persisted tab information contains assistant/name/session/status/creation time; stopped tabs are skipped on normal restore. Reattach and restart are distinct: reattach attempts to bind the existing session; restart is allowed for a nonrunning tab, kills the old session and creates a fresh client/command using a captured profile. If the kill fails, the ensure-session create shape may attach to the surviving old session and logs the discrepancy. Neither path replays an amux-owned conversation transcript into a model. <a href="repo/internal/ui/center/model_tabs_actions.go">model_tabs_actions.go</a>, lines 227–261; <a href="repo/internal/ui/center/model_tabs_session.go">model_tabs_session.go</a>, lines 243–294; <a href="repo/internal/ui/center/model_tabs_session_reattach.go">model_tabs_session_reattach.go</a>, lines 44–130 and 133–255.</p>
+<h3 id="assessment-state-supervision-scheduling-and-completion">State, supervision, scheduling and completion</h3>
+<p>Without explicit reports, amux classifies activity from timing/output evidence into <code>working</code>, recently quiet <code>done</code>, then <code>idle</code>. The state machine is carefully separated from its signals, but its semantic limit remains: cessation of output is not product completion. <a href="repo/internal/app/activity/agent_state.go">agent_state.go</a>, lines 39–132.</p>
+<p>Cooperating programs can instead emit OSC 7501 reports with states <code>idle</code>, <code>working</code>, <code>done</code>, <code>blocked</code>, <code>error</code>, plus a message and blocked reason. The pipe-pane helper parses raw output, keeps a record per hierarchical ID, folds it into one headline, and writes pane options. A blocked child outranks a working root, helping surface attention needs in nested tools. New shell prompts and process exit clear transient working/blocked reports; done/error survive until cleared or the pane dies. <a href="repo/internal/tmux/tap.go">tap.go</a>, lines 20–122; <a href="repo/internal/agentstatus/records.go">records.go</a>, lines 113–182.</p>
+<p>The parser supports hierarchical IDs, titles, and percentage progress. It limits the record set to 64 entries. CLI report flags expose progress but no ID or title flag. <code>statusTap.report</code> publishes only state, ID, app, kind, message, and timestamp. It omits title and progress. <code>agent ls</code> emits state/source and session identity.</p>
+<p>Records replace earlier snapshots by ID and fold into an urgency summary. They do not provide a durable nested-agent directory, task-progress graph, or timeline. See <a href="repo/internal/agentstatus/agentstatus.go">agentstatus.go</a>, lines 29–67; <a href="repo/cmd/amux/cli_status.go">cli_status.go</a>, lines 54–83; <a href="repo/internal/tmux/tap.go">tap.go</a>, lines 54–68; and <a href="repo/cmd/amux/cli_agent.go">cli_agent.go</a>, lines 80–92.</p>
+<p>Reported state overrides heuristic state during scans. Multiple amux instances share a leased scanning owner and snapshots so followers avoid duplicate work and duplicate completion hooks. The lease has a seven-second TTL, epochs, heartbeat validation and stale-snapshot checks. It is not cross-machine agent supervision. See <a href="repo/internal/app/activity/lease.go">lease.go</a>, lines 16–100; <a href="repo/internal/app/app_tmux_activity_result.go">app_tmux_activity_result.go</a>, lines 61–104 and 143–184.</p>
+<p>An <code>on-done</code> script fires only for a working→done edge actually observed by the current scan owner. The baseline deliberately prevents first observation or ownership takeover from replaying an old completion. All eligible hooks are attempted even if one dispatch fails; completed edges are not retried. This favors avoiding duplicate side effects over a durable at-least-once business-event guarantee. It should not be used as the sole product-delivery ledger. <a href="repo/internal/app/app_tmux_activity_result.go">app_tmux_activity_result.go</a>, lines 220–250 and 292–332.</p>
+<p><code>amux wait</code> provides reactive supervision for an external script or agent. It can return on matching status, timeout, or a newly observed process exit, with tmux's real numeric exit status when available. It establishes an initial dead-process baseline so historical corpses do not look like fresh completion events. The implementation distinguishes transient scan failures from unusable tmux. These are useful lifecycle semantics, but no periodic agent is assigned to reason about project progress, wake stalled specialists or decide what work comes next. <a href="repo/cmd/amux/cli_status.go">cli_status.go</a>, lines 131–243 and 282–356.</p>
+<p>Hosted <code>run</code> sessions retain dead panes and exit codes. An interactive coding command normally returns to its login shell. The coding CLI can therefore exit while the pane process remains alive. <code>wait</code> is not a universal native-agent exit-code API. It checks reports and liveness every 250 ms. Only a pane retained after process exit can supply the numeric exit result. See <a href="repo/cmd/amux/cli_status.go">cli_status.go</a>, lines 102–130 and 164–174; <a href="repo/internal/pty/agent.go">agent.go</a>, lines 177–186; and <a href="repo/internal/process/run_session.go">run_session.go</a>, lines 15–24 and 71–85. Searches found no durable cron-like schedule, goal budget, or timer-triggered reasoning loop. UI refresh, activity monitoring, and hooks do not decide organizational work.</p>
+<h3 id="assessment-interruption-recovery-and-retirement">Interruption, recovery and retirement</h3>
+<p>Interrupt uses profile-specific count and delay, bounded to five Ctrl-C signals and two seconds between signals. Closing an ordinary tab closes its PTY and asynchronously kills its tmux session; closing a borrowed run-session viewer merely detaches. Detach is consequently a separate operation with a materially different effect. <a href="repo/internal/pty/agent.go">agent.go</a>, lines 359–402; <a href="repo/internal/ui/center/model_tabs_actions.go">model_tabs_actions.go</a>, lines 25–103.</p>
+<p>The internal <code>Supervisor</code> recovers and restarts Go background workers with policy/backoff, catches panics, and bounds shutdown waits. It must not be confused with retrying failed coding assignments: the source does not implement a task success/retry policy for hosted coding work. <a href="repo/internal/supervisor/supervisor.go">supervisor.go</a>, lines 13–32, 113–143 and 197–279.</p>
+<p>PTY recovery is similarly scoped: a stopped reader can restart with bounded backoff while its terminal remains alive; generation checks discard stale reader messages, and exhaustion marks the tab detached. This repairs observation/transport, not a failed model task or lost native conversation. <a href="repo/internal/ui/center/model_input_lifecycle_pty_restart.go">model_input_lifecycle_pty_restart.go</a>, lines 15–103. Product acceptance has no lifecycle state here: <code>done</code>, shell exit, script exit and Git merge are execution outcomes. A definition-of-done gate, successful integrated tests and explicit human acceptance would need records and policy above them.</p>
+<p>Workspace deletion follows these steps:</p>
+<ol>
+<li>Acquire the lifecycle admission gate.</li>
+<li>Cancel and drain local setup and on-done processes.</li>
+<li>Stop run scripts and run the archive hook while the tree exists.</li>
+<li>Write a deletion tombstone.</li>
+<li>Remove the worktree, branch, and metadata.</li>
+</ol>
+<p>The archive hook is best-effort. A deletion retry can run it again. Hosted agent-session cleanup has a separate order. Tests cover agent kills after successful tree removal and preservation when removal fails. Do not infer that every agent process stops before its tree disappears. See <a href="repo/internal/app/workspacesvc/workspace_service.go">workspace_service.go</a>, lines 267–345, and <a href="repo/internal/app/workspacesvc/workspace_service_delete_kill_order_test.go">workspace_service_delete_kill_order_test.go</a>, lines 16–58 and 133–226.</p>
+<p>Tombstone recovery only completes an interrupted delete when the root is proven gone. A present or uncertain root is not blindly destroyed on startup. Shelving separately retains branch/metadata for restoration and is excluded from accidental-archive retention cleanup. These are workspace lifecycle features, not durable employee retirement or conversation archival. <a href="repo/internal/app/workspacesvc/workspace_delete_tombstone.go">workspace_delete_tombstone.go</a>, lines 110–189; <a href="repo/internal/data/workspace.go">workspace.go</a>, lines 94–107.</p>
+<h2 id="assessment-coordination-mechanics-a-concrete-request-path">Coordination mechanics: a concrete request path</h2>
+<p>The checked-in real-binary test sends the concrete request <code>ping from amux send</code> to a tagged <code>cat</code> pane and checks captured output. It also covers literal dash-leading input, dead destinations and ambiguous workspace selection (<a href="repo/internal/e2e/agent_cli_test.go">agent_cli_test.go</a>, lines 79–124 and 136–198). The following traces that actual supported input operation through production code and explains how an endpoint-implementation request would use the same seam. These paths and the test were read, not executed during this assessment:</p>
+<ol>
+<li>The caller invokes <code>amux agent ls --json</code>. <code>hostedAgentRows</code> joins tagged sessions with reported/scan state and supplies workspace/session addresses. A project or business task is not inferred from the text. <a href="repo/cmd/amux/cli_agent.go">cli_agent.go</a>, lines 79 onward.</li>
+<li>The caller selects an exact session and invokes <code>amux send --session … --text … --enter</code>. Argument validation requires one selector and one input mode; target resolution rejects ambiguity and dead panes. Literal text is sent separately from the carriage return after a 150 ms delay, reflecting real raw-mode input requirements. <a href="repo/cmd/amux/cli_send.go">cli_send.go</a>, lines 23–100 and 153–211.</li>
+<li>The native CLI handles the prompt and does the actual model/tool loop. amux transports terminal input/output. It does not decompose the endpoint task, create a ticket or track acceptance criteria.</li>
+<li>If the CLI or a wrapper emits <code>blocked</code> with a question, the tap stores/folds it and the next state read surfaces it even if output is otherwise active. A human can inspect the terminal and send an answer. There is no automatic product-manager escalation or durable question-to-ticket association. <a href="repo/internal/tmux/tap.go">tap.go</a>, lines 37–68; <a href="repo/internal/app/activity/reported.go">reported.go</a>, lines 27–85.</li>
+<li>A cooperating external supervisor can use <code>wait</code> and inspect the outcome. An on-done hook may run a verifier or notification command. A human can review diffs and explicitly merge the workspace branch. Neither a reported <code>done</code> nor a merge automatically assesses the agreed product definition. <a href="repo/cmd/amux/cli_status.go">cli_status.go</a>, lines 131–243; <a href="repo/internal/git/merge.go">merge.go</a>, lines 122–211.</li>
+</ol>
+<p>Two agents can therefore coordinate by discovering and prompting one another. The transport supplies no messaging acknowledgment beyond attempted terminal delivery, no exactly-once instruction semantics, no durable inbox, and no room history. A CLI might also be busy interpreting input differently. Wingman would need a proper message envelope, project/task association, conversation history and replay/deduplication policy above this seam.</p>
+<p>The implementation's events are Bubble Tea messages, local process callbacks and tmux tags/options, with JSON files holding workspace state. These are distinct from tickets and collaboration records: a <code>lifecycleTicket</code> is a cancellable process-admission token, not a task assignment; hierarchical status IDs identify program reports, not durable team members. Dependencies consist of command ordering and lifecycle admission rather than a technical task DAG. Human decision handling is direct attention plus terminal input or hash-bound script trust. There is no source path routing a worker question to project leadership and back with a durable decision ID. <a href="repo/internal/process/lifecycle_coordinator.go">lifecycle_coordinator.go</a>, lines 43–85 and 108–175; <a href="repo/cmd/amux/cli_status.go">cli_status.go</a>, lines 54–99.</p>
+<h2 id="assessment-major-capabilities-beyond-wingmans-described-product">Major capabilities beyond Wingman's described product</h2>
+<p><strong>A heterogeneous native-harness workbench.</strong> Wingman specifies separate Codex agents. amux intentionally hosts many different native coding CLIs and user-defined commands under one lifecycle/input framework (<a href="repo/internal/config/agents.go">agents.go</a>, lines 18–33; <a href="repo/internal/config/config.go">config.go</a>, lines 218–250). This could let Wingman select different execution harnesses for specialized work without reimplementing each terminal interface. The consequence is that conversation IDs, permissions, context retention, usage and completion still differ by CLI; amux does not normalize those semantics into one agent API.</p>
+<p><strong>A branch/worktree operations product.</strong> Creating from explicit bases, attaching existing branches, reviewing diffs, merging with conflict handling, shelving/restoring and recovering interrupted deletes provide a substantial repository lifecycle around coding agents. Shelving persists both intent flags before removing the tree, keeps branch/metadata, and restores by attaching the retained branch. It does not fabricate a missing branch from the old base. <a href="repo/internal/app/workspacesvc/workspace_service_shelve.go">workspace_service_shelve.go</a>, lines 17–32, 96–157 and 161–165. Wingman describes product workspaces but does not prescribe this branch management machinery. It is useful for parallel isolated implementations, but multiple specialists in one worktree still share files, and an organizational integration queue would need to decide when branches are ready to combine. The merge function deliberately performs <code>--no-ff</code> into current HEAD, leaving verification of the intended base to its caller, and does not fetch, rebase, squash, autostash or push; conflicts remain available for resolution/abort (<a href="repo/internal/git/merge.go">merge.go</a>, lines 103–191).</p>
+<p><strong>A generic program-status and automation surface.</strong> OSC status is not limited to an AI harness. A test runner, nested worker, build or deployment command can report a blocked/error/done record and participate in <code>wait</code> and fleet visibility (<a href="repo/internal/tmux/tap.go">tap.go</a>, lines 71–121; <a href="repo/cmd/amux/cli_status.go">cli_status.go</a>, lines 47–99 and 131–174). This opens an automation substrate for mixed human, agent and ordinary-process workflows. Wingman could reuse the idea for execution workers, while maintaining a separate durable tracker of business outcomes.</p>
+<p><strong>Workspace environment/service lifecycle.</strong> Durable port allocation, layered environment, setup/run/archive hooks and script-output persistence support concurrent development servers and test commands alongside agents. Reservations are owned by stable workspace IDs and serialized across local processes, preventing common port collisions after restart. <a href="repo/internal/data/port_reservations.go">port_reservations.go</a>, lines 31–74 and 174–257. The allocator is local metadata, not a multi-host service allocator or guarantee that another unrelated process cannot occupy a port.</p>
+<p>Hosted run scripts are persistent, inspectable tmux sessions with retained exit status and optional simultaneous runs, separate from interactive agent tabs (<a href="repo/internal/process/run_session.go">run_session.go</a>, lines 15–85 and 100–104). Diagnostic persistence retains only the latest setup/archive/on-done output per type, with a 64 KiB tail and finish/error fields. It is not an archive of every execution or a complete native-agent transcript (<a href="repo/internal/process/script_output.go">script_output.go</a>, lines 12–23 and 55–87; <a href="repo/internal/data/script_transcript_store.go">script_transcript_store.go</a>, lines 15–54). This is useful for Wingman worker provisioning and service diagnosis, but its acceptance evidence should be stored elsewhere before workspaces are retired.</p>
+<h2 id="assessment-distinctive-mechanisms-and-innovation-assessment">Distinctive mechanisms and innovation assessment</h2>
+<p><strong>Semantic status uses the existing terminal stream.</strong> Cooperating programs emit a small OSC vocabulary. A pipe-pane tap observes that stream even when the viewer detaches. Hierarchical record IDs can expose a blocked child while its parent remains active. Prompt/exit lifetimes limit obsolete working states. Noncooperating tools still require heuristics. The tap is best-effort and publishes only a folded headline. Records do not provide a durable timeline. See <a href="repo/internal/tmux/tap.go">tap.go</a>, lines 20–122, and <a href="repo/internal/agentstatus/records.go">records.go</a>, lines 42–182.</p>
+<p><strong>Shared viewers use one scan owner.</strong> Several viewers can attach without evicting each other. A lease and epoch select the owner that publishes activity and fires completion hooks. Takeover republishes current state without inventing a completion transition. This separates observation ownership from execution ownership. It is not distributed consensus or a durable job queue. tmux options lack atomic compare-and-swap. Leases need validation. Missed completion transitions have no replay. See <a href="repo/internal/tmux/command.go">command.go</a>, lines 55–77; <a href="repo/internal/app/activity/lease.go">lease.go</a>, lines 16–100; and <a href="repo/internal/app/app_tmux_activity_result.go">app_tmux_activity_result.go</a>, lines 61–104 and 213–250.</p>
+<p>Third, <strong>workspace lifetime is treated as a recoverable transaction around real processes and files</strong>, rather than a UI delete flag. Stable IDs survive path changes; lifecycle generations prevent stale admitted work from starting after teardown; tombstones record partially completed deletion; rollback distinguishes newly owned branches from existing branches. These details are valuable to Wingman because organization-level agents will eventually hit partial host/process/storage failures. Their innovation is an implementation discipline at the local workbench boundary, not evidence of autonomous product management. <a href="repo/internal/data/workspace.go">workspace.go</a>, lines 111–158; <a href="repo/internal/process/lifecycle_coordinator.go">lifecycle_coordinator.go</a>, lines 111–205 and 328–349; <a href="repo/internal/app/workspacesvc/workspace_delete_tombstone.go">workspace_delete_tombstone.go</a>, lines 110–189.</p>
+<p><strong>Launch intent uses a captured configuration and generation checks.</strong> Dispatch copies the launch settings and binds the initial prompt to an exact input target. Generation checks stop stale reader or reattach results from replacing a newer stream. A later settings edit or slow attach cannot silently redirect admitted work. These controls provide process/UI consistency. They do not provide durable task delivery. A dropped prompt still lacks a business task record for reconciliation. See <a href="repo/internal/ui/center/model_tabs.go">model_tabs.go</a>, lines 95–155; <a href="repo/internal/ui/center/tab_actor_write.go">tab_actor_write.go</a>, lines 46–61; and <a href="repo/internal/ui/center/model_input_lifecycle_pty_restart.go">model_input_lifecycle_pty_restart.go</a>, lines 19–29 and 79–101.</p>
+<p>These are distinctive mechanisms in this source. No historical-first or industry-wide uniqueness claim is established by this assessment.</p>
+<h2 id="assessment-practical-use-for-wingman">Practical use for Wingman</h2>
+<p>amux could be used directly as an operator-facing local workstation for agents and development services. Its profile launchers, worktree handling, terminal inspection, detach/reattach, exact input selection, and explicit program status are useful components.</p>
+<p>For integration, Wingman would need a durable mapping between its agent identity and amux workspace/session/native conversation; wrappers that report real task states; and a controller that reconciles session death, human steering and task ownership. The supported CLI cannot create/shelve/delete workspaces, so either the organization must provision them independently or amux would need an intentionally supported lifecycle API. Encoding organization actions as raw TUI keystrokes would make lifecycle guarantees harder to maintain.</p>
+<p>The cleanest boundary is therefore an optional execution/viewing adapter beneath Wingman's control plane. Wingman should own stable agent/profile/project/task/conversation IDs, the durable inbox and decisions, task retry policy and acceptance records. An amux adapter should own the mapping to each host's exact tagged session. Before <code>send</code>, the adapter would reconcile the expected native harness and live session, because a living fallback shell can otherwise receive a prompt intended for a coding agent. Reported status can raise attention but should update durable tracker state only with a task ID and outcome evidence. A Mac/Endeavour deployment would need separate host adapters and an authenticated cross-host coordination service; sharing one local tmux server or copying JSON files does not supply that behavior. These are proposed integration responsibilities, not features found in amux.</p>
+<p>Wingman still needs these product capabilities:</p>
+<ul>
+<li>Telegram Butler and cross-project routing.</li>
+<li>A product registry beyond Git paths.</li>
+<li>ProductMaster/TechMaster workflows and proportionate discovery.</li>
+<li>Scope, specifications, and acceptance records.</li>
+<li>Shared tickets and dependencies.</li>
+<li>Durable rooms, escalation, and proactive coordination.</li>
+<li>Host placement and recovery.</li>
+<li>Connected executive summaries and timelines.</li>
+</ul>
+<p>amux can provide detailed terminal inspection. Its status model cannot replace these organizational records.</p>
+<h2 id="assessment-verification-scope-and-confidence">Verification scope and confidence</h2>
+<p>This was a static source assessment of the pinned local checkout. No dependencies were installed, no service or real agent was launched, and no tests were executed. Runtime correctness, harness compatibility on this host, timing behavior and multi-instance races have therefore not been empirically established here.</p>
+<p>The implementation review covered these areas:</p>
+<ul>
+<li>Public command dispatch and custom assistant configuration.</li>
+<li>Agent creation, environment, interruption, and tmux creation/attachment/tapping.</li>
+<li>Tab close, detach, restore, project registry, and workspace storage.</li>
+<li>Worktree creation/deletion, tombstones, and lifecycle admission.</li>
+<li>Status parsing, record folding/merging, scan-owner leases, and completion hooks.</li>
+<li>Wait/send target resolution, durable ports, script trust, background supervision, and merge entry points.</li>
+</ul>
+<p>The review compared these paths with <a href="repo/docs/STORAGE.md">STORAGE.md</a> and <a href="repo/docs/ORCHESTRATION.md">ORCHESTRATION.md</a>.</p>
+<p>Relevant test code inspected includes <a href="repo/internal/e2e/agent_cli_test.go">agent_cli_test.go</a>, lines 28–170, exercising real-binary fleet discovery, reported-state precedence, literal send, carriage return and dead/ambiguous targets; <a href="repo/internal/e2e/status_protocol_test.go">status_protocol_test.go</a>, starting line 19, covering the status protocol against real tmux; and <a href="repo/internal/app/workspacesvc/workspace_service_delete_kill_order_test.go">workspace_service_delete_kill_order_test.go</a>, starting lines 16, 95, 133 and 197, documenting deletion ordering/failure boundaries. These tests are evidence of intended coverage, not passing test results from this assessment.</p>
+<p>Additional test-source checks covered <a href="repo/internal/agentstatus/records_test.go">records_test.go</a>, lines 14–129 (replace/clear, priority fold, lifetime and eviction); <a href="repo/internal/ui/center/model_tabs_launch_config_test.go">model_tabs_launch_config_test.go</a>, lines 86–160 (captured configuration across fresh launch, restore, reattach and restart); and <a href="repo/internal/process/on_done_completion_test.go">on_done_completion_test.go</a>, lines 92–163 (single-owner hook reaping, nonzero-exit notification and teardown drain). No claim that these tests passed is made.</p>
+<p>Negative findings were checked beyond README silence: searches over non-test Go implementation in <code>cmd/</code> and <code>internal/</code> for Telegram/Butler, ticket/product leadership, chat rooms, acceptance/definition-of-done, remote-host/SSH execution and scheduling concepts; examination of the complete workspace/profile schemas and main dispatch; and the explicit local-only runtime contract. “Ticket” matches in the lifecycle coordinator refer to in-process admission tokens, not work tickets. Generic UI scheduling and internal goroutine supervision do not implement organizational wake cycles. Native CLI capabilities and user-authored shell wrappers may supply behavior outside this repository, but they are not credited as amux's implemented product features.</p></article>
+<section id="source-record"><h2>Source and evidence</h2><p class="url-text">https://github.com/andyrewlee/amux</p>
+<ul><li><a href="repo/">Open the pinned source checkout</a></li><li><a href="assessment/ASSESSMENT.md">Read the Markdown assessment</a></li>
+<li><a href="../generic/assessments/_audits/qa06.md">Read the historical independent source audit</a></li><li><a href="../generic/method.html">Read the method and evidence limits</a></li></ul></section>
+<nav class="report-switch" aria-label="Adjacent project reports"><a href="../agentrail/index.html">Previous project: AgentRail</a><a href="../antfarm/index.html">Next project: Antfarm</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../index.html">Return to overview <img src="../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

@@ -1,0 +1,11 @@
+# Independent source snapshots stay local. Assessment provenance is in coverage.json.
+/*/repo/
+
+# Local environment and generated caches.
+.venv/
+__pycache__/
+*.py[cod]
+.DS_Store
+.env
+.env.*
+!.env.example

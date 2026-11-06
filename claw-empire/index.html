@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Technical assessment against Wingman’s development organization."><title>Claw-Empire · Wingman Research</title>
+<link rel="icon" href="../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/report.css"><script defer src="../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../index.html"><img src="../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../index.html">Overview</a><a class="nav-link " href="../generic/index.html">Architecture findings</a><a class="nav-link " href="../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../generic/method.html">Method and evidence</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../index.html">Wingman Research</a><span class="crumb">/</span><span>Claw-Empire</span></div><span class="topbar-note">SOURCE REVIEW · 05 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Claw-Empire</h1><p class="subtitle">Technical assessment against Wingman’s development organization.</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#decision">Decision summary</a><a href="#assessment-claw-empire-assessment-against-wingman">Claw-Empire assessment against Wingman</a><a href="#assessment-1-architecture-and-actual-execution-model">1. Architecture and actual execution model</a><a href="#assessment-2-feature-by-feature-comparison">2. Feature-by-feature comparison</a><a href="#assessment-3-agent-definition-management-and-lifecycle-findings">3. Agent definition, management and lifecycle findings</a><a href="#assessment-4-coordination-project-continuity-and-human-decisions">4. Coordination, project continuity and human decisions</a><a href="#assessment-5-major-additional-capabilities-beyond-wingmans-described-scope">5. Major additional capabilities beyond Wingman&#x27;s described scope</a><a href="#assessment-6-distinctive-mechanisms-and-innovation-assessment">6. Distinctive mechanisms and innovation assessment</a><a href="#assessment-7-what-wingman-could-reuse-and-what-remains">7. What Wingman could reuse and what remains</a><a href="#assessment-8-verification-scope-and-limits">8. Verification scope and limits</a><a href="#source-record">Source and evidence</a></div></nav><section id="decision" class="decision"><h2>Decision summary</h2>
+<div class="brief-columns"><div><h3>Useful for Wingman</h3><p>Study company employees, project tasks, Telegram intake, planning meetings, and coding-run recovery.</p></div><div><h3>Adoption boundary</h3><p>Task-scoped jobs do not establish continuing Codex colleagues or a shared multi-host organization.</p></div></div>
+<p class="scope-note">Source assessment at the commit below. Runtime limits appear in the technical report.</p></section>
+<dl class="facts"><div><dt>Source group</dt><dd>Standing teams</dd></div><div><dt>Commit</dt><dd><code>66a24ea7df2435ef897c48c147deb7ec572c01c2</code></dd></div><div><dt>Coverage</dt><dd>24 Wingman features</dd></div></dl>
+<article id="technical-assessment" class="technical"><h2 id="assessment-claw-empire-assessment-against-wingman">Claw-Empire assessment against Wingman</h2>
+<p class="url-text">Assessment date: 2026-11-05. Repository: https://github.com/GreenSheep01201/claw-empire</p>
+<p>Local checkout: <code>researchs/claw-empire/repo</code>. Inspected revision: <code>66a24ea7df2435ef897c48c147deb7ec572c01c2</code>. Package version: <code>2.0.4</code> (<code>climpire</code>). Baseline: <a href="../generic/purpose.html">Wingman purpose</a>.</p>
+<p><strong>Fit verdict:</strong> Claw-Empire is a substantial candidate for Wingman's organizational control plane. It implements real project records, configurable agent employees, departmental delegation, a task board, CEO messaging, Telegram ingress and replies, planning/review meetings, isolated coding runs and workflow recovery. Its central abstraction is a company of durable employee records executing task-scoped jobs. It does not establish Wingman's full model of persistent, independently conversational Codex colleagues, per-project ProductMaster/TechMaster pairs, arbitrary collaboration rooms, a research-led product discovery cycle, or execution shared across the Mac and Endeavour.</p>
+<p>The office simulation sits above a substantial execution and coordination implementation. Some speech and status text comes from server templates or one-shot persona calls. That text does not establish an agent's reasoning about its work.</p>
+<p>The source review identified four material integration risks:</p>
+<ul>
+<li>A merge failure can still lead to <code>done</code>.</li>
+<li>Pause/resume does not establish retention of uncommitted work.</li>
+<li>Native Telegram <code>$</code> intake lacks project metadata that the default path requires.</li>
+<li>The five-minute progress timer reports smooth progress after checking only task status.</li>
+</ul>
+<p>These are source findings. The assessment did not reproduce them at runtime.</p>
+<p>Detailed companion: <a href="index.html#support-agent-lifecycle-and-request-trace">Agent lifecycle and one end-to-end request</a>.</p>
+<h2 id="assessment-1-architecture-and-actual-execution-model">1. Architecture and actual execution model</h2>
+<p><code>server/index.ts</code> imports the server main module. The package starts it through <code>tsx</code>. Main initializes the database, schema, migrations and seeds before wiring workflow helpers, Express routes and lifecycle services into one runtime context. SQLite is the durable source of organizational state; WebSocket broadcasts update the React application. Source: <a href="repo/server/index.ts">entry point</a>, line 1; <a href="repo/server/server-main.ts">server-main.ts</a>, lines 46–59 and 122–129; <a href="repo/server/db/runtime.ts">database runtime</a>, lines 58–105, enables WAL, foreign keys and busy timeout. This is a single server control plane with local execution and process/session/worktree maps, rather than a distributed agent service.</p>
+<p>The <a href="repo/server/modules/bootstrap/schema/base-schema.ts">base schema</a> is more informative than the simulation framing:</p>
+<ul>
+<li><code>agents</code>, lines 37–61: employee identity, department, workflow pack, seniority, planning-leader flag, provider/model/account, personality, status, current task and accumulated statistics.</li>
+<li><code>projects</code>, lines 63–72: named persistent project, source path, core goal and default workflow pack. Later migrations extend project assignment and GitHub fields.</li>
+<li><code>tasks</code>, lines 88–107: project, department, assignee, status, priority, task type, output format, execution path and result.</li>
+<li><code>messages</code>, lines 133–144: sender, receiver (<code>agent</code>, <code>department</code>, <code>all</code>), content, message type and optional task link.</li>
+<li><code>meeting_minutes</code> and entries, lines 165–188: task-specific planning/review conversations with explicit speakers and sequence.</li>
+<li><code>subtasks</code>, lines 258–270: assignments, blocked reason and CLI tool correlation; migrations add delegated-task/department relationships.</li>
+<li>Report archives and review-decision records, lines 272 onward: durable summaries and decision history.</li>
+</ul>
+<p>This is principally <strong>ticket coordination with orchestrated chat</strong>, rather than a free-form agent society whose members independently choose whom to message. <code>handleTaskDelegation</code> creates and routes task work; planned meetings collect additions. The subtask dispatcher turns departmental work into delegated execution jobs. A meeting speaker is selected by the server, given a prompt containing the transcript and called through <code>runAgentOneShot</code>. The speaker is not necessarily an already-running worker being interrupted to participate. Source: <a href="repo/server/modules/routes/collab/task-delegation.ts">delegation</a>, lines 125–209 and 400–474; <a href="repo/server/modules/workflow/orchestration/planned-approval.ts">planned meeting</a>, lines 213–333.</p>
+<p>For coding, <code>startTaskExecutionForAgent</code> updates task and employee status, creates an isolated Git worktree, assembles context and invokes the chosen provider. CLI providers are separate local child processes with their own current directory, output stream and timeout. This is genuine independent execution, not merely labels on one model's output. However, the employee row is the durable identity. The process is a run. The UUID called an execution session is held in an in-memory map. Codex starts through <code>codex ... exec --json</code>. The inspected argument builder does not attach a native Codex resume/thread ID. Continuity is reconstructed through stored messages, logs, prior result tails and review notes. Sources: <a href="repo/server/modules/workflow/orchestration/execution-start-task.ts">execution start</a>, lines 76–92, 129–247; <a href="repo/server/modules/workflow/agents/cli-runtime.ts">CLI runtime</a>, lines 220–256; <a href="repo/server/modules/workflow/orchestration/session-review-tools.ts">session tools</a>, lines 30–67; <a href="repo/server/modules/workflow/core/cli-tools.ts">arguments</a>, lines 48–108.</p>
+<p>Provider choice materially changes capability. The generic <code>api</code> path constructs a streamed text request to Anthropic, Google or a chat-completions endpoint. It supplies a project path in text but declares no filesystem or command tools and contains no tool-execution loop in that implementation. A configured API employee is therefore not automatically equivalent to a Codex coding worker. See <a href="repo/server/modules/workflow/agents/providers/api-provider-tools.ts">API provider tools</a>, lines 119–241. CLI support, OAuth-backed support and arbitrary API text generation should be assessed separately when selecting Wingman's execution backend.</p>
+<h2 id="assessment-2-feature-by-feature-comparison">2. Feature-by-feature comparison</h2>
+<p>Verdicts mean <strong>Exact</strong> = meets the described behavior, <strong>Similar</strong> = substantial equivalent with material differences, <strong>Resembles</strong> = primitive or limited subset, <strong>Absent</strong> = no implementation found in searched paths, <strong>Unclear</strong> = insufficient evidence. These are source-level judgments, not successful runtime demonstrations. Line ranges refer to the pinned checkout.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Wingman capability</th>
+<th scope="col">Verdict</th>
+<th scope="col">What is implemented, evidence and concrete boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F01</td>
+<td>Real independent coding agents and specialist instances</td>
+<td><strong>Similar</strong></td>
+<td>Separate CLI processes run assigned employees in task worktrees; many employee rows can share a department/provider. <a href="repo/server/modules/workflow/agents/cli-runtime.ts">CLI runtime</a>, 220–256; <a href="repo/server/modules/bootstrap/schema/base-schema.ts">schema</a>, 37–61. Employees can use Codex, but also text-only API providers; task processes are not enduring native Codex conversations.</td>
+</tr>
+<tr>
+<td>F02</td>
+<td>Extensible agent profiles, roles and team composition</td>
+<td><strong>Similar</strong></td>
+<td>Agent/department CRUD, personality, department shared prompts, workflow packs, model overrides and planning-lead selection support new workers. <a href="repo/server/modules/routes/core/agents/crud.ts">Agent CRUD</a>, 293–367 and 447 onward. Rank is constrained to four values and pack keys to six; arbitrary domain-specialist roles are expressed mainly through departments/personality rather than open role schemas.</td>
+</tr>
+<tr>
+<td>F03</td>
+<td>Agent directory and visible working relationships</td>
+<td><strong>Similar</strong></td>
+<td>Agent listing joins department metadata; AgentDetail groups assigned tasks and provider subagents. <a href="repo/server/modules/routes/core/agents/crud.ts">Agent CRUD</a>, 177–213; <a href="repo/src/components/AgentDetail.tsx">AgentDetail</a>, 19–32 and 76–85. Department/rank/parent execution relationships exist; persistent per-project leadership and colleague relationship graphs are less expressive than Wingman.</td>
+</tr>
+<tr>
+<td>F04</td>
+<td>Telegram main channel and Butler routing</td>
+<td><strong>Similar</strong></td>
+<td>Native polling accepts allowed chats, persists offsets and forwards text to a mapped employee; messenger decisions can route back to workflow. <a href="repo/server/messenger/telegram-receiver.ts">Receiver</a>, 306–347 and 408–468; <a href="repo/server/modules/routes/ops/messages/decision-inbox/messenger-bridge.ts">decision bridge</a>, 403–491. No dedicated Butler is imposed. Raw <code>$</code> forwarding omits project ID while the default directive inbox requires one, so ordinary mapped chat/project dialogue and externally enriched directives must be distinguished. <a href="repo/server/modules/routes/ops/messages.ts">Default</a>, 9–10; <a href="repo/server/modules/routes/ops/messages/directives-inbox-routes.ts">requirement</a>, 490–503.</td>
+</tr>
+<tr>
+<td>F05</td>
+<td>Cross-project registry, intake and existing/new routing</td>
+<td><strong>Similar</strong></td>
+<td>Projects store core goals and paths; direct chat asks existing/new, offers recent project selection, creates new project bindings and resolves IDs/paths/context. <a href="repo/server/modules/routes/collab/direct-chat-handlers.ts">Direct chat handlers</a>, 42–55 and 79–220; <a href="repo/server/modules/routes/collab/project-resolution.ts">project resolution</a>, 87–168. This is much more than a repository picker, but pending binding dialogue is in memory and keyed by agent rather than an explicit persistent project-discovery conversation.</td>
+</tr>
+<tr>
+<td>F06</td>
+<td>Per-project product and technical leadership</td>
+<td><strong>Resembles</strong></td>
+<td>Planning leader and departmental leaders coordinate, and project assignment constraints scope candidates. <a href="repo/server/modules/routes/collab/task-delegation.ts">Delegation</a>, 125 onward; <a href="repo/server/modules/routes/ops/messages/directive-leader-scope.ts">leader scope</a>. No durable per-project ProductMaster plus TechMaster pair was found in the agent/project schema and leader selection paths. Department leadership is the main hierarchy.</td>
+</tr>
+<tr>
+<td>F07</td>
+<td>Proportionate discovery and iterative human clarification</td>
+<td><strong>Resembles</strong></td>
+<td>Project-binding questions and leader kickoff meetings exist; research is also a workflow pack. <a href="repo/server/modules/workflow/orchestration/planned-approval.ts">Planned approval</a>, 213–333; <a href="repo/server/modules/workflow/packs/definitions.ts">pack definitions</a>, 137–160. Kickoff prompts explicitly keep execution moving and convert concerns to work, not hold for domain discovery. No persisted proportional discovery/uncertainty/clarification state machine comparable to ProductMaster was found.</td>
+</tr>
+<tr>
+<td>F08</td>
+<td>Scope, specs, acceptance scenarios and definition of done</td>
+<td><strong>Resembles</strong></td>
+<td>Core goal, task descriptions, planning memos and pack guidance can carry requirements; development pack declares optional acceptance criteria and test evidence. <a href="repo/server/modules/workflow/packs/definitions.ts">Pack definitions</a>, 35–60; <a href="repo/server/modules/workflow/core/conversation-context-tools.ts">conversation context</a>, 53–164. No first-class maintained scope/spec/acceptance-scenario/DoD records or mandatory product-definition gate were found. Declared QA JSON alone does not prove enforcement.</td>
+</tr>
+<tr>
+<td>F09</td>
+<td>Decomposition, assignment and shared task tracker</td>
+<td><strong>Similar</strong></td>
+<td>Tasks/subtasks, assignees, status, blockers, meeting action-item extraction, delegated child tasks and cross-department consolidation are real. <a href="repo/server/modules/bootstrap/schema/base-schema.ts">Schema</a>, 88–107 and 258–270; <a href="repo/server/modules/workflow/orchestration/planned-approval.ts">planned approval</a>, 302–333; <a href="repo/server/modules/routes/collab/subtask-delegation.ts">dispatcher</a>, 295–345. The control plane and provider-output parsers maintain records; uniform autonomous tracker tools for all provider workers are not established.</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>Portfolio/project management dashboard</td>
+<td><strong>Similar</strong></td>
+<td>TaskBoard and ProjectManager show persistent projects, mapped tasks, owners, reports and decision events. <a href="repo/src/components/project-manager/ProjectInsightsPanel.tsx">Project insights</a>, 1–16 and 83 onward; <a href="repo/src/components/TaskBoard.tsx">TaskBoard</a>. Good existing substrate; lacks Wingman's complete product-definition-to-deliverable linkage and dedicated project leadership views.</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>Agent chat, rooms and direct collaboration</td>
+<td><strong>Similar</strong></td>
+<td>Persisted agent/department/all messages, CEO direct chat, mentions, team-lead meeting transcript and cross-department exchange exist. <a href="repo/server/modules/routes/ops/messages/chat-routes.ts">Chat routes</a>, 41–125; <a href="repo/server/modules/workflow/orchestration/planned-approval.ts">planned meeting</a>, 213–295. No independent room-membership/thread model for project Room1/Room2 was found; workers are largely coordinated by server workflow rather than freely messaging each other in their live coding sessions.</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>Management escalation and human decisions</td>
+<td><strong>Similar</strong></td>
+<td>Durable project/review decision states, decision inbox, messenger notices, option replies and timeout-resume decisions route human input back into work. <a href="repo/server/modules/bootstrap/schema/base-schema.ts">Schema</a>, 282 onward; <a href="repo/server/modules/routes/ops/messages/decision-inbox/messenger-bridge.ts">decision bridge</a>, 353–491. Strong workflow approval path, but not a general worker→project leadership→portfolio→Butler escalation model for arbitrary domain decisions.</td>
+</tr>
+<tr>
+<td>F13</td>
+<td>Durable project knowledge and reusable directives</td>
+<td><strong>Similar</strong></td>
+<td>Source workspaces, core goals, project memos, review archives, reports, shared department prompts and skills persist. <a href="repo/server/modules/workflow/core/conversation-context-tools.ts">Context</a>, 53–164; <a href="repo/server/modules/workflow/orchestration/execution-start-task.ts">execution prompt</a>, 180–247. There is no enforced DIRECTIVES/SCOPES/SPECS/HARNESS structure or comprehensive project knowledge ingestion contract.</td>
+</tr>
+<tr>
+<td>F14</td>
+<td>Identity, conversation and work continuity</td>
+<td><strong>Similar</strong></td>
+<td>Stable DB employees, messages, tasks, minutes and continuation briefs survive runs. <a href="repo/server/modules/bootstrap/schema/base-schema.ts">Schema</a>, 37–107 and 133–188; <a href="repo/server/modules/workflow/core/conversation-context-tools.ts">continuation tools</a>, 67–164. Execution session IDs are in memory; fresh CLI invocations receive bounded context rather than resuming a demonstrated native Codex thread. Recent messages include agent-wide broadcasts. Worktree recreation removes existing candidate paths, so paused uncommitted-file continuity is not established. <a href="repo/server/modules/workflow/core/worktree/lifecycle.ts">Worktree lifecycle</a>, 162–188.</td>
+</tr>
+<tr>
+<td>F15</td>
+<td>Proactive supervision, periodic wake, blocker follow-up</td>
+<td><strong>Similar</strong></td>
+<td>Startup and recurring orphan task/employee recovery, pending delegation sweep, progress notifications and decision notice sync exist. <a href="repo/server/modules/lifecycle.ts">Lifecycle</a>, 170–405 and 456–461. This is useful mechanical supervision. It does not demonstrate ProjectMaster periodically reasoning across project records and contacting the right colleagues; five-minute progress messages are templates.</td>
+</tr>
+<tr>
+<td>F16</td>
+<td>Parallel products and concurrent specialists</td>
+<td><strong>Similar</strong></td>
+<td>Project IDs, isolated per-task worktrees and separate processes allow independent jobs across products. <a href="repo/server/modules/workflow/orchestration/execution-start-task.ts">Execution start</a>, 129–171; <a href="repo/server/modules/workflow/agents/cli-runtime.ts">CLI runtime</a>, 249–256. Important limit: external-department subtasks within a parent are deliberately batched sequentially by department, <a href="repo/server/modules/routes/collab/subtask-delegation.ts">dispatcher</a>, 295–345. No unlimited scalable parallel team scheduler is established.</td>
+</tr>
+<tr>
+<td>F17</td>
+<td>Multi-host execution with shared coordination</td>
+<td><strong>Absent</strong></td>
+<td>Inspected schema, process creation, worktree code, runtime maps and lifecycle show server-local execution. <a href="repo/server/modules/workflow/agents/cli-runtime.ts">CLI runtime</a>, 249–256; <a href="repo/server/modules/workflow/core/worktree/lifecycle.ts">worktree lifecycle</a>, 125–222. Remote web access or external model HTTP calls are not agents executing on Endeavour. No host registry, remote runner lease, filesystem synchronization or remote process routing was found.</td>
+</tr>
+<tr>
+<td>F18</td>
+<td>Executive per-agent current/recent/next/blocker overview</td>
+<td><strong>Resembles</strong></td>
+<td>Employee status/current task, task counts, assigned task list and blocked subtasks provide pieces. <a href="repo/src/components/AgentDetail.tsx">AgentDetail</a>, 59–85; <a href="repo/src/components/agent-detail/AgentDetailTabContent.tsx">tab content</a>, 97–190. No coherent evidence-derived current/recent/next briefing per agent was found; progress templates must not be mistaken for one.</td>
+</tr>
+<tr>
+<td>F19</td>
+<td>Individual summary timeline linked to underlying work</td>
+<td><strong>Resembles</strong></td>
+<td>Chronological task logs, messages, minutes and report history exist, linked by task ID. <a href="repo/server/modules/routes/ops/messages/chat-routes.ts">Chat routes</a>, 41–82; <a href="repo/src/components/TerminalPanel.tsx">TerminalPanel</a>, 24–30 and 73–107. These are task/event records, not the requested durable per-agent plain-language accomplishment/next-work timeline.</td>
+</tr>
+<tr>
+<td>F20</td>
+<td>Detailed individual coding workspace</td>
+<td><strong>Resembles</strong></td>
+<td>Agent→task→terminal/minutes links, diff review and task reports provide useful drill-down. <a href="repo/src/components/agent-detail/AgentDetailTabContent.tsx">Agent tab</a>, 85–95; <a href="repo/src/components/TerminalPanel.tsx">TerminalPanel</a>, 73–114; <a href="repo/src/components/taskboard/DiffModal.tsx">DiffModal</a>. Not a full Codex/Orca session workspace with native conversation forking, compaction, artifact/browser inspection and host routing.</td>
+</tr>
+<tr>
+<td>F21</td>
+<td>Live activity, lifecycle controls and steering</td>
+<td><strong>Similar</strong></td>
+<td>Streamed CLI output, terminal polling, task status, pause, queued injection, resume and cancellation are implemented. <a href="repo/server/modules/routes/core/tasks/execution-control.ts">Execution control</a>, 139–214; <a href="repo/src/components/TerminalPanel.tsx">TerminalPanel</a>, 24–40 and 73–100. Steering uses pause/inject/relaunch. It is not transparent live input into a retained native conversation. No comparable native fork/compact/archive control or goal-budget system was found.</td>
+</tr>
+<tr>
+<td>F22</td>
+<td>Testing, integrated verification and acceptance/delivery</td>
+<td><strong>Similar</strong></td>
+<td>Leader review/remediation, merge attempts, GitHub dev/PR flow and video evidence gates exist. <a href="repo/server/modules/workflow/orchestration/meetings/review-consensus.ts">Review consensus</a>, 310–445; <a href="repo/server/modules/workflow/orchestration/review-finalize-tools.ts">finalization</a>, 404–612. Ordinary success initially means exit zero; no universal integrated-test/product-DoD gate was found. Pack <code>requireTestEvidence</code> is declared, with no consumer found beyond configuration CRUD. Merge failure notifies manual resolution but falls through to <code>done</code> (538–608). Later review favors residual-risk approval rather than a mandatory product-acceptance contract.</td>
+</tr>
+<tr>
+<td>F23</td>
+<td>Autonomous operation with human direction</td>
+<td><strong>Similar</strong></td>
+<td>CEO request→planning/delegation→CLI execution→review/remediation→merge/report is automated, with human decisions and optional decision autopilot. <a href="repo/server/modules/routes/collab/task-delegation.ts">Delegation</a>, 390–478; <a href="repo/server/modules/routes/ops/messages/decision-inbox/yolo-mode.ts">autopilot</a>, 80–174; <a href="repo/server/modules/workflow/orchestration/run-complete-handler.ts">run completion</a>, 485–648. It is bounded task autonomy, not proof of an accountable product-discovery organization operating until human acceptance. Ordinary failed jobs return to inbox and request retry/reassignment (650–752).</td>
+</tr>
+<tr>
+<td>F24</td>
+<td>New profiles participate across chat/tracker/dashboard</td>
+<td><strong>Similar</strong></td>
+<td>CRUD-generated employee IDs feed generic messages, assignments and detail panels. <a href="repo/server/modules/routes/core/agents/crud.ts">Agent CRUD</a>, 293–409; <a href="repo/server/modules/routes/ops/messages/chat-routes.ts">message routes</a>, 41–82; <a href="repo/src/components/AgentDetail.tsx">detail</a>, 76–85. Profiles join these views; fixed four-rank/six-pack vocabulary and department-oriented workflow constrain arbitrary organizational growth.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="assessment-3-agent-definition-management-and-lifecycle-findings">3. Agent definition, management and lifecycle findings</h2>
+<p>An employee profile is a combination of stable database identity, department shared prompt, rank, personality, workflow pack, provider/model/account and current assignment. This is stronger than a reusable prompt file: it has persisted relationships and server-managed state. It is weaker than an always-present conversational colleague: execution and participation are recreated as jobs and one-shot calls.</p>
+<p>Creation writes a UUID-backed employee record; configuration edits affect subsequent execution. A planning-lead flag can nominate the pack's coordinator. Task routing selects leaders/subordinates from department and project scope. The system can show provider-internal subagents by interpreting CLI output, but those subtasks are not automatically equivalent to persistent employee profiles in the directory. The CLI parser correlates Claude <code>Task</code> and Codex <code>spawn_agent</code>/<code>close_agent</code> events to tracker subtasks. See <a href="repo/server/modules/workflow/agents/cli-runtime.ts">CLI runtime</a>, lines 41–155.</p>
+<p>Execution uses a separate worktree and process. Rank/personality/department constraints are prompt-level guidance; tool permissions largely come from the provider invocation. The Codex coding invocation enables multi-agent support and uses <code>--yolo</code>; Claude uses <code>--dangerously-skip-permissions</code>. Worktrees reduce accidental source collisions but are not OS or network sandboxes. Meeting calls request <code>noTools</code>, and CLI one-shot code also observes tool signals to abort violations. Generic API calls are text-generation requests. These differences must be preserved in any Wingman adapter: a common employee UI should not imply uniform execution capabilities or isolation.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Lifecycle concern</th>
+<th scope="col">Actual mechanism and boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Definition and creation</td>
+<td>Name/department/personality/rank/pack/provider become a UUID-backed employee row; creation broadcasts UI state and does not launch a colleague process. <a href="repo/server/modules/routes/core/agents/crud.ts">CRUD</a>, 293–409. Model/account/planning-leader configuration is patched separately (447–615).</td>
+</tr>
+<tr>
+<td>Execution identity</td>
+<td>A task is a durable ticket. An employee is a reusable identity; application session UUID is an in-memory task/agent/provider association. A run is a local child or HTTP request. <a href="repo/server/modules/workflow/orchestration/session-review-tools.ts">Session tools</a>, 30–67; <a href="repo/server/modules/workflow/orchestration/execution-start-task.ts">execution routing</a>, 262–307.</td>
+</tr>
+<tr>
+<td>Routing/capacity</td>
+<td>Department/project/pack constraints select leaders and subordinates; explicit <code>/run</code> rejects an occupied employee. Different workers can run concurrently, while cross-department queues are deliberately serialized by batch. <a href="repo/server/modules/routes/collab/task-delegation.ts">Delegation</a>, 141–153; <a href="repo/server/modules/routes/core/tasks/execution-run.ts">busy guard</a>, 273–283; <a href="repo/server/modules/routes/collab/subtask-delegation.ts">queue</a>, 294–345.</td>
+</tr>
+<tr>
+<td>Tools and permissions</td>
+<td>CLI launches inherit most server environment and broad provider authority; worktrees isolate source branches. Meeting no-tool mode combines provider arguments and output-signal detection. <a href="repo/server/modules/workflow/agents/cli-runtime.ts">CLI runtime</a>, 239–256; <a href="repo/server/modules/workflow/core/cli-tools.ts">argument policy</a>, 48–108; <a href="repo/server/modules/workflow/core/one-shot-runner.ts">one-shot detector</a>, 126–137.</td>
+</tr>
+<tr>
+<td>Persistence/resume</td>
+<td>DB records and log excerpts feed a fresh prompt; native Codex resume/thread ID is not passed. Session proofs/injection rows do not establish restart-safe native conversations. <a href="repo/server/modules/workflow/core/conversation-context-tools.ts">Context retrieval</a>, 19–50 and 67–164; <a href="repo/server/modules/workflow/core/cli-tools.ts">Codex args</a>, 56–64.</td>
+</tr>
+<tr>
+<td>Scheduling</td>
+<td>Server timers drive delayed delegation, review, startup repair and recurring orphan/delegation sweeps. No enduring ProjectMaster reasoning loop was found. <a href="repo/server/modules/lifecycle.ts">Lifecycle timers</a>, 455–461; <a href="repo/server/db/runtime.ts">defaults</a>, 44–55.</td>
+</tr>
+<tr>
+<td>Pause/steer/cancel</td>
+<td>Pause interrupts and sets pending; injection requires task/session proof and queues a sanitized prompt; resume schedules a new run; cancel kills, rolls back and blocks delegated work. <a href="repo/server/modules/routes/core/tasks/execution-control.ts">Controls</a>, 139–206, 303–405 and 467–529. The worktree recreation path removes existing candidate directories, so pause is not proof of preserving uncommitted files. <a href="repo/server/modules/workflow/core/worktree/lifecycle.ts">Worktree lifecycle</a>, 162–188.</td>
+</tr>
+<tr>
+<td>Failure/recovery</td>
+<td>Idle/hard timers kill stuck CLI runs; ordinary failed work returns to inbox and deletes its worktree, with a retry/reassign notice. Orphan repair uses PID/log recency and replays completion or resets inbox. <a href="repo/server/modules/workflow/agents/cli-runtime.ts">Timeouts</a>, 258–314; <a href="repo/server/modules/workflow/orchestration/run-complete-handler.ts">failure</a>, 650–752; <a href="repo/server/modules/lifecycle.ts">recovery</a>, 215–348.</td>
+</tr>
+<tr>
+<td>Completion/acceptance</td>
+<td>Exit-zero ordinary work reaches review; later review rounds constrain further remediation. Finalization attempts merge and marks done, including after reported merge failure. <a href="repo/server/modules/workflow/orchestration/meetings/review-consensus.ts">Review prompts</a>, 310–443; <a href="repo/server/modules/workflow/orchestration/review-finalize-tools.ts">finalizer</a>, 526–612. This is workflow approval, not verified product acceptance.</td>
+</tr>
+<tr>
+<td>Retirement/cleanup</td>
+<td>Working employees cannot be deleted; deletion detaches references and removes identity. Worktree cleanup force-removes its directory/branch. <a href="repo/server/modules/routes/core/agents/crud.ts">Agent deletion</a>, 416–440; <a href="repo/server/modules/workflow/core/worktree/lifecycle.ts">worktree cleanup</a>, 234–268.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Pause stops a run while keeping task workflow continuity; injection persists instructions under a task/session ID and consumes them in the next execution prompt; resume starts another run. Cancel uses a different cleanup/rollback path and blocks linked delegated subtasks. Completion moves ordinary successful work to review, keeps child jobs available for parent consolidation, and finally attempts a merge or the GitHub PR flow. Ordinary failure resets work to inbox and cleans the failed worktree. Consequently, durable logs and intent may survive when intermediate uncommitted source changes do not. Retirement rejects deletion of a working agent, detaches task/subtask/review references and removes the employee row rather than archiving its conversation as an enduring identity.</p>
+<p>The <a href="index.html#support-agent-lifecycle-and-request-trace">companion walkthrough</a> details scheduling, interruption, failure recovery, acceptance, cleanup and an inbound Telegram request through the actual functions.</p>
+<h2 id="assessment-4-coordination-project-continuity-and-human-decisions">4. Coordination, project continuity and human decisions</h2>
+<p>Claw-Empire combines three mechanisms that Wingman also needs: a shared tracker, readable organizational conversation and a human escalation surface. Its design is valuable because those mechanisms are connected by task IDs and project references rather than being unrelated widgets.</p>
+<p>The <strong>tracker</strong> is authoritative workflow state. Assignment is not only a chat message. It changes task and employee fields, creates execution work and emits updates. Delegated tasks link back to source tasks and subtasks. Parent review waits for consolidation and handles child jobs in the same review/merge process. One caution for Wingman is that external-department queues are sequential by design. This gives an understandable order and avoids uncoordinated repeated dispatch, but BackendCoder/FrontendCoder/TestMaster parallelism would need a more explicit dependency graph and capacity scheduler.</p>
+<p>The <strong>chat</strong> provides direct CEO→agent messages, department/broadcast messages and meeting transcripts. It does not provide explicit arbitrary room objects with membership and project scoping in the inspected message schema. Meeting conversations are server-orchestrated turns: prompt construction, selected speakers, transcript, status changes and action-item collection. That is useful coordination, but it differs from workers independently using a shared room to settle API contracts while continuing separate coding conversations.</p>
+<p>The <strong>decision inbox</strong> is notably practical. Pending project/review/timeout choices become messenger notices. The bridge reserves sends to suppress duplicates, associates decisions with channel targets, accepts numeric/explicit replies and applies the selected option to workflow state. This is a strong pattern for Butler carrying questions and returning answers. Its native decision kinds are operational workflow choices, however, not a general product discovery question model. Multiple domain-clarification threads with durable ownership, answers and resulting product decisions would need expansion.</p>
+<p>Continuity also deserves scrutiny: <code>getRecentConversationContext</code> pulls ten messages for an agent, including organization broadcasts. The continuation brief clips result/memo/review excerpts. This is a useful bounded retrieval mechanism, but the same employee working across products can receive broadly agent-scoped conversation material. Wingman should make project ID, task ID, native session ID and question ownership explicit rather than relying on a prompt instruction not to mix projects.</p>
+<p>A concrete implemented request path is <strong>ordinary Telegram text → mapped employee → project binding → task → optional leader planning → provider run → review/decision → delivery attempt</strong>. The receiver forwards allowed human text to the authenticated inbox (<a href="repo/server/messenger/telegram-receiver.ts">receiver</a>, 306–347). Inbox resolves the session employee and offers decision replies before normal direct chat (<a href="repo/server/modules/routes/ops/messages/directives-inbox-routes.ts">inbox</a>, 506–540 and 690–738). Direct chat asks existing/new when task intent lacks a project, then either delegates a departmental leader's request or directly creates/runs a specialist task (<a href="repo/server/modules/routes/collab/direct-chat-handlers.ts">binding</a>, 492–537; <a href="repo/server/modules/routes/collab/direct-chat-task-flow.ts">task flow</a>, 51–98 and 167–193). Planning converts transcript actions into memo/subtasks; execution streams output; completion moves to review and decision replies apply concrete workflow options. The <a href="index.html#support-agent-lifecycle-and-request-trace">companion trace</a> follows those transitions and their failure paths in detail. This trace describes source behavior under its configuration prerequisites, not an exercised end-to-end integration.</p>
+<p>Two acceptance boundaries are particularly material. First, source-wide searches found <code>requireTestEvidence</code>/<code>enforceTests</code> only as pack declarations, while QA JSON is persisted/exposed by configuration routes. It is not evidence of an enforced test-result validator. Second, the merge-failure branch alerts the CEO but does not return before the unconditional <code>done</code> update (<a href="repo/server/modules/workflow/orchestration/review-finalize-tools.ts">finalization</a>, 538–608). Wingman must make test evidence, successful integration and human acceptance separate states rather than trusting this terminal label.</p>
+<h2 id="assessment-5-major-additional-capabilities-beyond-wingmans-described-scope">5. Major additional capabilities beyond Wingman's described scope</h2>
+<h3 id="assessment-a-configurable-production-organization-for-multiple-output-domains">A configurable production organization for multiple output domains</h3>
+<p>Workflow packs cover development, novel writing, structured reports, video production, web research reports and roleplay. They carry input schemas, prompt presets, output templates, routing keywords, QA declarations and cost profiles; office-pack department prompts and agent scopes change the operating team. This extends the product from a software organization into a general production company. Source: <a href="repo/server/modules/workflow/packs/definitions.ts">pack definitions</a>, lines 1–27 and 35–175; <a href="repo/server/modules/routes/collab/office-pack-agent-hydration.ts">office-pack hydration</a>.</p>
+<p>For Wingman this could support ProductMaster research or a content/launch team as a later product expansion. It also means copying the entire orchestration policy imports assumptions from non-software workflows. Some pack fields are configuration declarations rather than independently proven validators. They must be traced to execution enforcement individually.</p>
+<h3 id="assessment-actual-video-production-and-artifact-constrained-handoff">Actual video production and artifact-constrained handoff</h3>
+<p>The video pack is not merely a script-writing persona. It separates planning/documentation from final rendering, delegates <code>[VIDEO_FINAL_RENDER]</code>, discovers and synchronizes output files, and blocks review/merge when the video is missing or nonempty-file/render-engine evidence is insufficient. The code specifically checks Remotion evidence. Source: <a href="repo/server/modules/routes/collab/subtask-delegation.ts">subtask dispatcher</a>, lines 348–393; <a href="repo/server/modules/workflow/orchestration/run-complete-handler.ts">run completion</a>, lines 114–235; <a href="repo/server/modules/workflow/orchestration/review-finalize-tools.ts">review finalization</a>, lines 404–515.</p>
+<p>This is a distinct deliverable-production capability absent from Wingman's software-only purpose. More generally, its strongest reusable idea is making artifact existence and execution provenance gate completion. The current checks are specialized and do not prove that the video's content meets user intent; adapting the pattern to Wingman would require software artifact, integration-test and acceptance evidence.</p>
+<h3 id="assessment-structured-report-and-presentation-production-pipeline">Structured report and presentation production pipeline</h3>
+<p>Report routing can create a design checkpoint, wait for it, regenerate a final PPT and complete report work through its own path. This is a multi-stage artifact workflow rather than a minor export button. Source: <a href="repo/server/modules/workflow/orchestration/run-complete-handler.ts">run completion</a>, lines 412–480; <a href="repo/server/modules/workflow/orchestration/report-workflow-tools.ts">report workflow tools</a>. For Wingman it could become research/decision-brief delivery, but report-specific automatic completion and skipped reviews should not leak into code acceptance policy.</p>
+<h3 id="assessment-multi-provider-employee-and-account-operating-layer">Multi-provider employee and account operating layer</h3>
+<p>Per-agent CLI/model/reasoning/OAuth choices, encrypted provider records, account status and usage views make the organization heterogeneous. This can distribute suitable work across toolchains or accounts. Wingman currently defines Codex employees, so this is a major expansion in execution/provider management. Integration needs explicit capability negotiation: the generic API text path cannot replace a filesystem-enabled Codex worker simply by choosing a model name. Sources: <a href="repo/src/components/AgentDetail.tsx">agent detail configuration</a>, lines 60–109 and 213 onward; <a href="repo/server/modules/bootstrap/schema/base-schema.ts">schema</a>, lines 205–255; <a href="repo/server/modules/workflow/agents/providers/api-provider-tools.ts">API path</a>, lines 119–241.</p>
+<h3 id="assessment-provider-targeted-skill-acquisition-and-reuse">Provider-targeted skill acquisition and reuse</h3>
+<p>The Skills Library is an operating capability rather than merely a prompt catalog. A learn job maps selected providers to agents and runs the skills CLI installer, recording queued/running/completed history; custom skill uploads persist content and per-provider success records. Later execution prompts retrieve recent successful provider-matched skills and instruct the worker to prioritize them alongside global/runtime skills and MCP tools. See <a href="repo/server/modules/routes/ops/skills/learn-core.ts">learning job</a>, 276–323; <a href="repo/server/modules/routes/ops/custom-skills.ts">custom upload</a>, 41–109; <a href="repo/server/modules/workflow/core/prompt-skills.ts">prompt retrieval/policy</a>, 83–128. This could grow Wingman's specialist capabilities without changing every role prompt. Integration must distinguish installed executable/provider skills from a DB success label or skill-name hint; uploaded text recorded as succeeded is not proof every provider loads its full content.</p>
+<h3 id="assessment-automated-repository-bootstrap-and-github-delivery">Automated repository bootstrap and GitHub delivery</h3>
+<p>The execution layer can initialize a non-Git project, add/commit its contents and create task worktrees; GitHub-linked projects can merge into <code>dev</code>, push and create/update a PR to <code>main</code>. See <a href="repo/server/modules/workflow/core/worktree/lifecycle.ts">bootstrap</a>, 28–115; <a href="repo/server/modules/workflow/core/worktree/merge.ts">GitHub merge/PR</a>, 204–310. This turns organizational work into repository artifacts beyond Wingman's currently described coordination interface. It also imports consequential delivery policy: automatic commits, branch checkout/push, credential use and asynchronously requested PR creation. Wingman needs an explicit repository/delivery contract and should not infer a successful PR or integrated release from <code>done</code>.</p>
+<h2 id="assessment-6-distinctive-mechanisms-and-innovation-assessment">6. Distinctive mechanisms and innovation assessment</h2>
+<p>These are grounded mechanisms that are distinctive in this checkout. This assessment makes no claim of industry-first invention.</p>
+<p><strong>A meeting is a workflow transition with a persistent transcript.</strong> Planned meetings gather contributions, collect action items, append project memos and invoke the execution callback. Review meetings take the consolidated result through remediation, synthesis and decision. The important mechanism is conversion of dialogue into state and work, not animated characters taking turns. This could give Wingman inspectable ProductMaster/TechMaster discussions whose decisions create tickets. The limit is that meetings are orchestrated one-shot turns with bounded context. They are not proof of persistent peers carrying out deep research together. <a href="repo/server/modules/workflow/orchestration/planned-approval.ts">Planned meeting</a>, 213–333.</p>
+<p><strong>Bounded disagreement is an explicit execution policy.</strong> <code>getReviewRoundMode</code> maps round one to parallel remediation, round two to merge synthesis and round three to final decision. Review prompts constrain later rounds from creating endless new remediation and ask for residual-risk documentation. This is an operational answer to endless agent debate, with caps also visible in database runtime configuration. Sources: <a href="repo/server/modules/workflow/orchestration/session-review-tools.ts">session review tools</a>, lines 98–139; <a href="repo/server/modules/workflow/orchestration/meetings/review-consensus.ts">review consensus</a>, lines 310–445; <a href="repo/server/db/runtime.ts">runtime guardrails</a>, lines 22–43. For Wingman, retain bounded discussion but preserve a separate invariant that unmet product acceptance criteria remain unmet regardless of round count.</p>
+<p><strong>Provider subagents become visible tracker objects.</strong> The CLI stream parser recognizes Claude and Codex collaboration events and creates/completes corresponding subtasks. This bridges a provider's internal agent behavior to an organizational tracker, reducing opaque fan-out. It is an attractive observability adapter for Wingman. Correlation is provider-format-dependent and some mappings are in memory. A detected nested task is not automatically a managed employee with its own enduring workspace. <a href="repo/server/modules/workflow/agents/cli-runtime.ts">Parser</a>, 41–155. It parses each output chunk line-by-line without a visible partial-line buffer in this function, so robust correlation across chunk boundaries is not established.</p>
+<p><strong>A messenger decision is tied to concrete workflow identity.</strong> The decision bridge handles channel routing, pending-choice selection, deduplicated notices and applying the reply. This is more robust than forwarding an arbitrary chat reply to whichever model last spoke. It is directly relevant to concurrent Butler questions, though Wingman should extend identity to durable product questions and avoid ambiguous latest-decision behavior where several independent decisions share one channel. <a href="repo/server/modules/routes/ops/messages/decision-inbox/messenger-bridge.ts">Reply application</a>, 403–491, explicitly chooses the latest routed decision when no decision token is present.</p>
+<p><strong>Recovery distinguishes process liveness from presentation state.</strong> The watchdog checks active process handles, OS PID liveness, task-log recency and terminal-file modification times before recovering an orphan. This explicitly addresses backend restart and stale employee/task state. It is a substantial operational mechanism, not a timer that blindly restarts everything. It still recovers workflow by logs/state and does not reconnect to all lost native agent sessions. Source: <a href="repo/server/modules/lifecycle.ts">lifecycle</a>, lines 215–348.</p>
+<p><strong>Domain-specific evidence gates show a path toward outcome-aware autonomy.</strong> Video finalization checks both a produced file and execution evidence, whereas generic coding initially uses process exit and leader review. That contrast is useful: Wingman could generalize the artifact gate idea into product-specific delivery contracts, rather than treating agent completion text as product success. <a href="repo/server/modules/workflow/orchestration/review-finalize-tools.ts">Artifact/engine gates</a>, 344–515. These checks establish file/log conditions, not semantic correctness of the produced video.</p>
+<h2 id="assessment-7-what-wingman-could-reuse-and-what-remains">7. What Wingman could reuse and what remains</h2>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Layer</th>
+<th scope="col">Reuse/adaptation judgment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Project and task control plane</td>
+<td>Reuse the project/core-goal/task/subtask schema, linked reports/minutes and state transitions as a starting model. Add product-specification versions and explicit leadership assignments.</td>
+</tr>
+<tr>
+<td>Agent directory and organization UI</td>
+<td>Adapt generic employee creation, department prompts, assignments and provider configuration. Replace four-rank assumptions where role profiles need arbitrary responsibilities.</td>
+</tr>
+<tr>
+<td>Telegram and human decisions</td>
+<td>Reuse receiver offset/idempotency handling, channel routing and choice application patterns. Bind Butler requests/questions to durable project and conversation IDs.</td>
+</tr>
+<tr>
+<td>Coding execution</td>
+<td>Reuse worktree/output adapter concepts after fixing pause/recreation preservation and failure cleanup policy. Implement native Codex thread persistence, live steering, fork/compact/archive and capability-aware controls.</td>
+</tr>
+<tr>
+<td>Supervision</td>
+<td>Reuse process/log-aware recovery and pending dispatch reconciliation. Add an actual portfolio supervisor reasoning over stale work, blockers, outstanding questions and definitions of done.</td>
+</tr>
+<tr>
+<td>Chat and collaboration</td>
+<td>Retain messages/minutes as evidence but add project-scoped rooms, participant membership and agent-accessible collaboration tools, including cross-host workers.</td>
+</tr>
+<tr>
+<td>Executive view</td>
+<td>Build evidence-derived individual current/recent/next/blocker summaries and linked timelines; source them from actual task/tool/test/decision events.</td>
+</tr>
+<tr>
+<td>Distributed execution</td>
+<td>Build host registry, remote runners, placement, native-session routing, authentication and cross-host project/artifact access. Current local spawn and model HTTP integrations do not supply this.</td>
+</tr>
+<tr>
+<td>Acceptance</td>
+<td>Introduce maintained product scope/spec/scenario/DoD records and enforce test/acceptance gates independently of bounded meetings. Keep failed integration out of done; await and verify delivery artifacts/PR creation.</td>
+</tr>
+</tbody>
+</table></div>
+<p>For a practical Wingman prototype, Claw-Empire can supply a large fraction of the visible organization and task engine. For the full purpose, it is an architectural reference and adaptation base, not a verified drop-in implementation. The most valuable portions are its persistent organizational records, connected approval flows and workflow-to-execution bridges. The largest gaps concern the meaning of an enduring agent, genuine product discovery, distributed execution and executive truthfulness.</p>
+<h2 id="assessment-8-verification-scope-and-limits">8. Verification scope and limits</h2>
+<p>This is a static code assessment of the pinned local checkout. No dependency installation, application launch, provider login, external API call, Telegram message, coding job, merge, build or test suite was performed. Source files remained unchanged. Git status was checked before completion. Runtime success, production reliability, external service availability and missing submodule behavior are not established.</p>
+<p>The implementation review covered these areas:</p>
+<ul>
+<li>Schema, runtime startup, employee CRUD, process creation, and task controls.</li>
+<li>Telegram receipt, session routing, chat/project binding, and runtime replies.</li>
+<li>Task and cross-department delegation, planning, reviews, and decisions.</li>
+<li>Worktree creation, CLI/API execution, context reconstruction, and orphan recovery.</li>
+<li>Terminal, detail, and project UI.</li>
+</ul>
+<p>Searches covered <code>DIRECTIVES</code>, <code>SCOPES</code>, <code>definition of done</code>, <code>acceptance</code>, <code>discovery</code>, and <code>clarification</code>. They also covered host/SSH/remote execution and individual timelines. The review traced matches through the relevant control, execution, and UI paths. Agents can write arbitrary files when prompted. That possibility does not establish a built-in product workflow.</p>
+<p>Relevant tests were inspected as evidence of intended contracts, not reported as passing. Control tests mock startup/process effects, and Telegram tests mock HTTP. These do not prove full provider or messenger integration:</p>
+<ul>
+<li><a href="repo/server/modules/routes/core/tasks/execution-control.test.ts">Execution-control tests</a>, lines 364, 416, 448 and 493: pause interruption, cancellation cleanup, same-session resume and pause→inject→resume sequence.</li>
+<li><a href="repo/server/messenger/telegram-receiver.test.ts">Telegram receiver tests</a>, lines 51, 143 and 216: allowed inbound chat forwarding/offset storage, bot suppression and multiple token routing.</li>
+<li><a href="repo/server/modules/routes/ops/messages/decision-inbox-routes.bridge.test.ts">Decision bridge tests</a>, lines 80–114: non-decision filtering and explicit missing-decision behavior.</li>
+<li><a href="repo/server/modules/workflow/core/worktree/lifecycle.test.ts">Worktree lifecycle tests</a>, lines 38–85: existing branch reuse and occupied-branch suffix fallback.</li>
+<li><a href="repo/server/modules/workflow/orchestration/meetings/leader-selection.test.ts">Leader selection tests</a>, lines 134–184: workflow-pack scope and manual-assignment meeting leadership.</li>
+<li><a href="repo/server/modules/workflow/orchestration/review-finalize-tools.video-gate.test.ts">Video review gate tests</a>, lines 38 and 108: blocking approval without an artifact or without Remotion evidence.</li>
+</ul>
+<p>A material interpretation risk is accepting simulated office behavior as execution evidence. <code>rotateBreaks</code> changes idle/break status probabilistically (<a href="repo/server/modules/lifecycle.ts">lifecycle</a>, lines 110–129). The five-minute reporter claims smooth progress based only on status (<a href="repo/server/modules/workflow/orchestration/progress-notify-tools.ts">progress notifications</a>, lines 7–38). Those paths must not drive Wingman's executive briefing without additional work-derived evidence.</p></article><section id="support-agent-lifecycle-and-request-trace" class="technical supporting"><h2 id="support-agent-lifecycle-and-request-trace-claw-empire-agent-lifecycle-and-request-trace">Claw-Empire: agent lifecycle and request trace</h2>
+<p>Companion to the <a href="index.html">assessment</a>. Static inspection of commit <code>66a24ea7df2435ef897c48c147deb7ec572c01c2</code>, 2026-11-05. Paths below are relative to this chapter; ranges identify the inspected implementation. No application, provider, Telegram integration or test was run.</p>
+<h2 id="support-agent-lifecycle-and-request-trace-what-an-agent-actually-is">What an agent actually is</h2>
+<p>The durable object is the SQLite <code>agents</code> row. It holds a UUID, names, department, one of four ranks, workflow pack, planning-leader flag, provider/account/model, personality, status, current task and statistics. There is no native Codex conversation identifier in that row. A department supplies another prompt and organizational grouping. A workflow pack supplies domain guidance and routing. These compose a reusable employee profile, rather than defining a daemon that continually reasons. See <a href="repo/server/modules/bootstrap/schema/base-schema.ts">base schema</a>, lines 7–107.</p>
+<p>Three other objects must remain distinct. A <strong>task</strong> is a durable work item with assignee, project, description, status and result. A <strong>task execution session</strong> is an application UUID in an in-memory map, reused only while its task/agent/provider combination matches. A <strong>run</strong> is a new local process or HTTP request with a prompt and output log. A meeting contribution is another one-shot invocation using an employee's persona. Provider-internal Codex/Claude subagents can be projected into tracker subtasks, but are not thereby employee rows. See <a href="repo/server/modules/workflow/orchestration/session-review-tools.ts">session tools</a>, 30–67; <a href="repo/server/modules/workflow/agents/cli-runtime.ts">CLI runtime</a>, 41–155 and 220–256; <a href="repo/server/modules/workflow/core/one-shot-runner.ts">one-shot runner</a>, 81–103.</p>
+<h2 id="support-agent-lifecycle-and-request-trace-definition-creation-and-retirement">Definition, creation and retirement</h2>
+<p><code>POST /api/agents</code> validates the name, pack and department, chooses a permitted rank/provider and inserts a new UUID. It broadcasts <code>agent_created</code> for the generic UI. It does not start a process. <code>PATCH /api/agents/:id</code> updates the profile, validates provider-specific account/model options and handles planning-leader conflicts. Those settings influence later prompts/runs; editing personality does not rewrite a currently running provider conversation. See <a href="repo/server/modules/routes/core/agents/crud.ts">agent CRUD</a>, 293–409, 447–585 and 594–615.</p>
+<p>Creation is human/control-plane CRUD, not evidence that a ProjectMaster autonomously hires a durable employee. Runtime fan-out through <code>spawn_agent</code> is a separate provider mechanism. Multiple rows can share a department and model, so several backend specialists can exist, although their domain role comes from department/personality rather than an unconstrained role type.</p>
+<p>Deletion refuses a <code>working</code> employee, nulls task/subtask/minute/report/planner references transactionally, then deletes the row and broadcasts it. There is no first-class archived agent identity or recoverable retirement lifecycle in this path. See <a href="repo/server/modules/routes/core/agents/crud.ts">deletion</a>, 416–440.</p>
+<h2 id="support-agent-lifecycle-and-request-trace-assignment-routing-and-concurrency">Assignment, routing and concurrency</h2>
+<p>Delegation resolves project metadata and workflow pack, constrains candidate agents by project/pack, chooses a subordinate from the leader's department and creates the planned task. The task description contains CEO instruction, project core goal and round goal. After planning, callbacks reassign the task to the subordinate and start execution, with leader self-execution as fallback. Acknowledgement/delegation speech is partly server-built template text with randomized delays. It is not all autonomous reasoning. See <a href="repo/server/modules/routes/collab/task-delegation.ts">delegation</a>, 125–222 and 390–478.</p>
+<p>The explicit task-run route rejects another live process on the same task and rejects an employee whose current working task still has an active process. Different task IDs and employees can have distinct processes and worktrees across projects. This is local concurrency, with no host-placement or remote-runner protocol. Foreign-department subtasks are intentionally grouped into queues and dispatched one department batch at a time; origin-team work can defer that dispatch until review. See <a href="repo/server/modules/routes/core/tasks/execution-run.ts">task-run checks</a>, 87–125 and 271–283; <a href="repo/server/modules/routes/collab/subtask-delegation.ts">department dispatcher</a>, 280–345.</p>
+<h2 id="support-agent-lifecycle-and-request-trace-starting-a-coding-run-and-tool-authority">Starting a coding run and tool authority</h2>
+<p><code>startTaskExecutionForAgent</code> sets task <code>in_progress</code> and employee <code>working</code>, obtains an application session, and loads pending interruption prompts. It creates an isolated Git worktree; failure rolls status back to pending and releases the employee. The prompt combines recent changes, task/pack, continuation brief, recent conversation, employee/personality, department constraint/shared prompt and injected direction. Provider routing then chooses CLI, generic API or OAuth HTTP execution. See <a href="repo/server/modules/workflow/orchestration/execution-start-task.ts">execution start</a>, 76–92, 129–247 and 249–307.</p>
+<p>For CLI workers the backend writes a temporary prompt file, inherits the server environment with selected CLI-related adjustments, starts a local detached child in the worktree and sends the prompt through stdin. Output goes to a file, WebSocket events and subtask parsing. Idle/hard timeouts kill the process tree. The worktree is a source isolation mechanism, not a separate OS user/container or a filesystem/network sandbox. See <a href="repo/server/modules/workflow/agents/cli-runtime.ts">CLI execution</a>, 220–368.</p>
+<p>Tool authority is provider dependent. Codex coding uses <code>--enable multi_agent --yolo exec --json</code>; Claude uses <code>--dangerously-skip-permissions</code>; Gemini coding uses <code>--yolo</code>. Meeting calls can request <code>noTools</code>, causing read-only/plan/no-tool arguments where supported. The one-shot runner also detects tool-like output and aborts a violation. Rank and department constraints are instructions, not independent authorization boundaries. See <a href="repo/server/modules/workflow/core/cli-tools.ts">argument construction</a>, 48–108; <a href="repo/server/modules/workflow/core/one-shot-runner.ts">one-shot safeguards</a>, 40–46 and 126–137.</p>
+<p>The generic API adapter sends a streamed user/system text request to Anthropic, Google or a chat-completions endpoint, then consumes the stream. It declares no filesystem/shell tools or tool-execution loop. A project path mentioned in its system message does not make that employee a coding process. See <a href="repo/server/modules/workflow/agents/providers/api-provider-tools.ts">API adapter</a>, 119–241. OAuth-backed implementations are separate adapters; their capability must be evaluated individually rather than inferred from the common employee selector.</p>
+<h2 id="support-agent-lifecycle-and-request-trace-persistence-continuity-and-interruption">Persistence, continuity and interruption</h2>
+<p>SQLite preserves employee/task/message/minute/revision/report records, while logs preserve output. On a later run, <code>getRecentConversationContext</code> retrieves ten agent-related messages, including broadcasts, and <code>getTaskContinuationContext</code> builds bounded excerpts of result tail, review notes, minutes and project memo. This is useful retrieval but is neither full conversation history nor strictly project-scoped retrieval. See <a href="repo/server/modules/workflow/core/conversation-context-tools.ts">context tools</a>, 19–50 and 67–164.</p>
+<p>The application reuses a session UUID in memory and prints it into the prompt. The Codex argument builder passes neither a native thread ID nor <code>resume</code>. A resumed task starts another <code>exec</code>. Session preservation therefore means workflow continuity. It does not establish native Codex conversation continuity.</p>
+<p>Restart loses the in-memory session map. Durable interruption rows use that application UUID. These paths do not establish restart-safe delivery of an old pending instruction. See <a href="repo/server/modules/workflow/orchestration/session-review-tools.ts">session map</a>, 30–67; <a href="repo/server/modules/bootstrap/schema/base-schema.ts">injection schema</a>, 154–163; and <a href="repo/server/modules/workflow/core/cli-tools.ts">CLI arguments</a>, 56–64.</p>
+<p>Pause signals SIGINT (or abort for HTTP), sets pending and releases the employee while preserving application workflow/session state. Injection requires pending status, session proof and a control token. It sanitizes and durably queues the instruction. Resume validates status, rejects an active process and schedules a fresh start for the assigned online employee. The next start incorporates and consumes injections. Cancel kills rather than interrupts, rolls back worktree changes, blocks linked delegated subtasks and clears workflow/session state. Late completion callbacks are ignored for stopped/deleted/non-running tasks. See <a href="repo/server/modules/routes/core/tasks/execution-control.ts">execution controls</a>, 139–206, 229–259, 303–405 and 467–529; <a href="repo/server/modules/workflow/orchestration/run-complete-handler.ts">late-result handling</a>, 56–93.</p>
+<p>Each restarted <code>startTaskExecutionForAgent</code> calls <code>createWorktree</code>. Its candidate loop recursively removes an existing worktree directory before re-adding the branch. Committed branch state may survive. Paused uncommitted or untracked files can be lost. The control-route tests mock startup. They do not establish filesystem preservation across the full pause/resume cycle. See <a href="repo/server/modules/workflow/orchestration/execution-start-task.ts">restart call</a>, 129–130; <a href="repo/server/modules/workflow/core/worktree/lifecycle.ts">candidate cleanup</a>, 162–188; and <a href="repo/server/modules/routes/core/tasks/execution-control.ts">resume control</a>, 514–529.</p>
+<h2 id="support-agent-lifecycle-and-request-trace-scheduling-supervision-failure-and-recovery">Scheduling, supervision, failure and recovery</h2>
+<p>There is no inspected enduring employee loop waking to reason about its portfolio. The server schedules workflow callbacks and mechanical sweeps: startup interrupted-workflow repair, orphan tasks/employees and pending subtask dispatch. Defaults include a ten-minute orphan grace, thirty-second orphan sweep and fifteen-second delegation sweep. See <a href="repo/server/db/runtime.ts">runtime constants</a>, 44–55; <a href="repo/server/modules/lifecycle.ts">lifecycle scheduling</a>, 455–461.</p>
+<p>Recovery consults process handles/PID liveness, recent DB logs and terminal-file modification time before treating work as orphaned. It can replay a recorded successful/failed completion or return unknown orphan work to inbox, release the employee and notify the CEO. Startup also reconciles delegated work and duplicate review meetings. It repairs organization state. It does not reconnect a lost native agent conversation. See <a href="repo/server/modules/lifecycle.ts">recovery</a>, 170–361.</p>
+<p>Ordinary unsuccessful execution resets to inbox, cleans the failed worktree, reports an error and allows departmental queues to continue. The failure notice requests reassignment/revision/retry. This is not a demonstrated general autonomous retry policy. Bounded meeting retries and workflow remediation are separate mechanisms. Cleanup force-removes worktrees and deletes their branches, so intermediate failed code can be lost while logs survive. See <a href="repo/server/modules/workflow/orchestration/run-complete-handler.ts">failure handling</a>, 650–752; <a href="repo/server/modules/workflow/core/worktree/lifecycle.ts">cleanup</a>, 234–268.</p>
+<h2 id="support-agent-lifecycle-and-request-trace-completion-review-and-delivery">Completion, review and delivery</h2>
+<p>Ordinary exit-zero work moves to review; child work can wait for parent consolidation. Meetings produce persisted leader feedback and remediation. Review policy explicitly moves through remediation, synthesis and final decision, with later prompts disallowing new remediation and offering approval with residual risk. This bounds debate but does not enforce satisfaction of a product definition of done. See <a href="repo/server/modules/workflow/orchestration/run-complete-handler.ts">successful completion</a>, 485–567; <a href="repo/server/modules/workflow/orchestration/session-review-tools.ts">review mode</a>, 98–139; <a href="repo/server/modules/workflow/orchestration/meetings/review-consensus.ts">review prompts</a>, 310–443.</p>
+<p>Finalization attempts a local merge or GitHub development-branch/PR workflow. Successful cleanup precedes the done record and session closure. The merge-failure branch notifies the CEO that manual resolution is needed. It then reaches the same <code>done</code> update. Done therefore does not establish successful integration.</p>
+<p>The GitHub PR request also runs asynchronously after push. Finalization does not await its success as the synchronous merge result. See <a href="repo/server/modules/workflow/orchestration/review-finalize-tools.ts">finalization</a>, 526–612, and <a href="repo/server/modules/workflow/core/worktree/merge.ts">GitHub delivery</a>, 204–310.</p>
+<p>The video pack has stronger concrete gates: missing/empty video or missing/invalid Remotion execution evidence holds approval. Report tasks have separate design-checkpoint/PPT completion paths which can skip review. These are distinct domain policies, not a universal software acceptance contract. See <a href="repo/server/modules/workflow/orchestration/review-finalize-tools.ts">video finalization</a>, 344–515; <a href="repo/server/modules/workflow/orchestration/run-complete-handler.ts">report branches</a>, 412–480.</p>
+<h2 id="support-agent-lifecycle-and-request-trace-trace-an-ordinary-telegram-coding-request">Trace: an ordinary Telegram coding request</h2>
+<p>This traces an implemented code path, not an observed successful run. Assume a configured token, allowed chat, inbox secret, session-to-agent mapping and suitable employee/provider.</p>
+<ol>
+<li>The receiver polls Telegram, rejects bot/disallowed/empty updates and posts source, message ID, author, chat and text to the local inbox with the shared-secret header. Successful forwarding advances persisted offsets. See <a href="repo/server/messenger/telegram-receiver.ts">receiver</a>, 306–350 and 408–468.</li>
+<li>Inbox authenticates the shared secret, resolves the mapped employee for ordinary text and rejects unconfigured session routing. It inserts an idempotent message, first offers a reply to the workflow decision bridge, and otherwise calls <code>scheduleAgentReply</code> with messenger routing metadata. See <a href="repo/server/modules/routes/ops/messages/directives-inbox-routes.ts">inbox</a>, 407–458, 506–540, 600–612 and 690–738.</li>
+<li>Direct chat classifies task intent and manages project binding. When needed it asks existing/new, lists recent projects or requests new name/path, and later hands off through its task flow. Pending binding is an in-memory map keyed by employee, expiring after an hour; two independent chat/project dialogues for the same employee are not separate durable conversations. See <a href="repo/server/modules/routes/collab/direct-chat-handlers.ts">direct chat</a>, 42–55, 79–224 and 492–537; <a href="repo/server/modules/routes/collab/direct-chat-task-flow.ts">task flow</a>, 51–98 and 167–193. To follow the planning branch below, assume the mapped employee is a departmental team leader. A specialist can receive a direct task without that leader meeting.</li>
+<li>A delegated task records project/core/round goals and the messenger destination. A planning meeting calls one-shot leader personas with a transcript, collects executable action items, appends a project memo and invokes its approval callback. Planning is explicitly told not to block kickoff. See <a href="repo/server/modules/routes/collab/task-delegation.ts">delegation</a>, 141–219 and 390–445; <a href="repo/server/modules/workflow/orchestration/planned-approval.ts">planning meeting</a>, 213–333.</li>
+<li>The subordinate starts a worktree-scoped provider run; its stream updates terminal logs and can create subtasks from provider events. Other departments receive batched delegated tasks and completion callbacks. Shared DB state and task IDs coordinate them, rather than arbitrary project rooms. See <a href="repo/server/modules/workflow/orchestration/execution-start-task.ts">execution</a>, 129–307; <a href="repo/server/modules/workflow/agents/cli-runtime.ts">subtask parsing</a>, 44–155 and 333–350; <a href="repo/server/modules/routes/collab/subtask-delegation.ts">dispatch</a>, 294–345.</li>
+<li>Exit success moves ordinary work to review; failure returns it to inbox. Review/timeout choices are exposed through the decision inbox and messenger. A numeric reply resolves the latest decision for that route unless an explicit decision token identifies another; validated options are applied to workflow state. This is a concrete answer-routing mechanism, but latest-choice fallback can be ambiguous when several questions share a channel. See <a href="repo/server/modules/workflow/orchestration/run-complete-handler.ts">completion</a>, 485–567 and 650–752; <a href="repo/server/modules/routes/ops/messages/decision-inbox/messenger-bridge.ts">decision reply bridge</a>, 403–491.</li>
+<li>Approved work reaches merge/report/done as described above. The task's stored messenger route enables follow-up notification. This does not establish human acceptance against maintained scope/scenarios, and merge failure can still reach done.</li>
+</ol>
+<p>The <code>$</code> directive route requires an explicit project ID by default. Without it, the route returns HTTP 428. The native Telegram receiver does not include a project ID in its forwarded body. The source therefore does not establish default delegation for a raw <code>$...</code> received through that path.</p>
+<p>Documented OpenClaw orchestration supplies project-binding metadata. Ordinary mapped chat can ask binding questions. These are separate intake paths. See <a href="repo/server/modules/routes/ops/messages.ts">default policy</a>, 9–10; <a href="repo/server/modules/routes/ops/messages/directives-inbox-routes.ts">directive requirement</a>, 490–503; and <a href="repo/server/messenger/telegram-receiver.ts">forwarded fields</a>, 335–347.</p></section>
+<section id="source-record"><h2>Source and evidence</h2><p class="url-text">https://github.com/GreenSheep01201/claw-empire</p>
+<ul><li><a href="repo/">Open the pinned source checkout</a></li><li><a href="assessment/ASSESSMENT.md">Read the Markdown assessment</a></li>
+<li><a href="../generic/assessments/_audits/qa02.md">Read the historical independent source audit</a></li><li><a href="../generic/method.html">Read the method and evidence limits</a></li></ul></section>
+<nav class="report-switch" aria-label="Adjacent project reports"><a href="../claude-squad/index.html">Previous project: Claude Squad</a><a href="../clawteam/index.html">Next project: Clawteam</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../index.html">Return to overview <img src="../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

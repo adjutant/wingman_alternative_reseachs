@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Technical assessment against Wingman’s development organization."><title>Ruflo · Wingman Research</title>
+<link rel="icon" href="../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/report.css"><script defer src="../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../index.html"><img src="../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../index.html">Overview</a><a class="nav-link " href="../generic/index.html">Architecture findings</a><a class="nav-link " href="../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../generic/method.html">Method and evidence</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../index.html">Wingman Research</a><span class="crumb">/</span><span>Ruflo</span></div><span class="topbar-note">SOURCE REVIEW · 05 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Ruflo</h1><p class="subtitle">Technical assessment against Wingman’s development organization.</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#decision">Decision summary</a><a href="#assessment-ruflo-assessment-against-wingman">Ruflo assessment against Wingman</a><a href="#assessment-verdict">Verdict</a><a href="#assessment-architecture-and-actual-execution-model">Architecture and actual execution model</a><a href="#assessment-feature-matrix">Feature matrix</a><a href="#assessment-agent-definition-and-complete-lifecycle">Agent definition and complete lifecycle</a><a href="#assessment-coordination-mechanics-and-a-traced-request">Coordination mechanics and a traced request</a><a href="#assessment-substantial-capabilities-beyond-wingmans-stated-product">Substantial capabilities beyond Wingman&#x27;s stated product</a><a href="#assessment-distinctive-mechanisms-and-innovation-assessment">Distinctive mechanisms and innovation assessment</a><a href="#assessment-practical-fit-for-wingman">Practical fit for Wingman</a><a href="#assessment-verification-scope-and-limits">Verification scope and limits</a><a href="#source-record">Source and evidence</a></div></nav><section id="decision" class="decision"><h2>Decision summary</h2>
+<div class="brief-columns"><div><h3>Useful for Wingman</h3><p>Study coding subprocesses, team mailboxes, mission planning, background workers, memory, and policy mechanisms.</p></div><div><h3>Adoption boundary</h3><p>Different APIs use different execution paths. Metadata creation must not count as a running persistent coding agent.</p></div></div>
+<p class="scope-note">Source assessment at the commit below. Runtime limits appear in the technical report.</p></section>
+<dl class="facts"><div><dt>Source group</dt><dd>Workflow layers</dd></div><div><dt>Commit</dt><dd><code>bf5d71a1852071660b3489a0ff02d998676200e5</code></dd></div><div><dt>Coverage</dt><dd>24 Wingman features</dd></div></dl>
+<article id="technical-assessment" class="technical"><h2 id="assessment-ruflo-assessment-against-wingman">Ruflo assessment against Wingman</h2>
+<p class="url-text">Assessment date: <strong>2026-11-05</strong>. Repository: https://github.com/ruvnet/ruflo . Local checkout: <code>researchs/ruflo/repo</code>. Examined commit: <strong><code>bf5d71a1852071660b3489a0ff02d998676200e5</code></strong>. Root package identifies itself as <code>claude-flow</code> <strong>3.71.4</strong>; Ruflo and Claude Flow names coexist. This report assesses the checked-out source, not the health of a published package or hosted service.</p>
+<h2 id="assessment-verdict">Verdict</h2>
+<p><strong>A substantial coordination, memory, policy and execution toolkit, with a useful terminal workbench; not a ready-made Wingman organization.</strong> Ruflo can really launch independent Claude Code and Codex subprocesses through its dual-mode orchestrator. It also has durable team mailboxes, task records, mission planning, a console, periodic background workers, federation, and a separate hosted-team service implementation. Those are significant reusable pieces.</p>
+<p>The important qualification is that these capabilities belong to <strong>different execution and persistence paths</strong>. <code>agent_spawn</code> normally creates metadata, <code>agent_execute</code> makes a model request, <code>team_spawn</code> returns a host spawn plan, the dual-mode runtime launches coding processes, and console missions hand work to the primary Claude session. They must not be collapsed into one persistent agent organization. The durable mission API explicitly refuses execution admission and resume because its independent executor has not been implemented. A console autopilot exists, but its liveness depends on a running host session. No Telegram Butler, automatic organization-wide project intake, standing ProductMaster/TechMaster pair, connected web/mobile executive dashboard, or complete durable per-agent session control was established.</p>
+<p>For Wingman, the best use is <strong>selective infrastructure reuse or design reference</strong>, especially the policy/receipts boundary, team communication bus, bounded worktree execution and honest observation model. Adopting the whole repository would require reconciling multiple stores, host-specific integrations and optional native/cloud dependencies before building the product organization above them.</p>
+<h2 id="assessment-architecture-and-actual-execution-model">Architecture and actual execution model</h2>
+<h3 id="assessment-entry-points-and-boundaries">Entry points and boundaries</h3>
+<p>The root <a href="repo/bin/cli.js">CLI launcher</a>, lines 1–11, imports the bundled v3 CLI entry point. The <a href="repo/package.json">package manifest</a>, lines 1–52 and 71–110, identifies the umbrella package and packaged CLI/shared/guidance components; its dependencies include Codex, MCP, security and federation components alongside optional AgentDB, vector and <code>agentic-flow</code> integrations. This is a large TypeScript/Node monorepo with plugins, not one small daemon owning every concept.</p>
+<p>CLI commands such as <code>agent spawn</code> call the local tool registry. <a href="repo/v3/@claude-flow/cli/src/mcp-client.ts">mcp-client.ts</a>, lines 255–288, looks up the tool, obtains a policy decision, invokes the handler and optionally screens tool results. Calling an MCP-named tool from this path does not imply a remote server or running executor. The <a href="repo/v3/@claude-flow/cli/src/mcp-tools/agent-tools.ts">agent registry</a>, lines 17–87 and 330–440, persists <code>.claude-flow/agents/store.json</code>, model/role/configuration and swarm membership. Its spawn path contains no process launch.</p>
+<p>There are several materially different meanings of “agent”:</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Path</th>
+<th scope="col">Actual work unit and executor</th>
+<th scope="col">Persistence boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>agent_spawn</code> / <code>agent_execute</code></td>
+<td>A tracked role/configuration record followed, if explicitly requested, by a direct model API call. It is not a tool-using coding process.</td>
+<td>Agent JSON, latest result and bounded execution samples.</td>
+</tr>
+<tr>
+<td><code>team_create</code> / <code>team_spawn</code></td>
+<td>Team roster, mailboxes and a spawn plan that the native host lead must execute.</td>
+<td>Files under <code>.claude-flow/teams/&lt;team&gt;/</code>.</td>
+</tr>
+<tr>
+<td>Codex dual-mode collaboration</td>
+<td>Real <code>claude -p</code> or <code>codex exec</code> child processes with prompts, dependencies and optional isolated worktrees.</td>
+<td>Worktree registry and shared memory survive. The orchestrator's worker/process maps are in memory.</td>
+</tr>
+<tr>
+<td><code>hive-mind work</code></td>
+<td>A real queued-task consumer selecting an idle hive worker and launching <code>claude -p</code>, then recording the result.</td>
+<td>Generic task store contains result, native session ID when returned, cost and duration. The process remains a bounded run.</td>
+</tr>
+<tr>
+<td>Console Mission Control / autopilot</td>
+<td>Mission tasks normally handed to the current primary Claude session; optional parallel handoffs under a bounded envelope.</td>
+<td>Console ledger, task store and autopilot journal; continued execution needs a live host.</td>
+</tr>
+<tr>
+<td>Managed Agents / AI Team plugins</td>
+<td>Managed Agents wraps an external execution API; AI Team stores teams/runs/tasks and supplies a board, but does not itself run workers.</td>
+<td>Provider sessions plus local observations, or tenant-scoped memory/Firestore respectively.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Evidence: <a href="repo/v3/@claude-flow/cli/src/mcp-tools/agent-execute-core.ts">agent execution core</a>, lines 257–283 and 615–687; <a href="repo/v3/@claude-flow/cli/src/mcp-tools/team-tools.ts">team tools</a>, lines 1–11 and 100–129; <a href="repo/v3/@claude-flow/codex/src/dual-mode/orchestrator.ts">dual-mode orchestrator</a>, lines 157–278; <a href="repo/plugins/ruflo-console/hooks/mission-control.ts">Mission Control</a>, lines 1–8; <a href="repo/v3/@claude-flow/cli/src/mcp-tools/managed-agent-tools.ts">managed tools</a>, lines 1–18; <a href="repo/plugins/ruflo-ai-team/src/server.mjs">AI Team server</a>, lines 84–138.</p>
+<p>The <a href="repo/v3/@claude-flow/cli/src/commands/hive-mind-worker.ts">hive worker consumer</a>, lines 142–188 and 223–266, reads the oldest pending hive task and selects an idle hive worker. It assigns the task and runs Claude with a Ruflo-aware MCP configuration. It then records completion or failure. This closes a queue-to-execution gap for that command. It does not make every registered hive worker a standing process. The queue read, pending check and assignment are separate tool operations, so they should not be assumed to constitute a globally atomic distributed claim.</p>
+<h3 id="assessment-persistence-and-observation">Persistence and observation</h3>
+<p>Basic agent and task stores use synchronous JSON read/replace operations. The <a href="repo/v3/@claude-flow/cli/src/mcp-tools/task-tools.ts">task implementation</a>, lines 35–76, does not establish a transactional database despite tool descriptions referring to <code>.swarm/memory.db</code>. Tasks contain status, progress, assignees, tags and results; ordinary task records do not contain dependency edges. Dependency semantics live in mission plans, the team bus and dual-mode worker graphs instead.</p>
+<p>The newer <a href="repo/v3/@claude-flow/cli/src/missions/store.ts">mission store</a>, lines 1–18, 60–71 and 152–217, has a stronger contract: per-mission locks, append-only newline events, <code>fsync</code>, replay, atomic snapshots and crash-tail handling. <a href="repo/v3/@claude-flow/cli/src/missions/service.ts">MissionService</a>, lines 134–155 and 200–238, gives deterministic request-scoped IDs, request deduplication, expected-revision checks and plan digests. However, <code>admit</code> and <code>resume</code> return <code>executor-unavailable</code> at lines 220–225. Durable planning is implemented; durable independent mission execution is not.</p>
+<p>The terminal console reads bounded snapshots rather than assuming missing files mean zero activity. Its <a href="repo/plugins/ruflo-console/hooks/data/snapshot.ts">snapshot reader</a>, lines 1–5 and 66–130, joins agents, tasks, claims, hive, daemon, learning, federation and managed observations. Its separate <a href="repo/plugins/ruflo-console/hooks/mission-ledger.ts">console mission ledger</a>, lines 14–18 and 50–97, uses per-project host-store keys and a best-effort <code>.claude-flow/console/mission-ledger.json</code> mirror. It keeps the newest 20 missions. This is not the same authority as the durable mission event store. Wingman integration must choose canonical entities and explicitly reconcile these read models.</p>
+<h2 id="assessment-feature-matrix">Feature matrix</h2>
+<p>“Similar” credits implemented partial equivalence while retaining the concrete gap. No row is upgraded merely because a prompt names a role or a tool describes an aspiration.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Wingman capability</th>
+<th scope="col">Verdict</th>
+<th scope="col">Implementation evidence and difference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F01</td>
+<td>Real independent coding agents and specialist instances</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/v3/@claude-flow/codex/src/dual-mode/orchestrator.ts">Dual-mode orchestrator</a>, lines 31–43 and 205–278, launches distinct Claude/Codex processes with role prompts and cwd. Multiple specialist instances are real here. Ordinary <a href="repo/v3/@claude-flow/cli/src/mcp-tools/agent-tools.ts">agent spawn</a>, lines 372–440, only registers records. Processes are task-scoped, not Wingman's standing agents with independent continuing conversations.</td>
+</tr>
+<tr>
+<td>F02</td>
+<td>Extensible profiles, roles and team composition</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/v3/@claude-flow/cli/src/mcp-tools/team-tools.ts">Team spawn schema</a>, lines 100–129, accepts role/prompt/handoff fields; <a href="repo/plugins/ruflo-core/agents/coder.md">coder profile</a>, lines 1–22, supplies instructions/model; <a href="repo/plugins/ruflo-ai-team/src/server.mjs">AI Team roles</a>, lines 85–91 and 111–113, are editable strings. Extensible composition exists, without a unified durable profile-to-instance-to-conversation model.</td>
+</tr>
+<tr>
+<td>F03</td>
+<td>Directory and visible working relationships</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/plugins/ruflo-console/hooks/views/swarm.ts">Console swarm view</a>, lines 25–76, shows topology, leader, member status, names/types and agent drill-down. <a href="repo/plugins/ruflo-console/hooks/views/agent.ts">Agent view</a>, lines 23–38, links assignments and claims. It is a project terminal view of tracked records, not an organization-wide directory with project/team/room relationships.</td>
+</tr>
+<tr>
+<td>F04</td>
+<td>Telegram and Butler routing</td>
+<td><strong>Absent</strong></td>
+<td>Repository-wide source searches for <code>telegram</code>/<code>Telegram</code> found a messaging-gateway roadmap item, not an implementation. <a href="repo/plugins/ruflo-console/hooks/data/wf-send.ts">Console send routing</a>, lines 75–107 and 167–203, supports native prompt/message, hive, task, BBS/channel, peer, Codex and HTTP targets; no Telegram bot, Butler identity or project-aware reply routing appears there.</td>
+</tr>
+<tr>
+<td>F05</td>
+<td>Cross-project registry and existing/new intake routing</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/plugins/ruflo-ai-team/src/server.mjs">AI Team server</a>, lines 85–108, lists multiple teams and runs; <a href="repo/plugins/ruflo-console/hooks/mission-ledger.ts">console ledger</a>, lines 14–18 and 50–58, isolates missions by cwd. These store explicit user-selected groups/projects. No semantic organization-wide intake router deciding new versus existing product was established.</td>
+</tr>
+<tr>
+<td>F06</td>
+<td>Per-project product and technical leadership</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/plugins/ruflo-console/hooks/goap.ts">GOAP action library</a>, lines 38–60, assigns researcher, specification, architecture, coder and verifier roles. <a href="repo/v3/@claude-flow/codex/src/dual-mode/orchestrator.ts">Dual-mode workers</a>, lines 31–43, permit arbitrary roles. These are configurable work stages/personas, not automatically created, persistent ProductMaster and TechMaster instances that jointly own a product.</td>
+</tr>
+<tr>
+<td>F07</td>
+<td>Proportionate discovery and iterative human clarification</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/plugins/ruflo-console/hooks/goap.ts">GOAP</a>, lines 17–27, 38–50 and 83–103, varies planning by profile/rigor. The <a href="repo/plugins/ruflo-goals/skills/deep-research/SKILL.md">deep-research skill source</a>, lines 18–39 and 51–56, instructs a host to gather/cross-reference evidence with depth/cost limits and obtain acceptance before retaining findings. This is meaningful research guidance, but no durable product-discovery question/answer cycle with agent-originated clarification routing through Butler was established. Generic aside/guidance controls do not supply that cycle.</td>
+</tr>
+<tr>
+<td>F08</td>
+<td>Scope, specifications, acceptance scenarios and DoD</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/plugins/ruflo-console/hooks/goap.ts">GOAP</a>, lines 38–60, requires written specifications, testable criteria, ADRs and independent goal validation. <a href="repo/v3/@claude-flow/cli/src/mcp-tools/mission-tools.ts">Mission plan tool</a>, lines 47–59, accepts acceptance criteria, task graph, budget and scope. These are useful contracts, but creating a plan records requirements rather than proving a maintained product specification or accepted delivery.</td>
+</tr>
+<tr>
+<td>F09</td>
+<td>Decomposition, assignment and shared task tracking</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/v3/@claude-flow/cli/src/mcp-tools/task-tools.ts">Task tools</a>, lines 125–185, persist assignments/progress; <a href="repo/plugins/ruflo-console/hooks/mission-control.ts">Mission Control</a>, lines 59–101, derives ready/waiting work from dependency edges; <a href="repo/v3/@claude-flow/codex/src/dual-mode/orchestrator.ts">dual orchestration</a>, lines 336–387, executes dependency levels. These form substantial tracking, with separate stores and no unified portfolio ticket authority.</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>Human portfolio/project management dashboard</td>
+<td><strong>Similar</strong></td>
+<td>The <a href="repo/plugins/ruflo-ai-team/src/server.mjs">AI Team board adapter</a>, lines 95–109, really returns teams, runs, tasks and evidence for a private interactive MCP App. Console mission views add project operation. This is more than a terminal grid, but hosted board records are not joined to local worker sessions, source artifacts and organizational projects. Hosted deployment was not exercised.</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>Chat application, rooms and direct collaboration</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/v3/@claude-flow/cli/src/mcp-tools/team-tools.ts">Team tools</a>, lines 4–11 and 133–148, expose durable named-agent mailboxes and broadcast; <a href="repo/v3/@claude-flow/cli/src/mcp-tools/x-federation-channels.ts">channel tools</a>, lines 109–143 and 185–250, implement public/private room-like channels. The console's <a href="repo/plugins/ruflo-console/hooks/data/room.ts">Room feed</a>, lines 1–19 and 59–91, merges observed events/actions/human messages. It is not Room1/Room2 threaded organizational chat with durable participant/project/task navigation.</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>Management escalation and human decisions/approvals</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/v3/@claude-flow/cli/src/mcp-client.ts">Policy dispatch</a>, lines 270–281, gates actions; <a href="repo/plugins/ruflo-console/hooks/data/ap-loop.ts">autopilot journal</a>, lines 17–35 and 109–135, parks questions and records answers; <a href="repo/plugins/ruflo-console/hooks/data/room.ts">Room pending banner</a>, lines 94–113, attributes requests. Concrete human control exists, but no worker → project leadership → management → Butler escalation organization.</td>
+</tr>
+<tr>
+<td>F13</td>
+<td>Durable project knowledge and reusable directives</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/plugins/ruflo-core/agents/coder.md">Coder instructions</a>, lines 8–22, direct agents to <code>docs/SPEC.md</code>, accepted ADRs and reusable memory. <a href="repo/v3/@claude-flow/cli/src/mcp-tools/memory-tools.ts">Memory tools</a>, lines 522–611 and 698–890, persist/search namespaced context. Good reusable knowledge primitives, with multiple backends; no canonical Wingman <code>DIRECTIVES/SCOPES/SPECS/HARNESS</code> lifecycle.</td>
+</tr>
+<tr>
+<td>F14</td>
+<td>Persistent identity, conversation and work continuity</td>
+<td><strong>Similar</strong></td>
+<td>Agent IDs/configs/results persist, and <a href="repo/v3/@claude-flow/cli/src/mcp-tools/session-tools.ts">session tools</a>, lines 24–65, snapshot agent/task/memory stores. <a href="repo/v3/@claude-flow/cli/src/mcp-tools/managed-agent-tools.ts">Managed adapter</a>, lines 110–157, observes provider-session history. This is partial continuity: a saved Ruflo session is not a suspended coding process or native model conversation; dual-mode does not resume a prior native session.</td>
+</tr>
+<tr>
+<td>F15</td>
+<td>Proactive supervision and periodic blocker follow-up</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/v3/@claude-flow/cli/src/services/worker-daemon.ts">Worker daemon</a>, lines 1–12 and 66–85, schedules analysis jobs; <a href="repo/v3/@claude-flow/cli/src/services/repo-supervisor.ts">repository supervisor</a>, lines 1–39, elects one recurring headless scheduler per repository. <a href="repo/plugins/ruflo-console/hooks/ap-live.ts">Console autopilot</a>, lines 1–6 and 96–113, ticks in a live host. None is the full portfolio-aware ProjectMaster checking workers and escalating product blockers.</td>
+</tr>
+<tr>
+<td>F16</td>
+<td>Parallel products and concurrent specialists</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/v3/@claude-flow/codex/src/dual-mode/orchestrator.ts">Dual-mode batching</a>, lines 343–387 and 446–482, bounds concurrent readers/writers and enforces unique writer paths when configured. Separate cwd-ledgers permit independent projects. No organization-wide scheduler joins products, shared staffing and portfolio priorities; console normal mission handoff is sequential.</td>
+</tr>
+<tr>
+<td>F17</td>
+<td>Real multi-host execution with shared coordination</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/v3/@claude-flow/plugin-agent-federation/src/plugin.ts">Federation plugin</a>, lines 293–363 and 446, wires a real network transport. <a href="repo/v3/@claude-flow/plugin-agent-federation/src/application/inbound-dispatcher.ts">Inbound dispatcher</a>, lines 8–19, validates and emits messages but explicitly leaves task execution to an integrator. <a href="repo/plugins/ruflo-console/hooks/data/wf-send.ts">Console peer send</a>, lines 183–195, invokes an external <code>~/.claude/helpers/federation.sh</code>; that helper was not found in tracked source. Distributed communication is implemented, but a self-contained verified cross-host coding executor plus shared project state was not established.</td>
+</tr>
+<tr>
+<td>F18</td>
+<td>Executive current/recent/next work and blockers</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/plugins/ruflo-console/hooks/views/agent.ts">Agent view</a>, lines 23–38, shows assignments, claims, status and recent events. The board shows team/run/task state. There is no durable synthesized per-agent briefing with explicit completed outcomes, current effort, planned next work and blockers across the organization. Status/health must not be treated as that briefing.</td>
+</tr>
+<tr>
+<td>F19</td>
+<td>Per-agent summary timeline linked to work</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/plugins/ruflo-console/hooks/views/agent.ts">Agent timeline</a>, lines 25–42, is status changes observed since console load and six recent events. <a href="repo/plugins/ruflo-console/hooks/data/wf-activity.ts">Transcript activity</a>, lines 1–17 and 50–68, records calls/messages/files. Useful evidence, but not a persistent plain-language agent accomplishment timeline linked to tickets/discussions/tests.</td>
+</tr>
+<tr>
+<td>F20</td>
+<td>Detailed individual coding workspace drill-down</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/plugins/ruflo-console/hooks/data/wf-activity.ts">Transcript parser</a>, lines 1–17 and 50–68, exposes tool/result/message/file detail; <a href="repo/plugins/ruflo-console/hooks/sessions.ts">session workspace</a>, lines 1–6, 75–81 and 247, scans sessions but explicitly has no opener wired in phase 1. Useful read-only investigation, not the complete Codex-like workspace for every tracked agent.</td>
+</tr>
+<tr>
+<td>F21</td>
+<td>Live activity, lifecycle, steering and execution visibility</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/plugins/ruflo-console/hooks/data/wf-send.ts">Send transports</a>, lines 75–107 and 167–195, permit native steering, task guidance and read-only Codex calls; <a href="repo/v3/@claude-flow/cli/src/mcp-tools/managed-agent-tools.ts">managed controls</a>, lines 204–240, expose scoped interrupt/terminate. <a href="repo/v3/@claude-flow/cli/src/services/headless-worker-executor.ts">Headless cancellation</a>, lines 886–938, signals actual processes. Controls vary by runtime; no uniform start/resume/fork/rename/compact/archive lifecycle exists for all identities.</td>
+</tr>
+<tr>
+<td>F22</td>
+<td>Testing, integrated verification and acceptance/delivery</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/plugins/ruflo-console/hooks/goap.ts">GOAP</a>, lines 51–60, includes tests, review, build, independent acceptance validation; <a href="repo/plugins/ruflo-console/hooks/mission-verify.ts">mission verifier</a>, lines 81–124, records actual configured gate exit codes and distinguishes verified/unverified. These are substantial verification mechanics. Passing configured gates does not prove product completeness, and independent Wingman TestMaster/human acceptance/delivery is still an organizational layer to build.</td>
+</tr>
+<tr>
+<td>F23</td>
+<td>Autonomous operation under human organizational direction</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/v3/@claude-flow/codex/src/dual-mode/cli.ts">Dual CLI</a>, lines 61–80, admits opt-in unattended bounded execution; <a href="repo/v3/@claude-flow/codex/src/loop/index.ts">Codex loop</a>, lines 116–207, repeatedly launches work and records progress. <a href="repo/v3/@claude-flow/cli/src/missions/service.ts">Mission API</a>, lines 217–225, still refuses durable executor admission. Autonomy exists within a run/live session, not a persistent Telegram-directed development organization.</td>
+</tr>
+<tr>
+<td>F24</td>
+<td>Newly added profiles fit chat/tracker/dashboards</td>
+<td><strong>Similar</strong></td>
+<td>Generic roles/names work in <a href="repo/v3/@claude-flow/cli/src/mcp-tools/team-tools.ts">team tools</a>, lines 100–148, and <a href="repo/plugins/ruflo-console/hooks/views/swarm.ts">console agent rows</a>, lines 51–73; <a href="repo/plugins/ruflo-ai-team/src/server.mjs">AI Team</a>, lines 85–113 and 125–130, accepts arbitrary role strings. This avoids hard-coding only the initial specialists, but those roles do not automatically acquire linked independent sessions, project leadership relationships, executive summaries or organizational chat membership.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="assessment-agent-definition-and-complete-lifecycle">Agent definition and complete lifecycle</h2>
+<h3 id="assessment-definition-creation-and-identity">Definition, creation and identity</h3>
+<p>A plugin agent such as <a href="repo/plugins/ruflo-core/agents/coder.md">coder.md</a>, lines 1–22, is a model/persona/instruction definition. It is a useful specialist profile, not evidence of an active process. The generic registry accepts an agent type, optional custom ID/display name, arbitrary configuration, domain, task and model, then determines model routing and saves an idle record. <a href="repo/v3/@claude-flow/cli/src/mcp-tools/agent-tools.ts">agent-tools.ts</a>, lines 285–306 and 330–440, also registers membership in the requested or most recently created swarm and refuses membership beyond its live-agent cap. This capacity check counts records, not OS or native-host liveness. A default health of <code>1.0</code> at registration is likewise not evidence that useful work ran.</p>
+<p>Team creation is distinct. <a href="repo/v3/@claude-flow/cli/src/mcp-tools/team-tools.ts">team-tools.ts</a>, lines 73–129, creates metadata and registers named members, returning a native-host spawn plan. The lead still has to perform the host spawn. A dual-mode <a href="repo/v3/@claude-flow/codex/src/dual-mode/orchestrator.ts">WorkerConfig</a>, lines 31–43, instead directly describes a real process run: platform, role, prompt, model, dependencies, cwd/worktree, read-only flag and capability envelope. Its supplied ID indexes in-memory worker results. It is not automatically the same identity as an <code>agent_spawn</code> record or a native conversation ID.</p>
+<h3 id="assessment-execution-tools-and-permissions">Execution, tools and permissions</h3>
+<p><code>agent_execute</code> retrieves the registered configuration, rejects terminated IDs, chooses the persisted model and instructions, marks the record busy, and makes a provider request. <a href="repo/v3/@claude-flow/cli/src/mcp-tools/agent-execute-core.ts">agent-execute-core.ts</a>, lines 615–687, establishes that path. The Anthropic request at lines 257–283 sends a system prompt and one user message. It does not attach coding tools or a native conversation transcript. A successful response can be useful analysis or code text, but is not an independently acting coder.</p>
+<p>In contrast, <a href="repo/v3/@claude-flow/codex/src/dual-mode/orchestrator.ts">dual-mode execution</a>, lines 205–278, launches <code>claude -p</code> or <code>codex exec</code>, selects read-only/workspace-write Codex sandboxing, sets cwd and worker environment, closes stdin, captures bounded stdout/stderr, and resolves on process exit. The native coding host supplies its own tools and permissions. The <a href="repo/v3/@claude-flow/codex/src/dual-mode/cli.ts">dual CLI</a>, lines 61–80, requires enabled automation, bounds requested concurrency/time by configured ceilings and turns on policy preflight. The underlying class can also be constructed directly, so these CLI defaults must not be generalized to every embedding.</p>
+<p><a href="repo/v3/@claude-flow/cli/src/mcp-client.ts">mcp-client.ts</a>, lines 270–288, is a concrete local Ruflo-tool authorization boundary. <a href="repo/v3/@claude-flow/cli/src/services/policy-runtime.ts">policy-runtime.ts</a>, lines 857–915, validates worker capability envelopes and resolves policy roots; <a href="repo/v3/@claude-flow/security/src/policy/engine.ts">policy engine</a>, lines 33–47, defaults to <code>legacy</code>. Thus policy code exists, but enforcement depends on configured mode and native-host integration. It does not magically authorize or contain every shell command a host can run.</p>
+<h3 id="assessment-routing-dependencies-and-concurrency">Routing, dependencies and concurrency</h3>
+<p>Registry model routing considers explicit model/provider choices, task-based enhanced routing and role defaults. <a href="repo/v3/@claude-flow/cli/src/mcp-tools/agent-tools.ts">agent-tools.ts</a>, lines 171–280, includes deterministic-codemod hints, embeddings and fallback heuristics. Routing chooses a model, not a Wingman project or accountable project leader.</p>
+<p>Dual-mode execution builds dependency levels, rejects cycles and validates writer ownership, then partitions each level into batches with separate total-worker and writer caps. A batch runs with <code>Promise.all</code>; later work can be skipped or cancelled after failures. See <a href="repo/v3/@claude-flow/codex/src/dual-mode/orchestrator.ts">orchestrator</a>, lines 336–387 and 432–482. <a href="repo/v3/@claude-flow/codex/src/worktrees/coordinator.ts">CodexWorktreeCoordinator</a>, lines 43–90, prepares named branches/detached worktrees, refuses a dirty starting repository by default, and records assignments. Separate worktrees reduce file conflicts; acceptance and integration still require an explicit integration owner and checks.</p>
+<h3 id="assessment-persistence-resume-and-scheduling">Persistence, resume and scheduling</h3>
+<p>Agent records, task records and memory are durable files/stores. The direct-call path keeps latest result and a bounded execution history, re-reading current metadata at completion so a concurrent termination/update is not overwritten (<a href="repo/v3/@claude-flow/cli/src/mcp-tools/agent-execute-core.ts">execution core</a>, lines 832–861). The generic <a href="repo/v3/@claude-flow/cli/src/mcp-tools/session-tools.ts">session snapshot schema</a>, lines 24–65, holds memory/tasks/agents. Restoring those records is not resuming a native model conversation or restarting a lost coding subprocess.</p>
+<p>Dual-mode worker/process maps are not a restart-durable supervisor. The Codex <a href="repo/v3/@claude-flow/codex/src/loop/index.ts">loop runner</a>, lines 116–180 and 218–222, starts with a fresh iteration state and invokes new <code>codex exec</code> runs with a continuation prompt. It persists progress/output and stops on a completion file, error or configured limit, rather than preserving one native Codex session. Lines 203–207 can label an exhausted loop <code>completed</code> even without a completion marker. This status is a runner outcome, not accepted product delivery.</p>
+<p>The daemon offers real periodic code mapping, audit, optimization, test-gap and memory jobs. The <a href="repo/v3/@claude-flow/cli/src/services/repo-supervisor.ts">supervisor registry</a>, lines 1–39, prevents every worktree from independently scheduling the same recurring headless spend. This is valuable execution hygiene, but it supervises recurring jobs for a repository, not the project portfolio and human product questions.</p>
+<p>Console autopilot has a journaled step machine and a one-minute live tick. <a href="repo/plugins/ruflo-console/hooks/ap-live.ts">ap-live.ts</a>, lines 1–6 and 96–113, explicitly says it is not a standalone scheduler: liveness comes from the session staying up and its <code>/loop</code> re-arm. The durable mission service separately refuses admission/resume. Persistent records, recoverable UI state and independent background execution are therefore three different guarantees here.</p>
+<h3 id="assessment-steering-interruption-cancellation-and-failures">Steering, interruption, cancellation and failures</h3>
+<p>Console steering can submit a visible prompt, call native <code>SendMessage</code>, append task guidance or broadcast into hive/channel state. <a href="repo/plugins/ruflo-console/hooks/data/wf-send.ts">wf-send.ts</a>, lines 75–107, documents their distinct delivery semantics: task guidance is seen only when read, hive broadcast does not interrupt a worker, and a proposal does not compel execution. The session workspace <a href="repo/plugins/ruflo-console/hooks/sessions.ts">open action</a>, line 247, explicitly reports that no opener is wired. Inspection should not be mistaken for a universal resume/steering endpoint.</p>
+<p>Generic <code>task_cancel</code> updates the record and frees tracked assignees. It does not establish termination of an underlying native worker (<a href="repo/v3/@claude-flow/cli/src/mcp-tools/task-tools.ts">task-tools.ts</a>, lines 541–590). Console mission pause similarly means no more handoffs. An already handed-off task finishes first (<a href="repo/plugins/ruflo-console/hooks/mission-specs.ts">mission-specs.ts</a>, lines 108–115). The headless executor does have real cancellation, tracks processes and escalates termination; <a href="repo/v3/@claude-flow/cli/src/services/headless-worker-executor.ts">headless-worker-executor.ts</a>, lines 886–938 and 1441–1467, includes process-group handling for descendants. The simpler dual-mode timeout at <a href="repo/v3/@claude-flow/codex/src/dual-mode/orchestrator.ts">orchestrator lines 264–276</a> sends <code>SIGTERM</code> and reports failure. These guarantees should not be conflated.</p>
+<p>The hive consumer's <a href="repo/v3/@claude-flow/cli/src/commands/hive-mind-worker.ts">runner</a>, lines 159–185, also sets a <code>SIGTERM</code> timeout and waits for child close. Its result includes native session ID and reported spend when Claude returns them. This improves traceability for one queued execution, but no automatic crash-resume of that native session or equivalent process-group cancellation is established by this path.</p>
+<p>Direct model execution has a bounded fallback chain for retryable errors (<a href="repo/v3/@claude-flow/cli/src/mcp-tools/agent-execute-core.ts">execution core</a>, lines 689–721). Generic <a href="repo/v3/@claude-flow/cli/src/mcp-tools/task-tools.ts">task retry</a>, lines 602–650, clones the original specification into a new pending task and preserves history. It is a requeue, not automatic worker recovery. Autopilot keeps failure counts/backoff and parks work for once/deny answers, with a failure budget of five (<a href="repo/plugins/ruflo-console/hooks/data/ap-loop.ts">step machine</a>, lines 17–47 and 98–135). An interruption or API transport uncertainty still requires inspecting actual runtime/provider state before retrying mutations.</p>
+<h3 id="assessment-completion-acceptance-retirement-and-cleanup">Completion, acceptance, retirement and cleanup</h3>
+<p>Dual-mode <code>completed</code> means process exit zero (<a href="repo/v3/@claude-flow/codex/src/dual-mode/orchestrator.ts">orchestrator</a>, lines 188–199 and 269–276). Generic task completion records a result and releases assignees (<a href="repo/v3/@claude-flow/cli/src/mcp-tools/task-tools.ts">task-tools.ts</a>, lines 306–348). Neither inherently validates the product. Console <a href="repo/plugins/ruflo-console/hooks/mission-verify.ts">verification gates</a>, lines 98–124, are stronger: they preserve exit codes and distinguish failed, unknown and verified outcomes, resetting evidence relevance after a new dispatch. The meaning of the configured commands remains the operator's responsibility.</p>
+<p>Registry termination marks an agent terminated and optionally promotes/discards its memory branch (<a href="repo/v3/@claude-flow/cli/src/mcp-tools/agent-tools.ts">agent-tools.ts</a>, lines 566–601). It does not imply a native session was archived. The <a href="repo/v3/@claude-flow/codex/src/worktrees/coordinator.ts">worktree coordinator</a>, lines 112–137, integrates branches separately and removes worktrees without forced removal, retaining failures and retaining the registry while anything remains. That is a useful explicit cleanup boundary. Full organizational retirement—reassigning tickets, closing room participation, preserving a human-readable history and archiving a native conversation—remains to implement.</p>
+<h2 id="assessment-coordination-mechanics-and-a-traced-request">Coordination mechanics and a traced request</h2>
+<p>Ruflo combines several coordination mechanisms rather than a single chat/tracker. Team mailboxes support named direct handoffs and broadcasts with filesystem persistence, locking and atomic writes (<a href="repo/v3/@claude-flow/cli/src/mcp-tools/team-tools.ts">team-tools.ts</a>, lines 4–11). Generic task state records responsibility, while mission ledgers and dual-mode graphs add dependencies. Swarm/hive metadata records topologies, proposals and votes; policy decisions determine action admission. Network federation carries authenticated envelopes. The console Room merges these observations with human speech/actions, but is not itself a durable conversation among all organizational members.</p>
+<p>The following is a <strong>static implementation trace</strong>, not a live run: entering a feature goal in console Mission Control and asking it to proceed.</p>
+<ol>
+<li><strong>Goal interpretation:</strong> <a href="repo/plugins/ruflo-console/hooks/mission-control.ts">setGoal</a>, lines 39–47, retains the goal text, chooses a profile unless manually selected and calls the pure planner. The <a href="repo/plugins/ruflo-console/hooks/goap.ts">GOAP library</a>, lines 38–60 and 83–103, selects actions for profile/rigor. It does not conduct product discovery simply by computing this graph.</li>
+<li><strong>Reviewable plan and task creation:</strong> <a href="repo/plugins/ruflo-console/hooks/mission-create.ts">mission-create.ts</a>, lines 128–144 and 248–269, builds the mission-create/plan/task CLI sequence as one confirmed action and records returned task IDs. Its retry/read-back contract at lines 4–15 checks late task-creation successes and cancels partial creation on failure. Every task receives mission/node tags. The console keeps the dependency edges.</li>
+<li><strong>Shared durable planning:</strong> <code>mission_create</code>/<code>mission_plan</code> use the same <a href="repo/v3/@claude-flow/cli/src/missions/service.ts">MissionService</a>, lines 134–155 and 200–208, as other adapters. IDs deduplicate requests; plan writes check expected revision and graph validity. <a href="repo/v3/@claude-flow/cli/src/missions/store.ts">MissionStore</a>, lines 152–217, locks, appends events and updates snapshots. This still executes no coding work.</li>
+<li><strong>Ready-task selection:</strong> <a href="repo/plugins/ruflo-console/hooks/mission-control.ts">derive/nextTask</a>, lines 59–85, reads the generic task store, checks dependencies and refuses another ordinary handoff when a task is running or failed. The console's dependency graph matters because ordinary task records lack dependency fields.</li>
+<li><strong>Actual execution handoff:</strong> <a href="repo/plugins/ruflo-console/hooks/mission-specs.ts">mission-specs.ts</a>, lines 57–97, dispatches the instruction through the host's prompt submission. The primary Claude session does the work and is instructed to report <code>task_complete</code> or failure. A role name in a plan does not itself spawn a separate native agent. <a href="repo/plugins/ruflo-console/hooks/mission-control.ts">Mission Control's contract</a>, lines 1–8, states this explicitly.</li>
+<li><strong>Evidence and next step:</strong> The console reads updated task state, records ordered local ledger events, and advances under confirmed or opted-in auto-run. <a href="repo/plugins/ruflo-console/hooks/mission-verify.ts">mission-verify.ts</a>, lines 81–124, executes configured gates and records their exit-code evidence. The durable mission API is not thereby admitted to an independent executor; its separate execution state remains constrained as described above.</li>
+<li><strong>Human decision or interruption:</strong> Steering is a visible prompt/aside, policy-sensitive actions ask through console controls, and autopilot can park a question. Pausing stops subsequent handoffs. It does not retract work already running. There is no automatic routing from this point through a management room and Telegram Butler.</li>
+</ol>
+<p>An alternative real multi-process trace is <code>dual run</code>: <a href="repo/v3/@claude-flow/codex/src/dual-mode/cli.ts">dual-mode CLI</a>, lines 61–115, resolves automation/template configuration, prepares worker specifications and creates the orchestrator; <a href="repo/v3/@claude-flow/codex/src/dual-mode/orchestrator.ts">runCollaboration</a>, lines 336–395, initializes shared memory, runs bounded dependency levels and collects results. That path supplies independent coding processes, but does not automatically populate every console mission/team/hosted-board entity with a shared identity.</p>
+<p>The ordinary <code>agent_logs</code> drill-down is especially limited: <a href="repo/v3/@claude-flow/cli/src/mcp-tools/agent-tools.ts">agent-tools.ts</a>, lines 1012–1056, explicitly returns synthetic creation/last-result entries because structured per-agent activity logging is not yet wired. Both can carry the creation timestamp. Those rows should not become Wingman's durable activity timeline; native transcript observations and meaningful accomplishment summaries need their own model.</p>
+<h2 id="assessment-substantial-capabilities-beyond-wingmans-stated-product">Substantial capabilities beyond Wingman's stated product</h2>
+<h3 id="assessment-policy-envelopes-and-auditable-admission">Policy envelopes and auditable admission</h3>
+<p>Ruflo has a dedicated policy engine, budget/approval state, signed capability-envelope handling and a common tool-dispatch gate. <a href="repo/v3/@claude-flow/cli/src/services/policy-runtime.ts">policy-runtime.ts</a>, lines 647–678 and 857–915, exposes evaluation, mode/rule/budget/approval operations and verifies worker context before authorization. The <a href="repo/v3/@claude-flow/security/src/policy/engine.ts">engine</a>, lines 25–47 and 81–99, owns policy state and monotonic configured-mode elevation. These are more explicit governance primitives than Wingman's product description demands. They could constrain tool/network/spend authority across specialists and preserve reasons for admission/denial. Integration needs a trusted root, deliberate <code>legacy</code>/<code>observe</code>/<code>enforce</code> rollout and native-host controls; tool registration alone proves neither authorization nor containment.</p>
+<h3 id="assessment-retrieval-learning-and-bounded-self-improvement">Retrieval, learning and bounded self-improvement</h3>
+<p>The memory system goes beyond appended project notes. <a href="repo/v3/@claude-flow/cli/src/memory/hybrid-retrieval.ts">Hybrid retrieval</a>, lines 1–11, 85–110 and 130–145, combines normalized BM25 and dense similarity with diversity-oriented retrieval. <a href="repo/v3/@claude-flow/cli/src/mcp-tools/memory-tools.ts">Memory tools</a>, lines 698–890 and 1458–1477, distinguish retrieval backends and can report hash/mock fallback rather than claiming real ONNX embeddings. This can improve cross-session reuse, but retrieved text is evidence/context, not automatically an accepted directive or product truth.</p>
+<p>The <a href="repo/v3/@claude-flow/cli/src/services/harness-flywheel.ts">harness flywheel</a>, lines 1–21 and 41–73, harvests a retrieval corpus, selects candidate configurations on training data, checks held-out/anchor/drift/replay/receipt/canary conditions and emits evaluation receipts. Explicit promotion is separate. The <a href="repo/v3/@claude-flow/cli/src/services/managed-learning-loop.ts">managed learning loop</a>, lines 25–62, only accepts authenticated measured outcomes in scope and returns advisory recommendations without changing defaults. These mechanisms offer measurable adaptation, but their utility depends on meaningful evaluation data and trusted verifiers. They are not proof of autonomous general learning or better product delivery.</p>
+<h3 id="assessment-speculative-memory-isolation">Speculative memory isolation</h3>
+<p><a href="repo/v3/@claude-flow/cli/src/services/swarm-memory-branches.ts">SwarmMemoryBranches</a>, lines 13–39 and 107–123, connects optional <code>agenticow</code> copy-on-write branches to an agent lifecycle: fork from a shared memory base, work privately, then promote or discard. This is valuable for exploratory specialists whose tentative knowledge should not immediately pollute shared memory. It is opt-in, degrades when the dependency is absent, and does not isolate source files or replace Git worktrees. The module's tiny-branch-size statement is an upstream implementation claim, not a measurement reproduced here.</p>
+<h3 id="assessment-network-federation-publicprivate-channels-and-tenant-collaboration">Network federation, public/private channels and tenant collaboration</h3>
+<p>The <a href="repo/v3/@claude-flow/plugin-agent-federation/src/application/inbound-dispatcher.ts">federation inbound dispatcher</a>, lines 8–19, 65–87 and 136–172, combines peer status, signatures, authorization and recursively canonicalized envelopes before delivering events. The <a href="repo/v3/@claude-flow/plugin-agent-federation/src/domain/services/routing-service.ts">routing service</a>, lines 64–133, applies live trust-dependent PII handling and signs outgoing envelopes. <a href="repo/v3/@claude-flow/cli/src/mcp-tools/x-federation-channels.ts">Private channel grants</a>, lines 125–143 and 185–207, distribute an encrypted channel key and publish locally encrypted messages. This offers genuine distributed communication infrastructure; key lifecycle, network deployment and actual remote task execution remain additional responsibilities. Channel-key grants explicitly lack revocation semantics, so they are not a complete organizational access-control system.</p>
+<p>Separately, <a href="repo/plugins/ruflo-ai-team/src/server.mjs">AI Team</a>, lines 84–138, and its <a href="repo/plugins/ruflo-ai-team/src/store.mjs">store</a>, lines 73–120, supply tenant-scoped teams/runs/tasks/memory/evidence and a private MCP App board with Firestore deployment support. This can provide a hosted coordination surface across clients. It is not a distributed coding agent runtime, and its units/statuses must not be interpreted as measured provider spend or independent verification.</p>
+<p>The <a href="repo/plugins/ruflo-ai-team/ui/team-board.html">board UI</a>, lines 34–37 and 47–111, implements Teams/Runs/Tasks/Evidence navigation and refresh through <code>tools/call</code> to <code>team_board</code>. This is a real dashboard surface in source, rather than a screenshot or hypothetical integration. It remains a read-only view of that service's coordination records. External ruOS/desktop product references elsewhere in the repository are not credited as a bundled Wingman workspace.</p>
+<h3 id="assessment-cloud-managed-execution-and-background-maintenance">Cloud-managed execution and background maintenance</h3>
+<p><a href="repo/v3/@claude-flow/cli/src/mcp-tools/managed-agent-tools.ts">Managed-agent tools</a>, lines 12–18, 57–95 and 204–240, wrap external agent/environment/session creation, event observation and scoped controls. The adapter distinguishes configuration facts, access/health uncertainty, prompt observation timeouts and interruption requests. It could complement local hosts, but needs remote credentials/access and introduces provider-specific permissions, costs and lifecycle semantics. The remote implementation was not available for validation through local source inspection.</p>
+<p>Periodic background mapping, test-gap detection, security analysis, memory distillation and backup are also meaningful extras. <a href="repo/v3/@claude-flow/cli/src/services/worker-daemon.ts">Worker daemon</a>, lines 1–43, connects those jobs. The elected repository supervisor avoids multiplying expensive schedules across worktrees. These are maintenance/knowledge services rather than substitutes for product leadership.</p>
+<h2 id="assessment-distinctive-mechanisms-and-innovation-assessment">Distinctive mechanisms and innovation assessment</h2>
+<p>The most useful design contribution here is the <strong>separation of observation, authorization, execution and acceptance</strong>. A mission record can be durable without an executor. An admitted native process can exit zero without verified product success. An evaluation can produce a recommendation without authority to promote it. The code often makes these distinctions explicit instead of inventing successful activity when a dependency is missing. The mission service's <code>executor-unavailable</code> response and snapshot readers' unknown/missing states are particularly relevant to an honest Wingman dashboard.</p>
+<p>Three mechanisms merit closer study:</p>
+<ul>
+<li><strong>Deterministic planning with inspectable task edges.</strong> The console planner searches a finite SPARC action library using facts, costs and profile/rigor goals, then derives dependencies/waves (<a href="repo/plugins/ruflo-console/hooks/goap.ts">goap.ts</a>, lines 1–14, 38–63 and 108–120). This enables repeatable process selection and visible reasons for ordering. It cannot infer whether the selected generic actions are sufficient for a mortgage LOS; product discovery must still provide the content.</li>
+<li><strong>Journaled bounded autonomy.</strong> The autopilot's pure state fold, sealed envelope, ordered kill/settlement/budget checks, parked questions and backoff permit replayable decisions with narrow authority (<a href="repo/plugins/ruflo-console/hooks/data/ap-loop.ts">ap-loop.ts</a>, lines 1–47; <a href="repo/plugins/ruflo-console/hooks/ap-live.ts">ap-live.ts</a>, lines 220–249 and 321–419). This is a concrete pattern for supervised autonomy. The bound remains a live session and configured host controls, not a durable cluster scheduler.</li>
+<li><strong>Evidence-bound adaptation and speculative state.</strong> Held-out evaluation separated from promotion, signed measured managed outcomes, and optional memory branches let an installation experiment without treating every experiment as accepted shared knowledge (<a href="repo/v3/@claude-flow/cli/src/services/harness-flywheel.ts">harness-flywheel.ts</a>, lines 5–20; <a href="repo/v3/@claude-flow/cli/src/services/managed-learning-loop.ts">managed-learning-loop.ts</a>, lines 25–62; <a href="repo/v3/@claude-flow/cli/src/services/swarm-memory-branches.ts">swarm-memory-branches.ts</a>, lines 13–39). The safety/quality depends on the scope and evaluator, and optional backend failure reduces capabilities.</li>
+</ul>
+<p>These are grounded mechanisms worth borrowing. This report makes no historical priority claim, industry-wide uniqueness claim or reproduced performance claim. “Neural,” “hive,” “consensus” and role counts do not by themselves establish better coordination or independent agents. The relevant evidence is the concrete path used.</p>
+<h2 id="assessment-practical-fit-for-wingman">Practical fit for Wingman</h2>
+<p><strong>Usable directly after focused integration:</strong></p>
+<ul>
+<li>bounded native Codex/Claude subprocess execution.</li>
+<li>explicit worktree preparation/status/integration/cleanup.</li>
+<li>filesystem team mailboxes.</li>
+<li>durable mission planning/events.</li>
+<li>tool-policy decisions and receipts.</li>
+<li>namespaced retrieval.</li>
+<li>local observations and transcript parsing.</li>
+</ul>
+<p>They can accelerate the executor and coordination substrate without defining Wingman's organization for it.</p>
+<p><strong>Needs adaptation:</strong></p>
+<ul>
+<li>assign one stable Wingman agent identity to native session, host, role/profile, project and current task.</li>
+<li>map all execution paths into a canonical event/task model.</li>
+<li>distinguish recorded, running, interrupted, completed and accepted states.</li>
+<li>replace cwd-only isolation with a portfolio registry and host routing.</li>
+<li>make supervision survive UI/host restarts.</li>
+<li>bridge team messages and channels into durable conversations with explicit participants and task links.</li>
+</ul>
+<p>The terminal console and hosted board are useful precedents, but neither is the connected web/mobile product requested by Wingman.</p>
+<p>Still to build:</p>
+<ul>
+<li>Telegram transport and Butler routing with question/reply correlation.</li>
+<li>ProjectMaster's existing/new-project intake and portfolio supervision.</li>
+<li>Durable per-project ProductMaster and TechMaster instances.</li>
+<li>Proportionate domain discovery with persisted questions/answers.</li>
+<li>Authoritative scope/specification/acceptance knowledge.</li>
+<li>Organization-level directory and rooms.</li>
+<li>Executive current/recent/next/blocker briefings. A human-readable per-agent timeline.</li>
+<li>Complete per-agent native session lifecycle and steering. A verifiable Mac/Endeavour remote execution agent and shared state protocol.</li>
+<li>Product acceptance and delivery closure that stops active development until further work.</li>
+</ul>
+<p>A practical integration would first use one native execution path, one task authority and one durable agent/session identity mapping. Keep policy, evidence and memory behind those boundaries. Combining every available Ruflo path up front would create multiple “busy,” “complete,” “session” and “agent” meanings before Wingman has its own stable model. The report's strongest fit is as an advanced infrastructure/reference layer, not as an almost-complete Wingman with only a Telegram plugin missing.</p>
+<h2 id="assessment-verification-scope-and-limits">Verification scope and limits</h2>
+<p>This was a <strong>read-only static assessment</strong>. No dependencies were installed, no services or coding-agent subprocesses were launched, and no hosted API, Telegram account, network federation or multi-machine setup was exercised. Repository sources were not modified. Runtime assertions above mean “implemented in the inspected path,” not “successfully run in this environment.”</p>
+<p>Inspected applicable instructions: repository root <code>AGENTS.md</code> and <code>v3/@claude-flow/codex/AGENTS.md</code>; their coordination-ledger distinction was treated as guidance and checked against actual launch paths. The assessment also read Wingman's purpose and the assessment guide. Searches covered the root/package/CLI entry, <code>v3/@claude-flow/cli/src</code> commands, tool registry and MCP tools, mission store/service, worker/daemon/runtime services, Codex dual-mode/loop/worktree/activity sources, federation domain/transport wiring, and console/AI Team/plugin profiles. Repository-wide searches for Telegram and tracked federation helper paths were included. Absence findings are scoped to these inspected sources; optional hosted or user-home implementations were not inferred into the checkout.</p>
+<p>Relevant tests <strong>read, not executed</strong>:</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Test</th>
+<th scope="col">What its source establishes as intended coverage</th>
+<th scope="col">Limit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="repo/v3/@claude-flow/cli/__tests__/missions/service.test.ts">Mission service</a>, lines 27–115</td>
+<td>Identity rejection, deduplication, concurrent revision conflicts, cursor replay, sanitized observations and explicit missing executor.</td>
+<td>Local temporary-store tests, not durable coding execution.</td>
+</tr>
+<tr>
+<td><a href="repo/v3/@claude-flow/cli/__tests__/team-tools.test.ts">Team tools</a>, lines 76–115</td>
+<td>Create/plan/spawn-plan/send/inbox/stop handoff sequence and pre-registration mail delivery.</td>
+<td>A spawn-plan assertion does not run a native agent.</td>
+</tr>
+<tr>
+<td><a href="repo/v3/@claude-flow/cli/__tests__/hive-mind-work.test.ts">Hive task consumer</a>, lines 47–95</td>
+<td>Pending task assignment, busy/idle transitions, result/native-session recording, failure release and empty-queue handling.</td>
+<td>Actual task/hive handlers with an injected fake runner; does not authenticate or launch Claude.</td>
+</tr>
+<tr>
+<td><a href="repo/v3/@claude-flow/codex/tests/dual-mode-stdin-2947.test.ts">Dual-mode stdin regression</a>, lines 22–55</td>
+<td>Real stand-in child exits after stdin EOF and worker events settle.</td>
+<td>Child is a fake Codex executable, not authenticated model execution.</td>
+</tr>
+<tr>
+<td><a href="repo/v3/@claude-flow/cli/__tests__/headless-executor-cancel-4463.test.ts">Headless cancellation</a>, lines 1–7 and 54–90</td>
+<td>Promise settlement, timer cleanup and SIGTERM/SIGKILL escalation.</td>
+<td>Fake child/timers/signals; no actual CLI is launched.</td>
+</tr>
+<tr>
+<td><a href="repo/plugins/ruflo-console/tests/ap-complete.spec.ts">Autopilot completion/envelope</a>, lines 1–18 and 22–94</td>
+<td>Validated envelope editing, shell/network/path refusals and limits.</td>
+<td>Fake host and in-memory fixture disk; does not prove weeks of live operation.</td>
+</tr>
+<tr>
+<td><a href="repo/plugins/ruflo-ai-team/test/evidence-task-audits.node.mjs">AI Team evidence audit</a>, lines 5–16</td>
+<td>Evidence includes relevant task audit events and excludes another run's task events.</td>
+<td>In-memory service store; no OAuth/Firestore deployment exercised.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Important unresolved verification areas are shipped-package/source parity, optional native-backend availability, every permission envelope's native-host enforcement, restart recovery under actual crashes, cloud Managed Agents compatibility/access, hosted AI Team deployment, and a real cross-host execution round trip. The checked-out tree contains a very broad historical/current surface. This report prioritizes reachable v3 CLI, Codex and current plugin paths rather than treating every legacy module, ADR or README capability as a supported product feature.</p></article>
+<section id="source-record"><h2>Source and evidence</h2><p class="url-text">https://github.com/ruvnet/ruflo</p>
+<ul><li><a href="repo/">Open the pinned source checkout</a></li><li><a href="assessment/ASSESSMENT.md">Read the Markdown assessment</a></li>
+<li><a href="../generic/assessments/_audits/qa21.md">Read the historical independent source audit</a></li><li><a href="../generic/method.html">Read the method and evidence limits</a></li></ul></section>
+<nav class="report-switch" aria-label="Adjacent project reports"><a href="../routa/index.html">Previous project: Routa</a><a href="../scion/index.html">Next project: Scion</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../index.html">Return to overview <img src="../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

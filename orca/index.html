@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Technical assessment against Wingman’s development organization."><title>Orca · Wingman Research</title>
+<link rel="icon" href="../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/report.css"><script defer src="../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../index.html"><img src="../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../index.html">Overview</a><a class="nav-link " href="../generic/index.html">Architecture findings</a><a class="nav-link " href="../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../generic/method.html">Method and evidence</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../index.html">Wingman Research</a><span class="crumb">/</span><span>Orca</span></div><span class="topbar-note">SOURCE REVIEW · 05 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Orca</h1><p class="subtitle">Technical assessment against Wingman’s development organization.</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#decision">Decision summary</a><a href="#assessment-orca-assessment">Orca assessment</a><a href="#assessment-verdict">Verdict</a><a href="#assessment-architecture-and-actual-execution-model">Architecture and actual execution model</a><a href="#assessment-feature-matrix">Feature matrix</a><a href="#assessment-agent-definition-and-lifecycle">Agent definition and lifecycle</a><a href="#assessment-coordination-trace-a-task-and-its-remote-result">Coordination trace: a task and its remote result</a><a href="#assessment-major-additional-capabilities">Major additional capabilities</a><a href="#assessment-distinctive-mechanisms-and-innovation-assessment">Distinctive mechanisms and innovation assessment</a><a href="#assessment-practical-fit-and-adoption-consequences">Practical fit and adoption consequences</a><a href="#assessment-verification-scope-and-limits">Verification scope and limits</a><a href="#source-record">Source and evidence</a></div></nav><section id="decision" class="decision"><h2>Decision summary</h2>
+<div class="brief-columns"><div><h3>Useful for Wingman</h3><p>Study task-attempt identity, durable control mail, correlated questions, remote federation, and detailed coding workspaces.</p></div><div><h3>Adoption boundary</h3><p>The built-in coordinator expects tasks to exist. Wingman&#x27;s Telegram intake and continuing product organization remain work.</p></div></div>
+<p class="scope-note">Source assessment at the commit below. Runtime limits appear in the technical report.</p></section>
+<dl class="facts"><div><dt>Source group</dt><dd>Coding workspaces</dd></div><div><dt>Commit</dt><dd><code>0e25b0e22bf331fda82e470585df58eeef848d6b</code></dd></div><div><dt>Coverage</dt><dd>24 Wingman features</dd></div></dl>
+<article id="technical-assessment" class="technical"><h2 id="assessment-orca-assessment">Orca assessment</h2>
+<p class="url-text">Repository: https://github.com/stablyai/orca</p>
+<p>Local checkout: <code>researchs/orca/repo</code><br/>
+Inspected commit: <code>0e25b0e22bf331fda82e470585df58eeef848d6b</code><br/>
+Package version: <code>1.4.214</code> (<a href="repo/package.json">package.json</a>, lines 1–12)<br/>
+Assessment date: November 5, 2026<br/>
+Basis: independent static source review against <a href="../generic/purpose.html">Wingman's purpose</a>. No application, agent, service or test was run.</p>
+<h2 id="assessment-verdict">Verdict</h2>
+<p><strong>Strong candidate for Wingman's agent execution, coordination and detailed workspace layer; incomplete as its standing development organization.</strong> Orca is an Electron/TypeScript development workbench with a substantial host runtime, CLI, structured coding sessions, terminal workers, durable orchestration records, automation scheduling and real remote execution. It can launch independent coding workers, assign dependency-aware tasks, exchange durable messages, recover uncertain execution outcomes and show the actual session behind a fleet card.</p>
+<p>The primitives do not supply the complete product organization. Missing capabilities include Telegram/Butler intake, continuing employee identities, extensible business roles and portfolio routing. They also include per-product ProductMaster/TechMaster leadership, adaptive discovery, shared organizational rooms and independent product acceptance. Its dashboard supplies useful session state, recent messages, questions and drill-down. It does not supply Wingman's complete narrative of each continuing agent's accomplished/current/planned work and its chronological summary feed.</p>
+<p>Two boundaries materially affect adoption. First, the built-in <code>Coordinator</code> is a polling DAG dispatcher: <strong>its decomposition method requires tasks to exist already</strong>, and <code>processEscalations()</code> is empty. Model agents can create tasks using the CLI, but the class does not itself discover or plan a product (<a href="repo/src/main/runtime/orchestration/coordinator.ts">coordinator.ts</a>, lines 142–161 and 210–228). Second, real federation is implemented, but local group broadcasts explicitly skip remote dispatches; direct addressing is required (<a href="repo/src/main/runtime/rpc/methods/orchestration/messaging/send-group.ts">send-group.ts</a>, lines 35–53). Neither limitation negates the useful underlying capability.</p>
+<h2 id="assessment-architecture-and-actual-execution-model">Architecture and actual execution model</h2>
+<h3 id="assessment-entry-points-and-ownership">Entry points and ownership</h3>
+<p>The desktop entry registers IPC and starts initialization from Electron's <code>app.whenReady()</code> (<a href="repo/src/main/index.ts">index.ts</a>, lines 157–172). Desktop startup constructs <code>OrcaRuntimeService</code> with the profile store, agent-hook identity observers, lazy PTY provider, persistent session-claim signer and remote orchestration transport. The same host is used for desktop and headless serve behavior (<a href="repo/src/main/startup/main-process-runtime-service.ts">main-process-runtime-service.ts</a>, lines 70–148). The separate Node <code>orcad</code> entry waits for daemon startup, constructs the runtime, registers headless PTY execution and restores host account selection before work can launch (<a href="repo/src/main/orcad/orcad-entry.ts">orcad-entry.ts</a>, lines 170–224 and 231–273). This is execution on a host, not a renderer pretending that a remote process is local.</p>
+<p>The CLI parses and validates a command, resolves host/environment selection, and dispatches a handler through a lazily constructed <code>RuntimeClient</code> (<a href="repo/src/cli/index.ts">CLI index</a>, lines 94–159). For example, <code>orchestration task-create</code> reads literal/file specification text and sends <code>orchestration.taskCreate</code>. It does not implement its own task store (<a href="repo/src/cli/handlers/orchestration/task-handlers.ts">task-handlers.ts</a>, lines 21–42). RPC methods perform run/caller admission and call the host's database and execution services. The renderer consumes these services and projects them into task/session/dashboard views.</p>
+<h3 id="assessment-durable-coordination-versus-execution-resources">Durable coordination versus execution resources</h3>
+<p>Orchestration uses a SQLite database, with WAL, busy timeout, schema migration, startup settlement reconciliation and file-permission hardening (<a href="repo/src/main/runtime/orchestration/db/orchestration-db.ts">orchestration-db.ts</a>, lines 21–65). Profile/workspace/automation state also uses the application's <code>Store</code>; native conversation records and journals are distinct from orchestration task rows. Treating every persisted thing as an “agent memory” would obscure important boundaries.</p>
+<p>The schema's entities establish the actual model (<a href="repo/src/main/runtime/orchestration/types.ts">types.ts</a>, lines 21–71, 113–167 and 182–227):</p>
+<ul>
+<li>A <strong>Run</strong> is an objective with coordinator binding and consumer generation, not a product organization or employee.</li>
+<li>A <strong>Task</strong> is specified work with readiness/status, parent and dependencies. A <strong>Dispatch</strong> is an assignment attempt. Retrying work can preserve its task while changing its dispatch.</li>
+<li>A <strong>worker dispatch</strong> records execution stage, runtime epoch, setup, effects and residual resources. Its <code>start_unknown</code>/<code>stop_unknown</code> states preserve uncertainty.</li>
+<li>A <strong>session</strong> is the provider conversation, represented by an Orca session address or terminal/pane/process identity. The process may stop while its conversation or output remains.</li>
+<li>A <strong>mailbox delivery</strong> belongs to a run/dispatch and consumer generation. A <strong>question</strong> retains asker, dispatch, answer and state. These are coordination records, not a shared chat room by themselves.</li>
+<li>A <strong>federated dispatch</strong> links the home task/attempt to a saved execution environment, peer fingerprint, remote runtime epoch and relay cursors. The execution host retains a corresponding attachment.</li>
+</ul>
+<p>Workers have two execution surfaces: terminal/TUI launch or structured native chat. Both use a common launch executor; setup/worktree factories and recorded effects preserve orchestration-specific ownership (<a href="repo/src/main/runtime/rpc/methods/orchestration/worker/worker-start-agent-placement.ts">worker-start-agent-placement.ts</a>, lines 1–24 and 78–145). This accommodates independent harnesses rather than making all specialists personas inside one model call. Specialist responsibilities, however, come from task/instructions rather than first-class organizational job definitions.</p>
+<h2 id="assessment-feature-matrix">Feature matrix</h2>
+<p>“Exact” credits the particular capability within the stated boundary. “Similar” credits substantial behavior with a different scope; “Resembles” credits a primitive that needs an additional workflow/application. Absence findings reflect the searches documented below.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Wingman capability</th>
+<th scope="col">Verdict</th>
+<th scope="col">Implementation evidence and concrete difference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F01</td>
+<td>Real independent coding agents and specialist instances</td>
+<td><strong>Exact</strong></td>
+<td><a href="repo/src/main/runtime/rpc/methods/orchestration/worker/local-worker-start.ts">Local worker start</a>, lines 141–225, creates a dispatch, places an independent terminal/structured worker and waits for setup/readiness. Multiple assignments can use separate instances; specialization is supplied by their task rather than fixed BackendCoder etc.</td>
+</tr>
+<tr>
+<td>F02</td>
+<td>Extensible profiles, roles and team composition</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/shared/rpc-contract/orchestration-worker-start-params.ts">Worker parameters</a>, lines 11–34, accept agent/model/effort/name/workspace; <a href="repo/src/main/runtime/rpc/methods/orchestration/worker/worker-configured-agent-preflight.ts">alias preflight</a>, lines 8–26, resolves configured launchers on the target. This extends execution choices, not durable role profiles, responsibilities and team membership.</td>
+</tr>
+<tr>
+<td>F03</td>
+<td>Directory and visible working relationships</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/shared/dashboard-snapshot.ts">Dashboard schema</a>, lines 84–137, includes host, workspace, parent pane and subagents; <a href="repo/src/renderer/src/components/dashboard-popout/AgentKanbanCard.tsx">card</a>, lines 82–112 and 185–208, projects these sessions. This is a fleet/session directory with execution ancestry, not an employee directory with project reporting lines.</td>
+</tr>
+<tr>
+<td>F04</td>
+<td>Telegram main channel and Butler routing</td>
+<td><strong>Absent</strong></td>
+<td>Searched <code>src</code>, <code>mobile</code>, <code>packages</code>, <code>plugins</code>, <code>resources</code> for Telegram and Wingman management/room names; no Telegram intake/router implementation found. <a href="repo/src/cli/index.ts">CLI host routing</a>, lines 102–159, and <a href="repo/src/main/runtime/rpc/methods/orchestration/messaging/message-methods.ts">message replies</a>, lines 78–141, are host/agent routing, not a Telegram representative.</td>
+</tr>
+<tr>
+<td>F05</td>
+<td>Cross-project registry and existing/new intake</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/src/main/runtime/rpc/methods/orchestration/runs/runs.ts">Run create/list/use</a>, lines 30–61, 104–124 and 142–148, and repo/workspace metadata organize distinct work. No corresponding natural-language product registry lookup and new/existing-project decision found. A run objective is not a continuing product record.</td>
+</tr>
+<tr>
+<td>F06</td>
+<td>Per-project product and technical leadership</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/src/main/runtime/rpc/methods/orchestration/worker/local-worker-start-dispatch.ts">Dispatch creation</a>, lines 61–85, supports creator/helper lineage and parent tasks. It can host leadership-like agents. It does not establish separate product/technical authority, discovery ownership or continuing leadership per product.</td>
+</tr>
+<tr>
+<td>F07</td>
+<td>Proportionate research/discovery/iterative clarification</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/src/main/runtime/rpc/methods/orchestration/messaging/message-methods.ts">Question answer routing</a>, lines 78–141, persists answers and wakes the owning worker. <a href="repo/src/main/runtime/orchestration/coordinator.ts">Coordinator decomposition</a>, lines 142–153, requires pre-created tasks. Asking is supported; adaptive domain research and readiness to define a product remain agent policy.</td>
+</tr>
+<tr>
+<td>F08</td>
+<td>Scope/specs/acceptance scenarios/product DoD</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/src/main/runtime/orchestration/db/tasks/task-store.ts">Task creation</a>, lines 10–83, preserves a free-text specification and hierarchy. <a href="repo/src/main/runtime/orchestration/preamble.ts">Preamble</a>, lines 90–113, requests an explicit result. Neither defines a product scope/spec/scenario/DoD contract or acceptance authority.</td>
+</tr>
+<tr>
+<td>F09</td>
+<td>Technical decomposition, assignment, shared tracking</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/main/runtime/orchestration/db/tasks/task-store.ts">Task store</a>, lines 25–83 and 207–231, validates same-run dependencies and promotes ready tasks; <a href="repo/src/main/runtime/orchestration/db/dispatch-context/dispatch-context-store.ts">dispatch store</a>, lines 31–105, atomically claims ready work. Decomposition is performed by users/model coordinators through APIs. The built-in scheduler does not generate it.</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>Human portfolio/project management dashboard</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/renderer/src/components/task-page/TaskPage.tsx">TaskPage</a>, lines 44–85, composes repository/host/provider selection, GitHub/GitLab/Linear/Jira issue views and workspace actions. <a href="repo/src/shared/dashboard-snapshot.ts">Dashboard filters</a>, lines 160–180, include projects/status. Useful issue/workspace management exists, but product goals, leadership, discovery and acceptance are additional data/views. The task page should not be assumed to mirror the internal orchestration DAG.</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>Agent chat application, rooms, direct collaboration</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/src/main/runtime/orchestration/db/messages/mailbox-consumer.ts">Mailbox consumer</a>, lines 14–44, and <a href="repo/src/main/runtime/orchestration/groups.ts">groups</a>, lines 44–87, provide directed messaging and fan-out to live groups. These are substantial collaboration primitives, but no browsable persistent Room1/Room2-style membership/history application was established. Remote workers are excluded from local group fan-out (<a href="repo/src/main/runtime/rpc/methods/orchestration/messaging/send-group.ts">send-group.ts</a>, lines 35–53).</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>Management escalation and human decisions/approvals</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/main/runtime/orchestration/worker-failure-escalation.ts">Failure escalation</a>, lines 18–62, routes high-priority mail to the owning run. <a href="repo/src/main/runtime/orchestration/db/decision-gates/decision-gate-store.ts">Decision gates</a>, lines 17–94 and 98–126, block and resume tasks; <a href="repo/src/shared/codex-permission-policy.ts">Codex policies</a>, lines 21–46, handle tool approvals. This does not provide Room2→Room1→Butler→human business escalation automatically.</td>
+</tr>
+<tr>
+<td>F13</td>
+<td>Durable knowledge and reusable directives</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/src/main/runtime/orchestration/db/tasks/task-store.ts">Task specifications</a>, lines 49–83, durable workspaces, and <a href="repo/src/main/ai-vault-search/session-search-service.ts">session search</a>, lines 24–75, retain/retrieve working material. Agents can author project files, but no automatic Wingman <code>DIRECTIVES/SCOPES/SPECS/HARNESS</code> knowledge lifecycle was found. Conversation retrieval is not a curated product knowledge base.</td>
+</tr>
+<tr>
+<td>F14</td>
+<td>Persistent identity/conversation/work continuity</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/main/runtime/orchestration/types.ts">Run/worker identities</a>, lines 44–70 and 153–167, persist work; <a href="repo/src/main/runtime/rpc/methods/structured-agent-session-restart-resume.ts">restart continuation</a>, lines 17–89, lists/dismisses offers and explicitly continues eligible sessions. Continuity is execution/conversation based. A continuing employee identity spanning unrelated runs needs a new mapping. Legacy <code>restartResume</code> intentionally returns no results.</td>
+</tr>
+<tr>
+<td>F15</td>
+<td>Proactive supervision, periodic wake, blocker follow-up</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/main/automations/service.ts">Automation service</a>, lines 45–99 and 118–145, schedules host work; <a href="repo/src/main/runtime/orchestration/coordinator.ts">Coordinator</a>, lines 100–109 and 155–192, polls work/mail. The scheduler can run a configured supervisor, but no standing ProjectMaster portfolio inspection/follow-up policy is supplied, and <code>processEscalations</code> is empty (218).</td>
+</tr>
+<tr>
+<td>F16</td>
+<td>Parallel products/concurrent specialists</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/main/runtime/orchestration/db/tasks/task-store.ts">Run-scoped tasks</a>, lines 25–40 and 129–155, separate work; <a href="repo/src/main/runtime/orchestration/coordinator.ts">Coordinator slots</a>, lines 220–285, bound concurrent dispatches (default four, lines 31–32). Multiple workspaces/runs/agents execute concurrently. Product-team boundaries remain above these primitives. The legacy Coordinator itself uses unscoped task lists.</td>
+</tr>
+<tr>
+<td>F17</td>
+<td>Real multi-host execution with coordination</td>
+<td><strong>Exact</strong></td>
+<td><a href="repo/src/main/runtime/rpc/methods/orchestration/federation/federated-worker-start.ts">Federated launch</a>, lines 43–112 and 146–165, calls an identified execution server; <a href="repo/src/main/runtime/orchestration/federation-sync.ts">relay synchronization</a>, lines 64–105 and 125–225, imports messages and acknowledges remote settlement. This is genuine host execution. It requires paired compatible runtimes and explicit remote placement.</td>
+</tr>
+<tr>
+<td>F18</td>
+<td>Executive current/recent/next work and blockers</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/shared/dashboard-snapshot.ts">Dashboard card contract</a>, lines 84–137, contains task, latest user/agent messages, state, questions, review and timestamps; <a href="repo/src/renderer/src/components/dashboard-popout/AgentKanbanCard.tsx">card presentation</a>, lines 194–208, distinguishes attention/done. There is a useful fleet overview, but no explicit planned-next-work or synthesized executive account of a continuing agent.</td>
+</tr>
+<tr>
+<td>F19</td>
+<td>Per-agent summary timeline linked to work</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/src/shared/dashboard-snapshot.ts">Dashboard contract</a>, lines 95–137, has current/latest fields, not a summary-entry sequence; <a href="repo/src/main/runtime/rpc/methods/orchestration/worker/worker-control.ts">worker output reads</a>, lines 118–167, expose archived/structured evidence. Journals and timestamps support building the feed. They are not themselves meaningful chronological executive summaries.</td>
+</tr>
+<tr>
+<td>F20</td>
+<td>Detailed per-agent coding workspace</td>
+<td><strong>Exact</strong></td>
+<td><a href="repo/src/renderer/src/components/dashboard-popout/AgentTerminalDialog.tsx">Terminal drill-down</a>, lines 35–49 and 125–138, routes to an agent preview/reveal target; <a href="repo/src/main/runtime/rpc/methods/structured-agent-session.ts">session RPCs</a>, lines 75–140, expose real structured conversations. Native chat, terminal and workspace routes provide the requested inspection layer; detail varies by harness.</td>
+</tr>
+<tr>
+<td>F21</td>
+<td>Live activity, lifecycle, steering, execution visibility</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/main/runtime/rpc/methods/structured-agent-session.ts">Session API</a>, lines 75–141, supports rewind, conversation commands, create/send/cancel and queues; <a href="repo/src/main/runtime/rpc/methods/orchestration/worker/worker-control.ts">worker show/read</a>, lines 27–80 and 144–189, verifies identity and reads output. <a href="repo/src/main/runtime/rpc/methods/structured-agent-session-thread-goal.ts">Goal RPC</a>, lines 10–16, delegates capability-dependent goal controls. This is broad but not universal parity across every provider, remote version and launch mode.</td>
+</tr>
+<tr>
+<td>F22</td>
+<td>Testing/integrated verification/product acceptance/delivery</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/src/main/runtime/orchestration/db/dispatch-context/worker-report-settlement.ts">Settlement</a>, lines 74–160, validates task/attempt authority and success/failure reports; <a href="repo/src/shared/orchestration-fleet-outcome-resolution.ts">fleet outcomes</a>, lines 3–8, distinguish <code>finished_unverified</code>. Workers can run tests, but a result report is not independent TestMaster verification or business acceptance. No dedicated end-to-end product DoD/delivery gate was established.</td>
+</tr>
+<tr>
+<td>F23</td>
+<td>Autonomous operation with organizational human direction</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/main/runtime/orchestration/preamble.ts">Dispatch preamble</a>, lines 64–95, instructs workers to ask/escalate/report through their coordinator; <a href="repo/src/main/automations/service.ts">headless automation startup</a>, lines 118–133, supports unattended work. A coordinator can operate a task team, but the persistent discovery-to-delivery organization and Telegram human relationship remain to build.</td>
+</tr>
+<tr>
+<td>F24</td>
+<td>Chat/tracker/dashboards grow with new agent profiles</td>
+<td><strong>Similar</strong></td>
+<td>Generic <a href="repo/src/shared/rpc-contract/orchestration-worker-start-params.ts">worker launch parameters</a>, lines 11–34, and <a href="repo/src/shared/dashboard-snapshot.ts">dashboard launch choices</a>, lines 171–180, accommodate more agent instances. <a href="repo/src/main/runtime/rpc/methods/structured-agent-session-policy.ts">Client/provider capability checks</a>, lines 37–68, govern rendering new harnesses. New business profiles, role-based room membership and evolving project workflows are not yet a shared organizational schema.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="assessment-agent-definition-and-lifecycle">Agent definition and lifecycle</h2>
+<h3 id="assessment-definition-creation-and-execution">Definition, creation and execution</h3>
+<p>A worker launch combines specification or existing task, run/caller identity, launcher, optional model/effort, target host/workspace, setup and timeout. The schema requires exactly one of <code>task</code>/<code>spec</code>; <code>retryOf</code> cannot accompany a new specification because a new task is not a retry of the old task (<a href="repo/src/shared/rpc-contract/orchestration-worker-start-params.ts">start parameters</a>, lines 11–59). Configured aliases must resolve to an accepted single executable on the target host, and launch validation rejects inconsistent reuse/creation options (<a href="repo/src/main/runtime/rpc/methods/orchestration/worker/worker-configured-agent-preflight.ts">preflight</a>, lines 8–35; <a href="repo/src/main/runtime/rpc/methods/orchestration/worker/worker-start-validation.ts">validation</a>, lines 51–86 and 137–165). These are launcher definitions, not persistent job profiles.</p>
+<p>Local start performs effect-free validation and resolves the caller's workspace before binding the run. It can reuse the current/exact workspace or create a new child/top-level worktree. An explicitly reused worker must be admitted before assignment. It then records the starting dispatch, runtime epoch and start options, including parent/helper ancestry and nesting limit (<a href="repo/src/main/runtime/rpc/methods/orchestration/worker/local-worker-start.ts">local start</a>, lines 59–153; <a href="repo/src/main/runtime/rpc/methods/orchestration/worker/local-worker-start-dispatch.ts">dispatch creation</a>, lines 43–85).</p>
+<p>Placement can reuse a live terminal, reopen an eligible previous worker for follow-up, or launch a fresh agent. If reopening safely refuses, fresh execution can receive the earlier work as task context instead of pretending it resumed the conversation (<a href="repo/src/main/runtime/rpc/methods/orchestration/worker/worker-start-agent-placement.ts">placement</a>, lines 78–119). Setup, terminal creation and prompt readiness are separately recorded. Structured workers wait for setup and assignment delivery; TUI workers wait for actual composer readiness. An existing chat can accept queued work without waiting for a TUI idle state (<a href="repo/src/main/runtime/rpc/methods/orchestration/worker/local-worker-start.ts">local start</a>, lines 170–239). The distinctions matter when an apparent launch success has not yet made the agent capable of receiving its assignment.</p>
+<h3 id="assessment-identity-authority-tools-and-routing">Identity, authority, tools and routing</h3>
+<p>Task, dispatch, conversation/session ID, terminal handle, stable pane key, process incarnation, runtime epoch and mailbox generation are separate identities. Dispatch claim checks task readiness, creator nesting depth and assignee occupancy, and records execution identity transactionally (<a href="repo/src/main/runtime/orchestration/db/dispatch-context/dispatch-context-store.ts">dispatch store</a>, lines 31–105). A worker's display name is therefore neither a durable employee identity nor authority to settle another worker's task.</p>
+<p>Tool execution comes from the chosen coding harness, not from the role's name. Orca does implement provider-specific permissions: Codex Ask uses read-only/on-request; Auto uses workspace-write with automatic review; full access uses never/danger-full-access. Per-turn handling preserves or safely reacquires the appropriate sandbox rather than inventing a grant (<a href="repo/src/shared/codex-permission-policy.ts">permission policy</a>, lines 21–46; <a href="repo/src/main/codex/codex-structured-turn-permission.ts">turn admission</a>, lines 19–38 and 53–79). Orca RPC <code>workspace</code> permission is a separate transport/API boundary. It should not be confused with the provider child's filesystem sandbox or organizational approval authority.</p>
+<p>The assignment preamble gives exact task/dispatch/coordinator addresses and CLI recipes for questions, blockers and completion. It explicitly says that text left only in the worker terminal/chat does not reach the coordinator; after reporting, agents should idle rather than poll forever. It also instructs workers not to delegate unless the task asks (<a href="repo/src/main/runtime/orchestration/preamble.ts">preamble</a>, lines 64–95 and 138–165). These are behavioral instructions supported by runtime identity/depth checks. The prose itself is not an enforceable product process.</p>
+<p>Mailbox consumption is generation-fenced inside the delivery transaction, using either a current run consumer or active local/remote dispatch consumer. Replacement consumers cannot acknowledge old ownership (<a href="repo/src/main/runtime/orchestration/db/messages/mailbox-consumer.ts">mailbox-consumer.ts</a>, lines 14–44). Run <code>use</code> rebinds a coordinator and cancels obsolete waiters while preserving explicit run context (<a href="repo/src/main/runtime/rpc/methods/orchestration/runs/runs.ts">runs.ts</a>, lines 104–124). This protects continuation against stale processes; Wingman would still need the higher-level stable agent/profile ID.</p>
+<h3 id="assessment-concurrency-scheduling-interruption-and-recovery">Concurrency, scheduling, interruption and recovery</h3>
+<p>Workers may execute concurrently in different workspaces/runs, while atomic task claims prevent duplicate assignment. The built-in Coordinator polls every two seconds by default and allows four concurrent dispatched tasks. It creates at most one missing terminal per tick and checks base drift before assignment (<a href="repo/src/main/runtime/orchestration/coordinator.ts">coordinator.ts</a>, lines 31–32 and 220–285). Its task queries are unscoped to run, so this class should not be treated as the portfolio/team isolation model. The legacy RPC gate surface also holds one globally active Coordinator rather than one per team or run (<a href="repo/src/main/runtime/rpc/methods/orchestration/gates/gates.ts">gates.ts</a>, lines 14–28). The run-aware worker/RPC paths offer the more appropriate foundation.</p>
+<p>AutomationService is a separate recurring-work mechanism: default one-minute evaluation, renderer/headless dispatchers, per-automation serialized lanes, completion observation and reconciliation of retained runs at startup (<a href="repo/src/main/automations/service.ts">service.ts</a>, lines 45–99 and 118–145). It can wake a configured supervisor. It does not define which projects to inspect or which blockers need human judgment.</p>
+<p>User steering, queued sends, cancellation, rewind and provider conversation commands live in the structured session API. Resume is explicit: restart offers are scoped to client-readable agents, <code>restartContinue</code> asks eligible sessions to continue, and <code>continueInterrupted</code> targets an exact interrupted turn. Merely reattaching is deliberately not synonymous with starting work (<a href="repo/src/main/runtime/rpc/methods/structured-agent-session.ts">session RPCs</a>, lines 75–141; <a href="repo/src/main/runtime/rpc/methods/structured-agent-session-restart-resume.ts">restart methods</a>, lines 17–89).</p>
+<p>Process stop is a distinct operation from completing a task or releasing its terminal resources. Remote stop requires a durable request and negotiates whether the host can prove its outcome. A disconnected/old host returns an unknown outcome, not a false “stopped” result (<a href="repo/src/main/runtime/rpc/methods/orchestration/worker/worker-stop.ts">worker-stop.ts</a>, lines 17–104). Runtime restart during a starting/stopping stage similarly produces <code>start_unknown</code>/<code>stop_unknown</code> on inspection (<a href="repo/src/main/runtime/rpc/methods/orchestration/worker/worker-control.ts">worker-control.ts</a>, lines 55–67).</p>
+<p>Failures escalate through a high-priority run mailbox without allowing notification failure to break primary failure handling. The polling coordinator's triage checks exact task/dispatch/sender ownership. A still-live supervised worker is not silently requeued, and repeated settled failures can trip a circuit breaker (<a href="repo/src/main/runtime/orchestration/worker-failure-escalation.ts">failure escalation</a>, lines 18–69; <a href="repo/src/main/runtime/orchestration/coordinator-escalation-triage.ts">triage</a>, lines 20–63). This is mechanical recovery and notification. It does not replace management investigation. The coordinator's higher-level escalation-processing function is empty.</p>
+<h3 id="assessment-completion-acceptance-and-retirement">Completion, acceptance and retirement</h3>
+<p>Worker completion is a typed, dispatch-bound success/failure report. Settlement validates existence, task/dispatch match, active/stale attempts, duplicates and conflicting live workers within lifecycle transactions. A firsthand report can also correct a prior unobserved-prompt failure rather than discarding real completion evidence (<a href="repo/src/main/runtime/orchestration/db/dispatch-context/worker-report-settlement.ts">worker-report-settlement.ts</a>, lines 61–160). Reporting while stopping or from the wrong process is refused; uncertainty itself need not prevent an exact worker from reporting (<a href="repo/src/main/runtime/orchestration/worker-report-admission.ts">report admission</a>, lines 4–46).</p>
+<p>That is assignment accounting, not product acceptance. It establishes which attempt reported what, not whether an independent tester verified agreed business scenarios. Wingman should introduce explicit evidence and acceptance ownership above it. The fleet's distinct <code>finished_unverified</code> outcome is a useful reminder that provider-turn completion need not prove task success (<a href="repo/src/shared/orchestration-fleet-outcome-resolution.ts">outcome model</a>, lines 3–8 and 31–57).</p>
+<p>Release tracks execution-resource ownership, archival state and user retention. A transferred/external/user-kept resource must not be treated as disposable just because its process exited. Requested cleanup can be retried without inventing release intent; failed archival/endpoint work leaves the intent durable for a later pass (<a href="repo/src/main/runtime/rpc/methods/orchestration/worker/worker-release.ts">worker-release.ts</a>, lines 20–91; <a href="repo/src/main/runtime/orchestration/worker-terminal-release-reconciliation.ts">release reconciliation</a>, lines 24–41 and 65–104). Output reads distinguish retained archives from live identity-proven output (<a href="repo/src/main/runtime/rpc/methods/orchestration/worker/worker-control.ts">worker-control.ts</a>, lines 118–167). Retirement here concerns attempts/processes/panes; retiring a continuing organizational role and reassigning its duties remains Wingman work.</p>
+<h2 id="assessment-coordination-trace-a-task-and-its-remote-result">Coordination trace: a task and its remote result</h2>
+<p>The following is an implemented request path traced through source, not an executed demonstration:</p>
+<ol>
+<li>A coordinator already running in a coding session creates/binds a run objective through <code>orchestration.runCreate</code>. The RPC captures the current terminal/pane/session identity (<a href="repo/src/main/runtime/rpc/methods/orchestration/runs/runs.ts">runs.ts</a>, lines 30–61). This is explicit scope selection, not automatic product-intake classification.</li>
+<li><code>orca orchestration task-create</code> reads the specification and sends its dependency/parent/run flags (<a href="repo/src/cli/handlers/orchestration/task-handlers.ts">CLI handler</a>, lines 21–42). RPC resolves the current consumer, records creator authority and writes the task (<a href="repo/src/main/runtime/rpc/methods/orchestration/messaging/message-methods.ts">message-methods.ts</a>, lines 190–233). SQLite rejects cross-run parent/dependency references and starts it as ready only when dependencies are completed (<a href="repo/src/main/runtime/orchestration/db/tasks/task-store.ts">task store</a>, lines 25–83).</li>
+<li>A worker-start targeting a saved remote environment must carry a durable mutation request, use an exact remote workspace or <code>new-top-level</code>, and negotiate orchestration/federation/model capabilities. The home records the attempt and peer fingerprint before invoking <code>orchestration.federationAttachStart</code> on the execution server (<a href="repo/src/main/runtime/rpc/methods/orchestration/federation/federated-worker-start.ts">federated-worker-start.ts</a>, lines 43–112 and 114–165). Remote launchers and repository paths are resolved there, not inferred from the home machine.</li>
+<li>The worker receives its assignment and reports/asks using task and dispatch IDs. A question answer is stored under the owning run consumer, then either wakes the local worker or is enqueued as <code>to_worker</code> relay mail (<a href="repo/src/main/runtime/rpc/methods/orchestration/messaging/message-methods.ts">reply RPC</a>, lines 101–141). Logical management rooms would have to be built over these addressed exchanges.</li>
+<li>For completion, the home verifies that the saved environment still identifies the same peer, pulls bounded relay pages, rejects noncontiguous sequences, binds each imported message to its known dispatch/run, and applies lifecycle settlement. It then acknowledges only the safe sequence range, with runtime-epoch identity and settlement information (<a href="repo/src/main/runtime/orchestration/federation-sync.ts">federation-sync.ts</a>, lines 64–105, 125–179 and 182–225). This separates “message imported” from “remote settlement safely acknowledged.”</li>
+<li>Accepted task completion promotes newly unblocked dependencies (<a href="repo/src/main/runtime/orchestration/db/tasks/task-store.ts">task store</a>, lines 207–231). Resource release can follow independently. Dashboard cards route the human to the actual host/session, while higher-level delivery and acceptance still require Wingman policy.</li>
+</ol>
+<p>A decision gate checks task/requester ownership and refuses an active supervised worker. Opening the gate stores the question/options and blocks the task within a savepoint. Resolution stores the answer and makes the task ready (<a href="repo/src/main/runtime/orchestration/db/decision-gates/decision-gate-store.ts">gate store</a>, lines 17–94 and 98–126). This is a stronger work-state boundary than a transient approval popup, but it needs a Butler/human transport and a product decision policy to become Wingman's escalation experience.</p>
+<h2 id="assessment-major-additional-capabilities">Major additional capabilities</h2>
+<p><strong>A multi-harness workstation and external issue-management bridge.</strong> Wingman requires a rich per-agent workspace but does not prescribe GitHub/GitLab/Linear/Jira product integrations. Orca's TaskPage explicitly composes provider issue creation, mutations, lists/boards, repository selection and workspace actions (<a href="repo/src/renderer/src/components/task-page/TaskPage.tsx">TaskPage.tsx</a>, lines 1–41 and 44–85). This could connect Wingman tickets to existing engineering systems rather than creating another isolated tracker. The integration consequence is explicit ownership/synchronization of ticket IDs, statuses and acceptance records. These provider views are not evidence that the internal orchestration DAG already appears as Wingman's ProjectTracker.</p>
+<p><strong>A programmable plugin platform.</strong> Plugins have background workers, commands/events, panels, approval/capability resolution, content verification and audit hooks. The service supplies granted capabilities to workers, requires enabled/registered command handlers, and gates event delivery on approval (<a href="repo/src/main/plugins/plugin-service.ts">plugin-service.ts</a>, lines 71–99 and 275–300). Host-call requests authenticate a qualified plugin identity, validate input and resolve policy before dispatch (<a href="repo/src/main/plugins/workers/plugin-host-call-adapter.ts">plugin-host-call-adapter.ts</a>, lines 25–52). This offers a possible extension seam for organization-specific UI and services. It also makes capabilities, worker lifecycle and client compatibility part of the integration; no claim is made that an existing plugin supplies Butler or room semantics.</p>
+<p><strong>Integrated browser observation/control.</strong> The runtime exposes navigation, DOM actions, pointer input, screenshots/PDF/capture, console/evaluation, network controls, storage and profiles (<a href="repo/src/main/runtime/browser/browser-commands.ts">browser-commands.ts</a>, lines 17–95). Capture resolves an explicit browser/workspace target and delegates through the installed browser bridge (<a href="repo/src/main/runtime/browser/browser-capture.ts">browser-capture.ts</a>, lines 21–78). That can equip TestMaster's browser verification with a shared inspectable surface. Wingman still needs test planning, assertions, evidence retention and acceptance decisions, and bridge availability is a runtime dependency.</p>
+<p><strong>Searchable historical coding sessions.</strong> Session search returns scoped hits with evidence snippet, role/timestamp, source presence and, when available, a resume command. It rejects unknown host scope and stale/malformed cursors (<a href="repo/src/main/ai-vault-search/session-search-service.ts">session-search-service.ts</a>, lines 24–107). This is valuable for rediscovering previous reasoning across workspaces. Integration must distinguish retrieved conversation evidence from authoritative specifications and decisions; search results do not themselves maintain a curated project knowledge base.</p>
+<p><strong>Distributed lifecycle engineering beyond simply opening SSH terminals.</strong> Saved peer fingerprints, versioned capabilities, runtime epochs, import/ack cursors and remote settlement let the home coordinate execution on another server (<a href="repo/src/main/runtime/rpc/methods/orchestration/federation/federated-worker-start.ts">federated launch</a>, lines 73–112 and 146–165; <a href="repo/src/main/runtime/orchestration/federation-sync.ts">synchronization</a>, lines 73–105 and 182–225). Wingman already asks for multi-host execution. The extra value is this explicit compatibility/recovery protocol. Adopting it also adopts pairing, protocol rollout, connectivity and reconciliation obligations. It should not be extended into claims of transparent distributed rooms or automatic cross-host filesystem consistency.</p>
+<h2 id="assessment-distinctive-mechanisms-and-innovation-assessment">Distinctive mechanisms and innovation assessment</h2>
+<p>These are grounded engineering mechanisms worth reusing, not claims of historical novelty:</p>
+<ol>
+<li><strong>Work is separated from attempt and process.</strong> The task survives retries while each dispatch carries creator/assignee authority and execution observations. Atomic ready-task claims and failure-count carryover prevent two schedulers from casually treating the same work as two fresh assignments (<a href="repo/src/main/runtime/orchestration/db/dispatch-context/dispatch-context-store.ts">dispatch store</a>, lines 31–105). This is directly useful for an agent organization that replaces workers. It does not supply product requirements or decide whether two assignments are semantically duplicates.</li>
+<li><strong>Mailbox consumers are fenced by generation.</strong> Validation occurs inside the delivery transaction, so a stale coordinator cannot continue acting as the current consumer after replacement (<a href="repo/src/main/runtime/orchestration/db/messages/mailbox-consumer.ts">mailbox consumer</a>, lines 14–44). That is stronger than routing solely by a friendly name. The higher-level employee identity and authorization policy remain separate.</li>
+<li><strong>Unknown is a durable outcome.</strong> Launch/stop uncertainty, runtime epochs and exact process observations avoid converting a network timeout into proof of process death (<a href="repo/src/main/runtime/orchestration/types.ts">types</a>, lines 142–167; <a href="repo/src/main/runtime/rpc/methods/orchestration/worker/worker-stop.ts">stop</a>, lines 48–104). This reduces duplicate work and unsafe cleanup. The price is visible unresolved state and a need for eventual reconciliation rather than a simple green/red status model.</li>
+<li><strong>Mutation receipts preserve retry meaning.</strong> A request is keyed by caller fingerprint/request ID and checked against method/payload hash in <code>BEGIN IMMEDIATE</code>; reusing the ID with different input fails. Completed/pending receipts are returned distinctly (<a href="repo/src/main/runtime/orchestration/db/mutation-receipts/mutation-receipt-store.ts">mutation-receipt-store.ts</a>, lines 35–108). This is useful after dropped RPC responses. It is not a blanket exactly-once guarantee for arbitrary external tool effects.</li>
+<li><strong>Federated import and acknowledgement are different facts.</strong> The home can retain imported data while postponing acknowledgement until compatible lifecycle settlement is safe; peer and epoch checks prevent changed servers from inheriting old authority (<a href="repo/src/main/runtime/orchestration/federation-sync.ts">federation sync</a>, lines 73–105 and 150–225). This addresses a concrete distributed recovery problem. It cannot by itself resolve product-level disagreement or file merge conflicts.</li>
+<li><strong>Cleanup requires recorded intent and resource ownership.</strong> Release reconciliation retries only requested/releasing resources, preserving evidence and user retention instead of inferring disposal authority from discovery (<a href="repo/src/main/runtime/orchestration/worker-terminal-release-reconciliation.ts">release reconciliation</a>, lines 24–41 and 65–104). Wingman should carry this separation into retiring workers, conversations and workspaces.</li>
+</ol>
+<h2 id="assessment-practical-fit-and-adoption-consequences">Practical fit and adoption consequences</h2>
+<p>Use directly, subject to runtime validation: independent Codex/harness session launch, worker task/attempt accounting, structured send/queue/cancel/resume, workspace placement, durable messages/questions, scheduled launches, remote worker execution and dashboard-to-session inspection. These are the parts most expensive to reconstruct correctly, especially under restart and connection loss.</p>
+<p>Adapt around a stable Wingman domain model: employee/profile IDs separate from Orca sessions, project IDs separate from runs/repos/worktrees, leadership/team membership separate from execution ancestry, and product tickets/acceptance evidence separate from dispatch success. Map these identities deliberately so an archived session does not retire an employee and a retried task does not become a new product. Use addressed run/dispatch mail underneath organizational rooms; bridge remote participants explicitly because local group fan-out does not cover them.</p>
+<p>Build the missing organization:</p>
+<ul>
+<li>Telegram Butler and contextual question routing.</li>
+<li>Cross-project intake/registry.</li>
+<li>Product discovery and clarification records.</li>
+<li>Scoped ProductMaster/TechMaster duties.</li>
+<li>Shared room history/membership.</li>
+<li>ProductTracker portfolio views.</li>
+<li>Durable directives and decision provenance.</li>
+<li>Executive current/recent/planned summaries and linked per-agent timeline.</li>
+<li>Independent integrated verification and human acceptance/delivery rules. Schedules can wake ProjectMaster, but its actual review and follow-up responsibilities must be implemented in instructions and shared records.</li>
+</ul>
+<p>Extraction is not a small library import. Worker placement depends on runtime services, the profile store, provider launch adapters, SQLite, workspace/setup policy, signed process identity and renderer/client capability negotiation. Federation and structured sessions carry mixed-version behavior that Wingman would have to maintain. A full-workbench foundation offers the richest detailed workspace quickly; selective borrowing keeps Wingman's organizational model independent but requires rebuilding these integration contracts. This report supports a focused prototype of execution/inspection integration, not a claim that dropping in Orca completes Wingman.</p>
+<h2 id="assessment-verification-scope-and-limits">Verification scope and limits</h2>
+<p>Read applicable Orca root and daemon <code>AGENTS.md</code>; reviewed source without modifying the checkout. Confirmed Git remote and actual HEAD locally. The earlier draft was not treated as evidence. Architecture findings come from desktop/Node startup, CLI entry/handler, runtime RPCs, orchestration schema/store, launch/placement/readiness, permissions, messaging/gates, coordination/retry/settlement, automation, federation and dashboard/native-session code linked above.</p>
+<p>Relevant test bodies inspected, <strong>not executed</strong>:</p>
+<ul>
+<li><a href="repo/src/main/runtime/orchestration/coordinator.test.ts">Coordinator tests</a>, lines 149–187, assert no-task failure and dispatch/completion using a mocked runtime and fake timers. They support the decomposition boundary and intended orchestration flow, not real provider execution.</li>
+<li><a href="repo/src/main/automations/automation-worker-durability.test.ts">Automation durability tests</a>, lines 56–145, assert deduplicated occurrences, persistence-before-dispatch, refusal on disk failure and no redispatch after an interrupted schedule advancement. These inspect intended durability behavior, not a passing result here.</li>
+<li><a href="repo/src/main/runtime/rpc/methods/orchestration/worker/worker-release-ownership-guard.spec.ts">Release ownership tests</a>, lines 12–67, assert retention of user-kept/transferred/external resources and explicit unavailable archives.</li>
+<li><a href="repo/src/main/runtime/rpc/methods/orchestration/federation/federation-lifecycle-settlement.test.ts">Federation settlement tests</a>, lines 130–181 and 227–259, drive a remote report through worker/home dispatchers with simulated transport and assert home-authoritative success or task-mismatch rejection. These are intended protocol tests, not a real Mac/Windows network exercise.</li>
+</ul>
+<p>Negative/partial findings used case-insensitive searches for Telegram, Butler, ProductMaster/ProjectMaster/TechMaster, room names, acceptance criteria/definition of done, discovery and timeline concepts across likely implementation paths. The review then inspected run/task stores, preambles/questions/gates, coordinator, profile/launcher/provider contracts, TaskPage and dashboard schema/cards. A Telegram token appeared only as an agent-hook test platform value, not an implemented transport. Existing issue text mentioning acceptance criteria was not credited as a product acceptance system. Timeline/transcript UI and journals were not credited as Wingman's synthesized agent feed.</p>
+<p>No dependencies were installed, services started, credentials inspected, providers invoked or tests run. Runtime readiness, protocol behavior under real disconnection, native UI rendering, performance and compatibility with the user's installed harnesses remain unverified. Plugin interfaces are credited as extension mechanisms; uninspected or third-party plugins are not credited with missing organization features.</p></article><section id="support-legacy-evidence" class="technical supporting"><h2 id="support-legacy-evidence-retained-orca-experiment-evidence">Retained Orca experiment evidence</h2>
+<h2 id="support-legacy-evidence-scope">Scope</h2>
+<p>The older research tested selected orchestration contracts at commit <code>0e25b0e22bf331fda82e470585df58eeef848d6b</code>.
+It used source-derived exports, retained bundles, and isolated SQLite state.
+It did not operate a deployed desktop team.
+The current <a href="index.html">technical assessment</a> governs the Wingman fit verdict.</p>
+<h2 id="support-legacy-evidence-useful-findings">Useful findings</h2>
+<p>A Run is a durable coordination namespace. A Dispatch identifies one execution attempt.
+Mail uses those identities for ownership and routing.
+Completion must come from the worker that owns the attempt.
+A successful task can unlock dependent work. A failed task cannot satisfy a success dependency.</p>
+<p>The main snapshot consumes a normal mailbox check with a mutation receipt.
+The older inspected release required explicit acknowledgment.
+Do not apply one release's acknowledgment behavior to every release.
+Consumption still does not prove that the model understood a message.</p>
+<p>Remote workers route control mail to the Run's home coordinator.
+This differs from unrestricted remote peer messaging.
+Generation checks and receipts limit stale reports and repeated mutations.
+They do not guarantee exactly-once effects in external tools.</p>
+<h2 id="support-legacy-evidence-retained-records">Retained records</h2>
+<ul>
+<li><a href="assessment/evidence/orca-assessment.mjs">Initial six checks</a>.</li>
+<li><a href="assessment/evidence/orca-orchestration-audit.mjs">Initial implementation bundle</a>.</li>
+<li><a href="assessment/evidence/orca-communication-tests.mjs">Fifteen communication and lifecycle checks</a>.</li>
+<li><a href="assessment/evidence/orca-communication-audit.mjs">Communication implementation bundle</a>.</li>
+<li><a href="assessment/evidence/relocated-assessment-tests.log">Combined relocation result</a>: 21 passes.</li>
+</ul>
+<p>These are historical runs. This reorganization did not rerun them.
+Inspect imports and runtime requirements before using a retained script.
+The source-derived bundles cover selected paths. They are not the full installed application.</p></section>
+<section id="source-record"><h2>Source and evidence</h2><p class="url-text">https://github.com/stablyai/orca</p>
+<ul><li><a href="repo/">Open the pinned source checkout</a></li><li><a href="assessment/ASSESSMENT.md">Read the Markdown assessment</a></li>
+<li><a href="../generic/assessments/_audits/qa11.md">Read the historical independent source audit</a></li><li><a href="../generic/method.html">Read the method and evidence limits</a></li></ul></section>
+<nav class="report-switch" aria-label="Adjacent project reports"><a href="../openrig/index.html">Previous project: OpenRig</a><a href="../orkas/index.html">Next project: Orkas</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../index.html">Return to overview <img src="../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

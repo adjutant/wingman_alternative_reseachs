@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Technical assessment against Wingman’s development organization."><title>Hcom · Wingman Research</title>
+<link rel="icon" href="../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/report.css"><script defer src="../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../index.html"><img src="../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../index.html">Overview</a><a class="nav-link " href="../generic/index.html">Architecture findings</a><a class="nav-link " href="../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../generic/method.html">Method and evidence</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../index.html">Wingman Research</a><span class="crumb">/</span><span>Hcom</span></div><span class="topbar-note">SOURCE REVIEW · 05 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Hcom</h1><p class="subtitle">Technical assessment against Wingman’s development organization.</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#decision">Decision summary</a><a href="#assessment-hcom-assessment">hcom assessment</a><a href="#assessment-architecture-and-actual-execution-model">Architecture and actual execution model</a><a href="#assessment-feature-comparison">Feature comparison</a><a href="#assessment-agent-definition-and-complete-lifecycle">Agent definition and complete lifecycle</a><a href="#assessment-coordination-mechanics-and-traced-request">Coordination mechanics and traced request</a><a href="#assessment-major-additional-capabilities">Major additional capabilities</a><a href="#assessment-distinctive-mechanisms-and-grounded-innovation">Distinctive mechanisms and grounded innovation</a><a href="#assessment-practical-fit-for-wingman">Practical fit for Wingman</a><a href="#assessment-verification-scope-and-limits">Verification scope and limits</a><a href="#source-record">Source and evidence</a></div></nav><section id="decision" class="decision"><h2>Decision summary</h2>
+<div class="brief-columns"><div><h3>Useful for Wingman</h3><p>Study tool-specific agent hooks, durable messages, MQTT relay, and real remote process control.</p></div><div><h3>Adoption boundary</h3><p>The communication layer needs Wingman&#x27;s project registry, product leadership, tracker, acceptance, and dashboards.</p></div></div>
+<p class="scope-note">Source assessment at the commit below. Runtime limits appear in the technical report.</p></section>
+<dl class="facts"><div><dt>Source group</dt><dd>Infrastructure</dd></div><div><dt>Commit</dt><dd><code>de33e31a0cdbba4c5863f7cc050d8b79aa50bcdf</code></dd></div><div><dt>Coverage</dt><dd>24 Wingman features</dd></div></dl>
+<article id="technical-assessment" class="technical"><h2 id="assessment-hcom-assessment">hcom assessment</h2>
+<p class="url-text">Assessed on <strong>2026-11-05</strong> against <a href="../generic/purpose.html">Wingman's purpose</a>. Product: <strong>hcom 0.7.31</strong>, an MIT-licensed communication, observation and process-control layer for existing coding-agent CLIs. Repository: https://github.com/aannoo/hcom . Local checkout: <code>researchs/hcom/repo</code>. Actual inspected commit: <strong>de33e31a0cdbba4c5863f7cc050d8b79aa50bcdf</strong>. Package identity and version are in <a href="repo/Cargo.toml">Cargo.toml</a>, lines 1–16.</p>
+<p><strong>Verdict: a strong infrastructure candidate for Wingman's agent communication and distributed execution substrate, but a poor substitute for Wingman as a complete product.</strong> Its agents are real independently running coding tools; its MQTT relay really connects machines and supports remote process control; its message handling is considerably more developed than an appended chat file. It does not implement the portfolio registry, product-discovery process, leadership structure, tickets, executive briefings, product acceptance or web/mobile workspaces that define Wingman's organizational experience. Those would be application layers built above hcom. Adopting it means accepting tool-specific hooks and terminal delivery as a core integration surface.</p>
+<p>This is a source assessment, not a runtime certification. No dependencies were installed, services launched, agents started or external relay connections made. Checkout sources were unchanged. No applicable on-disk <code>AGENTS.md</code> was found in the checkout or its inspected ancestor/report directories. The supplied global instructions were followed.</p>
+<h2 id="assessment-architecture-and-actual-execution-model">Architecture and actual execution model</h2>
+<p>The executable is Rust, with small JavaScript/TypeScript and Python adapters for tools that expose plugin APIs. <a href="repo/src/main.rs">main.rs</a>, lines 47–91, scrubs inherited identity for nested agents, initializes configuration, installs logging and hands execution to the router. <a href="repo/src/router.rs">router.rs</a>, lines 23–48 and 119–163, separates ordinary commands, launch/resume/fork aliases and tool hook handlers. Running <code>hcom</code> also provides a Ratatui terminal interface. This is not a web control server.</p>
+<p>There are four cooperating execution paths:</p>
+<ol>
+<li><strong>CLI launch and control.</strong> The launch command parses hcom flags while retaining the underlying tool's arguments. <code>LaunchParams</code> carries the tool, process count, working directory, initial/system prompt, tag, name, background mode, prior session and unread-message cursor. The launcher validates installed tool availability and arguments, builds the environment and per-run hook configuration, reserves names and starts real terminal or background processes. See <a href="repo/src/commands/launch.rs">commands/launch.rs</a>, lines 1–23 and 516–674; <a href="repo/src/launcher.rs">launcher.rs</a>, lines 147–213, 1735–1845 and 1969–2100. hcom does not itself call a language model or implement coding tools: the launched CLI owns the model interaction and coding loop.</li>
+<li><strong>Local coordination.</strong> Hooks, plugins and CLI commands use SQLite. The database has event, instance, process-binding, session-binding, notification-endpoint, Claude actor-capability and generic key/value records. It has no project/ticket/product schema. SQLite uses WAL, foreign keys and a five-second busy timeout. See <a href="repo/src/db/mod.rs">db/mod.rs</a>, lines 158–164 and 329–420. Defaults live under <code>~/.hcom</code>, with <code>HCOM_DIR</code> providing namespace selection; <a href="repo/src/paths.rs">paths.rs</a>, lines 1–38. Event insertion invokes subscription processing after the record is written, so watches are part of the coordination path, not just a TUI filter: <a href="repo/src/db/events.rs">db/events.rs</a>, lines 450–526.</li>
+<li><strong>Agent observation and message delivery.</strong> Tool hooks record status, commands and file activity, bind the tool's session to an hcom identity and deliver unread messages as model context. Idle delivery may use a native plugin/mod, a blocking hook or a PTY submission, depending on the integration. The PTY wrapper proxies the real CLI, tracks its screen and runs a delivery state machine with prompt-readiness, user-typing and approval gates. Its states include idle, injecting, submitting, verifying and retry delay; <a href="repo/src/delivery.rs">delivery.rs</a>, lines 1552–1605 and 2042–2139. The per-tool configuration registry explicitly distinguishes hooks, gates, background launch mode and prompt shape; <a href="repo/src/integration_spec.rs">integration_spec.rs</a>, lines 1–17 and 43–135. Adding a new CLI still requires behavioral adapter code, not merely a registry row.</li>
+<li><strong>Cross-machine relay.</strong> A separate relay worker is automatically started when relay is enabled, including on a machine with no local agents so it can receive remote launch requests. Each device retains its own local database. State snapshots and event batches travel through MQTT, are imported into the receiving database and acquire device-qualified identities. Remote commands use request/result RPC. <a href="repo/src/relay/worker.rs">relay/worker.rs</a>, lines 1–31; <a href="repo/src/relay/push.rs">relay/push.rs</a>, lines 288–378; <a href="repo/src/relay/pull.rs">relay/pull.rs</a>, lines 190–213, 620–888 and 930–951; <a href="repo/src/relay/control.rs">relay/control.rs</a>, lines 435–495. This is real remote execution control, not a local subprocess labeled remote. It does not synchronize repositories, deliver artifacts or choose where projects should live.</li>
+</ol>
+<p>The TUI reads the same coordination data and dispatches actions through subprocess calls to the same executable, with no mandatory local daemon for ordinary TUI operation. <a href="repo/src/tui/rpc.rs">tui/rpc.rs</a>, lines 1–4 and 49–55. The relay daemon is specifically an MQTT worker, not a persistent project manager: <a href="repo/src/commands/daemon.rs">commands/daemon.rs</a>, lines 1–17.</p>
+<h2 id="assessment-feature-comparison">Feature comparison</h2>
+<p>Verdicts concern delivered behavior at the inspected revision. “Resembles” credits a useful primitive without crediting an organizational capability that must still be implemented.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Capability</th>
+<th scope="col">Verdict</th>
+<th scope="col">Implementation evidence and concrete difference from Wingman</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F01</td>
+<td>Real independent coding agents and specialist instances</td>
+<td><strong>Exact</strong></td>
+<td>The launcher creates separate real coding-tool processes, with per-instance environment, identity and working directory; <a href="repo/src/launcher.rs">launcher.rs</a>, lines 147–171 and 2023–2100. Multiple instances can receive different prompts. Specialism comes from supplied instructions; hcom does not supply BackendCoder/TestMaster profiles.</td>
+</tr>
+<tr>
+<td>F02</td>
+<td>Extensible profiles, roles and team composition</td>
+<td><strong>Resembles</strong></td>
+<td>Names, tags, system prompts, ordinary prompts and configurable tool args can express roles; <a href="repo/src/commands/launch.rs">commands/launch.rs</a>, lines 618–674; <a href="repo/src/config.rs">config.rs</a>, lines 299–332. There is no durable role-profile catalog, role responsibility schema or team-composition planner. Tool integrations and organizational profiles are distinct concepts.</td>
+</tr>
+<tr>
+<td>F03</td>
+<td>Agent directory and visible working relationships</td>
+<td><strong>Similar</strong></td>
+<td>Instance records include parent, tag, tool, directory and device; <a href="repo/src/db/mod.rs">db/mod.rs</a>, lines 368–402. TUI combines local, remote and stopped agents; <a href="repo/src/tui/render/agents.rs">tui/render/agents.rs</a>, lines 100–130. It exposes runtime identity and parentage, not project teams, reporting responsibilities and task links.</td>
+</tr>
+<tr>
+<td>F04</td>
+<td>Telegram main channel and Butler routing</td>
+<td><strong>Resembles</strong></td>
+<td>A real Hermes gateway-chat bridge includes Telegram, durable chat routes and allowlist-checked injection; <a href="repo/src/hooks/hermes_bridge.rs">hooks/hermes_bridge.rs</a>, lines 1–48; <a href="repo/src/hermes_plugin/__init__.py">hermes_plugin/<strong>init</strong>.py</a>, lines 1120–1131 and 1412–1437. Telegram depends on an external Hermes gateway. No Butler, @KraIOBot setup or project-aware human-answer routing is implemented.</td>
+</tr>
+<tr>
+<td>F05</td>
+<td>Cross-project registry, intake and existing/new routing</td>
+<td><strong>Absent</strong></td>
+<td>Command routing is by CLI command/tool/agent/device, not product intake; <a href="repo/src/router.rs">router.rs</a>, lines 23–48; <a href="repo/src/db/mod.rs">db/mod.rs</a>, lines 329–420. Directory/tag metadata does not create project entities or resolve a human's reference to an existing product. Searched commands, schema, bootstrap, plugins and workflows.</td>
+</tr>
+<tr>
+<td>F06</td>
+<td>Per-project product and technical leadership</td>
+<td><strong>Absent</strong></td>
+<td>No ProductMaster/TechMaster lifecycle or project-leadership routing was found in commands, configuration, bootstrap or bundled workflows. <a href="repo/src/bootstrap.rs">bootstrap.rs</a>, lines 68–125, supplies communication instructions to generic agents. Leaders could be prompted into existence but are not product behavior.</td>
+</tr>
+<tr>
+<td>F07</td>
+<td>Proportionate research/discovery and iterative clarification</td>
+<td><strong>Resembles</strong></td>
+<td>Agents can exchange request/reply messages and run an instructed debate; <a href="repo/src/messages.rs">messages.rs</a>, lines 43–83; <a href="repo/src/scripts/bundled/debate.sh">scripts/bundled/debate.sh</a>, lines 1–65. There is no discovery state, scope-sensitive research policy or clarification lifecycle tied to a product.</td>
+</tr>
+<tr>
+<td>F08</td>
+<td>Product scope/specs, acceptance scenarios and definition of done</td>
+<td><strong>Absent</strong></td>
+<td>No product-definition records, templates or acceptance gates were found across the schema, commands, skills and bundled workflows. Bundles reference files/events/transcript passages and require title/description/refs; <a href="repo/src/core/bundles.rs">core/bundles.rs</a>, lines 105–165. A bundle is not a product specification or definition-of-done model.</td>
+</tr>
+<tr>
+<td>F09</td>
+<td>Decomposition, assignment and shared task tracking</td>
+<td><strong>Resembles</strong></td>
+<td>Initial prompts, launch handoff instructions and targeted requests provide assignment primitives; <a href="repo/src/launcher.rs">launcher.rs</a>, lines 2003–2022; <a href="repo/src/commands/send.rs">commands/send.rs</a>, lines 389–489. No shared ticket objects, dependency DAG, ownership transition or implementation-status workflow was found. <code>running_tasks</code> in an instance row is not a ProjectTracker.</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>Human portfolio/project management dashboard</td>
+<td><strong>Absent</strong></td>
+<td>The actual TUI model contains agents, runtime statuses and messages; <a href="repo/src/tui/model.rs">tui/model.rs</a>, lines 6–19 and 155–177. Schema and TUI/render searches found no portfolio, product progress, ticket board or project dashboard.</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>Agent chat application, rooms and collaboration</td>
+<td><strong>Similar</strong></td>
+<td>Durable direct/broadcast messages, thread membership, intents and replies are implemented; <a href="repo/src/commands/send.rs">commands/send.rs</a>, lines 280–338 and 389–489; <a href="repo/src/db/subscriptions.rs">db/subscriptions.rs</a>, lines 543–628. TUI provides a human-readable message surface. Threads approximate conversation rooms. They do not supply Wingman's management/project room structure or project/task links.</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>Management escalation and human decisions/approvals</td>
+<td><strong>Resembles</strong></td>
+<td>External-user authority is in bootstrap instructions, and tool approval state blocks automatic PTY delivery; <a href="repo/src/bootstrap.rs">bootstrap.rs</a>, lines 68–86; <a href="repo/src/delivery.rs">delivery.rs</a>, lines 2099–2139. Hermes can carry questions to a human. No escalation policy, project decision ledger or correlated product-question/answer workflow exists.</td>
+</tr>
+<tr>
+<td>F13</td>
+<td>Durable knowledge and reusable directives</td>
+<td><strong>Resembles</strong></td>
+<td>Configured notes/system prompts and validated handoff bundles preserve reusable context; <a href="repo/src/config.rs">config.rs</a>, lines 299–315; <a href="repo/src/commands/bundle.rs">commands/bundle.rs</a>, lines 720–803. Project directives can be ordinary source files referenced by bundles, but hcom neither maintains <code>DIRECTIVES/SCOPES/SPECS/HARNESS</code> nor distinguishes authoritative product knowledge.</td>
+</tr>
+<tr>
+<td>F14</td>
+<td>Persistent identity, conversation and work continuity</td>
+<td><strong>Similar</strong></td>
+<td>Stop snapshots retain name, session, transcript location, cwd, launch args and mailbox cursor; resume restores tracked identity and tool session; <a href="repo/src/hooks/common.rs">hooks/common.rs</a>, lines 1363–1391; <a href="repo/src/commands/resume.rs">commands/resume.rs</a>, lines 398–485 and 556–621. Strong session continuity; conversation files remain owned by the tool, and no product work record is restored.</td>
+</tr>
+<tr>
+<td>F15</td>
+<td>Proactive supervision, periodic wake and blocker follow-up</td>
+<td><strong>Resembles</strong></td>
+<td>Event subscriptions and automatic request watches notify senders when a recipient becomes idle/stops without replying; <a href="repo/src/db/subscriptions.rs">db/subscriptions.rs</a>, lines 318–357 and 740–790. <code>onidle</code> triggers a handoff; <a href="repo/src/scripts/bundled/onidle.sh">scripts/bundled/onidle.sh</a>, lines 1–28. No periodic ProjectMaster review of active products, tickets and blockers. Infrastructure heartbeat timers are not organizational supervision.</td>
+</tr>
+<tr>
+<td>F16</td>
+<td>Parallel products and concurrent specialists</td>
+<td><strong>Similar</strong></td>
+<td>Per-instance cwd/tag and launch count support simultaneous CLI agents across multiple directories; <a href="repo/src/launcher.rs">launcher.rs</a>, lines 147–171 and 2023–2100. This supports concurrent project teams mechanically but provides no project isolation, shared portfolio resource policy or team-specific work ledger.</td>
+</tr>
+<tr>
+<td>F17</td>
+<td>Real multi-host execution with shared coordination</td>
+<td><strong>Exact</strong></td>
+<td>Device-qualified agents, remote launch/resume/kill/screen/transcript RPC and replicated state/events are implemented; <a href="repo/src/relay/control.rs">relay/control.rs</a>, lines 435–495; <a href="repo/src/relay/push.rs">relay/push.rs</a>, lines 288–378. Boundary: machines must have hcom/tools/workspaces provisioned, and code/artifact synchronization and project placement remain external.</td>
+</tr>
+<tr>
+<td>F18</td>
+<td>Executive overview of current/recent/next work and blockers</td>
+<td><strong>Resembles</strong></td>
+<td>Agent status, latest activity detail, directory, unread messages and usage are visible; <a href="repo/src/tui/model.rs">tui/model.rs</a>, lines 155–177 and 232–253; <a href="repo/src/tui/app.rs">tui/app.rs</a>, lines 211–231. No authored/synthesized accomplishments, planned next work or business blocker briefing. A live command/status is not an executive summary.</td>
+</tr>
+<tr>
+<td>F19</td>
+<td>Individual summary timeline linked to underlying work</td>
+<td><strong>Resembles</strong></td>
+<td>Searchable event/message history and transcript references offer raw provenance; <a href="repo/src/tui/actions.rs">tui/actions.rs</a>, lines 41–53; <a href="repo/src/commands/bundle.rs">commands/bundle.rs</a>, lines 720–803. No per-agent meaningful-work summarization feed or task/deliverable-linked briefing model was found.</td>
+</tr>
+<tr>
+<td>F20</td>
+<td>Detailed per-agent coding workspace</td>
+<td><strong>Similar</strong></td>
+<td>Real terminals plus screen capture, injection and transcript inspection provide detailed coding visibility; <a href="repo/src/commands/term.rs">commands/term.rs</a>, lines 94–187; <a href="repo/src/bootstrap.rs">bootstrap.rs</a>, lines 89–112. They do not provide an integrated web/mobile session with review/artifact/browser panels and connected project tasks.</td>
+</tr>
+<tr>
+<td>F21</td>
+<td>Live activity, lifecycle, steering and execution visibility</td>
+<td><strong>Similar</strong></td>
+<td>Launch/fork/resume/kill, live terminal text, hooks, messages and usage exist; <a href="repo/src/tui/actions.rs">tui/actions.rs</a>, lines 137–169; <a href="repo/src/commands/resume.rs">commands/resume.rs</a>, lines 124–205; <a href="repo/src/commands/term.rs">commands/term.rs</a>, lines 94–187. Native CLI capabilities govern compaction, attachments, goal budgets and semantic cancellation; hcom is not a full replacement session API.</td>
+</tr>
+<tr>
+<td>F22</td>
+<td>Testing, integrated verification and acceptance/delivery</td>
+<td><strong>Resembles</strong></td>
+<td>Agents can run tests through their own tools and share results. The <code>confess</code> workflow coordinates independent transcript evaluation; <a href="repo/src/scripts/bundled/confess.sh">scripts/bundled/confess.sh</a>, lines 1–61. No TestMaster integration, product acceptance criteria, delivery state or rule to cease development after acceptance. hcom's own tests do not establish this product capability.</td>
+</tr>
+<tr>
+<td>F23</td>
+<td>Autonomous organization with human direction</td>
+<td><strong>Resembles</strong></td>
+<td>Bootstrap teaches agents how to spawn/message/watch and prioritize the human; <a href="repo/src/bootstrap.rs">bootstrap.rs</a>, lines 68–125. Event reactions and long-lived agents permit autonomous workflows, but routing, leadership, supervision, definition and delivery are user-authored prompts/scripts rather than an implemented organization.</td>
+</tr>
+<tr>
+<td>F24</td>
+<td>New profiles flow through chat/tracker/dashboards</td>
+<td><strong>Resembles</strong></td>
+<td>Generic runtime identities/tags participate in messages and the TUI; unknown tool names are retained for forward compatibility; <a href="repo/src/tui/model.rs">tui/model.rs</a>, lines 77–120. There is no tracker or project/executive dashboard to extend, nor a common profile/team schema connecting all views.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="assessment-agent-definition-and-complete-lifecycle">Agent definition and complete lifecycle</h2>
+<h3 id="assessment-what-an-agent-is">What an agent is</h3>
+<p>An ordinary hcom agent is a <strong>bound participant representing an external coding-tool session and usually a running process</strong>. The live <code>instances</code> row is operational state. A tool session ID names the conversation; <code>HCOM_PROCESS_ID</code> is hcom's routing/binding token. The OS PID identifies execution. These are deliberately separate. Parent session/name fields identify relationships, and a tag decorates/group-selects an instance. A launch batch identifies a group of launches, not a product or task. A message request is free text with metadata, not a durable ticket. <a href="repo/src/db/mod.rs">db/mod.rs</a>, lines 349–402; <a href="repo/src/launcher.rs">launcher.rs</a>, lines 2023–2100.</p>
+<p>There are important exceptions: an ad-hoc participant may be a process using <code>hcom start/listen</code>, and a Hermes gateway bridge represents a chat route with no hcom-owned coding subprocess. The bridge explicitly documents that stopping it leaves the gateway/chat running; <a href="repo/src/hooks/hermes_bridge.rs">hooks/hermes_bridge.rs</a>, lines 1–13 and 108–125. Thus not every directory entry proves a separate autonomous coding agent. For Codex, native internal subagent/consolidation hooks are deliberately excluded from rebinding and driving the parent session's status; <a href="repo/src/hooks/codex.rs">hooks/codex.rs</a>, lines 763–790. The independently launched CLI instances are the strongest match to Wingman workers.</p>
+<h3 id="assessment-definition-creation-and-identity">Definition, creation and identity</h3>
+<p>The user or an already-running agent selects tool, count, cwd, explicit/generated name, tag, initial task prompt, system prompt, environment, tool flags and terminal/background mode. Global TOML/environment supplies timeout, notes, tool defaults, delivery mode and relay settings. This is configuration for an invocation, not a reusable first-class organizational role. <a href="repo/src/config.rs">config.rs</a>, lines 299–363; <a href="repo/src/commands/launch.rs">commands/launch.rs</a>, lines 618–674.</p>
+<p>Launch validates the executable and arguments, rejects an hcom data directory inside metadata directories that agents cannot write, canonicalizes cwd and configures tool-specific integration. It saves the original user/config arguments before injecting per-run hooks, trust settings or initial prompts, so resume does not blindly replay stale path-specific flags. Each requested instance gets a separate environment and process token. The launch metadata and placeholder identity allow control before the tool's first hook. Initial task prompts launched by another hcom participant receive a reply-to-launcher instruction. <a href="repo/src/launcher.rs">launcher.rs</a>, lines 1735–1845, 1969–2100. The hook-facing binding layer reconciles placeholder, process and session identities and records terminal launch context; <a href="repo/src/instance_binding.rs">instance_binding.rs</a>, lines 1–18 and 24–82.</p>
+<p>The injected bootstrap tells an agent its hcom name, human authority, command syntax, intent/reply conventions and available peers. It explicitly says this is session context, not an immediate task, and does not replace native subagents. <a href="repo/src/bootstrap.rs">bootstrap.rs</a>, lines 68–125. These are prompt instructions, so delivery acknowledgments cannot prove the model obeyed the organization's intentions.</p>
+<h3 id="assessment-execution-tools-and-permissions">Execution, tools and permissions</h3>
+<p>Each external CLI executes its own model loop and tools. hcom launches the CLI in the current/new terminal or runs it detached with a PTY. Default background Claude uses a live PTY. An explicit print-mode invocation uses a separate native-print path kept alive via stop-hook behavior. <a href="repo/src/launcher.rs">launcher.rs</a>, lines 1735–1774; <a href="repo/src/integration_spec.rs">integration_spec.rs</a>, lines 89–113. Headless therefore means “without a visible terminal,” not an ephemeral one-shot text generation.</p>
+<p>Permissions largely follow the underlying CLI and host account. hcom can add tool-specific communication permissions. Its safe-command recognizer rejects shell composition, backticks, expansion and extra commands. The safe list includes communication, inspection and configuration operations (<a href="repo/src/hooks/common.rs">hooks/common.rs</a>, lines 52–118). Automatic approval and workspace trust are configurable. See <a href="repo/src/config.rs">config.rs</a>, lines 319–324, and <a href="repo/src/launcher.rs">launcher.rs</a>, lines 1984–1990. Wingman still needs central capabilities for product roles. These must define who can deploy, alter infrastructure, read secrets and approve decisions.</p>
+<h3 id="assessment-routing-and-concurrency">Routing and concurrency</h3>
+<p>An agent sends with explicit identity or a validated live binding. Recipients resolve to instance names/tags, broadcast scope or thread members. <code>--intent request|inform|ack</code>, reply references and threads shape conversation but do not create a scheduler task. Separate CLI processes execute concurrently; hcom does not serialize their repository writes. SQLite WAL and binding/cursor rules coordinate control-plane updates, while file-collision watches merely detect activity overlap. <a href="repo/src/commands/send.rs">commands/send.rs</a>, lines 258–338 and 389–489; <a href="repo/src/db/mod.rs">db/mod.rs</a>, lines 158–164; <a href="repo/src/db/subscriptions.rs">db/subscriptions.rs</a>, lines 1237–1244 and 1368–1391.</p>
+<p>Device suffixes route remote control through MQTT RPC to the machine holding the real process. A remote fork requires an explicit target working directory. The code cannot assume the local cwd exists remotely. <a href="repo/src/commands/resume.rs">commands/resume.rs</a>, lines 124–181. There is no built-in worktree/branch reservation, integration queue or placement optimizer. Independent specialists still need workspace and merge discipline.</p>
+<h3 id="assessment-persistence-resume-and-fork">Persistence, resume and fork</h3>
+<p>While live, the instance record holds status and unread position; events preserve communication/activity. The underlying CLI's transcript remains the conversation store. Stop captures the tool/session/cwd/launch args/parent/tag/background metadata and unread cursor before deleting the live record. Resume loads a stopped snapshot or adopts an existing transcript, validates whether that tool supports the operation and reconstructs a launch plan. A tracked resume retains name, prior session and cursor. A tracked fork reserves a fresh child name and rewrites identity prompts while relying on the CLI's native fork support. <a href="repo/src/hooks/common.rs">hooks/common.rs</a>, lines 1363–1391; <a href="repo/src/commands/resume.rs">commands/resume.rs</a>, lines 398–485, 556–621 and 705–733. Missing session/transcript state can prevent restoration. This is not an independent, portable model-conversation archive.</p>
+<p>Subscriptions and thread memberships are also included in stop snapshots and can be restored. Replay is positioned at the stop boundary to avoid re-evaluating old events with hindsight; <a href="repo/src/db/subscriptions.rs">db/subscriptions.rs</a>, lines 360–395. This is useful continuity for an agent waiting on other workers, but there is no task backlog or product decision state to restore automatically.</p>
+<h3 id="assessment-scheduling-interruption-and-cancellation">Scheduling, interruption and cancellation</h3>
+<p>The scheduling primitives are reactive: durable event subscriptions, request-watch subscriptions, <code>events --wait</code> and workflow scripts such as <code>onidle</code>. They can wake an idle agent or launch a successor when another goes idle. They do not independently choose useful portfolio work or periodically run a ProjectMaster review. <a href="repo/src/db/subscriptions.rs">db/subscriptions.rs</a>, lines 318–357 and 740–790; <a href="repo/src/scripts/bundled/onidle.sh">scripts/bundled/onidle.sh</a>, lines 1–28. Hooks/PTYs have polling, retry and heartbeat timers, and the relay worker has its own watchdog. These timers monitor transport/process health.</p>
+<p>Mid-turn steering reaches supported CLIs after tool calls through hooks; idle steering uses the integration's wake path. PTY submission checks approval state and current human typing before inserting/submitting text. The message loop has retry delays and verification rather than assuming a successful write means the agent consumed the message. <a href="repo/src/delivery.rs">delivery.rs</a>, lines 1552–1605, 2042–2139 and 2271–2301. Direct <code>term inject</code> is a lower-level input-control surface, not the same semantic guarantee as the queued mailbox.</p>
+<p><code>stop</code> disconnects/finalizes hcom participation; <code>kill</code> additionally targets execution and supported terminal panes. These should not be confused with a task-level cancel that rolls back edits. Kill marks intent before signaling to preserve the reason despite racing PTY cleanup, guards against a reused PID, and restores tracking/status when termination fails. <a href="repo/src/commands/stop.rs">commands/stop.rs</a>, lines 47–105; <a href="repo/src/commands/kill.rs">commands/kill.rs</a>, lines 952–1036. Remote kill follows the same device-control path. Native CLI interruption and hcom kill do not imply cancellation of external side effects already performed.</p>
+<h3 id="assessment-failure-recovery-completion-and-retirement">Failure, recovery, completion and retirement</h3>
+<p>Launch placeholders time out into launch-failure diagnostics; status calculation considers liveness and wake grace rather than trusting a stale string forever. <a href="repo/src/instance_lifecycle.rs">instance_lifecycle.rs</a>, lines 25–61 and 248–295. Hooks prepare batches before advancing their cursor, and acknowledgments are forward-only and guarded against a replaced instance incarnation. Codex commits after serialized output successfully flushes. This avoids losing messages on a failed output write and avoids an old delivery moving a newer cursor backward; <a href="repo/src/hooks/common.rs">hooks/common.rs</a>, lines 304–395; <a href="repo/src/hooks/codex.rs">hooks/codex.rs</a>, lines 980–1016. It is a transport-side acknowledgment, not proof the agent reasoned about or completed the request.</p>
+<p>A request watch detects “went idle/stopped without replying,” with tool-specific handling for noisy intermediate idle states. It prompts follow-up but does not restart failed implementation tasks or adjudicate successful completion; <a href="repo/src/db/subscriptions.rs">db/subscriptions.rs</a>, lines 194–266 and 318–357. For Codex, Stop marks <code>listening</code>, making it available for further work; <a href="repo/src/hooks/codex.rs">hooks/codex.rs</a>, lines 940–951. Task completion and product acceptance remain a conversation-level convention. There is no completion gate tied to tests, definition of done or human acceptance.</p>
+<p>Retirement snapshots and cleans live bindings, subscriptions, endpoints and scoped actor capabilities. Snapshot publication and row/control-plane deletion happen in one transaction. An event-write failure rolls deletion back so teardown can be retried. Parent teardown also accounts for child relationships. <a href="repo/src/hooks/common.rs">hooks/common.rs</a>, lines 1393–1420 and 1478–1527. Database archives preserve historical coordination stores; <a href="repo/src/db/mod.rs">db/mod.rs</a>, lines 814–867. This is runtime/session cleanup, not an archive of an entire accepted product with immutable deliverables.</p>
+<h2 id="assessment-coordination-mechanics-and-traced-request">Coordination mechanics and traced request</h2>
+<p>The shared coordination record is an append-only event stream plus mutable instance and KV records. Messages preserve sender kind, delivery scope, intended recipients, intent, thread, reply reference and optional context bundle. Threads are seeded through participants and subsequent unaddressed thread sends target the stored membership. They are not access-controlled project rooms. Request/inform/ack conventions reduce conversational ambiguity, and send rejects ack-on-ack and ack-to-inform replies to reduce unproductive loops. <a href="repo/src/commands/send.rs">commands/send.rs</a>, lines 280–338 and 405–459. There are no tickets or task-dependency edges: subscriptions express event conditions, not prerequisite work satisfaction.</p>
+<p>Consider a real supported request shape: an existing agent sends <code>hcom send @nova --intent request --thread api-review -- "Review the API change and reply with test failures"</code> while <code>nova</code> is a Codex session. The following is a <strong>source-traced path</strong>, not a request executed during this assessment:</p>
+<ol>
+<li>Identity resolution distinguishes instance, external and system senders and supports a live process binding; <a href="repo/src/identity.rs">identity.rs</a>, lines 382–468 and 650–665. Send queries currently deliverable agents, excludes stopped/failed/explicitly exited records and resolves the explicit target; <a href="repo/src/commands/send.rs">commands/send.rs</a>, lines 258–338.</li>
+<li>Send writes a <code>message</code> event containing the text and <code>delivered_to</code>, creates/updates the thread membership and creates a one-shot request watch for this sender/recipient/event. The event's ID is the reply correlation key. It wakes local delivery loops and triggers an immediate relay push; <a href="repo/src/commands/send.rs">commands/send.rs</a>, lines 389–489. A remote participant would receive an imported, namespaced event rather than a shared network-mounted SQLite row.</li>
+<li>The database invokes subscription processing for the new event. A relevant standing watch may produce a system notification or message reaction; reactions carry subscription-chain metadata rather than being invisible side effects. <a href="repo/src/db/events.rs">db/events.rs</a>, lines 495–526; <a href="repo/src/db/subscriptions.rs">db/subscriptions.rs</a>, lines 740–790 and 1133–1200.</li>
+<li>If Codex is already working, a PostToolUse hook prepares unread mail and returns it in both visible <code>systemMessage</code> and model-facing <code>additionalContext</code>. Cursor advancement occurs only after successful JSON output and flush; <a href="repo/src/hooks/codex.rs">hooks/codex.rs</a>, lines 753–761, 920–937 and 980–1016. If idle, the PTY delivery loop waits for a safe prompt and injects/submits through its gated state machine; <a href="repo/src/delivery.rs">delivery.rs</a>, lines 1552–1605 and 2042–2139.</li>
+<li>Codex's implementation and test execution take place in Codex, outside hcom. Tool hooks update status and file/command activity; multi-file patches produce additional file events so collision watches can see each touched path; <a href="repo/src/hooks/codex.rs">hooks/codex.rs</a>, lines 895–910.</li>
+<li>The agent replies with <code>hcom send</code> using <code>--reply-to</code> and the thread. The explicit reply correlation can satisfy/cancel the request watch. If it goes idle or stops without an appropriate reply, the sender receives a watch notification instead; <a href="repo/src/db/subscriptions.rs">db/subscriptions.rs</a>, lines 194–266 and 318–357. A reply says what the agent reports; hcom does not verify whether the test claim is true.</li>
+<li>The human sees the communication/activity in the TUI or attached terminals. A connected Hermes chat can expose incoming messages with off/preview/full visibility and inject them through the gateway's allowlist-checked public API; <a href="repo/src/hermes_plugin/__init__.py">hermes_plugin/<strong>init</strong>.py</a>, lines 1106–1131 and 1412–1437. hcom does not decide that a test failure warrants a management escalation or attach it to a product ticket.</li>
+</ol>
+<p>The closest human-decision path is an agent message to a bridged chat, followed by a human response through Hermes and hcom. This is usable messaging infrastructure, but Butler would still need durable question IDs, project/task association, decision ownership and answer-routing rules. Native CLI approval prompts concern tool execution and remain distinct from this business/product decision path.</p>
+<h2 id="assessment-major-additional-capabilities">Major additional capabilities</h2>
+<p><strong>Heterogeneous coding-tool interoperability.</strong> hcom integrates Claude, Codex, Gemini, OpenCode/Kilo, Pi/OMP, Hermes, Cursor, Kimi, Copilot, Qoder, Grok and Antigravity rather than assuming every worker is Codex. The typed registry unifies launch, delivery, help and resume facts while retaining adapters; <a href="repo/src/integration_spec.rs">integration_spec.rs</a>, lines 1–17 and 43–135; <a href="repo/src/router.rs">router.rs</a>, lines 119–163. Wingman could use different tools as specialist/reviewer resources, but every additional tool introduces permission, transcript and lifecycle compatibility obligations. This flexibility exceeds the stated all-Codex starting organization.</p>
+<p><strong>Remote inspection and execution control as one protocol.</strong> The relay carries not just chat but remote launch, kill, resume, screen read/inject, transcript, event-query, subscription and configuration RPC; <a href="repo/src/relay/control.rs">relay/control.rs</a>, lines 449–483. This is particularly useful for supervising Endeavour from the Mac. It also makes relay membership highly privileged. The source security model is a single operator trust domain with a shared key, no read-only peers, per-device permission scopes or token expiry; <a href="repo/SECURITY.md">SECURITY.md</a>, lines 17–44. Wingman would need to choose whether that is sufficient for its own two hosts and design a separate boundary for less-trusted workers.</p>
+<p><strong>Context handoff with inspectable provenance.</strong> Bundles gather descriptions and references to files, event IDs and transcript ranges. A bundle can extend an earlier one. Preparation reads the actual session exchanges and recent categorized events and proposes relevant files; validation checks shape and bounds estimated output size. <a href="repo/src/commands/bundle.rs">commands/bundle.rs</a>, lines 720–803 and 919–1036; <a href="repo/src/core/bundles.rs">core/bundles.rs</a>, lines 105–165 and 251–290. This is a useful way to hand investigations to another specialist while preserving references. It requires accessible underlying files/transcripts. It is not an immutable artifact package or substitute for curated project knowledge.</p>
+<p><strong>Composable event reactions and collision awareness.</strong> Subscriptions can match status, commands and file events, and request watches are automatically attached to directed requests. Collision notifications compare observed file activity across agents. They can reveal concurrent edits before a human notices. <a href="repo/src/db/subscriptions.rs">db/subscriptions.rs</a>, lines 318–357, 740–827 and 1237–1391. Wingman could build blocker and integration watches on these primitives. Collision detection does not reserve files, isolate worktrees or resolve conflicts, and a quiet/stuck task still needs a higher-level supervisor.</p>
+<p><strong>Reusable multi-agent evaluation workflows.</strong> Bundled debate and confession scripts launch or recruit participants, send role prompts, wait for responses and perform cleanup. Confession compares a participant's self-report with a fresh transcript-based calibration and a judging agent; <a href="repo/src/scripts/bundled/confess.sh">scripts/bundled/confess.sh</a>, lines 1–61. User scripts can override bundled workflows; <a href="repo/src/commands/run.rs">commands/run.rs</a>, lines 1–4 and 89–112. These are useful research/quality patterns beyond the baseline product description. They remain script-orchestrated model judgments and cannot replace executable tests or product acceptance.</p>
+<h2 id="assessment-distinctive-mechanisms-and-grounded-innovation">Distinctive mechanisms and grounded innovation</h2>
+<p>The following are meaningful design choices demonstrated by code, without claims of historical invention or industry uniqueness.</p>
+<p><strong>A persistent mailbox delivered at each CLI's native turn boundaries.</strong> hcom separates the durable message from its delivery adapter. It can show Codex hook output to the user and put the same content into model context. It advances the cursor only after successful output. It rejects an old acknowledgment after stop/resume replaces an instance. See <a href="repo/src/hooks/common.rs">hooks/common.rs</a>, lines 304–395, and <a href="repo/src/hooks/codex.rs">hooks/codex.rs</a>, lines 753–761 and 980–1016. This permits communication without owning the model runner. Hook output proves transport delivery only. Compatibility depends on each tool's contract.</p>
+<p><strong>Terminal state becomes a delivery safety signal.</strong> For tools without an adequate native wake surface, hcom combines captured screen readiness, approval detection, typing awareness and verified submission. The code has explicit states, retries and per-tool gates rather than treating stdin as an always-safe queue; <a href="repo/src/delivery.rs">delivery.rs</a>, lines 1552–1605, 2042–2139 and 2271–2301; <a href="repo/src/integration_spec.rs">integration_spec.rs</a>, lines 71–87. This preserves usable real interactive CLI sessions while enabling automation. It is also a maintenance hotspot: terminal layout, prompt and approval changes in upstream tools can invalidate assumptions.</p>
+<p><strong>Request completion is observed without pretending to be a task engine.</strong> Sending an intentional request creates a durable watch for idle/stop without reply, with tool-specific idle grace and reply cancellation; <a href="repo/src/db/subscriptions.rs">db/subscriptions.rs</a>, lines 194–266 and 318–357. This enables an agent to discover a dropped conversation handoff. The mechanism deliberately has weaker semantics than a ticket: “idle without reply” is actionable evidence, not a proof of failure, and a syntactically valid reply is not acceptance.</p>
+<p><strong>A distributed agent namespace with encrypted control and gap recovery.</strong> Relay payloads use XChaCha20-Poly1305 with associated data binding relay ID, MQTT topic and timestamp. Replay checks distinguish fresh control from retained state, and missed event ranges trigger bounded backfill using remote event queries and device/event-ID deduplication. <a href="repo/src/relay/crypto.rs">relay/crypto.rs</a>, lines 1–18 and 64–148; <a href="repo/src/relay/replay.rs">relay/replay.rs</a>, lines 1–23 and 75–149; <a href="repo/src/relay/backfill.rs">relay/backfill.rs</a>, lines 1–14 and 99–167. This lets independent local databases offer useful cross-host continuity over a broker with packet limits. It is not a globally transactional shared database, guarantees no project filesystem synchronization, and uses total-trust shared-key membership.</p>
+<p><strong>Session/process/actor distinctions prevent identity corruption.</strong> Nested identity scrubbing, separate bindings, incarnation-checked delivery acknowledgment and transactional stop snapshots address real races between tools, child processes, forks and cleanup. <a href="repo/src/main.rs">main.rs</a>, lines 47–70; <a href="repo/src/instance_binding.rs">instance_binding.rs</a>, lines 1–18; <a href="repo/src/hooks/common.rs">hooks/common.rs</a>, lines 314–333 and 1478–1527. This gives a more credible foundation for persistent workers than equating a display name with a live PID. It still preserves a tool session rather than an independently defined organizational employee record.</p>
+<h2 id="assessment-practical-fit-for-wingman">Practical fit for Wingman</h2>
+<p>Wingman could directly reuse hcom to launch named Codex workers, send targeted/room-like threaded messages, observe commands/files/status, wake agents after handoffs, resume conversations and route real remote control between Mac and Endeavour. The existing TUI would be a useful operational console. Context bundles and event provenance could support debugging and explainability before the executive dashboard is complete.</p>
+<p>Adaptation would need a stable application-facing interface around CLI commands/JSON and event records. The TUI itself already calls the executable rather than a general service API. Wingman should introduce durable organizational agent IDs and project/team memberships above hcom's session/process identities, map Room1/Room2 to managed membership, retain question/decision correlations and translate low-level events into meaningful per-agent summaries. A Hermes gateway bridge may accelerate Telegram connectivity, but using it adds a separate gateway/plugin runtime and does not implement Butler. The relay can connect hosts once software and product workspaces are provisioned; project placement and Git/artifact transfer remain Wingman responsibilities.</p>
+<p>The largest remaining work is the product layer:</p>
+<ul>
+<li>Portfolio intake and registry.</li>
+<li>Butler, ProjectMaster, ProductMaster and TechMaster policies.</li>
+<li>Proportional discovery, scope, specification and acceptance records.</li>
+<li>Tickets, ownership and dependencies.</li>
+<li>Recurring supervision, delivery acceptance and stopping rules.</li>
+<li>Linked directory, chat, project and executive interfaces for web/mobile use.</li>
+<li>Detailed session controls.</li>
+</ul>
+<p>A tag or thread can carry a reference to these records. It should not be their sole identity or source of truth.</p>
+<p>There are three practical boundaries to resolve before choosing hcom as a foundation. First, tool hook/PTY compatibility is part of ongoing operations, so upstream Codex changes require contract validation. Second, the relay grants every enrolled device broad control, which suits one operator's own machines better than independently permissioned teams. Third, runtime progress events do not answer whether a product is actually closer to acceptance: a semantic work model and test/delivery evidence must exist above the event stream. The code is promising for transport and execution; its completeness in those areas should not hide how much Wingman's organizational behavior remains to build.</p>
+<h2 id="assessment-verification-scope-and-limits">Verification scope and limits</h2>
+<p>Inspected implementation paths:</p>
+<ul>
+<li>executable/router paths.</li>
+<li>launch parameter handling, environment/injection and process creation.</li>
+<li>SQLite schema/WAL/event side effects.</li>
+<li>identity/binding and lifecycle status.</li>
+<li>send scope, reply and thread handling.</li>
+<li>request watches and collision logic.</li>
+<li>deferred message acknowledgments.</li>
+<li>Codex hooks.</li>
+<li>PTY delivery gates/state machine.</li>
+<li>resume/fork plans and stop/kill cleanup.</li>
+<li>terminal inspection/injection.</li>
+<li>TUI agent/message/action models.</li>
+<li>context bundles.</li>
+<li>Hermes gateway binding/plugin delivery.</li>
+<li>MQTT state import/export, control RPC, encryption/replay and backfill.</li>
+<li>workflow runner and major bundled scripts.</li>
+</ul>
+<p>Relevant source locations are linked throughout this report.</p>
+<p>Relevant tests inspected as source:</p>
+<ul>
+<li><a href="repo/tests/send_delivery.rs">tests/send_delivery.rs</a>, lines 59–114, 166–198, 257–325, 433–494 and 540–581: bounded contiguous inbox delivery, failed stdout preservation, concurrent cursor monotonicity and messages arriving during a send/listen.</li>
+<li><a href="repo/tests/real_tool_codex.rs">tests/real_tool_codex.rs</a>, lines 1–63 and 374–377: an ignored real-Codex lifecycle slice and approval gating against a pinned CLI with a local mocked model API. These exercise a real external tool contract when run. They do not establish an actual autonomous model's task quality.</li>
+<li><a href="repo/tests/test_relay_roundtrip.rs">tests/test_relay_roundtrip.rs</a>, lines 1–30: a documented ignored integration path through a real public broker, two isolated hcom directories and remote launch/kill, with model calls mocked. This supports the intended distributed test design, not a claim that two physical hosts were exercised here.</li>
+<li><a href="repo/tests/pty_backpressure.rs">tests/pty_backpressure.rs</a>, lines 97–132: terminal-output backpressure and launcher stdout behavior; <a href="repo/tests/cli_smoke.rs">tests/cli_smoke.rs</a>, lines 1–65: isolated CLI fixtures and PTY environment behavior.</li>
+<li><a href="repo/src/db/subscriptions.rs">db/subscriptions.rs</a>, lines 1553–1763 and 1879–1946: request-watch grace/cancellation and collision-window tests. <a href="repo/src/hooks/common.rs">hooks/common.rs</a>, lines 2281–2302: prepare/commit delivery test. <a href="repo/src/commands/kill.rs">commands/kill.rs</a>, lines 1040 onward: failed-kill tracking restoration. <a href="repo/src/relay/pull.rs">relay/pull.rs</a>, lines 1447–1485: failed authentication must not consume a replay slot.</li>
+</ul>
+<p>No tests were executed and no compiled binary was invoked. Runtime timing, actual upstream tool compatibility, full gateway behavior, broker availability, failure recovery on the user's hosts and sustained organization operation remain unverified. Tests are evidence of intended assertions and implementation attention, not passing results from this assessment.</p>
+<p>Missing-feature conclusions came from searching likely implementation paths (<code>src/commands</code>, database schema, bootstrap/config, <code>src/tui</code>, tool hooks/plugins, bundled workflows and <code>skills</code>) for projects/products, tickets/dependencies, leadership roles, rooms, discovery/acceptance, Telegram, approvals and scheduling. This found the real Hermes Telegram bridge, threads, event watches and tool approval handling, which are credited rather than omitted. It found no first-class project/task/product-definition or organizational supervision layer. Arbitrary prompts and user scripts can implement additional behavior externally; that possibility is not evidence the checked-out product implements it.</p></article>
+<section id="source-record"><h2>Source and evidence</h2><p class="url-text">https://github.com/aannoo/hcom</p>
+<ul><li><a href="repo/">Open the pinned source checkout</a></li><li><a href="assessment/ASSESSMENT.md">Read the Markdown assessment</a></li>
+<li><a href="../generic/assessments/_audits/qa22.md">Read the historical independent source audit</a></li><li><a href="../generic/method.html">Read the method and evidence limits</a></li></ul></section>
+<nav class="report-switch" aria-label="Adjacent project reports"><a href="../happy/index.html">Previous project: Happy</a><a href="../herdr/index.html">Next project: Herdr</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../index.html">Return to overview <img src="../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Technical assessment against Wingman’s development organization."><title>Herdr · Wingman Research</title>
+<link rel="icon" href="../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/report.css"><script defer src="../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../index.html"><img src="../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../index.html">Overview</a><a class="nav-link " href="../generic/index.html">Architecture findings</a><a class="nav-link " href="../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../generic/method.html">Method and evidence</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../index.html">Wingman Research</a><span class="crumb">/</span><span>Herdr</span></div><span class="topbar-note">SOURCE REVIEW · 05 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Herdr</h1><p class="subtitle">Technical assessment against Wingman’s development organization.</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#decision">Decision summary</a><a href="#assessment-herdr-assessment-against-wingman">Herdr assessment against Wingman</a><a href="#assessment-identity-and-verdict">Identity and verdict</a><a href="#assessment-architecture-and-execution-model">Architecture and execution model</a><a href="#assessment-feature-comparison">Feature comparison</a><a href="#assessment-agent-definition-creation-and-lifecycle">Agent definition, creation and lifecycle</a><a href="#assessment-coordination-mechanics-and-one-request-traced-through-code">Coordination mechanics and one request traced through code</a><a href="#assessment-major-capabilities-beyond-the-described-wingman-product">Major capabilities beyond the described Wingman product</a><a href="#assessment-grounded-mechanisms-worth-carrying-forward">Grounded mechanisms worth carrying forward</a><a href="#assessment-practical-adoption-path-and-remaining-work">Practical adoption path and remaining work</a><a href="#assessment-verification-scope-and-uncertainties">Verification scope and uncertainties</a><a href="#source-record">Source and evidence</a></div></nav><section id="decision" class="decision"><h2>Decision summary</h2>
+<div class="brief-columns"><div><h3>Useful for Wingman</h3><p>Study persistent terminal processes, agent control operations, and aggregation of remote servers.</p></div><div><h3>Adoption boundary</h3><p>The runtime lacks Wingman&#x27;s product registry, shared tickets, rooms, and acceptance workflow.</p></div></div>
+<p class="scope-note">Source assessment at the commit below. Runtime limits appear in the technical report.</p></section>
+<dl class="facts"><div><dt>Source group</dt><dd>Coding workspaces</dd></div><div><dt>Commit</dt><dd><code>ee5bfb5041bb3e4a49d591c72308aae3c81ecdde</code></dd></div><div><dt>Coverage</dt><dd>24 Wingman features</dd></div></dl>
+<article id="technical-assessment" class="technical"><h2 id="assessment-herdr-assessment-against-wingman">Herdr assessment against Wingman</h2>
+<h2 id="assessment-identity-and-verdict">Identity and verdict</h2>
+<ul>
+<li class="url-text">Repository: https://github.com/herdrdev/herdr</li>
+<li>Local checkout: <code>researchs/herdr/repo/</code></li>
+<li>Assessed commit: <code>ee5bfb5041bb3e4a49d591c72308aae3c81ecdde</code> (actual local <code>HEAD</code>; source checkout clean when inspected).</li>
+<li>Assessment date: 2026-11-05.</li>
+<li>Product: a Rust terminal runtime and mouse/keyboard TUI for independently running coding-agent CLIs, with background servers, a JSON control API, persistence, plugins and SSH-connected machines.</li>
+<li>License: Apache 2.0, <a href="repo/LICENSE">LICENSE</a>, lines 1–16.</li>
+</ul>
+<p><strong>Verdict: strong candidate for Wingman's execution and detailed-agent-workspace layer; weak substitute for Wingman as a persistent development organization.</strong> Herdr really runs multiple coding agents, keeps their PTYs alive independently of viewers, exposes launch/prompt/read/wait controls, and aggregates real remote servers. It does not supply Butler, project/product/technical leadership, product discovery, a shared ticket system, collaboration rooms, acceptance workflows or executive work summaries. Those are application responsibilities that would have to be built around its runtime. Its agent list is operational visibility, not an organizational directory with reporting relationships; its workspaces are execution containers, not a project registry with intake semantics.</p>
+<p>This assessment describes the checked-out implementation, including unreleased source, rather than assuming the root README, published stable docs and checkout have identical capabilities. All findings below are static source findings; no Herdr binary, agent CLI, remote machine, plugin or service was launched.</p>
+<h2 id="assessment-architecture-and-execution-model">Architecture and execution model</h2>
+<p>The binary has three relevant entry paths. <code>main()</code> configures a named session, parses remote targeting, runs CLI commands, and dispatches explicit <code>server</code>, hidden <code>client</code>, or remote bridges: <a href="repo/src/main.rs">src/main.rs</a>, lines 511–578. This is not an application that calls model APIs itself. Its runtime owns terminals containing already installed external tools such as Codex and Claude. Agent executable selection is explicit in <a href="repo/src/detect/mod.rs">src/detect/mod.rs</a>, lines 41–96 and 153–175.</p>
+<p>The headless server owns <code>App</code>, terminal runtimes, clients, rendering interests, shutdown and handoff state. It receives internal events and API requests, maintains terminals, renders a virtual Ratatui buffer and streams results to clients. Client disconnection does not stop the server: <a href="repo/src/server/headless.rs">src/server/headless.rs</a>, lines 1–15, 133–167 and 191–247. Shared runtime and presentation are partly separated, but this is an ongoing migration: <code>TerminalState</code> explicitly describes the current one-to-one terminal/pane relationship, and <code>TerminalRuntime</code> still wraps <code>PaneRuntime</code>: <a href="repo/src/terminal/state.rs">src/terminal/state.rs</a>, lines 124–165; <a href="repo/src/terminal/runtime.rs">src/terminal/runtime.rs</a>, lines 12–21. Wingman should integrate with the public API rather than depend on private presentation structures.</p>
+<p>The actual process path is PTY-backed. <code>spawn_command_builder()</code> creates a Ghostty terminal parser and compression task, calls the platform PTY backend, and starts a blocking child watcher. That watcher reports <code>PaneDied</code> with a classified exit reason. It is not a simulated agent persona: <a href="repo/src/pane.rs">src/pane.rs</a>, lines 2687–2768. Each terminal runs the external CLI's own inference/tool loop. Herdr handles byte input, screen state, foreground-process detection, attachment and lifecycle visibility. It does not own the CLI's model selection, token budget, coding tools, sandbox or conversation database.</p>
+<p>The JSON API is a local socket service with restrictive Unix permissions (<code>0600</code>), bounded initial requests and a worker per connection. It dispatches operations into the application while special wait/subscription paths maintain longer-lived connections: <a href="repo/src/api/server.rs">src/api/server.rs</a>, lines 13–35, 81–93 and 120–175. The exhaustive operation declaration includes workspaces, worktrees, tabs, agents, panes, events, integrations and plugins: <a href="repo/src/api/schema.rs">src/api/schema.rs</a>, lines 45–148. It includes no product, ticket, team, room or acceptance domain model.</p>
+<p>Persistence is a versioned JSON session snapshot, optional terminal ANSI history, plugin registry and saved endpoint configuration. The snapshot holds workspace identity/CWD, tabs, layout, pane labels, agent names, kinds and native-session/resume references: <a href="repo/src/persist/snapshot.rs">src/persist/snapshot.rs</a>, lines 14–135. The writer preserves unloaded snapshots and recovery copies; its recovery history is capped at 48 snapshots with a 15-minute interval and avoids identical layouts: <a href="repo/src/persist/writer.rs">src/persist/writer.rs</a>, lines 8–58 and 78–119. These records are runtime recovery material, not project knowledge or an agent work timeline.</p>
+<h2 id="assessment-feature-comparison">Feature comparison</h2>
+<p>“Absent” refers to the checked-out core and bundled integration surfaces, not every possible third-party plugin. The negative-search scope is documented at the end. Each row distinguishes built-in behavior from what an external controller could construct.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Wingman capability</th>
+<th scope="col">Verdict</th>
+<th scope="col">Source evidence and concrete difference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F01</td>
+<td>Real independent coding agents and specialist instances</td>
+<td><strong>Similar</strong></td>
+<td>Separate PTY processes are real (<a href="repo/src/pane.rs">pane.rs</a>, 2726–2768); named managed agents launch installed executables (<a href="repo/src/app/agents.rs">app/agents.rs</a>, 145–235). Several Codex instances can work independently, but specialist responsibilities and assignments come from their prompts/controller, not Herdr.</td>
+</tr>
+<tr>
+<td>F02</td>
+<td>Extensible agent profiles, roles and team composition</td>
+<td><strong>Resembles</strong></td>
+<td>Agent launch accepts a name, known CLI kind and arguments (<a href="repo/src/api/schema/agents.rs">schema/agents.rs</a>, 184–207); kind selection uses a compiled 24-agent enum (<a href="repo/src/detect/mod.rs">detect/mod.rs</a>, 41–96). Plugins and metadata extend behavior/display, but there is no persisted role/profile/team definition with instructions, tools and organization membership.</td>
+</tr>
+<tr>
+<td>F03</td>
+<td>Agent directory and visible working relationships</td>
+<td><strong>Resembles</strong></td>
+<td>Agent enumeration and <code>AgentInfo</code> expose name, kind, status, session, workspace/tab/pane and CWD (<a href="repo/src/app/agents.rs">app/agents.rs</a>, 23–37; <a href="repo/src/api/schema/agents.rs">schema/agents.rs</a>, 209–260). Cross-machine lists exist (<a href="repo/src/client/shell/endpoint_agents.rs">endpoint_agents.rs</a>, 132–175); leadership, team and reporting relationships do not.</td>
+</tr>
+<tr>
+<td>F04</td>
+<td>Telegram main channel and Butler routing</td>
+<td><strong>Absent</strong></td>
+<td>Core notification transport is terminal/system/Herdr/off (<a href="repo/src/server/notifications.rs">server/notifications.rs</a>, 9–18). Plugin-install parser tests reference an external <code>agent-telegram-notify</code> example (<a href="repo/src/cli/plugin.rs">cli/plugin.rs</a>, 1531–1559), but that is not a bundled conversational bot or Butler/project router. External example behavior is unverified.</td>
+</tr>
+<tr>
+<td>F05</td>
+<td>Cross-project registry, intake and existing/new routing</td>
+<td><strong>Resembles</strong></td>
+<td>Workspaces can be created/listed/renamed and carry CWD, labels, environment and metadata (<a href="repo/src/api/schema/workspaces.rs">schema/workspaces.rs</a>, 9–28 and 82–106; <a href="repo/src/api/schema.rs">schema.rs</a>, 61–69). No semantic interpretation of product requests or registry of product scope/history exists.</td>
+</tr>
+<tr>
+<td>F06</td>
+<td>Per-project product and technical leadership</td>
+<td><strong>Absent</strong></td>
+<td>Agent records carry runtime identity, not product/technical leadership (<a href="repo/src/api/schema/agents.rs">schema/agents.rs</a>, 209–260). Launch and prompt operations are generic (<a href="repo/src/app/agents.rs">app/agents.rs</a>, 145–235); naming agents <code>productmaster</code>/<code>techmaster</code> would not implement their responsibilities or lifecycle.</td>
+</tr>
+<tr>
+<td>F07</td>
+<td>Proportionate research, discovery and clarification</td>
+<td><strong>Absent</strong></td>
+<td><code>AgentPromptParams</code> is target/text/wait and submission is generic terminal input (<a href="repo/src/api/schema/agents.rs">schema/agents.rs</a>, 199–207; <a href="repo/src/app/api/agents.rs">app/api/agents.rs</a>, 139–207). No discovery state, uncertainty/question records, research policy or iterative human clarification router was found. An installed coding agent can research under outside instructions.</td>
+</tr>
+<tr>
+<td>F08</td>
+<td>Scope, specs, acceptance scenarios, definition of done</td>
+<td><strong>Absent</strong></td>
+<td>Session persistence stores layout/CWD/agent resume data (<a href="repo/src/persist/snapshot.rs">persist/snapshot.rs</a>, 52–135), not product-definition records. Neither the complete operation set nor workspace model introduces specifications or acceptance (<a href="repo/src/api/schema.rs">schema.rs</a>, 45–148). Files written by a hosted agent remain external project content.</td>
+</tr>
+<tr>
+<td>F09</td>
+<td>Technical decomposition, assignment and shared tracker</td>
+<td><strong>Resembles</strong></td>
+<td>Prompt/start/wait and metadata tokens can carry assignment-like information (<a href="repo/src/api/schema/agents.rs">schema/agents.rs</a>, 184–252); metadata is a key/value patch with optional TTL (<a href="repo/src/metadata_tokens.rs">metadata_tokens.rs</a>, 43–103). No ticket IDs, assignees, dependencies, comments or durable task transition model is supplied.</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>Human portfolio/project management dashboard</td>
+<td><strong>Resembles</strong></td>
+<td>Workspace information includes pane/tab counts, aggregate agent status and worktree details (<a href="repo/src/api/schema/workspaces.rs">schema/workspaces.rs</a>, 82–106). The TUI can navigate execution containers, but not product goals, tickets, completion, blockers and deliverables as a project management system.</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>Agent chat, rooms and direct collaboration</td>
+<td><strong>Resembles</strong></td>
+<td>Real direct prompt delivery exists (<a href="repo/src/app/api/agents.rs">app/api/agents.rs</a>, 139–268), and an agent can read another terminal (271–309). No room membership, shared discussion threads or durable conversational envelopes; messages are submitted into the target CLI conversation.</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>Management escalation and human decisions/approvals</td>
+<td><strong>Resembles</strong></td>
+<td>Runtime recognizes <code>Blocked</code> as needing input (<a href="repo/src/detect/mod.rs">detect/mod.rs</a>, 9–19), emits contextual attention notifications (<a href="repo/src/server/notifications.rs">server/notifications.rs</a>, 21–60), and rejects normal prompts to blocked agents (<a href="repo/src/app/api/agents.rs">app/api/agents.rs</a>, 168–177). The human can steer through keys; no management escalation graph or structured business-decision/approval record exists.</td>
+</tr>
+<tr>
+<td>F13</td>
+<td>Durable project knowledge/reusable directives</td>
+<td><strong>Resembles</strong></td>
+<td>Workspace CWD and native CLI-session references restore access to existing files/context (<a href="repo/src/persist/snapshot.rs">persist/snapshot.rs</a>, 52–129; <a href="repo/src/agent_resume.rs">agent_resume.rs</a>, 199–255). There is no DIRECTIVES-like knowledge schema, artifact registry or policy to read/update project specifications.</td>
+</tr>
+<tr>
+<td>F14</td>
+<td>Persistent identity, conversation/work continuity</td>
+<td><strong>Similar</strong></td>
+<td>Named agents and native session references are saved (<a href="repo/src/persist/snapshot.rs">persist/snapshot.rs</a>, 99–129); resume plans invoke the original CLI's native session (<a href="repo/src/agent_resume.rs">agent_resume.rs</a>, 199–255). Detachment preserves live work, restart reconstructs supported sessions. Identity belongs to runtime/session ownership, not a permanent employee with a separate history and task ledger.</td>
+</tr>
+<tr>
+<td>F15</td>
+<td>Proactive supervision, periodic wake/blocker follow-up</td>
+<td><strong>Resembles</strong></td>
+<td>Detection periodically inspects live state (<a href="repo/src/detect/mod.rs">detect/mod.rs</a>, 1–4); event waits and plugin hooks react to status (<a href="repo/src/api/schema/events.rs">schema/events.rs</a>, 63–84; <a href="repo/src/app/api/plugins/runtime.rs">plugins/runtime.rs</a>, 203–240). This detects attention but does not wake a ProjectMaster to assess progress, chase stalled tasks or resolve blockers.</td>
+</tr>
+<tr>
+<td>F16</td>
+<td>Parallel products/concurrent specialists</td>
+<td><strong>Similar</strong></td>
+<td>Workspaces/tabs/panes enumerate separate live agents (<a href="repo/src/app/agents.rs">app/agents.rs</a>, 23–37); worktree creation is asynchronous (<a href="repo/src/app/api/worktrees/deferred.rs">worktrees/deferred.rs</a>, 14–35 and 100–140). Execution concurrency is substantial; product teams, their definitions and assignment coordination need an upper layer.</td>
+</tr>
+<tr>
+<td>F17</td>
+<td>Real multi-host execution/shared coordination</td>
+<td><strong>Similar</strong></td>
+<td>Saved SSH bridges connect to actual remote Herdr servers (<a href="repo/src/remote/saved.rs">remote/saved.rs</a>, 20–56 and 68–121), CLI <code>--machine</code> routes operations (<a href="repo/src/cli/target.rs">cli/target.rs</a>, 27–54 and 66–100), and the UI combines endpoint agents (<a href="repo/src/client/shell/endpoint_agents.rs">endpoint_agents.rs</a>, 132–175). This is real multi-host control/visibility; servers do not share an organizational tracker, room history or replicated project knowledge.</td>
+</tr>
+<tr>
+<td>F18</td>
+<td>Executive overview: current/recent/next/blockers</td>
+<td><strong>Resembles</strong></td>
+<td>Agent status, title, tokens and completion sequence are visible (<a href="repo/src/api/schema/agents.rs">schema/agents.rs</a>, 209–251), with attention-sort/filter primitives (70–181). There is no producer of factual recent accomplishments, current ticket, planned next work and explicit blocker summaries. A <code>summary</code> metadata key is only externally supplied text.</td>
+</tr>
+<tr>
+<td>F19</td>
+<td>Individual summary timeline linked to work</td>
+<td><strong>Absent</strong></td>
+<td>Event history is an in-memory, capped 512-event buffer (<a href="repo/src/api/event_hub.rs">api/event_hub.rs</a>, 1–30); saved history is terminal ANSI (<a href="repo/src/persist/snapshot.rs">persist/snapshot.rs</a>, 31–49 and 131–135). Neither is a durable plain-language agent timeline linking tickets, discussions, changes and tests.</td>
+</tr>
+<tr>
+<td>F20</td>
+<td>Detailed individual coding workspace drill-down</td>
+<td><strong>Similar</strong></td>
+<td>Agent focus navigates to its pane and terminal mode (<a href="repo/src/app/agents.rs">app/agents.rs</a>, 75–87); read exposes terminal output (<a href="repo/src/app/api/agents.rs">app/api/agents.rs</a>, 271–309). External CLI UI can show conversation/tools/edits. Herdr does not normalize these into structured tool-call, artifact, diff and test views connected to project tasks.</td>
+</tr>
+<tr>
+<td>F21</td>
+<td>Live activity/lifecycle/steering/execution visibility</td>
+<td><strong>Similar</strong></td>
+<td>Start, rename, focus, read, prompt, send-keys and wait are implemented (<a href="repo/src/api/schema.rs">schema.rs</a>, 81–92); pane close shuts down detached runtimes (<a href="repo/src/app/api/panes.rs">app/api/panes.rs</a>, 1966–2028). Fork/compact/agent budgets remain CLI-specific actions rather than a uniform lifecycle API.</td>
+</tr>
+<tr>
+<td>F22</td>
+<td>Testing, integrated verification, acceptance/delivery</td>
+<td><strong>Resembles</strong></td>
+<td>Terminals can run any test CLI and wait on output substring/regex (<a href="repo/src/api/wait.rs">api/wait.rs</a>, 22–128; <a href="repo/src/api/schema/events.rs">schema/events.rs</a>, 94–112). There is no TestMaster workflow, acceptance criterion linkage, integrated verification gate or delivered-product state. Agent-idle/completion is not evidence of tests passing or human acceptance.</td>
+</tr>
+<tr>
+<td>F23</td>
+<td>Autonomous operation with human organizational direction</td>
+<td><strong>Resembles</strong></td>
+<td>Background server continuity and programmable controls allow an external lead agent to orchestrate peers (<a href="repo/src/server/headless.rs">server/headless.rs</a>, 1–15; <a href="repo/src/api/wait.rs">api/wait.rs</a>, 177–321). No autonomous intake-to-delivery organization, periodic manager agent or role-responsibility policy is bundled.</td>
+</tr>
+<tr>
+<td>F24</td>
+<td>New profiles accommodated by chat/tracker/dashboards</td>
+<td><strong>Resembles</strong></td>
+<td>Generic metadata/filter/sort and plugin panes provide extension points (<a href="repo/src/api/schema/agents.rs">schema/agents.rs</a>, 70–181; <a href="repo/src/app/api/plugins/manifest.rs">plugins/manifest.rs</a>, 11–85). More named instances can appear, but chat/tracker/organizational dashboards do not exist to extend. Adding a recognized launch kind is distinct from adding an organizational role.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="assessment-agent-definition-creation-and-lifecycle">Agent definition, creation and lifecycle</h2>
+<h3 id="assessment-what-is-actually-an-agent">What is actually an agent?</h3>
+<p>There are several identities to keep separate. A workspace is a CWD/repository-oriented collection of tabs and pane layouts. A pane is a view attached to a server-owned terminal. A terminal has its own identity, process runtime and agent-detection state. An “agent” in the public API is the recognized CLI currently owning such a terminal, optionally given a managed name. A native agent-session reference points into that CLI's conversation persistence. None of these is a task or a standing organizational role.</p>
+<p>The concrete record in <a href="repo/src/terminal/state.rs">src/terminal/state.rs</a>, lines 129–165, includes detection and hook authority, native-session references, labels/name ownership, launch state, sequence counters and restore error. It has no biography, product assignment, supervisor, permission policy or task queue. <code>AgentInfo</code> projects those runtime facts, including its location and CWD, rather than synthesizing an employee profile (<a href="repo/src/api/schema/agents.rs">src/api/schema/agents.rs</a>, 209–260).</p>
+<h3 id="assessment-definition-and-configuration">Definition and configuration</h3>
+<p>A managed launch specifies <code>name</code>, <code>kind</code>, <code>pane_id</code>, argument vector and optional startup timeout. The schema contains no system prompt, tool registry or role definition. Herdr accepts known interactive agent kinds and sends their executable plus arguments to the pane's shell. A user/controller can pass CLI-specific model, permission or resume arguments, and project files can instruct that CLI, but responsibility remains outside Herdr: <a href="repo/src/api/schema/agents.rs">src/api/schema/agents.rs</a>, 184–207; <a href="repo/src/app/agents.rs">src/app/agents.rs</a>, 145–210.</p>
+<p>Detection manifests are also not agent profiles. Their rules classify UI states using screen regions, regex/contains checks, priorities, AND/OR/NOT gates and OSC strings. They can identify working/blocked/idle and suppress historical-view updates, but do not define what work an agent should do: <a href="repo/src/detect/manifest.rs">src/detect/manifest.rs</a>, 14–47 and 139–190. The compiled list of recognized CLI kinds should not be mistaken for a catalog of ProductMaster/BackendCoder-style roles.</p>
+<h3 id="assessment-creation-and-launch-readiness">Creation and launch readiness</h3>
+<p>The caller creates or selects a shell pane before <code>agent.start</code>. The implementation validates a lowercase 1–32-character name, known kind, safe arguments, uniqueness, existing target, available shell and valid timeout. It rejects an agent-occupied pane. It constructs a shell command and preflights input before beginning the managed-launch state. An input-send failure clears the reserved name. It persists state and returns the initial agent plus argv: <a href="repo/src/app/agents.rs">src/app/agents.rs</a>, 8–19 and 145–235. Error codes distinguish invalid input, missing/busy/unavailable pane, duplicate name and submission failure (238–294).</p>
+<p>Launch has a three-second settle window and default 30-second timeout, with a maximum of 300 seconds. That is readiness orchestration, not a deadline on the agent's assignment. The CLI dispatch includes start and attach as distinct operations: <a href="repo/src/cli/agent.rs">src/cli/agent.rs</a>, 9–10 and 52–64. A process being created does not guarantee that authentication, onboarding, model readiness or product work has succeeded.</p>
+<h3 id="assessment-execution-permissions-identity-and-routing">Execution, permissions, identity and routing</h3>
+<p>Each CLI executes its own independent tool/model loop in a real PTY. Herdr's local-socket permissions control access to the runtime, not what the coding agent may read, write or execute. The launch schema has no sandbox/allowlist or role-level capability grants. Plugin commands similarly spawn ordinary OS child processes with environment/context, not an isolated capability runtime: <a href="repo/src/app/api/plugins/runtime.rs">src/app/api/plugins/runtime.rs</a>, 31–75 and 119–141. Wingman would need to set policy through Codex/host configuration and design its own authorization boundary for any network-facing Butler controller.</p>
+<p>Agent-target resolution accepts a current public pane ID hosting an agent or its assigned agent name, and reports ambiguity rather than silently selecting an instance: <a href="repo/src/app/terminal_targets.rs">src/app/terminal_targets.rs</a>, 74–129. General terminal targeting also supports terminal IDs and labels (33–69), so the target contracts are not interchangeable. The prompt test explicitly rejects using the CLI kind <code>opencode</code> as the named prompt target: <a href="repo/src/app/api/agents.rs">src/app/api/agents.rs</a>, 661–672.</p>
+<p>Concurrency comes from multiple terminals, workspaces and machines, not an internal task scheduler. Each instance can receive a separate prompt; dependencies and fan-in are composed by a caller with wait/read operations. There is no global assignment lock or protection from two independent controller processes deciding to prompt the same agent. The system preflights and serializes terminal input mechanics, which is a different guarantee from work ownership.</p>
+<h3 id="assessment-status-authority-and-live-supervision">Status authority and live supervision</h3>
+<p>Status combines process identity, terminal/UI detection and supported hook reports. <code>AgentState</code> has <code>Idle</code>, <code>Working</code>, <code>Blocked</code>, and <code>Unknown</code>, with additional confidence flags for visible idle/blocker/working chrome and transcript viewers: <a href="repo/src/detect/mod.rs">src/detect/mod.rs</a>, 9–39. Terminal state tracks hook and metadata sequence sources, stale/suppressed sessions and name ownership rather than treating every incoming report as current: <a href="repo/src/terminal/state.rs">src/terminal/state.rs</a>, 129–165. The source contains substantial source-arbitration logic, so integrators should consume its public status rather than reconstruct status by scraping arbitrary scrollback.</p>
+<p>A useful stabilizer holds ambiguous working-to-idle transitions for repeated confirmations, bounded by 700 ms, while visible blockers/process exits bypass the plain-idle hold: <a href="repo/src/pane/agent_detection.rs">src/pane/agent_detection.rs</a>, 5–13 and 29–77. This reduces misleading transients. It does not determine whether an assignment met its acceptance criteria. Periodic detection, endpoint reconnect and persistence timers are infrastructure housekeeping, not proactive project management.</p>
+<h3 id="assessment-persistence-resume-and-restart">Persistence, resume and restart</h3>
+<p>Detaching a client leaves the server, original processes and terminals alive. A server/machine restart is different: restore constructs fresh shells in saved CWDs and optionally resumes supported native sessions, with deduplication: <a href="repo/src/persist/restore.rs">src/persist/restore.rs</a>, 26–45 and 65–92. Resume plans produce commands such as <code>codex resume &lt;id&gt;</code> or <code>claude --resume &lt;id&gt;</code>. They rely on that external tool retaining its session: <a href="repo/src/agent_resume.rs">src/agent_resume.rs</a>, 199–255. Reported resume argv is validated for length, controls and plain executable syntax, and the working directory contributes to deduplication identity (30–88).</p>
+<p>Resumes can be staged with per-agent spacing and readiness/geometry/theme prerequisites rather than simultaneously spawning everything: <a href="repo/src/app/agent_resume.rs">src/app/agent_resume.rs</a>, 17–96 and 99–139. This is startup pacing, not recurring autonomous work. A persisted native-session pointer does not make Herdr the owner of the transcript, nor restore externally managed tickets or conclusions.</p>
+<p>Identity is tied to ownership, including real exit versus shell suspension. Inspected tests assert that real exit clears prior session/name/authority, suspended agents retain them, and same-kind replacements drop previous identity: <a href="repo/src/app/agent_suspend_tests.rs">src/app/agent_suspend_tests.rs</a>, 154–247 and 254–284. This is a useful guard against attributing a new CLI process to an old agent. It also demonstrates why Wingman needs a separate durable directory identity across instances and runtime replacement.</p>
+<h3 id="assessment-interruption-errors-retry-completion-and-retirement">Interruption, errors, retry, completion and retirement</h3>
+<p><code>agent.send_keys</code> supplies interactive input, including CLI-understood interruption keys; <code>pane.close</code> removes the view/runtime and emits close events. Runtime shutdown aborts detection/compression, closes the PTY actor and shuts down pane processes: <a href="repo/src/app/api/panes.rs">src/app/api/panes.rs</a>, 1966–2028; <a href="repo/src/pane.rs">src/pane.rs</a>, 2233–2246. This provides execution control, but no uniform “cancel task and roll back changes” transaction. Fork, compact and native conversation archive operations are commands understood by the hosted CLI, not a shared Herdr conversation lifecycle.</p>
+<p>Prompt delivery separates preflight rejection, asynchronous write completion and later state waiting. Blocked/not-ready/lost-foreground agents are rejected before submission; waiter-thread creation failure also fails before writing. PTY disappearance and timeouts become explicit errors: <a href="repo/src/app/api/agents.rs">src/app/api/agents.rs</a>, 82–136 and 139–207. The controller must interpret such failures; no durable job retry policy or assignment replay is built in.</p>
+<p>Remote endpoints reconnect independently using backoff state with cancellation and connection generations (<a href="repo/src/client/endpoint/supervisor.rs">src/client/endpoint/supervisor.rs</a>, 11–17 and 48–103). Remote CLI routing explicitly permits retrying only the read-only status probe, not ambiguously failed mutations, to avoid duplicate effects: <a href="repo/src/cli/target.rs">src/cli/target.rs</a>, 103–148. Wingman should likewise make assignment delivery idempotent and reconcile outcomes before re-prompting after transport loss.</p>
+<p>Completion means an observed runtime state transition. <code>completion_seq</code> records a completed-work idle transition independently of viewing state (<a href="repo/src/api/schema/agents.rs">src/api/schema/agents.rs</a>, 242–246), but no evaluator checks code quality, test results, definition of done or human acceptance. Retirement is closing panes/workspaces or releasing agent ownership, not archiving a standing role with its project history. Product-delivery shutdown rules therefore remain Wingman logic.</p>
+<h2 id="assessment-coordination-mechanics-and-one-request-traced-through-code">Coordination mechanics and one request traced through code</h2>
+<p>Consider a lead agent issuing a prompt to a previously started named reviewer and waiting for idle or blocked. This is a trace of an implemented request path, not a runtime exercise performed during assessment.</p>
+<ol>
+<li>CLI parsing dispatches <code>agent prompt</code> to the prompt operation (<a href="repo/src/cli/agent.rs">src/cli/agent.rs</a>, 39–64); its typed request contains target, text and optional wait settings (<a href="repo/src/api/schema/agents.rs">src/api/schema/agents.rs</a>, 45–57 and 199–207). For a remote target, <code>--machine</code> selects an endpoint and obtains an SSH API bridge (<a href="repo/src/cli/target.rs">src/cli/target.rs</a>, 27–54 and 66–100).</li>
+<li>The API wait path records the pre-prompt agent identity/status, remaining timeout and current event sequence before dispatch. It does not simply see an already-idle agent and immediately declare the new request finished: <a href="repo/src/api/wait.rs">src/api/wait.rs</a>, 177–250.</li>
+<li>Application preflight resolves the exact agent, rejects empty text, blocked state, pending launch, absent runtime or a CLI that no longer owns the foreground process: <a href="repo/src/app/api/agents.rs">src/app/api/agents.rs</a>, 139–207. A blocked reviewer must be handled interactively. The API does not pretend an approval dialog is its normal prompt.</li>
+<li>The submission path encodes paste/text and Enter separately, applies relevant CLI/platform accommodations, and queues them with a 300 ms submit delay. A completion receiver acknowledges the actual PTY submission rather than only request enqueue: <a href="repo/src/app/api/agents.rs">src/app/api/agents.rs</a>, 13–32, 97–117 and 209–268. The test at lines 599–659 asserts the actual bracketed-paste bytes, separate carriage return and delayed completion.</li>
+<li>The wait path rechecks terminal/name/kind identity, observes activity or a post-submission sequence change, and imposes a five-second prompt-effect window if no activity was seen. It can report a stalled prompt rather than equate old idle state with completed new work: <a href="repo/src/api/wait.rs">src/api/wait.rs</a>, 235–289.</li>
+<li>Subsequent status/detection events trigger re-probes; replacement, move, exit and close are handled explicitly. Relevant transient matched statuses can be retained, while identity changes fail the wait: <a href="repo/src/api/wait.rs">src/api/wait.rs</a>, 364–465. Success returns agent state, not a structured review result or artifact. The lead must read the terminal or obtain a file-based result and determine the next action.</li>
+</ol>
+<p>This permits real agent-to-agent coordination through terminal submissions and waits. Shared state consists of server-owned workspace/pane/terminal records, metadata and event envelopes; source files are shared according to filesystem/CWD arrangement. There is no built-in ticket dependency DAG, room history, conversation participant list, handoff receipt or business decision queue. A lead can implement a review loop using these primitives, but Herdr does not spontaneously create the lead or sustain the loop after its native agent stops.</p>
+<p>Events are operational signals: workspace/worktree/tab/pane changes, detected agents, output matches and status changes (<a href="repo/src/api/schema/events.rs">src/api/schema/events.rs</a>, 11–112). The hub retains 512 events in memory and has a checked history API that distinguishes a gap from an empty result (<a href="repo/src/api/event_hub.rs">src/api/event_hub.rs</a>, 18–74). A controller must maintain its own durable audit/coordination log and resynchronize after gaps or restart.</p>
+<h2 id="assessment-major-capabilities-beyond-the-described-wingman-product">Major capabilities beyond the described Wingman product</h2>
+<h3 id="assessment-heterogeneous-cli-compatibility-and-terminal-state-intelligence">Heterogeneous CLI compatibility and terminal-state intelligence</h3>
+<p>Wingman specifies Codex agents; Herdr supports multiple installed CLI families with process recognition, state manifests, integrations and native resume strategies. The agent enum and executable mapping are concrete (<a href="repo/src/detect/mod.rs">src/detect/mod.rs</a>, 41–175). This could let Wingman diversify providers or retain existing specialized tooling. The consequence is that common terminal control does not normalize tool permissions, model semantics, artifacts or conversation lifecycle. Each CLI version can change screen/OSC behavior. Compatibility would need live agent-specific validation beyond the source review.</p>
+<p>Detection explanation is unusually useful integration infrastructure: matched rules, priorities, regions, confidence flags, fallback reasons, source/version and local-override shadowing are structured diagnostic data (<a href="repo/src/detect/manifest.rs">src/detect/manifest.rs</a>, 27–81 and 93–121). That can make a stalled-agent incident diagnosable instead of opaque. It is evidence about observed UI/process status, not evidence that product work is correct.</p>
+<h3 id="assessment-real-machine-aggregation-with-independent-connection-ownership">Real machine aggregation with independent connection ownership</h3>
+<p>Herdr can maintain local and saved SSH endpoints, show their agents together, reconnect endpoints independently and route CLI requests to a selected machine. Saved SSH configuration carries a label, target, explicit session and enabled state; SSH retains credential ownership, and removing a profile leaves remote work running (<a href="repo/src/cli/machine.rs">src/cli/machine.rs</a>, 10–25). That is stronger runtime/machine handling than merely starting local subprocesses.</p>
+<p>The value for Wingman is a ready route to agents executing on appropriate hosts while preserving a single operator surface. The integration consequence is host-scoped runtime state: Wingman still must route product records, files and agent relationships across those servers. A shared list does not synchronize repositories or turn server-local event histories into a distributed collaboration system.</p>
+<h3 id="assessment-server-replacement-with-live-pty-handoff">Server replacement with live PTY handoff</h3>
+<p>On Unix, handoff transfers live runtime file descriptors/state to a replacement server. Its state includes child PID, geometry, terminal protocol state, history and agent identity. It intentionally excludes in-flight waits, subscriptions, sockets and transient coordination (<a href="repo/src/handoff_runtime.rs">src/handoff_runtime.rs</a>, 4–31). Runtime methods explicitly duplicate/preserve/import handoff resources (<a href="repo/src/terminal/runtime.rs">src/terminal/runtime.rs</a>, 24–81).</p>
+<p>This gives an upgrade/maintenance continuity path distinct from ordinary restore, which starts new shells. Wingman could benefit from keeping costly coding sessions alive through runtime replacement. It must still reconcile pending control operations and reconnect subscriptions. The handoff comment explicitly disclaims preserving them. Platform capability rather than a blanket cross-platform guarantee should control adoption.</p>
+<h3 id="assessment-worktree-aware-execution-organization">Worktree-aware execution organization</h3>
+<p>Herdr manages Git worktree list/create/open/remove and records membership in restored workspaces. Creation runs asynchronously and resolves source repository, branch/base and checkout path (<a href="repo/src/app/api/worktrees/deferred.rs">src/app/api/worktrees/deferred.rs</a>, 14–35 and 100–140). Removal commands recognize dirty/untracked-file and submodule restrictions (<a href="repo/src/worktree.rs">src/worktree.rs</a>, 175–203).</p>
+<p>This is useful for independently editing specialists or comparing attempts. It does not implement code integration, conflict resolution, PR review or acceptance. Wingman needs explicit ownership and integration policy so a worktree is connected to the right ticket and so completed work reaches the product branch.</p>
+<h3 id="assessment-executable-plugins-as-an-application-extension-surface">Executable plugins as an application extension surface</h3>
+<p>Plugin manifests define platform-aware build/startup commands, contextual actions, event hooks, panes and link handlers (<a href="repo/src/app/api/plugins/manifest.rs">src/app/api/plugins/manifest.rs</a>, 11–95). Runtime invocation supplies JSON context, event payload and IDs in environment variables, starts an OS process, captures output/status and limits concurrent commands to 32 with a bounded 200-log history (<a href="repo/src/app/api/plugins/runtime.rs">src/app/api/plugins/runtime.rs</a>, 11–13 and 16–158).</p>
+<p>This could host a Wingman tracker pane or event-to-Butler bridge without rebuilding terminal internals. The consequence is an ordinary trusted subprocess extension model, not a secure hosted plugin sandbox or durable workflow engine. External marketplace examples must be assessed independently; references to them in parser tests do not establish that a complete Telegram workflow is available in this checkout.</p>
+<h2 id="assessment-grounded-mechanisms-worth-carrying-forward">Grounded mechanisms worth carrying forward</h2>
+<p>The distinctive combination is operational rather than a claim of historical novelty.</p>
+<ol>
+<li><strong>Separate process/session/view identities.</strong> The terminal-state/runtime split, agent-name ownership, session references and tests for suspension versus replacement address a real source of attribution errors. An employee directory should retain its own ID and map explicitly to these replaceable runtime identities; otherwise a new process could inherit old work claims. Evidence: <a href="repo/src/terminal/state.rs">src/terminal/state.rs</a>, 112–165; <a href="repo/src/app/agent_suspend_tests.rs">src/app/agent_suspend_tests.rs</a>, 154–284.</li>
+<li><strong>Observe the effect of a prompt before accepting a later state.</strong> Pre-submission identity/event cursors, prompt-effect timeout and post-state-change waiting are stronger than naive “send text; wait until idle.” They can detect a paste that never started work and stop a replacement agent from satisfying an old wait. They still cannot distinguish successful review from an idle agent that misunderstood the instruction. Evidence: <a href="repo/src/api/wait.rs">src/api/wait.rs</a>, 196–289 and 364–465.</li>
+<li><strong>Make status classification explainable and updateable.</strong> Rule evidence, source precedence diagnostics, live-bottom-buffer state and bounded idle confirmation make UI-based monitoring maintainable. The limit is classifier compatibility, not semantic project understanding. Evidence: <a href="repo/src/detect/manifest.rs">src/detect/manifest.rs</a>, 14–121 and 139–190; <a href="repo/src/pane/agent_detection.rs">src/pane/agent_detection.rs</a>, 29–77.</li>
+<li><strong>Do not replay ambiguous remote mutations automatically.</strong> The remote controller retries read-only discovery/status but explicitly excludes blindly replaying later requests. That is a good starting discipline for avoiding duplicate prompt assignment after SSH failures. It leaves the higher layer responsible for request IDs, durable intent and reconciliation. Evidence: <a href="repo/src/cli/target.rs">src/cli/target.rs</a>, 103–148.</li>
+<li><strong>Expose extensible metadata without conflating it with authority.</strong> Tokens and UI filters can carry summaries, model names or role labels, with source sequences and expiry. The primitive is useful for Wingman projection, but a token named <code>task</code> is not a tracker record, and text named <code>summary</code> is not a verified timeline. Evidence: <a href="repo/src/metadata_tokens.rs">src/metadata_tokens.rs</a>, 15–103; <a href="repo/src/api/schema/agents.rs">src/api/schema/agents.rs</a>, 70–181.</li>
+</ol>
+<h2 id="assessment-practical-adoption-path-and-remaining-work">Practical adoption path and remaining work</h2>
+<p><strong>Use directly:</strong> terminal runtime ownership, background execution, named CLI instances, prompt/read/wait/send-key operations, workspaces/worktrees, native-session resume, status notifications, per-agent terminal drill-down and SSH endpoint control. These provide much of the infrastructure beneath F01/F14/F16/F17/F20/F21. A Codex-only first deployment could reduce compatibility breadth while retaining Herdr's runtime benefits.</p>
+<p>Adapt:</p>
+<ul>
+<li>Write a runtime adapter mapping durable Wingman agent IDs to machine/session/terminal/pane/native-session IDs.</li>
+<li>Translate lifecycle events into a durable organizational log.</li>
+<li>Use explicit assignment IDs and reconciliation around prompt delivery.</li>
+<li>Project role/task/summary metadata to Herdr only as views of authoritative Wingman records. Build a controller that resubscribes and reconciles after server replacement, event-history loss or SSH failure. Treat current runtime separation as evolving and rely on advertised/public operations rather than internal pane structs.</li>
+</ul>
+<p>Build:</p>
+<ul>
+<li>Butler/Telegram conversational routing.</li>
+<li>Portfolio registry and intake.</li>
+<li>Persistent role/profile/team directory.</li>
+<li>ProductMaster and TechMaster discovery/planning policies.</li>
+<li>Scope/specification/acceptance records.</li>
+<li>Shared tracker with dependency and assignment semantics.</li>
+<li>Room1/Room2 collaboration with durable message context.</li>
+<li>Periodic ProjectMaster supervision.</li>
+<li>Executive current/recent/next/blocker summaries.</li>
+<li>Per-agent factual timelines linked to tasks, conversations, changes and tests.</li>
+<li>Delivery/acceptance and stop-after-delivery rules. An external agent prompted to do these things is a possible implementation route, not an already supplied Herdr capability.</li>
+</ul>
+<p>The main architectural fit is therefore <strong>runtime component underneath Wingman</strong>, potentially with a plugin operator surface. Choosing Herdr does not remove the need for Wingman's domain model, durable coordination engine, cross-host shared records or business-level decision policies. Its terminal UI is a valuable operator fallback even if Wingman eventually builds web dashboards and chat views.</p>
+<h2 id="assessment-verification-scope-and-uncertainties">Verification scope and uncertainties</h2>
+<p>Read <a href="../generic/purpose.html">WINGMAN_PURPOSE.md</a>, the complete <a href="../generic/assessments/ASSESSMENT_GUIDE.md">ASSESSMENT_GUIDE.md</a>, and the checkout's <a href="repo/AGENTS.md">AGENTS.md</a>. No source file was edited. No dependencies were installed, no tests/builds were run and no services or external CLI processes were launched. The report is static inspection of the exact local commit; behavior above is implementation-supported, not runtime-verified on this machine.</p>
+<p>Inspected implementation paths:</p>
+<ul>
+<li>entry dispatch.</li>
+<li>headless server ownership.</li>
+<li>API schema/server/waits/event hub.</li>
+<li>managed agent launch and target resolution.</li>
+<li>PTY creation/shutdown.</li>
+<li>terminal identity/state.</li>
+<li>detection manifests and idle stabilization.</li>
+<li>persistence snapshot/writer/restore/resume.</li>
+<li>SSH bridge and machine routing.</li>
+<li>endpoint aggregation/reconnect.</li>
+<li>plugin manifests/runtime.</li>
+<li>worktree commands/deferred operations.</li>
+<li>notification projection.</li>
+</ul>
+<p>These paths are linked at the relevant claims rather than inferred from marketing text.</p>
+<p>Tests inspected, not executed:</p>
+<ul>
+<li>Prompt submission bytes/delayed Enter, waiter-spawn-before-mutation behavior, blocked/startup rejection and key validation: <a href="repo/src/app/api/agents.rs">src/app/api/agents.rs</a>, 599–877.</li>
+<li>Exit, suspension and same-kind replacement identity cases: <a href="repo/src/app/agent_suspend_tests.rs">src/app/agent_suspend_tests.rs</a>, 154–284.</li>
+<li>Event-history retention/lost-boundary behavior: <a href="repo/src/api/event_hub.rs">src/api/event_hub.rs</a>, 91–125.</li>
+<li>Restore opt-in/allowlist, duplicate-session suppression, reported argv preference and rehydration cases: <a href="repo/src/persist/restore.rs">src/persist/restore.rs</a>, 1172–1424.</li>
+<li>Metadata source bounds and patch semantics: <a href="repo/src/metadata_tokens.rs">src/metadata_tokens.rs</a>, 117–158.</li>
+<li>Endpoint activation tests concerning source release, exact snapshot/surface revisions and stale generation/boot evidence were inspected around <a href="repo/src/client/endpoint/activation_tests.rs">src/client/endpoint/activation_tests.rs</a>, 256–532. This supports the caution that cross-endpoint activation is stateful, not proof of live network reliability.</li>
+</ul>
+<p>Negative checks searched likely implementation paths under <code>src/</code> (especially <code>api</code>, <code>app</code>, <code>cli</code>, <code>config</code>, <code>integration</code>, <code>server</code> and <code>remote</code>), plus <code>skills/</code> and <code>tests/</code>, for Telegram/Butler, task tracker/tickets, roles/profiles, rooms, discovery, definition of done, cron/scheduling, supervision, approvals and acceptance. Matches were reviewed in context: keybinding/machine “profiles” are not agent roles; scheduled autosave/resume/reconnect is not manager wakeup; PTY “acceptance” is input acceptance. The Telegram matches were plugin example/parser fixtures. The complete API operation set and persisted schemas were then cross-checked for the absent domain concepts. This does not exclude someone building them as an external controller or third-party plugin.</p>
+<p>Unverified areas include current installed CLI compatibility, actual native conversation restore after machine reboot, live PTY handoff reliability/platform availability, multi-machine failure/reconnect behavior on real networks, plugin marketplace implementations and performance at organizational scale. The checked-out code gives concrete mechanisms and tests, but none of those deployment outcomes should be claimed as observed here.</p></article>
+<section id="source-record"><h2>Source and evidence</h2><p class="url-text">https://github.com/herdrdev/herdr</p>
+<ul><li><a href="repo/">Open the pinned source checkout</a></li><li><a href="assessment/ASSESSMENT.md">Read the Markdown assessment</a></li>
+<li><a href="../generic/assessments/_audits/qa08.md">Read the historical independent source audit</a></li><li><a href="../generic/method.html">Read the method and evidence limits</a></li></ul></section>
+<nav class="report-switch" aria-label="Adjacent project reports"><a href="../hcom/index.html">Previous project: Hcom</a><a href="../intent/index.html">Next project: Intent</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../index.html">Return to overview <img src="../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

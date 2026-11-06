@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Technical assessment against Wingman’s development organization."><title>multiclaude · Wingman Research</title>
+<link rel="icon" href="../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/report.css"><script defer src="../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../index.html"><img src="../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../index.html">Overview</a><a class="nav-link " href="../generic/index.html">Architecture findings</a><a class="nav-link " href="../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../generic/method.html">Method and evidence</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../index.html">Wingman Research</a><span class="crumb">/</span><span>multiclaude</span></div><span class="topbar-note">SOURCE REVIEW · 05 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>multiclaude</h1><p class="subtitle">Technical assessment against Wingman’s development organization.</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#decision">Decision summary</a><a href="#assessment-multiclaude-assessment">multiclaude assessment</a><a href="#assessment-architecture-and-actual-execution-model">Architecture and actual execution model</a><a href="#assessment-complete-feature-comparison">Complete feature comparison</a><a href="#assessment-agent-definition-and-lifecycle">Agent definition and lifecycle</a><a href="#assessment-coordination-mechanics-and-a-traced-request">Coordination mechanics and a traced request</a><a href="#assessment-major-additional-capabilities-beyond-wingmans-stated-scope">Major additional capabilities beyond Wingman&#x27;s stated scope</a><a href="#assessment-distinctive-mechanisms-and-grounded-innovation">Distinctive mechanisms and grounded innovation</a><a href="#assessment-practical-fit-for-wingman">Practical fit for Wingman</a><a href="#assessment-verification-scope-and-limits">Verification scope and limits</a><a href="#source-record">Source and evidence</a></div></nav><section id="decision" class="decision"><h2>Decision summary</h2>
+<div class="brief-columns"><div><h3>Useful for Wingman</h3><p>Study independent Claude Code workers, isolated branches, durable mailboxes, supervision, and GitHub delivery.</p></div><div><h3>Adoption boundary</h3><p>Codex support and the broader product organization require adaptation. Repositories are the starting unit.</p></div></div>
+<p class="scope-note">Source assessment at the commit below. Runtime limits appear in the technical report.</p></section>
+<dl class="facts"><div><dt>Source group</dt><dd>Delivery engines</dd></div><div><dt>Commit</dt><dd><code>dfad1a58343bceaf20017fe93cfad55af54550d1</code></dd></div><div><dt>Coverage</dt><dd>24 Wingman features</dd></div></dl>
+<article id="technical-assessment" class="technical"><h2 id="assessment-multiclaude-assessment">multiclaude assessment</h2>
+<p class="url-text">Assessed <strong>2026-11-05</strong> against <a href="../generic/purpose.html">Wingman's purpose</a>. Upstream: https://github.com/dlorenc/multiclaude . Local checkout: <code>researchs/multiclaude/repo</code>. Actual checked-out commit: <code>dfad1a58343bceaf20017fe93cfad55af54550d1</code>.</p>
+<p><strong>Fit verdict:</strong> multiclaude is a useful reference for Wingman's local coding execution and supervision layer, with genuinely independent Claude Code processes, isolated worker branches, configurable roles, durable mailboxes, periodic nudges and GitHub delivery. It begins with repositories and coding assignments. It lacks discovery and product definition workflows. It also lacks Butler/Telegram, portfolio leadership, shared product tickets, collaboration rooms, executive timelines, web/mobile workspaces and distributed hosts. Adopting it as the whole product would leave most of Wingman's organizational and human-facing behavior to build. Its execution patterns are more reusable than its complete application because Wingman specifically requires Codex agents.</p>
+<p>This is a <strong>source assessment</strong>, not an observed autonomous production run. Implementation evidence below distinguishes executable machinery from instructions supplied to a model. Line references refer to this revision; links are relative to this report.</p>
+<h2 id="assessment-architecture-and-actual-execution-model">Architecture and actual execution model</h2>
+<p>The application is a Go CLI and a local background daemon. The daemon loads <code>state.json</code>, claims a PID file, opens a Unix socket, restores tracked repositories and starts five goroutines: health checks, message routing, wakes, socket serving and worktree refresh. These are separate from the Claude processes and tmux server. Stopping the daemon cancels its loops, closes its socket and saves state. It does not itself kill all agent terminals. See <a href="repo/internal/daemon/daemon.go">daemon.go</a>, lines 44–116 and 170–197. The transport is JSON request/response over a Unix-domain socket with mode <code>0600</code>, accepting connections concurrently. It is neither a network worker protocol nor an event subscription service (<a href="repo/internal/socket/socket.go">socket.go</a>, lines 11–21, 51–70, 101–132 and 151–172).</p>
+<p>Repository initialization does substantial work in the CLI itself: clone a GitHub repository, detect forks, create tmux windows, write prompts, launch Claude and then register repository/agents through the daemon. A normal repository starts supervisor and merge-queue, while fork configuration selects a PR shepherd. A separate default human workspace receives its own worktree and conversation. This differs from restoration: when the whole tmux session is missing, the daemon recreates a supervisor and workspace, sends the definitions to the supervisor, and asks that model to decide which additional roles to spawn. Therefore initial provisioning and recovery do not share one declarative reconciler. See <a href="repo/internal/cli/cli.go">cli.go</a>, lines 1162–1275, 1350–1509 and 1510–1602; <a href="repo/internal/daemon/daemon.go">daemon.go</a>, lines 1817–1908 and 1913–2018.</p>
+<p>Each coding worker is a Claude Code CLI process launched inside a tmux window whose current directory is its Git worktree. The CLI fetches origin best-effort, normally starts from <code>origin/main</code> or <code>HEAD</code>, creates <code>work/&lt;name&gt;</code>, writes the worker system prompt, sends an initial <code>Task: ...</code> message, captures output and registers identity. The daemon is not implementing an LLM tool loop: Claude Code supplies coding tools, conversation storage, model execution and terminal interaction. The repository supplies coordination and process plumbing around it (<a href="repo/internal/cli/cli.go">cli.go</a>, lines 2081–2321 and 5871–5911). The reusable runner also models <code>--session-id</code>, <code>--resume</code>, system prompt files and text submission, but initial CLI and daemon launch code still contain their own command construction (<a href="repo/pkg/claude/runner.go">runner.go</a>, lines 164–205 and 220–339).</p>
+<p>State is a repository map containing named agents, task history, GitHub/fork settings and a current-repository selector. Agent state includes type, worktree, tmux window, session UUID, PID, task, optional completion summary/failure, creation time, last nudge and cleanup flag. There are no organization/team entities, product requirements, dependency edges or human-decision records in this schema. State uses an in-process mutex and unique temporary file plus rename; messages are separate JSON files rather than rows in that atomic state transaction. See <a href="repo/internal/state/state.go">state.go</a>, lines 129–175 and 186–257; <a href="repo/internal/messages/messages.go">messages.go</a>, lines 23–32 and 175–191.</p>
+<p>A compact execution path is:</p>
+<pre aria-label="Code or source excerpt" role="region" tabindex="0"><code class="language-text">Human terminal / interactive workspace
+  -&gt; CLI repo resolution and worker creation
+  -&gt; Git worktree + tmux window + Claude Code conversation
+  -&gt; local socket registration -&gt; daemon state.json
+Worker/supervisor CLI messages -&gt; per-recipient JSON mailbox
+  -&gt; daemon periodic delivery -&gt; literal terminal input
+Worker PR + complete command -&gt; notifications + cleanup + task history
+  -&gt; merge-queue model uses gh/CI/review -&gt; merge or follow-up worker
+</code></pre>
+<h2 id="assessment-complete-feature-comparison">Complete feature comparison</h2>
+<p>Verdicts describe the whole Wingman capability, not whether a similarly named primitive exists.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Wingman capability</th>
+<th scope="col">Verdict</th>
+<th scope="col">Evidence and concrete difference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F01</td>
+<td>Real independent coding agents and specialist instances</td>
+<td><strong>Exact</strong>, execution boundary</td>
+<td>Workers and reviewers are separate Claude Code invocations, UUIDs, tmux windows and worktrees, not personas in one conversation. Multiple instances are registered independently. <a href="repo/internal/cli/cli.go">cli.go</a>, 2148–2308 and 4393–4452. Specialism comes from prompts. The engine is Claude Code rather than the Codex required for Wingman.</td>
+</tr>
+<tr>
+<td>F02</td>
+<td>Extensible profiles, roles and team composition</td>
+<td><strong>Similar</strong></td>
+<td>Arbitrary Markdown definitions are discovered, local base instructions merge with repository additions, and generic agents can be persistent or ephemeral. <a href="repo/internal/agents/agents.go">agents.go</a>, 80–145; <a href="repo/internal/daemon/daemon.go">daemon.go</a>, 1527–1664. No structured team hierarchy, role capability schema or per-project ProductMaster/TechMaster composition; runtime classification partly depends on the agent name.</td>
+</tr>
+<tr>
+<td>F03</td>
+<td>Agent directory and visible working relationships</td>
+<td><strong>Resembles</strong></td>
+<td>Agent listing exposes name, type, task, worktree/window and creation metadata; rich mode adds branch, window-based status and message counts, while system status groups counts by repository. <a href="repo/internal/daemon/daemon.go">daemon.go</a>, 944–1022; <a href="repo/internal/cli/cli.go">cli.go</a>, 837–938. This is an operational roster without relationship graph, organizational membership, personal timeline or navigable directory UI.</td>
+</tr>
+<tr>
+<td>F04</td>
+<td>Telegram main channel and Butler routing</td>
+<td><strong>Absent</strong></td>
+<td>Human entry is CLI/attached tmux workspace; workspace agents are explicitly excluded from automated mailbox delivery. <a href="repo/internal/cli/cli.go">cli.go</a>, 3628–3712 and 4739–4819; <a href="repo/internal/daemon/daemon.go">daemon.go</a>, 384–388. Searches of <code>cmd</code>, <code>internal</code>, <code>pkg</code> found no Telegram adapter, bot update handler or Butler routing service.</td>
+</tr>
+<tr>
+<td>F05</td>
+<td>Cross-project registry, intake and existing/new routing</td>
+<td><strong>Resembles</strong></td>
+<td>The durable repository registry, <code>repo init/use</code>, explicit <code>--repo</code>, remote/CWD inference and current-repo fallback select an existing code repository. <a href="repo/internal/state/state.go">state.go</a>, 158–175; <a href="repo/internal/cli/cli.go">cli.go</a>, 1162–1265 and 4042–4069. There is no conversational product-intake classifier or product registry separate from repositories.</td>
+</tr>
+<tr>
+<td>F06</td>
+<td>Per-project product and technical leadership</td>
+<td><strong>Resembles</strong></td>
+<td>A persistent supervisor coordinates workers and reads ROADMAP; merge-queue handles PR integration. <a href="repo/internal/prompts/supervisor.md">supervisor.md</a>, 8–39. This supplies technical coordination, not the distinct ProductMaster and TechMaster responsibilities and continuing product dialogue. Custom prompts could add roles but do not constitute an implemented product organization.</td>
+</tr>
+<tr>
+<td>F07</td>
+<td>Proportionate research, discovery and iterative clarification</td>
+<td><strong>Absent</strong></td>
+<td>Searches through CLI commands, state schema, built-in prompts and templates found no discovery workflow, clarification queue, project-bound Q&amp;A routing or discovery-depth rules. The <a href="repo/internal/templates/agent-templates/worker.md">worker template</a>, 1–28, starts from an assigned task and can ask the supervisor for help; that question primitive does not implement discovery.</td>
+</tr>
+<tr>
+<td>F08</td>
+<td>Scope, specifications, acceptance scenarios and definition of done</td>
+<td><strong>Resembles</strong></td>
+<td>ROADMAP checks, focused task descriptions and PR review scope checks provide lightweight intent constraints. <a href="repo/internal/prompts/supervisor.md">supervisor.md</a>, 13; <a href="repo/internal/templates/agent-templates/merge-queue.md">merge-queue.md</a>, 13–23. No runtime artifact model/workflow produces agreed product scope, acceptance scenarios or product definition of done; repository SPEC/openspec documents describe multiclaude itself.</td>
+</tr>
+<tr>
+<td>F09</td>
+<td>Technical decomposition, assignment and shared tracking</td>
+<td><strong>Resembles</strong></td>
+<td>A worker receives a task string; supervisor instructions optionally use Claude's TaskCreate/Update tools. Completed worker history is durable. <a href="repo/internal/cli/cli.go">cli.go</a>, 2081–2094 and 2275–2301; <a href="repo/internal/prompts/supervisor.md">supervisor.md</a>, 68–75; <a href="repo/internal/state/state.go">state.go</a>, 129–155. No shared native ticket/dependency/assignee store. The checked-in task guide explicitly describes those tools as within one agent session.</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>Human-facing portfolio/project dashboard</td>
+<td><strong>Absent</strong></td>
+<td><code>status</code>, repository lists and task-history tables are terminal reports. <a href="repo/internal/cli/cli.go">cli.go</a>, 837–938 and 2596–2812. Searches of application entry points, socket transport and source inventory found no web/mobile dashboard, frontend, portfolio/task navigation or HTTP UI server.</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>Chat application, rooms and direct collaboration</td>
+<td><strong>Resembles</strong></td>
+<td>Direct recipient-addressed messages have durable JSON files, pending/delivered/read/acked states and CLI read/ack. <a href="repo/internal/messages/messages.go">messages.go</a>, 13–116; <a href="repo/internal/daemon/daemon.go">daemon.go</a>, 372–424. No rooms, participant membership, discussion threads or browsable chat application; mailbox cleanup also removes retired recipients' history.</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>Management escalation and human decisions/approvals</td>
+<td><strong>Resembles</strong></td>
+<td>Workers message supervisor; merge-queue instructions label <code>needs-human-input</code>, post a GitHub comment and alert supervisor. <a href="repo/internal/templates/agent-templates/worker.md">worker.md</a>, 24–28; <a href="repo/internal/templates/agent-templates/merge-queue.md">merge-queue.md</a>, 37–41 and 61–73. No durable routed approval object, Butler escalation chain or answer correlation; default execution skips Claude permission prompts.</td>
+</tr>
+<tr>
+<td>F13</td>
+<td>Durable project knowledge and reusable directives</td>
+<td><strong>Similar</strong></td>
+<td>Repository Markdown and checked-in <code>.multiclaude/agents/*.md</code> permit versioned conventions; local base definitions survive separately. Prompt assembly incorporates custom instructions and CLI guidance. <a href="repo/internal/agents/agents.go">agents.go</a>, 80–145; <a href="repo/internal/cli/cli.go">cli.go</a>, 5687–5847. No maintained DIRECTIVES/SCOPES/SPECS/HARNESS lifecycle, product decision index or research knowledge service.</td>
+</tr>
+<tr>
+<td>F14</td>
+<td>Persistent identity, conversation and work continuity</td>
+<td><strong>Similar</strong>, conditional</td>
+<td>State stores named agents and session UUIDs; restart checks Claude's JSONL session file and uses <code>--resume</code> when present. <a href="repo/internal/state/state.go">state.go</a>, 143–168; <a href="repo/internal/daemon/daemon.go">daemon.go</a>, 2148–2191. Conversation continuity depends on external Claude storage. Whole-session restoration removes old registrations and recreates default roles, so identity continuity is not universal.</td>
+</tr>
+<tr>
+<td>F15</td>
+<td>Proactive supervision, wake and blocker follow-up</td>
+<td><strong>Similar</strong></td>
+<td>Two-minute wake loops send role-specific status checks; supervisor is instructed to monitor and nudge stuck workers. Health checks separately repair some process failures. <a href="repo/internal/daemon/daemon.go">daemon.go</a>, 274–364 and 431–487. No portfolio-level ProjectMaster, structured blocker analysis or adaptive sleep/stop policy; semantic follow-up relies on model behavior.</td>
+</tr>
+<tr>
+<td>F16</td>
+<td>Parallel products and concurrent specialists</td>
+<td><strong>Similar</strong></td>
+<td>One daemon holds multiple repositories and iterates their independently named agents. Each worker has its own branch/window/process. <a href="repo/internal/state/state.go">state.go</a>, 158–175; <a href="repo/internal/cli/cli.go">cli.go</a>, 2148–2308. Products map to repositories without independent product leadership or portfolio resource scheduling. Persistent generic roles share the repository directory.</td>
+</tr>
+<tr>
+<td>F17</td>
+<td>Real multi-host execution with shared coordination</td>
+<td><strong>Absent</strong></td>
+<td>Socket uses <code>net.Dial/Listen("unix", ...)</code>; launches, paths, process signals and tmux calls are local. <a href="repo/internal/socket/socket.go">socket.go</a>, 51–55 and 108; <a href="repo/internal/daemon/daemon.go">daemon.go</a>, 2039–2095 and 2200–2208. Searches found Git remote/SSH URL handling, not a host registry, remote execution transport or replicated coordination. GitHub collaboration is not multi-host orchestration.</td>
+</tr>
+<tr>
+<td>F18</td>
+<td>Executive overview of current/recent/next work and blockers</td>
+<td><strong>Resembles</strong></td>
+<td>Current task and health appear in lists; terminal history shows completed summaries/failures. <a href="repo/internal/cli/cli.go">cli.go</a>, 2324–2422 and 2596–2812. State has no planned-next or structured blocker fields; supervisor can answer status conversationally but no continuously maintained executive briefing exists.</td>
+</tr>
+<tr>
+<td>F19</td>
+<td>Per-agent summary timeline linked to underlying work</td>
+<td><strong>Resembles</strong></td>
+<td>Completed worker history stores task, branch, summary/failure and times; CLI queries GitHub by branch for PR status. <a href="repo/internal/daemon/daemon.go">daemon.go</a>, 1453–1524; <a href="repo/internal/cli/cli.go">cli.go</a>, 2658–2863. This is one completion record per worker, not a chronological agent activity feed linking starts, questions, blockers, tests and plans. Raw logs are not executive summaries.</td>
+</tr>
+<tr>
+<td>F20</td>
+<td>Detailed individual coding workspace drill-down</td>
+<td><strong>Similar</strong></td>
+<td><code>attach</code> opens the actual Claude Code terminal with interactive or read-only tmux attachment; output logs are available separately. <a href="repo/internal/cli/cli.go">cli.go</a>, 4467–4524 and 4739–4819. This reaches a real coding conversation and tools through Claude's terminal UI, but lacks Wingman's connected web/mobile workspace and task/chat/artifact links.</td>
+</tr>
+<tr>
+<td>F21</td>
+<td>Live activity, controls, steering and execution visibility</td>
+<td><strong>Similar</strong></td>
+<td>Terminal attachment, output capture/log following, restart, remove, hibernate and workspace connection supply real execution control. <a href="repo/internal/cli/cli.go">cli.go</a>, 2866–2991, 2993–3228, 4248–4301, 4467–4524 and 4739–4819. No structured tool-call/file-edit stream, app-level queue/attachments, conversation fork/rename/compact/archive abstraction or token/cost/budget control was found.</td>
+</tr>
+<tr>
+<td>F22</td>
+<td>Testing, integrated verification and acceptance/delivery</td>
+<td><strong>Similar</strong>, PR boundary</td>
+<td>Worker integration checklist requires tests/formatting; reviewer process inspects PRs; merge-queue prompt requires green CI and reviews, spawns fixes and halts merges on broken main. <a href="repo/internal/templates/agent-templates/worker.md">worker.md</a>, 48–69; <a href="repo/internal/templates/agent-templates/merge-queue.md">merge-queue.md</a>, 7–58; <a href="repo/internal/cli/cli.go">cli.go</a>, 4303–4463. No TestMaster/product acceptance scenario runner or accepted-delivery state; <code>complete</code> is self-report, not verification.</td>
+</tr>
+<tr>
+<td>F23</td>
+<td>Autonomous operation with human organizational direction</td>
+<td><strong>Similar</strong>, repository scope</td>
+<td>Detached tmux agents, two-minute nudges, supervisor delegation and autonomous GitHub integration support continuing coding work. <a href="repo/internal/daemon/daemon.go">daemon.go</a>, 83–116 and 431–487; <a href="repo/internal/prompts/supervisor.md">supervisor.md</a>, 15–49. Human direction is through terminals/workspace and GitHub, without Butler or an end-to-end discovery-to-delivery organization.</td>
+</tr>
+<tr>
+<td>F24</td>
+<td>Chat, tracker and dashboards grow with new profiles</td>
+<td><strong>Resembles</strong></td>
+<td>Generic names/classes appear in shared agent state/listing and receive mailbox messages/wakes. <a href="repo/internal/daemon/daemon.go">daemon.go</a>, 1535–1664 and 469–470. This makes execution extensible, but there are no connected chat/tracker/dashboard applications to extend, and several notifications remain hardcoded to supervisor/merge-queue.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="assessment-agent-definition-and-lifecycle">Agent definition and lifecycle</h2>
+<h3 id="assessment-what-an-agent-actually-is">What an agent actually is</h3>
+<p>An <strong>agent definition</strong> is Markdown content identified by filename, with a source path and local/repository origin. It is not a running agent, tool policy or organizational identity. The reader discovers <code>.md</code> files and merges local templates with checked-in custom content; contrary to nearby “repo wins” comments/documentation, the actual collision behavior appends repository content to the local base under <code>Custom Instructions</code>. This is explicitly covered by <a href="repo/internal/agents/agents_test.go">agents_test.go</a>, lines 145–249, and implemented in <a href="repo/internal/agents/agents.go">agents.go</a>, lines 97–145. Supervisor/workspace have embedded defaults; older <code>.multiclaude/SUPERVISOR.md</code>-style customization still passes through <code>LoadCustomPrompt</code>, despite being deprecated (<a href="repo/internal/prompts/prompts.go">prompts.go</a>, lines 36–135).</p>
+<p>A <strong>running agent</strong> is a state-map entry paired with a local tmux window and Claude Code conversation/process. A <strong>task</strong> is primarily a string attached to a worker and supplied as its first user message. It is not a durable ticket entity assigned to a standing specialist. A <strong>session</strong> is the Claude UUID plus externally maintained conversation files. Persistence means selected types are eligible for process restart. It does not mean every agent has an immutable identity independent of processes, or that completed workers remain members of an organization. State types explicitly separate persistent supervisor/merge-queue/PR-shepherd/workspace/generic agents from transient worker/review agents (<a href="repo/internal/state/state.go">state.go</a>, lines 12–35 and 143–175).</p>
+<h3 id="assessment-creation-execution-and-permissions">Creation, execution and permissions</h3>
+<p>The usual worker path creates a generated adjective/animal name (or accepts <code>--name</code>), selects a repository, fetches origin, chooses <code>origin/main</code> when available, and creates a worktree/branch. <code>--branch</code> can override the starting point, while <code>--push-to</code> can continue an existing PR branch. It then creates a detached tmux window, UUID and prompt; copies optional repository hook configuration; starts Claude, sends the task, enables output capture and calls <code>add_agent</code> on the socket. This is not a transaction: errors after Git/window creation do not have a unified rollback across all stages (<a href="repo/internal/cli/cli.go">cli.go</a>, lines 2081–2321).</p>
+<p>The generic spawn path validates a persistent/ephemeral class, rejects an already registered name and accepts full prompt content. Persistent generic roles run in the shared repository checkout; ephemeral roles receive <code>work/&lt;name&gt;</code> from <code>HEAD</code>. Persistent names <code>merge-queue</code> and <code>pr-shepherd</code> get corresponding special types; other persistent names become generic-persistent. Ephemeral names containing “review” become reviewers; others become workers. This is flexible but mixes identity and lifecycle semantics. Also, the generic handler records optional <code>task</code> after startup without sending the usual <code>Task: ...</code> initial message: a caller needs that assignment in the actual prompt or subsequent input (<a href="repo/internal/daemon/daemon.go">daemon.go</a>, lines 1535–1662 and 2039–2095).</p>
+<p>Tools and permissions come from the installed Claude Code environment, not a multiclaude capability router. Production launch paths pass <code>--dangerously-skip-permissions</code>; optional <code>.multiclaude/hooks.json</code> is copied verbatim to <code>.claude/settings.json</code>. Workers have Git isolation, not an OS sandbox: they run under the same user with access to the common environment and authenticated <code>gh</code>. These are material integration differences from a Codex organization with host/tool policy and visible approvals (<a href="repo/internal/cli/cli.go">cli.go</a>, lines 5871–5907; <a href="repo/internal/daemon/daemon.go">daemon.go</a>, lines 2062–2069; <a href="repo/internal/hooks/hooks.go">hooks.go</a>, lines 10–40).</p>
+<h3 id="assessment-identity-routing-concurrency-and-scheduling">Identity, routing, concurrency and scheduling</h3>
+<p>The effective address is repository plus agent name. CLI repository resolution tries explicit <code>--repo</code>, Git remote, working directory and the daemon's current-repository fallback. Self-context inference uses the worktree path or tmux window in the shared repository, with a supervisor fallback. That makes normal CLI messaging convenient, but address identity is environmental rather than a signed agent credential (<a href="repo/internal/cli/cli.go">cli.go</a>, lines 4042–4128). Worker branches allow parallel edits; persistent roles share a checkout and depend on instructions to avoid interfering with it. No host/resource scheduler, concurrency quota, atomic ticket claim or dependency-aware work release was found in the command dispatcher, spawn paths or state model.</p>
+<p>The daemon sends role-specific nudges every two minutes, skipping agents nudged within the last two minutes. Workspace is deliberately excluded from both wakes and automated message delivery. Health checks also run every two minutes; worker worktrees refresh every five minutes after a 30-second startup delay. These are fixed timers, not cron jobs, goals/budgets or workload-driven team scaling (<a href="repo/internal/daemon/daemon.go">daemon.go</a>, lines 274–281, 366–488 and 490–607).</p>
+<h3 id="assessment-persistence-interruption-and-recovery-boundaries">Persistence, interruption and recovery boundaries</h3>
+<p>State writes use a temporary file and rename. Claude conversation history is not copied into the state store: restart checks <code>~/.claude/projects/&lt;encoded-worktree&gt;/&lt;session-id&gt;.jsonl</code>, using <code>--resume</code> only if a nonempty file exists. Otherwise it launches with the prior session ID but without resume. Existing prompts are reused when available (<a href="repo/internal/state/state.go">state.go</a>, lines 186–257; <a href="repo/internal/daemon/daemon.go">daemon.go</a>, lines 2148–2191).</p>
+<p>Recovery has important limits. With a surviving tmux session and window, dead persistent-agent PIDs trigger restart, but dead transient PIDs are not restarted or automatically enqueued for cleanup in that branch. Missing windows are marked for cleanup even for persistent types. With the entire tmux session gone, <code>restoreRepoAgents</code> removes <strong>every old registration</strong>, starts a new supervisor and default workspace with fresh UUIDs, and relies on supervisor interpretation of definitions to restore other roles. It does not iterate/resume the old workers or restore all named human workspaces. This is recovery of a usable repository environment, not recovery of every agent conversation and assignment (<a href="repo/internal/daemon/daemon.go">daemon.go</a>, lines 284–364, 1742–1813, 1817–1908 and 2039–2095).</p>
+<p>Moreover, <code>GetPanePID</code> reads tmux's <code>#{pane_pid}</code>. The launch code sends a Claude command into an existing shell rather than replacing that shell with <code>exec</code>. Thus the stored PID is the pane process and may stay alive after its Claude child exits. A signal-0 check on that PID does not establish model-process health or useful progress. This is a source-level reliability concern, not a runtime failure reproduced here (<a href="repo/pkg/tmux/client.go">tmux/client.go</a>, lines 341–359; <a href="repo/internal/cli/cli.go">cli.go</a>, lines 5871–5896; <a href="repo/internal/daemon/daemon.go">daemon.go</a>, lines 2200–2208).</p>
+<p>Human interruption is chiefly native terminal steering plus CLI restart/removal/hibernate/stop controls. Removing a worker kills its window and can remove its worktree; hibernation creates a patch and metadata before stopping selected agents. It is not resumable suspended agent state. Its archive saves <code>git diff HEAD</code> and a list of untracked filenames, not untracked file contents; forced worktree removal can therefore discard material absent from the patch. There is no implemented structured pause/resume job state or automated retry/backoff budget (<a href="repo/internal/cli/cli.go">cli.go</a>, lines 2866–2991, 2993–3228 and 4248–4301). Recovery after failed PRs is mostly the supervisor/merge-queue model spawning another worker with prior context, as instructed in <a href="repo/internal/prompts/supervisor.md">supervisor.md</a>, lines 42–49, and <a href="repo/internal/templates/agent-templates/merge-queue.md">merge-queue.md</a>, lines 25–58.</p>
+<h3 id="assessment-completion-acceptance-and-retirement">Completion, acceptance and retirement</h3>
+<p>A worker is instructed to create a PR and run <code>agent complete</code>. The CLI infers the caller and optionally supplies summary/failure. The daemon sets <code>ReadyForCleanup</code>, writes notifications and immediately schedules routing and a health check. It does not verify a PR exists, tests passed, changes were pushed, product criteria were met, or a human accepted the work. Workers notify fixed supervisor and merge-queue addresses; reviewers notify merge-queue. The completion handler does not substitute PR shepherd in fork mode (<a href="repo/internal/cli/cli.go">cli.go</a>, lines 4201–4245; <a href="repo/internal/daemon/daemon.go">daemon.go</a>, lines 1024–1098).</p>
+<p>Cleanup records worker task history, kills the terminal, removes state, forcibly removes worker/review worktrees and deletes orphaned recipient message directories. The surviving summary is task/branch/times/optional summary or failure; initial PR status is unknown unless failure was supplied. CLI history later asks GitHub for PR state by branch. Consequently completion is retirement of the worker, PR integration is a separate process, and accepted product delivery is not a lifecycle state (<a href="repo/internal/daemon/daemon.go">daemon.go</a>, lines 1397–1487; <a href="repo/internal/messages/messages.go">messages.go</a>, lines 210–242; <a href="repo/internal/cli/cli.go">cli.go</a>, lines 2596–2863). There is no policy to stop active development/testing after an accepted product definition of done because no such product acceptance object exists.</p>
+<h2 id="assessment-coordination-mechanics-and-a-traced-request">Coordination mechanics and a traced request</h2>
+<p>The durable message record has sender, recipient, timestamp, body, status and optional acknowledgement time. <code>Send</code> writes a pending JSON file in the recipient's repository mailbox. The daemon enumerates active non-workspace agents, reads pending messages and submits <code>Message from &lt;sender&gt;: &lt;body&gt;</code> as literal tmux text followed by Enter. A failed terminal send leaves the message pending. A successful send changes its state to delivered. Only pending messages are submitted: once marked delivered, a message is not automatically reinjected even if it remains unread or unacknowledged. Delivery means text submission, not proof the model understood or acted. Reads/acks are separate CLI operations. Message updates use direct writes. The renderer bridges messages to terminal input. These mechanisms do not establish transactional events, exactly-once delivery, ordered conversation threads or a model-response receipt (<a href="repo/internal/messages/messages.go">messages.go</a>, lines 44–116, 147–191; <a href="repo/internal/daemon/daemon.go">daemon.go</a>, lines 372–424).</p>
+<p>The method called <code>SendKeysLiteralWithEnter</code> chains <code>set-buffer</code>, <code>paste-buffer</code> and Enter in one shell command and passes message text as a positional argument. That reduces split-call submission problems and preserves multiline input. It still uses the shared tmux buffer without a visible per-agent mutex or named buffer, so “atomic” in comments should not be interpreted as isolation across concurrent router/wake/refresh callers (<a href="repo/pkg/tmux/client.go">tmux/client.go</a>, lines 315–334). The current model/input readiness is also not checked before delivery.</p>
+<p>A concrete supported request, <code>multiclaude worker create "Add authentication tests" --repo product-a</code>, follows this implementation path (a traced example, not a run performed during assessment):</p>
+<ol>
+<li><code>createWorker</code> joins the task description, resolves <code>product-a</code>, fetches origin, chooses a branch base and creates <code>work/&lt;name&gt;</code> in its isolated worktree (<a href="repo/internal/cli/cli.go">cli.go</a>, 2081–2183).</li>
+<li>The CLI creates the tmux window and UUID, loads fork settings and worker instructions, copies hooks and launches Claude. It sends <code>Task: Add authentication tests</code>, starts capture and registers the task/session/PID using socket <code>add_agent</code> (same file, 2217–2308). Subsequent work and test/tool execution belong to Claude Code.</li>
+<li>If blocked, the worker's prompt directs <code>message send supervisor</code>. <code>sendMessage</code> infers the originating agent, writes the mailbox and requests immediate routing best-effort; two-minute polling is the fallback for injection into the supervisor's terminal (<a href="repo/internal/templates/agent-templates/worker.md">worker.md</a>, 24–28; <a href="repo/internal/cli/cli.go">cli.go</a>, 3779–3810; <a href="repo/internal/daemon/daemon.go">daemon.go</a>, 372–424).</li>
+<li>After coding, the instructed worker creates a GitHub PR and calls <code>complete</code>. The executable handler marks cleanup and sends fixed completion messages to supervisor and merge-queue, then triggers routing and cleanup immediately (<a href="repo/internal/daemon/daemon.go">daemon.go</a>, 1024–1098). No scheduler waits for downstream task dependencies.</li>
+<li>The merge-queue <strong>model</strong> is instructed to inspect main CI, open PRs, reviews, unresolved comments and roadmap alignment, then squash merge. It can spawn a fixer or mark <code>needs-human-input</code>. This is prompt-specified behavior carried out using <code>gh</code>, not Go logic enforcing a merge state machine (<a href="repo/internal/templates/agent-templates/merge-queue.md">merge-queue.md</a>, 7–73). Actual repository branch protections would be an external enforcement boundary.</li>
+<li>Cleanup records worker history and removes the ephemeral environment. The history command obtains live PR status by branch when displayed (<a href="repo/internal/daemon/daemon.go">daemon.go</a>, 1397–1487; <a href="repo/internal/cli/cli.go">cli.go</a>, 2816–2863).</li>
+</ol>
+<p>There are no shared collaboration rooms or ticket dependency tables behind this flow. Optional Claude task tools are recommended in prompts, but the repository's own <a href="repo/docs/TASK_MANAGEMENT.md">task guide</a>, lines 65–76, describes them as conversation-local progress tracking. Searches found no <code>CLAUDE_CODE_TASK_LIST_ID</code> plumbing or common native task database that would establish cross-agent shared TaskList behavior. GitHub PRs/comments/issues and mailboxes are the practical inter-agent shared records; supervisor escalation and human decisions are conventions over those records.</p>
+<h2 id="assessment-major-additional-capabilities-beyond-wingmans-stated-scope">Major additional capabilities beyond Wingman's stated scope</h2>
+<p><strong>GitHub integration as a continuing delivery ratchet.</strong> The merge-queue role combines green-CI checks, review-response handling, emergency broken-main mode, follow-up worker creation and stale branch hygiene. That adds an opinionated delivery policy beyond Wingman's product acceptance description. It could usefully become Wingman's integration/release role after TestMaster, but it must distinguish passing code checks from business acceptance and implement important gates in code/branch protection rather than relying entirely on a prompt. Evidence: <a href="repo/internal/templates/agent-templates/merge-queue.md">merge-queue.md</a>, lines 7–106; real reviewer provisioning in <a href="repo/internal/cli/cli.go">cli.go</a>, lines 4303–4463.</p>
+<p><strong>Fork contribution mode and PR shepherd.</strong> Fork detection first recognizes an upstream remote, then consults GitHub via <code>gh</code>; initialization records upstream metadata and chooses shepherd instead of merge-queue. Generated fork prompts adapt contribution/review behavior to upstream ownership. This is useful if Wingman contributes to third-party software rather than only delivering its own products. Adoption would require reconciling upstream human review with Wingman's human acceptance and fixing hardcoded completion notifications. Evidence: <a href="repo/internal/fork/fork.go">fork.go</a>, lines 37–86; <a href="repo/internal/cli/cli.go">cli.go</a>, lines 1267–1309 and 5753–5790; <a href="repo/internal/daemon/daemon.go">daemon.go</a>, lines 1942–1998.</p>
+<p><strong>Automatic worktree synchronization during execution.</strong> Every five minutes, workers can be brought forward onto the upstream/default branch, with checks for detached HEAD, merge/rebase state and whether refresh is useful. Refresh stashes local/untracked changes, rebases, aborts conflicting rebases and restores the stash; successful refresh sends a notification. This reduces long-lived branch drift but mutates files beneath an active coding agent and is not guarded by a model/tool-activity lock. For Wingman this needs coordination with active tools and a visible event tied to the affected task. Evidence: <a href="repo/internal/daemon/daemon.go">daemon.go</a>, lines 490–607; <a href="repo/internal/worktree/worktree.go">worktree.go</a>, lines 621–715 and 740–885.</p>
+<p><strong>Operational preservation and inspection.</strong> Human workspaces have separate branches, read-only attachment can observe an agent without typing into its terminal, and hibernation offers patch/metadata salvage for stopped work. These can help Wingman operators inspect and reclaim local execution capacity. Hibernation is only partial preservation, however: untracked file names are saved without content, and retirement discards the active agent identity. It should not be exposed as reliable project archival. Evidence: <a href="repo/internal/cli/cli.go">cli.go</a>, lines 2993–3228, 3250–3420 and 4739–4819.</p>
+<h2 id="assessment-distinctive-mechanisms-and-grounded-innovation">Distinctive mechanisms and grounded innovation</h2>
+<p>The most distinctive design decision is the <strong>Brownian-ratchet orchestration policy</strong>: tolerate overlapping speculative workers, keep the supervisor focused on throughput, and let CI/review plus merge-queue choose what becomes durable progress. The supervisor explicitly says not to prevent overlap and to accept whichever attempt passes first (<a href="repo/internal/prompts/supervisor.md">supervisor.md</a>, lines 59–66). Combined with real branch isolation and independent review processes, this is a coherent alternative to a strict dependency DAG. It enables exploration and replacement of failed attempts without elaborate preplanning. Its limits are duplicate cost, conflicting PRs and the incompleteness of CI as a product-value oracle. “Progress is permanent” is a policy metaphor, not a guarantee that passing merges are correct or irreversible.</p>
+<p>A second useful mechanism is <strong>model-interpreted role bootstrap</strong>. The daemon supplies raw definitions plus fork/merge configuration to the supervisor, and the supervisor decides persistent versus ephemeral and whether to spawn. Code then provides a generic lifecycle class rather than needing a Go type for every new specialist (<a href="repo/internal/daemon/daemon.go">daemon.go</a>, lines 1913–2018 and 1535–1664). This makes organization changes cheap to express as Markdown. It also makes reconciliation nondeterministic, lacks a durable desired-team specification, and uses naming heuristics for some lifecycle behavior. Wingman could reuse the separation of profile from instance while adding explicit role/team/host entities and deterministic instance reconciliation.</p>
+<p>A third mechanism is the <strong>terminal-as-agent transport</strong>: persistent tmux keeps independent coding sessions alive, file mailboxes survive daemon intervals, and text insertion reuses the coding CLI's ordinary conversation interface. This avoids embedding an SDK or rebuilding a coding IDE while giving humans direct visibility. The implementation is inspectable and approachable (<a href="repo/internal/socket/socket.go">socket.go</a>, 51–70; <a href="repo/internal/messages/messages.go">messages.go</a>, 44–59; <a href="repo/pkg/tmux/client.go">tmux/client.go</a>, 315–334). The limits are input-readiness uncertainty, shared-buffer concurrency, weak structured telemetry and process/conversation recovery boundaries. This is a distinctive combination in this checkout, not a claim of historical invention or industry uniqueness.</p>
+<h2 id="assessment-practical-fit-for-wingman">Practical fit for Wingman</h2>
+<p>Wingman can reuse the local execution model. It assigns one instance to each coding conversation and isolates workers with worktrees. Named message addresses support coordination. Background supervision runs independently of the human view. Ephemeral workers have explicit completion. Integration agents remain separate from coding workers. These are compact, understandable mechanisms with concrete source and tests. Its PR-first delivery loop is particularly relevant once product scope and technical tickets already exist.</p>
+<p>Direct adoption would need a Codex execution adapter, stable identities independent of tmux/PID lifetime, correct model-process monitoring, repository-namespaced prompt files and transactional provisioning/cleanup. Prompts currently use global <code>prompts/&lt;agent-name&gt;.md</code>, so common names such as supervisor can be overwritten across repositories and later reused on restart. This is a source-level cross-project isolation concern (<a href="repo/internal/daemon/daemon.go">daemon.go</a>, 1624–1633, 2131–2139 and 2164–2171; <a href="repo/internal/cli/cli.go">cli.go</a>, 5671–5685). Recovery should preserve every persistent role and named workspace, retry or surface failed transient work, retain conversation/mail history and distinguish health from mere pane existence. A host registry, authenticated network coordination and host-specific execution paths are needed for Mac/Endeavour operation.</p>
+<p>Most of the organizational product remains to build:</p>
+<ul>
+<li>Butler's Telegram intake and answer routing.</li>
+<li>ProjectMaster's portfolio registry and supervision.</li>
+<li>real ProductMaster discovery and human clarification.</li>
+<li>TechMaster's shared tickets/dependencies.</li>
+<li>maintained product directives and acceptance evidence.</li>
+<li>Room1/Room2 chat.</li>
+<li>agent directory/relationships.</li>
+<li>executive current/recent/next/blocker summaries.</li>
+<li>per-agent timelines.</li>
+<li>connected project/dashboard/session navigation.</li>
+</ul>
+<p>Adding new Markdown role prompts does not supply these shared data models or interfaces. Wingman also needs a completion policy that stops accepted product work and preserves continuity for later requests, rather than treating every self-completed worker as a finished delivery.</p>
+<p>The strongest fit is therefore <strong>an execution and GitHub-delivery reference beneath Wingman's own organization layer</strong>. Using the CLI unchanged would give the human a capable terminal-centric multi-agent coding tool, while still requiring the human or another system to provide product understanding, organization-wide routing and the integrated management experience.</p>
+<h2 id="assessment-verification-scope-and-limits">Verification scope and limits</h2>
+<p>Inspected implementation paths:</p>
+<ul>
+<li>CLI command registration and repository initialization.</li>
+<li>worker/generic/reviewer/workspace creation.</li>
+<li>repository and self-context routing.</li>
+<li>messaging/read/ack.</li>
+<li>history, attach/log controls, complete/restart/removal/hibernate.</li>
+<li>daemon loops, handlers, restore and cleanup.</li>
+<li>state serialization.</li>
+<li>agent-definition merge.</li>
+<li>prompt generation.</li>
+<li>worktree refresh.</li>
+<li>fork detection.</li>
+<li>hooks.</li>
+<li>Unix socket and tmux launch/input/PID APIs.</li>
+</ul>
+<p>Built-in supervisor, worker and merge-queue prompts were read as executable configuration evidence, with legacy customization and configuration comments checked against code. Supporting docs read include <code>docs/AGENTS.md</code> and <code>docs/TASK_MANAGEMENT.md</code>; claims in docs were not automatically treated as implemented behavior.</p>
+<p>Relevant tests inspected, <strong>not executed</strong>:</p>
+<ul>
+<li><a href="repo/internal/agents/agents_test.go">agents_test.go</a>, 145–249, asserts base-plus-custom definition merging and order.</li>
+<li><a href="repo/internal/daemon/handlers_test.go">handlers_test.go</a>, 569–668, checks fixed worker/reviewer completion message recipients. It does not establish successful model response, delivery acceptance or fork-shepherd routing.</li>
+<li><a href="repo/test/integration_test.go">integration_test.go</a>, 20–30 and 130–245, provisions daemon/tmux/Git and checks worker registration. Setup sets <code>MULTICLAUDE_TEST_MODE=1</code>, skipping Claude startup. It is not evidence of successful autonomous coding.</li>
+<li><a href="repo/test/recovery_test.go">recovery_test.go</a>, 21–97 and 363–478, covers malformed state and state preservation with a pre-existing tmux session. The malformed-state test explicitly constructs a new state to overwrite the bad file, while <code>daemon.New</code> itself returns a state-load error. The “crash recovery” test cleanly stops before restarting and deliberately preserves the tmux session. It does not prove full-session or actual Claude conversation recovery.</li>
+</ul>
+<p>Absence checks searched source inventory and likely implementation paths (<code>cmd</code>, <code>internal</code>, <code>pkg</code>, built-in prompts, socket/state/CLI) for Telegram/bot routing, dashboard/HTTP/WebSocket surfaces, host/SSH orchestration, task/dependency stores, approval state and discovery/acceptance concepts. The matches were local process/Git plumbing, prompt conventions, redaction test SSH examples and Claude-task documentation rather than the missing application features. No dependencies were installed, services launched, tests run or external current-version behavior inferred. Source checkouts were kept unchanged. Runtime uncertainties include installed Claude CLI compatibility, account/tool permissions, model compliance with prompts, GitHub branch protection/CI quality, terminal readiness and the actual reliability of recovery and concurrent terminal delivery.</p></article>
+<section id="source-record"><h2>Source and evidence</h2><p class="url-text">https://github.com/dlorenc/multiclaude</p>
+<ul><li><a href="repo/">Open the pinned source checkout</a></li><li><a href="assessment/ASSESSMENT.md">Read the Markdown assessment</a></li>
+<li><a href="../generic/assessments/_audits/qa12.md">Read the historical independent source audit</a></li><li><a href="../generic/method.html">Read the method and evidence limits</a></li></ul></section>
+<nav class="report-switch" aria-label="Adjacent project reports"><a href="../multica/index.html">Previous project: Multica</a><a href="../munder-difflin/index.html">Next project: Munder Difflin</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../index.html">Return to overview <img src="../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

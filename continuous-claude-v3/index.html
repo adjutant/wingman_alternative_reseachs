@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Technical assessment against Wingman’s development organization."><title>Continuous Claude v3 · Wingman Research</title>
+<link rel="icon" href="../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/report.css"><script defer src="../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../index.html"><img src="../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../index.html">Overview</a><a class="nav-link " href="../generic/index.html">Architecture findings</a><a class="nav-link " href="../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../generic/method.html">Method and evidence</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../index.html">Wingman Research</a><span class="crumb">/</span><span>Continuous Claude v3</span></div><span class="topbar-note">SOURCE REVIEW · 05 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Continuous Claude v3</h1><p class="subtitle">Technical assessment against Wingman’s development organization.</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#decision">Decision summary</a><a href="#assessment-continuous-claude-v3-assessment">Continuous Claude v3 assessment</a><a href="#assessment-architecture-and-actual-execution-model">Architecture and actual execution model</a><a href="#assessment-f01f24-comparison">F01–F24 comparison</a><a href="#assessment-agent-definition-and-complete-lifecycle">Agent definition and complete lifecycle</a><a href="#assessment-coordination-mechanics-and-concrete-task-traces">Coordination mechanics and concrete task traces</a><a href="#assessment-major-additional-capabilities-and-integration-consequences">Major additional capabilities and integration consequences</a><a href="#assessment-distinctive-mechanisms-and-grounded-innovation-assessment">Distinctive mechanisms and grounded innovation assessment</a><a href="#assessment-practical-fit-for-wingman">Practical fit for Wingman</a><a href="#assessment-verification-scope-and-limits">Verification scope and limits</a><a href="#source-record">Source and evidence</a></div></nav><section id="decision" class="decision"><h2>Decision summary</h2>
+<div class="brief-columns"><div><h3>Useful for Wingman</h3><p>Study host agent profiles, local subprocess spawning, hierarchy propagation, and continuation artifacts.</p></div><div><h3>Adoption boundary</h3><p>Host prompts and temporary coding processes do not establish a persistent organization service.</p></div></div>
+<p class="scope-note">Source assessment at the commit below. Runtime limits appear in the technical report.</p></section>
+<dl class="facts"><div><dt>Source group</dt><dd>Workflow layers</dd></div><div><dt>Commit</dt><dd><code>d07ff4b06b62f43771bc0c927d0211b734d6149e</code></dd></div><div><dt>Coverage</dt><dd>24 Wingman features</dd></div></dl>
+<article id="technical-assessment" class="technical"><h2 id="assessment-continuous-claude-v3-assessment">Continuous Claude v3 assessment</h2>
+<p class="url-text">Assessment date: 2026-11-05. Product: Continuous Claude v3, a Claude Code workflow, hook, agent-profile and memory kit. Upstream: https://github.com/parcadei/Continuous-Claude-v3 . Local checkout: <code>researchs/continuous-claude-v3/repo</code>. Assessed commit: <code>d07ff4b06b62f43771bc0c927d0211b734d6149e</code>.</p>
+<p><strong>Verdict:</strong> useful material for Wingman's execution and continuity layer, with unusually substantial discovery instructions and context-management hooks. It does not implement Wingman's standing development organization. Its center of gravity is a human's Claude Code session, delegating bounded work and carrying context between sessions. Telegram intake, project leadership identities, a portfolio registry, organizational chat, the connected dashboards and multi-host agent placement would still need to be built. Several advanced coordination paths reference implementation absent from this checkout, so the architecture documentation substantially overstates what can be established locally.</p>
+<p>This is a source assessment, not a runtime certification. No dependencies were installed, no services or agents were launched, and checkout files were not changed. All source citations below are relative to this report; stated line numbers refer to the assessed revision. The comparison target is <a href="../generic/purpose.html">WINGMAN_PURPOSE.md</a>, following <a href="../generic/assessments/ASSESSMENT_GUIDE.md">ASSESSMENT_GUIDE.md</a>.</p>
+<h2 id="assessment-architecture-and-actual-execution-model">Architecture and actual execution model</h2>
+<p>Claude Code and <a href="repo/.claude/settings.json">.claude/settings.json</a>, lines 1–275, provide the entry point. Configuration registers a status command and hooks for session start, prompts, tools, compaction, stop, and session end. Most commands target the user's global <code>~/.claude</code> installation. This checkout therefore provides configuration and supporting code for an external harness. It does not supply its own durable-agent server.</p>
+<p><a href="repo/.claude/hooks/hook_launcher.py">hook_launcher.py</a>, lines 99–118 and 234–261, resolves project and global hook files. It prefers compiled JavaScript, then TypeScript, then Python. TypeScript inspection establishes source behavior. It does not prove that an installed compiled hook matches that source.</p>
+<p>Agent execution has two paths. Markdown files define Claude Code roles. <a href="repo/.claude/agents/maestro.md">maestro.md</a>, lines 1–10, declares a model and tools and directs orchestration through the host's <code>Task</code> tool. <a href="repo/.claude/agents/kraken.md">kraken.md</a>, lines 1–12 and 57–89, defines implementation and TDD behavior. The external harness consumes those prompts.</p>
+<p><a href="repo/opc/scripts/claude_spawn.py">claude_spawn.py</a>, lines 653–753, separately starts a local <code>claude -p</code> process. It assigns a UUID session ID, redirects output to <code>/tmp/claude-agents/&lt;uuid&gt;.json</code>, and passes hierarchy environment variables. It returns the PID. This is independent temporary task execution. It does not create an enduring employee with a mailbox and project appointment.</p>
+<p>The Python subprocess path reads JSON profiles, not the Markdown definitions. <a href="repo/opc/scripts/claude_spawn.py">Profile loading</a>, lines 276–328, searches the project, current directory and two user locations. <a href="repo/.claude/agents/kraken.json">kraken.json</a>, lines 1–10, has a compact TDD prompt and a different tool declaration from the much longer Markdown profile. A caller must deliberately choose the path and profile. <code>route_to_agent()</code> provides an ordered keyword classifier at <a href="repo/opc/scripts/claude_spawn.py">claude_spawn.py</a>, lines 334–415, but <code>spawn_agent()</code> does not call it: it loads the explicit <code>perspective</code> argument. Searches found no active dispatcher calling that classifier. The checked-in <code>DISABLED-task-router-hook.json</code> is another reason not to infer transparent automatic delegation from the routing table.</p>
+<p>Persistence is spread across several mechanisms, with different ownership and lifetimes:</p>
+<ul>
+<li>Project Markdown/YAML under <code>thoughts/shared/{specs,plans,research,handoffs}</code> and legacy <code>thoughts/ledgers</code> stores specifications, phase records and continuation context. <a href="repo/.claude/skills/build/SKILL.md">Build instructions</a>, lines 281–321, describe writing an orchestration file; <a href="repo/.claude/hooks/src/pre-compact-continuity.ts">pre-compact-continuity.ts</a>, lines 17–94, implements transcript-derived handoffs when the required legacy ledger exists.</li>
+<li>A SQLite artifact index has handoffs, plans, continuity snapshots, queries and FTS5 indexes, including outcome annotations and trace IDs. See <a href="repo/opc/scripts/core/artifact_schema.sql">artifact_schema.sql</a>, lines 13–125. It is a search and learning index, not a ticket registry or agent directory.</li>
+<li>PostgreSQL code implements core and archival memory, text/vector/hybrid retrieval and optional session/agent scoping. See <a href="repo/opc/scripts/core/db/memory_service_pg.py">memory_service_pg.py</a>, lines 74–142, 306–379 and 655–856. Hook helpers also implement session registration and advisory file claims directly with inline SQL in <a href="repo/.claude/hooks/src/shared/db-utils-pg.ts">db-utils-pg.ts</a>, lines 390–445 and 532–575.</li>
+<li>Broader agent registration, blackboard and agent completion wrappers import <code>scripts.agentica_patterns.coordination_pg</code>. That package is absent locally. <a href="repo/opc/scripts/claude_spawn.py">claude_spawn.py</a>, lines 787–829, catches that failure and appends a temporary registry record instead. The registration and file-claim SQL above does <strong>not</strong> depend on the missing package. Those narrower implementations should still receive credit.</li>
+</ul>
+<p>Pattern modules implement swarm, pipeline, jury, hierarchy, and related functions. Active integration requires more than source presence. The <a href="repo/.claude/settings.json">active settings</a>, lines 6–275, register neither <code>SubagentStart</code>, <code>SubagentStop</code>, nor a pattern dispatcher. <a href="repo/.claude/hooks/src/patterns/pipeline.ts">pipeline.ts</a>, lines 110–164 and 220–351, can start a detached next stage. It requires the correct environment/configuration and an existing SQLite database. This does not establish automatic scheduling in an ordinary installed <code>/build</code>. Its SQLite coordination also differs from the PostgreSQL wrappers.</p>
+<p>The optional OPC runtime provides separate Python tool execution. <a href="repo/opc/src/runtime/harness.py">runtime.harness</a>, lines 133–180, initializes an MCP manager and executes scripts. <a href="repo/opc/src/runtime/mcp_client.py">mcp_client.py</a>, lines 421–556 and 598–703, supports local stdio and remote SSE/HTTP tools. Connections are lazy and retries are bounded. Remote tools do not establish remote coding-agent hosting.</p>
+<h2 id="assessment-f01f24-comparison">F01–F24 comparison</h2>
+<p>“Similar” credits substantial implemented or harness-consumable behavior while preserving its scope. Prompt workflows are explicitly identified; their successful model execution was not tested. “Absent” reflects the implementation searches described in the verification section, rather than a missing README claim.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Capability</th>
+<th scope="col">Verdict</th>
+<th scope="col">Evidence and concrete difference from Wingman</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F01</td>
+<td>Real independent coding agents and specialist instances</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/opc/scripts/claude_spawn.py">Spawner</a>, lines 653–753, starts separate Claude processes with UUIDs/PIDs; <a href="repo/.claude/agents/kraken.md">Kraken</a>, lines 1–12, supplies coding specialization. Multiple instances are possible. Instances are bounded executions and host subagents, without Wingman's persistent specialist appointments and independently maintained organizational conversations.</td>
+</tr>
+<tr>
+<td>F02</td>
+<td>Extensible profiles, roles and team composition</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/opc/scripts/claude_spawn.py">Profile loader</a>, lines 276–328, accepts new JSON profiles; <code>spawn_lead()</code> passes loaded worker definitions through <code>--agents</code> at lines 580–650 and 877–969. Markdown profiles also extend the host catalog. There is no team registry, durable project membership model or automatic propagation into organizational views.</td>
+</tr>
+<tr>
+<td>F03</td>
+<td>Agent directory and visible working relationships</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/opc/scripts/claude_spawn.py">Spawn environment and registry</a>, lines 549–577 and 811–829, record parent, session, perspective and depth. <a href="repo/.claude/hooks/src/session-register.ts">Session start</a>, lines 43–68, prints active peer IDs. These are machine records and injected text, with no browsable directory showing teams, current assignments and persistent relationships.</td>
+</tr>
+<tr>
+<td>F04</td>
+<td>Telegram and Butler routing</td>
+<td><strong>Absent</strong></td>
+<td><a href="repo/.claude/settings.json">Active hooks</a>, lines 1–275, are Claude Code event entry points; <a href="repo/opc/src/runtime/harness.py">harness</a>, lines 29–40, is a local CLI entry. Searches across application/runtime, hooks, profiles, skills and setup found no Telegram bot/client, update receiver, chat-to-project mapping or Butler service.</td>
+</tr>
+<tr>
+<td>F05</td>
+<td>Cross-project registry, intake and new/existing routing</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/.claude/hooks/src/shared/db-utils-pg.ts">Session SQL</a>, lines 390–445 and 453–518, records project directory strings and can filter sessions by project. <a href="repo/.claude/skills/build/SKILL.md">Build</a>, lines 62–79, asks whether the code is new or existing. Neither is a durable portfolio registry or intake resolver that identifies the human's referenced product and creates its team.</td>
+</tr>
+<tr>
+<td>F06</td>
+<td>Per-project product and technical leadership</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/.claude/skills/discovery-interview/SKILL.md">Discovery interview</a>, lines 8–21, acts as product discovery; <a href="repo/.claude/agents/maestro.md">Maestro</a>, lines 37–110, coordinates architecture/implementation/validation. They are invoked roles for a task, without durable ProductMaster/TechMaster pairs assigned to each product and available between worker turns.</td>
+</tr>
+<tr>
+<td>F07</td>
+<td>Proportionate research, discovery and iterative clarification</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/.claude/skills/build/SKILL.md">Build</a>, lines 96–113, can skip discovery for clear requirements; <a href="repo/.claude/skills/discovery-interview/SKILL.md">discovery</a>, lines 23–53 and 131–178, has staged interviews, research loops and conflict resolution through <code>AskUserQuestion</code>. Strong reusable workflow, but conversation runs directly in Claude Code and is model-directed, without Butler routing, parallel pending-question records or an organizational discovery service.</td>
+</tr>
+<tr>
+<td>F08</td>
+<td>Scope, specifications, acceptance scenarios and definition of done</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/.claude/skills/discovery-interview/SKILL.md">Discovery spec template</a>, lines 187–294, defines success metrics, requirements with acceptance criteria, journey, out-of-scope work and research. <a href="repo/.claude/agents/atlas.md">Atlas</a>, lines 19–35, consumes explicit scenarios. These are useful documents/prompts. There is no enforced product-level definition-of-done entity aggregating all work and accepted delivery.</td>
+</tr>
+<tr>
+<td>F09</td>
+<td>Decomposition, assignment and shared task tracking</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/.claude/skills/build/SKILL.md">Build</a>, lines 264–321, instructs phase and pending-status storage in YAML. <a href="repo/.claude/skills/implement_plan/SKILL.md">implement_plan</a>, lines 32–39 and 90–112, updates plan checkboxes and todos. <a href="repo/opc/scripts/observe_agents.py">observe_agents.py</a>, lines 121–154, reads a tasks table when present. Searches found no complete task-graph producer/service. These paths do not establish a cross-project tracker with durable assignees, comments, dependencies, and blockers.</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>Portfolio/project management dashboard</td>
+<td><strong>Absent</strong></td>
+<td><a href="repo/opc/scripts/observe_agents.py">Observer</a>, lines 195–208, collects data for CLI output; <a href="repo/.claude/scripts/status.py">status.py</a>, lines 274–346, extracts a workflow checkpoint. Searches found no portfolio UI, project API, dashboard routes or task-management application. A token-statistics skill and textual summaries do not meet this capability.</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>Agent chat, rooms and direct collaboration</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/.claude/hooks/src/pre-tool-use-broadcast.ts">Broadcast hook</a>, lines 26–117, reads up to ten messages from a local SQLite swarm DB and injects them before tools. <a href="repo/opc/scripts/agent_system_prompt.md">Agent system prompt</a>, lines 52–90, instructs PostgreSQL blackboard reads/writes through the absent coordination module. These are partial shared-state primitives; no room/chat app, persistent participants, threaded discussion or human-readable organizational chat interface was found.</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>Management escalation and human decisions/approvals</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/.claude/skills/build/SKILL.md">Build</a>, lines 409–419 and 520–582, specifies approve/change/abort, retry/skip and human phase checkpoints; <a href="repo/.claude/skills/implement_plan/SKILL.md">implement_plan</a>, lines 78–112, asks for mismatch decisions and manual verification. The substantial equivalent is local human decision gating. There is no worker → project leadership → management room → Butler routing or durable question ownership.</td>
+</tr>
+<tr>
+<td>F13</td>
+<td>Durable project knowledge and reusable directives</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/opc/scripts/core/artifact_schema.sql">Artifact schema</a>, lines 13–125, indexes plans, handoffs, decisions and outcomes; <a href="repo/.claude/hooks/src/session-start-continuity.ts">continuity loader</a>, lines 323–428 and 433–540, restores project handoff/ledger content. Skills/rules supply reusable instructions. Organization is <code>thoughts/</code> plus <code>.claude</code>, rather than Wingman's <code>DIRECTIVES/{SCOPES,SPECS,HARNESS}</code>, and knowledge governance remains file/model-driven.</td>
+</tr>
+<tr>
+<td>F14</td>
+<td>Identity, conversation and work continuity</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/opc/scripts/claude_spawn.py">Spawner</a>, lines 521–530 and 549–571, uses Claude session UUIDs and parent/session environment; <a href="repo/.claude/hooks/src/session-start-continuity.ts">continuity</a>, lines 323–428, restores work context. <a href="repo/.claude/agents/kraken.md">Kraken</a>, lines 14–33, instructs checkpoint resume. Durable context is substantial, but employment identity, host conversation and coordination identity are separate concepts with isolation caveats detailed below.</td>
+</tr>
+<tr>
+<td>F15</td>
+<td>Proactive supervision and periodic blocker follow-up</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/opc/scripts/claude_spawn.py">Process monitor</a>, lines 104–189, periodically checks local PID liveness; <a href="repo/opc/scripts/stream_monitor.py">StreamMonitor</a>, lines 54–113, tracks stuck state and callbacks. These monitor process/output health, not the portfolio and responsible leaders. No standing ProjectMaster wake scheduler, blocker outreach or escalation cycle was found. StreamMonitor is also not wired to the shown JSON-file spawning path.</td>
+</tr>
+<tr>
+<td>F16</td>
+<td>Parallel products and concurrent specialists</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/opc/scripts/claude_spawn.py">Spawner</a>, lines 653–753 and 877–969, supports concurrent local executions; project-scoped <a href="repo/.claude/hooks/src/shared/db-utils-pg.ts">session SQL</a>, lines 453–518, distinguishes directories. Separate human-started Claude sessions can work in separate products. There is no organization layer owning parallel product teams, priorities or integration boundaries; concurrency limits are process-local.</td>
+</tr>
+<tr>
+<td>F17</td>
+<td>Real multi-host execution with shared coordination</td>
+<td><strong>Absent</strong></td>
+<td><a href="repo/opc/scripts/claude_spawn.py">Popen execution</a>, lines 724–729 and 940–945, is local and inherits the caller's working directory. <a href="repo/opc/src/runtime/mcp_client.py">MCP transports</a>, lines 421–556, connect tools remotely, not coding worker hosts. Searches found no host inventory, remote agent launcher, SSH worker routing, placement or shared cross-host workspace protocol. PostgreSQL connectivity alone does not supply these.</td>
+</tr>
+<tr>
+<td>F18</td>
+<td>Executive overview of current/recent/next work and blockers</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/.claude/scripts/status.py">Status implementation</a>, lines 246–346 and 349–370, renders goal/now from the latest workflow handoff; <a href="repo/opc/scripts/observe_agents.py">observer</a>, lines 157–208, lists output files and other raw state. Neither produces one grounded briefing per durable agent, nor a portfolio overview with current, just-finished, next and attention-needed fields.</td>
+</tr>
+<tr>
+<td>F19</td>
+<td>Per-agent summary timeline linked to underlying work</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/opc/scripts/core/artifact_schema.sql">Artifact schema</a>, lines 20–40 and 61–79, stores task summaries, timestamps, trace IDs and continuity snapshots. <a href="repo/opc/scripts/stream_monitor.py">Stream events</a>, lines 34–50, carry raw activity timestamps. Those are potential inputs to a timeline, not an implemented per-agent summary feed with navigable task/conversation/artifact links.</td>
+</tr>
+<tr>
+<td>F20</td>
+<td>Detailed individual coding workspace</td>
+<td><strong>Resembles</strong></td>
+<td>The parent runs in external Claude Code; <a href="repo/opc/scripts/claude_spawn.py">spawned runs</a>, lines 690–729, expose an output file/PID, and <a href="repo/opc/scripts/observe_agents.py">observer</a>, lines 157–192, lists Markdown outputs. No repository-owned agent workspace UI or summary-to-live-session drill-down is implemented. Native Claude Code capabilities cannot be credited as this project's integrated interface.</td>
+</tr>
+<tr>
+<td>F21</td>
+<td>Live activity, lifecycle controls, steering and execution visibility</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/opc/scripts/stream_monitor.py">StreamMonitor</a>, lines 69–162, can consume streaming output and invoke callbacks; <a href="repo/.claude/scripts/status.py">status</a>, lines 101–162, records session/context usage. But <a href="repo/opc/scripts/claude_spawn.py">spawn</a>, lines 521–530 and 720–729, emits final JSON to a file, with no StreamMonitor connection, queued steering or complete stop/resume/fork/rename/archive API. Interactive controls depend on the external host.</td>
+</tr>
+<tr>
+<td>F22</td>
+<td>Testing, integrated verification and acceptance/delivery</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/.claude/agents/kraken.md">Kraken</a>, lines 57–89, instructs TDD; <a href="repo/.claude/agents/atlas.md">Atlas</a>, lines 10–17 and 38–100, instructs E2E/browser testing; <a href="repo/.claude/skills/implement_plan/SKILL.md">implement_plan</a>, lines 90–112, separates automated success from human-confirmed manual checks. <a href="repo/.claude/skills/build/SKILL.md">Build completion</a>, lines 549–580, assembles artifacts. These are strong coding workflows, but no standing TestMaster or enforced product acceptance/stop-after-accepted-delivery controller exists.</td>
+</tr>
+<tr>
+<td>F23</td>
+<td>Autonomous operation with human direction through organization</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/opc/scripts/claude_spawn.py">Lead spawner</a>, lines 877–969, gives a headless Claude workers and a task; <a href="repo/.claude/skills/build/SKILL.md">build</a>, lines 308–321 and 570–592, chains work, checkpoints and continuation. Useful bounded autonomy exists, driven by a session and prompts. Persistent organizational self-supervision, organization-mediated human direction and multi-project lifecycle ownership are missing.</td>
+</tr>
+<tr>
+<td>F24</td>
+<td>New profiles accommodated by chat, tracker and dashboards</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/opc/scripts/claude_spawn.py">Profile loader</a>, lines 290–328, and generic <a href="repo/opc/scripts/observe_agents.py">observer outputs</a>, lines 157–192, can handle new names. No equivalent chat/tracker/dashboard surfaces exist into which those roles are enrolled. Profile extensibility alone does not implement Wingman's connected extensible views.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="assessment-agent-definition-and-complete-lifecycle">Agent definition and complete lifecycle</h2>
+<h3 id="assessment-definition-creation-and-identity">Definition, creation and identity</h3>
+<p>An agent profile is a role template, not a durable agent instance. Markdown frontmatter names the role, model and host tools; its body supplies instructions. JSON profiles for subprocess spawning additionally parse <code>permissions</code>, <code>blocked_patterns</code> and <code>inherit_blocks</code>. The <a href="repo/opc/scripts/claude_spawn.py">JSON loader</a>, lines 276–328, only constructs configuration. The subprocess builder uses prompt, model, tools and the skip/queue choice. A search of the spawner found no enforcement of the parsed blocked-pattern or inheritance fields. This is a meaningful gap if treating those fields as a policy boundary.</p>
+<p>Creation occurs through the external <code>Task</code> tool described by profiles/skills or by explicitly calling Python <code>spawn_agent()</code>/<code>spawn_lead()</code>. The latter assigns a fresh UUID unless a caller supplies one. <code>AGENT_ID</code> identifies this execution, <code>PARENT_AGENT_ID</code> its spawning relation, and <code>SESSION_ID</code> an inherited grouping that defaults to <code>default</code>. <code>PATTERN_TYPE</code> is optional. <a href="repo/opc/scripts/claude_spawn.py">Environment construction</a>, lines 549–577, does not establish an employee identity, a product appointment or a persisted mailbox. <code>spawn_lead()</code> embeds selected JSON worker definitions using Claude's <code>--agents</code> flag, while its returned premise is simply <code>lead</code> (<a href="repo/opc/scripts/claude_spawn.py">lines 919–969</a>).</p>
+<p>There is also a distinct coordination session identifier. <a href="repo/.claude/hooks/src/shared/session-id.ts">session-id.ts</a>, lines 44–110, generates a short ID from a Braintrust span or timestamp and stores it in one user-global <code>~/.claude/.coordination-session-id</code> file. <a href="repo/.claude/hooks/src/session-register.ts">Session registration</a>, lines 33–44, sets an environment variable only in the hook process and writes that file. Later hook processes can therefore read the most recently written global ID unless a parent environment already supplied <code>COORDINATION_SESSION_ID</code>. Two terminals can overwrite that file. This is a source-visible isolation risk, not a reproduced runtime failure. The checked-in persistence tests actually assert overwriting behavior at <a href="repo/.claude/hooks/src/__tests__/session-id-persistence.test.ts">session-id-persistence.test.ts</a>, lines 107–112. Wingman should use canonical execution/session IDs throughout, with explicit project and host keys.</p>
+<h3 id="assessment-execution-tools-and-permissions">Execution, tools and permissions</h3>
+<p><a href="repo/opc/scripts/claude_spawn.py">Command construction</a>, lines 488–546, runs <code>claude -p</code>, caps it at 100 turns and requests final JSON output. It injects persona text into the task. The optional system-context path deserves integration review: lines 543–544 pass a filesystem path string as the <code>--append-system-prompt</code> argument without reading that file. This code does not itself establish that the intended system-prompt contents are loaded. Model/tool declarations are forwarded to Claude. The project does not implement the model loop or tool authorization itself. By default it adds <code>--dangerously-skip-permissions</code>. A profile with <code>permissions: queue</code> merely suppresses that flag, delegating any approval behavior to Claude. No approval queue service is implemented here. Lead spawning always adds the skip-permissions flag (<a href="repo/opc/scripts/claude_spawn.py">lines 626–648</a>). These defaults would require deliberate integration with Wingman's human decisions and host execution policies.</p>
+<p>Subprocesses inherit the calling environment and working directory. There is no per-task worktree creation, sandbox assignment or remote host placement in this path. Filesystem isolation is a coordination responsibility. <a href="repo/.claude/hooks/src/file-claims.ts">file-claims.ts</a>, lines 49–67, warns on an existing claim and allows the edit. It does not lock the file. Settings apply that hook to <code>Edit</code>, not <code>Write</code> or arbitrary Bash mutations. The check and claim are separate calls, and claims have no age filter in the inspected lookup. They should not be treated as serializable exclusive ownership.</p>
+<p>The repository also has a separate Docker math-code sandbox runner (<a href="repo/opc/docker/sandbox_runner.py">sandbox_runner.py</a>, lines 1–42 and 77–150) with CPU/RAM limits, a timeout and reduced builtins. That does not sandbox the headless coding agent. Its existence should not be used to imply that skipped-permission coding runs execute inside containers.</p>
+<h3 id="assessment-routing-and-concurrency">Routing and concurrency</h3>
+<p>Routing is distributed between keyword-triggered skill suggestions, model interpretation of workflow instructions, the optional routing function and explicit profile selection. The prompt hook <a href="repo/.claude/hooks/src/skill-activation-prompt.ts">skill-activation-prompt.ts</a>, lines 53–79 and 87–130, reads rules and optionally invokes Python pattern inference. The inference file it checks for is absent here, so this branch returns no inference rather than proving autonomous pattern selection. The plain skill-matching machinery still exists; advanced pattern claims need separate evidence.</p>
+<p>The Python spawner enforces depth below three at <a href="repo/opc/scripts/claude_spawn.py">lines 423–433</a>, and a soft count of 50/hard count of 100 through <a href="repo/opc/scripts/claude_spawn.py">lines 26–34 and 436–453</a>. These are limits in a particular Python interpreter's global counter, not a distributed or even machine-wide quota. Checking the count and incrementing after <code>Popen</code> are separate operations, so concurrent callers could race. <code>resources_available()</code> samples CPU/RAM at <a href="repo/opc/scripts/claude_spawn.py">lines 382–395</a>, but the shown <code>spawn_agent()</code> and <code>spawn_lead()</code> do not call it. A comment about resource-aware spawning therefore cannot establish actual admission control. Environment depth is also a convention propagated to child processes, not a security isolation boundary across all native <code>Task</code> executions.</p>
+<h3 id="assessment-persistence-resume-and-scheduling">Persistence, resume and scheduling</h3>
+<p>The durable unit of continuity is mostly the work artifact. <a href="repo/.claude/agents/kraken.md">Kraken's resume instructions</a>, lines 14–33, direct a new/resumed agent to the last validated checkpoint. <a href="repo/.claude/skills/implement_plan/SKILL.md">implement_plan</a>, lines 124–130 onward, describes using a host agent ID for clarification. <a href="repo/.claude/skills/build/SKILL.md">Build</a>, lines 584–592, instructs a resumed invocation to load <code>orchestration.yaml</code> and continue its incomplete phase. These are valuable protocols, but the Python spawner has no <code>--resume</code>/<code>--continue</code> operation and always normally creates a new session UUID. Reusing an ID is not an implemented conversation-resume controller.</p>
+<p>Compaction continuity uses executable hooks. <a href="repo/.claude/hooks/src/pre-compact-continuity.ts">pre-compact-continuity.ts</a>, lines 21–63, finds a legacy ledger and creates a transcript-derived YAML handoff during automatic compaction. It directly reads the ledger directory. A missing directory therefore differs from an empty ledger list. Its final catch reports the error.</p>
+<p><a href="repo/.claude/hooks/src/session-start-continuity.ts">session-start-continuity.ts</a>, lines 323–428, first scans handoffs and loads embedded ledger/YAML content. Lines 433–540 provide legacy fallback. UUID-specific helpers exist at lines 16–85. The main handoff-first scan instead calls legacy session-name lookup. It selects the newest qualifying record across directories. UUID-helper tests alone cannot prove isolation in that main path.</p>
+<p>Scheduling is session/event based. Hooks run when Claude triggers an event. A caller or model must begin the next work invocation. A conditional pipeline handler can advance a stage, and an in-process thread monitors PIDs. No long-lived organization scheduler starts idle project leaders, revisits unanswered product questions or periodically supervises multiple products.</p>
+<p>The configured <a href="repo/.claude/hooks/auto-handoff-stop.py">auto-handoff-stop.py</a>, lines 18–68, reads a context-percentage file written by the status command and blocks a first stop at 85% or higher with a request to run <code>/create_handoff</code>. Despite its name, that stop hook does not write the handoff itself. It relies on the model following the instruction. Missing percentage data and recursive stop-hook invocations are allowed through.</p>
+<h3 id="assessment-interruption-cancellation-failures-and-recovery">Interruption, cancellation, failures and recovery</h3>
+<p>The native coding host owns interactive interruption. The spawner returns a PID, but exposes no corresponding managed cancel, task rollback, process-tree teardown or durable paused state. Its monitor is a daemon thread started on module import (<a href="repo/opc/scripts/claude_spawn.py">claude_spawn.py</a>, lines 217–222), so a short-lived <code>python -c</code> caller can exit while the spawned agent continues. That loses the interpreter-local concurrency counter and completion monitor. The <a href="repo/opc/scripts/agent_system_prompt.md">agent system prompt</a>, lines 21–30, itself suggests that short-lived invocation pattern. Wingman would need a persistent supervisor to own process handles and reconcile outcomes after restarts.</p>
+<p>The monitor checks <code>os.kill(pid, 0)</code> once a second and, when the PID disappears, attempts to read JSON and write status/result summary (<a href="repo/opc/scripts/claude_spawn.py">lines 142–214</a>). It defaults to <code>completed</code> if the output file is absent and only classifies selected error subtypes as failed. It does not inspect an owned <code>Popen.returncode</code> or retry failed agent work. Its database update also uses a fixed development database target, unlike the environment-configurable hooks. This makes status consistency an integration concern. Registration falls back to append-only temporary JSONL, with no matching update of that fallback's <code>running</code> record in the monitor. A fallback registry is therefore an observation aid, not a reliable authoritative lifecycle ledger.</p>
+<p>Workflow-level failure handling is more thoughtful but instructional: <a href="repo/.claude/skills/build/SKILL.md">build</a>, lines 520–547, says to mark a blocked phase and present retry/skip/abort/manual-intervention options. <a href="repo/.claude/skills/implement_plan/SKILL.md">implement_plan</a>, lines 78–88, asks the human about mismatches. The MCP client separately retries tool-call exceptions (<a href="repo/opc/src/runtime/mcp_client.py">mcp_client.py</a>, lines 598–703), but tool retry is not agent/task recovery and could need idempotency controls for mutating calls. The harness has signal cleanup for its own execution (<a href="repo/opc/src/runtime/harness.py">harness.py</a>, lines 177 onward). It does not manage the independent coding-agent fleet.</p>
+<h3 id="assessment-completion-acceptance-and-retirement">Completion, acceptance and retirement</h3>
+<p>Process completion, model-declared task completion and human acceptance are distinct. A JSON result or vanished PID is only execution termination. <a href="repo/.claude/skills/build/SKILL.md">Build</a>, lines 549–580, asks the model to assemble specs, plans, validation, implementation handoffs and optional PR/commit details. <a href="repo/.claude/skills/implement_plan/SKILL.md">implement_plan</a>, lines 90–112, explicitly forbids marking manual checks complete before the human confirms them. This is a useful acceptance distinction, but there is no project-level transition that checks every ticket against an agreed product definition of done and retires the active team after accepted delivery.</p>
+<p><a href="repo/.claude/hooks/src/session-end-cleanup.ts">Session-end cleanup</a>, lines 68–120, updates the latest legacy ledger timestamp and removes an old <code>latest-output.md</code> from per-agent cache directories after seven days. Lines 123 onward optionally launch a Braintrust learning extractor with a user-global lock. The inspected hook does not deregister sessions, release file claims or kill spawned agents. The PID registry/output files under <code>/tmp/claude-agents</code> also have no corresponding retirement sweep in this spawner. An external harness may clean its own sessions, but that behavior is outside this checkout's demonstrated lifecycle.</p>
+<h2 id="assessment-coordination-mechanics-and-concrete-task-traces">Coordination mechanics and concrete task traces</h2>
+<p>The closest coordination model is <strong>orchestrator plus artifacts</strong>. The main Claude session supplies tasks; specialists return files. The main session reads and synthesizes them. <a href="repo/.claude/agents/maestro.md">Maestro</a>, lines 88–117, explicitly follows that pattern. Skills can add a plan and human checkpoints, while file-claim hooks warn about concurrent editing. There is no durable organizational room where leadership and specialists retain membership, no common ticket lifecycle, and no implemented Butler to preserve question ownership across the human's conversations.</p>
+<p>Blackboard code is mixed. The active pre-tool broadcast hook reads a project-local SQLite database when <code>SWARM_ID</code> is present (<a href="repo/.claude/hooks/src/pre-tool-use-broadcast.ts">broadcast</a>, lines 26–117). It repeatedly reads the latest ten messages from other senders; no unread cursor or acknowledgement is implemented in this hook. The PostgreSQL helper's blackboard API would read unread messages (<a href="repo/.claude/hooks/src/shared/db-utils-pg.ts">db-utils-pg.ts</a>, lines 104–151), but depends on the absent <code>CoordinationDBPg</code> implementation. These are different paths, not one proven end-to-end chat system.</p>
+<h3 id="assessment-coding-request-build-greenfield-add-user-authentication-with-oauth">Coding request: <code>/build greenfield Add user authentication with OAuth</code></h3>
+<p>This concrete request is present in the repository's own <a href="repo/.claude/skills/build/SKILL.md">build example</a>, lines 596–649. The following traces its actual configured/prompt implementation, not an executed historical run:</p>
+<ol>
+<li>The user enters the request in Claude Code. <code>UserPromptSubmit</code> runs skill activation, memory awareness and other hooks (<a href="repo/.claude/settings.json">settings</a>, lines 135–162). Skill activation can suggest relevant instructions. The host/model invokes the build skill. There is no Telegram update or project-registry lookup.</li>
+<li><a href="repo/.claude/skills/build/SKILL.md">Build's chain definition</a>, lines 264–305, selects discovery → planning → plan validation → implementation → optional commit/PR and instructs creation of <code>thoughts/shared/handoffs/&lt;session&gt;/orchestration.yaml</code> with phase status. It is Markdown pseudocode/instructions, not a Python state-machine implementation.</li>
+<li><a href="repo/.claude/skills/discovery-interview/SKILL.md">Discovery instructions</a>, lines 23–53, 131–178 and 220–294, ask questions, research uncertain choices, confirm the understanding and write a spec with success/acceptance criteria. Answers remain in the host conversation and generated files. No cross-project pending-question router exists.</li>
+<li><a href="repo/.claude/skills/build/SKILL.md">Build</a>, lines 387–419, passes the spec/research into a planning <code>Task</code>, records the plan path and asks for approval/change/abort. <code>Task</code> execution belongs to Claude Code. Separately, invoking <code>spawn_lead()</code> would use actual <code>Popen</code>, loaded workers and the environment/registry path described above. These are alternative entry paths, not a proven single automatic chain.</li>
+<li>During implementation, <a href="repo/.claude/settings.json">settings</a>, lines 46–79 and 164–225, can inject code/architecture context, check an <code>Edit</code> claim and run diagnostics. A conflict produces a warning, so two workers can still edit the same file. <a href="repo/.claude/skills/implement_plan/SKILL.md">implement_plan</a>, lines 90–112, tells the implementer to run checks, fix failures and await manual verification.</li>
+<li><a href="repo/.claude/skills/build/SKILL.md">Build</a>, lines 520–592, instructs error recording, human retry decisions, artifact reporting and later continuation from YAML. Completion returns to the direct human session. It does not update a portfolio dashboard or notify Butler.</li>
+</ol>
+<h3 id="assessment-executable-pipeline-task-async-error-handling-python">Executable pipeline task: <code>async error handling python</code></h3>
+<p>A narrower Python pipeline has explicit test configuration. <a href="repo/opc/scripts/test_research_pipeline.py">test_research_pipeline.py</a>, lines 38–44, supplies the topic. <a href="repo/opc/scripts/research_implement_pipeline.py">research_implement_pipeline.py</a>, lines 95–115 and 501–530 onward, parses it and creates <code>PipelineContext</code>. It obtains the MCP manager and sequentially runs research, AST search, Morph search, quality checks, and Git status.</p>
+<p><a href="repo/opc/scripts/research_implement_pipeline.py">Nia research</a>, lines 144–189, saves tool results. AST search uses a heuristic pattern (lines 192–226). <a href="repo/opc/scripts/research_implement_pipeline.py">Morph</a>, lines 280–335, collects search matches. Steps return success, skipped, or failed and retain context/error lists. An unavailable configured tool can therefore produce an explicit skip.</p>
+<p>The important boundary appears at <a href="repo/opc/scripts/research_implement_pipeline.py">lines 402–436</a>: despite the introductory “stage changes” language, the Git step only checks status and explicitly leaves <code>staged_files</code> empty. Likewise, the Morph step searches. It does not apply an implementation patch. This trace demonstrates functioning orchestration code structure and graceful degradation, not an autonomous research-to-delivery engine. The source test harness was inspected but not executed, and no external tool result or quality outcome is claimed.</p>
+<h2 id="assessment-major-additional-capabilities-and-integration-consequences">Major additional capabilities and integration consequences</h2>
+<p><strong>Intent-sensitive code context and token management.</strong> The <a href="repo/.claude/hooks/src/tldr-read-enforcer.ts">TLDR read hook</a>, lines 120–148 and 151–356, chooses structure, entry-point context or flow analysis based on the search context. It asks an external daemon for AST/call graph/CFG/DFG/PDG information. At lines 388–428 it permits explicitly bounded reads and falls back to normal reading when analysis is unavailable. <a href="repo/.claude/hooks/src/tldr-context-inject.ts">Task context injection</a>, lines 50–121, recognizes data-flow, slicing, complexity and debugging intents. <a href="repo/.claude/hooks/src/daemon-client.ts">daemon-client.ts</a>, lines 20–103, resolves project paths, creates project-hashed lock/PID files, detects existing processes and bounds query time. This could reduce worker context consumption and improve targeted code understanding. The parser/indexer implementation is external; claimed savings/latency percentages in comments were not benchmarked. Porting to Codex requires adapting host events and tool input/output formats, with careful escape hatches so compressed structure does not hide necessary implementation detail.</p>
+<p><strong>Searchable experience with explicit outcome labels.</strong> <a href="repo/opc/scripts/core/artifact_schema.sql">Artifact schema</a>, lines 20–40 and 81–125, distinguishes what worked, what failed, decisions, outcome confidence and query feedback, and links handoffs to traces. <a href="repo/opc/scripts/core/db/memory_service_pg.py">PostgreSQL memory</a>, lines 655–856, supports both weighted text/vector search and reciprocal-rank fusion. <a href="repo/.claude/hooks/src/memory-awareness.ts">memory-awareness.ts</a>, lines 108–128, actually uses a fast text-only recall subprocess for automatic hints, despite its header's broader semantic-search description. The richer semantic interface is a separate capability. Wingman could reuse outcome-aware retrieval across projects, but must define sharing boundaries: memories scoped to session/agent are not automatically organization-wide institutional knowledge, and automatically extracted model judgments need provenance and confidence.</p>
+<p><strong>Trace-derived learning and evaluation.</strong> <a href="repo/opc/scripts/braintrust_analyze.py">braintrust_analyze.py</a>, lines 983–1052, evaluates plans against succeeded/failed precedent, and lines 1120–1475 implement learning extraction from session traces into cached files. <a href="repo/.claude/hooks/src/session-end-cleanup.ts">Session-end cleanup</a>, lines 123 onward, starts extraction only when Braintrust is configured and guards against duplicate extractors with a PID/timestamp lock. This extends beyond simple task tracking into improvement of later decisions. Integration would require an optional external tracing backend and LLM judge, explicit cost control, and stable mapping from traces to Wingman agents/tasks. Generated learnings and judge scores are evidence to review, not acceptance verdicts.</p>
+<p><strong>Formal proof and numerical/symbolic tools.</strong> <a href="repo/.claude/hooks/src/compiler-in-the-loop.ts">compiler-in-the-loop.ts</a>, lines 71–109, invokes Lean/Lake and records errors/incomplete proofs; lines 129–150 check a local model endpoint for tactic assistance. The <a href="repo/.claude/hooks/src/compiler-in-the-loop-stop.ts">stop hook</a>, lines 65–135, can ask Claude to repair unresolved errors while guarding recursive stop hooks and stale state. The repository also includes mathematical computation scripts and a restricted execution runner (<a href="repo/opc/docker/sandbox_runner.py">sandbox</a>, lines 33–42 and 77 onward). These could support verification-heavy products or specialist research. They bring separate toolchains and optional local-model infrastructure, and Lean proof correctness is not equivalent to whole-product acceptance. No proofs or compilers were run during this assessment.</p>
+<p><strong>A library of coordination patterns.</strong> <a href="repo/.claude/hooks/src/patterns/pipeline.ts">pipeline.ts</a>, lines 110–164 and 220–351, contains detached stage continuation and artifact passing; other source modules cover jury, generator/critic, adversarial and hierarchy. This is richer than Wingman's initially specified room/team structure and could provide reusable task execution strategies. Integration would first need to make dispatch explicit, reconcile SQLite/PostgreSQL state, enforce idempotent stage launch and define failure/acceptance criteria. The pipeline handler marks a stopped stage completed before considering any product-verification result, so its completion event is not a success gate. Advanced pattern inference/composition wrappers cannot be adopted as a working engine without supplying their missing Python implementations.</p>
+<h2 id="assessment-distinctive-mechanisms-and-grounded-innovation-assessment">Distinctive mechanisms and grounded innovation assessment</h2>
+<p>The strongest implemented design idea is <strong>continuity as a generated, searchable work artifact</strong> rather than merely retaining a chat transcript. The transcript parser feeds automatic handoffs before compaction. A later start hook can inject the handoff or embedded ledger; SQLite indexing attaches outcomes and trace provenance. This permits a fresh coding context to recover the goal, decisions and next steps without replaying the entire prior conversation. Its limitations are concrete: some paths require legacy ledgers, newest-record selection can cross work streams, status is a checkpoint rather than live activity, and outcome marking is not compulsory product acceptance.</p>
+<p>Another worthwhile mechanism is <strong>action-sensitive context selection</strong>: a recent search result names an actual target, which the read hook uses to request relevant structure/flow context instead of blindly loading whole files. Explicit offsets/limits and failure fallback preserve a route to source. This is a practical execution-layer pattern Wingman could port independently of the rest of the project. It does not establish measured token savings in this assessment, and it depends on the external TLDR analysis service being accurate and available.</p>
+<p><a href="repo/.claude/hooks/src/shared/composition-gate.ts">composition-gate.ts</a>, lines 39–78, throws on invalid pattern compositions. <a href="repo/.claude/hooks/src/shared/pattern-selector.ts">pattern-selector.ts</a>, lines 99–169, validates adjacent pairs. It exposes isolation, shared, federated, and handoff scopes with sequential, parallel, and additive operators.</p>
+<p><a href="repo/.claude/hooks/src/shared/python-bridge.ts">python-bridge.ts</a>, lines 27–63 and 72–108, invokes two missing local scripts: <code>scripts/validate_composition.py</code> and <code>scripts/agentica_patterns/pattern_inference.py</code>. Failed validation returns an error. Failed inference falls back to a low-confidence hierarchy. Type contracts, wrappers, and tests do not establish a working algebraic scheduler. Pairwise checks also do not establish global properties of longer chains. This assessment makes no historical or industry-wide novelty claim.</p>
+<p>Finally, the file-claim and peer-session hooks show a useful low-friction approach to concurrent sessions: make conflicts visible while letting coding continue. Its enabling tradeoff is advisory awareness with minimal central control. Wingman needs stronger identity isolation, freshness, cleanup and worktree/integration ownership before using it as protection for a standing organization. These mechanisms are useful seeds precisely when their boundaries remain explicit.</p>
+<h2 id="assessment-practical-fit-for-wingman">Practical fit for Wingman</h2>
+<p>Reusable material includes discovery/specification templates, TDD, manual acceptance, handoff schemas, outcome-aware indexing, targeted context, and optional learning extraction. Wingman can adopt these protocols or libraries separately. The independent-process launcher can inform a host adapter. A production adapter still needs owned process handles, canonical IDs, streaming output, cancellation, and durable reconciliation. A temporary registry and short-lived caller cannot provide that full contract.</p>
+<p>Adaptation is substantial because the system is Claude-specific: event names, <code>Task</code>, frontmatter, CLI flags, JSON/stream formats and installed global paths all assume Claude Code. Wingman's Codex agents require equivalent adapters with clearly separated profile, identity, conversation, task and execution records. A single profile source should replace divergent JSON and Markdown role definitions. Permissions should be enforced at execution, not inferred from unused profile fields. Durable shared state should choose one coordination contract and explicit project/host namespaces; file claims need expiry/release and stronger integration rules; lifecycle events need idempotency and reliable exit/success classification.</p>
+<p>Wingman still needs these organization capabilities:</p>
+<ul>
+<li>Telegram Butler intake, answers, and escalation.</li>
+<li>Cross-project registry and continuing ProductMaster/TechMaster appointments.</li>
+<li>Shared tickets, dependencies, rooms, membership, and history.</li>
+<li>Project/executive dashboards, agent briefings, timelines, and linked coding workspaces.</li>
+<li>Multi-host placement, routing, and periodic blocker follow-up.</li>
+</ul>
+<p>Product acceptance needs a durable transition tied to the definition of done. It must stop active development until new work arrives. Role names and hooks alone cannot implement these workflows.</p>
+<h2 id="assessment-verification-scope-and-limits">Verification scope and limits</h2>
+<p>The read-only review covered these areas:</p>
+<ul>
+<li>Active settings, hook launcher, Markdown/JSON profiles, process launcher, and system prompt.</li>
+<li>Process/stream monitoring and discovery/build/implementation instructions.</li>
+<li>Session/file-claim SQL, coordination wrappers, and continuity/compaction/cleanup/outcome hooks.</li>
+<li>Status line, artifact schema, memory service, recall, and hints.</li>
+<li>TLDR hooks/client, MCP harness/client, pipeline code/tests, and Lean feedback hooks.</li>
+</ul>
+<p>Documentation located mechanisms. Implementation supported the findings. The review changed no checkout files and started no services, models, databases, containers, or browsers.</p>
+<p>The review inspected these tests without running them:</p>
+<ul>
+<li><a href="repo/.claude/hooks/src/__tests__/session-id-persistence.test.ts">session-id-persistence.test.ts</a>, lines 17–25 and 73–112, imports actual persistence helpers.</li>
+<li><a href="repo/.claude/hooks/src/__tests__/mainHandoffFirst.test.ts">mainHandoffFirst.test.ts</a>, lines 49–64 and 68–100, invokes a compiled hook with temporary fixtures.</li>
+<li><a href="repo/.claude/hooks/src/__tests__/session-affinity.test.ts">session-affinity.test.ts</a>, lines 14–20 and 80–117, contains inline logic and placeholder assertions.</li>
+<li><a href="repo/.claude/hooks/src/__tests__/composition-gate.test.ts">composition-gate.test.ts</a>, lines 58–117, expects Python-backed inference.</li>
+<li><a href="repo/.claude/hooks/src/__tests__/tldr-hooks.test.ts">tldr-hooks.test.ts</a>, lines 40–68, recreates command-generation logic instead of exercising the current daemon hook.</li>
+<li><a href="repo/opc/scripts/test_research_pipeline.py">test_research_pipeline.py</a>, lines 20–59, names pipeline scenarios.</li>
+</ul>
+<p>Coverage is uneven. These sources do not establish passing tests. The configured <code>opc/tests</code> tree and coordination tests are missing locally. See <a href="repo/opc/pyproject.toml">pyproject.toml</a>, lines 124–128 and 161–164.</p>
+<p>Negative-feature searches included hidden files, <code>opc/src</code>, <code>opc/scripts</code>, <code>.claude/hooks/src</code>, <code>.claude/skills</code>, agents, and setup paths. Terms covered Telegram, dashboards, registry/intake, task graphs, scheduling, supervision, hosts, SSH, lifecycle controls, and coordination imports. Examples, backups, transcripts, generated bundles, and proof artifacts did not establish an active product service. The local checkout lacks <code>scripts/agentica_patterns</code> and <code>scripts/validate_composition.py</code>. An external package or prior global installation could supply more behavior. That possibility remains <strong>unclear and unverified</strong> for this revision.</p>
+<p>Keep these verification boundaries separate:</p>
+<ul>
+<li>Present hooks and configured hooks.</li>
+<li>Source files and installed compiled code.</li>
+<li>Prompt instructions and enforced workflow transitions.</li>
+<li>Temporary process identity and enduring agents.</li>
+<li>Remote tools and remote workers.</li>
+<li>Raw logs/checkpoints and connected organizational views.</li>
+</ul></article>
+<section id="source-record"><h2>Source and evidence</h2><p class="url-text">https://github.com/parcadei/Continuous-Claude-v3</p>
+<ul><li><a href="repo/">Open the pinned source checkout</a></li><li><a href="assessment/ASSESSMENT.md">Read the Markdown assessment</a></li>
+<li><a href="../generic/assessments/_audits/qa19.md">Read the historical independent source audit</a></li><li><a href="../generic/method.html">Read the method and evidence limits</a></li></ul></section>
+<nav class="report-switch" aria-label="Adjacent project reports"><a href="../companyhelm/index.html">Previous project: CompanyHelm</a><a href="../crewly/index.html">Next project: Crewly</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../index.html">Return to overview <img src="../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Technical assessment against Wingman’s development organization."><title>OpenRig · Wingman Research</title>
+<link rel="icon" href="../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/report.css"><script defer src="../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../index.html"><img src="../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../index.html">Overview</a><a class="nav-link " href="../generic/index.html">Architecture findings</a><a class="nav-link " href="../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../generic/method.html">Method and evidence</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../index.html">Wingman Research</a><span class="crumb">/</span><span>OpenRig</span></div><span class="topbar-note">SOURCE REVIEW · 05 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>OpenRig</h1><p class="subtitle">Technical assessment against Wingman’s development organization.</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#decision">Decision summary</a><a href="#assessment-openrig-assessment-against-wingman">OpenRig assessment against Wingman</a><a href="#assessment-architecture-and-what-actually-runs">Architecture and what actually runs</a><a href="#assessment-feature-by-feature-assessment">Feature-by-feature assessment</a><a href="#assessment-agent-definition-creation-and-lifecycle">Agent definition, creation and lifecycle</a><a href="#assessment-coordination-traced-through-a-real-implemented-path">Coordination traced through a real implemented path</a><a href="#assessment-major-capabilities-beyond-wingmans-described-scope">Major capabilities beyond Wingman&#x27;s described scope</a><a href="#assessment-distinctive-mechanisms-worth-studying">Distinctive mechanisms worth studying</a><a href="#assessment-what-wingman-could-reuse-and-what-remains">What Wingman could reuse and what remains</a><a href="#assessment-verification-scope-and-limitations">Verification scope and limitations</a><a href="#source-record">Source and evidence</a></div></nav><section id="decision" class="decision"><h2>Decision summary</h2>
+<div class="brief-columns"><div><h3>Useful for Wingman</h3><p>Study durable organizational seats, replaceable conversations, work queues, supervision, and cross-host execution.</p></div><div><h3>Adoption boundary</h3><p>Slack is the shipped human channel. Wingman&#x27;s Telegram intake and full product-leadership process need implementation.</p></div></div>
+<p class="scope-note">Source assessment at the commit below. Runtime limits appear in the technical report.</p></section>
+<dl class="facts"><div><dt>Source group</dt><dd>Standing teams</dd></div><div><dt>Commit</dt><dd><code>fa3262d360fbb8d785acfa9bd8f1b40439325b4f</code></dd></div><div><dt>Coverage</dt><dd>24 Wingman features</dd></div></dl>
+<article id="technical-assessment" class="technical"><h2 id="assessment-openrig-assessment-against-wingman">OpenRig assessment against Wingman</h2>
+<p class="url-text">Repository: https://github.com/mvschwarz/openrig<br/>
+Checkout: <code>researchs/openrig/repo</code><br/>
+Revision inspected: <code>fa3262d360fbb8d785acfa9bd8f1b40439325b4f</code><br/>
+Assessment date: November 5, 2026 (fresh implementation audit)<br/>
+Baseline: <a href="../generic/purpose.html">Wingman purpose</a>. This assessment concerns this local source snapshot, not the current hosted service or the behavior of an installed release.</p>
+<p>OpenRig is a substantial foundation for Wingman's standing organization. It implements separate coding-agent processes, durable organizational seats, extensible team specifications, cross-host execution, persistent work queues, direct messaging, rig chat, supervision policies, project records, review and proof surfaces. These are implementation mechanisms, not simply roles described in a prompt. Its most useful contribution is the separation of <strong>a continuing responsibility and address</strong> from <strong>the replaceable conversation currently doing that work</strong>.</p>
+<p>It is not the complete Wingman experience out of the box. Its shipped person-facing connector is Slack, the factory team has a lead and an advisor rather than Wingman's full portfolio/product/technical hierarchy, and the default factory advisor deliberately does not run the full PM discovery procedure. Its seat pages provide operational facts and recent events. They do not establish Wingman's full plain-language, current/recent/next agent briefing and linked personal summary timeline. A remote agent can participate in shared coordination, but the central UI explicitly refuses to pretend its local terminal stream is a remote terminal.</p>
+<p>The practical fit is therefore <strong>strong orchestration and continuity substrate, with meaningful organizational and experience work remaining</strong>. This is a much closer match to a persistent development organization than a terminal-session launcher alone. That judgment is based on the source mechanisms below. It is not a runtime reliability endorsement.</p>
+<h2 id="assessment-architecture-and-what-actually-runs">Architecture and what actually runs</h2>
+<p>The repository contains daemon, CLI, TUI and React web UI workspaces. The daemon owns a SQLite database and HTTP services. The interfaces consume those services. <a href="repo/packages/daemon/src/db/connection.ts">Database connection</a>, lines 1–15, enables WAL and foreign keys. <a href="repo/packages/daemon/src/server.ts">Server composition</a>, lines 849–905, mounts separate seat, chat, stream, queue, projects, workflow, terminal, review, proof, steering, health and gateway routes. <a href="repo/packages/daemon/src/startup.ts">Startup composition</a>, notably lines 387, 502–532, 1601–1615 and 2299–2467, constructs persistent coordination stores, classification, stream intake and watchdog services. This is a control plane around existing coding harnesses. It does not replace their model/tool loops.</p>
+<p>The concrete entry path is <code>rig up</code> → daemon launch/status check → <code>POST /api/up</code> → RigSpec resolution/materialization → startup orchestrator → runtime adapter → native CLI in its execution binding. The <a href="repo/packages/cli/src/commands/up.ts">CLI up command</a>, lines 270, 326 and 560 onward, has separate remote HTTP, start-daemon and local API branches. The <a href="repo/packages/daemon/src/index.ts">daemon entry</a>, lines 321–365, calls <code>createDaemon</code>, starts Hono listeners and only after listening starts context monitoring, wake recovery, watchdogs and network gateway services. Closing a dashboard is therefore not the execution lifecycle boundary. SQLite stores control-plane truth; native harness history, projected instructions/skills and authored project artifacts remain separate persistence domains. A database backup alone is not proof of complete conversation or source-workspace recovery.</p>
+<p>Its principal objects have materially different meanings:</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Object</th>
+<th scope="col">Actual meaning and significance for Wingman</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AgentSpec</td>
+<td>A reusable definition: defaults, profiles, imported resources, guidance, skills/plugins, startup and lifecycle settings. It is not itself a running agent.</td>
+</tr>
+<tr>
+<td>RigSpec / rig</td>
+<td>A declared and persisted team topology. Pods group bounded responsibilities; members and edges declare seats and relationships. Multiple rigs can coexist.</td>
+</tr>
+<tr>
+<td>Node / seat</td>
+<td>A durable responsibility/address with role, runtime, model, cwd, profile, restore policy and occupant lineage. This is closest to Wingman's continuing agent identity.</td>
+</tr>
+<tr>
+<td>Session</td>
+<td>A concrete harness conversation occupying a node: native resume token, status, startup state and binding. It can be replaced while the seat remains.</td>
+</tr>
+<tr>
+<td>Binding</td>
+<td>The execution attachment, commonly a tmux session/window/pane; externally attached CLI sessions are represented separately.</td>
+</tr>
+<tr>
+<td>Queue item</td>
+<td>A durable assignment, question, handoff or decision with owner/destination, status, lineage, blocker, evidence reference and wake/delivery information.</td>
+</tr>
+<tr>
+<td>Project / mission / slice</td>
+<td>Filesystem-authored product/work hierarchy, with lifecycle, workflow, scope, acceptance and proof views. A rig is not automatically identical to a product.</td>
+</tr>
+</tbody>
+</table></div>
+<p>The first five distinctions are visible directly in <a href="repo/packages/daemon/src/domain/types.ts">domain types</a>, lines 3–131, and the parsing/resolution is implemented by <a href="repo/packages/daemon/src/domain/agent-manifest.ts">agent manifest</a>, <a href="repo/packages/daemon/src/domain/profile-resolver.ts">profile resolver</a>, and <a href="repo/packages/daemon/src/domain/rigspec-instantiator.ts">rig instantiator</a>, particularly <code>PodRigInstantiator</code> at line 506.</p>
+<p>The shipped <a href="repo/packages/daemon/specs/rigs/launch/factory/rig.yaml">factory topology</a>, lines 1–102, demonstrates that the roles correspond to independent members. It has a Codex lead; Claude PM advisor, builder and designer; Codex QA; and two reviewers, one Claude and one Codex. Edges express delegation, collaboration and observation. Both reviewers use the same reusable reviewer definition but are separate instances. This is a concrete model for several BackendCoders or TestMasters sharing a profile without sharing a conversation.</p>
+<h2 id="assessment-feature-by-feature-assessment">Feature-by-feature assessment</h2>
+<p>Exact means the capability exists within the stated boundary. Similar means substantial behavior exists with an organizational or interface difference. Resembles means a useful primitive falls short of the full outcome. Absent means the inspected implementation does not supply it. An exact primitive does not imply the whole Wingman workflow is assembled.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Wingman feature</th>
+<th scope="col">Verdict</th>
+<th scope="col">Implementation evidence and concrete difference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F01</td>
+<td>Independent coding agents and specialist instances</td>
+<td><strong>Exact</strong></td>
+<td><a href="repo/packages/daemon/specs/rigs/launch/factory/rig.yaml">Factory members</a>, lines 8–81, instantiate separate lead/build/QA/design/reviewer seats. <a href="repo/packages/daemon/src/adapters/codex-runtime-adapter.ts">Codex launch</a>, lines 884–987, starts native harness conversations. The shipped team is mixed-provider. An all-Codex organization would require authored topology/settings.</td>
+</tr>
+<tr>
+<td>F02</td>
+<td>Extensible roles, profiles and teams</td>
+<td><strong>Exact</strong></td>
+<td><a href="repo/packages/daemon/src/domain/profile-resolver.ts">Profile resolution</a>, line 152 onward, resolves reusable definitions/resources. <a href="repo/packages/daemon/src/domain/rigspec-instantiator.ts">Add-member implementation</a>, line 1102 onward, supports adding actual members. Definitions and instances are distinct.</td>
+</tr>
+<tr>
+<td>F03</td>
+<td>Directory and working relationships</td>
+<td><strong>Exact</strong></td>
+<td><a href="repo/packages/daemon/src/domain/node-inventory.ts">Node details</a>, lines 1060–1137, expose events, peers and edges; <a href="repo/packages/daemon/src/domain/rosters.ts">rosters</a>, lines 19–107, add capabilities, engagement and host references. Factory lead guidance includes publishing the team roster. This is a topology/capability directory, not a named Wingman org chart.</td>
+</tr>
+<tr>
+<td>F04</td>
+<td>Telegram and Butler routing</td>
+<td><strong>Similar</strong></td>
+<td>The substantial conversational equivalent is Slack: <a href="repo/packages/daemon/src/domain/gateway/slack/inbound.ts">inbound connector</a>, lines 169–208, admits registered senders and routes to an operator or exact human gate. <a href="repo/packages/daemon/src/domain/gateway/human-registry.ts">Human registry</a>, lines 27 and 194–217, currently accepts only the Slack connector kind. <a href="repo/packages/daemon/test/gateway-human-registry.test.ts">Registry test</a>, lines 48–50, explicitly rejects <code>telegram</code>. A generic outbound webhook is not an implemented Telegram conversation connector; Butler's Telegram channel must be built.</td>
+</tr>
+<tr>
+<td>F05</td>
+<td>Cross-project registry and new/existing intake</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/packages/daemon/src/domain/workspace/project-catalog.ts">Project catalog</a>, lines 15–137, validates a registry, selects by explicit ID, rig association, containing cwd or unique unclaimed entry, and refuses ambiguity. <a href="repo/packages/daemon/src/routes/projects.ts">Project classification routes</a>, lines 141–365, provide leased classification/projection. These are substantial context/routing mechanics. They are not proof that an arbitrary product request creates the correct leadership autonomously.</td>
+</tr>
+<tr>
+<td>F06</td>
+<td>ProductMaster and TechMaster per project</td>
+<td><strong>Similar</strong></td>
+<td>Factory has a lead, PM advisor and specialists. <a href="repo/packages/daemon/specs/rigs/launch/factory/guidance/advisor-role.md">Factory advisor guidance</a>, lines 1–10, separates intent shaping from lead execution, but explicitly excludes its full PM flow. Separate <a href="repo/packages/daemon/specs/agents/product-management/pm/agent.yaml">PM definition</a>, lines 1–55, carries the richer procedure. Wingman's product/technical leadership pair and portfolio supervisor need authoring.</td>
+</tr>
+<tr>
+<td>F07</td>
+<td>Proportionate research and iterative clarification</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/packages/daemon/specs/agents/product-management/pm/guidance/role.md">PM role</a>, lines 7–37, defines validation, context-building, requirements and review; factory lead guidance asks the question that changes action. <a href="repo/packages/daemon/src/domain/queue-repository.ts">Human decision structures</a>, lines 182–201 and imports at 41–42, support structured questions/answers. Research quality and proportionality remain agent-procedure behavior, not a deterministic discovery engine.</td>
+</tr>
+<tr>
+<td>F08</td>
+<td>Scope, specs, acceptance and definition of done</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/packages/daemon/specs/agents/product-management/pm/guidance/role.md">PM role</a>, lines 15–56, assigns <code>SPEC.md</code> authority and supporting artifacts. <a href="repo/packages/daemon/src/domain/proof/judgments.ts">Proof judgments</a>, lines 13–40 and 128 onward, bind readiness to requirements/evidence. <a href="repo/packages/daemon/src/domain/scope/scope-approve.ts">Scope approval</a>, lines 29–99, separates specification and delivery approval. Strong equivalents, but no automatic guarantee all product-level scenarios exist.</td>
+</tr>
+<tr>
+<td>F09</td>
+<td>Decomposition, assignments and shared tracker</td>
+<td><strong>Exact</strong></td>
+<td><a href="repo/packages/daemon/src/domain/queue-repository.ts">Queue states and records</a>, lines 53–99 and 201 onward, include work status, ownership, blockers and lineage. <a href="repo/packages/daemon/src/domain/project-lifecycle-compiler.ts">Project lifecycle compilation</a>, lines 56–180, creates dependency-aware workflows from project/mission/slice records. Agents still perform semantic decomposition.</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>Portfolio/project management dashboard</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/packages/ui/src/components/project/ScopePages.tsx">Project scope pages</a>, lines 39–129, connect portfolio, missions/slices, progress, artifacts, proof, queue, workflow and review. This is a real management surface, beyond a terminal grid; product goals/health depend on the authored workspace and maintained records.</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>Chat rooms and direct agent collaboration</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/packages/daemon/src/routes/chat.ts">Rig chat routes</a>, lines 28–193, persist sender-attributed messages and topic markers, expose history and SSE, and <a href="repo/packages/ui/src/components/RigChatPanel.tsx">RigChatPanel</a> presents them. Direct seat transport and queue handoff also exist. A rig-scoped chat/topic model is not the complete configurable Room1/Room2 structure; posting chat is not inherently assigning or waking a worker.</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>Escalation and human decisions</td>
+<td><strong>Exact</strong></td>
+<td><a href="repo/packages/daemon/src/domain/hot-potato-enforcer.ts">Closure contract</a>, lines 1–115, includes explicit escalation target and prevents silently closing active blocked work. <a href="repo/packages/daemon/src/domain/queue-repository.ts">Queue human gates</a>, lines 89–101, distinguish live decisions from updates. Slack inbound validates the intended answerer and stale decision state. The management ladder is configurable rather than Wingman's named ladder.</td>
+</tr>
+<tr>
+<td>F13</td>
+<td>Durable knowledge and reusable directives</td>
+<td><strong>Exact</strong></td>
+<td>Agent guidance/resources plus filesystem project/mission/slice specifications are durable inputs. <a href="repo/packages/daemon/src/domain/workspace/project-catalog.ts">Workspace catalog</a>, lines 15–38, anchors roots; <a href="repo/packages/daemon/src/domain/project-lifecycle-compiler.ts">lifecycle compiler</a>, lines 70–118, reads project/mission/context references. Wingman's exact <code>DIRECTIVES/SCOPES/SPECS/HARNESS</code> convention needs mapping.</td>
+</tr>
+<tr>
+<td>F14</td>
+<td>Identity, conversation and work continuity</td>
+<td><strong>Exact</strong></td>
+<td><a href="repo/packages/daemon/src/domain/types.ts">Node/session types</a>, lines 30–131, preserve separate durable identity, current conversation and native resume information. <a href="repo/packages/daemon/src/domain/restore-orchestrator.ts">Restore orchestrator</a>, lines 178–196 and 340 onward, attempts policy-governed continuity. Exact resume, rebuild and fresh replacement are distinguished; continuity can fail and require attention.</td>
+</tr>
+<tr>
+<td>F15</td>
+<td>Supervision and periodic blocker follow-up</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/packages/daemon/src/domain/watchdog-scheduler.ts">Watchdog scheduler</a>, lines 5–32 and 60–130, polls persistent due jobs without overlapping ticks. <a href="repo/packages/daemon/src/domain/watchdog-policy-engine.ts">Policy engine</a>, lines 17–40 and 134–180, evaluates policies, throttles wakes and checks generation/custody. This supplies reliable triggers. A ProjectMaster's judgment about progress must be implemented in the target agent's procedure.</td>
+</tr>
+<tr>
+<td>F16</td>
+<td>Parallel products and specialists</td>
+<td><strong>Exact</strong></td>
+<td>Multiple rigs, pods and independent native sessions coexist. The <a href="repo/packages/daemon/specs/rigs/launch/factory/rig.yaml">factory topology</a>, lines 8–73, demonstrates separate specialist capacity; <a href="repo/packages/daemon/src/domain/workspace/project-catalog.ts">project catalog</a>, lines 15–36 and 94–128, keeps multiple product roots distinct. This does not itself solve simultaneous edits to shared source files or prove throughput at a particular team size.</td>
+</tr>
+<tr>
+<td>F17</td>
+<td>Actual multi-host execution and coordination</td>
+<td><strong>Exact</strong></td>
+<td><a href="repo/packages/daemon/src/domain/topology/remote-up-leaf.ts">Remote topology launch</a>, lines 43–67, invokes a remote daemon's <code>/api/up</code>. <a href="repo/packages/daemon/src/routes/queue.ts">Queue create forwarding</a>, lines 594–617, sends durable work to the destination host without fabricating a local record. Hosts own their records. This is federation, not a shared database or transparent live migration.</td>
+</tr>
+<tr>
+<td>F18</td>
+<td>Current/recent/next/blocker executive briefing</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/packages/ui/src/components/SeatOverviewTable.tsx">Seat overview</a>, lines 89–151, presents runtime, model, profile, activity and usage; <a href="repo/packages/ui/src/components/SeatOverviewSecondary.tsx">secondary overview</a>, lines 30–61, shows current queue work. <a href="repo/packages/daemon/src/domain/current-work.ts">Work candidates</a>, lines 361–403, also expose pending next candidates and blocked held work, deliberately without choosing their order. Those primitives and attention/feed visibility do not establish a maintained per-agent completed/current/planned-next product briefing.</td>
+</tr>
+<tr>
+<td>F19</td>
+<td>Linked personal summary timeline</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/packages/ui/src/components/LiveNodeDetails.tsx">Recent events</a>, line 344 onward, and <a href="repo/packages/ui/src/components/for-you/Feed.tsx">For You feed</a>, lines 15–71, expose operational events, approvals, progress and shipping. The project Story graph traces queue lineage. These are useful histories. They do not constitute every agent's curated, plain-language accomplishment/next-work timeline.</td>
+</tr>
+<tr>
+<td>F20</td>
+<td>Detailed individual coding workspace</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/packages/ui/src/components/LiveNodeDetails.tsx">Live node details</a>, lines 454–535 and 610 onward, combine seat context, live terminal, events, spec/startup details and transcript location. This is substantial drill-down, but not a fully structured Codex-style tool/edit/artifact conversation viewer; lines 499–511 explicitly gate remote terminals.</td>
+</tr>
+<tr>
+<td>F21</td>
+<td>Live activity, lifecycle and steering</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/packages/daemon/src/domain/seat-lifecycle-service.ts">Seat lifecycle</a>, lines 390–1005 and 1069–1835, implements model/cwd/effort/permissions/policy, stop, cleanup, continue, fresh launch and restart. Fork/resume and handover are separate mechanisms. <a href="repo/packages/daemon/src/routes/steering.ts">Steering route</a> exposes work steering. Wingman's complete set of goal/budget/archive/rename/attachment controls is not established as one per-agent experience.</td>
+</tr>
+<tr>
+<td>F22</td>
+<td>Testing, verification and accepted delivery</td>
+<td><strong>Similar</strong></td>
+<td>Factory has real QA and independent reviewer seats. <a href="repo/packages/daemon/src/domain/proof/judgments.ts">Proof judgments</a>, lines 13–40, attach accept/reject/withdraw decisions and evidence revisions; <a href="repo/packages/daemon/src/domain/scope/scope-approve.ts">scope approval</a>, lines 1–19, deliberately says approval does not compute proven-green. This strongly supports accountable delivery, but agents still select and perform the product's actual tests.</td>
+</tr>
+<tr>
+<td>F23</td>
+<td>Autonomous organization under human direction</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/packages/daemon/specs/rigs/launch/factory/guidance/lead-first-move.md">Factory lead first move</a>, lines 1–35, has the lead claim the person's goal, create/reuse mission/slice records, coordinate and require review. Queue, gateway and watchdogs keep work independent of a viewing terminal. The complete named Wingman organization and acceptance-then-idle policy need configuration.</td>
+</tr>
+<tr>
+<td>F24</td>
+<td>New profiles participate in all connected views</td>
+<td><strong>Similar</strong></td>
+<td>Generic member/profile resolution, node inventory, chat sender strings and queue destinations avoid a hardcoded fixed specialist list. <a href="repo/packages/daemon/src/domain/rigspec-instantiator.ts">Rig expansion</a>, line 1102 onward, adds members. Roster publication and product workflow responsibilities still require upkeep; newly adding a profile does not automatically invent its executive summaries or escalation policy.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="assessment-agent-definition-creation-and-lifecycle">Agent definition, creation and lifecycle</h2>
+<h3 id="assessment-definition-and-identity">Definition and identity</h3>
+<p>An authored AgentSpec is a reusable recipe. The PM <a href="repo/packages/daemon/specs/agents/product-management/pm/agent.yaml">agent definition</a> is particularly informative: it imports shared resources; its default profile selects office-hours, context-builder, requirements-writer, mockup, review, summary and backlog skills; its advisor profile instead selects orchestration-team. Both profiles share role guidance but have different capabilities. Merely recognizing the role name "PM" would overstate behavior: the factory explicitly uses the lighter advisor variant and tells it not to execute the eight-step procedure.</p>
+<p>The RigSpec chooses a member's <code>agent_ref</code>, runtime, profile, cwd and startup overlays. Resolution combines reusable defaults and more specific member choices. <a href="repo/packages/daemon/src/domain/profile-resolver.ts">Profile resolver</a>, lines 580–667, separately handles compaction strategy, continuity mechanic and restore-policy narrowing. Compaction modes use most-specific precedence; restore policy has a narrowing constraint. Wingman could define ProductMaster and TechMaster once and instantiate each under several project rigs without conflating their identities.</p>
+<p>A durable node has its own database ID and logical identity. A session has a separate ID, native token and runtime attachment. Occupant-generation information lets the system distinguish today's conversation from a predecessor using the same organizational address. Edges, queue assignments and the continuing seat survive operations that replace the conversation. This is stronger than persisting a terminal title, but it is not preservation of a model's entire private state: native resumption depends on the underlying harness history, while reconstruction depends on durable artifacts and recaps.</p>
+<p>For a concrete instance, the factory member <code>dev.qa</code> selects the QA AgentSpec, default profile, Codex runtime and working directory <code>.</code>. Its organizational address is <code>dev-qa@factory</code>: <a href="repo/packages/daemon/src/domain/session-name.ts">canonical name derivation</a>, lines 1–18, combines pod, member and rig. A second QA member needs a distinct member ID and gets a separate node, native conversation and generation. It need not copy the QA definition. <a href="repo/packages/daemon/src/domain/rigspec-instantiator.ts">Member addition</a>, lines 1090–1155, explicitly mints new identity, reuses validation/preflight and retains duplicate-ID checks. Creating a role file, materializing a node and launching its conversation are three different operations.</p>
+<h3 id="assessment-materialization-and-launch">Materialization and launch</h3>
+<p><a href="repo/packages/daemon/src/domain/rigspec-instantiator.ts">PodRigInstantiator</a>, lines 506 onward, separates materialization, structured validation, first-node launch, launching materialized topology, adding a member, retrying first start and ordinary instantiation. Materializing a seat does not mean a harness is already running. This distinction allows topology and work ownership to remain visible even while execution is stopped or awaiting a startup decision.</p>
+<p><a href="repo/packages/daemon/src/domain/startup-orchestrator.ts">StartupOrchestrator</a>, lines 344–530, acquires lifecycle custody, reconciles contained environments when applicable, applies saved permission choices, resolves rig settings and seat storage, marks startup pending, projects runtime resources and partitions startup input. Guidance and skill files are delivered before the native harness starts; conversational startup text is delivered after it is ready. The remaining orchestration persists replay context, launches through the adapter, records native identity, waits for readiness and submits startup actions. Projection failure is returned as failure rather than being called a successful agent launch.</p>
+<p>The Codex <a href="repo/packages/daemon/src/adapters/codex-runtime-adapter.ts">runtime adapter</a>, lines 884–987, explicitly separates fresh, resume and fork. A fork launches a native child and captures that child's identity. It does not store the parent's thread ID as though it belonged to the new worker. Fresh startup can stop at trust/authentication/native prompts. <code>continueStartup</code> in <a href="repo/packages/daemon/src/domain/seat-lifecycle-service.ts">seat lifecycle</a>, line 1247 onward, exists to deliver pending context to that same conversation after attention is resolved, rather than launching a duplicate agent.</p>
+<h3 id="assessment-tools-and-permissions">Tools and permissions</h3>
+<p>OpenRig provisions capabilities into the native harness: guidance, skills, plugins, runtime configuration and activity hooks. The harness remains the executor of file edits, shell commands, browser tools and other model actions. OpenRig does not make a YAML role a security boundary. <a href="repo/packages/daemon/src/domain/startup-orchestrator.ts">Startup</a>, lines 363–403, applies native permissions and seat-specific storage; <a href="repo/packages/daemon/src/domain/seat-lifecycle-service.ts">seat lifecycle permissions</a>, lines 825–1005, manage explicit choices and policy references. The launch adapter computes actual native command arguments.</p>
+<p>The repository distinguishes ordinary team defaults, explicit member choices, named Codex profiles and non-interruptive/bypass settings. Wingman should reuse that explicit native-policy plumbing rather than treating its management hierarchy as authorization. Changing a saved permission choice is also not evidence that an already running native process changed its effective sandbox. The types and events distinguish future-launch effects from observed execution.</p>
+<p>Resource selection is more than prompt concatenation. <a href="repo/packages/daemon/src/domain/profile-resolver.ts">Profile resolution</a>, lines 152–192 and 236–340, resolves runtime/model/cwd before runtime-specific skill lookup, composes system/topology/project selections and detects conflicting skill identity/content. Dirty catalog skills are omitted with a named warning while selected bundle content can retain precedence. Two specialists can have different capabilities in one project. Wingman must preserve capability provenance. Authored skill selection, successful projection and native harness loading are separate outcomes.</p>
+<h3 id="assessment-routing-concurrency-and-work-pickup">Routing, concurrency and work pickup</h3>
+<p>Agents address seats, not anonymous model calls. Rig/pod/member identities, host references, rosters and edges provide organization discovery. Queue entries direct work to a destination; claim and generation records represent pickup. Direct transport handles conversational input. Rig chat persists discussion, but assigning a queue task is a separate action. The <a href="repo/packages/daemon/src/routes/chat.ts">chat send route</a>, lines 28–61, stores a message and emits an event. It does not create a task as a side effect.</p>
+<p>Native harness processes can execute concurrently across members and rigs. The daemon serializes particular lifecycle/delivery operations using a guard, and the watchdog intentionally runs one tick at a time. Neither fact imposes a global single-agent execution loop. Conversely, declaring independent seats does not give them independent Git worktrees automatically in every topology: the shipped factory points its members at <code>.</code>. Wingman still needs an explicit shared-file/worktree policy for simultaneous backend/frontend/test changes.</p>
+<h3 id="assessment-persistence-resumption-and-replacement">Persistence, resumption and replacement</h3>
+<p>The persistence story spans SQLite node/session/work/event records, authored project files, native harness histories and optional transcript/capture facilities. <a href="repo/packages/daemon/src/domain/restore-orchestrator.ts">Restore orchestration</a>, lines 178–196 and 340 onward, predicts and performs policy-dependent restore. It can resume, start fresh under allowed conditions, hold a seat pending a decision, or report failure/attention. A running process is weaker evidence than a joined native resume identity. The native adapter performs additional verification. The selected-history path rechecks that a historical row still belongs to the intended seat before dispatch.</p>
+<p><a href="repo/packages/daemon/src/domain/seat-handover-service.ts">Seat handover</a>, line 312 onward, supports replacing the occupant, including rebuild and fork cases; <code>buildRestorePacket</code> at line 1481 assembles predecessor context. This preserves responsibility and work routing while acknowledging a conversation boundary. A restored/forked/rebuilt agent is not necessarily the same conversation, and the implementation makes those outcomes distinguishable.</p>
+<p>The more ambitious <a href="repo/packages/daemon/src/domain/seat-runtime-switch-service.ts">runtime switch service</a>, lines 40–49 and 139 onward, starts a successor beside the predecessor, waits for the successor's handover confirmation, then commits settings and transfers queue claims before retiring the predecessor. Its durable switch record supports recovery of partial transitions. This can replace a Claude occupant with a Codex occupant without abandoning the organizational seat, but does not translate the entire native conversation losslessly between providers.</p>
+<p>The switch's costs are explicit in that same <a href="repo/packages/daemon/src/domain/seat-runtime-switch-service.ts">service</a>, lines 146–154 and 254–267: Codex/Claude Code only, one window/pane, a temporary second native process, changed scrollback and no native history conversion. Imported YAML is not rewritten; later convergence can report a deferred runtime change. Direct messages held during the switch need deliberate follow-up rather than an assumed replay. The <a href="repo/packages/daemon/src/domain/seat-runtime-switch-service.ts">commit/finish path</a>, lines 550–628, moves generation-bound claims and snapshots the new runtime transactionally, then separately retires the predecessor and delivers activation. A committed switch may still carry <code>recoveryPending</code> if those external effects cannot be confirmed. Successor confirmation establishes a protocol acknowledgment, not independent proof that the successor understood every product decision.</p>
+<h3 id="assessment-scheduling-failure-interruption-and-retirement">Scheduling, failure, interruption and retirement</h3>
+<p><a href="repo/packages/daemon/src/domain/watchdog-scheduler.ts">WatchdogScheduler</a>, lines 5–32, persists schedule state in SQLite, uses due-time evaluation, avoids overlapping ticks and awaits in-flight evaluation on shutdown. <a href="repo/packages/daemon/src/domain/watchdog-policy-engine.ts">WatchdogPolicyEngine</a>, lines 17–40 and 134–180, supplies skip/send/terminal outcomes, active-wake throttling, optional generation checks and queue-wait integration. This gives Wingman's ProjectMaster a place to schedule supervision. It does not itself decide whether the LOS project's implementation strategy is sound.</p>
+<p>Failure is represented at several levels: startup failure, attention at a native prompt, hard delivery failure, ambiguous send, stale occupant generation, blocked queue work and incomplete restore. These distinctions matter because retrying an unobserved delivery can duplicate an action, whereas declaring an unanswered human decision complete can lose work. Queue wake intent and delivery status are stored separately from the task's closure. Tests explicitly exercise indeterminate transport outcomes, not only happy-path sends.</p>
+<p>Retries are deliberately bounded by the domain, not a universal promise that every failure retries forever. <a href="repo/packages/daemon/src/domain/queue-repository.ts">Nudge failure classification</a>, lines 148–174, distinguishes unresolvable topology, positively matched transient errors and unknown errors; that classifier is read-side labeling. <a href="repo/packages/daemon/src/domain/queue-repository.ts">Wake draining</a>, lines 1398 onward, treats existing claims, known success and manual holds differently from failed/uncertain attempts. <a href="repo/packages/daemon/src/domain/restore-orchestrator.ts">Restore preflight</a>, lines 410–446, refuses possibly live conflicting sessions and uses per-rig restore custody. A missing required startup file may hold just its seat while other seats restore. These are useful recovery mechanisms, but stale addresses, missing native histories and unresolved login prompts still require correction.</p>
+<p><a href="repo/packages/daemon/src/domain/seat-lifecycle-service.ts">Seat lifecycle</a>, lines 1069–1247, implements stop/cleanup/continue; later sections implement fresh launch and in-place restart. Stop ends an execution; cleanup clears settled attachment state. Neither should be confused with accepted product completion. <a href="repo/packages/daemon/src/domain/rig-teardown.ts">Rig teardown</a>, lines 104–275, refreshes resume metadata and takes a best-effort pre-down snapshot, then confirms termination before cleaning individual nodes. Snapshot failure is reported but does not necessarily prevent stopping. Externally attached CLI seats are left running because OpenRig did not launch them. Delete can be refused when owned sessions could not be killed. This is careful resource ownership rather than a blanket kill-and-forget operation.</p>
+<p>Cancellation has two scopes. Queue records support <code>canceled</code> (<a href="repo/packages/daemon/src/domain/queue-repository.ts">queue states</a>, lines 53–83), whereas stopping a seat controls its native execution. A canceled assignment is not by itself evidence that a process or shell child has stopped. Conversely, <a href="repo/packages/daemon/src/domain/seat-lifecycle-service.ts">stop/clean checks</a>, lines 1088–1094 and 1173–1207, refuse adopted sessions and require positive absence before clearing state. Wingman should expose task withdrawal and execution termination separately and reconcile work ownership after interruptions.</p>
+<p>Product completion is a separate domain: queue closure requires a reason, proof readiness derives from judgments, and delivery approval has its own audit record. Wingman must still define when accepted work stops future development/testing and when a new human request reactivates it; keeping a rig alive is not the same as having ongoing authorized product work.</p>
+<h2 id="assessment-coordination-traced-through-a-real-implemented-path">Coordination traced through a real implemented path</h2>
+<p>Consider a human asking the shipped factory for one useful product change. This trace joins actual handlers and shipped instructions. It was inspected, not executed.</p>
+<ol>
+<li><strong>Intake:</strong> The Slack connector turns a registered human message into durable queue work directed to its mapped seat or configured kernel operator. <a href="repo/packages/daemon/src/domain/gateway/slack/inbound.ts">Slack inbound execution</a>, lines 357–476, resolves the thread route, creates a stable-ID queue item with the human's canonical source, records reply correlation and only marks the event seen after the durable row exists. Top-level messages can mint thread roots. Recovered thread replies and shared-channel correspondence do not automatically answer existing decisions; typed human answers can resume their exact gate. The instruction at lines 365–368 explicitly separates a decision closing from approval of its proposed action.</li>
+<li><strong>Organize:</strong> The operator hands the goal to the project team. <a href="repo/packages/daemon/specs/rigs/launch/factory/guidance/lead-first-move.md">Factory lead first move</a>, lines 1–35, tells the lead to inspect/claim that row, reuse an existing mission where appropriate, otherwise create a mission and first slice, then plan and route work. This is agent procedure on top of an implemented queue and scope API, not a parser guaranteed to make correct product judgments.</li>
+<li><strong>Assign and claim:</strong> <code>POST /api/queue/create</code> in <a href="repo/packages/daemon/src/routes/queue.ts">queue routes</a>, lines 540–641, resolves sender identity, validates destination/body and repository scope, creates the row and may nudge the destination. The row exists independently of whether the worker immediately receives usable terminal input. The worker claims through the next route; <a href="repo/packages/daemon/src/domain/queue-repository.ts">repository claim</a>, lines 2799–2868, checks that the claimant matches the destination and the row is claimable, then transactionally marks it in progress, stamps the occupant generation and records a transition. Reading a notification or chat message is not that ownership act.</li>
+<li><strong>Execute remotely if placed there:</strong> When <code>hostId</code> resolves remotely, the forwarding side uses the supplied <code>qitemId</code> or mints one before sending, then drops the forwarding host field. It forwards the full assignment to the remote daemon and stores no pretend local task. The destination daemon owns the row and wakes its own local harness. The retry boundary matters: <a href="repo/packages/daemon/src/routes/queue.ts">queue route</a>, lines 593–607, mints a new ID on each new API request that omits <code>qitemId</code>; repeated raw POSTs are not automatically one operation. The <a href="repo/packages/cli/src/commands/queue.ts">CLI create command</a>, lines 947 and 1094–1114, allocates/prints the ID before dispatch, accepts <code>--id</code> and instructs the caller to reuse it with unchanged inputs after an unknown outcome. That ID is a request identity, not proof of persistence. <a href="repo/packages/daemon/src/domain/hosts/remote-daemon-http.ts">Remote transport</a>, lines 113–198, bounds the request and response-body wait and reports structured uncertainty/errors. This fits Mac coordination plus Endeavour execution, provided both daemons, paths and credentials are configured and callers preserve retry identity.</li>
+<li><strong>Collaborate:</strong> Workers can discuss in rig chat and use direct seat transport. Chat history retains attribution/topics. Durable assignments and questions remain queue items, so an informal discussion is not the only record of who owes the next action.</li>
+<li><strong>Hand off:</strong> A worker hands implementation to QA/review through <a href="repo/packages/daemon/src/domain/queue-repository.ts">repository handoff</a>, lines 2250–2290 and 2353–2424: it rejects an already-terminal source, validates the new destination, inherits or replaces work context, records successor lineage, propagates blocker completion and persists events. It normally stages a wake intent in that same transaction and checks it before commit. Delivery is attempted after commit. A crash between commit and delivery therefore need not erase the successor's wake obligation. There are explicit boundaries: <code>nudge:false</code> requests no wake, and <a href="repo/packages/daemon/src/domain/queue-repository.ts">wake staging/guard</a>, lines 1274–1279 and 1388–1390, permit the successor to stand with a recorded <code>failed:wake not retained</code> when a held-message quota is full. Ownership persists, but automatic pickup is not guaranteed in that case.</li>
+<li><strong>Wait or escalate:</strong> A worker can park work against another item or a human gate. <a href="repo/packages/daemon/src/domain/hot-potato-enforcer.ts">Closure validation</a>, lines 63–115, refuses <code>done</code> with <code>blocked_on</code> and requires a target for handoff/escalation. Watchdog policies re-present actionable waits. Human replies are recorded against the appropriate ask and episode rather than being indistinguishable generic chat.</li>
+<li><strong>Verify and accept:</strong> QA and independent reviewers produce evidence; <a href="repo/packages/daemon/src/domain/proof/judgments.ts">proof judgments</a> evaluate recorded requirement/evidence revisions. <a href="repo/packages/daemon/src/domain/scope/scope-approve.ts">Scope approval</a>, lines 29–99, records specification or delivery acceptance with real actor/delegation metadata. Approval is explicitly separate from test proof. The lead closes the original goal with the result.</li>
+</ol>
+<p>This is both <strong>chat coordination</strong> and <strong>ticket coordination</strong>, with ticket/wake custody carrying the stronger reliability contract. Wingman could keep Room1/Room2 discussions readable while adopting the queue as the durable record of responsibility. It should not assume that observing a discussion means its assignment has been claimed, that a nudge proves pickup, or that a completed task proves accepted product delivery.</p>
+<h2 id="assessment-major-capabilities-beyond-wingmans-described-scope">Major capabilities beyond Wingman's described scope</h2>
+<p><strong>Provider-neutral organizational continuity and live runtime replacement.</strong> Wingman describes Codex agents on two hosts. OpenRig explicitly makes a seat independent of Claude/Codex occupant choice, supports additional runtime adapters, and can perform a successor-first runtime switch. That is a product-level capability: move responsibility to another harness/provider while preserving addresses, relationships and claims. Integration requires Wingman to distinguish seat, generation and native conversation in its directory/UI; one <code>agent_id</code> standing for all three would lose the benefit.</p>
+<p><strong>Auditable delivery and evidence judgments.</strong> Wingman requires acceptance scenarios and delivery; OpenRig adds a concrete revision-sensitive proof/judgment system, staged specification versus delivery approval, and review composition. <a href="repo/packages/daemon/src/domain/proof/judgments.ts">Proof types</a>, lines 13–40, include policy revision, item revision, previous judgment, actor/provenance, evidence hashes and subject kind. This lets an approval of one candidate remain distinguishable from approval of later changed work. Wingman would need to adopt the artifact conventions and establish who may judge which obligation; simply writing <code>done: true</code> would bypass the mechanism.</p>
+<p><strong>Reusable organization packages and runtime resource projection.</strong> The <a href="repo/packages/daemon/src/domain/package-install-service.ts">package install service</a>, lines 35–115, composes planning, conflict detection, policy, name/version/hash checking, apply and verification; profile/startup projection then delivers selected capabilities. Wingman could ship a versioned organization recipe with its Butler/ProductMaster/TechMaster profiles. The <a href="repo/packages/daemon/src/domain/skill-catalog.ts">skill catalog</a>, lines 20–85 and 101–120, records source revision, digests, per-file hashes, selection source and projection status, including shadowed/stale/conflicting states. This supports inspectable capability distribution across teams and seat-specific storage. It introduces configuration provenance, compatibility and workspace-write ownership concerns; imported team configuration should not be treated as only inert prose. A verified file installation remains different from a verified model behavior.</p>
+<p><strong>Managed execution environments and service lifecycle.</strong> <a href="repo/packages/daemon/src/domain/environment-lifecycle.ts">Environment lifecycle</a>, lines 8–25 and 84–172, distinguishes closing a viewer, stopping native execution, stopping compute and deleting owned resources; later methods support checkpoints/recreate. Rig teardown also coordinates associated services. This goes beyond Wingman's stated host placement into managing the execution environment itself. Generation/resource guards and operation receipts protect against killing a replacement or mistaking an unconfirmed external effect for completed cleanup. The concrete checkpoint/native type in this path is <code>community:openshell-claude</code> (lines 20–23 and 78–81). It is not evidence of a universally portable Codex VM snapshot facility. Wingman would need to choose and exercise a driver before relying on reproducible test environments or account-independent recovery.</p>
+<p><strong>Human attention and decision operations as a separate product surface.</strong> The <a href="repo/packages/ui/src/components/for-you/Feed.tsx">For You feed</a>, lines 15–104, merges attention, queue-derived progress and approvals, while <a href="repo/packages/daemon/src/domain/queue-repository.ts">queue decision types</a>, lines 182–201, record delegated decisions separately from a person's answers. Wingman's Butler could use this as a durable attention inbox rather than relying only on conversational notifications. The original human channel remains Slack until a Telegram connector is built.</p>
+<p><strong>Hosted assistants and scoped MCP participation.</strong> An organization member need not live in an OpenRig terminal. <a href="repo/packages/daemon/src/domain/rosters.ts">Roster types</a>, lines 8–38 and 95–110, support <code>hosted</code> members, host references and an optional webhook wake. The <a href="repo/packages/cli/src/mcp-server.ts">MCP operations surface</a>, lines 490–547, maps queue, chat, team, artifact and context tools to the same daemon APIs, while lines 550–584 give members an explicit claim/work/close-or-handoff inbox protocol. <a href="repo/packages/cli/src/mcp-http.ts">HTTP MCP</a>, lines 1–37, binds each authenticated request to its grant's seat, rigs, roots and access class rather than sharing one caller identity. This could let an external research assistant or human-facing client join Wingman without pretending it is another native Codex process. Its lifecycle and wake guarantee differ: the shipped MCP instructions explicitly tell hosted members to poll their inbox because a ring does not promise pickup. Wingman's directory should show that distinction, and grants must match actual intended data access.</p>
+<h2 id="assessment-distinctive-mechanisms-worth-studying">Distinctive mechanisms worth studying</h2>
+<p>These mechanisms are distinctive within this implementation. The evidence does not establish historical novelty or industry-wide uniqueness.</p>
+<p><strong>Durable responsibility, replaceable cognition.</strong> The node/session/generation split and successor-first runtime switch model an organizational job as more durable than a model context. A successor demonstrates readiness before replacing the predecessor; claims move with a recorded transition. The enabling idea is continuity of responsibility without falsely claiming perfect memory continuity. Its limit is that rebuilding/handover preserves selected records and explanations, not an identical mental state.</p>
+<p><strong>Closure is an obligation transfer, not only a status change.</strong> The hot-potato closure validator demands an explicit reason and target where appropriate. Queue transactions normally join predecessor closure, successor creation and wake intent, with an explicit post-commit delivery seam. <a href="repo/packages/daemon/test/queue-transactional-closure.test.ts">Transactional-closure tests</a>, lines 103–239 and 280–349, exercise split-database rejection, missing-outbox rejection, atomic rollback, crash recovery and ambiguous delivery. This addresses the failure where one agent announces handoff and goes idle while nobody owns the next step. The mechanism provides durable ownership and an inspectable notification outcome. It does not guarantee exactly-once execution. Explicit no-nudge handoffs or full retained-message quotas can leave a valid successor without a retained wake. An indeterminate send can require a new attempt. Durable custody cannot force an LLM to understand or complete the task correctly.</p>
+<p><strong>Readiness is tied to authored obligations and revisioned evidence.</strong> The proof system models accept/reject/withdraw separately from human sign-off and keeps item/policy/evidence revisions. The <a href="repo/packages/daemon/src/domain/project-lifecycle-compiler.ts">lifecycle compiler</a>, lines 56–180, derives workflow structure from authored project/mission/slice contracts and retains input digests. Required project steps can constrain mission-specific extensions/overrides. This provides an inspectable contract connecting product records to workflow eligibility, rather than an independent workflow database silently becoming the source of product truth. It still depends on correctly written proof contracts and truthful evidence producers.</p>
+<p><strong>Uncertainty is first-class operational state.</strong> The system repeatedly distinguishes ready from oriented, sent from verified, claimed from merely nudged, resumed from fresh/rebuilt, and failed from indeterminate. The <a href="repo/packages/daemon/src/adapters/codex-runtime-adapter.ts">Codex launch adapter</a>, lines 905–980, refuses to assign an unproven fork identity and verifies requested resumption. <a href="repo/packages/daemon/src/domain/hosts/remote-daemon-http.ts">Remote HTTP</a>, lines 61–83 and 175–198, can report uncertain outcomes rather than promise that timeout means no remote work occurred. This would improve Wingman's executive dashboard only if its summaries preserve those distinctions instead of reducing them to reassuring green badges.</p>
+<p><strong>Federated coordination preserves record ownership.</strong> Remote rigs run on remote daemons, and receiver-side create deduplication works when retries reuse the same queue ID. The <a href="repo/packages/daemon/src/routes/queue.ts">API forwarding branch</a>, lines 593–607, preserves a supplied ID but generates a fresh one when omitted. The <a href="repo/packages/cli/src/commands/queue.ts">CLI</a>, lines 947 and 1094–1114, makes recovery practical by printing the ID before sending and accepting <code>--id</code> for reconciliation. The caller must carry that identity across separate invocations. The cross-host tests distinguish a destination-owned record from a local projection. This is useful for Mac/Endeavour placement and failure isolation, with an explicit caller contract rather than automatic exactly-once delivery. It is not transparent database replication: offline hosts can make parts of the portfolio unavailable, and remote execution does not imply central remote terminal streaming.</p>
+<p><strong>Semantic uncertainty stays separate from activity.</strong> The <a href="repo/packages/daemon/src/domain/current-work.ts">current-work derivation</a>, lines 361–403, distinguishes one established work node from merely tagged/ancestral candidates, possible next work and held blocked work. Body text alone does not establish mission identity and pending candidates carry no inferred priority. Together with revision-bound proof, this gives Wingman useful raw material for trustworthy summaries: summarize evidence with its status, and let an agent select intent where the records are ambiguous. Its limit is equally useful: those derivations are not themselves a natural-language executive briefing or an assurance that every active process is pursuing its recorded assignment.</p>
+<h2 id="assessment-what-wingman-could-reuse-and-what-remains">What Wingman could reuse and what remains</h2>
+<p>Use directly as architectural material:</p>
+<ul>
+<li>The durable-seat model.</li>
+<li>Reusable role/profile/team schema.</li>
+<li>Native launch/resume/fork adapters.</li>
+<li>Queue ownership/closure/handoff.</li>
+<li>Transactional wake custody.</li>
+<li>Generation-aware lifecycle guards.</li>
+<li>Persistent watchdog scheduling.</li>
+<li>Project/mission/slice records.</li>
+<li>Proof/approval separation.</li>
+<li>Genuine daemon-to-daemon task/launch coordination. These features map to difficult infrastructure requirements already present in Wingman's purpose.</li>
+</ul>
+<p>Adapt the organization explicitly.</p>
+<p>Create all-Codex profiles for:</p>
+<ul>
+<li>Butler, ProjectMaster, ProductMaster, TechMaster and the specialists.</li>
+<li>decide whether one project maps to one rig or several pods/rigs.</li>
+<li>configure product roots and directives.</li>
+<li>preserve distinct human clarification threads and project intake.</li>
+<li>define the supervision/acceptance procedures.</li>
+</ul>
+<p>Do not rename the factory advisor ProductMaster and assume the eight-step PM capabilities are available: its shipped profile and guidance state otherwise.</p>
+<p>Build the remaining experience:</p>
+<ul>
+<li>A Telegram inbound/outbound and ask-answer connector with stable project/conversation correlation.</li>
+<li>Wingman's Room1/Room2 management/collaboration convention. The complete portfolio-routing policy.</li>
+<li>Semantic per-agent current/recent/next summaries and linked personal timelines.</li>
+<li>A detailed remote workspace experience. The existing seat terminal is explicitly local-only in the central UI, so Endeavour execution requires additional remote drill-down/routing work. Plan a source isolation/integration policy for concurrently editing specialists and an explicit accepted-delivery-to-idle transition.</li>
+</ul>
+<p>OpenRig is therefore a credible base to investigate for the organization/control plane, especially if Wingman values durable responsibility and accountable handoff. The fit does not eliminate product work: the particular human relationship, leadership duties, discovery proportionality and executive experience remain Wingman's responsibility.</p>
+<h2 id="assessment-verification-scope-and-limitations">Verification scope and limitations</h2>
+<p>This was a read-only static source assessment. No dependencies were installed, no daemon or native harness was launched, and no test suite was run. The pinned revision was read with Git. No applicable <code>AGENTS.md</code> was found inside the OpenRig checkout by the file inventory. Repository documentation was used to find modules; current checked-out implementation was treated as authoritative where documentation carried older verification stamps.</p>
+<p>Implementation inspected included CLI up and daemon entry/listen composition.</p>
+<p>The AgentSpec/profile and rig model;:</p>
+<ul>
+<li>factory topology/lead/advisor guidance.</li>
+<li>PM definition/procedure.</li>
+<li>startup orchestration.</li>
+<li>Codex launch/resume/fork adapter.</li>
+<li>seat lifecycle/handover/runtime-switch interfaces and paths.</li>
+<li>queue creation/records/closure/wake custody including retained-quota exceptions.</li>
+<li>chat persistence routes/SSE.</li>
+<li>project selection, current-work derivation and lifecycle compilation.</li>
+<li>watchdog scheduler/policy engine.</li>
+<li>remote launch/HTTP transport.</li>
+<li>scope approval/proof types.</li>
+<li>teardown.</li>
+<li>package-install/skill-catalog contracts.</li>
+<li>human registry.</li>
+<li>HTTP MCP grants/member instructions.</li>
+<li>representative UI pages.</li>
+</ul>
+<p>The broad source inventory also covered route and test surfaces for transcripts, steering, environment management, bundles and review. Those inventories establish scope, not exhaustive correctness of every subsystem.</p>
+<p>Relevant tests inspected as source:</p>
+<ul>
+<li><a href="repo/packages/daemon/test/queue-transactional-closure.test.ts">Queue transactional closure</a>: real SQLite harness with mock delivery, covering atomic closure/successor/intent, rollback, recovery and indeterminate outcomes. These are not tests of a live Claude/Codex terminal.</li>
+<li><a href="repo/packages/daemon/test/queue-cross-host-create.test.ts">Cross-host create</a>, lines 103–393: local/no-host behavior, forwarded full body, origin identity, unreachable/late replies, stable IDs and conflict handling. The tests support protocol intent. This assessment did not connect two actual machines.</li>
+<li><a href="repo/packages/daemon/test/project-lifecycle-compiler.test.ts">Project lifecycle compiler</a>, lines 56–157: deterministic/read-only compilation and inspectable-but-ineligible malformed/incomplete contracts.</li>
+<li><a href="repo/packages/daemon/test/scope-approve.test.ts">Scope approval</a>, lines 75–189 and 221–398: staged spec/delivery approval, provenance, audit failure compensation and artifact locking. Tests distinguish a recorded approval from proven test success.</li>
+<li><a href="repo/packages/daemon/test/chat-routes.test.ts">Chat routes</a>, including lines 134–184: initial history/live-event streaming and disconnect cleanup. This is not evidence that every agent reads or responds to chat.</li>
+<li><a href="repo/packages/daemon/test/seat-runtime-switch-service.test.ts">Runtime switch service</a>, lines 346–381 and 559–594: mocked native adapters/tmux with real queue/session records check claim transfer, confirmation timeout, login-gate failure and wrong-generation refusal. These are protocol tests, not a live cross-provider migration demonstration.</li>
+<li><a href="repo/packages/daemon/test/watchdog-scheduler.test.ts">Watchdog scheduler</a>, lines 47–91: stopping a later job through HTTP while an earlier due delivery is pending prevents the stopped job from firing. The delivery port is mocked.</li>
+<li><a href="repo/packages/daemon/test/gateway-human-registry.test.ts">Human registry</a>, lines 37–56: validates human fragments and explicitly rejects the Telegram connector kind. This strengthens the bounded negative finding beyond a keyword search.</li>
+</ul>
+<p>Negative findings are bounded. Telegram was searched across daemon/CLI/UI source, tests and docs. The implementation mention is a generic webhook notification comment, the gateway registry explicitly limits connectors to Slack, and its test rejects Telegram. The executive/timeline gap was evaluated against node inventory, strict current-work/work-candidate fields, seat overview/details, project views and the For You feed; raw events, queue lineage, pending candidates and activity labels were credited as those primitives, not promoted into semantic agent briefings. The organization gap was checked against shipped factory/PM definitions and their startup guidance, not inferred merely from missing Wingman role names. The cross-host workspace limitation is an explicit UI branch, not an inference from a missing screenshot. No external browsing was needed: this assessment deliberately describes the supplied pinned checkout.</p>
+<p>Not established here: successful two-host deployment, live native permission enforcement, throughput at Wingman's desired team size, automatic quality of discovery/decomposition, provider compatibility at other versions, correct product delivery from arbitrary natural-language requests, or equivalence of all environment/runtime backends. Those are integration/runtime questions beyond what this static snapshot proves.</p></article>
+<section id="source-record"><h2>Source and evidence</h2><p class="url-text">https://github.com/mvschwarz/openrig</p>
+<ul><li><a href="repo/">Open the pinned source checkout</a></li><li><a href="assessment/ASSESSMENT.md">Read the Markdown assessment</a></li>
+<li><a href="../generic/assessments/_audits/qa04.md">Read the historical independent source audit</a></li><li><a href="../generic/method.html">Read the method and evidence limits</a></li></ul></section>
+<nav class="report-switch" aria-label="Adjacent project reports"><a href="../openhands/index.html">Previous project: OpenHands / Agent Canvas</a><a href="../orca/index.html">Next project: Orca</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../index.html">Return to overview <img src="../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

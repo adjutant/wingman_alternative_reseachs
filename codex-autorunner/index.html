@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Technical assessment against Wingman’s development organization."><title>CAR / Codex Autorunner · Wingman Research</title>
+<link rel="icon" href="../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/report.css"><script defer src="../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../index.html"><img src="../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../index.html">Overview</a><a class="nav-link " href="../generic/index.html">Architecture findings</a><a class="nav-link " href="../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../generic/method.html">Method and evidence</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../index.html">Wingman Research</a><span class="crumb">/</span><span>CAR / Codex Autorunner</span></div><span class="topbar-note">SOURCE REVIEW · 05 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>CAR / Codex Autorunner</h1><p class="subtitle">Technical assessment against Wingman’s development organization.</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#decision">Decision summary</a><a href="#assessment-car-codex-autorunner-assessment">CAR / codex-autorunner assessment</a><a href="#assessment-fit-verdict">Fit verdict</a><a href="#assessment-architecture-and-implementation-evidence">Architecture and implementation evidence</a><a href="#assessment-wingman-feature-by-feature-comparison">Wingman feature-by-feature comparison</a><a href="#assessment-agent-definition-and-lifecycle">Agent definition and lifecycle</a><a href="#assessment-coordination-trace-a-blocked-ticket-and-telegram-reply">Coordination trace: a blocked ticket and Telegram reply</a><a href="#assessment-major-additional-capabilities">Major additional capabilities</a><a href="#assessment-distinctive-mechanisms-and-innovation">Distinctive mechanisms and innovation</a><a href="#assessment-what-to-reuse-adapt-and-build">What to reuse, adapt and build</a><a href="#assessment-verification-scope">Verification scope</a><a href="#source-record">Source and evidence</a></div></nav><section id="decision" class="decision"><h2>Decision summary</h2>
+<div class="brief-columns"><div><h3>Useful for Wingman</h3><p>Study managed conversations, ordered ticket flows, Telegram interaction, durable queues, and delivery recovery.</p></div><div><h3>Adoption boundary</h3><p>The PMA and thread hub need Wingman&#x27;s standing product leadership, collaboration rooms, and executive agent timelines.</p></div></div>
+<p class="scope-note">Source assessment at the commit below. Runtime limits appear in the technical report.</p></section>
+<dl class="facts"><div><dt>Source group</dt><dd>Delivery engines</dd></div><div><dt>Commit</dt><dd><code>3bedfe817e6fc70eb16650f216eca93cd37fa411</code></dd></div><div><dt>Coverage</dt><dd>24 Wingman features</dd></div></dl>
+<article id="technical-assessment" class="technical"><h2 id="assessment-car-codex-autorunner-assessment">CAR / codex-autorunner assessment</h2>
+<p class="url-text">GitHub: https://github.com/Git-on-my-level/codex-autorunner</p>
+<p>Checkout: <code>researchs/codex-autorunner/repo</code><br/>
+Commit: <code>3bedfe817e6fc70eb16650f216eca93cd37fa411</code><br/>
+Assessed: November 5, 2026 (static source review)<br/>
+Baseline: <a href="../generic/purpose.html">Wingman purpose</a></p>
+<h2 id="assessment-fit-verdict">Fit verdict</h2>
+<p>CAR is a strong candidate for Wingman's execution and operator-control foundation. It already combines coding-agent backends, durable managed conversations, repository/worktree scope, ticket execution, Telegram/Discord interaction, a web hub and scheduled/event-driven follow-up. Its PMA is a genuine model-driven management interface that can spawn and message other managed threads.</p>
+<p>Its organizing model is a hub of resources, managed threads and ticket flows. Wingman's standing organization, per-project ProductMaster/TechMaster relationship, agent collaboration rooms and executive employee briefing would still need explicit product work. In particular, CAR's rich timeline is an execution projection. It is not the complete current/recent/next-work summary for each enduring employee that Wingman describes.</p>
+<p>This revision is substantially broader than a simple loop over Markdown tickets. The execution, conversation and delivery machinery deserves separate consideration from the organizational behavior supplied through PMA prompts.</p>
+<h2 id="assessment-architecture-and-implementation-evidence">Architecture and implementation evidence</h2>
+<p>The implementation has a Python engine, runtime adapters, FastAPI surfaces and a SvelteKit frontend. Repository-local files hold tickets and context; orchestration has SQLite-backed identities, executions, queues and delivery records. A managed thread is an orchestration-owned conversation bound to an external agent runtime, not an always-running employee process.</p>
+<p>The executable entry is <code>car</code>/<code>codex-autorunner</code> → Python CLI (<a href="repo/pyproject.toml">package scripts</a>, lines 65–67). <code>car serve</code> loads hub configuration and creates the FastAPI hub under Uvicorn (<a href="repo/src/codex_autorunner/surfaces/cli/commands/root.py">serve command</a>, lines 702–739). The <a href="repo/src/codex_autorunner/core/orchestration/service_factories.py">service factory</a>, lines 19–58, binds a runtime descriptor catalog and harness factory to the managed-thread execution store, and exposes ticket flow as a separate flow target. This is a shared orchestration service consumed by operator surfaces, not a frontend that independently owns workers.</p>
+<p>Ticket execution follows another concrete entry: <a href="repo/src/codex_autorunner/flows/ticket_flow/runtime_helpers.py">runtime helpers</a>, lines 53–92 and 115–154, load repository configuration, build the backend/pool, construct a validated ticket-flow definition and <code>FlowController</code>, persist a run, then ensure a background worker. Closing a temporary controller session does not imply ending the work: the spawned worker drives subsequent steps. The flow database/artifacts are repository-scoped, while managed identities, execution queues, automation and delivery use the hub orchestration store. <a href="repo/src/codex_autorunner/core/state_roots.py">State roots</a>, lines 7–38 and 99–116, explicitly distinguish repo, hub and global roots; <a href="repo/src/codex_autorunner/core/orchestration/sqlite.py">SQLite startup</a>, lines 377–469, owns migration preparation and compatibility metadata. “Filesystem truth” therefore includes both inspectable Markdown work and durable database control state.</p>
+<h2 id="assessment-wingman-feature-by-feature-comparison">Wingman feature-by-feature comparison</h2>
+<p>Verdicts apply to the full capability in each row. “Similar” credits substantial implementation while preserving differences in organizational model.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Wingman capability</th>
+<th scope="col">Verdict</th>
+<th scope="col">Implementation evidence and concrete difference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F01</td>
+<td>Real independent coding agents and specialist instances</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/codex_autorunner/adapters/agents/agent_pool_impl.py">Pool workers</a>, lines 924–983 run real independent backend conversations; <a href="repo/src/codex_autorunner/core/orchestration/models.py">managed targets</a>, lines 130–161 persist identities. These are conversations, not standing specialist employees.</td>
+</tr>
+<tr>
+<td>F02</td>
+<td>Extensible agent profiles, roles and team composition</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/codex_autorunner/core/agent_config.py">Agent/profile configuration</a>, lines 24–51, 141–224 resolves logical profiles into runtimes. A backend/profile controls execution settings; team membership, job responsibilities and reporting lines require another model.</td>
+</tr>
+<tr>
+<td>F03</td>
+<td>Agent directory and visible working relationships</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/src/codex_autorunner/core/orchestration/catalog.py">Catalog</a>, lines 133–162 projects runtime descriptors into definitions; <a href="repo/src/codex_autorunner/core/orchestration/models.py">target fields</a>, lines 113–161 expose scope/status. No employee/project/team relationship directory was established in these models or the frontend route inventory.</td>
+</tr>
+<tr>
+<td>F04</td>
+<td>Telegram as main human channel and Butler routing</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/codex_autorunner/adapters/telegram/ticket_flow_bridge.py">Telegram pause bridge</a>, lines 236–329, 549–634 routes durable notices to chats/topics; <a href="repo/src/codex_autorunner/core/pma_prompt_builder.py">PMA fast path</a>, lines 43–108 directs management. A distinct Butler → ProjectMaster agent boundary is not predefined. Plain text requires appropriate destination policy (see F11).</td>
+</tr>
+<tr>
+<td>F05</td>
+<td>Cross-project registry, intake and new/existing routing</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/codex_autorunner/manifest.py">Manifest</a>, lines 80–191 registers repositories/worktrees; <a href="repo/src/codex_autorunner/core/pma_prompt_builder.py">PMA instructions</a>, lines 55–73, 109–113 reuse relevant threads and route resources. A product can span repositories; business-product identity and intake decisions remain additional policy.</td>
+</tr>
+<tr>
+<td>F06</td>
+<td>Per-project product and technical leadership</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/src/codex_autorunner/core/pma_prompt_builder.py">PMA spawn/send instructions</a>, lines 55–73 can create separately instructed conversations. <a href="repo/src/codex_autorunner/core/orchestration/models.py">Definition/target schemas</a>, lines 113–161 do not encode required ProductMaster/TechMaster pairs, responsibilities or their joint product lifecycle.</td>
+</tr>
+<tr>
+<td>F07</td>
+<td>Proportionate research, discovery and iterative clarification</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/src/codex_autorunner/core/pma_prompt_builder.py">PMA execution choice</a>, lines 43–91 allows exploratory work and operational questions; <a href="repo/src/codex_autorunner/adapters/telegram/handlers/paused_flow_reply.py">pause/reply handler</a>, lines 40–81 supports answers. No domain research, question refinement or product-readiness process was found in the inspected PMA/flow paths; operational handoffs alone do not implement discovery.</td>
+</tr>
+<tr>
+<td>F08</td>
+<td>Product scope, specs, acceptance scenarios and DoD</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/codex_autorunner/contextspace/paths.py">Contextspace read/write</a>, lines 12–14, 39–70 persists spec/decisions/active context; <a href="repo/src/codex_autorunner/core/pma_prompt_builder.py">PMA ticket criteria guidance</a>, lines 73, 120–129 carries acceptance tracking. The content and product-level DoD must be authored; runtime completion is file-based.</td>
+</tr>
+<tr>
+<td>F09</td>
+<td>Technical decomposition, assignment and shared tracking</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/codex_autorunner/tickets/models.py">Ticket model</a>, lines 20–46 assigns runtime/profile/model and goal; <a href="repo/src/codex_autorunner/tickets/runner_selection.py">selection</a>, lines 44–199 picks ordered incomplete tickets. PMA plans tickets, but filename order, not depends_on, governs a flow. Automation child graphs track execution completion separately. Neither is an organization-wide employee assignment model.</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>Human portfolio/project management dashboard</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/codex_autorunner/web_frontend/src/routes/repos/+page.svelte">Repository index UI</a>, lines 11–41, 154–168 combines repos, worktrees, chats and tickets; <a href="repo/src/codex_autorunner/web_frontend/src/routes/tickets/+page.svelte">ticket list UI</a>, lines 19–64 exposes work/status filters. This is real execution management, with product goals, leadership and team ownership still to add.</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>Agent chat app, rooms and direct collaboration</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/src/codex_autorunner/web_frontend/src/lib/routes/ChatsPage.svelte">Chat UI</a>, lines 336–341, 737–754 shows managed conversations; PMA can send to other threads. <a href="repo/src/codex_autorunner/adapters/chat/collaboration_policy.py">Collaboration policy</a>, lines 39–119, 150–260 controls actors/chat destinations and mention triggers, not a many-agent room membership/message bus. Room1/Room2 and peer-directed specialist discussion are additional product work.</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>Management escalation and human decisions/approvals</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/codex_autorunner/tickets/models.py">Dispatch contract</a>, lines 49–81 distinguishes notify/pause; <a href="repo/src/codex_autorunner/adapters/telegram/handlers/paused_flow_reply.py">reply handler</a>, lines 40–81 persists answers then resumes. <a href="repo/src/codex_autorunner/core/automation/worker.py">Automation failure escalation</a>, lines 246–289 can enqueue a follow-up job. These are real handoffs, without Wingman’s management hierarchy.</td>
+</tr>
+<tr>
+<td>F13</td>
+<td>Durable project knowledge and reusable directives</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/codex_autorunner/contextspace/paths.py">Contextspace paths</a>, lines 39–70 stores files, while <a href="repo/src/codex_autorunner/core/pma_prompt_builder.py">PMA prompt builder</a>, lines 158–227 injects hub guidance/context/history. Ticket context includes are explicit. Map these into project DIRECTIVES/SCOPES, SPECS and HARNESS; repository scope is not automatically product scope.</td>
+</tr>
+<tr>
+<td>F14</td>
+<td>Persistent identity, conversation and work continuity</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/codex_autorunner/core/orchestration/models.py">Managed target</a>, lines 130–161 separates owned ID from backend binding; <a href="repo/src/codex_autorunner/core/orchestration/execution_lifecycle.py">rehydration</a>, lines 316–359 restores compact seed/recent transcript into a fresh backend session. Employee identity across multiple assignments/conversations needs an additional layer.</td>
+</tr>
+<tr>
+<td>F15</td>
+<td>Proactive supervision, wakes and blocker follow-up</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/codex_autorunner/core/hub_lifecycle.py">Hub automation cycle</a>, lines 354–385, 442–462 runs scheduling, jobs and child reconciliation; <a href="repo/src/codex_autorunner/core/automation/scheduler.py">scheduler</a>, lines 31–85 turns due schedules into events/jobs; <a href="repo/src/codex_autorunner/core/pma_attention.py">PMA attention</a>, lines 317–378 filters actionable situations. PMA watchdog/subscription guidance can drive supervision; product diagnosis and follow-up responsibilities remain instructions/rules to define.</td>
+</tr>
+<tr>
+<td>F16</td>
+<td>Parallel products and concurrent specialists</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/codex_autorunner/adapters/agents/agent_pool_impl.py">Per-thread queue workers</a>, lines 924–983 permit separate threads concurrently; <a href="repo/src/codex_autorunner/core/automation/worker.py">automation worker</a>, lines 90–159 observes per-target/rule concurrency. Distinct worktrees isolate changes. A single ticket flow remains sequential and lacks automatic specialist team/integration management.</td>
+</tr>
+<tr>
+<td>F17</td>
+<td>Real multi-host execution with shared coordination</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/src/codex_autorunner/core/destinations.py">Destination parser</a>, lines 205–226 accepts local/Docker only; <a href="repo/src/codex_autorunner/core/agent_config.py">profile endpoint</a>, lines 24–42 permits backend URLs. These are placement/transport primitives, not a registered Mac/Endeavour worker fleet with coherent project placement and shared team context.</td>
+</tr>
+<tr>
+<td>F18</td>
+<td>Executive current/recent/next overview and blockers</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/src/codex_autorunner/core/pma_attention.py">Attention projection</a>, lines 317–378 supplies urgent actions, counts and drill-downs; <a href="repo/src/codex_autorunner/core/orchestration/models.py">target status fields</a>, lines 145–159 supply latest work hints. Neither constitutes a plain-language current/recent/next briefing per enduring agent.</td>
+</tr>
+<tr>
+<td>F19</td>
+<td>Individual summary timeline linked to underlying work</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/src/codex_autorunner/core/orchestration/managed_thread_timeline.py">Managed timeline</a>, lines 52–120 has ordered timestamps and event provenance; <a href="repo/src/codex_autorunner/tickets/runner_post_turn.py">ticket summaries</a>, lines 47–126 archive agent output with ticket/turn identity. Useful raw material, but no per-employee synthesis of accomplishments, next plans and linked evidence across assignments was established.</td>
+</tr>
+<tr>
+<td>F20</td>
+<td>Detailed per-agent coding workspace drill-down</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/codex_autorunner/web_frontend/src/lib/routes/ChatsPage.svelte">Chat detail state</a>, lines 336–369, 718–754 combines transcript, progress, queue, runtime/model/profile; <a href="repo/src/codex_autorunner/web_frontend/src/routes/repos/+page.svelte">repository UI</a>, lines 32–41 links chats/tickets/worktrees. Substantial session drill-down exists. An employee entry point spanning that person’s work is missing.</td>
+</tr>
+<tr>
+<td>F21</td>
+<td>Live activity, lifecycle controls and steering</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/codex_autorunner/core/orchestration/thread_service.py">Thread service</a>, lines 749–919, 1057–1087, 1278–1333 sends/queues/interrupts/stops/recovers; <a href="repo/src/codex_autorunner/surfaces/cli/managed_thread_commands.py">CLI controls</a>, lines 1906–1944, 2190–2216 compact/fork managed threads. Runtime capabilities vary. This does not establish every Wingman goal/budget/host control.</td>
+</tr>
+<tr>
+<td>F22</td>
+<td>Testing, integrated verification and acceptance/delivery</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/codex_autorunner/flows/review/service.py">Review constraints/configuration</a>, lines 49–57, 943–985 and <a href="repo/src/codex_autorunner/tickets/runner_post_turn.py">post-turn commit gate</a>, lines 630–718 support review and clean delivery. Agents can run tests and capture browser evidence; done:true/clean Git and a code review do not prove integrated product acceptance against a human-agreed DoD.</td>
+</tr>
+<tr>
+<td>F23</td>
+<td>Autonomous operation under human direction</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/codex_autorunner/tickets/runner.py">Ticket runner step</a>, lines 67–149, 295–322 and <a href="repo/src/codex_autorunner/core/automation/executors.py">automation execution</a>, lines 303–345 continue configured work without an open viewer. PMA can manage the loop, but full discovery → product/technical leadership → specialist delivery remains a workflow to build.</td>
+</tr>
+<tr>
+<td>F24</td>
+<td>Chat/tracker/dashboard support new profiles</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/codex_autorunner/core/agent_config.py">Profile resolution</a>, lines 141–224 and <a href="repo/src/codex_autorunner/web_frontend/src/lib/routes/ChatsPage.svelte">chat selectors</a>, lines 737–754, 1048–1061 are data-driven; ticket profile is generic. Runtime extension flows through existing views; organizational role/team/room semantics and executive summaries still need extension.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="assessment-agent-definition-and-lifecycle">Agent definition and lifecycle</h2>
+<h3 id="assessment-definition-creation-and-identity">Definition, creation and identity</h3>
+<p>There are three distinct concepts. A registered backend descriptor identifies a runtime such as Codex or an ACP agent. A profile specializes configuration such as binary, command, endpoint and subagent models. A <code>ThreadTarget</code> is a durable conversation with an orchestration-owned ID, optional profile, resource scope, backend conversation ID and runtime instance binding.</p>
+<p>The separation is useful: CAR can retain the managed conversation even when a backend process is replaced or its binding becomes suspect. It also prevents calling the runtime catalog an employee directory. To model Wingman, an employee would need an explicit association with role, team, project responsibilities and potentially more than one managed conversation.</p>
+<p>The executable backend boundary is concrete. <a href="repo/src/codex_autorunner/agents/base.py">AgentHarness</a>, lines 36–178, defines new/resume conversation, start/wait turn, interrupt, transcript and event-stream capabilities. <a href="repo/src/codex_autorunner/agents/registry.py">The registry</a>, lines 39–79, supports built-in descriptors and Python entry-point plugins with an API version and validated capabilities. <a href="repo/src/codex_autorunner/agents/codex/harness.py">CodexHarness</a>, lines 118–165, connects those operations to a workspace app-server supervisor. Thus adding a runtime backend and adding an organizational role are different extension operations.</p>
+<p>Creation is deliberately split between durable identity and live runtime allocation. <a href="repo/src/codex_autorunner/core/orchestration/thread_service.py">Thread service creation</a>, lines 185–219, checks that the named definition exists and supports durable threads, then asks the store to create a target. <a href="repo/src/codex_autorunner/core/managed_thread_store.py">The concrete store</a>, lines 656–702 and 761–846, generates/validates a UUID, resolves agent/profile/scope metadata, inserts <code>orch_thread_targets</code>, and emits a lifecycle event. Merely creating that record does not launch a model or create a specialist role.</p>
+<p>When a message arrives, <a href="repo/src/codex_autorunner/core/orchestration/thread_service.py">execution preparation</a>, lines 784–919, resolves the thread/workspace/capabilities, constructs the canonical request, records visible prompt separately from assembled runtime context, and persists execution/queue state. <a href="repo/src/codex_autorunner/core/orchestration/execution_lifecycle.py">Runtime startup</a>, lines 376–563, ensures the harness is ready, inspects runtime binding, resumes an existing backend conversation or starts a new one, and persists its new binding. Recoverable resume failure invalidates the old binding and retries fresh. <a href="repo/src/codex_autorunner/agents/codex/harness.py">CodexHarness</a>, lines 191–205, actually calls app-server <code>thread_start</code>. This is a real coding session, not a role string repeated in one chat.</p>
+<p><code>DefaultAgentPool</code> uses these owned targets for ticket work, with run/ticket metadata allowing the same ticket conversation to be found again (<a href="repo/src/codex_autorunner/adapters/agents/agent_pool_impl.py">binding lookup</a>, lines 433–478). Roles can be supplied as instructions and project files, but the inspected profile schema contains runtime settings rather than a reusable organizational job description. A ticket is a file-backed assignment. An execution is a single turn. A managed thread is durable conversation continuity. A supervisor handle is an OS-runtime resource. None alone is the enduring Wingman employee spanning many assignments. Multiple threads of the same runtime/profile give independent specialist instances only after that organizational meaning is supplied.</p>
+<h3 id="assessment-permissions-execution-and-concurrency">Permissions, execution and concurrency</h3>
+<p>Permissions and model options are resolved by backend/runtime capabilities. The configuration is not a universal permission sandbox. For example, the multi-agent review service defines restrictive read-subagent permissions for OpenCode, while ordinary agent execution can have broader permissions. Integration must preserve backend differences rather than assuming every agent supports every control.</p>
+<p>Within a managed thread, busy policies distinguish queuing, interrupting and rejection. Across threads, independent workers permit concurrency. A ticket directory, however, uses a single selected ticket and ordered advancement. A <code>depends_on</code> field is explicitly not the runtime ordering contract in PMA's instructions; filenames determine order. Parallel projects would use distinct flows/threads/worktrees with an additional coordination policy.</p>
+<p>The ordinary <a href="repo/src/codex_autorunner/core/orchestration/thread_service.py"><code>MessageRequest</code> path</a>, lines 798–914, builds a canonical turn request. An unspecified sandbox defaults to <code>dangerFullAccess</code>. The path validates the caller's model against runtime capabilities. It stores the visible prompt separately from the assembled runtime prompt. Interrupt-on-busy attempts to stop the active execution. It refuses the new request if that execution still exists. These are execution policies. They do not establish isolated worker permissions.</p>
+<p>The <a href="repo/src/codex_autorunner/adapters/agents/agent_pool_impl.py">pool's <code>_ensure_thread_worker</code> and <code>_drain_thread_queue</code></a>, lines 924–983, ensure one drain task per managed thread and advance queued turns sequentially. Exceptions become failed execution records rather than escaping the worker loop. Ticket metadata links conversations to flow-run and ticket IDs, allowing a resumed ticket to find its existing managed target. The unit of continuity here is often the ticket conversation, which reinforces why Wingman needs a separate enduring employee identity.</p>
+<p>Process ownership is also workspace-based. <a href="repo/src/codex_autorunner/adapters/app_server/supervisor.py">WorkspaceAppServerSupervisor</a>, lines 210–330, canonicalizes workspace roots, reuses handles, prunes idle handles, applies LRU eviction/process budgets and builds clients with restart and stall-recovery options. Several agent conversations can therefore use a supervised runtime process; independent conversations do not imply one permanent OS process per employee.</p>
+<p>Tool use remains backend-owned: the harness passes prompt, model, reasoning, input items, approval and sandbox options to the runtime (<a href="repo/src/codex_autorunner/agents/base.py">harness interface</a>, lines 90–103). CAR normalizes tool/progress events for the operator, but does not implement one universal coding tool sandbox. Ordinary message conversion defaults approval policy to <code>never</code> (<a href="repo/src/codex_autorunner/core/orchestration/thread_service.py">request conversion</a>, lines 390–417); unattended automation has a different policy path and may pause or auto-decline (<a href="repo/src/codex_autorunner/core/automation/executors.py">executor</a>, lines 121–145). Wingman integration must make the intended policy explicit across these entry points.</p>
+<h3 id="assessment-scheduling-steering-and-cancellation">Scheduling, steering and cancellation</h3>
+<p>The <a href="repo/src/codex_autorunner/core/hub_lifecycle.py">hub lifecycle orchestrator</a>, lines 354–385 and 442–462, wires scheduler, worker and child reconciliation into the hub cycle. The <a href="repo/src/codex_autorunner/core/automation/scheduler.py">automation scheduler</a>, lines 36–85, uses due timestamps to generate stable <code>schedule.fire:&lt;schedule&gt;:&lt;time&gt;</code> events, invokes the rule engine and advances the schedule. This supports interval/daily/weekly and one-shot wakeups. The <a href="repo/src/codex_autorunner/core/automation/worker.py">worker</a>, lines 90–173 and 246–295, leases jobs, releases stale claims, defers concurrency blockers, records attempts and retries with capped exponential backoff; exhausted jobs can generate deduplicated failure-escalation jobs. PMA instructions add terminal subscriptions and idle watchdogs, but a product manager’s judgment about stalled development is supplied by the model and authored rules.</p>
+<p>This is more than a timer that reports success after enqueueing a prompt. The <a href="repo/src/codex_autorunner/core/automation/executors.py">managed-turn automation executor</a>, lines 303–374, creates the queued turn, records an authoritative parent-job/child-execution edge with requested runtime, checks that edge is durable, and requests the queue worker. The <a href="repo/src/codex_autorunner/core/automation/execution_graph.py">execution graph projection</a>, lines 21–88, connects jobs to agent tasks, PMA queue entries, ticket flows and publication operations. This is execution lineage/concurrency and completion accounting. It does not make ignored ticket <code>depends_on</code> fields into a general product task dependency graph.</p>
+<p>Human steering uses a target ID and queue policy. Busy-thread queue/interrupt/reject semantics avoid treating every new instruction as an unrelated session; interrupted work must durably leave the running state before replacement execution proceeds. <a href="repo/src/codex_autorunner/core/orchestration/thread_service.py">Service controls</a>, lines 1057–1087 and 1278–1333, separate interrupt/stop from cancelling or promoting queued turns. <a href="repo/src/codex_autorunner/core/orchestration/recovery_lifecycle.py">Stop handling</a>, lines 502–517, has an explicit <code>cancel_queued</code> switch. Fork and compact are exposed by the <a href="repo/src/codex_autorunner/surfaces/cli/managed_thread_commands.py">managed-thread CLI</a>, lines 1906–1944 and 2190–2216; compaction stores a seed and should not be confused with an executive accomplishment summary.</p>
+<h3 id="assessment-persistence-retry-and-restart">Persistence, retry and restart</h3>
+<p>CAR stores execution state separately from runtime progress and surface delivery. <a href="repo/src/codex_autorunner/core/orchestration/recovery_lifecycle.py">Recovery classification</a>, lines 76–105 and 177–207, examines execution phase/age and canonical request context, classifies a recovery action and records the decision. It can mark runtime bindings suspect or invalid rather than treating any old provider session ID as resumable.</p>
+<p>The delivery ledger separately stores final-delivery intent with idempotency keys, claim expiry, attempt state and retry backoff. This matters because “agent finished” and “Telegram received the answer” are different events. Failed delivery can be retried without automatically redoing the coding turn.</p>
+<p>The <a href="repo/src/codex_autorunner/core/orchestration/managed_turn_lifecycle_contract.py">managed-turn lifecycle contract</a>, lines 6–95, makes the boundary precise:</p>
+<pre aria-label="Code or source excerpt" role="region" tabindex="0"><code class="language-text">accepted → queued/runtime_starting → runtime_running
+    → runtime_terminal_observed → terminal_recording → terminal_recorded
+    → delivery_enqueued / side_effects_pending → side_effects_complete
+</code></pre>
+<p><code>terminal_recorded</code> is the queue-unblocking boundary. Timeline writes, delivery, transcript projection, archive cleanup and other optional effects have their own later completion. Duplicate terminal recordings are recognized. A conflicting late outcome preserves the first durable result. This avoids making downstream transcript or notification failure indistinguishable from a coding turn failure. The inspected lifecycle tests cover those distinctions, although they were not run during this assessment.</p>
+<p>Ticket retries also distinguish network failure, invalid ticket frontmatter, commit-resolution failure and no-progress loops. <a href="repo/src/codex_autorunner/tickets/models.py">TicketRunConfig</a>, lines 84–98, supplies separate limits; reaching the overall turn budget pauses for review (<a href="repo/src/codex_autorunner/tickets/runner.py">runner</a>, lines 96–109 and 387–443). These are operational safeguards around file-backed work, not a guarantee that the model has correctly understood a business product.</p>
+<h3 id="assessment-completion-retirement-and-cleanup">Completion, retirement and cleanup</h3>
+<p>After a turn, <a href="repo/src/codex_autorunner/tickets/runner_post_turn.py">post-turn processing</a>, lines 47–126 and 630–718, rereads ticket frontmatter, archives dispatches, creates a turn summary and checks worktree/commit state. A done ticket with unresolved dirty changes remains pinned behind the commit barrier; exhausted resolution pauses rather than advancing silently. When no incomplete ticket remains, the run completes.</p>
+<p>A managed thread can be archived/retired independently of a run. PMA's fast path protects chat-bound threads from broad cleanup instructions by default. This is a useful continuity policy for Wingman's ongoing human relationship, although retaining a conversation alone does not implement product-team membership.</p>
+<p>Pool shutdown cancels drain tasks, cancels unresolved execution waiters, clears emitters and closes supervisors it owns while leaving externally supplied shared runtime services alone (<a href="repo/src/codex_autorunner/adapters/agents/agent_pool_impl.py"><code>close_all</code></a>, lines 481–518). Runtime-process cleanup, managed-thread retirement and completed product work are therefore separate lifecycle concerns.</p>
+<h2 id="assessment-coordination-trace-a-blocked-ticket-and-telegram-reply">Coordination trace: a blocked ticket and Telegram reply</h2>
+<p>This is a source-traced scenario, not an executed Telegram session. Assume a configured repository flow is implementing a ticket and needs a product decision:</p>
+<ol>
+<li><a href="repo/src/codex_autorunner/flows/ticket_flow/runtime_helpers.py">Ticket-flow startup</a>, lines 115–130, persists the run then ensures a worker. <a href="repo/src/codex_autorunner/tickets/runner.py">TicketRunner.step</a>, lines 119–149, archives any user reply and invokes selection. <a href="repo/src/codex_autorunner/tickets/runner_selection.py">Selection</a>, lines 168–199, finds the next incomplete numbered ticket. No agent votes on a shared backlog here. The file order and done flag decide.</li>
+<li>The runner builds prompt/options and attaches run ID, ticket ID/path/profile before calling <code>execute_turn_with_thread_binding_retry</code> (<a href="repo/src/codex_autorunner/tickets/runner.py">runner</a>, lines 285–322). The pool resolves/reuses a managed conversation and drains its runtime queue. Project knowledge and reply history enter the worker prompt; task coordination is carried by files plus durable execution records.</li>
+<li>The worker writes a <code>Dispatch(mode="pause")</code> artifact. <a href="repo/src/codex_autorunner/tickets/runner_post_turn.py">Post-turn archival</a>, lines 47–126, archives dispatch and agent-output summary; lines 642–653 return a paused ticket result. The pause is a durable handoff rather than a transient question printed to a terminal.</li>
+<li><a href="repo/src/codex_autorunner/adapters/telegram/ticket_flow_bridge.py">Telegram bridge</a>, lines 236–329, loads the pause, chooses a bound topic, records a run/dispatch dedupe marker and sends the full dispatch, restoring prior markers on caught failure. Lines 549–634 send chunked text, configured attachments and a mirrored outbound chat record. A preferred Discord binding can suppress Telegram delivery, so this behavior depends on configured routing.</li>
+<li><a href="repo/src/codex_autorunner/adapters/telegram/handlers/paused_flow_reply.py">Reply submission</a>, lines 40–81, accepts the resolved paused run and media, writes the user reply, acknowledges it and attempts resume only on success. <a href="repo/src/codex_autorunner/adapters/telegram/ticket_flow_bridge.py">Bridge resume</a>, lines 411–431, resumes the controller and spawns a worker; caught failures are logged, so successful reply persistence does not by itself prove successful continuation.</li>
+<li>The next runner step archives/loads reply context and continues that ticket. Completion is still reread from the ticket file, with dirty done tickets pinned behind the commit gate (<a href="repo/src/codex_autorunner/tickets/runner_post_turn.py">post-turn</a>, lines 655–718; <a href="repo/src/codex_autorunner/tickets/runner_selection.py">selection</a>, lines 103–175). A model answer, terminal runtime result, ticket completion, flow completion and delivered Telegram answer are distinct states.
+This is strong ticket-mediated coordination and human escalation. It does not automatically create a conversation among a backend employee, a frontend employee and a ProductMaster in a shared project room.</li>
+</ol>
+<h2 id="assessment-major-additional-capabilities">Major additional capabilities</h2>
+<p><strong>A provider-independent meta-harness.</strong> The <a href="repo/src/codex_autorunner/agents/registry.py">registry</a>, lines 15–57, connects Codex, OpenCode, Hermes, OMP and ACP-related adapters and admits entry-point backends; <a href="repo/src/codex_autorunner/core/orchestration/catalog.py">catalog construction</a>, lines 44–75, normalizes capabilities. Wingman currently names Codex. This could expand its workforce, at the cost of runtime-specific lifecycle and permission testing. A normalized API is not operational parity.</p>
+<p><strong>Programmable ticket execution and worktree lifecycle.</strong> <a href="repo/src/codex_autorunner/tickets/models.py">Ticket frontmatter</a>, lines 20–38, combines runtime/profile/model with contextual file includes, and <a href="repo/src/codex_autorunner/tickets/runner_selection.py">selection</a>, lines 103–175, enforces a clean-commit barrier. <a href="repo/src/codex_autorunner/core/pma_prompt_builder.py">PMA guidance</a>, lines 55–73, chooses bounded conversational work versus ordered ticket work and PR-mode worktrees. This enables a light path for small requests and a durable delivery queue for larger changes. Integration must preserve that distinction and supply cross-worktree integration ownership.</p>
+<p><strong>Durable communication delivery.</strong> <a href="repo/src/codex_autorunner/core/orchestration/managed_thread_delivery_ledger.py">The ledger and engine</a>, lines 49–79 and 409–469, register idempotent final-delivery intent, claim work, recover expired claims and apply retry budgets. A failed send need not rerun coding. The model's successful completion and the human receiving the result remain separately observable states, with backend/surface integration still requiring runtime validation. This is substantial infrastructure beyond connecting a bot handler.</p>
+<p><strong>Generalized automation with execution lineage.</strong> <a href="repo/src/codex_autorunner/core/automation/scheduler.py">Scheduling</a>, lines 36–85, <a href="repo/src/codex_autorunner/core/automation/worker.py">job execution</a>, lines 90–173, and <a href="repo/src/codex_autorunner/core/automation/executors.py">authoritative child edges</a>, lines 303–374, distinguish starting work from completing it. Follow-up can be event-driven as well as periodic, with concurrency, attempts and escalation inspectable. Wingman could use this for supervision; business priorities, escalation recipients and rules must still be configured.</p>
+<p><strong>Multi-agent code-review workflow.</strong> The <a href="repo/src/codex_autorunner/flows/review/service.py">review service</a>, lines 104–160 and 213–259, supplies coordinator/scratchpad and independent exploration/pruning instructions. Lines 943–985 configure OpenCode read subagents with edit/write/bash/task denied and restrict the coordinator's Task targets. This adds a concrete review workflow beyond Wingman's developer/tester baseline. Delegation strategy is model-directed within those constraints, not a deterministic independent-review guarantee; adoption must test each backend and keep code review distinct from product acceptance.</p>
+<p><strong>Installable workflow applications.</strong> <a href="repo/src/codex_autorunner/core/apps/manifest.py">App manifests</a>, lines 12–91, define templates, executable tools, typed outputs, hooks and declared permissions. <a href="repo/src/codex_autorunner/core/apps/hooks.py">Hook execution</a>, lines 148–239, attaches behavior after a ticket, terminal flow, archive or before chat wrap-up, with warn/pause/fail outcomes. This packages repeatable workflows and generated evidence beyond another worker profile. The <a href="repo/src/codex_autorunner/core/apps/tool_runner.py">tool runner</a>, lines 94–164 and 216–240, refuses untrusted or modified bundles and checks ticket provenance before running the declared subprocess. Those are useful trust controls; manifest read/write/network declarations alone do not establish a process sandbox.</p>
+<p><strong>SCM feedback automation.</strong> <a href="repo/src/codex_autorunner/core/scm_automation_service.py">SCM automation</a>, lines 1502–1540, 1755–1843 and 2082–2098, connects PR bindings, CI failures and review comments to managed turns, chat notification and a publication journal. Review comments can be batched by time window and failed/no-target routing has durable audit evidence. Wingman describes delivery generally; CAR supplies a specific external code-review/CI feedback loop. Adoption requires provider authentication, PR/thread ownership and publication/escalation policy rather than simply enabling a generic supervisor timer.</p>
+<p><strong>Managed previews and demonstration evidence.</strong> <a href="repo/src/codex_autorunner/core/preview_services/supervisor.py">PreviewServiceSupervisor</a>, lines 144–240, 324–423 and 450–503, registers static/loopback previews and manages command services with ports, health checks, logs, restart and teardown. <a href="repo/src/codex_autorunner/browser/orchestration.py">Browser workflow orchestration</a>, lines 116–166 and 236–324, combines service readiness, scripted capture, video/trace settings, artifact export and outbox publishing. This could give Wingman a delivery-preview/evidence product, while remaining local-process infrastructure; capture success is not a proof of every acceptance scenario.</p>
+<h2 id="assessment-distinctive-mechanisms-and-innovation">Distinctive mechanisms and innovation</h2>
+<p>The most useful combination is <strong>file-authoritative work plus a durable orchestration ledger</strong> (<a href="repo/src/codex_autorunner/tickets/runner_selection.py">selection</a>, lines 103–175; <a href="repo/src/codex_autorunner/core/managed_thread_store.py">managed identity insert</a>, lines 761–846). Tickets remain editable and inspectable while execution, transcript and delivery have stable identities. The limit is that files and database projections must remain reconciled, and neither validates the business truth of a done flag.</p>
+<p>The <strong>managed-thread/flow split</strong> (<a href="repo/src/codex_autorunner/core/orchestration/service_factories.py">service factories</a>, lines 19–58; <a href="repo/src/codex_autorunner/core/pma_prompt_builder.py">PMA policy</a>, lines 55–73) gives a bounded task conversational execution and structured work an ordered ticket state machine. Wingman could avoid imposing a large process on every request. The choice is guided by the PMA prompt, so a team policy must make its use predictable.</p>
+<p><strong>Attention projection and targeted automation</strong> (<a href="repo/src/codex_autorunner/core/pma_attention.py">attention</a>, lines 317–378; <a href="repo/src/codex_autorunner/core/automation/scheduler.py">scheduler</a>, lines 36–85) turn management input into a bounded actionable list with freshness, supersession, background counts and drill-downs. This reduces the context needed on a wake. It is useful supervision infrastructure, not the full executive current/recent/next briefing per employee.</p>
+<p>The <strong>terminal-record boundary</strong> (<a href="repo/src/codex_autorunner/core/orchestration/managed_turn_lifecycle_contract.py">lifecycle contract</a>, lines 42–90 and 102–140) first records execution outcome/unblocks the queue, then repairs delivery/transcript/other side effects separately. With runtime-binding invalidation and transcript-seeded rehydration, it enables continuity without asserting that a restarted provider is the same live session. Its limit is semantic continuity: a bounded transcript and compact seed cannot prove retention of everything the previous model knew.</p>
+<p>These are distinctive mechanisms in this checkout, not a claim that CAR originated them industry-wide.</p>
+<h2 id="assessment-what-to-reuse-adapt-and-build">What to reuse, adapt and build</h2>
+<p>Reuse candidates include managed conversation ownership, adapter boundaries, ticket execution, worktree setup, Telegram delivery and scheduled/event follow-up. Adapt scope identities into Wingman projects and add an enduring agent/team layer above conversations. Keep the useful distinction between lightweight conversational work and ordered delivery flows.</p>
+<p>Build the explicit Butler/ProjectMaster separation, per-project ProductMaster/TechMaster collaboration, discovery-readiness workflow, agent room membership and executive agent briefing. Multi-host execution needs a real placement/shared-context design rather than relabeling a Docker destination. Product acceptance must assess integrated behavior and the product DoD above file status and commit cleanliness.</p>
+<h2 id="assessment-verification-scope">Verification scope</h2>
+<p>This is a static source assessment of commit <code>3bedfe817e6fc70eb16650f216eca93cd37fa411</code>. The checkout was read only. No dependency installation, test run, service startup, provider call, live browser session or Telegram interaction was performed. “Implemented” means a reachable source path exists; operational behavior and provider compatibility were not exercised.</p>
+<p>Read the checkout root AGENTS.md, required cheat sheet and taste file, plus nested chat-adapter, web-backend, frontend and tests instructions before inspecting those areas. The root-referenced <code>.codex-autorunner/ABOUT_CAR.md</code> is not present in this checkout (including a hidden-file search); no runtime setup was attempted. The source prompt builder references generated hub PMA docs, which must not be mistaken for files present in this checkout.</p>
+<p>The linked implementation review covered these areas:</p>
+<ul>
+<li>CLI serve, hub/orchestration factory, thread CRUD, and execution preparation/startup.</li>
+<li>Codex harness/supervisor and ticket-flow workers, controllers, pools, and runner.</li>
+<li>Telegram pause/reply and automation schedules, workers, executors, and child graphs.</li>
+<li>Delivery ledger/recovery, contextspace, and web chat/repository/ticket views.</li>
+<li>Reviews, application hooks, tool trust, SCM, previews, and capture.</li>
+</ul>
+<p>Inspected test bodies (not run):</p>
+<ul>
+<li><a href="repo/tests/tickets/test_runner_state_transitions.py">Ticket transitions</a>, lines 188–208 and 425–461: pause retains dispatch/session identity; invalid frontmatter retries then pauses at its limit.</li>
+<li><a href="repo/tests/test_telegram_ticket_flow_bridge.py">Telegram bridge</a>, lines 115–187: fake send functions receive chunked text and permitted attachment, and outbound mirror/dedupe marker are asserted. These are stubs, not real Telegram evidence.</li>
+<li><a href="repo/tests/core/orchestration/test_managed_turn_lifecycle_contract.py">Lifecycle contract</a>, lines 21–145: queue boundary, legal phases, duplicate/conflicting terminal outcomes and recovery classification.</li>
+<li><a href="repo/tests/core/orchestration/test_managed_thread_delivery_ledger.py">Delivery ledger</a>, lines 91–143, 530–547 and 650–677: durable intent/deduplication, expired-claim renewal and retry-state/event recording.</li>
+<li><a href="repo/tests/core/test_automation_worker.py">Automation worker</a>, lines 90–177 and 261–333: running differs from succeeded, retry timing/dead-letter behavior, child completion releases a concurrency blocker and open child execution keeps one.</li>
+</ul>
+<p>Gap searches covered core orchestration models/catalog, manifest, PMA prompt branches, ticket-flow and automation paths, Telegram/Discord collaboration policy, frontend routes plus screen code, and destination/harness/supervisor/control-plane paths. Searches for organizational roles/teams/rooms and host/SSH/distributed execution did not establish Wingman's standing employee hierarchy, peer agent rooms or a multi-host worker fleet. Remote control-plane stores or backend HTTP URLs are insufficient evidence of that full feature. These are bounded implementation-gap judgments, not a claim that no custom prompt, external integration or uninspected deployment could add such behavior. Cross-backend reliability, end-to-end acceptance and UI operation remain unverified.</p></article><section id="support-legacy-evidence" class="technical supporting"><h2 id="support-legacy-evidence-retained-car-research-findings">Retained CAR research findings</h2>
+<h2 id="support-legacy-evidence-scope">Scope</h2>
+<p>The older research used commit <code>3bedfe817e6fc70eb16650f216eca93cd37fa411</code>.
+Its narrative reports 237 focused passes in groups of 102, 99, 20, and 16.
+No separate raw test log was retained.
+Treat that count as a historical narrative claim.
+The current <a href="index.html">technical assessment</a> governs the Wingman fit verdict.</p>
+<h2 id="support-legacy-evidence-findings-that-remain-useful">Findings that remain useful</h2>
+<p>CAR has two separate execution models.
+An ordered ticket flow selects unfinished work and evaluates its outcome.
+A managed thread retains a conversation binding and execution records.
+PMA can direct several managed threads independently.
+Do not describe the whole product as one serial ticket loop.</p>
+<p>The message contract has queue, reject, and interrupt policies.
+Queue admits later work. Reject refuses work while the target is busy.
+Interrupt stops the current execution before it prepares another execution.
+This path does not establish native in-flight <code>turn/steer</code> behavior.</p>
+<p>A done ticket can encounter a commit barrier when the working tree remains dirty.
+Persisted retry and pause state supports recovery.
+A stale-worker cleanup observation cannot replace the user's requested lifecycle state.
+Completion delivery and autonomous PMA follow-up also have separate conditions.</p>
+<h2 id="support-legacy-evidence-source-evidence">Source evidence</h2>
+<ul>
+<li><a href="repo/tests/tickets/test_runner_invariants.py">Runner invariants</a>.</li>
+<li><a href="repo/tests/tickets/test_runner_state_transitions.py">Runner state transitions</a>.</li>
+<li><a href="repo/tests/core/test_ticket_flow_recovery.py">Ticket recovery</a>.</li>
+<li><a href="repo/tests/test_managed_thread_store.py">Managed thread store</a>.</li>
+<li><a href="repo/tests/core/orchestration/test_managed_thread_delivery_recovery.py">Managed delivery recovery</a>.</li>
+<li><a href="repo/tests/core/flows/test_flow_supervisor.py">Flow supervisor tests</a>.</li>
+</ul>
+<p>These source files explain the asserted contracts.
+Their presence does not prove a new test run or the historical total.
+The reorganization did not execute them.</p></section>
+<section id="source-record"><h2>Source and evidence</h2><p class="url-text">https://github.com/Git-on-my-level/codex-autorunner</p>
+<ul><li><a href="repo/">Open the pinned source checkout</a></li><li><a href="assessment/ASSESSMENT.md">Read the Markdown assessment</a></li>
+<li><a href="../generic/assessments/_audits/qa13.md">Read the historical independent source audit</a></li><li><a href="../generic/method.html">Read the method and evidence limits</a></li></ul></section>
+<nav class="report-switch" aria-label="Adjacent project reports"><a href="../cmux/index.html">Previous project: cmux</a><a href="../companyhelm/index.html">Next project: CompanyHelm</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../index.html">Return to overview <img src="../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

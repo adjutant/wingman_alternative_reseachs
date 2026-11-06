@@ -1,0 +1,2508 @@
+$ bash scripts/run-bun-tests.sh "--parallel=4" src/tests/trigger-claiming.test.ts src/tests/steering-core.test.ts src/tests/steering-transport.test.ts src/tests/steering-promotion.test.ts src/tests/successor-steering.test.ts src/tests/steer-task-tool.test.ts src/tests/store-progress-ownership.test.ts src/tests/multi-runtime-registration.test.ts src/tests/runtime-recovery.test.ts src/tests/heartbeat-stall-cas.test.ts src/tests/runner-slot-reconcile.test.ts src/tests/pool-affinity.test.ts src/tests/task-supersede-resume.test.ts src/tests/worker-nudges.test.ts
+bun test v1.4.4 (38afee6c8) 4x PARALLEL
+
+src/tests/runner-slot-reconcile.test.ts:
+Database initialized at :memory:
+[db] sqlite-vec loaded
+[migrations] Existing database appears incomplete — applying 001_initial migration
+[migrations] Applying: 001_initial
+[migrations] Applied: 001_initial (1.6ms)
+[migrations] Applying: 002_one_time_schedules
+[migrations] Applied: 002_one_time_schedules (1.1ms)
+[migrations] Applying: 003_workflows
+[migrations] Applied: 003_workflows (1.1ms)
+[migrations] Applying: 004_workflow_source
+[migrations] Applied: 004_workflow_source (1.5ms)
+[migrations] Applying: 005_epic_next_steps
+[migrations] Applied: 005_epic_next_steps (0.4ms)
+[migrations] Applying: 006_vcs_provider
+[migrations] Applied: 006_vcs_provider (5.6ms)
+[migrations] Applying: 007_task_dir
+[migrations] Applied: 007_task_dir (0.4ms)
+[migrations] Applying: 008_workflow_redesign
+[migrations] Applied: 008_workflow_redesign (0.5ms)
+[migrations] Applying: 009_tracker_integration
+[migrations] Applied: 009_tracker_integration (2.0ms)
+[migrations] Applying: 010_step_diagnostics
+[migrations] Applied: 010_step_diagnostics (0.4ms)
+[migrations] Applying: 011_step_next_port
+[migrations] Applied: 011_step_next_port (0.4ms)
+[migrations] Applying: 012_trigger_schema
+[migrations] Applied: 012_trigger_schema (0.4ms)
+[migrations] Applying: 013_task_output_schema
+[migrations] Applied: 013_task_output_schema (0.4ms)
+[migrations] Applying: 014_prompt_templates
+[migrations] Applied: 014_prompt_templates (0.2ms)
+[migrations] Applying: 015_workflow_workspace
+[migrations] Applied: 015_workflow_workspace (0.8ms)
+[migrations] Applying: 016_active_session_runner_session
+[migrations] Applied: 016_active_session_runner_session (0.8ms)
+[migrations] Applying: 017_channel_activity_cursors
+[migrations] Applied: 017_channel_activity_cursors (0.1ms)
+[migrations] Applying: 018_fix_seed_double_version
+[migrations] Applied: 018_fix_seed_double_version (0.1ms)
+[migrations] Applying: 019_skills
+[migrations] Applied: 019_skills (0.3ms)
+[migrations] Applying: 020_approval_requests
+[migrations] Applied: 020_approval_requests (0.2ms)
+[migrations] Applying: 021_events
+[migrations] Applied: 021_events (0.3ms)
+[migrations] Applying: 022_context_usage
+[migrations] Applied: 022_context_usage (2.3ms)
+[migrations] Applying: 023_mcp_servers
+[migrations] Applied: 023_mcp_servers (0.3ms)
+[migrations] Applying: 024_add_was_paused
+[migrations] Applied: 024_add_was_paused (0.5ms)
+[migrations] Applying: 025_workflow_run_cancelled_status
+[migrations] Applied: 025_workflow_run_cancelled_status (3.4ms)
+[migrations] Applying: 026_drop_epics
+[migrations] Applied: 026_drop_epics (2.0ms)
+[migrations] Applying: 027_heartbeat_md
+[migrations] Applied: 027_heartbeat_md (0.5ms)
+[migrations] Applying: 028_api_key_tracking
+[migrations] Applied: 028_api_key_tracking (0.6ms)
+[migrations] Applying: 029_task_credential_key_type
+[migrations] Applied: 029_task_credential_key_type (0.5ms)
+[migrations] Applying: 030_iso8601_date_consistency
+[migrations] Applied: 030_iso8601_date_consistency (0.2ms)
+[migrations] Applying: 031_user_registry
+[migrations] Applied: 031_user_registry (0.8ms)
+[migrations] Applying: 032_repo_guidelines
+[migrations] Applied: 032_repo_guidelines (0.5ms)
+[migrations] Applying: 033_vcs_installation_node_id
+[migrations] Applied: 033_vcs_installation_node_id (0.9ms)
+[migrations] Applying: 034_slack_reply_sent
+[migrations] Applied: 034_slack_reply_sent (0.5ms)
+[migrations] Applying: 035_api_key_name_provider
+[migrations] Applied: 035_api_key_name_provider (1.0ms)
+[migrations] Applying: 036_memory_ttl_staleness
+[migrations] Applied: 036_memory_ttl_staleness (1.4ms)
+[migrations] Applying: 037_swarm_version
+[migrations] Applied: 037_swarm_version (0.5ms)
+[migrations] Applying: 038_encrypted_secrets
+[migrations] Applied: 038_encrypted_secrets (0.4ms)
+[migrations] Applying: 039_remove_seed_users
+[migrations] Applied: 039_remove_seed_users (0.0ms)
+[migrations] Applying: 040_slack_thread_composite_index
+[migrations] Applied: 040_slack_thread_composite_index (0.0ms)
+[migrations] Applying: 041_mcp_oauth_tokens
+[migrations] Applied: 041_mcp_oauth_tokens (0.8ms)
+[migrations] Applying: 042_task_context_key
+[migrations] Applied: 042_task_context_key (0.5ms)
+[migrations] Applying: 043_jira_source
+[migrations] Applied: 043_jira_source (2.0ms)
+[migrations] Applying: 044_provider_meta
+[migrations] Applied: 044_provider_meta (1.0ms)
+[migrations] Applying: 046_budgets_and_pricing
+[migrations] Applied: 046_budgets_and_pricing (0.2ms)
+[migrations] Applying: 047_session_costs_cost_source
+[migrations] Applied: 047_session_costs_cost_source (0.6ms)
+[migrations] Applying: 048_agent_provider
+[migrations] Applied: 048_agent_provider (0.5ms)
+[migrations] Applying: 049_wait_states
+[migrations] Applied: 049_wait_states (0.2ms)
+[migrations] Applying: 050_wait_states_scope
+[migrations] Applied: 050_wait_states_scope (0.6ms)
+[migrations] Applying: 051_memory_posteriors_and_retrieval
+[migrations] Applied: 051_memory_posteriors_and_retrieval (1.3ms)
+[migrations] Applying: 052_memory_edges
+[migrations] Applied: 052_memory_edges (0.1ms)
+[migrations] Applying: 053_agent_waiting_for_credentials_status
+[migrations] Applied: 053_agent_waiting_for_credentials_status (1.6ms)
+[migrations] Applying: 054_agent_harness_provider
+[migrations] Applied: 054_agent_harness_provider (0.5ms)
+[migrations] Applying: 055_agent_cred_status
+[migrations] Applied: 055_agent_cred_status (0.5ms)
+[migrations] Applying: 056_drop_agent_tasks_source_check
+[migrations] Applied: 056_drop_agent_tasks_source_check (2.0ms)
+[migrations] Applying: 057_inbox_item_state
+[migrations] Applied: 057_inbox_item_state (0.1ms)
+[migrations] Applying: 058_task_templates
+[migrations] Applied: 058_task_templates (0.1ms)
+[migrations] Applying: 059_pages
+[migrations] Applied: 059_pages (0.2ms)
+[migrations] Applying: 060_page_versions
+[migrations] Applied: 060_page_versions (0.1ms)
+[migrations] Applying: 061_kv_store
+[migrations] Applied: 061_kv_store (0.1ms)
+[migrations] Applying: 062_pages_view_count
+[migrations] Applied: 062_pages_view_count (0.6ms)
+[migrations] Applying: 063_cost_context_schema_relax
+[migrations] Applied: 063_cost_context_schema_relax (6.7ms)
+[migrations] Applying: 064_scripts
+[migrations] Applied: 064_scripts (0.2ms)
+[migrations] Applying: 065_script_embeddings
+[migrations] Applied: 065_script_embeddings (0.0ms)
+[migrations] Applying: 066_scripts_args_json_schema
+[migrations] Applied: 066_scripts_args_json_schema (0.6ms)
+[migrations] Applying: 067_users_first_class
+[migrations] Applied: 067_users_first_class (3.9ms)
+[migrations] Applying: 068_profile_changed_event_type
+[migrations] Applied: 068_profile_changed_event_type (1.8ms)
+[migrations] Applying: 069_agent_tasks_perf_indexes
+[migrations] Applied: 069_agent_tasks_perf_indexes (0.1ms)
+[migrations] Applying: 070_seed_state
+[migrations] Applied: 070_seed_state (0.0ms)
+[migrations] Applying: 071_codex_oauth_pool
+[migrations] Applied: 071_codex_oauth_pool (0.0ms)
+[migrations] Applying: 072_task_attachments
+[migrations] Applied: 072_task_attachments (0.1ms)
+[migrations] Applying: 073_task_attachments_agent_fs_ids
+[migrations] Applied: 073_task_attachments_agent_fs_ids (1.2ms)
+[migrations] Applying: 074_user_budget_scope
+[migrations] Applied: 074_user_budget_scope (3.7ms)
+[migrations] Applying: 076_kapso_sender_user_backfill
+[migrations] Applied: 076_kapso_sender_user_backfill (0.1ms)
+[migrations] Applying: 077_oauth_refresh_locks
+[migrations] Applied: 077_oauth_refresh_locks (0.1ms)
+[migrations] Applying: 078_backfill_gpt_5_5_pricing
+[migrations] Applied: 078_backfill_gpt_5_5_pricing (0.0ms)
+[migrations] Applying: 079_task_followup_config
+[migrations] Applied: 079_task_followup_config (0.6ms)
+[migrations] Applying: 080_skill_system_defaults
+[migrations] Applied: 080_skill_system_defaults (0.6ms)
+[migrations] Applying: 081_metrics
+[migrations] Applied: 081_metrics (0.2ms)
+[migrations] Applying: 082_user_audit_fields
+[migrations] Applied: 082_user_audit_fields (45.0ms)
+[migrations] Applying: 083_script_workflows
+[migrations] Applied: 083_script_workflows (0.2ms)
+[migrations] Applying: 084_script_run_journal_duration
+[migrations] Applied: 084_script_run_journal_duration (0.7ms)
+[migrations] Applying: 085_script_runs_kind
+[migrations] Applied: 085_script_runs_kind (0.7ms)
+[migrations] Applying: 086_pages_default_authed
+[migrations] Applied: 086_pages_default_authed (2.3ms)
+[migrations] Applying: 087_skill_files
+[migrations] Applied: 087_skill_files (0.1ms)
+[migrations] Applying: 088_script_runs_list_indexes
+[migrations] Applied: 088_script_runs_list_indexes (0.1ms)
+[migrations] Applying: 089_harness_variant
+[migrations] Applied: 089_harness_variant (1.4ms)
+[migrations] Applying: 090_model_tiers
+[migrations] Applied: 090_model_tiers (1.4ms)
+[migrations] Applying: 091_seed_swarm_operations_metrics
+[migrations] Applied: 091_seed_swarm_operations_metrics (0.0ms)
+[migrations] Applying: 092_metrics_dashboard_combobox_filters
+[migrations] Applied: 092_metrics_dashboard_combobox_filters (0.1ms)
+[migrations] Applying: 093_slack_message_tracking
+[migrations] Applied: 093_slack_message_tracking (1.4ms)
+[migrations] Applying: 094_mcp_extra_authorize_params
+[migrations] Applied: 094_mcp_extra_authorize_params (0.7ms)
+[migrations] Applying: 095_api_key_rate_limit_windows
+[migrations] Applied: 095_api_key_rate_limit_windows (0.7ms)
+[migrations] Applying: 096_memory_graph_phase1
+[migrations] Applied: 096_memory_graph_phase1 (3.7ms)
+[migrations] Applying: 097_memory_retrieval_grouping
+[migrations] Applied: 097_memory_retrieval_grouping (1.5ms)
+[migrations] Applying: 098_repo_hooks_config
+[migrations] Applied: 098_repo_hooks_config (0.7ms)
+[migrations] Applying: 099_memory_structured_key_versioning
+[migrations] Applied: 099_memory_structured_key_versioning (3.0ms)
+[migrations] Applying: 100_memory_retrieval_source
+[migrations] Applied: 100_memory_retrieval_source (0.8ms)
+[migrations] Applying: 101_script_connections
+[migrations] Applied: 101_script_connections (0.2ms)
+[migrations] Applying: 102_script_apis
+[migrations] Applied: 102_script_apis (0.9ms)
+[migrations] Applying: 103_schedule_target_type
+[migrations] Applied: 103_schedule_target_type (2.7ms)
+[migrations] Applying: 104_task_reasoning_effort
+[migrations] Applied: 104_task_reasoning_effort (0.8ms)
+[migrations] Applying: 105_user_favorites
+[migrations] Applied: 105_user_favorites (0.1ms)
+[migrations] Applying: 106_task_attachments_provider_agnostic
+[migrations] Applied: 106_task_attachments_provider_agnostic (2.4ms)
+[migrations] Applying: 107_memory_usefulness_indexes
+[migrations] Applied: 107_memory_usefulness_indexes (0.1ms)
+[migrations] Applying: 108_rbac_permission_audit
+[migrations] Applied: 108_rbac_permission_audit (0.2ms)
+[migrations] Applying: 109_rbac_roles
+[migrations] Applied: 109_rbac_roles (0.3ms)
+[migrations] Applying: 111_oauth_credential_bindings
+[migrations] Applied: 111_oauth_credential_bindings (1.7ms)
+[migrations] Applying: 112_script_connections_graphql
+[migrations] Applied: 112_script_connections_graphql (2.8ms)
+[migrations] Applying: 113_task_routing_affinity
+[migrations] Applied: 113_task_routing_affinity (0.9ms)
+[migrations] Applying: 114_backfill_gpt_5_6_pricing
+[migrations] Applied: 114_backfill_gpt_5_6_pricing (0.0ms)
+[migrations] Applying: 115_asset_namespace_keys
+[migrations] Applied: 115_asset_namespace_keys (4.4ms)
+[migrations] Applying: 116_favorite_principal_scope
+[migrations] Applied: 116_favorite_principal_scope (3.3ms)
+[migrations] Applying: 117_unified_oauth
+[migrations] Applied: 117_unified_oauth (24.9ms)
+[migrations] Applying: 119_agent_avatar
+[migrations] Applied: 119_agent_avatar (1.1ms)
+[migrations] Applying: 120_task_title
+[migrations] Applied: 120_task_title (1.1ms)
+[migrations] Applying: 121_task_steering_messages
+[migrations] Applied: 121_task_steering_messages (0.2ms)
+[migrations] Applying: 122_steering_handled_note
+[migrations] Applied: 122_steering_handled_note (1.1ms)
+[migrations] Applying: 123_slack_messages
+[migrations] Applied: 123_slack_messages (0.3ms)
+[migrations] Applying: 124_slack_render_v2_state
+[migrations] Applied: 124_slack_render_v2_state (0.1ms)
+[migrations] Applying: 125_task_slack_trigger_message_ts
+[migrations] Applied: 125_task_slack_trigger_message_ts (1.1ms)
+[migrations] Applying: 126_apps
+[migrations] Applied: 126_apps (0.2ms)
+[migrations] Applying: 127_backfill_user_attribution
+[migrations] Applied: 127_backfill_user_attribution (0.1ms)
+[migrations] Applying: 128_session_costs_accuracy
+[migrations] Applied: 128_session_costs_accuracy (4.4ms)
+[migrations] Applying: 129_asset_keys_apps_scripts
+[migrations] Applied: 129_asset_keys_apps_scripts (6.0ms)
+[migrations] Applying: 130_scratch_script_retention_grace
+[migrations] Applied: 130_scratch_script_retention_grace (0.0ms)
+[migrations] Applying: 131_session_logs_created_at_index
+[migrations] Applied: 131_session_logs_created_at_index (0.0ms)
+[migrations] Applying: 132_multi_runtime_instances
+[migrations] Applied: 132_multi_runtime_instances (1.3ms)
+[migrations] Applying: 133_workflow_run_trigger_type
+[migrations] Applied: 133_workflow_run_trigger_type (1.3ms)
+[migrations] Applying: 135_backfill_task_pull_request_attachments
+[migrations] Applied: 135_backfill_task_pull_request_attachments (0.7ms)
+[migrations] Applying: 136_task_requester_provenance
+[migrations] Applied: 136_task_requester_provenance (1.3ms)
+[migrations] Applying: 137_memory_retrieval_composite_index
+[migrations] Applied: 137_memory_retrieval_composite_index (0.1ms)
+[migrations] Applying: 140_approval_request_cancelled_status
+[migrations] Applied: 140_approval_request_cancelled_status (3.9ms)
+[migrations] Applying: 141_scheduled_task_automation_preflight
+[migrations] Applied: 141_scheduled_task_automation_preflight (3.7ms)
+[migrations] Applying: 142_workflow_automation_preflight
+[migrations] Applied: 142_workflow_automation_preflight (3.7ms)
+[migrations] Applying: 143_backfill_gpt_6_astra_pricing
+[migrations] Applied: 143_backfill_gpt_6_astra_pricing (0.0ms)
+[migrations] Applying: 144_slack_relay_obligations
+[migrations] Applied: 144_slack_relay_obligations (0.2ms)
+[migrations] Applying: 145_slack_render_v2_delegation
+[migrations] Applied: 145_slack_render_v2_delegation (2.5ms)
+[migrations] Applying: 147_scheduled_tasks_parent_task
+[migrations] Applied: 147_scheduled_tasks_parent_task (1.2ms)
+[migrations] Applying: 148_pages_svg
+[migrations] Applied: 148_pages_svg (4.1ms)
+[migrations] Applying: 149_session_tokens
+[migrations] Applied: 149_session_tokens (0.1ms)
+[migrations] Applying: 150_deferred_task_waits
+[migrations] Applied: 150_deferred_task_waits (0.1ms)
+[migrations] Applying: 151_repair_scheduled_task_required_params
+[migrations] Applied: 151_repair_scheduled_task_required_params (0.1ms)
+[migrations] Applying: 152_routing_decisions
+[migrations] Applied: 152_routing_decisions (2.9ms)
+[migrations] Applying: 153_deferred_task_wait_members
+[migrations] Applied: 153_deferred_task_wait_members (6.9ms)
+[migrations] Applying: 154_routing_source
+[migrations] Applied: 154_routing_source (1.3ms)
+[migrations] Applying: 155_extensions
+[migrations] Applied: 155_extensions (0.3ms)
+[migrations] Applying: 156_inbox_item_state_read_at
+[migrations] Applied: 156_inbox_item_state_read_at (1.3ms)
+[migrations] Applying: 157_defer_provenance_and_marker
+[migrations] Applied: 157_defer_provenance_and_marker (6.5ms)
+[migrations] Applying: 158_task_citations
+[migrations] Applied: 158_task_citations (0.1ms)
+[migrations] Applying: 159_extension_assets
+[migrations] Applied: 159_extension_assets (0.1ms)
+[migrations] Applying: 161_task_citations_general
+[migrations] Applied: 161_task_citations_general (1.4ms)
+[migrations] Applying: 162_slack_outcome_delivery_abandon
+[migrations] Applied: 162_slack_outcome_delivery_abandon (3.9ms)
+[migrations] Applying: 164_usage_cover_index_and_key_plans
+[migrations] Applied: 164_usage_cover_index_and_key_plans (2.7ms)
+[migrations] Applying: 166_approval_request_auto_cancellation
+[migrations] Applied: 166_approval_request_auto_cancellation (0.1ms)
+[migrations] Applying: 171_memory_retrieval_relevance
+[migrations] Applied: 171_memory_retrieval_relevance (1.3ms)
+[migrations] Applying: 175_workflow_runs_list_index
+[migrations] Applied: 175_workflow_runs_list_index (0.1ms)
+[migrations] Applying: 177_events_event_agent_created_index
+[migrations] Applied: 177_events_event_agent_created_index (0.1ms)
+[migrations] Applying: 182_task_human_free_flag
+[migrations] Applied: 182_task_human_free_flag (1.6ms)
+[migrations] Applying: 183_human_free_reclassify_queue
+[migrations] Applied: 183_human_free_reclassify_queue (0.1ms)
+[migrations] Applying: 184_model_catalog
+[migrations] Applied: 184_model_catalog (7.1ms)
+[migrations] Applying: 185_api_key_auth_failures
+[migrations] Applied: 185_api_key_auth_failures (4.1ms)
+[migrations] Applying: 186_api_key_seat_mismatch
+[migrations] Applied: 186_api_key_seat_mismatch (2.7ms)
+[migrations] Applying: 190_memory_rating_model
+[migrations] Applied: 190_memory_rating_model (1.4ms)
+[migrations] Applying: 191_context_versions_previous_index
+[migrations] Applied: 191_context_versions_previous_index (0.1ms)
+[migrations] Applying: 192_favorites_agent_fs_path
+[migrations] Applied: 192_favorites_agent_fs_path (4.4ms)
+[migrations] Applying: 194_memory_orphan_chunks
+[migrations] Applied: 194_memory_orphan_chunks (0.0ms)
+[migrations] Applying: 195_approval_request_approvals
+[migrations] Applied: 195_approval_request_approvals (1.4ms)
+[migrations] Applying: 196_skill_invocations
+[migrations] Applied: 196_skill_invocations (3.0ms)
+[migrations] Applying: 197_connector_codes
+[migrations] Applied: 197_connector_codes (0.1ms)
+[migrations] Applying: 198_permission_audit_guest
+[migrations] Applied: 198_permission_audit_guest (4.4ms)
+[migrations] Applying: 200_backfill_auto_memory_expiry
+[migrations] Applied: 200_backfill_auto_memory_expiry (0.0ms)
+[migrations] Applying: 201_workflow_replay_columns
+[migrations] Applied: 201_workflow_replay_columns (2.8ms)
+[migrations] Applying: 202_codex_oauth_device_flows
+[migrations] Applied: 202_codex_oauth_device_flows (0.1ms)
+[migrations] Applying: 203_workflow_run_parent_step
+[migrations] Applied: 203_workflow_run_parent_step (1.4ms)
+[migrations] Applying: 204_slack_inbound_receipts
+[migrations] Applied: 204_slack_inbound_receipts (0.2ms)
+[migrations] Applying: 205_favorites_per_dashboard_user
+[migrations] Applied: 205_favorites_per_dashboard_user (0.0ms)
+[migrations] Applying: 206_runtime_pools
+[migrations] Applied: 206_runtime_pools (20.4ms)
+[migrations] Applying: 207_runtime_session_tokens
+[migrations] Applied: 207_runtime_session_tokens (4.6ms)
+[migrations] Applying: 208_task_runtime_dispatch
+[migrations] Applied: 208_task_runtime_dispatch (1.5ms)
+[migrations] Applying: 213_script_connections_sql
+[migrations] Applied: 213_script_connections_sql (4.7ms)
+[migrations] Applying: 215_swarm_config_export_to_env
+[migrations] Applied: 215_swarm_config_export_to_env (1.5ms)
+[migrations] Applying: 216_task_resolved_effort
+[migrations] Applied: 216_task_resolved_effort (1.5ms)
+[migrations] Applying: 217_chat_sdk_state
+[migrations] Applied: 217_chat_sdk_state (0.5ms)
+[migrations] Applying: 219_relabel_pi_context_compactions
+[migrations] Applied: 219_relabel_pi_context_compactions (0.0ms)
+[migrations] Applying: 220_model_profiles
+[migrations] Applied: 220_model_profiles (3.5ms)
+[migrations] Applying: 227_inbox_item_state_last_read_at
+[migrations] Applied: 227_inbox_item_state_last_read_at (1.6ms)
+[migrations] Applying: 230_session_shares
+[migrations] Applied: 230_session_shares (0.2ms)
+[migrations] Applying: 231_slack_tasks_last_updated_index
+[migrations] Applied: 231_slack_tasks_last_updated_index (0.1ms)
+[migrations] Applying: 232_agent_session_tokens
+[migrations] Applied: 232_agent_session_tokens (5.0ms)
+[migrations] Applying: 233_script_run_session_tokens
+[migrations] Applied: 233_script_run_session_tokens (1.7ms)
+[migrations] Applying: 235_chat_relay_defer
+[migrations] Applied: 235_chat_relay_defer (0.3ms)
+[migrations] Applying: 237_session_inbox_cleanup
+[migrations] Applied: 237_session_inbox_cleanup (0.2ms)
+[migrations] Applying: 239_skills_fts
+[migrations] Applied: 239_skills_fts (1.0ms)
+[migrations] Applying: 240_workflow_run_parent_step_attempt
+[migrations] Applied: 240_workflow_run_parent_step_attempt (1.8ms)
+[migrations] Applying: 241_skills_meta_fts
+[migrations] Applied: 241_skills_meta_fts (0.4ms)
+[migrations] Applying: 242_workflow_idempotency_keys
+[migrations] Applied: 242_workflow_idempotency_keys (0.2ms)
+[migrations] Applying: 244_api_key_validation
+[migrations] Applied: 244_api_key_validation (3.3ms)
+[migrations] Applying: 245_script_executor
+[migrations] Applied: 245_script_executor (1.6ms)
+[migrations] Applying: 246_connector_code_kind
+[migrations] Applied: 246_connector_code_kind (1.7ms)
+[migrations] Applying: 247_workflow_run_triggered_by_agent
+[migrations] Applied: 247_workflow_run_triggered_by_agent (1.6ms)
+[migrations] Applying: 250_workflow_run_steps_runid_status_index
+[migrations] Applied: 250_workflow_run_steps_runid_status_index (0.1ms)
+[migrations] Applying: 253_session_summaries
+[migrations] Applied: 253_session_summaries (1.2ms)
+[migrations] Applying: 254_query_audit_indexes
+[migrations] Applied: 254_query_audit_indexes (0.2ms)
+[migrations] Applying: 256_agent_slack_icon
+[migrations] Applied: 256_agent_slack_icon (1.9ms)
+[migrations] Applying: 257_agent_tasks_fts
+[migrations] Applied: 257_agent_tasks_fts (0.5ms)
+[migrations] Applying: 259_session_summaries_open_tasks
+[migrations] Applied: 259_session_summaries_open_tasks (2.4ms)
+[migrations] Applying: 260_runtime_pool_cache
+[migrations] Applied: 260_runtime_pool_cache (2.0ms)
+[migrations] Applying: 262_session_visibility_indexes
+[migrations] Applied: 262_session_visibility_indexes (0.1ms)
+[migrations] Applying: 263_task_list_filter_index
+[migrations] Applied: 263_task_list_filter_index (0.1ms)
+[migrations] Applying: 264_slack_thread_cover_index
+[migrations] Applied: 264_slack_thread_cover_index (0.1ms)
+[migrations] Applying: 266_script_runs_source_task
+[migrations] Applied: 266_script_runs_source_task (3.9ms)
+[migrations] Applying: 269_pages_design_system
+[migrations] Applied: 269_pages_design_system (5.7ms)
+[oauth-encryption] No plaintext OAuth secrets to migrate.
+[db] sqlite-vec loaded
+[worker] Task efc18b50 is failed server-side but its session is still running — aborting it
+[worker] Task efc18b50 session did not settle 10000ms after abort — releasing its slot
+[worker] Task efc18b50 completed with exit code 1 (trigger: task_assigned)
+[worker] Task efc18b50 was already failed server-side — slot released, server result kept
+(pass) reconcileActiveTasks: a session that never settles > server-terminal task: slot frees within interval + grace and the server result is kept [5.74ms]
+[worker] Task bab555b2 was cancelled — sending SIGTERM to subprocess
+[worker] Task bab555b2 session did not settle 10000ms after abort — releasing its slot
+[worker] Task bab555b2 completed with exit code 1 (trigger: task_assigned)
+(pass) reconcileActiveTasks: a session that never settles > cancelled task: the abort is followed by a forced settle once the grace passes [0.18ms]
+(pass) reconcileActiveTasks: a session that never settles > a task still in progress server-side keeps its slot, and status reads are throttled [0.18ms]
+(pass) reconcileActiveTasks: a session that never settles > an unreadable server status leaves the task alone [0.11ms]
+(pass) resolveTaskReconcileIntervalMs > reads RUNNER_TASK_RECONCILE_INTERVAL_MS and falls back on unset or invalid values [0.03ms]
+[worker] Task 310db1a1 completed with exit code 0 (trigger: task_assigned)
+[worker] Task 310db1a1 was already completed server-side — slot released, server result kept
+(pass) completed session deletion > transient DELETE failure retries and completes within a few seconds [305.07ms]
+
+src/tests/heartbeat-stall-cas.test.ts:
+Database initialized at :memory:
+[db] sqlite-vec loaded
+[migrations] Existing database appears incomplete — applying 001_initial migration
+[migrations] Applying: 001_initial
+[migrations] Applied: 001_initial (2.3ms)
+[migrations] Applying: 002_one_time_schedules
+[migrations] Applied: 002_one_time_schedules (1.4ms)
+[migrations] Applying: 003_workflows
+[migrations] Applied: 003_workflows (1.1ms)
+[migrations] Applying: 004_workflow_source
+[migrations] Applied: 004_workflow_source (1.6ms)
+[migrations] Applying: 005_epic_next_steps
+[migrations] Applied: 005_epic_next_steps (0.4ms)
+[migrations] Applying: 006_vcs_provider
+[migrations] Applied: 006_vcs_provider (5.3ms)
+[migrations] Applying: 007_task_dir
+[migrations] Applied: 007_task_dir (0.4ms)
+[migrations] Applying: 008_workflow_redesign
+[migrations] Applied: 008_workflow_redesign (0.5ms)
+[migrations] Applying: 009_tracker_integration
+[migrations] Applied: 009_tracker_integration (2.0ms)
+[migrations] Applying: 010_step_diagnostics
+[migrations] Applied: 010_step_diagnostics (0.4ms)
+[migrations] Applying: 011_step_next_port
+[migrations] Applied: 011_step_next_port (0.4ms)
+[migrations] Applying: 012_trigger_schema
+[migrations] Applied: 012_trigger_schema (0.4ms)
+[migrations] Applying: 013_task_output_schema
+[migrations] Applied: 013_task_output_schema (0.4ms)
+[migrations] Applying: 014_prompt_templates
+[migrations] Applied: 014_prompt_templates (0.2ms)
+[migrations] Applying: 015_workflow_workspace
+[migrations] Applied: 015_workflow_workspace (0.8ms)
+[migrations] Applying: 016_active_session_runner_session
+[migrations] Applied: 016_active_session_runner_session (0.8ms)
+[migrations] Applying: 017_channel_activity_cursors
+[migrations] Applied: 017_channel_activity_cursors (0.1ms)
+[migrations] Applying: 018_fix_seed_double_version
+[migrations] Applied: 018_fix_seed_double_version (0.1ms)
+[migrations] Applying: 019_skills
+[migrations] Applied: 019_skills (0.3ms)
+[migrations] Applying: 020_approval_requests
+[migrations] Applied: 020_approval_requests (0.2ms)
+[migrations] Applying: 021_events
+[migrations] Applied: 021_events (0.2ms)
+[migrations] Applying: 022_context_usage
+[migrations] Applied: 022_context_usage (2.0ms)
+[migrations] Applying: 023_mcp_servers
+[migrations] Applied: 023_mcp_servers (0.3ms)
+[migrations] Applying: 024_add_was_paused
+[migrations] Applied: 024_add_was_paused (0.5ms)
+[migrations] Applying: 025_workflow_run_cancelled_status
+[migrations] Applied: 025_workflow_run_cancelled_status (3.5ms)
+[migrations] Applying: 026_drop_epics
+[migrations] Applied: 026_drop_epics (2.0ms)
+[migrations] Applying: 027_heartbeat_md
+[migrations] Applied: 027_heartbeat_md (0.5ms)
+[migrations] Applying: 028_api_key_tracking
+[migrations] Applied: 028_api_key_tracking (0.6ms)
+[migrations] Applying: 029_task_credential_key_type
+[migrations] Applied: 029_task_credential_key_type (0.5ms)
+[migrations] Applying: 030_iso8601_date_consistency
+[migrations] Applied: 030_iso8601_date_consistency (0.1ms)
+[migrations] Applying: 031_user_registry
+[migrations] Applied: 031_user_registry (0.8ms)
+[migrations] Applying: 032_repo_guidelines
+[migrations] Applied: 032_repo_guidelines (0.5ms)
+[migrations] Applying: 033_vcs_installation_node_id
+[migrations] Applied: 033_vcs_installation_node_id (1.0ms)
+[migrations] Applying: 034_slack_reply_sent
+[migrations] Applied: 034_slack_reply_sent (0.5ms)
+[migrations] Applying: 035_api_key_name_provider
+[migrations] Applied: 035_api_key_name_provider (0.9ms)
+[migrations] Applying: 036_memory_ttl_staleness
+[migrations] Applied: 036_memory_ttl_staleness (1.3ms)
+[migrations] Applying: 037_swarm_version
+[migrations] Applied: 037_swarm_version (0.5ms)
+[migrations] Applying: 038_encrypted_secrets
+[migrations] Applied: 038_encrypted_secrets (0.4ms)
+[migrations] Applying: 039_remove_seed_users
+[migrations] Applied: 039_remove_seed_users (0.0ms)
+[migrations] Applying: 040_slack_thread_composite_index
+[migrations] Applied: 040_slack_thread_composite_index (0.0ms)
+[migrations] Applying: 041_mcp_oauth_tokens
+[migrations] Applied: 041_mcp_oauth_tokens (0.8ms)
+[migrations] Applying: 042_task_context_key
+[migrations] Applied: 042_task_context_key (0.5ms)
+[migrations] Applying: 043_jira_source
+[migrations] Applied: 043_jira_source (2.0ms)
+[migrations] Applying: 044_provider_meta
+[migrations] Applied: 044_provider_meta (1.0ms)
+[migrations] Applying: 046_budgets_and_pricing
+[migrations] Applied: 046_budgets_and_pricing (0.2ms)
+[migrations] Applying: 047_session_costs_cost_source
+[migrations] Applied: 047_session_costs_cost_source (0.6ms)
+[migrations] Applying: 048_agent_provider
+[migrations] Applied: 048_agent_provider (0.5ms)
+[migrations] Applying: 049_wait_states
+[migrations] Applied: 049_wait_states (0.2ms)
+[migrations] Applying: 050_wait_states_scope
+[migrations] Applied: 050_wait_states_scope (0.5ms)
+[migrations] Applying: 051_memory_posteriors_and_retrieval
+[migrations] Applied: 051_memory_posteriors_and_retrieval (1.2ms)
+[migrations] Applying: 052_memory_edges
+[migrations] Applied: 052_memory_edges (0.1ms)
+[migrations] Applying: 053_agent_waiting_for_credentials_status
+[migrations] Applied: 053_agent_waiting_for_credentials_status (1.6ms)
+[migrations] Applying: 054_agent_harness_provider
+[migrations] Applied: 054_agent_harness_provider (0.5ms)
+[migrations] Applying: 055_agent_cred_status
+[migrations] Applied: 055_agent_cred_status (0.5ms)
+[migrations] Applying: 056_drop_agent_tasks_source_check
+[migrations] Applied: 056_drop_agent_tasks_source_check (1.9ms)
+[migrations] Applying: 057_inbox_item_state
+[migrations] Applied: 057_inbox_item_state (0.1ms)
+[migrations] Applying: 058_task_templates
+[migrations] Applied: 058_task_templates (0.1ms)
+[migrations] Applying: 059_pages
+[migrations] Applied: 059_pages (0.1ms)
+[migrations] Applying: 060_page_versions
+[migrations] Applied: 060_page_versions (0.1ms)
+[migrations] Applying: 061_kv_store
+[migrations] Applied: 061_kv_store (0.1ms)
+[migrations] Applying: 062_pages_view_count
+[migrations] Applied: 062_pages_view_count (0.6ms)
+[migrations] Applying: 063_cost_context_schema_relax
+[migrations] Applied: 063_cost_context_schema_relax (6.8ms)
+[migrations] Applying: 064_scripts
+[migrations] Applied: 064_scripts (0.2ms)
+[migrations] Applying: 065_script_embeddings
+[migrations] Applied: 065_script_embeddings (0.0ms)
+[migrations] Applying: 066_scripts_args_json_schema
+[migrations] Applied: 066_scripts_args_json_schema (0.6ms)
+[migrations] Applying: 067_users_first_class
+[migrations] Applied: 067_users_first_class (3.9ms)
+[migrations] Applying: 068_profile_changed_event_type
+[migrations] Applied: 068_profile_changed_event_type (1.8ms)
+[migrations] Applying: 069_agent_tasks_perf_indexes
+[migrations] Applied: 069_agent_tasks_perf_indexes (0.1ms)
+[migrations] Applying: 070_seed_state
+[migrations] Applied: 070_seed_state (0.0ms)
+[migrations] Applying: 071_codex_oauth_pool
+[migrations] Applied: 071_codex_oauth_pool (0.0ms)
+[migrations] Applying: 072_task_attachments
+[migrations] Applied: 072_task_attachments (0.1ms)
+[migrations] Applying: 073_task_attachments_agent_fs_ids
+[migrations] Applied: 073_task_attachments_agent_fs_ids (1.2ms)
+[migrations] Applying: 074_user_budget_scope
+[migrations] Applied: 074_user_budget_scope (3.7ms)
+[migrations] Applying: 076_kapso_sender_user_backfill
+[migrations] Applied: 076_kapso_sender_user_backfill (0.1ms)
+[migrations] Applying: 077_oauth_refresh_locks
+[migrations] Applied: 077_oauth_refresh_locks (0.1ms)
+[migrations] Applying: 078_backfill_gpt_5_5_pricing
+[migrations] Applied: 078_backfill_gpt_5_5_pricing (0.0ms)
+[migrations] Applying: 079_task_followup_config
+[migrations] Applied: 079_task_followup_config (0.6ms)
+[migrations] Applying: 080_skill_system_defaults
+[migrations] Applied: 080_skill_system_defaults (0.6ms)
+[migrations] Applying: 081_metrics
+[migrations] Applied: 081_metrics (0.2ms)
+[migrations] Applying: 082_user_audit_fields
+[migrations] Applied: 082_user_audit_fields (45.0ms)
+[migrations] Applying: 083_script_workflows
+[migrations] Applied: 083_script_workflows (0.2ms)
+[migrations] Applying: 084_script_run_journal_duration
+[migrations] Applied: 084_script_run_journal_duration (0.7ms)
+[migrations] Applying: 085_script_runs_kind
+[migrations] Applied: 085_script_runs_kind (0.9ms)
+[migrations] Applying: 086_pages_default_authed
+[migrations] Applied: 086_pages_default_authed (2.2ms)
+[migrations] Applying: 087_skill_files
+[migrations] Applied: 087_skill_files (0.1ms)
+[migrations] Applying: 088_script_runs_list_indexes
+[migrations] Applied: 088_script_runs_list_indexes (0.1ms)
+[migrations] Applying: 089_harness_variant
+[migrations] Applied: 089_harness_variant (1.3ms)
+[migrations] Applying: 090_model_tiers
+[migrations] Applied: 090_model_tiers (1.3ms)
+[migrations] Applying: 091_seed_swarm_operations_metrics
+[migrations] Applied: 091_seed_swarm_operations_metrics (0.0ms)
+[migrations] Applying: 092_metrics_dashboard_combobox_filters
+[migrations] Applied: 092_metrics_dashboard_combobox_filters (0.1ms)
+[migrations] Applying: 093_slack_message_tracking
+[migrations] Applied: 093_slack_message_tracking (1.3ms)
+[migrations] Applying: 094_mcp_extra_authorize_params
+[migrations] Applied: 094_mcp_extra_authorize_params (0.6ms)
+[migrations] Applying: 095_api_key_rate_limit_windows
+[migrations] Applied: 095_api_key_rate_limit_windows (0.6ms)
+[migrations] Applying: 096_memory_graph_phase1
+[migrations] Applied: 096_memory_graph_phase1 (3.9ms)
+[migrations] Applying: 097_memory_retrieval_grouping
+[migrations] Applied: 097_memory_retrieval_grouping (1.5ms)
+[migrations] Applying: 098_repo_hooks_config
+[migrations] Applied: 098_repo_hooks_config (0.7ms)
+[migrations] Applying: 099_memory_structured_key_versioning
+[migrations] Applied: 099_memory_structured_key_versioning (3.0ms)
+[migrations] Applying: 100_memory_retrieval_source
+[migrations] Applied: 100_memory_retrieval_source (0.8ms)
+[migrations] Applying: 101_script_connections
+[migrations] Applied: 101_script_connections (0.3ms)
+[migrations] Applying: 102_script_apis
+[migrations] Applied: 102_script_apis (0.9ms)
+[migrations] Applying: 103_schedule_target_type
+[migrations] Applied: 103_schedule_target_type (2.7ms)
+[migrations] Applying: 104_task_reasoning_effort
+[migrations] Applied: 104_task_reasoning_effort (0.8ms)
+[migrations] Applying: 105_user_favorites
+[migrations] Applied: 105_user_favorites (0.1ms)
+[migrations] Applying: 106_task_attachments_provider_agnostic
+[migrations] Applied: 106_task_attachments_provider_agnostic (2.4ms)
+[migrations] Applying: 107_memory_usefulness_indexes
+[migrations] Applied: 107_memory_usefulness_indexes (0.1ms)
+[migrations] Applying: 108_rbac_permission_audit
+[migrations] Applied: 108_rbac_permission_audit (0.2ms)
+[migrations] Applying: 109_rbac_roles
+[migrations] Applied: 109_rbac_roles (0.3ms)
+[migrations] Applying: 111_oauth_credential_bindings
+[migrations] Applied: 111_oauth_credential_bindings (1.7ms)
+[migrations] Applying: 112_script_connections_graphql
+[migrations] Applied: 112_script_connections_graphql (2.8ms)
+[migrations] Applying: 113_task_routing_affinity
+[migrations] Applied: 113_task_routing_affinity (0.9ms)
+[migrations] Applying: 114_backfill_gpt_5_6_pricing
+[migrations] Applied: 114_backfill_gpt_5_6_pricing (0.0ms)
+[migrations] Applying: 115_asset_namespace_keys
+[migrations] Applied: 115_asset_namespace_keys (4.4ms)
+[migrations] Applying: 116_favorite_principal_scope
+[migrations] Applied: 116_favorite_principal_scope (3.4ms)
+[migrations] Applying: 117_unified_oauth
+[migrations] Applied: 117_unified_oauth (25.0ms)
+[migrations] Applying: 119_agent_avatar
+[migrations] Applied: 119_agent_avatar (1.1ms)
+[migrations] Applying: 120_task_title
+[migrations] Applied: 120_task_title (1.1ms)
+[migrations] Applying: 121_task_steering_messages
+[migrations] Applied: 121_task_steering_messages (0.2ms)
+[migrations] Applying: 122_steering_handled_note
+[migrations] Applied: 122_steering_handled_note (1.1ms)
+[migrations] Applying: 123_slack_messages
+[migrations] Applied: 123_slack_messages (0.3ms)
+[migrations] Applying: 124_slack_render_v2_state
+[migrations] Applied: 124_slack_render_v2_state (0.1ms)
+[migrations] Applying: 125_task_slack_trigger_message_ts
+[migrations] Applied: 125_task_slack_trigger_message_ts (1.1ms)
+[migrations] Applying: 126_apps
+[migrations] Applied: 126_apps (0.2ms)
+[migrations] Applying: 127_backfill_user_attribution
+[migrations] Applied: 127_backfill_user_attribution (0.1ms)
+[migrations] Applying: 128_session_costs_accuracy
+[migrations] Applied: 128_session_costs_accuracy (4.5ms)
+[migrations] Applying: 129_asset_keys_apps_scripts
+[migrations] Applied: 129_asset_keys_apps_scripts (6.0ms)
+[migrations] Applying: 130_scratch_script_retention_grace
+[migrations] Applied: 130_scratch_script_retention_grace (0.0ms)
+[migrations] Applying: 131_session_logs_created_at_index
+[migrations] Applied: 131_session_logs_created_at_index (0.0ms)
+[migrations] Applying: 132_multi_runtime_instances
+[migrations] Applied: 132_multi_runtime_instances (1.3ms)
+[migrations] Applying: 133_workflow_run_trigger_type
+[migrations] Applied: 133_workflow_run_trigger_type (1.3ms)
+[migrations] Applying: 135_backfill_task_pull_request_attachments
+[migrations] Applied: 135_backfill_task_pull_request_attachments (0.6ms)
+[migrations] Applying: 136_task_requester_provenance
+[migrations] Applied: 136_task_requester_provenance (1.3ms)
+[migrations] Applying: 137_memory_retrieval_composite_index
+[migrations] Applied: 137_memory_retrieval_composite_index (0.1ms)
+[migrations] Applying: 140_approval_request_cancelled_status
+[migrations] Applied: 140_approval_request_cancelled_status (3.9ms)
+[migrations] Applying: 141_scheduled_task_automation_preflight
+[migrations] Applied: 141_scheduled_task_automation_preflight (3.7ms)
+[migrations] Applying: 142_workflow_automation_preflight
+[migrations] Applied: 142_workflow_automation_preflight (3.7ms)
+[migrations] Applying: 143_backfill_gpt_6_astra_pricing
+[migrations] Applied: 143_backfill_gpt_6_astra_pricing (0.0ms)
+[migrations] Applying: 144_slack_relay_obligations
+[migrations] Applied: 144_slack_relay_obligations (0.2ms)
+[migrations] Applying: 145_slack_render_v2_delegation
+[migrations] Applied: 145_slack_render_v2_delegation (2.5ms)
+[migrations] Applying: 147_scheduled_tasks_parent_task
+[migrations] Applied: 147_scheduled_tasks_parent_task (1.2ms)
+[migrations] Applying: 148_pages_svg
+[migrations] Applied: 148_pages_svg (4.1ms)
+[migrations] Applying: 149_session_tokens
+[migrations] Applied: 149_session_tokens (0.1ms)
+[migrations] Applying: 150_deferred_task_waits
+[migrations] Applied: 150_deferred_task_waits (0.1ms)
+[migrations] Applying: 151_repair_scheduled_task_required_params
+[migrations] Applied: 151_repair_scheduled_task_required_params (0.1ms)
+[migrations] Applying: 152_routing_decisions
+[migrations] Applied: 152_routing_decisions (2.9ms)
+[migrations] Applying: 153_deferred_task_wait_members
+[migrations] Applied: 153_deferred_task_wait_members (6.9ms)
+[migrations] Applying: 154_routing_source
+[migrations] Applied: 154_routing_source (1.3ms)
+[migrations] Applying: 155_extensions
+[migrations] Applied: 155_extensions (0.3ms)
+[migrations] Applying: 156_inbox_item_state_read_at
+[migrations] Applied: 156_inbox_item_state_read_at (1.3ms)
+[migrations] Applying: 157_defer_provenance_and_marker
+[migrations] Applied: 157_defer_provenance_and_marker (6.5ms)
+[migrations] Applying: 158_task_citations
+[migrations] Applied: 158_task_citations (0.1ms)
+[migrations] Applying: 159_extension_assets
+[migrations] Applied: 159_extension_assets (0.1ms)
+[migrations] Applying: 161_task_citations_general
+[migrations] Applied: 161_task_citations_general (1.4ms)
+[migrations] Applying: 162_slack_outcome_delivery_abandon
+[migrations] Applied: 162_slack_outcome_delivery_abandon (4.0ms)
+[migrations] Applying: 164_usage_cover_index_and_key_plans
+[migrations] Applied: 164_usage_cover_index_and_key_plans (2.7ms)
+[migrations] Applying: 166_approval_request_auto_cancellation
+[migrations] Applied: 166_approval_request_auto_cancellation (0.1ms)
+[migrations] Applying: 171_memory_retrieval_relevance
+[migrations] Applied: 171_memory_retrieval_relevance (1.3ms)
+[migrations] Applying: 175_workflow_runs_list_index
+[migrations] Applied: 175_workflow_runs_list_index (0.1ms)
+[migrations] Applying: 177_events_event_agent_created_index
+[migrations] Applied: 177_events_event_agent_created_index (0.1ms)
+[migrations] Applying: 182_task_human_free_flag
+[migrations] Applied: 182_task_human_free_flag (1.6ms)
+[migrations] Applying: 183_human_free_reclassify_queue
+[migrations] Applied: 183_human_free_reclassify_queue (0.1ms)
+[migrations] Applying: 184_model_catalog
+[migrations] Applied: 184_model_catalog (7.2ms)
+[migrations] Applying: 185_api_key_auth_failures
+[migrations] Applied: 185_api_key_auth_failures (4.1ms)
+[migrations] Applying: 186_api_key_seat_mismatch
+[migrations] Applied: 186_api_key_seat_mismatch (2.7ms)
+[migrations] Applying: 190_memory_rating_model
+[migrations] Applied: 190_memory_rating_model (1.4ms)
+[migrations] Applying: 191_context_versions_previous_index
+[migrations] Applied: 191_context_versions_previous_index (0.1ms)
+[migrations] Applying: 192_favorites_agent_fs_path
+[migrations] Applied: 192_favorites_agent_fs_path (4.4ms)
+[migrations] Applying: 194_memory_orphan_chunks
+[migrations] Applied: 194_memory_orphan_chunks (0.0ms)
+[migrations] Applying: 195_approval_request_approvals
+[migrations] Applied: 195_approval_request_approvals (1.4ms)
+[migrations] Applying: 196_skill_invocations
+[migrations] Applied: 196_skill_invocations (3.0ms)
+[migrations] Applying: 197_connector_codes
+[migrations] Applied: 197_connector_codes (0.1ms)
+[migrations] Applying: 198_permission_audit_guest
+[migrations] Applied: 198_permission_audit_guest (4.4ms)
+[migrations] Applying: 200_backfill_auto_memory_expiry
+[migrations] Applied: 200_backfill_auto_memory_expiry (0.0ms)
+[migrations] Applying: 201_workflow_replay_columns
+[migrations] Applied: 201_workflow_replay_columns (2.8ms)
+[migrations] Applying: 202_codex_oauth_device_flows
+[migrations] Applied: 202_codex_oauth_device_flows (0.1ms)
+[migrations] Applying: 203_workflow_run_parent_step
+[migrations] Applied: 203_workflow_run_parent_step (1.5ms)
+[migrations] Applying: 204_slack_inbound_receipts
+[migrations] Applied: 204_slack_inbound_receipts (0.2ms)
+[migrations] Applying: 205_favorites_per_dashboard_user
+[migrations] Applied: 205_favorites_per_dashboard_user (0.0ms)
+[migrations] Applying: 206_runtime_pools
+[migrations] Applied: 206_runtime_pools (20.6ms)
+[migrations] Applying: 207_runtime_session_tokens
+[migrations] Applied: 207_runtime_session_tokens (4.5ms)
+[migrations] Applying: 208_task_runtime_dispatch
+[migrations] Applied: 208_task_runtime_dispatch (1.5ms)
+[migrations] Applying: 213_script_connections_sql
+[migrations] Applied: 213_script_connections_sql (4.4ms)
+[migrations] Applying: 215_swarm_config_export_to_env
+[migrations] Applied: 215_swarm_config_export_to_env (1.4ms)
+[migrations] Applying: 216_task_resolved_effort
+[migrations] Applied: 216_task_resolved_effort (1.4ms)
+[migrations] Applying: 217_chat_sdk_state
+[migrations] Applied: 217_chat_sdk_state (0.5ms)
+[migrations] Applying: 219_relabel_pi_context_compactions
+[migrations] Applied: 219_relabel_pi_context_compactions (0.0ms)
+[migrations] Applying: 220_model_profiles
+[migrations] Applied: 220_model_profiles (3.6ms)
+[migrations] Applying: 227_inbox_item_state_last_read_at
+[migrations] Applied: 227_inbox_item_state_last_read_at (1.6ms)
+[migrations] Applying: 230_session_shares
+[migrations] Applied: 230_session_shares (0.2ms)
+[migrations] Applying: 231_slack_tasks_last_updated_index
+[migrations] Applied: 231_slack_tasks_last_updated_index (0.1ms)
+[migrations] Applying: 232_agent_session_tokens
+[migrations] Applied: 232_agent_session_tokens (5.1ms)
+[migrations] Applying: 233_script_run_session_tokens
+[migrations] Applied: 233_script_run_session_tokens (1.8ms)
+[migrations] Applying: 235_chat_relay_defer
+[migrations] Applied: 235_chat_relay_defer (0.3ms)
+[migrations] Applying: 237_session_inbox_cleanup
+[migrations] Applied: 237_session_inbox_cleanup (0.2ms)
+[migrations] Applying: 239_skills_fts
+[migrations] Applied: 239_skills_fts (0.5ms)
+[migrations] Applying: 240_workflow_run_parent_step_attempt
+[migrations] Applied: 240_workflow_run_parent_step_attempt (1.8ms)
+[migrations] Applying: 241_skills_meta_fts
+[migrations] Applied: 241_skills_meta_fts (0.4ms)
+[migrations] Applying: 242_workflow_idempotency_keys
+[migrations] Applied: 242_workflow_idempotency_keys (0.2ms)
+[migrations] Applying: 244_api_key_validation
+[migrations] Applied: 244_api_key_validation (3.3ms)
+[migrations] Applying: 245_script_executor
+[migrations] Applied: 245_script_executor (1.7ms)
+[migrations] Applying: 246_connector_code_kind
+[migrations] Applied: 246_connector_code_kind (1.7ms)
+[migrations] Applying: 247_workflow_run_triggered_by_agent
+[migrations] Applied: 247_workflow_run_triggered_by_agent (1.8ms)
+[migrations] Applying: 250_workflow_run_steps_runid_status_index
+[migrations] Applied: 250_workflow_run_steps_runid_status_index (0.1ms)
+[migrations] Applying: 253_session_summaries
+[migrations] Applied: 253_session_summaries (1.3ms)
+[migrations] Applying: 254_query_audit_indexes
+[migrations] Applied: 254_query_audit_indexes (0.2ms)
+[migrations] Applying: 256_agent_slack_icon
+[migrations] Applied: 256_agent_slack_icon (1.9ms)
+[migrations] Applying: 257_agent_tasks_fts
+[migrations] Applied: 257_agent_tasks_fts (0.5ms)
+[migrations] Applying: 259_session_summaries_open_tasks
+[migrations] Applied: 259_session_summaries_open_tasks (2.4ms)
+[migrations] Applying: 260_runtime_pool_cache
+[migrations] Applied: 260_runtime_pool_cache (2.0ms)
+[migrations] Applying: 262_session_visibility_indexes
+[migrations] Applied: 262_session_visibility_indexes (0.1ms)
+[migrations] Applying: 263_task_list_filter_index
+[migrations] Applied: 263_task_list_filter_index (0.1ms)
+[migrations] Applying: 264_slack_thread_cover_index
+[migrations] Applied: 264_slack_thread_cover_index (0.1ms)
+[migrations] Applying: 266_script_runs_source_task
+[migrations] Applied: 266_script_runs_source_task (3.8ms)
+[migrations] Applying: 269_pages_design_system
+[migrations] Applied: 269_pages_design_system (5.5ms)
+[oauth-encryption] No plaintext OAuth secrets to migrate.
+[db] sqlite-vec loaded
+[db] sqlite-vec loaded
+(pass) Heartbeat stall classifier CAS (TLA+ counterexample) > stall classifier does not supersede a task that made progress after the candidate read [18.38ms]
+
+src/tests/steering-promotion.test.ts:
+Database initialized at :memory:
+[db] sqlite-vec loaded
+[migrations] Existing database appears incomplete — applying 001_initial migration
+[migrations] Applying: 001_initial
+[migrations] Applied: 001_initial (1.6ms)
+[migrations] Applying: 002_one_time_schedules
+[migrations] Applied: 002_one_time_schedules (1.1ms)
+[migrations] Applying: 003_workflows
+[migrations] Applied: 003_workflows (1.1ms)
+[migrations] Applying: 004_workflow_source
+[migrations] Applied: 004_workflow_source (1.6ms)
+[migrations] Applying: 005_epic_next_steps
+[migrations] Applied: 005_epic_next_steps (0.4ms)
+[migrations] Applying: 006_vcs_provider
+[migrations] Applied: 006_vcs_provider (5.7ms)
+[migrations] Applying: 007_task_dir
+[migrations] Applied: 007_task_dir (0.4ms)
+[migrations] Applying: 008_workflow_redesign
+[migrations] Applied: 008_workflow_redesign (0.5ms)
+[migrations] Applying: 009_tracker_integration
+[migrations] Applied: 009_tracker_integration (2.0ms)
+[migrations] Applying: 010_step_diagnostics
+[migrations] Applied: 010_step_diagnostics (0.4ms)
+[migrations] Applying: 011_step_next_port
+[migrations] Applied: 011_step_next_port (0.4ms)
+[migrations] Applying: 012_trigger_schema
+[migrations] Applied: 012_trigger_schema (0.4ms)
+[migrations] Applying: 013_task_output_schema
+[migrations] Applied: 013_task_output_schema (0.4ms)
+[migrations] Applying: 014_prompt_templates
+[migrations] Applied: 014_prompt_templates (0.2ms)
+[migrations] Applying: 015_workflow_workspace
+[migrations] Applied: 015_workflow_workspace (0.8ms)
+[migrations] Applying: 016_active_session_runner_session
+[migrations] Applied: 016_active_session_runner_session (0.8ms)
+[migrations] Applying: 017_channel_activity_cursors
+[migrations] Applied: 017_channel_activity_cursors (0.1ms)
+[migrations] Applying: 018_fix_seed_double_version
+[migrations] Applied: 018_fix_seed_double_version (0.1ms)
+[migrations] Applying: 019_skills
+[migrations] Applied: 019_skills (0.3ms)
+[migrations] Applying: 020_approval_requests
+[migrations] Applied: 020_approval_requests (0.2ms)
+[migrations] Applying: 021_events
+[migrations] Applied: 021_events (0.3ms)
+[migrations] Applying: 022_context_usage
+[migrations] Applied: 022_context_usage (2.2ms)
+[migrations] Applying: 023_mcp_servers
+[migrations] Applied: 023_mcp_servers (0.3ms)
+[migrations] Applying: 024_add_was_paused
+[migrations] Applied: 024_add_was_paused (0.6ms)
+[migrations] Applying: 025_workflow_run_cancelled_status
+[migrations] Applied: 025_workflow_run_cancelled_status (3.5ms)
+[migrations] Applying: 026_drop_epics
+[migrations] Applied: 026_drop_epics (2.0ms)
+[migrations] Applying: 027_heartbeat_md
+[migrations] Applied: 027_heartbeat_md (0.5ms)
+[migrations] Applying: 028_api_key_tracking
+[migrations] Applied: 028_api_key_tracking (0.6ms)
+[migrations] Applying: 029_task_credential_key_type
+[migrations] Applied: 029_task_credential_key_type (0.5ms)
+[migrations] Applying: 030_iso8601_date_consistency
+[migrations] Applied: 030_iso8601_date_consistency (0.2ms)
+[migrations] Applying: 031_user_registry
+[migrations] Applied: 031_user_registry (0.8ms)
+[migrations] Applying: 032_repo_guidelines
+[migrations] Applied: 032_repo_guidelines (0.5ms)
+[migrations] Applying: 033_vcs_installation_node_id
+[migrations] Applied: 033_vcs_installation_node_id (0.9ms)
+[migrations] Applying: 034_slack_reply_sent
+[migrations] Applied: 034_slack_reply_sent (0.5ms)
+[migrations] Applying: 035_api_key_name_provider
+[migrations] Applied: 035_api_key_name_provider (1.0ms)
+[migrations] Applying: 036_memory_ttl_staleness
+[migrations] Applied: 036_memory_ttl_staleness (1.4ms)
+[migrations] Applying: 037_swarm_version
+[migrations] Applied: 037_swarm_version (0.5ms)
+[migrations] Applying: 038_encrypted_secrets
+[migrations] Applied: 038_encrypted_secrets (0.4ms)
+[migrations] Applying: 039_remove_seed_users
+[migrations] Applied: 039_remove_seed_users (0.0ms)
+[migrations] Applying: 040_slack_thread_composite_index
+[migrations] Applied: 040_slack_thread_composite_index (0.0ms)
+[migrations] Applying: 041_mcp_oauth_tokens
+[migrations] Applied: 041_mcp_oauth_tokens (0.8ms)
+[migrations] Applying: 042_task_context_key
+[migrations] Applied: 042_task_context_key (0.6ms)
+[migrations] Applying: 043_jira_source
+[migrations] Applied: 043_jira_source (2.0ms)
+[migrations] Applying: 044_provider_meta
+[migrations] Applied: 044_provider_meta (1.0ms)
+[migrations] Applying: 046_budgets_and_pricing
+[migrations] Applied: 046_budgets_and_pricing (0.2ms)
+[migrations] Applying: 047_session_costs_cost_source
+[migrations] Applied: 047_session_costs_cost_source (0.6ms)
+[migrations] Applying: 048_agent_provider
+[migrations] Applied: 048_agent_provider (0.5ms)
+[migrations] Applying: 049_wait_states
+[migrations] Applied: 049_wait_states (0.2ms)
+[migrations] Applying: 050_wait_states_scope
+[migrations] Applied: 050_wait_states_scope (0.6ms)
+[migrations] Applying: 051_memory_posteriors_and_retrieval
+[migrations] Applied: 051_memory_posteriors_and_retrieval (1.3ms)
+[migrations] Applying: 052_memory_edges
+[migrations] Applied: 052_memory_edges (0.1ms)
+[migrations] Applying: 053_agent_waiting_for_credentials_status
+[migrations] Applied: 053_agent_waiting_for_credentials_status (1.6ms)
+[migrations] Applying: 054_agent_harness_provider
+[migrations] Applied: 054_agent_harness_provider (0.5ms)
+[migrations] Applying: 055_agent_cred_status
+[migrations] Applied: 055_agent_cred_status (0.5ms)
+[migrations] Applying: 056_drop_agent_tasks_source_check
+[migrations] Applied: 056_drop_agent_tasks_source_check (2.0ms)
+[migrations] Applying: 057_inbox_item_state
+[migrations] Applied: 057_inbox_item_state (0.1ms)
+[migrations] Applying: 058_task_templates
+[migrations] Applied: 058_task_templates (0.1ms)
+[migrations] Applying: 059_pages
+[migrations] Applied: 059_pages (0.1ms)
+[migrations] Applying: 060_page_versions
+[migrations] Applied: 060_page_versions (0.1ms)
+[migrations] Applying: 061_kv_store
+[migrations] Applied: 061_kv_store (0.1ms)
+[migrations] Applying: 062_pages_view_count
+[migrations] Applied: 062_pages_view_count (0.6ms)
+[migrations] Applying: 063_cost_context_schema_relax
+[migrations] Applied: 063_cost_context_schema_relax (6.8ms)
+[migrations] Applying: 064_scripts
+[migrations] Applied: 064_scripts (0.2ms)
+[migrations] Applying: 065_script_embeddings
+[migrations] Applied: 065_script_embeddings (0.0ms)
+[migrations] Applying: 066_scripts_args_json_schema
+[migrations] Applied: 066_scripts_args_json_schema (0.6ms)
+[migrations] Applying: 067_users_first_class
+[migrations] Applied: 067_users_first_class (3.9ms)
+[migrations] Applying: 068_profile_changed_event_type
+[migrations] Applied: 068_profile_changed_event_type (1.8ms)
+[migrations] Applying: 069_agent_tasks_perf_indexes
+[migrations] Applied: 069_agent_tasks_perf_indexes (0.1ms)
+[migrations] Applying: 070_seed_state
+[migrations] Applied: 070_seed_state (0.1ms)
+[migrations] Applying: 071_codex_oauth_pool
+[migrations] Applied: 071_codex_oauth_pool (0.0ms)
+[migrations] Applying: 072_task_attachments
+[migrations] Applied: 072_task_attachments (0.1ms)
+[migrations] Applying: 073_task_attachments_agent_fs_ids
+[migrations] Applied: 073_task_attachments_agent_fs_ids (1.1ms)
+[migrations] Applying: 074_user_budget_scope
+[migrations] Applied: 074_user_budget_scope (3.5ms)
+[migrations] Applying: 076_kapso_sender_user_backfill
+[migrations] Applied: 076_kapso_sender_user_backfill (0.1ms)
+[migrations] Applying: 077_oauth_refresh_locks
+[migrations] Applied: 077_oauth_refresh_locks (0.0ms)
+[migrations] Applying: 078_backfill_gpt_5_5_pricing
+[migrations] Applied: 078_backfill_gpt_5_5_pricing (0.0ms)
+[migrations] Applying: 079_task_followup_config
+[migrations] Applied: 079_task_followup_config (0.6ms)
+[migrations] Applying: 080_skill_system_defaults
+[migrations] Applied: 080_skill_system_defaults (0.6ms)
+[migrations] Applying: 081_metrics
+[migrations] Applied: 081_metrics (0.2ms)
+[migrations] Applying: 082_user_audit_fields
+[migrations] Applied: 082_user_audit_fields (45.0ms)
+[migrations] Applying: 083_script_workflows
+[migrations] Applied: 083_script_workflows (0.2ms)
+[migrations] Applying: 084_script_run_journal_duration
+[migrations] Applied: 084_script_run_journal_duration (0.7ms)
+[migrations] Applying: 085_script_runs_kind
+[migrations] Applied: 085_script_runs_kind (0.7ms)
+[migrations] Applying: 086_pages_default_authed
+[migrations] Applied: 086_pages_default_authed (2.3ms)
+[migrations] Applying: 087_skill_files
+[migrations] Applied: 087_skill_files (0.1ms)
+[migrations] Applying: 088_script_runs_list_indexes
+[migrations] Applied: 088_script_runs_list_indexes (0.1ms)
+[migrations] Applying: 089_harness_variant
+[migrations] Applied: 089_harness_variant (1.4ms)
+[migrations] Applying: 090_model_tiers
+[migrations] Applied: 090_model_tiers (1.4ms)
+[migrations] Applying: 091_seed_swarm_operations_metrics
+[migrations] Applied: 091_seed_swarm_operations_metrics (0.0ms)
+[migrations] Applying: 092_metrics_dashboard_combobox_filters
+[migrations] Applied: 092_metrics_dashboard_combobox_filters (0.1ms)
+[migrations] Applying: 093_slack_message_tracking
+[migrations] Applied: 093_slack_message_tracking (1.4ms)
+[migrations] Applying: 094_mcp_extra_authorize_params
+[migrations] Applied: 094_mcp_extra_authorize_params (0.7ms)
+[migrations] Applying: 095_api_key_rate_limit_windows
+[migrations] Applied: 095_api_key_rate_limit_windows (0.7ms)
+[migrations] Applying: 096_memory_graph_phase1
+[migrations] Applied: 096_memory_graph_phase1 (3.7ms)
+[migrations] Applying: 097_memory_retrieval_grouping
+[migrations] Applied: 097_memory_retrieval_grouping (1.5ms)
+[migrations] Applying: 098_repo_hooks_config
+[migrations] Applied: 098_repo_hooks_config (0.7ms)
+[migrations] Applying: 099_memory_structured_key_versioning
+[migrations] Applied: 099_memory_structured_key_versioning (3.0ms)
+[migrations] Applying: 100_memory_retrieval_source
+[migrations] Applied: 100_memory_retrieval_source (0.8ms)
+[migrations] Applying: 101_script_connections
+[migrations] Applied: 101_script_connections (0.3ms)
+[migrations] Applying: 102_script_apis
+[migrations] Applied: 102_script_apis (0.9ms)
+[migrations] Applying: 103_schedule_target_type
+[migrations] Applied: 103_schedule_target_type (2.7ms)
+[migrations] Applying: 104_task_reasoning_effort
+[migrations] Applied: 104_task_reasoning_effort (0.8ms)
+[migrations] Applying: 105_user_favorites
+[migrations] Applied: 105_user_favorites (0.1ms)
+[migrations] Applying: 106_task_attachments_provider_agnostic
+[migrations] Applied: 106_task_attachments_provider_agnostic (2.4ms)
+[migrations] Applying: 107_memory_usefulness_indexes
+[migrations] Applied: 107_memory_usefulness_indexes (0.1ms)
+[migrations] Applying: 108_rbac_permission_audit
+[migrations] Applied: 108_rbac_permission_audit (0.2ms)
+[migrations] Applying: 109_rbac_roles
+[migrations] Applied: 109_rbac_roles (0.3ms)
+[migrations] Applying: 111_oauth_credential_bindings
+[migrations] Applied: 111_oauth_credential_bindings (1.7ms)
+[migrations] Applying: 112_script_connections_graphql
+[migrations] Applied: 112_script_connections_graphql (2.8ms)
+[migrations] Applying: 113_task_routing_affinity
+[migrations] Applied: 113_task_routing_affinity (0.9ms)
+[migrations] Applying: 114_backfill_gpt_5_6_pricing
+[migrations] Applied: 114_backfill_gpt_5_6_pricing (0.0ms)
+[migrations] Applying: 115_asset_namespace_keys
+[migrations] Applied: 115_asset_namespace_keys (4.3ms)
+[migrations] Applying: 116_favorite_principal_scope
+[migrations] Applied: 116_favorite_principal_scope (3.3ms)
+[migrations] Applying: 117_unified_oauth
+[migrations] Applied: 117_unified_oauth (24.8ms)
+[migrations] Applying: 119_agent_avatar
+[migrations] Applied: 119_agent_avatar (1.1ms)
+[migrations] Applying: 120_task_title
+[migrations] Applied: 120_task_title (1.1ms)
+[migrations] Applying: 121_task_steering_messages
+[migrations] Applied: 121_task_steering_messages (0.2ms)
+[migrations] Applying: 122_steering_handled_note
+[migrations] Applied: 122_steering_handled_note (1.1ms)
+[migrations] Applying: 123_slack_messages
+[migrations] Applied: 123_slack_messages (0.2ms)
+[migrations] Applying: 124_slack_render_v2_state
+[migrations] Applied: 124_slack_render_v2_state (0.1ms)
+[migrations] Applying: 125_task_slack_trigger_message_ts
+[migrations] Applied: 125_task_slack_trigger_message_ts (1.1ms)
+[migrations] Applying: 126_apps
+[migrations] Applied: 126_apps (0.1ms)
+[migrations] Applying: 127_backfill_user_attribution
+[migrations] Applied: 127_backfill_user_attribution (0.1ms)
+[migrations] Applying: 128_session_costs_accuracy
+[migrations] Applied: 128_session_costs_accuracy (4.4ms)
+[migrations] Applying: 129_asset_keys_apps_scripts
+[migrations] Applied: 129_asset_keys_apps_scripts (5.9ms)
+[migrations] Applying: 130_scratch_script_retention_grace
+[migrations] Applied: 130_scratch_script_retention_grace (0.0ms)
+[migrations] Applying: 131_session_logs_created_at_index
+[migrations] Applied: 131_session_logs_created_at_index (0.1ms)
+[migrations] Applying: 132_multi_runtime_instances
+[migrations] Applied: 132_multi_runtime_instances (1.3ms)
+[migrations] Applying: 133_workflow_run_trigger_type
+[migrations] Applied: 133_workflow_run_trigger_type (1.3ms)
+[migrations] Applying: 135_backfill_task_pull_request_attachments
+[migrations] Applied: 135_backfill_task_pull_request_attachments (0.7ms)
+[migrations] Applying: 136_task_requester_provenance
+[migrations] Applied: 136_task_requester_provenance (1.3ms)
+[migrations] Applying: 137_memory_retrieval_composite_index
+[migrations] Applied: 137_memory_retrieval_composite_index (0.1ms)
+[migrations] Applying: 140_approval_request_cancelled_status
+[migrations] Applied: 140_approval_request_cancelled_status (3.9ms)
+[migrations] Applying: 141_scheduled_task_automation_preflight
+[migrations] Applied: 141_scheduled_task_automation_preflight (3.7ms)
+[migrations] Applying: 142_workflow_automation_preflight
+[migrations] Applied: 142_workflow_automation_preflight (3.6ms)
+[migrations] Applying: 143_backfill_gpt_6_astra_pricing
+[migrations] Applied: 143_backfill_gpt_6_astra_pricing (0.0ms)
+[migrations] Applying: 144_slack_relay_obligations
+[migrations] Applied: 144_slack_relay_obligations (0.2ms)
+[migrations] Applying: 145_slack_render_v2_delegation
+[migrations] Applied: 145_slack_render_v2_delegation (2.5ms)
+[migrations] Applying: 147_scheduled_tasks_parent_task
+[migrations] Applied: 147_scheduled_tasks_parent_task (1.2ms)
+[migrations] Applying: 148_pages_svg
+[migrations] Applied: 148_pages_svg (4.1ms)
+[migrations] Applying: 149_session_tokens
+[migrations] Applied: 149_session_tokens (0.1ms)
+[migrations] Applying: 150_deferred_task_waits
+[migrations] Applied: 150_deferred_task_waits (0.1ms)
+[migrations] Applying: 151_repair_scheduled_task_required_params
+[migrations] Applied: 151_repair_scheduled_task_required_params (0.1ms)
+[migrations] Applying: 152_routing_decisions
+[migrations] Applied: 152_routing_decisions (2.9ms)
+[migrations] Applying: 153_deferred_task_wait_members
+[migrations] Applied: 153_deferred_task_wait_members (6.9ms)
+[migrations] Applying: 154_routing_source
+[migrations] Applied: 154_routing_source (1.3ms)
+[migrations] Applying: 155_extensions
+[migrations] Applied: 155_extensions (0.3ms)
+[migrations] Applying: 156_inbox_item_state_read_at
+[migrations] Applied: 156_inbox_item_state_read_at (1.3ms)
+[migrations] Applying: 157_defer_provenance_and_marker
+[migrations] Applied: 157_defer_provenance_and_marker (6.5ms)
+[migrations] Applying: 158_task_citations
+[migrations] Applied: 158_task_citations (0.1ms)
+[migrations] Applying: 159_extension_assets
+[migrations] Applied: 159_extension_assets (0.1ms)
+[migrations] Applying: 161_task_citations_general
+[migrations] Applied: 161_task_citations_general (1.4ms)
+[migrations] Applying: 162_slack_outcome_delivery_abandon
+[migrations] Applied: 162_slack_outcome_delivery_abandon (3.9ms)
+[migrations] Applying: 164_usage_cover_index_and_key_plans
+[migrations] Applied: 164_usage_cover_index_and_key_plans (2.7ms)
+[migrations] Applying: 166_approval_request_auto_cancellation
+[migrations] Applied: 166_approval_request_auto_cancellation (0.1ms)
+[migrations] Applying: 171_memory_retrieval_relevance
+[migrations] Applied: 171_memory_retrieval_relevance (1.3ms)
+[migrations] Applying: 175_workflow_runs_list_index
+[migrations] Applied: 175_workflow_runs_list_index (0.1ms)
+[migrations] Applying: 177_events_event_agent_created_index
+[migrations] Applied: 177_events_event_agent_created_index (0.1ms)
+[migrations] Applying: 182_task_human_free_flag
+[migrations] Applied: 182_task_human_free_flag (1.6ms)
+[migrations] Applying: 183_human_free_reclassify_queue
+[migrations] Applied: 183_human_free_reclassify_queue (0.1ms)
+[migrations] Applying: 184_model_catalog
+[migrations] Applied: 184_model_catalog (7.1ms)
+[migrations] Applying: 185_api_key_auth_failures
+[migrations] Applied: 185_api_key_auth_failures (4.1ms)
+[migrations] Applying: 186_api_key_seat_mismatch
+[migrations] Applied: 186_api_key_seat_mismatch (2.7ms)
+[migrations] Applying: 190_memory_rating_model
+[migrations] Applied: 190_memory_rating_model (1.4ms)
+[migrations] Applying: 191_context_versions_previous_index
+[migrations] Applied: 191_context_versions_previous_index (0.1ms)
+[migrations] Applying: 192_favorites_agent_fs_path
+[migrations] Applied: 192_favorites_agent_fs_path (4.4ms)
+[migrations] Applying: 194_memory_orphan_chunks
+[migrations] Applied: 194_memory_orphan_chunks (0.0ms)
+[migrations] Applying: 195_approval_request_approvals
+[migrations] Applied: 195_approval_request_approvals (1.4ms)
+[migrations] Applying: 196_skill_invocations
+[migrations] Applied: 196_skill_invocations (3.0ms)
+[migrations] Applying: 197_connector_codes
+[migrations] Applied: 197_connector_codes (0.1ms)
+[migrations] Applying: 198_permission_audit_guest
+[migrations] Applied: 198_permission_audit_guest (4.4ms)
+[migrations] Applying: 200_backfill_auto_memory_expiry
+[migrations] Applied: 200_backfill_auto_memory_expiry (0.0ms)
+[migrations] Applying: 201_workflow_replay_columns
+[migrations] Applied: 201_workflow_replay_columns (2.8ms)
+[migrations] Applying: 202_codex_oauth_device_flows
+[migrations] Applied: 202_codex_oauth_device_flows (0.1ms)
+[migrations] Applying: 203_workflow_run_parent_step
+[migrations] Applied: 203_workflow_run_parent_step (1.4ms)
+[migrations] Applying: 204_slack_inbound_receipts
+[migrations] Applied: 204_slack_inbound_receipts (0.2ms)
+[migrations] Applying: 205_favorites_per_dashboard_user
+[migrations] Applied: 205_favorites_per_dashboard_user (0.0ms)
+[migrations] Applying: 206_runtime_pools
+[migrations] Applied: 206_runtime_pools (20.4ms)
+[migrations] Applying: 207_runtime_session_tokens
+[migrations] Applied: 207_runtime_session_tokens (4.7ms)
+[migrations] Applying: 208_task_runtime_dispatch
+[migrations] Applied: 208_task_runtime_dispatch (1.6ms)
+[migrations] Applying: 213_script_connections_sql
+[migrations] Applied: 213_script_connections_sql (4.7ms)
+[migrations] Applying: 215_swarm_config_export_to_env
+[migrations] Applied: 215_swarm_config_export_to_env (1.5ms)
+[migrations] Applying: 216_task_resolved_effort
+[migrations] Applied: 216_task_resolved_effort (1.5ms)
+[migrations] Applying: 217_chat_sdk_state
+[migrations] Applied: 217_chat_sdk_state (0.5ms)
+[migrations] Applying: 219_relabel_pi_context_compactions
+[migrations] Applied: 219_relabel_pi_context_compactions (0.1ms)
+[migrations] Applying: 220_model_profiles
+[migrations] Applied: 220_model_profiles (3.5ms)
+[migrations] Applying: 227_inbox_item_state_last_read_at
+[migrations] Applied: 227_inbox_item_state_last_read_at (1.6ms)
+[migrations] Applying: 230_session_shares
+[migrations] Applied: 230_session_shares (0.2ms)
+[migrations] Applying: 231_slack_tasks_last_updated_index
+[migrations] Applied: 231_slack_tasks_last_updated_index (0.1ms)
+[migrations] Applying: 232_agent_session_tokens
+[migrations] Applied: 232_agent_session_tokens (5.4ms)
+[migrations] Applying: 233_script_run_session_tokens
+[migrations] Applied: 233_script_run_session_tokens (1.6ms)
+[migrations] Applying: 235_chat_relay_defer
+[migrations] Applied: 235_chat_relay_defer (0.3ms)
+[migrations] Applying: 237_session_inbox_cleanup
+[migrations] Applied: 237_session_inbox_cleanup (0.2ms)
+[migrations] Applying: 239_skills_fts
+[migrations] Applied: 239_skills_fts (1.3ms)
+[migrations] Applying: 240_workflow_run_parent_step_attempt
+[migrations] Applied: 240_workflow_run_parent_step_attempt (1.8ms)
+[migrations] Applying: 241_skills_meta_fts
+[migrations] Applied: 241_skills_meta_fts (0.5ms)
+[migrations] Applying: 242_workflow_idempotency_keys
+[migrations] Applied: 242_workflow_idempotency_keys (0.2ms)
+[migrations] Applying: 244_api_key_validation
+[migrations] Applied: 244_api_key_validation (3.3ms)
+[migrations] Applying: 245_script_executor
+[migrations] Applied: 245_script_executor (1.6ms)
+[migrations] Applying: 246_connector_code_kind
+[migrations] Applied: 246_connector_code_kind (1.7ms)
+[migrations] Applying: 247_workflow_run_triggered_by_agent
+[migrations] Applied: 247_workflow_run_triggered_by_agent (1.6ms)
+[migrations] Applying: 250_workflow_run_steps_runid_status_index
+[migrations] Applied: 250_workflow_run_steps_runid_status_index (0.1ms)
+[migrations] Applying: 253_session_summaries
+[migrations] Applied: 253_session_summaries (1.2ms)
+[migrations] Applying: 254_query_audit_indexes
+[migrations] Applied: 254_query_audit_indexes (0.2ms)
+[migrations] Applying: 256_agent_slack_icon
+[migrations] Applied: 256_agent_slack_icon (1.9ms)
+[migrations] Applying: 257_agent_tasks_fts
+[migrations] Applied: 257_agent_tasks_fts (0.5ms)
+[migrations] Applying: 259_session_summaries_open_tasks
+[migrations] Applied: 259_session_summaries_open_tasks (2.4ms)
+[migrations] Applying: 260_runtime_pool_cache
+[migrations] Applied: 260_runtime_pool_cache (2.0ms)
+[migrations] Applying: 262_session_visibility_indexes
+[migrations] Applied: 262_session_visibility_indexes (0.1ms)
+[migrations] Applying: 263_task_list_filter_index
+[migrations] Applied: 263_task_list_filter_index (0.1ms)
+[migrations] Applying: 264_slack_thread_cover_index
+[migrations] Applied: 264_slack_thread_cover_index (0.1ms)
+[migrations] Applying: 266_script_runs_source_task
+[migrations] Applied: 266_script_runs_source_task (3.8ms)
+[migrations] Applying: 269_pages_design_system
+[migrations] Applied: 269_pages_design_system (5.6ms)
+[oauth-encryption] No plaintext OAuth secrets to migrate.
+[db] sqlite-vec loaded
+[db] sqlite-vec loaded
+(pass) steering promotion on terminal tasks > promotes pending steering when a task is cancelled [13.91ms]
+(pass) steering promotion on terminal tasks > promotes pending steering when a task is completed [3.90ms]
+(pass) steering promotion on terminal tasks > promotes pending steering when a task is failed [3.62ms]
+
+src/tests/successor-steering.test.ts:
+Database initialized at :memory:
+[db] sqlite-vec loaded
+[migrations] Existing database appears incomplete — applying 001_initial migration
+[migrations] Applying: 001_initial
+[migrations] Applied: 001_initial (1.8ms)
+[migrations] Applying: 002_one_time_schedules
+[migrations] Applied: 002_one_time_schedules (1.5ms)
+[migrations] Applying: 003_workflows
+[migrations] Applied: 003_workflows (1.1ms)
+[migrations] Applying: 004_workflow_source
+[migrations] Applied: 004_workflow_source (1.6ms)
+[migrations] Applying: 005_epic_next_steps
+[migrations] Applied: 005_epic_next_steps (0.4ms)
+[migrations] Applying: 006_vcs_provider
+[migrations] Applied: 006_vcs_provider (5.8ms)
+[migrations] Applying: 007_task_dir
+[migrations] Applied: 007_task_dir (0.4ms)
+[migrations] Applying: 008_workflow_redesign
+[migrations] Applied: 008_workflow_redesign (0.5ms)
+[migrations] Applying: 009_tracker_integration
+[migrations] Applied: 009_tracker_integration (2.1ms)
+[migrations] Applying: 010_step_diagnostics
+[migrations] Applied: 010_step_diagnostics (0.4ms)
+[migrations] Applying: 011_step_next_port
+[migrations] Applied: 011_step_next_port (0.4ms)
+[migrations] Applying: 012_trigger_schema
+[migrations] Applied: 012_trigger_schema (0.4ms)
+[migrations] Applying: 013_task_output_schema
+[migrations] Applied: 013_task_output_schema (0.4ms)
+[migrations] Applying: 014_prompt_templates
+[migrations] Applied: 014_prompt_templates (0.2ms)
+[migrations] Applying: 015_workflow_workspace
+[migrations] Applied: 015_workflow_workspace (0.8ms)
+[migrations] Applying: 016_active_session_runner_session
+[migrations] Applied: 016_active_session_runner_session (0.8ms)
+[migrations] Applying: 017_channel_activity_cursors
+[migrations] Applied: 017_channel_activity_cursors (0.1ms)
+[migrations] Applying: 018_fix_seed_double_version
+[migrations] Applied: 018_fix_seed_double_version (0.1ms)
+[migrations] Applying: 019_skills
+[migrations] Applied: 019_skills (0.3ms)
+[migrations] Applying: 020_approval_requests
+[migrations] Applied: 020_approval_requests (0.2ms)
+[migrations] Applying: 021_events
+[migrations] Applied: 021_events (0.3ms)
+[migrations] Applying: 022_context_usage
+[migrations] Applied: 022_context_usage (2.2ms)
+[migrations] Applying: 023_mcp_servers
+[migrations] Applied: 023_mcp_servers (0.3ms)
+[migrations] Applying: 024_add_was_paused
+[migrations] Applied: 024_add_was_paused (0.5ms)
+[migrations] Applying: 025_workflow_run_cancelled_status
+[migrations] Applied: 025_workflow_run_cancelled_status (3.5ms)
+[migrations] Applying: 026_drop_epics
+[migrations] Applied: 026_drop_epics (2.0ms)
+[migrations] Applying: 027_heartbeat_md
+[migrations] Applied: 027_heartbeat_md (0.5ms)
+[migrations] Applying: 028_api_key_tracking
+[migrations] Applied: 028_api_key_tracking (0.6ms)
+[migrations] Applying: 029_task_credential_key_type
+[migrations] Applied: 029_task_credential_key_type (0.5ms)
+[migrations] Applying: 030_iso8601_date_consistency
+[migrations] Applied: 030_iso8601_date_consistency (0.1ms)
+[migrations] Applying: 031_user_registry
+[migrations] Applied: 031_user_registry (0.8ms)
+[migrations] Applying: 032_repo_guidelines
+[migrations] Applied: 032_repo_guidelines (0.5ms)
+[migrations] Applying: 033_vcs_installation_node_id
+[migrations] Applied: 033_vcs_installation_node_id (1.0ms)
+[migrations] Applying: 034_slack_reply_sent
+[migrations] Applied: 034_slack_reply_sent (0.5ms)
+[migrations] Applying: 035_api_key_name_provider
+[migrations] Applied: 035_api_key_name_provider (1.0ms)
+[migrations] Applying: 036_memory_ttl_staleness
+[migrations] Applied: 036_memory_ttl_staleness (1.4ms)
+[migrations] Applying: 037_swarm_version
+[migrations] Applied: 037_swarm_version (0.5ms)
+[migrations] Applying: 038_encrypted_secrets
+[migrations] Applied: 038_encrypted_secrets (0.5ms)
+[migrations] Applying: 039_remove_seed_users
+[migrations] Applied: 039_remove_seed_users (0.0ms)
+[migrations] Applying: 040_slack_thread_composite_index
+[migrations] Applied: 040_slack_thread_composite_index (0.0ms)
+[migrations] Applying: 041_mcp_oauth_tokens
+[migrations] Applied: 041_mcp_oauth_tokens (0.8ms)
+[migrations] Applying: 042_task_context_key
+[migrations] Applied: 042_task_context_key (0.5ms)
+[migrations] Applying: 043_jira_source
+[migrations] Applied: 043_jira_source (2.0ms)
+[migrations] Applying: 044_provider_meta
+[migrations] Applied: 044_provider_meta (1.0ms)
+[migrations] Applying: 046_budgets_and_pricing
+[migrations] Applied: 046_budgets_and_pricing (0.2ms)
+[migrations] Applying: 047_session_costs_cost_source
+[migrations] Applied: 047_session_costs_cost_source (0.6ms)
+[migrations] Applying: 048_agent_provider
+[migrations] Applied: 048_agent_provider (0.5ms)
+[migrations] Applying: 049_wait_states
+[migrations] Applied: 049_wait_states (0.2ms)
+[migrations] Applying: 050_wait_states_scope
+[migrations] Applied: 050_wait_states_scope (0.6ms)
+[migrations] Applying: 051_memory_posteriors_and_retrieval
+[migrations] Applied: 051_memory_posteriors_and_retrieval (1.2ms)
+[migrations] Applying: 052_memory_edges
+[migrations] Applied: 052_memory_edges (0.1ms)
+[migrations] Applying: 053_agent_waiting_for_credentials_status
+[migrations] Applied: 053_agent_waiting_for_credentials_status (1.6ms)
+[migrations] Applying: 054_agent_harness_provider
+[migrations] Applied: 054_agent_harness_provider (0.5ms)
+[migrations] Applying: 055_agent_cred_status
+[migrations] Applied: 055_agent_cred_status (0.5ms)
+[migrations] Applying: 056_drop_agent_tasks_source_check
+[migrations] Applied: 056_drop_agent_tasks_source_check (1.9ms)
+[migrations] Applying: 057_inbox_item_state
+[migrations] Applied: 057_inbox_item_state (0.1ms)
+[migrations] Applying: 058_task_templates
+[migrations] Applied: 058_task_templates (0.1ms)
+[migrations] Applying: 059_pages
+[migrations] Applied: 059_pages (0.1ms)
+[migrations] Applying: 060_page_versions
+[migrations] Applied: 060_page_versions (0.1ms)
+[migrations] Applying: 061_kv_store
+[migrations] Applied: 061_kv_store (0.1ms)
+[migrations] Applying: 062_pages_view_count
+[migrations] Applied: 062_pages_view_count (0.6ms)
+[migrations] Applying: 063_cost_context_schema_relax
+[migrations] Applied: 063_cost_context_schema_relax (6.8ms)
+[migrations] Applying: 064_scripts
+[migrations] Applied: 064_scripts (0.2ms)
+[migrations] Applying: 065_script_embeddings
+[migrations] Applied: 065_script_embeddings (0.0ms)
+[migrations] Applying: 066_scripts_args_json_schema
+[migrations] Applied: 066_scripts_args_json_schema (0.6ms)
+[migrations] Applying: 067_users_first_class
+[migrations] Applied: 067_users_first_class (3.9ms)
+[migrations] Applying: 068_profile_changed_event_type
+[migrations] Applied: 068_profile_changed_event_type (1.8ms)
+[migrations] Applying: 069_agent_tasks_perf_indexes
+[migrations] Applied: 069_agent_tasks_perf_indexes (0.1ms)
+[migrations] Applying: 070_seed_state
+[migrations] Applied: 070_seed_state (0.0ms)
+[migrations] Applying: 071_codex_oauth_pool
+[migrations] Applied: 071_codex_oauth_pool (0.0ms)
+[migrations] Applying: 072_task_attachments
+[migrations] Applied: 072_task_attachments (0.1ms)
+[migrations] Applying: 073_task_attachments_agent_fs_ids
+[migrations] Applied: 073_task_attachments_agent_fs_ids (1.2ms)
+[migrations] Applying: 074_user_budget_scope
+[migrations] Applied: 074_user_budget_scope (3.7ms)
+[migrations] Applying: 076_kapso_sender_user_backfill
+[migrations] Applied: 076_kapso_sender_user_backfill (0.1ms)
+[migrations] Applying: 077_oauth_refresh_locks
+[migrations] Applied: 077_oauth_refresh_locks (0.1ms)
+[migrations] Applying: 078_backfill_gpt_5_5_pricing
+[migrations] Applied: 078_backfill_gpt_5_5_pricing (0.0ms)
+[migrations] Applying: 079_task_followup_config
+[migrations] Applied: 079_task_followup_config (0.6ms)
+[migrations] Applying: 080_skill_system_defaults
+[migrations] Applied: 080_skill_system_defaults (0.6ms)
+[migrations] Applying: 081_metrics
+[migrations] Applied: 081_metrics (0.2ms)
+[migrations] Applying: 082_user_audit_fields
+[migrations] Applied: 082_user_audit_fields (44.5ms)
+[migrations] Applying: 083_script_workflows
+[migrations] Applied: 083_script_workflows (0.2ms)
+[migrations] Applying: 084_script_run_journal_duration
+[migrations] Applied: 084_script_run_journal_duration (0.7ms)
+[migrations] Applying: 085_script_runs_kind
+[migrations] Applied: 085_script_runs_kind (0.8ms)
+[migrations] Applying: 086_pages_default_authed
+[migrations] Applied: 086_pages_default_authed (2.3ms)
+[migrations] Applying: 087_skill_files
+[migrations] Applied: 087_skill_files (0.1ms)
+[migrations] Applying: 088_script_runs_list_indexes
+[migrations] Applied: 088_script_runs_list_indexes (0.1ms)
+[migrations] Applying: 089_harness_variant
+[migrations] Applied: 089_harness_variant (1.4ms)
+[migrations] Applying: 090_model_tiers
+[migrations] Applied: 090_model_tiers (1.4ms)
+[migrations] Applying: 091_seed_swarm_operations_metrics
+[migrations] Applied: 091_seed_swarm_operations_metrics (0.0ms)
+[migrations] Applying: 092_metrics_dashboard_combobox_filters
+[migrations] Applied: 092_metrics_dashboard_combobox_filters (0.1ms)
+[migrations] Applying: 093_slack_message_tracking
+[migrations] Applied: 093_slack_message_tracking (1.4ms)
+[migrations] Applying: 094_mcp_extra_authorize_params
+[migrations] Applied: 094_mcp_extra_authorize_params (0.7ms)
+[migrations] Applying: 095_api_key_rate_limit_windows
+[migrations] Applied: 095_api_key_rate_limit_windows (0.7ms)
+[migrations] Applying: 096_memory_graph_phase1
+[migrations] Applied: 096_memory_graph_phase1 (3.7ms)
+[migrations] Applying: 097_memory_retrieval_grouping
+[migrations] Applied: 097_memory_retrieval_grouping (1.5ms)
+[migrations] Applying: 098_repo_hooks_config
+[migrations] Applied: 098_repo_hooks_config (0.7ms)
+[migrations] Applying: 099_memory_structured_key_versioning
+[migrations] Applied: 099_memory_structured_key_versioning (3.0ms)
+[migrations] Applying: 100_memory_retrieval_source
+[migrations] Applied: 100_memory_retrieval_source (0.8ms)
+[migrations] Applying: 101_script_connections
+[migrations] Applied: 101_script_connections (0.3ms)
+[migrations] Applying: 102_script_apis
+[migrations] Applied: 102_script_apis (0.9ms)
+[migrations] Applying: 103_schedule_target_type
+[migrations] Applied: 103_schedule_target_type (2.7ms)
+[migrations] Applying: 104_task_reasoning_effort
+[migrations] Applied: 104_task_reasoning_effort (0.8ms)
+[migrations] Applying: 105_user_favorites
+[migrations] Applied: 105_user_favorites (0.1ms)
+[migrations] Applying: 106_task_attachments_provider_agnostic
+[migrations] Applied: 106_task_attachments_provider_agnostic (2.4ms)
+[migrations] Applying: 107_memory_usefulness_indexes
+[migrations] Applied: 107_memory_usefulness_indexes (0.1ms)
+[migrations] Applying: 108_rbac_permission_audit
+[migrations] Applied: 108_rbac_permission_audit (0.2ms)
+[migrations] Applying: 109_rbac_roles
+[migrations] Applied: 109_rbac_roles (0.3ms)
+[migrations] Applying: 111_oauth_credential_bindings
+[migrations] Applied: 111_oauth_credential_bindings (1.7ms)
+[migrations] Applying: 112_script_connections_graphql
+[migrations] Applied: 112_script_connections_graphql (2.8ms)
+[migrations] Applying: 113_task_routing_affinity
+[migrations] Applied: 113_task_routing_affinity (0.9ms)
+[migrations] Applying: 114_backfill_gpt_5_6_pricing
+[migrations] Applied: 114_backfill_gpt_5_6_pricing (0.0ms)
+[migrations] Applying: 115_asset_namespace_keys
+[migrations] Applied: 115_asset_namespace_keys (4.4ms)
+[migrations] Applying: 116_favorite_principal_scope
+[migrations] Applied: 116_favorite_principal_scope (3.4ms)
+[migrations] Applying: 117_unified_oauth
+[migrations] Applied: 117_unified_oauth (25.0ms)
+[migrations] Applying: 119_agent_avatar
+[migrations] Applied: 119_agent_avatar (1.1ms)
+[migrations] Applying: 120_task_title
+[migrations] Applied: 120_task_title (1.1ms)
+[migrations] Applying: 121_task_steering_messages
+[migrations] Applied: 121_task_steering_messages (0.2ms)
+[migrations] Applying: 122_steering_handled_note
+[migrations] Applied: 122_steering_handled_note (1.1ms)
+[migrations] Applying: 123_slack_messages
+[migrations] Applied: 123_slack_messages (0.2ms)
+[migrations] Applying: 124_slack_render_v2_state
+[migrations] Applied: 124_slack_render_v2_state (0.1ms)
+[migrations] Applying: 125_task_slack_trigger_message_ts
+[migrations] Applied: 125_task_slack_trigger_message_ts (1.1ms)
+[migrations] Applying: 126_apps
+[migrations] Applied: 126_apps (0.2ms)
+[migrations] Applying: 127_backfill_user_attribution
+[migrations] Applied: 127_backfill_user_attribution (0.1ms)
+[migrations] Applying: 128_session_costs_accuracy
+[migrations] Applied: 128_session_costs_accuracy (4.5ms)
+[migrations] Applying: 129_asset_keys_apps_scripts
+[migrations] Applied: 129_asset_keys_apps_scripts (6.0ms)
+[migrations] Applying: 130_scratch_script_retention_grace
+[migrations] Applied: 130_scratch_script_retention_grace (0.0ms)
+[migrations] Applying: 131_session_logs_created_at_index
+[migrations] Applied: 131_session_logs_created_at_index (0.0ms)
+[migrations] Applying: 132_multi_runtime_instances
+[migrations] Applied: 132_multi_runtime_instances (1.3ms)
+[migrations] Applying: 133_workflow_run_trigger_type
+[migrations] Applied: 133_workflow_run_trigger_type (1.3ms)
+[migrations] Applying: 135_backfill_task_pull_request_attachments
+[migrations] Applied: 135_backfill_task_pull_request_attachments (0.7ms)
+[migrations] Applying: 136_task_requester_provenance
+[migrations] Applied: 136_task_requester_provenance (1.3ms)
+[migrations] Applying: 137_memory_retrieval_composite_index
+[migrations] Applied: 137_memory_retrieval_composite_index (0.1ms)
+[migrations] Applying: 140_approval_request_cancelled_status
+[migrations] Applied: 140_approval_request_cancelled_status (3.9ms)
+[migrations] Applying: 141_scheduled_task_automation_preflight
+[migrations] Applied: 141_scheduled_task_automation_preflight (3.7ms)
+[migrations] Applying: 142_workflow_automation_preflight
+[migrations] Applied: 142_workflow_automation_preflight (3.7ms)
+[migrations] Applying: 143_backfill_gpt_6_astra_pricing
+[migrations] Applied: 143_backfill_gpt_6_astra_pricing (0.0ms)
+[migrations] Applying: 144_slack_relay_obligations
+[migrations] Applied: 144_slack_relay_obligations (0.2ms)
+[migrations] Applying: 145_slack_render_v2_delegation
+[migrations] Applied: 145_slack_render_v2_delegation (2.5ms)
+[migrations] Applying: 147_scheduled_tasks_parent_task
+[migrations] Applied: 147_scheduled_tasks_parent_task (1.2ms)
+[migrations] Applying: 148_pages_svg
+[migrations] Applied: 148_pages_svg (4.1ms)
+[migrations] Applying: 149_session_tokens
+[migrations] Applied: 149_session_tokens (0.1ms)
+[migrations] Applying: 150_deferred_task_waits
+[migrations] Applied: 150_deferred_task_waits (0.1ms)
+[migrations] Applying: 151_repair_scheduled_task_required_params
+[migrations] Applied: 151_repair_scheduled_task_required_params (0.1ms)
+[migrations] Applying: 152_routing_decisions
+[migrations] Applied: 152_routing_decisions (2.9ms)
+[migrations] Applying: 153_deferred_task_wait_members
+[migrations] Applied: 153_deferred_task_wait_members (6.9ms)
+[migrations] Applying: 154_routing_source
+[migrations] Applied: 154_routing_source (1.3ms)
+[migrations] Applying: 155_extensions
+[migrations] Applied: 155_extensions (0.3ms)
+[migrations] Applying: 156_inbox_item_state_read_at
+[migrations] Applied: 156_inbox_item_state_read_at (1.3ms)
+[migrations] Applying: 157_defer_provenance_and_marker
+[migrations] Applied: 157_defer_provenance_and_marker (6.5ms)
+[migrations] Applying: 158_task_citations
+[migrations] Applied: 158_task_citations (0.1ms)
+[migrations] Applying: 159_extension_assets
+[migrations] Applied: 159_extension_assets (0.1ms)
+[migrations] Applying: 161_task_citations_general
+[migrations] Applied: 161_task_citations_general (1.4ms)
+[migrations] Applying: 162_slack_outcome_delivery_abandon
+[migrations] Applied: 162_slack_outcome_delivery_abandon (4.0ms)
+[migrations] Applying: 164_usage_cover_index_and_key_plans
+[migrations] Applied: 164_usage_cover_index_and_key_plans (2.7ms)
+[migrations] Applying: 166_approval_request_auto_cancellation
+[migrations] Applied: 166_approval_request_auto_cancellation (0.1ms)
+[migrations] Applying: 171_memory_retrieval_relevance
+[migrations] Applied: 171_memory_retrieval_relevance (1.3ms)
+[migrations] Applying: 175_workflow_runs_list_index
+[migrations] Applied: 175_workflow_runs_list_index (0.1ms)
+[migrations] Applying: 177_events_event_agent_created_index
+[migrations] Applied: 177_events_event_agent_created_index (0.1ms)
+[migrations] Applying: 182_task_human_free_flag
+[migrations] Applied: 182_task_human_free_flag (1.6ms)
+[migrations] Applying: 183_human_free_reclassify_queue
+[migrations] Applied: 183_human_free_reclassify_queue (0.1ms)
+[migrations] Applying: 184_model_catalog
+[migrations] Applied: 184_model_catalog (7.2ms)
+[migrations] Applying: 185_api_key_auth_failures
+[migrations] Applied: 185_api_key_auth_failures (4.1ms)
+[migrations] Applying: 186_api_key_seat_mismatch
+[migrations] Applied: 186_api_key_seat_mismatch (2.7ms)
+[migrations] Applying: 190_memory_rating_model
+[migrations] Applied: 190_memory_rating_model (1.4ms)
+[migrations] Applying: 191_context_versions_previous_index
+[migrations] Applied: 191_context_versions_previous_index (0.1ms)
+[migrations] Applying: 192_favorites_agent_fs_path
+[migrations] Applied: 192_favorites_agent_fs_path (4.4ms)
+[migrations] Applying: 194_memory_orphan_chunks
+[migrations] Applied: 194_memory_orphan_chunks (0.0ms)
+[migrations] Applying: 195_approval_request_approvals
+[migrations] Applied: 195_approval_request_approvals (1.4ms)
+[migrations] Applying: 196_skill_invocations
+[migrations] Applied: 196_skill_invocations (3.0ms)
+[migrations] Applying: 197_connector_codes
+[migrations] Applied: 197_connector_codes (0.1ms)
+[migrations] Applying: 198_permission_audit_guest
+[migrations] Applied: 198_permission_audit_guest (4.4ms)
+[migrations] Applying: 200_backfill_auto_memory_expiry
+[migrations] Applied: 200_backfill_auto_memory_expiry (0.0ms)
+[migrations] Applying: 201_workflow_replay_columns
+[migrations] Applied: 201_workflow_replay_columns (2.8ms)
+[migrations] Applying: 202_codex_oauth_device_flows
+[migrations] Applied: 202_codex_oauth_device_flows (0.1ms)
+[migrations] Applying: 203_workflow_run_parent_step
+[migrations] Applied: 203_workflow_run_parent_step (1.5ms)
+[migrations] Applying: 204_slack_inbound_receipts
+[migrations] Applied: 204_slack_inbound_receipts (0.2ms)
+[migrations] Applying: 205_favorites_per_dashboard_user
+[migrations] Applied: 205_favorites_per_dashboard_user (0.0ms)
+[migrations] Applying: 206_runtime_pools
+[migrations] Applied: 206_runtime_pools (20.7ms)
+[migrations] Applying: 207_runtime_session_tokens
+[migrations] Applied: 207_runtime_session_tokens (4.7ms)
+[migrations] Applying: 208_task_runtime_dispatch
+[migrations] Applied: 208_task_runtime_dispatch (1.5ms)
+[migrations] Applying: 213_script_connections_sql
+[migrations] Applied: 213_script_connections_sql (4.7ms)
+[migrations] Applying: 215_swarm_config_export_to_env
+[migrations] Applied: 215_swarm_config_export_to_env (1.5ms)
+[migrations] Applying: 216_task_resolved_effort
+[migrations] Applied: 216_task_resolved_effort (1.5ms)
+[migrations] Applying: 217_chat_sdk_state
+[migrations] Applied: 217_chat_sdk_state (0.5ms)
+[migrations] Applying: 219_relabel_pi_context_compactions
+[migrations] Applied: 219_relabel_pi_context_compactions (0.0ms)
+[migrations] Applying: 220_model_profiles
+[migrations] Applied: 220_model_profiles (3.7ms)
+[migrations] Applying: 227_inbox_item_state_last_read_at
+[migrations] Applied: 227_inbox_item_state_last_read_at (1.6ms)
+[migrations] Applying: 230_session_shares
+[migrations] Applied: 230_session_shares (0.2ms)
+[migrations] Applying: 231_slack_tasks_last_updated_index
+[migrations] Applied: 231_slack_tasks_last_updated_index (0.1ms)
+[migrations] Applying: 232_agent_session_tokens
+[migrations] Applied: 232_agent_session_tokens (5.1ms)
+[migrations] Applying: 233_script_run_session_tokens
+[migrations] Applied: 233_script_run_session_tokens (1.7ms)
+[migrations] Applying: 235_chat_relay_defer
+[migrations] Applied: 235_chat_relay_defer (0.3ms)
+[migrations] Applying: 237_session_inbox_cleanup
+[migrations] Applied: 237_session_inbox_cleanup (0.2ms)
+[migrations] Applying: 239_skills_fts
+[migrations] Applied: 239_skills_fts (0.5ms)
+[migrations] Applying: 240_workflow_run_parent_step_attempt
+[migrations] Applied: 240_workflow_run_parent_step_attempt (1.8ms)
+[migrations] Applying: 241_skills_meta_fts
+[migrations] Applied: 241_skills_meta_fts (0.4ms)
+[migrations] Applying: 242_workflow_idempotency_keys
+[migrations] Applied: 242_workflow_idempotency_keys (0.2ms)
+[migrations] Applying: 244_api_key_validation
+[migrations] Applied: 244_api_key_validation (3.3ms)
+[migrations] Applying: 245_script_executor
+[migrations] Applied: 245_script_executor (1.6ms)
+[migrations] Applying: 246_connector_code_kind
+[migrations] Applied: 246_connector_code_kind (1.7ms)
+[migrations] Applying: 247_workflow_run_triggered_by_agent
+[migrations] Applied: 247_workflow_run_triggered_by_agent (1.7ms)
+[migrations] Applying: 250_workflow_run_steps_runid_status_index
+[migrations] Applied: 250_workflow_run_steps_runid_status_index (0.1ms)
+[migrations] Applying: 253_session_summaries
+[migrations] Applied: 253_session_summaries (1.3ms)
+[migrations] Applying: 254_query_audit_indexes
+[migrations] Applied: 254_query_audit_indexes (0.2ms)
+[migrations] Applying: 256_agent_slack_icon
+[migrations] Applied: 256_agent_slack_icon (1.9ms)
+[migrations] Applying: 257_agent_tasks_fts
+[migrations] Applied: 257_agent_tasks_fts (0.5ms)
+[migrations] Applying: 259_session_summaries_open_tasks
+[migrations] Applied: 259_session_summaries_open_tasks (2.4ms)
+[migrations] Applying: 260_runtime_pool_cache
+[migrations] Applied: 260_runtime_pool_cache (2.0ms)
+[migrations] Applying: 262_session_visibility_indexes
+[migrations] Applied: 262_session_visibility_indexes (0.1ms)
+[migrations] Applying: 263_task_list_filter_index
+[migrations] Applied: 263_task_list_filter_index (0.1ms)
+[migrations] Applying: 264_slack_thread_cover_index
+[migrations] Applied: 264_slack_thread_cover_index (0.1ms)
+[migrations] Applying: 266_script_runs_source_task
+[migrations] Applied: 266_script_runs_source_task (3.8ms)
+[migrations] Applying: 269_pages_design_system
+[migrations] Applied: 269_pages_design_system (5.9ms)
+[oauth-encryption] No plaintext OAuth secrets to migrate.
+[db] sqlite-vec loaded
+[db] sqlite-vec loaded
+[memory-vec] sqlite-vec extension_loaded=true vector_dimensions=512
+[memory-vec] populate skipped attempted=0 inserted=0 memory_vec=0 valid_embedding=0
+(pass) successor tasks take over unhandled steering > defer-task wake-up: a delivered, unaccepted steer moves to the successor and is acknowledged there [72.79ms]
+[Heartbeat] Reboot sweep: could not parse boot epoch from __runId — falling back to legacy session-exists check
+[Heartbeat] Reboot retry created: 1bd95f01-4523-482a-9724-ef8e879b53a2 (parent: 0fdb5964-c483-42d5-a4a6-848c48ea01bd)
+[Heartbeat] Reboot sweep complete: 1 task(s) auto-failed and retried
+(pass) successor tasks take over unhandled steering > reboot-sweep retry: a delivered, unaccepted steer moves to the successor and is acknowledged there [7.08ms]
+
+src/tests/steering-promotion.test.ts:
+(pass) steering promotion on terminal tasks > a promoted steer on a Codex agent carries no model or tier, so the claim records none and the adapter default applies [37.35ms]
+
+src/tests/successor-steering.test.ts:
+(pass) successor tasks take over unhandled steering > supersede resume: a delivered, unaccepted steer moves to the successor and is acknowledged there [4.84ms]
+
+src/tests/steering-promotion.test.ts:
+(pass) steering promotion on terminal tasks > promotion bypasses disabled follow-up configuration [4.26ms]
+
+src/tests/successor-steering.test.ts:
+(pass) successor tasks take over unhandled steering > finding 1: a replacement worker acknowledges a steer carried to its resume [4.40ms]
+
+src/tests/steering-promotion.test.ts:
+(pass) steering promotion on terminal tasks > failTask promotion is re-entrancy-safe and does not create a follow-up loop [3.33ms]
+
+src/tests/successor-steering.test.ts:
+(pass) successor tasks take over unhandled steering > finding 2: a pending steer carried on supersede is delivered once and acknowledged [4.42ms]
+[Heartbeat] Reboot sweep: could not parse boot epoch from __runId — falling back to legacy session-exists check
+[Heartbeat] Reboot retry created: 0e6f92a3-d1f2-4848-992c-7b030d25ef5b (parent: c23ffddb-a059-4388-b013-a97adc04ac8f)
+[Heartbeat] Reboot sweep complete: 1 task(s) auto-failed and retried
+(pass) successor tasks take over unhandled steering > finding 3: a reboot retry after acceptance does not repeat the steer [6.35ms]
+(pass) successor tasks take over unhandled steering > finding 4: P to R1 to R2 via supersede keeps the unaccepted steer [5.02ms]
+
+src/tests/steering-promotion.test.ts:
+[Heartbeat] Auto-superseded task 5f3e6f45 — pinned resume b3e21c31 to original agent 4918c862 (no active session)
+(pass) steering promotion on terminal tasks > fresh steering defers a stalled task only until the grace window expires [15.90ms]
+
+src/tests/successor-steering.test.ts:
+(pass) successor tasks take over unhandled steering > finding 4: P to W1 to W2 via double deferral keeps the unaccepted steer [10.11ms]
+
+src/tests/steering-promotion.test.ts:
+(pass) steering promotion on terminal tasks > resume preambles include pending and promoted steering fetched over HTTP [8.39ms]
+
+src/tests/successor-steering.test.ts:
+[memory-fts] populate missing=2 ms=98
+(pass) successor hand-off at the delivery boundary > runner: a hand-off with shared dispatch state delivers to the successor exactly once [18.82ms]
+(pass) successor hand-off at the delivery boundary > runner: a predecessor delivery in flight across the hand-off leaves the row to the successor [8.63ms]
+(pass) successor hand-off at the delivery boundary > codex hook: a live predecessor's hook takes nothing after the hand-off [6.70ms]
+(pass) successor hand-off at the delivery boundary > codex hook: without a task id the hook delivers nothing [2.80ms]
+
+src/tests/runner-slot-reconcile.test.ts:
+[worker] Task 71e9955d completed with exit code 0 (trigger: task_assigned)
+[worker] Task 71e9955d was already completed server-side — slot released, server result kept
+(pass) completed session deletion > permanent DELETE failure retries and completes within a few seconds [308.12ms]
+
+src/tests/multi-runtime-registration.test.ts:
+[db] sqlite-vec loaded
+[db] sqlite-vec loaded
+(pass) registration adopts a provisioning runtime and preserves controller metadata [15.35ms]
+(pass) poll refuses a draining runtime and records task history after draining ends [13.14ms]
+(pass) runner shutdown close terminates a pool runtime and revokes its token [4.60ms]
+(pass) session close preserves a pooled runtime and token (shutdown: omitted) [6.28ms]
+(pass) session close preserves a pooled runtime and token (shutdown: false) [4.75ms]
+(pass) runner shutdown cannot terminate another agent's pooled runtime [2.67ms]
+(pass) migration 132_multi_runtime_instances > runtime_instances table exists with the expected columns [0.72ms]
+(pass) migration 132_multi_runtime_instances > active_sessions carries runtime ownership [0.20ms]
+(pass) legacy mode (flag off) > registration creates the agent with the reported maxTasks [0.78ms]
+(pass) legacy mode (flag off) > re-registration writes the reported value through to agents.maxTasks [1.01ms]
+(pass) legacy mode (flag off) > no runtime-instance rows and no policy config rows are written, even when the worker sends a runtimeInstanceId [1.27ms]
+(pass) multi-runtime mode: registration vs logical policy > two runtimes with different capacities never touch the persisted policy [1.77ms]
+(pass) multi-runtime mode: registration vs logical policy > a brand-new agent's first registration establishes the logical policy [1.08ms]
+(pass) multi-runtime mode: operator value survives runtime registrations > registrations after an operator update leave the policy untouched [4.05ms]
+(pass) multi-runtime mode: enablement seeding > first registration seeds AGENT_MAX_TASKS from the persisted agents.maxTasks [1.49ms]
+(pass) multi-runtime mode: existing config preserved > registration keeps the pre-existing row and repairs the mirror from it [0.84ms]
+(pass) multi-runtime mode: existing config preserved > a config row written before the agent exists is applied when the agent registers [1.00ms]
+(pass) operator updates mirror into agents.maxTasks > PUT /api/config updates the enforcement mirror atomically [0.85ms]
+(pass) operator updates mirror into agents.maxTasks > invalid values are rejected and leave both sides untouched [2.41ms]
+(pass) operator updates mirror into agents.maxTasks > the MCP set-config tool mirrors the same way [2.01ms]
+(pass) operator updates mirror into agents.maxTasks > global-scope writes of other keys are untouched by the mirror wrapper [0.99ms]
+(pass) disable / legacy restoration > after the flag is turned off, write-through resumes and the config row is left alone [5.58ms]
+(pass) runtime instances > two instances serving one agent keep independent capacities [2.50ms]
+(pass) runtime instances > a re-registration from the same runtime refreshes its row in place [1.85ms]
+(pass) runtime instances > re-registering a closed runtime makes it active again [1.83ms]
+(pass) runtime instances > a runtime id belonging to another agent is rejected and never reassigned [1.67ms]
+(pass) runtime instances > registration without a runtimeInstanceId is rejected with 400 when the flag is on [0.68ms]
+(pass) runtime instances > an unknown agent registering without a runtimeInstanceId is rejected and never created [0.63ms]
+
+src/tests/steering-transport.test.ts:
+[db] sqlite-vec loaded
+[db] sqlite-vec loaded
+(pass) steering worker transport > a pending queue allows a later steer for the same task without duplicate delivery [1.29ms]
+(pass) steering worker transport > delivers pending rows once and reports the adapter's actual mode [0.25ms]
+
+src/tests/multi-runtime-registration.test.ts:
+(pass) GET /api/agents/{id}/runtime-instances > an agent with no runtimes returns an empty list [2.48ms]
+(pass) GET /api/agents/{id}/runtime-instances > a nonexistent agent returns 404 [0.49ms]
+
+src/tests/steering-transport.test.ts:
+(pass) steering worker transport > scrubs provider errors before reporting an undeliverable reason [2.18ms]
+
+src/tests/multi-runtime-registration.test.ts:
+(pass) GET /api/agents/{id}/runtime-instances > a live runtime is returned with its capacity, liveness, and identity [1.98ms]
+(pass) GET /api/agents/{id}/runtime-instances > every runtime serving the agent is returned independently [1.87ms]
+(pass) GET /api/agents/{id}/runtime-instances > runtimes of another agent never appear [1.65ms]
+(pass) GET /api/agents/{id}/runtime-instances > a stale unswept runtime keeps status active but is not presented as live [1.75ms]
+
+src/tests/task-supersede-resume.test.ts:
+[db] sqlite-vec loaded
+[db] sqlite-vec loaded
+(pass) Task Supersede + Resume > supersedeTask() > transitions in_progress → superseded and sets finishedAt [9.67ms]
+
+src/tests/multi-runtime-registration.test.ts:
+(pass) GET /api/agents/{id}/runtime-instances > a closed runtime is reported offline and not live [2.25ms]
+
+src/tests/task-supersede-resume.test.ts:
+(pass) Task Supersede + Resume > supersedeTask() > idempotent — second supersede returns null (alreadyFinished shape) [1.06ms]
+(pass) Task Supersede + Resume > supersedeTask() > completeTask on a superseded task short-circuits [1.04ms]
+(pass) Task Supersede + Resume > supersedeTask() > failTask on a superseded task short-circuits [0.98ms]
+(pass) Task Supersede + Resume > supersedeTask() > cancelTask on a superseded task short-circuits [0.91ms]
+
+src/tests/multi-runtime-registration.test.ts:
+(pass) GET /api/agents/{id}/runtime-instances > credential readiness surfaces all three states [4.96ms]
+
+src/tests/task-supersede-resume.test.ts:
+(pass) Task Supersede + Resume > supersedeTask() > supersede on already completed task returns null [2.04ms]
+
+src/tests/multi-runtime-registration.test.ts:
+(pass) GET /api/agents/{id}/runtime-instances > listing never mutates runtime state, with the flag on or off [2.10ms]
+
+src/tests/steering-transport.test.ts:
+(pass) steering worker transport > missing provider delivery promotes a non-codex pending row to a follow-up [17.27ms]
+
+src/tests/task-supersede-resume.test.ts:
+[Heartbeat] graceful_shutdown resume for task f7673aaf NOT pinned: agent worker-6 at capacity (1/1); falling back to unassigned pool
+(pass) Task Supersede + Resume > createResumeFollowUp() > non-workflow parent → creates resume task with inherited fields [3.65ms]
+
+src/tests/multi-runtime-registration.test.ts:
+(pass) runtime-aware close > one of two active runtimes closing leaves the agent available and the sibling untouched [3.19ms]
+
+src/tests/steering-transport.test.ts:
+(pass) steering worker transport > the runner preserves rows for explicitly external delivery [1.12ms]
+
+src/tests/task-supersede-resume.test.ts:
+(pass) Task Supersede + Resume > createResumeFollowUp() > createTaskExtended(parentTaskId) does NOT inherit model but DOES inherit dir/vcs [1.44ms]
+
+src/tests/multi-runtime-registration.test.ts:
+(pass) runtime-aware close > the last active runtime closing takes the agent offline [2.15ms]
+
+src/tests/task-supersede-resume.test.ts:
+(pass) Task Supersede + Resume > createResumeFollowUp() > graceful_shutdown resume keeps the parent's task-level model pin [2.08ms]
+
+src/tests/multi-runtime-registration.test.ts:
+(pass) runtime-aware close > legacy close (flag off) preserves legacy semantics [1.07ms]
+
+src/tests/steering-transport.test.ts:
+(pass) steering worker transport > accept-steer marks a delivered row handled and is idempotent [3.25ms]
+
+src/tests/task-supersede-resume.test.ts:
+(pass) Task Supersede + Resume > createResumeFollowUp() > context_limits resume keeps the parent's task-level model pin [1.25ms]
+
+src/tests/steering-transport.test.ts:
+(pass) steering worker transport > steering prompt follows provider traits and the core capability [1.03ms]
+
+src/tests/multi-runtime-registration.test.ts:
+(pass) runtime-aware close > with the flag off, a runtime-identified close still takes the legacy path [1.39ms]
+
+src/tests/task-supersede-resume.test.ts:
+(pass) Task Supersede + Resume > createResumeFollowUp() > manual_supersede resume keeps the parent's task-level model pin [1.19ms]
+
+src/tests/multi-runtime-registration.test.ts:
+(pass) runtime-aware close > a multi-runtime close without a runtime id fails closed with 400 and mutates nothing [1.21ms]
+
+src/tests/task-supersede-resume.test.ts:
+[Heartbeat] graceful_shutdown resume for task e8099736 NOT pinned: agent pin-alia at capacity (1/1); falling back to unassigned pool
+(pass) Task Supersede + Resume > createResumeFollowUp() > a latest: alias pin travels as the alias, with the parent's modelTier [1.21ms]
+
+src/tests/multi-runtime-registration.test.ts:
+(pass) runtime-aware close > registration and close share the same identity requirement while the mode is on [0.82ms]
+(pass) runtime-aware close > transition: a pre-enablement worker's id-less close cannot take the agent offline [1.54ms]
+
+src/tests/task-supersede-resume.test.ts:
+[Heartbeat] graceful_shutdown resume for task 87d0315d NOT pinned: agent no-pin-e at capacity (2/1); falling back to unassigned pool
+[Heartbeat] graceful_shutdown resume for task 1735309b NOT pinned: agent no-pin-e at capacity (2/1); falling back to unassigned pool
+(pass) Task Supersede + Resume > createResumeFollowUp() > no pin: a session-reported model is not carried, a tier is [1.80ms]
+[Heartbeat] graceful_shutdown resume for task 16399279 NOT pinned: agent worker-6 at capacity (1/1); falling back to unassigned pool
+(pass) Task Supersede + Resume > createResumeFollowUp() > non-workflow parent with outputSchema → schema carries forward to resume child [1.21ms]
+
+src/tests/multi-runtime-registration.test.ts:
+(pass) runtime-aware close > a close cannot mark another agent's runtime offline [1.48ms]
+
+src/tests/task-supersede-resume.test.ts:
+(pass) Task Supersede + Resume > createResumeFollowUp() > non-workflow parent with full VCS identity → all VCS fields carry forward [1.28ms]
+[Heartbeat] graceful_shutdown resume for task 34a3be51 NOT pinned: agent worker-t at capacity (1/1); falling back to unassigned pool
+[ResumeFollowUp] Repointed 1 tracker_sync row(s) from 34a3be51 → e993b3d0
+(pass) Task Supersede + Resume > createResumeFollowUp() > Linear-backed parent → tracker_sync row repoints to resume child [2.09ms]
+[Heartbeat] graceful_shutdown resume for task a9940588 NOT pinned: agent worker-n at capacity (1/1); falling back to unassigned pool
+(pass) Task Supersede + Resume > createResumeFollowUp() > Parent with no tracker_sync → resume creation is a no-op on tracker_sync [1.22ms]
+(pass) Task Supersede + Resume > createResumeFollowUp() > workflow-step parent → returns workflow-skip (no task created) [1.42ms]
+(pass) Task Supersede + Resume > createResumeFollowUp() > routing: graceful_shutdown pins to original online agent with capacity and tags the pin [2.86ms]
+(pass) Task Supersede + Resume > createResumeFollowUp() > routing: HEARTBEAT_PIN_GRACEFUL_RESUME=0 restores graceful_shutdown pool behavior [1.69ms]
+[Heartbeat] graceful_shutdown resume for task 72df3573 NOT pinned: agent worker-f at capacity (1/1); falling back to unassigned pool
+(pass) Task Supersede + Resume > createResumeFollowUp() > routing: graceful_shutdown at capacity → unassigned pool fail-open [1.26ms]
+(pass) Task Supersede + Resume > createResumeFollowUp() > routing: graceful_shutdown offline worker → unassigned pool fail-open [1.36ms]
+
+src/tests/multi-runtime-registration.test.ts:
+(pass) runtime liveness via ping > a ping refreshes only the pinging runtime's last_seen_at [13.96ms]
+
+src/tests/task-supersede-resume.test.ts:
+(pass) Task Supersede + Resume > createResumeFollowUp() > routing: fresh worker + capacity (non-shutdown) → resume pre-assigned to same worker [1.15ms]
+(pass) Task Supersede + Resume > createResumeFollowUp() > routing: stale heartbeat → unassigned [1.14ms]
+(pass) Task Supersede + Resume > createResumeFollowUp() > routing: worker at capacity → unassigned [1.22ms]
+(pass) Task Supersede + Resume > createResumeFollowUp() > routing: offline worker → unassigned [1.20ms]
+(pass) Task Supersede + Resume > createResumeFollowUp() > missing parent → skipped(parent_not_found) [0.06ms]
+
+src/tests/multi-runtime-registration.test.ts:
+(pass) runtime liveness via ping > a ping without the runtime header is an accepted no-op [14.41ms]
+(pass) runtime liveness via ping > an id-less ping does not stomp a busy agent's status [1.36ms]
+
+src/tests/task-supersede-resume.test.ts:
+(pass) Task Supersede + Resume > buildResumeContextPreamble() > preserves the full parent task description [11.42ms]
+(pass) Task Supersede + Resume > buildResumeContextPreamble() > scrubs secret-shaped values from session-log summaries [0.48ms]
+(pass) Task Supersede + Resume > buildResumeContextPreamble() > respects the 4000-token (16000-char) cap when over budget [0.62ms]
+(pass) Task Supersede + Resume > buildResumeContextPreamble() > returns null when parent task is not found [0.20ms]
+(pass) Task Supersede + Resume > buildResumeContextPreamble() > cascading resume: walks chain to ORIGINAL task and merges logs across attempts [3.63ms]
+
+src/tests/multi-runtime-registration.test.ts:
+(pass) runtime liveness via ping > with the flag off, a runtime-identified ping is inert [13.53ms]
+(pass) runtime liveness via ping > an id-less ping cannot revive an agent that has zero active runtimes [2.46ms]
+(pass) runtime liveness via ping > a closed runtime's ping neither reactivates it nor revives the agent [15.24ms]
+(pass) runtime liveness via ping > an unknown runtime id leaves agent status untouched [2.58ms]
+(pass) runtime liveness via ping > a foreign runtime id cannot drive the presenting agent's status [15.06ms]
+(pass) runtime liveness via ping > a ping cannot touch another agent's runtime row [14.70ms]
+
+src/tests/trigger-claiming.test.ts:
+[db] sqlite-vec loaded
+[db] sqlite-vec loaded
+(pass) Trigger Claiming - Inbox Messages > claimInboxMessages marks messages as processing atomically [3.16ms]
+(pass) Trigger Claiming - Inbox Messages > concurrent claims do not return duplicate messages [0.49ms]
+(pass) Trigger Claiming - Inbox Messages > claimInboxMessages respects limit parameter [0.54ms]
+(pass) Trigger Claiming - Inbox Messages > markInboxMessageResponded accepts processing status [0.35ms]
+
+src/tests/multi-runtime-registration.test.ts:
+(pass) end-to-end multi-runtime lifecycle > policy, capacity, close, and liveness compose across two runtimes [17.96ms]
+(pass) stale runtime liveness > a crashed runtime stops counting once its ping goes stale [1.90ms]
+(pass) stale runtime liveness > a stale runtime does not keep the agent available when its sibling closes [1.66ms]
+
+src/tests/trigger-claiming.test.ts:
+(pass) Trigger Claiming - Inbox Messages > markInboxMessageDelegated accepts processing status [5.09ms]
+
+src/tests/multi-runtime-registration.test.ts:
+(pass) stale runtime liveness > a live sibling keeps the agent available while another is stale [1.78ms]
+(pass) stale runtime liveness > the sweep retires stale runtimes and offlines agents with none left [1.38ms]
+(pass) stale runtime liveness > the sweep leaves healthy runtimes and their agents alone [1.44ms]
+(pass) stale runtime liveness > a row left active by a flag-off close does not revive the agent when the flag returns [1.91ms]
+(pass) logical capacity across runtimes > reviewing tasks consume a slot [1.61ms]
+
+src/tests/trigger-claiming.test.ts:
+(pass) Trigger Claiming - Inbox Messages > releaseStaleProcessingInbox releases old processing messages [12.62ms]
+(pass) Trigger Claiming - Inbox Messages > claimInboxMessages returns empty array when no messages [0.25ms]
+
+src/tests/multi-runtime-registration.test.ts:
+(pass) logical capacity across runtimes > maxTasks=1 admits only one of two concurrent polls [6.10ms]
+
+src/tests/trigger-claiming.test.ts:
+(pass) Trigger Claiming - Inbox Messages > claimed messages maintain order (oldest first) [0.29ms]
+(pass) Trigger Claiming - Inbox Messages > only unread messages are claimable [0.39ms]
+(pass) Trigger Claiming - Offered Tasks > claimOfferedTask marks task as reviewing atomically [1.42ms]
+(pass) Trigger Claiming - Offered Tasks > concurrent claims do not return duplicate offered tasks [0.67ms]
+(pass) Trigger Claiming - Offered Tasks > claimOfferedTask returns null for non-offered task [0.50ms]
+(pass) Trigger Claiming - Offered Tasks > claimOfferedTask returns null for wrong agent [0.57ms]
+
+src/tests/multi-runtime-registration.test.ts:
+(pass) logical capacity across runtimes > maxTasks=2 admits two concurrent polls [4.62ms]
+
+src/tests/trigger-claiming.test.ts:
+(pass) Trigger Claiming - Offered Tasks > acceptTask works with reviewing status [1.13ms]
+(pass) Trigger Claiming - Offered Tasks > rejectTask works with reviewing status [1.17ms]
+
+src/tests/multi-runtime-registration.test.ts:
+(pass) logical capacity across runtimes > finishing a task restores capacity [3.94ms]
+(pass) logical capacity across runtimes > capacity is enforced the same way with the flag off [3.32ms]
+(pass) logical policy seeding > a new lead keeps its reported default instead of being forced to one [1.45ms]
+(pass) logical policy seeding > deleting the policy row clears the enforcement mirror [1.51ms]
+
+src/tests/trigger-claiming.test.ts:
+(pass) Trigger Claiming - Offered Tasks > releaseStaleReviewingTasks releases old reviewing tasks [11.39ms]
+
+src/tests/multi-runtime-registration.test.ts:
+(pass) sibling runtime session safety > starting a second runtime leaves the first runtime's live session and task alone [3.33ms]
+
+src/tests/trigger-claiming.test.ts:
+(pass) Trigger Claiming - Mentions > claimMentions marks channels as processing atomically [1.29ms]
+(pass) Trigger Claiming - Mentions > concurrent claims do not return duplicate mentions [0.52ms]
+(pass) Trigger Claiming - Mentions > releaseMentionProcessing allows reclaiming [0.50ms]
+
+src/tests/multi-runtime-registration.test.ts:
+(pass) sibling runtime session safety > startup cleanup preserves an activation-window session it cannot prove dead [2.81ms]
+
+src/tests/trigger-claiming.test.ts:
+(pass) Trigger Claiming - Mentions > releaseStaleMentionProcessing releases old processing channels [12.69ms]
+(pass) Trigger Claiming - Mentions > claimMentions returns empty array when no mentions [0.29ms]
+(pass) Trigger Claiming - Mentions > claimMentions only claims channels with unread mentions [0.51ms]
+
+src/tests/multi-runtime-registration.test.ts:
+[Heartbeat] Auto-superseded task 6f8f2001 — pinned resume 5cfec0f5 to original agent 029cbfba (stale session heartbeat)
+[Heartbeat] Sweep complete: auto_resumed=1, pinned_resumes=1
+(pass) sibling runtime session safety > a crashed predecessor's work is reclaimed by the classifier, not boot cleanup [13.33ms]
+(pass) sibling runtime session safety > with the flag off, startup cleanup still clears every session for the agent [2.63ms]
+(pass) rollback to legacy mode > stale runtime state is inert while the flag is off [1.11ms]
+(pass) rollback to legacy mode > a legacy agent with leftover runtime rows stays assignable [0.60ms]
+[Heartbeat] Auto-superseded task 93550bed — pinned resume e51c04f5 to original agent d4f37bf4 (stale session heartbeat)
+[Heartbeat] Sweep complete: auto_resumed=1, pinned_resumes=1
+(pass) runtime expiry retires the runtime, the classifier reclaims its work > a crashed runtime's task is recovered by stall remediation while a sibling's survives [7.34ms]
+
+src/tests/trigger-claiming.test.ts:
+(pass) Trigger Claiming - Mentions > releasing processing allows subsequent polling to claim [13.25ms]
+
+src/tests/multi-runtime-registration.test.ts:
+(pass) flag re-enable cycle preserves live sessions > a frozen runtime row does not kill a still-heartbeating session on re-enable [5.10ms]
+(pass) flag re-enable cycle preserves live sessions > a quiet-but-healthy session survives the cycle even past the runtime cutoff [4.46ms]
+(pass) flag re-enable cycle preserves live sessions > a stale session heartbeat alone does not fail a task that is still progressing [5.81ms]
+[Heartbeat] Auto-superseded task d4f44681 — created resume b284bac1 in unassigned pool (stale session heartbeat)
+[Heartbeat] Sweep complete: auto_resumed=1
+(pass) flag re-enable cycle preserves live sessions > a genuinely dead worker is still recovered across the same cycle [7.04ms]
+(pass) flag re-enable cycle preserves live sessions > while the flag stays off, expiry touches neither row nor session [3.24ms]
+[AgentMail] Missing AGENTMAIL_WEBHOOK_SECRET, AgentMail integration disabled
+[GitHub] Disabled via GITHUB_DISABLE
+[GitLab] Integration disabled (GITLAB_WEBHOOK_SECRET not set)
+[AzureDevOps] Integration disabled (AZURE_DEVOPS_WEBHOOK_SECRET not set)
+[Bitbucket] Integration disabled (BITBUCKET_WEBHOOK_SECRET not set)
+[Linear] Integration disabled or LINEAR_CLIENT_ID not set
+[Jira] Integration disabled or JIRA_CLIENT_ID not set
+[Slack] Missing SLACK_BOT_TOKEN or SLACK_APP_TOKEN for socket mode, Slack integration disabled
+[chat-sdk] Configuration changed, restarting adapters
+[chat-sdk] Disabled (CHAT_SDK_ENABLED is not true)
+[chat-sdk] Restart done, adapters configured: 0
+[auto-reload] Loaded 0 config(s), re-initialized: none
+(pass) runtime row retention > repeated boot/retire cycles do not accumulate rows [26.52ms]
+(pass) runtime row retention > a gracefully closed runtime is pruned once it goes stale [2.13ms]
+(pass) heartbeat ordering vs auto-assignment > a dead runtime's agent is retired before pool assignment, leaving the task queued [4.11ms]
+[Heartbeat] Sweep complete: stale_offers_released=1
+(pass) offered task strand recovery (#1190) > an offer pinned to an agent whose only runtime expires is released back to the pool [4.14ms]
+[Heartbeat] Sweep complete: auto_assigned=1, stale_offers_released=1
+(pass) offered task strand recovery (#1190) > the released offer is reassigned to an idle worker in the very same sweep [5.61ms]
+(pass) offered task strand recovery (#1190) > an offer to a healthy offeree that simply has not polled yet is left untouched [4.41ms]
+(pass) offered task strand recovery (#1190) > releaseStaleOfferedTasksForOfflineAgents releases an offer to a deleted agent [1.78ms]
+(pass) offered task strand recovery (#1190) > releaseStaleOfferedTasksForOfflineAgents releases an offer to an explicitly closed (legacy) agent [0.67ms]
+(pass) offered task strand recovery (#1190) > releaseStaleOfferedTasksForOfflineAgents ignores reviewing tasks and other agents' offers [0.98ms]
+(pass) sweep coverage and rollback inertness > a cleanup-only tick still retires a dead runtime [2.69ms]
+[Heartbeat] Sweep complete: auto_assigned=1
+(pass) sweep coverage and rollback inertness > with the flag off, leftover runtime rows do not block pool assignment [4.42ms]
+
+src/tests/store-progress-ownership.test.ts:
+[db] sqlite-vec loaded
+[db] sqlite-vec loaded
+(pass) store-progress task ownership > a non-lead non-owner cannot complete another agent's task [9.35ms]
+(pass) store-progress task ownership > a non-lead non-owner cannot write progress, and the retry hint falls back to its in-progress task [1.40ms]
+
+src/tests/multi-runtime-registration.test.ts:
+(pass) enabling the flag while workers are running > a live session survives cleanup before its runtime has re-registered [3.90ms]
+
+src/tests/store-progress-ownership.test.ts:
+(pass) store-progress task ownership > the owner can write progress and complete its task [3.66ms]
+
+src/tests/multi-runtime-registration.test.ts:
+(pass) dispatch requires a live runtime > a retired runtime is given no work while its replacement is [3.26ms]
+
+src/tests/store-progress-ownership.test.ts:
+(pass) store-progress task ownership > a lead can still complete a worker's task [1.54ms]
+(pass) store-progress task ownership > an unassigned task stays writable, matching POST /api/tasks/:id/finish [0.83ms]
+
+src/tests/multi-runtime-registration.test.ts:
+(pass) dispatch requires a live runtime > polling without a runtime identity yields no work while the flag is on [2.37ms]
+(pass) capacity attribution for offers > a lead's own capacity is not consumed by offers it created for a worker [1.47ms]
+(pass) pool eligibility during activation > an agent that has not re-registered since the flag was enabled is not assigned work [2.62ms]
+[Heartbeat] Sweep complete: auto_assigned=1
+(pass) pool eligibility during activation > once it re-registers with a runtime, it becomes eligible again [4.57ms]
+(pass) readiness after a credential wait > re-registering the same runtime id revives a runtime that expired during the wait [3.13ms]
+(pass) readiness after a credential wait > the revived runtime can immediately receive work [4.02ms]
+(pass) readiness after a credential wait > re-register then report recovers readiness on a runtime that went stale waiting [2.81ms]
+(pass) readiness after a credential wait > the recovered agent reports busy when it still holds active work [3.87ms]
+(pass) readiness after a credential wait > a transient registration failure delays but does not drop the recovery [2.76ms]
+(pass) readiness after a credential wait > recovery after several transient failures still ends busy with active work [3.84ms]
+(pass) readiness after a credential wait > persistent registration failure leaves the runtime unrecovered and undispatchable [3.02ms]
+(pass) readiness after a credential wait > the boot readiness write retries through a transient failure [3.01ms]
+(pass) readiness after a credential wait > a rejected readiness write surfaces instead of being swallowed [1.87ms]
+(pass) readiness after a credential wait > a ready report against a stale row is dropped and revival preserves the waiting state [2.28ms]
+(pass) readiness after a credential wait > re-registering before any expiry is idempotent and adds no second row [1.68ms]
+(pass) readiness after a credential wait > with the flag off, the same re-registration writes no runtime rows [1.11ms]
+(pass) credential readiness is per runtime > a waiting runtime does not disable its ready sibling [4.86ms]
+(pass) credential readiness is per runtime > a ready report does not pull a busy agent back to idle [3.35ms]
+(pass) credential readiness is per runtime > all live runtimes waiting parks the agent [2.35ms]
+(pass) credential readiness is per runtime > losing the only ready runtime falls back to the waiting sibling's state [2.61ms]
+(pass) credential readiness is per runtime > a stale ready runtime stops counting toward readiness [2.27ms]
+(pass) credential readiness is per runtime > losing the last runtime leaves the agent offline regardless of readiness [2.86ms]
+(pass) credential readiness is per runtime > a runtime that never reports counts as ready (credential checks opted out) [1.28ms]
+(pass) credential readiness is per runtime > a readiness report without runtime identity is rejected and corrupts nothing [1.48ms]
+(pass) credential readiness is per runtime > a foreign runtime id cannot change this agent's readiness [3.08ms]
+(pass) credential readiness is per runtime > with the flag off, credential reporting keeps legacy semantics [1.57ms]
+
+src/tests/worker-nudges.test.ts:
+[db] sqlite-vec loaded
+[db] sqlite-vec loaded
+(pass) worker nudges > allows only the matching agent to subscribe, and rejects client writes [96.64ms]
+
+src/tests/multi-runtime-registration.test.ts:
+[Heartbeat] Auto-superseded task 4c9d3655 — created resume 50971fd5 in unassigned pool (stale session heartbeat)
+[Heartbeat] Sweep complete: auto_resumed=1
+(pass) remediation respects runtime liveness > recovering a stale task leaves a zero-runtime agent offline [6.50ms]
+[Heartbeat] Auto-superseded task 536a36f1 — pinned resume 1ac38a94 to original agent 2856d721 (stale session heartbeat)
+[Heartbeat] Sweep complete: auto_resumed=1, pinned_resumes=1
+(pass) remediation respects runtime liveness > a live sibling keeps the agent available through remediation [7.81ms]
+[Heartbeat] Auto-superseded task 4e00ce13 — pinned resume dcdd4080 to original agent b0ff93c4 (no active session)
+[Heartbeat] Sweep complete: auto_resumed=1, pinned_resumes=1
+(pass) remediation respects runtime liveness > with the flag off, remediation restores idle as before [5.75ms]
+(pass) poll refreshes runtime liveness > polling advances last_seen_at [14.67ms]
+(pass) poll refreshes runtime liveness > a worker polling keeps itself live under a short stale threshold [1.97ms]
+(pass) poll refreshes runtime liveness > polling cannot revive an expired runtime [1.64ms]
+(pass) poll refreshes runtime liveness > a foreign runtime id refreshes nothing [13.83ms]
+(pass) expiry reconciles the surviving runtime set > expiring the only ready runtime parks the agent [2.47ms]
+(pass) expiry reconciles the surviving runtime set > expiring a waiting runtime leaves a ready sibling available [2.44ms]
+(pass) expiry reconciles the surviving runtime set > a busy agent stays busy when a waiting runtime expires [3.61ms]
+(pass) expiry reconciles the surviving runtime set > expiring the last runtime is still offline [2.42ms]
+(pass) expiry reconciles the surviving runtime set > the sweep does not assign pool work when only a waiting runtime survives [4.58ms]
+(pass) registration reconciles the agent > a new runtime lifts a waiting agent out of waiting [2.28ms]
+(pass) registration reconciles the agent > registration does not force idle over active work [3.08ms]
+(pass) registration reconciles the agent > registering another waiting runtime keeps the agent parked [2.48ms]
+(pass) registration reconciles the agent > an offline agent comes back when a runtime registers [1.75ms]
+(pass) registration reconciles the agent > with the flag off, registration does not touch status [0.94ms]
+
+src/tests/worker-nudges.test.ts:
+[db] sqlite-vec loaded
+(pass) worker nudges > nudges for pending creation, offered creation, acceptance, and pool assignment [77.08ms]
+
+src/tests/multi-runtime-registration.test.ts:
+(pass) MCP poll-task requires a live runtime > with the flag off it dispatches as before [2.57ms]
+(pass) MCP poll-task requires a live runtime > a valid live runtime can dispatch [3.44ms]
+(pass) MCP poll-task requires a live runtime > missing, unknown and foreign runtime identities get no work [2.77ms]
+(pass) MCP poll-task requires a live runtime > an expired runtime cannot dispatch and is not revived [2.44ms]
+(pass) MCP poll-task requires a live runtime > a retired process cannot work beside its replacement [3.49ms]
+(pass) MCP poll-task requires a live runtime > a poll-task call refreshes its runtime's liveness [15.40ms]
+(pass) logical capacity is shared across dispatch entrypoints > maxTasks=1 admits one task across concurrent HTTP and MCP polls [4.09ms]
+(pass) logical capacity is shared across dispatch entrypoints > maxTasks=1 admits one pending task across concurrent MCP polls [3.88ms]
+(pass) logical capacity is shared across dispatch entrypoints > maxTasks=2 lets two live runtimes start both pending tasks [6.00ms]
+
+src/tests/steer-task-tool.test.ts:
+[db] sqlite-vec loaded
+[db] sqlite-vec loaded
+(pass) steer-task MCP tool > defaults mode to queue and permits a lead or task creator but not an unrelated agent [9.74ms]
+(pass) steer-task MCP tool > reports degraded output by default and returns an error when fail is requested [1.33ms]
+(pass) steer-task MCP tool > user surface admits the creator and denies a user without the steering grant [3.90ms]
+
+src/tests/worker-nudges.test.ts:
+[db] sqlite-vec loaded
+(pass) worker nudges > nudges cancellation of offers and deduplicates recipients [105.98ms]
+[db] sqlite-vec loaded
+(pass) worker nudges > nudges each unique mention, including reply mentions [60.52ms]
+[db] sqlite-vec loaded
+(pass) worker nudges > nudges cancellation and steering without their payloads [69.95ms]
+[db] sqlite-vec loaded
+(pass) worker nudges > nudges agent config, broadcasts global and repo config, and covers both delete paths [91.37ms]
+
+src/tests/steering-core.test.ts:
+[db] sqlite-vec loaded
+[db] sqlite-vec loaded
+(pass) task steering core > sender labels resolve on task reads, worker polls, and lifecycle responses [16.60ms]
+(pass) task steering core > row lifecycle transitions pending -> delivered -> handled [1.88ms]
+(pass) task steering core > cancels every pending row for a task [0.94ms]
+(pass) task steering core > codex steer requests retain native steer mode until delivery [0.94ms]
+(pass) task steering core > undeliverable promotion bypasses Linear tracker context dedup [2.09ms]
+(pass) task steering core > automatic promotion preserves inherited requester provenance [1.51ms]
+(pass) task steering core > claude steer requests degrade to queue while preserving requested mode [0.64ms]
+(pass) task steering core > degradation follows the capability map, not a hardcoded provider list [1.95ms]
+(pass) task steering core > paused tasks auto-start before steering is queued [1.35ms]
+(pass) task steering core > pending tasks queue steering for delivery once the session starts [0.48ms]
+(pass) task steering core > steer mode on a pending task degrades to queue (nothing to interrupt) [0.48ms]
+(pass) task steering core > pending codex tasks queue for delivery once the session starts [0.43ms]
+(pass) task steering core > latest lead task lookup excludes newer worker-assigned Slack tasks [1.02ms]
+(pass) task steering core > scrubs secrets before persisting the steering body [0.66ms]
+(pass) task steering core > onUnsupported:"fail" returns 422 and creates no row [0.50ms]
+(pass) task steering core > onUnsupported:"fail" leaves a paused task paused and creates no row [0.56ms]
+(pass) task steering core > undeliverable service promotes once and is idempotent [1.12ms]
+
+src/tests/worker-nudges.test.ts:
+[db] sqlite-vec loaded
+(pass) worker nudges > publishes only after commit and drops hooks on rollback [51.12ms]
+
+src/tests/steering-core.test.ts:
+(pass) task steering core > worker delivery routes enforce assignment and are idempotent [3.41ms]
+(pass) task steering core > worker undeliverable route promotes once and returns the promoted task id on retry [3.34ms]
+(pass) task steering core > onUnsupported defaults to "degrade" when omitted [0.72ms]
+(pass) task steering core > task read steering fields match provider capabilities [0.99ms]
+
+src/tests/worker-nudges.test.ts:
+[db] sqlite-vec loaded
+(pass) worker nudges > flag off suppresses every nudge and rejects new subscriptions [50.24ms]
+[db] sqlite-vec loaded
+(pass) worker nudges > tracks each runtime socket and emits connection events [60.97ms]
+[db] sqlite-vec loaded
+(pass) worker nudges > pairs events across 1 subscribe-unsubscribe cycles and close [48.96ms]
+[db] sqlite-vec loaded
+(pass) worker nudges > pairs events across 2 subscribe-unsubscribe cycles and close [61.16ms]
+
+src/tests/pool-affinity.test.ts:
+[db] sqlite-vec loaded
+[db] sqlite-vec loaded
+(pass) Pool Affinity > isAgentEligibleForTask > untagged task (no routingAffinity) is eligible for anyone [7.87ms]
+(pass) Pool Affinity > isAgentEligibleForTask > lead-only blocks a worker even when it is the affinity source [1.48ms]
+(pass) Pool Affinity > isAgentEligibleForTask > lead-only accepts a Lead and rejects direct worker assignment [0.85ms]
+(pass) Pool Affinity > isAgentEligibleForTask > an unassigned lead-only task is claimable by a Lead but not a worker [1.03ms]
+(pass) Pool Affinity > isAgentEligibleForTask > issue #1601: an unassigned caller-declared capability task is claimable by an idle worker holding it [1.49ms]
+
+src/tests/worker-nudges.test.ts:
+[db] sqlite-vec loaded
+(pass) worker nudge database hooks > publishes one envelope for each committed write [56.07ms]
+
+src/tests/pool-affinity.test.ts:
+[db] Quarantining malformed agent_tasks.routingAffinity for task 98b8a0e3-f402-4d57-bc69-9e4ece71cbbd: JSON Parse error: Expected '}'
+[db] Quarantining malformed agent_tasks.routingAffinity for task 98b8a0e3-f402-4d57-bc69-9e4ece71cbbd: JSON Parse error: Expected '}'
+[db] Quarantining malformed agent_tasks.routingAffinity for task 98b8a0e3-f402-4d57-bc69-9e4ece71cbbd: JSON Parse error: Expected '}'
+[db] Quarantining malformed agent_tasks.routingAffinity for task 98b8a0e3-f402-4d57-bc69-9e4ece71cbbd: JSON Parse error: Expected '}'
+[db] Quarantining invalid agent_tasks.routingAffinity for task ba38e89d-a044-460d-a9eb-d127442680e6: [
+  {
+    "expected": "array",
+    "code": "invalid_type",
+    "path": [
+      "capabilities"
+    ],
+    "message": "Invalid input: expected array, received string"
+  }
+]
+[db] Quarantining malformed agent_tasks.routingAffinity for task 98b8a0e3-f402-4d57-bc69-9e4ece71cbbd: JSON Parse error: Expected '}'
+[db] Quarantining invalid agent_tasks.routingAffinity for task ba38e89d-a044-460d-a9eb-d127442680e6: [
+  {
+    "expected": "array",
+    "code": "invalid_type",
+    "path": [
+      "capabilities"
+    ],
+    "message": "Invalid input: expected array, received string"
+  }
+]
+[db] Quarantining invalid agent_tasks.routingAffinity for task ba38e89d-a044-460d-a9eb-d127442680e6: [
+  {
+    "expected": "array",
+    "code": "invalid_type",
+    "path": [
+      "capabilities"
+    ],
+    "message": "Invalid input: expected array, received string"
+  }
+]
+[db] Quarantining invalid agent_tasks.routingAffinity for task ba38e89d-a044-460d-a9eb-d127442680e6: [
+  {
+    "expected": "array",
+    "code": "invalid_type",
+    "path": [
+      "capabilities"
+    ],
+    "message": "Invalid input: expected array, received string"
+  }
+]
+[db] Quarantining malformed agent_tasks.routingAffinity for task 98b8a0e3-f402-4d57-bc69-9e4ece71cbbd: JSON Parse error: Expected '}'
+[db] Quarantining invalid agent_tasks.routingAffinity for task ba38e89d-a044-460d-a9eb-d127442680e6: [
+  {
+    "expected": "array",
+    "code": "invalid_type",
+    "path": [
+      "capabilities"
+    ],
+    "message": "Invalid input: expected array, received string"
+  }
+]
+[db] Quarantining invalid agent_tasks.routingAffinity for task ba38e89d-a044-460d-a9eb-d127442680e6: [
+  {
+    "expected": "array",
+    "code": "invalid_type",
+    "path": [
+      "capabilities"
+    ],
+    "message": "Invalid input: expected array, received string"
+  }
+]
+(pass) Pool Affinity > isAgentEligibleForTask > malformed and schema-invalid persisted affinities are quarantined [2.51ms]
+(pass) Pool Affinity > isAgentEligibleForTask > sourceAgentId bypass: own work is eligible even with a mismatched role [1.05ms]
+(pass) Pool Affinity > isAgentEligibleForTask > exact role match is eligible [0.75ms]
+(pass) Pool Affinity > isAgentEligibleForTask > role mismatch is ineligible [0.65ms]
+(pass) Pool Affinity > isAgentEligibleForTask > missing role on the agent is ineligible — no fail-open [0.57ms]
+(pass) Pool Affinity > isAgentEligibleForTask > missing role on the task's affinity (capabilities-only) is ineligible for a non-owner — no fail-open [0.63ms]
+(pass) Pool Affinity > isAgentEligibleForTask > capability subset: missing a required capability is ineligible [0.63ms]
+(pass) Pool Affinity > isAgentEligibleForTask > capability subset: a superset of required capabilities is eligible [0.54ms]
+(pass) Pool Affinity > isAgentEligibleForTask > kill-switch: POOL_AFFINITY_ENFORCEMENT=0 makes every task eligible [0.60ms]
+(pass) Pool Affinity > claimTask > rejects an ineligible agent and logs task_claim_rejected_affinity [0.68ms]
+(pass) Pool Affinity > claimTask > an eligible agent can claim after an ineligible agent was rejected [0.85ms]
+(pass) Pool Affinity > claimTask > only one of two eligible agents wins a race for the same task [0.77ms]
+(pass) Pool Affinity > claimTask > own sourceAgentId can reclaim its own affinity-tagged task [0.64ms]
+(pass) Pool Affinity > claimTask > a child cannot downgrade a lead-only parent's affinity or capabilities [1.27ms]
+(pass) Pool Affinity > claimTask > the parent-affinity opt-out requires explicit Lead-only control-plane authorization [0.50ms]
+(pass) Pool Affinity > claimTask > a child of a task whose affinity is inherited provenance (not a declared requirement) can be direct-assigned to a worker lacking the parent's capabilities [0.86ms]
+(pass) Pool Affinity > claimTask > Superagent P1: a caller-declared (non-lead-only) capability requirement inherited by a continuation still gates direct assignment — it is not reclassified as provenance [0.92ms]
+(pass) Pool Affinity > getPendingTaskForAgent > a Lead-routed worker-completion follow-up carrying the finishing worker's inherited affinity is dispatched to the Lead [1.33ms]
+(pass) Pool Affinity > getPendingTaskForAgent > regression: a lead-only affinity still vetoes dispatch to a directly-assigned non-lead agent [0.84ms]
+[db] Quarantining invalid agent_tasks.routingAffinity for task 17dbbaa0-26be-4283-be4e-ed41fdd0576d: [
+  {
+    "expected": "array",
+    "code": "invalid_type",
+    "path": [
+      "capabilities"
+    ],
+    "message": "Invalid input: expected array, received string"
+  }
+]
+[db] Quarantining invalid agent_tasks.routingAffinity for task 17dbbaa0-26be-4283-be4e-ed41fdd0576d: [
+  {
+    "expected": "array",
+    "code": "invalid_type",
+    "path": [
+      "capabilities"
+    ],
+    "message": "Invalid input: expected array, received string"
+  }
+]
+[db] Quarantining invalid agent_tasks.routingAffinity for task 17dbbaa0-26be-4283-be4e-ed41fdd0576d: [
+  {
+    "expected": "array",
+    "code": "invalid_type",
+    "path": [
+      "capabilities"
+    ],
+    "message": "Invalid input: expected array, received string"
+  }
+]
+(pass) Pool Affinity > getPendingTaskForAgent > regression: a quarantined (schema-invalid) affinity still vetoes dispatch to its directly-assigned agent [0.82ms]
+(pass) Pool Affinity > getPendingTaskForAgent > a plain (non-lead-only) role/capability mismatch does NOT veto dispatch to the directly-assigned agent [0.72ms]
+(pass) Pool Affinity > assignUnassignedTaskPending > rejects an ineligible agent (defense in depth) [0.65ms]
+(pass) Pool Affinity > assignUnassignedTaskPending > assigns an eligible agent [0.96ms]
+(pass) Pool Affinity > getUnassignedTaskIdsForAgent > filters out ineligible tasks and preserves priority/creation ordering [1.98ms]
+(pass) Pool Affinity > getUnassignedTaskIdsForAgent > returns an empty list for an unknown agent [0.57ms]
+(pass) Pool Affinity > getUnassignedTaskIdsForAgent > paginates past a wall of ineligible affinity tasks larger than the old fixed scan window [14.17ms]
+
+src/tests/worker-nudges.test.ts:
+[db] sqlite-vec loaded
+(pass) worker nudge database hooks > defers until commit and suppresses every rolled-back hook [38.04ms]
+
+src/tests/pool-affinity.test.ts:
+(pass) Pool Affinity > autoAssignPoolTasks eligibility > skips an ineligible idle worker and leaves the task queued [7.99ms]
+(pass) Pool Affinity > autoAssignPoolTasks eligibility > assigns to the eligible worker, skipping an ineligible one that sorts first [3.79ms]
+
+src/tests/worker-nudges.test.ts:
+[db] sqlite-vec loaded
+(pass) worker nudge database hooks > flag off suppresses write hooks [11.26ms]
+
+src/tests/pool-affinity.test.ts:
+(pass) Pool Affinity > autoAssignPoolTasks eligibility > untagged tasks are unaffected — assigned to any idle worker [3.17ms]
+
+src/tests/worker-nudges.test.ts:
+[db] sqlite-vec loaded
+(pass) worker nudge database hooks > skips task reads without subscribers or with the flag off [5.29ms]
+
+src/tests/pool-affinity.test.ts:
+(pass) Pool Affinity > autoAssignPoolTasks eligibility > paginates past a wall of ineligible affinity tasks larger than the old fixed sweep window [24.67ms]
+(pass) Pool Affinity > createPoolStarvationDecisionTask > original task has a caller-declared capability-only affinity (no role/sourceAgentId) → escalation to Lead does not throw [4.53ms]
+(pass) Pool Affinity > createPoolStarvationDecisionTask > idempotent: a second call does not create a duplicate decision [1.25ms]
+[Heartbeat] Escalated starved pool task 30bc299b → Lead reroute-decision 22985f71 (zero eligible agents)
+(pass) Pool Affinity > createPoolStarvationDecisionTask > end-to-end via the heartbeat sweep: a starved capability-only task is escalated, not left throwing [3.68ms]
+
+src/tests/runtime-recovery.test.ts:
+[db] sqlite-vec loaded
+[db] sqlite-vec loaded
+[Heartbeat] Auto-superseded task a3888207 — pinned resume db79d4b4 to original agent 88fdc360 (runtime-died)
+(pass) provider death before session POST recovers every dispatched task with %s slots [43.59ms]
+[Heartbeat] Auto-superseded task ebfc1222 — pinned resume fdbaeb9f to original agent 5bb7ea4a (runtime-died)
+[Heartbeat] Auto-superseded task 99a78c0a — pinned resume ed3d0ce0 to original agent 5bb7ea4a (runtime-died)
+(pass) provider death before session POST recovers every dispatched task with %s slots [16.11ms]
+(pass) runtime task fallback recovers without a session and preserves concurrent completion [5.93ms]
+[Heartbeat] Auto-superseded task 06e530d3 — pinned resume f36cda2b to original agent ece59a5e (runtime-died)
+(pass) runtime task fallback creates one resume without a dispatch column or session [5.94ms]
+(pass) dispatch recovery preserves a task registered on a surviving runtime [4.30ms]
+(pass) sessionless dispatch recovery is disabled with runtime pools off [4.33ms]
+[Heartbeat] Auto-superseded task 6cc49f4c — pinned resume 6d6146b8 to original agent 8fa979a6 (runtime-died)
+(pass) provider exited fences the runtime and creates one pinned resume before replacement [7.12ms]
+[Heartbeat] Auto-superseded task b2dfe766 — pinned resume e158fdb3 to original agent e9087b05 (runtime-died)
+(pass) provider failed fences the runtime and creates one pinned resume before replacement [6.45ms]
+(pass) exited runtime with only a completed session recovers without task remediation [5.23ms]
+(pass) stale runtime with only a completed session recovers without task remediation [4.78ms]
+[Heartbeat] Auto-superseded task ad3d0b14 — pinned resume b4f74001 to original agent 3261170e (runtime-died)
+(pass) absence from an owner-filtered list recovers a runtime even when status says running [6.45ms]
+(pass) provider status and list errors do not recover a fresh runtime [4.17ms]
+[Heartbeat] Auto-superseded task bed848f5 — pinned resume 520380d9 to original agent e93e3b47 (runtime-died)
+(pass) one provider batch checks active siblings and preserves the surviving runtime [8.22ms]
+[Heartbeat] Auto-superseded task 119deace — pinned resume e88c3c81 to original agent e9dc0139 (runtime-died)
+(pass) revocation rejects runtime and child task tokens with HTTP 401 [9.60ms]
+[Heartbeat] Auto-failed task 3d4cce50: resume_budget_exhausted (runtime-died)
+(pass) runtime death uses the existing generation cap [4.86ms]
+(pass) socket disconnect checks after grace and preserves a running provider runtime [9.34ms]
+[Heartbeat] Auto-superseded task ca1c39cb — pinned resume 4c0d00d3 to original agent 6c8b2657 (runtime-died)
+(pass) socket disconnect recovers a gone provider runtime [9.96ms]
+[Heartbeat] Auto-superseded task 313af671 — pinned resume f47fe14c to original agent 92e3b377 (runtime-died)
+(pass) a real worker socket disconnect reaches runtime recovery with its token identity [15.84ms]
+(pass) reconnection or another connected socket cancels a grace check [3.45ms]
+(pass) socket counts remain symmetric while runtime pools are disabled [3.30ms]
+(pass) socket checks ignore poll pools and disabled feature flags [3.39ms]
+(pass) idle token rotation drains before termination and replacement [4.94ms]
+(pass) rotation preserves a task claimed between the idle read and draining [4.28ms]
+(pass) busy token rotation drains persistently, provisions a replacement, then terminates when idle [7.30ms]
+(pass) busy token rotation keeps the physical pool cap [4.78ms]
+[Heartbeat] Auto-superseded task f8b098ba — pinned resume 0a813bc0 to original agent 796bba89 (stale session heartbeat)
+[Heartbeat] Auto-superseded task c99f0a7d — pinned resume 29597c50 to original agent 796bba89 (runtime-died)
+(pass) stalled pooled sessions terminate their runtime and recover sibling tasks [14.15ms]
+(pass) progress after a pooled stall read cancels remediation and fencing [6.92ms]
+[Heartbeat] Auto-failed task 5fa1a69f: Auto-superseded by heartbeat: worker session heartbeat is stale (likely crashed) (stale session heartbeat)
+(pass) an extension-selected fail survives concurrent supervisor recovery after the heartbeat fences [6.81ms]
+[Heartbeat] Auto-superseded task 6ce132fb — pinned resume 93e8c200 to original agent 14bb5cb4 (runtime-died)
+(pass) provider recovery that starts first completes before an extension-selected fail [8.18ms]
+[Heartbeat] Auto-superseded task 0d1c865e — pinned resume e3ac7396 to original agent 0d0349fa (runtime-died)
+[Heartbeat] Auto-superseded task f3ed75e9 — pinned resume 6df0660e to original agent 0d0349fa (runtime-died)
+(pass) one throwing session remediation does not block its sibling [7.85ms]
+(pass) paused provider runtimes retain their task [3.90ms]
+
+src/tests/multi-runtime-registration.test.ts:
+(pass) MCP poll-task revalidates the runtime at dispatch > a runtime retired mid-poll cannot start work that appears later; a live sibling can [2024.36ms]
+
+src/tests/runner-slot-reconcile.test.ts:
+[worker] Task e487ddf5 completed with exit code 0 (trigger: task_assigned)
+[worker] Task 0a137c50 completed with exit code 0 (trigger: task_assigned)
+[worker] Task 27934f1a completed with exit code 0 (trigger: task_assigned)
+[worker] Task e487ddf5 was already completed server-side — slot released, server result kept
+[worker] Task 0a137c50 was already completed server-side — slot released, server result kept
+[worker] Task 27934f1a was already completed server-side — slot released, server result kept
+(pass) completed session deletion > timeout DELETE failure retries and completes within a few seconds [3323.32ms]
+[worker] Task e223da75 completed with exit code 0 (trigger: task_assigned)
+[worker] Task e223da75 was already completed server-side — slot released, server result kept
+(pass) completed session deletion > network failures retry and the final warning scrubs secrets [309.09ms]
+
+src/tests/multi-runtime-registration.test.ts:
+(pass) MCP poll-task revalidates the runtime at dispatch > a runtime closed mid-poll is not revived by the in-flight call [2022.69ms]
+(pass) MCP task-action claim requires a live runtime > an expired runtime cannot claim, a live one can [12.01ms]
+(pass) MCP task-action claim requires a live runtime > with the flag off, claiming works without runtime identity [4.37ms]
+(pass) MCP task-action accept requires a live runtime > an expired runtime cannot accept and is not revived [4.89ms]
+(pass) MCP task-action accept requires a live runtime > missing and foreign runtime identities cannot accept; the owning live one can [7.49ms]
+(pass) MCP task-action accept requires a live runtime > with the flag off, accepting works without runtime identity [2.61ms]
+[credentials] Failed to report key validation: HTTP 404
+(pass) post-task credential recovery without a restart > parked worker recovers with multi-runtime off [10.59ms]
+[credentials] Failed to report key validation: HTTP 404
+(pass) post-task credential recovery without a restart > parked worker recovers with multi-runtime on [4.12ms]
+(pass) worker registration delivery mode > API channel monitoring forces leads to poll with the same strict flag predicate [3.29ms]
+(pass) worker registration delivery mode > flag off forces poll even with a push default and worker override [0.66ms]
+(pass) worker registration delivery mode > unbound workers use the default and ignore the worker-side override [0.93ms]
+(pass) worker registration delivery mode > pool delivery wins and changes at the next registration [5.79ms]
+
+ 363 pass
+ 0 fail
+ 1547 expect() calls
+Ran 363 tests across 14 files. [6.19s]

@@ -1,0 +1,68 @@
+{
+  "scope": "Final-build browser interactions, 2026-11-06",
+  "http": {
+    "failures": [],
+    "results": [
+      {
+        "check": "Project search",
+        "pass": true
+      },
+      {
+        "check": "Empty results",
+        "pass": true
+      },
+      {
+        "check": "Source group",
+        "pass": true
+      },
+      {
+        "check": "Combined filters",
+        "pass": true
+      },
+      {
+        "check": "All requirements",
+        "pass": true
+      },
+      {
+        "check": "Reset",
+        "pass": true
+      }
+    ]
+  },
+  "mobile_menu": {
+    "escapeClosedAndRestoredFocus": true,
+    "opened": true,
+    "pass": true
+  },
+  "local_file": {
+    "failures": [],
+    "results": [
+      {
+        "check": "Project search",
+        "pass": true
+      },
+      {
+        "check": "Empty results",
+        "pass": true
+      },
+      {
+        "check": "Source group",
+        "pass": true
+      },
+      {
+        "check": "Combined filters",
+        "pass": true
+      },
+      {
+        "check": "All requirements",
+        "pass": true
+      },
+      {
+        "check": "Reset",
+        "pass": true
+      }
+    ]
+  },
+  "local_navigation": "Opened Paperclip from the file-based comparison table and returned through the top bar. Both resulting file URLs were observed.",
+  "script_sha256": "16f77be3542d5bf9e074b67c76b796c8fe75a9182ca9f87434ed120f447d8818"
+}

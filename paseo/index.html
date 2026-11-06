@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Technical assessment against Wingman’s development organization."><title>Paseo · Wingman Research</title>
+<link rel="icon" href="../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/report.css"><script defer src="../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../index.html"><img src="../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../index.html">Overview</a><a class="nav-link " href="../generic/index.html">Architecture findings</a><a class="nav-link " href="../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../generic/method.html">Method and evidence</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../index.html">Wingman Research</a><span class="crumb">/</span><span>Paseo</span></div><span class="topbar-note">SOURCE REVIEW · 05 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Paseo</h1><p class="subtitle">Technical assessment against Wingman’s development organization.</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#decision">Decision summary</a><a href="#assessment-paseo-assessment-against-wingman">Paseo assessment against Wingman</a><a href="#assessment-architecture-and-execution-model">Architecture and execution model</a><a href="#assessment-feature-matrix">Feature matrix</a><a href="#assessment-agent-definition-creation-and-lifecycle">Agent definition, creation and lifecycle</a><a href="#assessment-coordination-mechanics-and-one-request-trace">Coordination mechanics and one request trace</a><a href="#assessment-major-capabilities-beyond-wingmans-described-product">Major capabilities beyond Wingman&#x27;s described product</a><a href="#assessment-distinctive-mechanisms-and-grounded-innovations">Distinctive mechanisms and grounded innovations</a><a href="#assessment-practical-fit-for-wingman">Practical fit for Wingman</a><a href="#assessment-verification-scope-and-limitations">Verification scope and limitations</a><a href="#source-record">Source and evidence</a></div></nav><section id="decision" class="decision"><h2>Decision summary</h2>
+<div class="brief-columns"><div><h3>Useful for Wingman</h3><p>Study provider-session control, child creation, direct messages, resume handles, and delegation between daemons.</p></div><div><h3>Adoption boundary</h3><p>A separate organization layer must own product discovery, shared tickets, leadership, and acceptance.</p></div></div>
+<p class="scope-note">Source assessment at the commit below. Runtime limits appear in the technical report.</p></section>
+<dl class="facts"><div><dt>Source group</dt><dd>Coding workspaces</dd></div><div><dt>Commit</dt><dd><code>b920243c74e25ec06e523019fb154f78ea9870be</code></dd></div><div><dt>Coverage</dt><dd>24 Wingman features</dd></div></dl>
+<article id="technical-assessment" class="technical"><h2 id="assessment-paseo-assessment-against-wingman">Paseo assessment against Wingman</h2>
+<p class="url-text">Assessment date: 2026-11-05. Repository: https://github.com/getpaseo/paseo</p>
+<p>Local checkout: <code>researchs/paseo/repo</code>. Actual inspected commit: <code>b920243c74e25ec06e523019fb154f78ea9870be</code>. This assessment describes that checkout, not an earlier release or the current hosted Hub service. Requirements come from <a href="../generic/purpose.html">WINGMAN_PURPOSE.md</a> and <a href="../generic/assessments/ASSESSMENT_GUIDE.md">ASSESSMENT_GUIDE.md</a>.</p>
+<p><strong>Verdict: a strong candidate for Wingman's execution and individual-agent workbench layer, with substantial real delegation infrastructure. It does not supply Wingman's standing development organization.</strong> Paseo manages independent provider sessions, exposes child creation and direct messages to agents, preserves identities and provider resume handles, delivers completion/permission notifications, schedules recurring prompts, and routes work to other daemons. Its desktop/mobile/web workspace is much closer to Wingman's detailed agent workspace than its portfolio, tracker, room, discovery or leadership requirements. Those organizational behaviors need an application built above the daemon rather than a change of profile names.</p>
+<p>Two source findings materially affect the verdict. First, <strong>multi-host delegation is implemented</strong>, not merely remote viewing: agent tools can create and prompt a child on a registered remote daemon and receive its completion. Second, apparent task/room support must not be overcredited: the Markdown <code>FileTaskStore</code> is referenced only by its tests, while chat-room schemas explicitly remain for compatibility after feature removal. Neither establishes a working ProjectTracker or Room1/Room2 application at this revision.</p>
+<h2 id="assessment-architecture-and-execution-model">Architecture and execution model</h2>
+<p>Paseo is an npm-workspace TypeScript system with a Node daemon, protocol package, client SDK, Expo app shared across mobile/web, CLI, Electron desktop wrapper, plugin package and relay cryptography package. The real runtime composition is visible in <a href="repo/packages/server/src/server/bootstrap.ts">bootstrap.ts</a>, lines 940–1048 and 1448–1530: it creates file-backed project/workspace registries, Git services, provider runtime, <code>AgentManager</code>, storage persistence, schedules, finish subscriptions and idle-runtime protection. App and CLI communicate with the daemon through the same typed WebSocket API. The daemon is the owner of agent execution; closing a viewing client does not own or terminate a turn.</p>
+<p>The entity boundaries are important:</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Entity</th>
+<th scope="col">Actual meaning and evidence</th>
+<th scope="col">Wingman consequence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Project</td>
+<td>Durable host-local record with <code>projectId</code>, root path, Git/non-Git kind, display/custom name, timestamps, archive state and equivalence key. <a href="repo/packages/server/src/server/workspace-registry.ts">workspace-registry.ts</a>, lines 22–49.</td>
+<td>A repository/directory identity, not a product brief with leadership and delivery state.</td>
+</tr>
+<tr>
+<td>Workspace</td>
+<td>Opaque <code>workspaceId</code> under a project; directory, local checkout or managed worktree, with title, branch/base/ownership, archive/background state and labels. Same file, lines 51–106.</td>
+<td>Useful placement and isolation boundary for product work, but not a ticket or team.</td>
+</tr>
+<tr>
+<td>Managed agent</td>
+<td>A stable Paseo ID, provider session/configuration, workspace, title/labels, lifecycle, attention, usage and persistence handle. <a href="repo/packages/server/src/server/agent/agent-storage.ts">agent-storage.ts</a>, lines 13–81; <a href="repo/packages/server/src/server/agent/agent-manager.ts">agent-manager.ts</a>, lines 3853–3964.</td>
+<td>A real independently addressable conversation/execution, suitable for a worker or leader if Wingman supplies its responsibilities.</td>
+</tr>
+<tr>
+<td>Profile</td>
+<td>Named provider/model/mode/thinking/features bundle with selection notes. <a href="repo/packages/protocol/src/agent-profile.ts">agent-profile.ts</a>, lines 3–29.</td>
+<td>A launch preset, not a standing agent, employee record or role policy. Deliberately excludes a system prompt.</td>
+</tr>
+<tr>
+<td>Turn / message</td>
+<td>A provider run within a managed agent; dispatch may start, steer or replace a turn. <a href="repo/packages/server/src/server/agent/agent-prompt.ts">agent-prompt.ts</a>, lines 36–80 and 91–192.</td>
+<td>Assignments can be carried in prompts; work-item ownership and acceptance still need durable application records.</td>
+</tr>
+<tr>
+<td>Provider subagent</td>
+<td>Descriptor-based child execution owned by a provider, displayed through separate timelines; distinct from a managed Paseo agent. <a href="repo/docs/agent-lifecycle.md">agent-lifecycle.md</a>, “The subagents track”; <a href="repo/packages/app/src/subagents/select.ts">subagents/select.ts</a>, lines 11–43 and 137–169.</td>
+<td>Do not count every provider child as a separately controllable persistent specialist.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Creation reaches a real harness. <code>AgentManager.createAgentInternal</code> prepares configuration and launch context, resolves an available provider client, invokes <code>client.createSession</code>, then registers/persists/subscribes to that session (<a href="repo/packages/server/src/server/agent/agent-manager.ts">agent-manager.ts</a>, lines 1386–1444). Provider factories include Claude SDK, Codex app-server, ACP adapters, OpenCode, Pi and OMP, plus plugin providers (<a href="repo/packages/server/src/server/agent/provider-registry.ts">provider-registry.ts</a>, lines 36–49, 98–114 and 189–225). In the Codex path, the adapter launches the configured executable with <code>app-server</code>, pipe transport and an effective environment; creation/resume construct separate <code>CodexAppServerAgentSession</code> objects and connect them (<a href="repo/packages/server/src/server/agent/providers/codex-app-server-agent.ts">codex-app-server-agent.ts</a>, lines 7515–7613). Native <code>thread/start</code>, <code>thread/resume</code> and <code>turn/start</code> calls are present at lines 5554–5561, 4139–4168 and 4481–4493. This is actual process-backed coding, not simulated personas in a shared model completion. Other providers need not map one process to one session. The uniform abstraction is a provider session.</p>
+<p>State is local-first. Agent records are Zod-validated JSON; bootstrap places project and workspace JSON beneath <code>PASEO_HOME/projects</code>, and <code>AgentStorage</code> caches/indexes stored agents. Agent records retain provider-native session handles, not an organization-wide knowledge graph. Normal bootstrap does <strong>not</strong> supply <code>AgentManager</code>'s optional durable timeline-store dependency. The live normalized timeline is in memory and history is hydrated through provider persistence. See <a href="repo/packages/server/src/server/agent/agent-manager.ts">agent-manager.ts</a>, lines 1490–1567, 3897–3937 and 4119–4123; <a href="repo/packages/server/src/server/agent/agent-timeline-store.ts">agent-timeline-store.ts</a>, lines 19–49 and 92–112; <a href="repo/packages/server/src/server/bootstrap.ts">bootstrap.ts</a>, lines 1014–1028. Wingman should explicitly own durable task/decision/summary records instead of relying on the process timeline as its tracker.</p>
+<h2 id="assessment-feature-matrix">Feature matrix</h2>
+<p>Verdicts apply to the complete Wingman capability in each row. “Resembles” credits a useful primitive without treating it as an implemented organization workflow.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Wingman capability</th>
+<th scope="col">Verdict</th>
+<th scope="col">Implementation evidence and concrete difference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F01</td>
+<td>Real independent coding agents and specialist instances</td>
+<td><strong>Similar</strong></td>
+<td>Real managed provider sessions are created and registered independently; Codex launches app-server sessions. <a href="repo/packages/server/src/server/agent/agent-manager.ts">agent-manager.ts</a>, 1386–1444; <a href="repo/packages/server/src/server/agent/providers/codex-app-server-agent.ts">codex-app-server-agent.ts</a>, 7515–7613. Multiple workers are possible, but specialist responsibilities/assignment discipline are supplied in prompts rather than standing BackendCoder/TestMaster instances.</td>
+</tr>
+<tr>
+<td>F02</td>
+<td>Extensible agent profiles, roles and team composition</td>
+<td><strong>Similar</strong></td>
+<td>Profiles have arbitrary IDs, names, provider/model/mode/features and free-text notes, discoverable by orchestrators; plugin provider registration extends harness choice. <a href="repo/packages/protocol/src/agent-profile.ts">agent-profile.ts</a>, 3–29; <a href="repo/packages/server/src/server/agent/tools/paseo-tools.ts">paseo-tools.ts</a>, 3088–3110; <a href="repo/packages/server/src/server/agent/provider-registry.ts">provider-registry.ts</a>, 98–114. Profiles omit system instructions. There is no durable team composition/role authority model.</td>
+</tr>
+<tr>
+<td>F03</td>
+<td>Agent directory and visible working relationships</td>
+<td><strong>Similar</strong></td>
+<td><code>list_agents</code> merges managed/stored agents with workspace data; child selectors display qualified parent relationships across sessions/hosts. <a href="repo/packages/server/src/server/agent/tools/paseo-tools.ts">paseo-tools.ts</a>, 2149–2200; <a href="repo/packages/app/src/subagents/select.ts">subagents/select.ts</a>, 58–100. Directory and child track are real, but omit organizational roles, team membership and ticket ownership.</td>
+</tr>
+<tr>
+<td>F04</td>
+<td>Telegram main channel and Butler routing</td>
+<td><strong>Absent</strong></td>
+<td>No Telegram bot/client or Butler implementation found in server, CLI, protocol, plugins or bundled skills. The external Hub connection is a separately enrolled execution consumer, not a Telegram router: <a href="repo/packages/server/src/server/hub/relationship-controller.ts">hub/relationship-controller.ts</a>, 212–294; <a href="repo/docs/hub.md">docs/hub.md</a>, “Connection and authority.” App/CLI/voice are native human entry points.</td>
+</tr>
+<tr>
+<td>F05</td>
+<td>Cross-project registry, intake and existing/new routing</td>
+<td><strong>Resembles</strong></td>
+<td>Durable project and workspace registries and directory creation/rollback exist. <a href="repo/packages/server/src/server/workspace-registry.ts">workspace-registry.ts</a>, 22–106 and 372–449; <a href="repo/packages/server/src/server/project-directory-service.ts">project-directory-service.ts</a>, 47–96. The user/agent selects paths or workspace IDs. There is no ProjectMaster interpreting ambiguous product intake across a shared portfolio.</td>
+</tr>
+<tr>
+<td>F06</td>
+<td>Per-project product and technical leadership</td>
+<td><strong>Absent</strong></td>
+<td>Creation accepts provider/configuration/title/prompt/workspace and parent labels, not project leader bindings. <a href="repo/packages/server/src/server/agent/create-agent/create.ts">create-agent/create.ts</a>, 56–106 and 284–300. Searches of registries, tools and skills found no ProductMaster/TechMaster workflow. Advisory/committee prompts can help, but do not establish continuing accountable leaders.</td>
+</tr>
+<tr>
+<td>F07</td>
+<td>Proportionate research, discovery and iterative human clarification</td>
+<td><strong>Resembles</strong></td>
+<td>Advisors and committees launch fresh agents with research/planning briefings and contrasting profiles. <a href="repo/skills/paseo-advisor/SKILL.md">paseo-advisor/SKILL.md</a>, 17–37; <a href="repo/skills/paseo-committee/SKILL.md">paseo-committee/SKILL.md</a>, 8–48. These are optional instruction workflows; no intake-size policy or project-bound clarification cycle routes answers through a Butler.</td>
+</tr>
+<tr>
+<td>F08</td>
+<td>Scope, specifications, acceptance scenarios and definition of done</td>
+<td><strong>Resembles</strong></td>
+<td>Handoff briefing includes acceptance criteria. A standalone task type/store supports Markdown body and acceptance criteria. <a href="repo/skills/paseo-handoff/SKILL.md">paseo-handoff/SKILL.md</a>, 23–57; <a href="repo/packages/server/src/tasks/types.ts">tasks/types.ts</a>, 12–34. Repository-wide references show the task store used only by its tests, so this is not delivered project specification/acceptance management.</td>
+</tr>
+<tr>
+<td>F09</td>
+<td>Technical decomposition, assignment and shared task tracking</td>
+<td><strong>Resembles</strong></td>
+<td>The standalone <code>FileTaskStore</code> implements dependencies, parents, assignees, ready/blocked queries and transitions; agent UI renders provider todo lists. <a href="repo/packages/server/src/tasks/task-store.ts">task-store.ts</a>, 65–177; <a href="repo/packages/app/src/composer/task-list/index.tsx">composer/task-list/index.tsx</a>, 9–42. No production wiring from task store to daemon/tools/CLI/UI was found. Provider todos are session plans, not shared ProjectTracker tickets.</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>Portfolio/project management dashboard</td>
+<td><strong>Resembles</strong></td>
+<td>Projects/workspaces have names, placement, labels and status presentation; badges aggregate workspace attention/running/error. <a href="repo/packages/server/src/server/workspace-registry.ts">workspace-registry.ts</a>, 22–106; <a href="repo/packages/app/src/utils/sidebar-agent-state.ts">sidebar-agent-state.ts</a>, 18–58. This is a workbench directory, without product goals, assigned tickets, acceptance progress and linked discussions.</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>Chat rooms and direct agent collaboration</td>
+<td><strong>Resembles</strong></td>
+<td>Direct agent-to-agent messages are real, sender-qualified prompts queued per recipient with completion notifications. <a href="repo/packages/server/src/server/agent/tools/paseo-tools.ts">paseo-tools.ts</a>, 1966–2051; <a href="repo/packages/server/src/server/agent/agent-messages/delivery.ts">agent-messages/delivery.ts</a>, 54–163. Shared rooms are removed: <a href="repo/packages/protocol/src/chat/types.ts">chat/types.ts</a>, 3; <a href="repo/packages/protocol/src/chat/rpc-schemas.ts">chat/rpc-schemas.ts</a>, 4. There is no browsable participant/project room application at this revision.</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>Management escalation and human decisions/approvals</td>
+<td><strong>Similar</strong></td>
+<td>Pending permission snapshots, response tools, child permission notifications and per-agent permission UI are implemented. <a href="repo/packages/server/src/server/agent/tools/paseo-tools.ts">paseo-tools.ts</a>, 3236–3298; <a href="repo/packages/server/src/server/agent/finish-subscriptions/index.ts">finish-subscriptions/index.ts</a>, 161–215; <a href="repo/packages/app/src/panels/agent-panel.tsx">agent-panel.tsx</a>, 1398–1442. This covers runtime human decisions; no Room2 → Room1 → Butler management escalation or durable product-decision ownership.</td>
+</tr>
+<tr>
+<td>F13</td>
+<td>Durable project knowledge and reusable directives</td>
+<td><strong>Resembles</strong></td>
+<td>Agents run in real project directories, accept creation-time system instructions/MCP servers, and bundled orchestration skills can be deployed. <a href="repo/packages/protocol/src/agent-types.ts">agent-types.ts</a>, 515–535; <a href="repo/packages/server/src/server/orchestration-skills/index.ts">orchestration-skills/index.ts</a>. No canonical SCOPES/SPECS/HARNESS structure, knowledge owner or product-context retrieval policy was found. Files can hold it once Wingman defines it.</td>
+</tr>
+<tr>
+<td>F14</td>
+<td>Persistent identity, conversation and work continuity</td>
+<td><strong>Similar</strong></td>
+<td>Stored agent IDs, config, workspace, labels, native session handles, attention and errors survive runtime residency changes and support resume/import. <a href="repo/packages/server/src/server/agent/agent-storage.ts">agent-storage.ts</a>, 13–81; <a href="repo/packages/server/src/server/agent/agent-manager.ts">agent-manager.ts</a>, 1455–1577. Conversation continuity is strong; organizational assignment/decision continuity is not modeled.</td>
+</tr>
+<tr>
+<td>F15</td>
+<td>Proactive supervision, periodic wake and blocker follow-up</td>
+<td><strong>Resembles</strong></td>
+<td><code>create_heartbeat</code> schedules a prompt to the caller's durable agent; schedules also create fresh agents. <a href="repo/packages/server/src/server/agent/tools/paseo-tools.ts">paseo-tools.ts</a>, 2721–2767; <a href="repo/packages/server/src/server/schedule/service.ts">schedule/service.ts</a>, 927–1037. Periodic wake exists, but no built-in supervisor examines a tracker, diagnoses stagnation and follows the management escalation policy.</td>
+</tr>
+<tr>
+<td>F16</td>
+<td>Parallel products and concurrent specialists</td>
+<td><strong>Similar</strong></td>
+<td>Manager holds independent sessions; agent creation returns asynchronously; workspaces/worktrees separate placements. <a href="repo/packages/server/src/server/agent/agent-manager.ts">agent-manager.ts</a>, 1386–1444 and 2598–2613; <a href="repo/packages/server/src/server/agent/tools/paseo-tools.ts">paseo-tools.ts</a>, 1675–1694; <a href="repo/packages/server/src/server/workspace-registry-model.ts">workspace-registry-model.ts</a>, 79–106. Parallel execution is supported; per-product leadership and integrated delivery coordination need Wingman.</td>
+</tr>
+<tr>
+<td>F17</td>
+<td>Real multi-host execution with shared coordination</td>
+<td><strong>Similar</strong></td>
+<td>Connected daemons expose one-hop routed sessions; remote <code>createAgent</code> resolves a destination workspace, sets qualified parent labels and calls that daemon's normal agent RPC. <a href="repo/packages/server/src/server/agent/host-operations/index.ts">host-operations/index.ts</a>, 84–171 and 177–299; <a href="repo/packages/server/src/server/connected-hosts/session.ts">connected-hosts/session.ts</a>, 177–200. Remote finish intent is durable. This is real distributed delegation, but no synchronized global tracker/rooms/knowledge replication or automatic host capacity placement.</td>
+</tr>
+<tr>
+<td>F18</td>
+<td>Executive current/recent/next/blockers overview</td>
+<td><strong>Resembles</strong></td>
+<td>Lifecycle/attention buckets and <code>get_agent_activity</code> expose running/error/input and recent activity. <a href="repo/packages/app/src/utils/sidebar-agent-state.ts">sidebar-agent-state.ts</a>, 7–58; <a href="repo/packages/server/src/server/agent/activity-curator.ts">activity-curator.ts</a>, 141–230. There is no structured executive briefing of assignment, actual accomplishment, planned next work and business blocker.</td>
+</tr>
+<tr>
+<td>F19</td>
+<td>Summary timeline linked to underlying work</td>
+<td><strong>Resembles</strong></td>
+<td>Rich per-agent timeline and curated text include messages, tool summaries, todos, errors and compaction. <a href="repo/packages/server/src/server/agent/activity-curator.ts">activity-curator.ts</a>, 141–230; <a href="repo/packages/server/src/server/agent/agent-timeline-store.ts">agent-timeline-store.ts</a>, 92–112. These are detailed session events, not durable executive milestones linked to tracker tickets/discussions and outcome evidence.</td>
+</tr>
+<tr>
+<td>F20</td>
+<td>Detailed per-agent coding workspace</td>
+<td><strong>Exact</strong></td>
+<td>Agent panel binds agent/server identity to streamed items, pending permissions, turn state, submissions and workspace-file navigation; pane host keeps tab identity separate from runtime. <a href="repo/packages/app/src/panels/agent-panel.tsx">agent-panel.tsx</a>, 1390–1442; <a href="repo/packages/app/src/screens/workspace/workspace-pane-content.tsx">workspace-pane-content.tsx</a>, 43–80; <a href="repo/packages/app/src/screens/workspace/workspace-panel-host.tsx">workspace-panel-host.tsx</a>, 91–137. The workbench capability is present; Wingman task/room links require its own records.</td>
+</tr>
+<tr>
+<td>F21</td>
+<td>Live activity, lifecycle controls, steering and execution visibility</td>
+<td><strong>Similar</strong></td>
+<td>Start/resume/model/mode/title/labels/archive/detach/rewind/cancel, live timelines, permission requests and native steering are implemented. <a href="repo/packages/server/src/server/agent/agent-manager.ts">agent-manager.ts</a>, 2223–2433, 3051–3111 and 3414–3599; <a href="repo/packages/server/src/server/agent/agent-prompt.ts">agent-prompt.ts</a>, 91–192. Capabilities vary by provider. There is no uniform Wingman goal/budget contract across all harnesses.</td>
+</tr>
+<tr>
+<td>F22</td>
+<td>Testing, integrated verification and acceptance/delivery</td>
+<td><strong>Resembles</strong></td>
+<td>Real coding harnesses can run tests and expose tool results; committee/advisor skills support reviews, and the standalone task type includes criteria. <a href="repo/packages/server/src/server/agent/providers/codex-app-server-agent.ts">codex-app-server-agent.ts</a>, 7515–7576; <a href="repo/skills/paseo-committee/SKILL.md">paseo-committee/SKILL.md</a>, 26–48; <a href="repo/packages/server/src/tasks/types.ts">tasks/types.ts</a>, 12–24. Runtime turn completion is not an integrated product acceptance gate or TestMaster's definition-of-done assessment.</td>
+</tr>
+<tr>
+<td>F23</td>
+<td>Autonomous operation directed through the organization</td>
+<td><strong>Resembles</strong></td>
+<td>Agents can spawn/message others, receive finish notifications and wake by schedule without an attached viewer. <a href="repo/packages/server/src/server/agent/create-agent/create.ts">create-agent/create.ts</a>, 169–226; <a href="repo/packages/server/src/server/agent/finish-subscriptions/index.ts">finish-subscriptions/index.ts</a>, 170–215; <a href="repo/packages/server/src/server/schedule/service.ts">schedule/service.ts</a>, 927–1037. Wingman's accountable discovery-to-delivery organization remains an application/prompt protocol to build.</td>
+</tr>
+<tr>
+<td>F24</td>
+<td>New profiles accommodated in chat, tracker and dashboards</td>
+<td><strong>Resembles</strong></td>
+<td>Provider/profile strings, snapshots, tool catalog and plugin panels are extensible. <a href="repo/packages/protocol/src/agent-profile.ts">agent-profile.ts</a>, 12–29; <a href="repo/packages/plugin/src/client/contracts.ts">plugin/client/contracts.ts</a>, 107–158. Newly configured agents can appear in workbench surfaces, but removed rooms and unwired tracker cannot be credited with extensible organizational participation.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="assessment-agent-definition-creation-and-lifecycle">Agent definition, creation and lifecycle</h2>
+<h3 id="assessment-definition-configuration-and-identity">Definition, configuration and identity</h3>
+<p>An agent is a durable <strong>session identity</strong> whose runtime can be loaded, unloaded and reconstructed. It is neither a constantly resident employee process nor only a prompt. Configuration contains provider, cwd, creation-time system instructions, model, mode, thinking, features, provider options, exact MCP preapprovals and external MCP servers (<a href="repo/packages/protocol/src/agent-types.ts">agent-types.ts</a>, 505–535). Stored metadata adds title, labels, timestamps, workspace, background/internal distinctions, attention, archive state, owner and native persistence handle (<a href="repo/packages/server/src/server/agent/agent-storage.ts">agent-storage.ts</a>, 13–81).</p>
+<p>Profiles intentionally do not carry a system prompt: they can also be applied to an already running session, whereas system instructions are creation-only. The <code>list_profiles</code> tool tells an orchestrator to read profile notes and copy fields into <code>create_agent</code>; no <code>profile</code> argument binds the resulting agent to a profile ID (<a href="repo/packages/protocol/src/agent-profile.ts">agent-profile.ts</a>, 3–29; <a href="repo/packages/server/src/server/agent/tools/paseo-tools.ts">paseo-tools.ts</a>, 3088–3110). Wingman could reuse profiles to choose execution settings, but needs separate durable role/profile membership and instructions. A title such as “TechMaster” alone does not establish that relationship.</p>
+<h3 id="assessment-creation-and-first-execution">Creation and first execution</h3>
+<p>The app/WebSocket session resolves workspace placement and intent, validates cwd, and calls the shared <code>createAgentCommand</code>. Its session branch builds attachments and provider mode/features, passes the workspace/labels/environment, and treats a first-turn failure as belonging to the already created agent (<a href="repo/packages/server/src/server/session.ts">session.ts</a>, 4598–4648; <a href="repo/packages/server/src/server/agent/create-agent/create.ts">create-agent/create.ts</a>, 229–280).</p>
+<p>An agent-scoped <code>create_agent</code> selects explicit provider/model and initial prompt, inherits applicable configuration, resolves its own or requested workspace and adds parent identity. It invokes the same command and returns the new ID/status promptly. The shared command first creates/registers the session, then persists a finish subscription before starting the initial prompt, accepting/rejecting that subscription according to dispatch (<a href="repo/packages/server/src/server/agent/tools/paseo-tools.ts">paseo-tools.ts</a>, 1605–1694; <a href="repo/packages/server/src/server/agent/create-agent/create.ts">create-agent/create.ts</a>, 169–226). This ordering avoids missing a very fast child's completion. Initial prompt creation is a launch operation, not automatic task decomposition.</p>
+<p>Registration builds the managed state, primes provider history where applicable, records it, changes lifecycle to idle, subscribes to provider events and drains pending events (<a href="repo/packages/server/src/server/agent/agent-manager.ts">agent-manager.ts</a>, 3853–3964). Runs consume provider events; <code>runAgent</code> collects timeline/usage/final response, throws on <code>turn_failed</code> and returns an explicit canceled flag (<a href="repo/packages/server/src/server/agent/agent-manager.ts">same file</a>, 2616–2652). Lifecycle values are initializing, idle, running, error and closed; attention is a separate finished/error/permission signal. An idle agent can be waiting for its next assignment rather than a completed product.</p>
+<h3 id="assessment-tools-permissions-routing-and-concurrency">Tools, permissions, routing and concurrency</h3>
+<p>Paseo exposes a transport-neutral tool catalog with an MCP adapter, plugin tools and provider-native tooling. Core tools cover workspace creation, agents, prompts/status/activity, permissions, providers/profiles and schedules. Per-provider Paseo-tool policy can disable tools; exact external MCP preapproval is separately represented by server/tool names. Provider contracts mark exact MCP preapproval support for Claude, Codex and OpenCode and reject unsupported blanket assumptions (<a href="repo/packages/server/src/server/agent/provider-registry.ts">provider-registry.ts</a>, 148–186; <a href="repo/packages/server/src/server/agent/paseo-tool-policy.ts">paseo-tool-policy.ts</a>, 15–28). Daemon session authorization maps operations to semantic grants (<a href="repo/packages/server/src/server/authorization/operation-permissions.ts">operation-permissions.ts</a>, 1–140). These controls are execution authority, not product-management authority.</p>
+<p>Addressing is <code>(serverId, agentId)</code> for remote relationships. Daemon-owned host registrations and routed API scopes are separate from the app's saved host connections. Remote creation requires an existing destination workspace and provider/model, so the parent cannot accidentally reuse its local filesystem path on another host. <code>createHostResolver</code> executes local operations directly or creates a routed destination client; remote messages carry caller agent/server identity (<a href="repo/packages/server/src/server/agent/host-operations/index.ts">host-operations/index.ts</a>, 177–299). Connected-host routes are one hop, grant-bounded and scope-owned. They are not an automatic fleet scheduler or shared-filesystem service (<a href="repo/docs/connected-hosts.md">connected-hosts.md</a>, “Ownership and authority” and “Connections and recovery”).</p>
+<p>Multiple managed agents run independently. Per-agent lifecycle mutation tails serialize archive/detach/label/restore changes; foreground-run mutation paths mediate run replacement/cancellation (<a href="repo/packages/server/src/server/agent/agent-manager.ts">agent-manager.ts</a>, 2598–2613 and 3414–3489). Agent messages are recipient-owned batches with a two-second quiet window and ordered dispatch groups when mode/interrupt options conflict; different recipients have independent queues (<a href="repo/packages/server/src/server/agent/agent-messages/delivery.ts">agent-messages/delivery.ts</a>, 54–163). This reduces conflicting prompts but is not a ticket lock or dependency claim. Two agents in the same cwd still share filesystem writes; worktree isolation must be selected explicitly.</p>
+<h3 id="assessment-persistence-resume-scheduling-and-supervision">Persistence, resume, scheduling and supervision</h3>
+<p>Agent storage retains serializable configuration, native session IDs/handles, labels/workspace and visibility/attention metadata. <code>resumeAgentFromPersistence</code> reloads persisted config/environment, resolves interactive versus history purpose, verifies provider availability, creates launch context and invokes native <code>resumeSession</code> (<a href="repo/packages/server/src/server/agent/agent-manager.ts">agent-manager.ts</a>, 1455–1567). History-purpose loading accommodates archived agents whose cwd may be gone. Runtime reloading preserves the stable Paseo identity; provider-native history is still a dependency. Descriptor-based provider children have a separate lifecycle/transport and may be read-only in the UI. They cannot be given the same independent lifecycle controls as managed children. One documentation section still describes OMP <code>child_session</code> events being imported as managed agents (<a href="repo/docs/agent-lifecycle.md">agent-lifecycle.md</a>, lines 180–184). The current inspected OMP implementation instead maps <code>subagent_lifecycle</code>, progress and event messages into <code>provider_subagent</code> upserts/timelines (<a href="repo/packages/server/src/server/agent/providers/omp/agent.ts">omp/agent.ts</a>, lines 1672–1701; <a href="repo/packages/server/src/server/agent/providers/omp/subagent-index.ts">omp/subagent-index.ts</a>, lines 24–64 and 104–120). The assessment follows that code and treats the older prose as a documentation discrepancy, rather than crediting independently managed OMP children.</p>
+<p>Restart recovery distinguishes reconnecting history from continuing interrupted work. Startup repairs running/initializing records to closed and selects eligible running agents for an optional configured resume prompt; owned/internal/archived agents are excluded. Recovery dispatches each candidate independently and clears <code>resumeOnStartup</code> before dispatch (<a href="repo/packages/server/src/server/agent/restart-recovery/index.ts">restart-recovery/index.ts</a>, 9–64). This is continuation policy, not restoration of the exact in-flight process instruction. The workbench protects callers with pending child notices or queued messages from idle-runtime cleanup (<a href="repo/packages/server/src/server/bootstrap.ts">bootstrap.ts</a>, 1509–1515).</p>
+<p>Schedules are durable daemon objects. A heartbeat targets an existing agent. A normal schedule launches a new agent/workspace with stored configuration. Cron cadence, timezone, maximum runs and expiry are supported, along with pause/resume/run-once/history. Due slots are claimed and advanced within one serialized store update. A running-schedule set prevents overlapping invocation of the same schedule (<a href="repo/packages/server/src/server/schedule/service.ts">schedule/service.ts</a>, 570–587 and 714–824). Existing-agent execution refuses a currently active run and fails on permission/error; new-agent runs can create a worktree and archive their workspace afterward (<a href="repo/packages/server/src/server/schedule/service.ts">same file</a>, 927–1058). An interrupted persisted schedule run becomes failed on daemon restart, with an explanatory error, rather than automatically replaying its side effects (613–647). Wingman can implement periodic ProjectMaster review with this primitive, but must write the review policy, tracker queries, blocker detection and escalation behavior.</p>
+<h3 id="assessment-interruption-failure-recovery-and-completion">Interruption, failure, recovery and completion</h3>
+<p>Prompt dispatch distinguishes out-of-band commands, native steering and replacement of an active turn. If a provider cannot steer, the manager may replace through its existing behavior. This is not a guaranteed cross-provider concurrent conversation model. Stale plugin sessions are reopened from persistence and the start path retried (<a href="repo/packages/server/src/server/agent/agent-prompt.ts">agent-prompt.ts</a>, 91–192). Cancellation asks the provider to interrupt, waits for settlement and reports not-running/settled/refused. Acknowledged but non-settling runs are force-terminalized in manager state after timeout; refused cancellation blocks reload/replace/rewind (<a href="repo/packages/server/src/server/agent/agent-manager.ts">agent-manager.ts</a>, 3414–3489). This prevents pretending a refused interrupt succeeded, but it is not rollback of commands already executed.</p>
+<p>Creation recovery and message recovery have explicit uncertainty boundaries. <code>CreationService</code> fingerprints a request, persists resource identity before provisioning, shares an in-flight operation across retries and records milestones. A crash during an uncertain stage yields an outcome-unknown record requiring reconciliation rather than another blind launch (<a href="repo/packages/server/src/server/creation/index.ts">creation/index.ts</a>, 49–119 and 151–208). A keyed legacy create rejects an inline prompt and requires sending it separately (<a href="repo/packages/server/src/server/session.ts">session.ts</a>, 4486–4503). Message receipts write pending before provider dispatch and completed after it. A pending receipt after recovery returns <code>agent_request_outcome_unknown</code>, while changed arguments conflict and completed retries do nothing (<a href="repo/packages/server/src/server/message-receipts/index.ts">message-receipts/index.ts</a>, 25–55). This is useful automation infrastructure, not an exactly-once guarantee over arbitrary provider side effects.</p>
+<p>Child observation is a separate recovery mechanism. Finish subscriptions persist observation intent until delivery to the parent has been acknowledged, restore after restart and notify on permission, error, completion, closed or unavailable states. Remote observation retries have capped backoff; three failed non-connecting observations terminate with an unknown/unreachable notice, not a claim that remote execution stopped (<a href="repo/packages/server/src/server/agent/finish-subscriptions/index.ts">finish-subscriptions/index.ts</a>, 16–58, 170–215 and 233–253). Parent prompts still need to decide what to do with the result. No automatic semantic bug-fix retry, TestMaster acceptance loop or proof that the product definition is satisfied is imposed by the daemon.</p>
+<h3 id="assessment-retirement-and-cleanup">Retirement and cleanup</h3>
+<p>Archive is soft retirement, distinct from process residency and client layout. Managed archive snapshots state, stamps <code>archivedAt</code>, closes runtime, synchronizes provider archive state where supported and handles children. Parent archive cascades to labeled children, detaching children in another workspace or open in a client tab; detached agents no longer belong to that parent cascade (<a href="repo/packages/server/src/server/agent/agent-manager.ts">agent-manager.ts</a>, 2024–2128). Internal helpers are not persisted by Paseo and are retired in memory. Codex's adapter explicitly documents that <code>persistSession=false</code> is a no-op at the native app-server level, so “Paseo internal” must not be read as guaranteed provider-side ephemerality (<a href="repo/packages/server/src/server/agent/providers/codex-app-server-agent.ts">codex-app-server-agent.ts</a>, 7542–7552).</p>
+<p>A managed subagent's tab can close without archiving it; detach clears parent lifecycle labels, while provider-child tabs are read-only layout. See <a href="repo/docs/agent-lifecycle.md">agent-lifecycle.md</a>, “Tabs vs archive” and “The subagents track.” Wingman's standing leaders should not be accidentally tied to disposable parent-tab cleanup. Host-qualified remote relationships also require deliberate distributed retirement policy. The local registry scan in parent cascade should not be assumed to archive a child stored only on another daemon. Workspace archival may additionally remove managed worktree resources through its archive path, so agent archive and workspace cleanup are separate controls.</p>
+<h2 id="assessment-coordination-mechanics-and-one-request-trace">Coordination mechanics and one request trace</h2>
+<p>The delivered shared coordination surfaces are agent/workspace metadata, provider timelines, point-to-point agent messages, finish/permission events, schedules and routed host operations. They are useful orchestration primitives, not a native persistent room/ticket organization.</p>
+<p>A concrete code path for “ask a second agent to investigate this bug, then continue when it reports” is:</p>
+<ol>
+<li>The caller uses <code>list_profiles</code> to read configured execution bundles and notes, then <code>create_agent</code> with provider/model, title, initial briefing and optional destination/workspace. The tool is agent-scoped; its caller identity is supplied by Paseo. <a href="repo/packages/server/src/server/agent/tools/paseo-tools.ts">paseo-tools.ts</a>, 1605–1672 and 3088–3110.</li>
+<li>For a local child, <code>createAgentCommand</code> resolves parent/placement and launches a real managed session, registers durable finish intent before the prompt and returns the child's ID/status. <a href="repo/packages/server/src/server/agent/create-agent/create.ts">create-agent/create.ts</a>, 169–226 and 284–300. For a remote child, the tool's host resolver calls the destination's normal agent API with its workspace and host-qualified parent labels. <a href="repo/packages/server/src/server/agent/host-operations/index.ts">host-operations/index.ts</a>, 222–260.</li>
+<li>The provider performs the investigation and emits normalized message/tool/turn events. The child's agent panel streams the same detailed session if the human opens it. The parent child-track selector finds its relationship by server and agent identity. <a href="repo/packages/app/src/panels/agent-panel.tsx">agent-panel.tsx</a>, 1390–1442; <a href="repo/packages/app/src/subagents/select.ts">subagents/select.ts</a>, 74–100.</li>
+<li>The child can send an intermediate report or question with <code>send_agent_prompt</code>. Paseo queues it per recipient, qualifies the sender, combines compatible messages after two quiet seconds and steers/replaces the recipient according to provider behavior. <a href="repo/packages/server/src/server/agent/tools/paseo-tools.ts">paseo-tools.ts</a>, 1982–2051; <a href="repo/packages/server/src/server/agent/agent-messages/delivery.ts">agent-messages/delivery.ts</a>, 67–163. A queued receipt acknowledges admission, not provider delivery or completion.</li>
+<li>On finish/error/permission, the durable observer formats a system-origin child notification including the last response or permission payload and dispatches it through the same recipient queue. Permission notices retain observation for later completion; archived parents suppress delivery and detached creation children can lose ownership-based notifications. <a href="repo/packages/server/src/server/agent/finish-subscriptions/index.ts">finish-subscriptions/index.ts</a>, 149–215. The parent resumes by accepting this prompt, not by a centralized ticket transition.</li>
+<li>Human approval is available in the child's pane or through permission tools. The parent may revise its plan, send a follow-up, create another worker or report to the human. The daemon does not automatically update a project ticket, append a Room2 decision, ask Butler, or evaluate an acceptance gate. Those last steps are the Wingman layer.</li>
+</ol>
+<p>This trace follows an implemented request path. It was not executed for this assessment. The bundled committee/advisor/handoff skills are concrete orchestration instructions using these tools. The committee requires two contrasting profiles, fresh context, analysis-only prompts, finish notifications and resolving disagreements. The handoff requires a self-contained briefing because the new agent has zero context. These skills demonstrate feasible patterns without proving a general autonomous organization or native inherited conversation fork (<a href="repo/skills/paseo-committee/SKILL.md">paseo-committee/SKILL.md</a>, 8–48; <a href="repo/skills/paseo-handoff/SKILL.md">paseo-handoff/SKILL.md</a>, 8–68).</p>
+<h3 id="assessment-why-task-and-room-remnants-do-not-count-as-delivered-coordination">Why task and room remnants do not count as delivered coordination</h3>
+<p>The standalone task library is substantial: Markdown documents support dependencies/parents/assignees/priorities, acceptance criteria, notes, status transitions and ready/blocked graph queries. It is a possible reuse source for a lightweight Wingman tracker (<a href="repo/packages/server/src/tasks/types.ts">tasks/types.ts</a>, 12–64; <a href="repo/packages/server/src/tasks/task-store.ts">task-store.ts</a>, 17–177). However, repository-wide searches for <code>FileTaskStore</code>, imports from <code>tasks/</code> and <code>taskStore</code> found no production entry point constructing it. Its tests instantiate it. The daemon does not. There is no durable mapping from a task assignee string to a managed agent/host or a product acceptance controller.</p>
+<p>Chat types and permission names remain parseable for backward compatibility, but their schema comments explicitly state removal after v0.3.0. No chat service/store or production room handlers were found in the daemon/session/tools/CLI/app paths searched. A transcript between a human and one agent, or a direct prompt from one agent to another, is not a shared room with membership and browsable decisions. The corresponding legacy agent-loop schemas also mark feature removal (<a href="repo/packages/protocol/src/chat/types.ts">chat/types.ts</a>, 3; <a href="repo/packages/protocol/src/chat/rpc-schemas.ts">chat/rpc-schemas.ts</a>, 4; <a href="repo/packages/protocol/src/loop/rpc-schemas.ts">loop/rpc-schemas.ts</a>, 4). Current cron schedules should be credited on their own implemented behavior.</p>
+<h2 id="assessment-major-capabilities-beyond-wingmans-described-product">Major capabilities beyond Wingman's described product</h2>
+<p><strong>Harness diversity and provider extensibility.</strong> Wingman specifies Codex agents; Paseo abstracts Claude, Codex, ACP, OpenCode, Pi/OMP and plugin providers, including modes/features/model catalogs and provider-native child execution display. This lets an organization choose different execution environments and cross-provider second opinions. Integration needs a capability-aware role launcher: steering, permission modes, native persistence, exact MCP preapproval, goal support and ephemeral behavior are not identical across providers. Provider registrations and factories are code-backed in <a href="repo/packages/server/src/server/agent/provider-registry.ts">provider-registry.ts</a>, 68–114 and 148–225.</p>
+<p><strong>Encrypted remote access, distinct from multi-host delegation.</strong> The relay package negotiates protected record channels and handles encrypted application framing. The external production relay service is not the legacy relay server in this checkout. Pairing and direct/relay/SSH access make phone operation feasible without moving repositories to a hosted coding workspace. <a href="repo/packages/relay/src/protected-records.ts">protected-records.ts</a>, 1–51 and 125–203; <a href="repo/docs/relay-endpoint-security.md">relay-endpoint-security.md</a>. Wingman could use this for mobile workbench access while keeping Telegram as the primary conversational channel. Relay compatibility/fallback policy and host authentication must be configured intentionally. This inspection is not a cryptographic audit or live relay verification.</p>
+<p><strong>Detached, restart-surviving terminals.</strong> The terminal-worker launcher deliberately spawns a worker outside the daemon's process tree and reads a private ownership record after launch. PTYs can survive daemon restarts/upgrades rather than disappearing with the manager (<a href="repo/packages/server/src/terminal/terminal-worker-launch.ts">terminal-worker-launch.ts</a>, 22–92). This is useful for long builds/dev servers and human intervention. It is separate from agent-turn persistence: terminal survival does not imply the model process continues, and Wingman must associate command outcomes with its own tasks/evidence.</p>
+<p><strong>Agent-scoped voice and selectable speech processing.</strong> Paseo has streaming dictation and voice mode targeting an existing managed agent, with speech-to-text, text-to-speech and turn-detection readiness modeled independently. Local and OpenAI speech services are reconciled through one service boundary (<a href="repo/packages/server/src/server/session/voice/voice-session.ts">voice-session.ts</a>, lines 124–149, 255–293 and 354–397; <a href="repo/packages/server/src/server/speech/speech-runtime.ts">speech-runtime.ts</a>, lines 21–73 and 485–511). This provides hands-free control beyond Wingman's Telegram text conversation. Adopting it needs model/credential/resource configuration and an explicit choice of voice target. It does not add Butler routing or organizational intake semantics.</p>
+<p><strong>Workspace service exposure.</strong> A workspace script's local port can be registered with project/branch/script identity and projected local/public proxy addresses. The proxy forwards HTTP and WebSocket traffic to the local service (<a href="repo/packages/server/src/server/service-proxy.ts">service-proxy.ts</a>, lines 15–60, 142–155, 319–378 and 431–446). This helps review running product previews from other devices. Public DNS/reverse-proxy setup remains deployment work, and the proxy is not a product hosting/acceptance pipeline. The implementation explicitly treats forwarded authority headers as client-influenced (same file, lines 290–311), so Wingman should not turn those headers into trusted tenant or project identity.</p>
+<p><strong>Plugins and a composable SDK/UI surface.</strong> Plugins can contribute providers, usage sources, exact agent tools, RPC subscriptions, lifecycle hooks and native client screens/panels. The public contracts expose workspace/agent/file panel context and navigation back into ordinary sessions (<a href="repo/packages/plugin/src/server/index.ts">plugin/server/index.ts</a>, 1–37; <a href="repo/packages/plugin/src/client/contracts.ts">plugin/client/contracts.ts</a>, 30–55 and 107–165). This is a practical place to implement a Wingman directory/tracker/executive surface without forking every client view. Plugins are trusted, unsandboxed code, including server preparation and client contributions; extensions are not isolated tenant apps (<a href="repo/docs/plugins.md">docs/plugins.md</a>, 3–7 and 459–475). Organizational authorization and data ownership must therefore be designed above that seam.</p>
+<p><strong>Optional external Hub event-consumer relationship.</strong> Daemon code supports explicit enrollment, durable relationship credentials, outbound connectivity/recovery and grant-bounded execution by a Hub. CLI deploy/export commands and public guides describe external event workflows, but the service owning conversation keys, triggers and execution records is Paseo Cloud, outside this checkout (<a href="repo/packages/server/src/server/hub/relationship-controller.ts">hub/relationship-controller.ts</a>, 212–294; <a href="repo/docs/hub.md">docs/hub.md</a>, “Session grants and agent operations” and “Cross-repository compatibility”). It could supply an integration consumer model for Wingman, but its end-to-end policy is <strong>unclear here</strong>. Connecting is not permission to execute; <code>hub.execute</code> is a distinct grant. Do not infer Telegram, organizational intake or reliable output routing from the daemon half alone.</p>
+<h2 id="assessment-distinctive-mechanisms-and-grounded-innovations">Distinctive mechanisms and grounded innovations</h2>
+<p>These are notable design mechanisms in this checkout, not claims of industry-first invention.</p>
+<ol>
+<li><strong>Durable notification intent around asynchronous delegation.</strong> A child-completion watch is registered before initial prompt dispatch, preserved until the parent accepts notification delivery and superseded only by accepted follow-ups. Permission checkpoints retain the watch. This enables a parent to stop polling, do other work or reload while still receiving a child's outcome. It also distinguishes “remote observation failed” from “child stopped.” Limits: notifications concern agent state/last response, not task acceptance, and retries can redeliver when acknowledgement was lost. <a href="repo/packages/server/src/server/agent/create-agent/create.ts">create-agent/create.ts</a>, 192–215; <a href="repo/packages/server/src/server/agent/finish-subscriptions/index.ts">finish-subscriptions/index.ts</a>, 44–58, 170–253.</li>
+<li><strong>Recipient-owned message batching with explicit dispatch boundaries.</strong> Agent messages/finish notices converge through the same two-second quiet-window queue. Compatible reports can reach a busy coordinator in one steer; conflicting mode/interrupt requests retain ordered groups. Completion waits include admitted delivery. Limits: this queue is in-memory pending state with drain-on-close, not a general durable room/event bus, and a queued receipt does not establish execution. <a href="repo/packages/server/src/server/agent/agent-messages/delivery.ts">agent-messages/delivery.ts</a>, 54–190; <a href="repo/packages/server/src/server/agent/agent-messages/delivery.test.ts">delivery.test.ts</a>, 26–79.</li>
+<li><strong>Host-qualified delegation over ordinary APIs and isolated virtual sessions.</strong> Remote workers use the destination's normal workspace/agent operations, while links pin host identity and route scopes retain caller authority and cleanup ownership. The UI can display a remote child as an ordinary child address. This enables Mac-to-Linux delegation without inventing a second worker protocol. Limits: one hop, explicit destination workspace/configuration, no code/knowledge replication and ambiguous mutation outcomes requiring inspection. <a href="repo/packages/server/src/server/agent/host-operations/index.ts">host-operations/index.ts</a>, 84–171 and 201–299; <a href="repo/packages/server/src/server/connected-hosts/session.ts">connected-hosts/session.ts</a>, 177–200; <a href="repo/packages/app/src/subagents/select.ts">subagents/select.ts</a>, 74–100.</li>
+<li><strong>Separation of resource identity, runtime residency and presentation.</strong> A stored agent may be unloaded yet resumable. A provider child has a timeline but no managed lifecycle; closing a child tab can leave execution intact; archive and detach change durable relationship semantics. This is useful for Wingman's long-lived management agents and disposable helpers. Limits: Wingman must choose which entities survive a leader's retirement and handle remote children deliberately. <a href="repo/packages/server/src/server/agent/agent-manager.ts">agent-manager.ts</a>, 1490–1567, 2024–2128 and 2366–2423; <a href="repo/docs/agent-lifecycle.md">agent-lifecycle.md</a>.</li>
+<li><strong>Creation/message receipts that preserve uncertainty.</strong> Resource IDs are journaled before side effects; concurrent retries share creation; completed messages deduplicate; unresolved pending delivery is reported unknown rather than retried as fresh work. This enables safer external automation and reconnection. Limits: the provider is outside the journal transaction, so the design honestly requires reconciliation instead of promising exactly-once work. <a href="repo/packages/server/src/server/creation/index.ts">creation/index.ts</a>, 49–119 and 151–208; <a href="repo/packages/server/src/server/message-receipts/index.ts">message-receipts/index.ts</a>, 25–55.</li>
+</ol>
+<h2 id="assessment-practical-fit-for-wingman">Practical fit for Wingman</h2>
+<p><strong>Use directly:</strong> Paseo's daemon-backed independent Codex sessions, workspace/worktree placement, persistent identity/resume, app/CLI detailed workspaces, live tool activity and permissions, local/remote child creation, point-to-point prompts, completion observation and recurring heartbeat primitive. These address a substantial portion of execution, operator visibility and background continuity. The cross-host implementation is especially relevant to the MacBook/Endeavour split. It has stronger foundations than merely opening a remote terminal.</p>
+<p><strong>Adapt:</strong> Build a Wingman service/plugin using the SDK and lifecycle/tool seams. Assign durable organization IDs and role/profile/project/team relationships separately from Paseo launch presets; bind them to <code>(serverId, agentId)</code> and reconcile runtime/archive events. Define worktree and host-placement policy explicitly. Route Telegram requests and replies through a Butler service, retaining project/question IDs rather than relying on the latest chat. Build summary production from meaningful task transitions and verification evidence. The existing activity curator is a useful drill-down source, not the executive feed. Add room and tracker writes as controlled shared operations, and make approval/escalation decisions durable.</p>
+<p>Still build:</p>
+<ul>
+<li>The portfolio intake router.</li>
+<li>Standing Butler/ProjectMaster and per-project ProductMaster/TechMaster responsibilities. A project registry carrying goals/leadership/delivery status.</li>
+<li>Proportionate discovery and unanswered-question state.</li>
+<li>SCOPES/SPECS/HARNESS conventions and retrieval.</li>
+<li>Shared tickets with ownership/dependencies/blockers.</li>
+<li>Room1/Room2 membership/history and escalation.</li>
+<li>Executive current/recent/next/blocker summaries linked to evidence.</li>
+<li>Periodic supervision policy.</li>
+<li>Integrated testing/definition-of-done and human acceptance gates.</li>
+<li>Cross-host access to shared organizational records. Paseo's dormant task library can inform a tracker, but production wiring, atomic concurrent mutation policy, host-qualified assignees and views would still need implementation.</li>
+</ul>
+<p>The architectural choice is therefore whether to adopt Paseo as a capable lower layer and compose Wingman above it. That is plausible and materially reduces workbench/runtime work. Adopting Paseo alone would leave the main organizational behavior undefined. Adopting external Hub as a replacement for that layer cannot be recommended from this checkout alone because the consumer's routing and policy implementation is not present.</p>
+<h2 id="assessment-verification-scope-and-limitations">Verification scope and limitations</h2>
+<p>This was a read-only static source assessment. No dependencies were installed, no service or agent was launched, no provider was authenticated, and no tests were executed. All runtime descriptions above are implementation-supported, not live-verified behavior. The checked-out source was left unchanged; only this assessment was written.</p>
+<p>The review read applicable Paseo <code>AGENTS.md</code>, listed <code>docs/</code>, and consulted architecture, product, agent lifecycle, data-model, connected-host, Hub and plugin documentation.</p>
+<p>Implementation inspection followed:</p>
+<ul>
+<li>bootstrap → registries/provider runtime → session/create command → <code>AgentManager</code> → Codex process/session/turn path.</li>
+<li>agent prompt/steer/cancel/resume/archive paths.</li>
+<li>storage/restart recovery.</li>
+<li>message batching/finish subscriptions.</li>
+<li>host resolver and routed sessions.</li>
+<li>scheduling.</li>
+<li>creation/message receipts.</li>
+<li>provider/profile configuration.</li>
+<li>agent/subagent/workspace panels.</li>
+<li>the standalone task/legacy chat code.</li>
+</ul>
+<p>Relevant tests were inspected as source evidence, with these boundaries:</p>
+<ul>
+<li><a href="repo/packages/server/src/server/agent/finish-subscriptions/finish-subscriptions.test.ts">finish-subscriptions.test.ts</a>, 135–164, explicitly asserts persisted intent remains until parent dispatch acknowledgement and that restart coalesces duplicate candidate intent; named cases at 208–390 cover remote retries, permission checkpoints, detach and storage failures.</li>
+<li><a href="repo/packages/server/src/server/agent/agent-messages/delivery.test.ts">agent-messages/delivery.test.ts</a>, 26–79, asserts a child report plus finish notice become one sender-preserving batch after two quiet seconds; subsequent named cases cover recipient independence, conflicting modes, errors and wait cancellation. These are deterministic unit tests, not proof of live provider steering.</li>
+<li><a href="repo/packages/server/src/server/connected-hosts/hosts.e2e.test.ts">connected-hosts/hosts.e2e.test.ts</a>, 140–184, constructs two test daemons and checks one physical link, isolated routed clients, one-hop rejection and disable/re-enable recovery. Other named cases inspect authority, identity pinning, lost mutation replies and capability recovery. Reading a two-daemon fixture does not verify the user's physical machines.</li>
+<li><a href="repo/packages/server/src/server/schedule/service.test.ts">schedule/service.test.ts</a>, cases beginning at 340, 536, 685, 725, 834, 902, 1279 and 1779, cover persisted due runs, restart interruption, fake-client execution, active-agent targeting, workspace cleanup, cancellation and prompt-start errors. These tests were inspected for intended cases. They were not run and fake-client execution is not live-model verification.</li>
+<li>The task library test references establish that the module is exercised in isolation. They do not establish production integration. Searches of server bootstrap/session/tools, CLI, app and protocol found no production <code>FileTaskStore</code> constructor/import; room schemas explicitly document removal. Searches for Telegram/Butler/ProjectMaster/ProductMaster/TechMaster, project-ticket/room service paths, acceptance/discovery controllers and executive summary state did not reveal corresponding product implementations. Incidental fixture strings and legacy permission/schema names were not treated as features.</li>
+</ul>
+<p>Provider capability parity, deployment setup, external Hub behavior, production relay operation, real Mac/Linux delegation, long-running unattended reliability, cryptographic correctness and mobile UX were not exercised. The report consequently credits concrete primitives and identifies application-level gaps without claiming operational validation.</p></article>
+<section id="source-record"><h2>Source and evidence</h2><p class="url-text">https://github.com/getpaseo/paseo</p>
+<ul><li><a href="repo/">Open the pinned source checkout</a></li><li><a href="assessment/ASSESSMENT.md">Read the Markdown assessment</a></li>
+<li><a href="../generic/assessments/_audits/qa07.md">Read the historical independent source audit</a></li><li><a href="../generic/method.html">Read the method and evidence limits</a></li></ul></section>
+<nav class="report-switch" aria-label="Adjacent project reports"><a href="../paradev/index.html">Previous project: Paradev</a><a href="../plano/index.html">Next project: Plano</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../index.html">Return to overview <img src="../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Technical assessment against Wingman’s development organization."><title>Open SWE / Robin · Wingman Research</title>
+<link rel="icon" href="../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/report.css"><script defer src="../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../index.html"><img src="../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../index.html">Overview</a><a class="nav-link " href="../generic/index.html">Architecture findings</a><a class="nav-link " href="../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../generic/method.html">Method and evidence</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../index.html">Wingman Research</a><span class="crumb">/</span><span>Open SWE / Robin</span></div><span class="topbar-note">SOURCE REVIEW · 05 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Open SWE / Robin</h1><p class="subtitle">Technical assessment against Wingman’s development organization.</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#decision">Decision summary</a><a href="#assessment-open-swe-robin-assessment-against-wingman">Open SWE / Robin assessment against Wingman</a><a href="#assessment-identity-and-verdict">Identity and verdict</a><a href="#assessment-architecture-and-actual-execution-model">Architecture and actual execution model</a><a href="#assessment-complete-feature-comparison">Complete feature comparison</a><a href="#assessment-agent-definition-and-lifecycle">Agent definition and lifecycle</a><a href="#assessment-coordination-trace-a-dashboard-request-delegated-to-a-worker">Coordination trace: a dashboard request delegated to a worker</a><a href="#assessment-major-capabilities-beyond-wingmans-stated-product">Major capabilities beyond Wingman&#x27;s stated product</a><a href="#assessment-distinctive-mechanisms-and-grounded-innovation">Distinctive mechanisms and grounded innovation</a><a href="#assessment-practical-fit-for-wingman">Practical fit for Wingman</a><a href="#assessment-verification-scope-and-limits">Verification scope and limits</a><a href="#source-record">Source and evidence</a></div></nav><section id="decision" class="decision"><h2>Decision summary</h2>
+<div class="brief-columns"><div><h3>Useful for Wingman</h3><p>Study Robin&#x27;s concurrent workers, durable messages, Slack intake, coding workspaces, and PR delivery loops.</p></div><div><h3>Adoption boundary</h3><p>The live agent implementation depends on Managed Deep Agents. Product leadership and portfolio acceptance remain work.</p></div></div>
+<p class="scope-note">Source assessment at the commit below. Runtime limits appear in the technical report.</p></section>
+<dl class="facts"><div><dt>Source group</dt><dd>Delivery engines</dd></div><div><dt>Commit</dt><dd><code>b471e036907ce4e3cbd5d5d049f65adcdc4f76a8</code></dd></div><div><dt>Coverage</dt><dd>24 Wingman features</dd></div></dl>
+<article id="technical-assessment" class="technical"><h2 id="assessment-open-swe-robin-assessment-against-wingman">Open SWE / Robin assessment against Wingman</h2>
+<h2 id="assessment-identity-and-verdict">Identity and verdict</h2>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Item</th>
+<th scope="col">Checked-out subject</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Product</td>
+<td><strong>Robin</strong>, formerly Open SWE. An asynchronous coding agent and software factory from LangChain</td>
+</tr>
+<tr>
+<td>Repository</td>
+<td class="url-text">https://github.com/langchain-ai/open-swe</td>
+</tr>
+<tr>
+<td>Local checkout</td>
+<td><code>researchs/open-swe/repo</code></td>
+</tr>
+<tr>
+<td>Commit actually inspected</td>
+<td><code>b471e036907ce4e3cbd5d5d049f65adcdc4f76a8</code></td>
+</tr>
+<tr>
+<td>Assessment date</td>
+<td>2026-11-05</td>
+</tr>
+<tr>
+<td>Method</td>
+<td>Read-only source and test inspection; no dependency installation, service startup, remote execution, or live integration calls</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Verdict: a substantial delivery-engine and coding-workspace reference, but not an implementation of Wingman's standing development organization.</strong> Robin has real concurrent worker agents, persistent conversations, durable coordinator/worker messaging, Slack intake and concierge routing, reviewable plans, sandboxes, detailed coding workspaces, scheduled work, CI follow-up, and sophisticated PR review/delivery machinery. These capabilities are materially closer to useful autonomous engineering than a collection of role prompts. Its durable organizational objects, however, are principally <strong>threads, tasks, workspaces, projects-as-thread-folders, people, PRs and automations</strong>. ProductMaster/TechMaster-style project leadership, a specialist profile directory, a shared product ticket system, proportionate domain discovery, product acceptance, portfolio supervision and executive agent summaries remain to build.</p>
+<p>The most important deployment boundary is architectural: <strong>the checked-out live agent implementation requires Managed Deep Agents (MDA)</strong>. It is not the older self-contained Open SWE graph implementation suggested by some historical descriptions. The backend refuses startup without an MDA URL and runtime-token secret. The model loop, checkpoints and tool execution run in the separate <code>mda/</code> project. A desktop or CLI "local" thread still runs the cloud agent and serves its filesystem/shell from the user's machine. This is not a native Codex-agent organization. See <a href="repo/openswe/agent_api/client.py">runtime client</a>, lines 1–7, 58–78, 120–161; <a href="repo/desktop/src/main.cts">desktop preparation</a>, lines 824–851; <a href="repo/cli/src/main.ts">CLI</a>, lines 32–51.</p>
+<h2 id="assessment-architecture-and-actual-execution-model">Architecture and actual execution model</h2>
+<h3 id="assessment-control-plane-runtime-and-interfaces">Control plane, runtime and interfaces</h3>
+<p>The backend is a Python ASGI/FastAPI application registered as <code>openswe.webapp:app</code>, surrounded by the Agent Server API. <code>langgraph.json</code> registers <code>agent</code>, <code>reviewer</code> and <code>review-scout</code>, but these names should not be read as three standing employees. They select three <strong>run kinds</strong> that MDA executes through one deployed graph, <code>open-swe</code>. The <a href="repo/mda/agent.py">runtime graph factory</a>, lines 1–30, 126–175, 230–342, builds a shared graph from model choices, installs middleware, and declares both ordinary subagents and an asynchronous <code>general-purpose</code> worker graph. The graph is cached/shared, while identity, catalog and state are resolved for the current run. Sharing the compiled graph is not sharing conversations.</p>
+<p>PostgreSQL is the durable control-plane store. <a href="repo/openswe/threads/store.py">ThreadStore</a>, lines 129–220, owns the indexed thread record, copies metadata to the relevant runtime, reads state from that runtime and removes runtime/index copies on deletion. <a href="repo/openswe/threads/router.py">ThreadRouter</a>, lines 258–345 and 390–446, answers thread creation/search from the index, creates all new threads as <code>mda</code>, rewrites run payloads and forwards them to MDA. Older <code>local</code> runtime threads remain readable but reject new activity; <a href="repo/openswe/threads/succession.py">succession</a>, lines 1–36, creates metadata-carrying successor threads for continuing system work. A migration successor is not proof that the entire predecessor conversation/checkpoint is copied.</p>
+<p>The backend resolves a run's tool set, model choices, skills, sandbox specification, grants and loop rules once before dispatch. It signs the run token and sends a names-only catalog in context. MDA calls named typed backend endpoints for operations needing credentials or database access. <a href="repo/openswe/agent_api/run_catalog.py">RunCatalog</a>, lines 1–7, 111–145, 190–240, shows both the data-driven catalog and an important tool boundary: delegating coordinators receive <code>start_async_task</code>; Deep Agents' other async management tools and synchronous <code>task</code> are withheld in that mode. Robin's own durable task tools manage workers afterward. <a href="repo/openswe/agent_api/client.py">Client</a>, lines 97–161, signs the resolved run. The backend is not executing middleware around every model call in-process.</p>
+<p>Human interfaces include the React dashboard, Electron desktop shell, CLI, Slack, GitHub and Linear. MDA channel declarations call the backend to decide which run an inbound event should start; see <a href="repo/mda/rt/intake.py">channel intake</a>, lines 1–7, and the actual channel declarations under <a href="repo/mda/channels">mda/channels</a>. Workspace routing is explicit precedence, rather than semantic portfolio management: recorded thread workspace, opening-message tag, Slack channel binding, repository binding, person's default, instance default (<a href="repo/openswe/workspaces/routing.py">routing</a>, lines 1–19, 141–190). Projects are named folders of threads, optionally bound to a repository; their own module explicitly says they <strong>only group threads</strong>, and thread authorization remains separate (<a href="repo/openswe/projects/store.py">project store</a>, lines 1–9, 70–126, 147–174).</p>
+<h3 id="assessment-execution-and-persistence-boundaries">Execution and persistence boundaries</h3>
+<p>A coding thread normally has one persistent Linux sandbox owned by MDA. Workers have separate conversations/checkpoints but inherit their coordinator's sandbox and its repository/workspace/access metadata (<a href="repo/openswe/tasks/service.py">worker indexing</a>, lines 393–478). This permits fast collaboration on one checkout but gives no automatic file, branch or test-process isolation among siblings. The prompt explicitly instructs file ownership and setup coordination and calls those instructions behavioral guidance rather than an isolation boundary (<a href="repo/openswe/resources/prompts/tasks/role.md.jinja">task role prompt</a>, lines 62–78).</p>
+<p>The alternative execution path is a <strong>remote filesystem and command bridge</strong>, not an alternative local model loop. A cloud run enqueues shell/file requests in PostgreSQL. A CLI or desktop client on another machine claims and answers them. Heartbeats, liveness checks, conditional transitions and <code>SKIP LOCKED</code> claims make this more substantial than a local subprocess wrapper (<a href="repo/openswe/bridge/store.py">bridge store</a>, lines 1–19, 91–132; <a href="repo/openswe/bridge/backend.py">bridge backend</a>, lines 1–12, 105–175). Electron records checkout/worktree ownership and diff checkpoints locally. The backend retains title, transcript and read state under the same cloud thread ID (<a href="repo/desktop/src/local-thread-store.cts">local thread store</a>, lines 11–32). "This Mac" can therefore be driven from elsewhere while the app serves its bridge, but task workers all share the coordinator's chosen execution location.</p>
+<p>The MDA middleware loop handles task context, inbox additions, model routing, GitHub-proxy refresh, reply obligations and end-of-run work. <a href="repo/mda/rt/loop.py">RunLoop</a>, lines 1–12, 300–339, 461–508, 626–710, demonstrates that these are actual control-flow mechanisms, not just prompt prose. Nonetheless, task correctness and PR/product completion are still largely model judgments. The goal-mode guard checks that a successful work-state or wait tool was called. It does not independently prove that the requested product has met its definition of done.</p>
+<h2 id="assessment-complete-feature-comparison">Complete feature comparison</h2>
+<p>Verdicts apply to Wingman's described behavior, not merely to a similarly named UI or data model. <strong>Similar</strong> credits a substantial equivalent with an explicit boundary; <strong>Resembles</strong> credits a useful primitive that does not supply the whole capability. None of the following rows assumes runtime execution was verified.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Wingman capability</th>
+<th scope="col">Verdict</th>
+<th scope="col">Implementation evidence and concrete difference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>F01</strong></td>
+<td>Real independent coding agents and specialist instances</td>
+<td><strong>Similar</strong></td>
+<td>MDA's async <code>general-purpose</code> worker is a real independently running thread, with its own checkpoint/conversation and automatic result delivery, not just a persona. <a href="repo/mda/agent.py">Graph factory</a>, lines 24–30, 306–333; <a href="repo/openswe/tasks/service.py">registration</a>, lines 564–590. Robin offers general workers and dedicated review run kinds, not persistent BackendCoder/FrontendCoder/MobileCoder/TestMaster employees.</td>
+</tr>
+<tr>
+<td><strong>F02</strong></td>
+<td>Extensible agent profiles, roles and team composition</td>
+<td><strong>Resembles</strong></td>
+<td>Model/effort, prompts, instructions, tool grants, skills and subagent catalog entries are configurable. <a href="repo/openswe/agent_api/run_catalog.py">Catalog</a>, lines 190–240; <a href="repo/openswe/server.py">server</a>, lines 2245–2277. Built-in run kinds and task roles remain a coding/reviewer/scout and coordinator/worker scheme. A per-person settings "profile" is not a reusable organizational role definition, and no dynamic specialist-team registry was found.</td>
+</tr>
+<tr>
+<td><strong>F03</strong></td>
+<td>Agent directory and visible working relationships</td>
+<td><strong>Resembles</strong></td>
+<td>The sidebar nests actual task workers under their coordinator and links to worker threads; <a href="repo/ui/src/features/agents/components/SidebarThreadRow.tsx">SidebarThreadRow</a>, lines 433–453, 671–688, 895–977. This exposes a real relationship, but the listed objects are sessions. There is no standing identity/role/team/project directory or complete organizational relationship graph.</td>
+</tr>
+<tr>
+<td><strong>F04</strong></td>
+<td>Telegram as main human channel and Butler routing</td>
+<td><strong>Similar</strong></td>
+<td>Slack concierge is an <strong>opt-in, per-person</strong> continuous private DM. It is off by default. The route selects one stable conversation timestamp only when that person's preference is enabled. <a href="repo/openswe/slack/dm.py">DM implementation</a>, lines 1–8; <a href="repo/openswe/slack/routes.py">routing</a>, lines 660–666. Its prompt directs coding work to separate/reused threads and progress inspection; <code>start_thread</code> actually authorizes and dispatches the new thread. <a href="repo/openswe/resources/prompts/runs/slack-concierge.md">Concierge prompt</a>, lines 9–14; <a href="repo/openswe/tools/threads.py">dispatch tool</a>, lines 1405–1445. This is a substantial Butler analogue on Slack, alongside dashboard/GitHub/Linear entry points. Searches of <code>openswe</code>, <code>mda</code> and <code>ui/src</code> found no Telegram adapter.</td>
+</tr>
+<tr>
+<td><strong>F05</strong></td>
+<td>Cross-project registry, intake and existing/new project routing</td>
+<td><strong>Resembles</strong></td>
+<td>Durable project records, repository bindings, thread filing and tools exist. <a href="repo/openswe/projects/store.py">Projects</a>, lines 70–126, 165–174, 213–240; <a href="repo/openswe/resources/prompts/system/task-execution.md">PR reuse guidance</a>, lines 26–32. Workspace resolution and existing PR-thread lookup help continuity, but there is no ProjectMaster interpreting arbitrary product ideas against a portfolio registry and creating project leadership.</td>
+</tr>
+<tr>
+<td><strong>F06</strong></td>
+<td>Per-project product and technical leadership</td>
+<td><strong>Absent</strong></td>
+<td>Source searches across task roles, graph kinds, projects, workspace settings, tools and system prompts found coordinator/worker and reviewer/scout, not separate per-project product/technical leaders. <a href="repo/openswe/tasks/store.py">Task store</a>, lines 15, 27–35, 146–179; <a href="repo/mda/rt/kinds.py">run kinds</a>, lines 19–20, 72–97. A task coordinator can integrate work but is not two durable product/technical authorities.</td>
+</tr>
+<tr>
+<td><strong>F07</strong></td>
+<td>Proportionate research, discovery and iterative human clarification</td>
+<td><strong>Resembles</strong></td>
+<td>Research and conversation are supported and the prompt asks the agent to inspect code/instructions and connected sources before clarifying. <a href="repo/openswe/resources/prompts/system/shared-base.md">Shared guidance</a>, lines 40–43; <a href="repo/openswe/resources/prompts/system/task-execution.md">task execution</a>, lines 5–17, 39–44. No implemented discovery stage, uncertainty/question record or scope-dependent domain-discovery cycle was found. Clarification can happen in a thread, but the organizational product-discovery process remains custom work.</td>
+</tr>
+<tr>
+<td><strong>F08</strong></td>
+<td>Product scope/specs/acceptance scenarios/definition of done</td>
+<td><strong>Resembles</strong></td>
+<td>Agents can publish HTML/Markdown artifacts; plans and comments are durable and can be revised through the agent. <a href="repo/openswe/threads/plan_store.py">Plan store</a>, lines 1–7, 28–55, 98–129; <a href="repo/openswe/threads/plan_api.py">comment submission</a>, lines 200–222. Those are generic thread artifacts, not typed product scopes, specifications, acceptance scenarios and a project definition of done. No enforced linkage from artifacts to tickets/test acceptance was found.</td>
+</tr>
+<tr>
+<td><strong>F09</strong></td>
+<td>Technical decomposition, assignment and shared task tracking</td>
+<td><strong>Similar</strong></td>
+<td>Coordinator creates durable task membership/delegations with instructions, model/effort, launch/cancel state, worker status and messaging. <a href="repo/openswe/tasks/store.py">Task store</a>, lines 27–102, 146–179; <a href="repo/openswe/tasks/service.py">status</a>, lines 593–654. This supports real assignment/tracking during a request. It lacks a general ticket backlog with product criteria, dependencies, priority, specialist assignment and cross-session project progress semantics.</td>
+</tr>
+<tr>
+<td><strong>F10</strong></td>
+<td>Human-facing portfolio/project management dashboard</td>
+<td><strong>Resembles</strong></td>
+<td>Projects group threads in sidebar folders and the composer; individual threads show status, plans, PRs and work. <a href="repo/openswe/resources/default_prompt.md">Default UI map</a>, lines 14–21; <a href="repo/openswe/threads/summary.py">summary payload</a>, lines 535–607. This is a useful engineering-session dashboard, not portfolio goals, project progress, tickets, upcoming assignments, product decisions and blockers.</td>
+</tr>
+<tr>
+<td><strong>F11</strong></td>
+<td>Agent chat app, rooms and direct collaboration</td>
+<td><strong>Similar</strong></td>
+<td>Durable task messages carry sender identity/role and appear as navigable events in the transcript. <a href="repo/openswe/tasks/service.py">Messaging</a>, lines 657–705; <a href="repo/openswe/tasks/messages.py">TaskMessage</a>, lines 42–137; <a href="repo/ui/src/features/agents/components/messages/TaskEventMessage.tsx">UI event</a>, lines 17–46, 110–136. Actual task messaging is a star: workers can only message the coordinator, not siblings. Slack offers external human channels; Robin has no Room1/Room2-style organization-wide agent rooms with arbitrary participants.</td>
+</tr>
+<tr>
+<td><strong>F12</strong></td>
+<td>Management escalation and human decisions/approvals</td>
+<td><strong>Similar</strong></td>
+<td>Workers raise blockers to their coordinator; plans support review comments; workflow push approvals and human PR review provide concrete decision surfaces. <a href="repo/openswe/resources/prompts/tasks/role.md.jinja">Task prompt</a>, lines 10–22, 50–64; <a href="repo/openswe/threads/workflow_approval.py">workflow decisions</a>, lines 34–46, 164–195; <a href="repo/openswe/threads/plan_api.py">plan API</a>, lines 172–222. The escalation chain ends at the task's user conversation, not project room → management room → Butler → Telegram.</td>
+</tr>
+<tr>
+<td><strong>F13</strong></td>
+<td>Durable project knowledge and reusable directives</td>
+<td><strong>Similar</strong></td>
+<td>Repo instructions/AGENTS files, personal/org/bundled skills, persisted artifacts, memories and curated workspace prompts provide reusable context. <a href="repo/openswe/skill_store/run_skills.py">Skill sources</a>, lines 20–53; <a href="repo/mda/rt/subdir_agents.py">instruction loading</a>, lines 71–81, 146–185; <a href="repo/openswe/memories/store.py">memory store</a>, lines 1–6, 43–95. Wingman's per-product <code>DIRECTIVES/SCOPES/SPECS/HARNESS</code> structure and product knowledge ownership are not supplied.</td>
+</tr>
+<tr>
+<td><strong>F14</strong></td>
+<td>Persistent identity, conversation and work continuity</td>
+<td><strong>Similar</strong></td>
+<td>Thread IDs/owners, MDA checkpoints, PostgreSQL index/transcripts/task rows and persistent sandbox attachments survive later runs. <a href="repo/openswe/threads/runs.py">Thread creation</a>, lines 280–381; <a href="repo/openswe/threads/store.py">ThreadStore</a>, lines 129–220. Continuity belongs to a session, person or system automation rather than an employee with independently persistent role/project identity. Legacy-runtime successors preserve metadata, not demonstrated full context migration.</td>
+</tr>
+<tr>
+<td><strong>F15</strong></td>
+<td>Proactive supervision, periodic wake and blocker follow-up</td>
+<td><strong>Similar</strong></td>
+<td>One-shot thread wakeups, recurring/event automations, background monitors, CI watches and stale-run detection can proactively re-enter work. <a href="repo/openswe/tools/schedule_thread_wakeup.py">Wakeups</a>, lines 30–38, 162–185; <a href="repo/openswe/baby_sit.py">CI watch</a>, lines 44–53, 99–122; <a href="repo/openswe/threads/stalls.py">stalls</a>, lines 1–7, 134–149. These are concrete bounded supervision mechanisms, not a standing ProjectMaster surveying all projects and contacting leaders/workers about product blockers.</td>
+</tr>
+<tr>
+<td><strong>F16</strong></td>
+<td>Parallel products and concurrent specialists</td>
+<td><strong>Similar</strong></td>
+<td>Independent MDA threads can run concurrently, with separate project/workspace metadata; coordinators launch asynchronous workers and continue while results arrive. <a href="repo/mda/agent.py">Graph</a>, lines 306–333; <a href="repo/openswe/resources/prompts/tasks/role.md.jinja">task prompt</a>, lines 29–41, 59–78. Workers are generalists sharing a sandbox, not predefined specialist instances; project folders do not create independent leadership teams. No throughput or maximum effective team size was measured.</td>
+</tr>
+<tr>
+<td><strong>F17</strong></td>
+<td>Real multi-host execution with shared coordination</td>
+<td><strong>Similar</strong></td>
+<td>Cloud runtime/backend and heartbeat-backed remote-machine bridges genuinely cross process/machine boundaries. <a href="repo/openswe/bridge/store.py">Bridge protocol/store</a>, lines 1–19, 91–132; <a href="repo/openswe/bridge/backend.py">backend</a>, lines 105–175. PostgreSQL lets replicas coordinate requests. However, a task's workers inherit one sandbox/bridge. There is no team scheduler placing individual specialists on different hosts with shared project rooms/tracker. Multi-host primitives exist; Wingman's distributed organization is not complete.</td>
+</tr>
+<tr>
+<td><strong>F18</strong></td>
+<td>Executive agent overview: current/recent/next work and blockers</td>
+<td><strong>Resembles</strong></td>
+<td>Thread summaries expose execution status, attention reason, project/workspace, PR state, costs and trace links. <a href="repo/openswe/threads/summary.py">Summary</a>, lines 535–607. That is useful operational metadata. It does not consolidate an agent's current/recent/next assignments, decisions and blockers across its history, nor compute executive project/organization progress. A status sidebar is not an executive agent overview.</td>
+</tr>
+<tr>
+<td><strong>F19</strong></td>
+<td>Individual agent summary timeline linked to work</td>
+<td><strong>Resembles</strong></td>
+<td>Message/tool timelines and worker completion/message events link back to worker threads; <a href="repo/ui/src/features/agents/components/messages/TaskEventMessage.tsx">task event renderer</a>, lines 17–46, 110–136; <a href="repo/openswe/tasks/events.py">worker result</a>, lines 107–128. They are detailed session transcripts, not a separate curated employee timeline connecting assignments, discussions and outcomes over multiple sessions/projects.</td>
+</tr>
+<tr>
+<td><strong>F20</strong></td>
+<td>Drill-down into detailed per-agent coding workspace</td>
+<td><strong>Similar</strong></td>
+<td>The thread workspace provides terminals, file views, changes, browser and background-work panels. <a href="repo/ui/src/features/agents/components/panel/AgentRightPanel.tsx">Right panel</a>, lines 32–52, 71–75, 138–156; <a href="repo/openswe/threads/background_work.py">backend background work</a>, lines 46–85, 87–128. Worker/sidebar links open the relevant conversation. This substantially meets the inspection use case, but the unit is the thread/shared sandbox rather than a standing employee workspace.</td>
+</tr>
+<tr>
+<td><strong>F21</strong></td>
+<td>Live activity, lifecycle controls, steering and execution visibility</td>
+<td><strong>Similar</strong></td>
+<td>Runs expose streamed messages/tools/checkpoints/events; humans can enqueue/steer, interrupt, resolve and delete threads. <a href="repo/openswe/threads/runs.py">Stream modes</a>, lines 118–127; <a href="repo/openswe/threads/runs.py">steering</a>, lines 1240–1355; <a href="repo/openswe/threads/handlers.py">cancellation</a>, lines 281–336. Worker status/cancel is separately authorized. No organizational employee lifecycle and reassignment control surface exists.</td>
+</tr>
+<tr>
+<td><strong>F22</strong></td>
+<td>Testing, integrated verification and product acceptance/delivery</td>
+<td><strong>Similar</strong></td>
+<td>The coding prompt calls for focused tests/lint, push and PR delivery; optional goal mode requires CI plus up to three review rounds on the current head. <a href="repo/openswe/resources/prompts/system/task-execution.md">Execution</a>, lines 55–64; <a href="repo/openswe/resources/prompts/system/goal-mode.md">goal mode</a>, lines 21–35. Reviewer/scout and human-review machinery are substantial. This is PR readiness, not a separately assigned TestMaster validating integrated product scenarios against scope/definition of done and recording human product acceptance.</td>
+</tr>
+<tr>
+<td><strong>F23</strong></td>
+<td>Autonomous operation with human direction through organization</td>
+<td><strong>Similar</strong></td>
+<td>Autonomous coding, event/cron runs, worker wakeups, goal-mode continuation and concierge routing reduce the need for human polling. <a href="repo/mda/rt/loop.py">Loop guard</a>, lines 626–656; <a href="repo/openswe/resources/prompts/runs/slack-concierge.md">concierge</a>, lines 9–14; <a href="repo/openswe/jobs/worker.py">job worker</a>, lines 40–78, 92–123. There is no complete permanent organization executing discovery → product definition → leadership → specialists → acceptance. Human direction primarily controls individual threads and PR workflows.</td>
+</tr>
+<tr>
+<td><strong>F24</strong></td>
+<td>Chat/tracker/dashboards accommodate newly added profiles</td>
+<td><strong>Resembles</strong></td>
+<td>Generic threads, worker events, catalog-supplied prompts/tools and skills make new coding behaviors feasible. <a href="repo/openswe/agent_api/run_catalog.py">Catalog</a>, lines 208–240; <a href="repo/openswe/tasks/store.py">task schema</a>, lines 15, 146–179. But the UI and coordination schema expose fixed coordinator/worker relationships and known run kinds, not a first-class extensible profile/role/team model propagated across a directory, tracker, rooms and executive dashboards.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="assessment-agent-definition-and-lifecycle">Agent definition and lifecycle</h2>
+<h3 id="assessment-1-what-an-agent-is-and-how-it-is-configured">1. What an agent is, and how it is configured</h3>
+<p>There are several distinct concepts that should not be collapsed into one "agent":</p>
+<ul>
+<li>A <strong>graph definition</strong> is a reusable compiled model/tool/middleware shape. MDA shares it across runs and users. <code>agent</code>, <code>reviewer</code> and <code>review-scout</code> are run kinds played on it.</li>
+<li>A <strong>thread</strong> is the durable conversation and execution-state identity. It carries an owner/principal, source, workspace, optional project/repository, model settings and sandbox reference. The dashboard often calls these threads "agents".</li>
+<li>A <strong>run/invocation</strong> is one period of work on a thread, whether started by a person, automation, worker event or resumption.</li>
+<li>An <strong>async worker</strong> is a real MDA subagent thread registered as a member of a durable Robin task. Its assignment is a prompt plus persisted delegation data, not an independently provisioned employee profile.</li>
+<li>A <strong>task</strong> connects one coordinator thread and workers. It is not the entire product backlog. A <strong>sandbox</strong> is an execution environment, not agent identity. A background shell command or monitor is a process, not another coding agent.</li>
+</ul>
+<p>These distinctions follow <a href="repo/mda/agent.py">graph construction</a>, lines 1–30, 126–175, 306–333; <a href="repo/openswe/tasks/store.py">task model</a>, lines 27–35, 146–179; and <a href="repo/openswe/threads/runs.py">thread metadata construction</a>, lines 280–347.</p>
+<p>Configuration is layered by deployment/workspace/person/thread/request, then resolved into the run catalog. Actual tools and integration grants are computed from the current run's permissions and credentials. Workspace and repository instructions, personal instructions, memories, skills, source-specific rules, task role and run context are assembled into the model input. A worker normally inherits coordinator model/effort, while reviewer and scout use different catalogs and limits. <a href="repo/openswe/agent_api/run_catalog.py">RunCatalog</a>, lines 122–145, 174–240; <a href="repo/openswe/server.py">server</a>, lines 2155–2277; <a href="repo/mda/rt/kinds.py">kinds</a>, lines 72–97. Defining a new permanent organizational role still requires an additional domain model and lifecycle policy.</p>
+<h3 id="assessment-2-creation-identity-and-routing">2. Creation, identity and routing</h3>
+<p>An authenticated dashboard session creation resolves repository access and workspace defaults, generates a thread UUID and persists title/owner/visibility/model/repository metadata. With PostgreSQL configured it stamps transcript version <code>v2</code> and appends a <code>ThreadCreated</code> event. The API may then issue <code>run.start</code>. <a href="repo/openswe/threads/routes.py">Routes</a>, lines 105–141; <a href="repo/openswe/threads/runs.py">session creation</a>, lines 262–381, 444–481. ThreadRouter indexes new threads as MDA and creates the remote runtime thread. Thus a fresh human request normally creates or continues a session. It does not create ProductMaster and TechMaster agents as a project onboarding transaction.</p>
+<p>For delegation, the coordinator must own the relevant task context, have an attached sandbox, a usable connected execution machine where applicable and a configured completion webhook. Sandbox guests cannot create further siblings themselves. MDA parent metadata is checked before the backend accepts a worker. The stable tool-call ID is used as the launch identity. Reservation takes a PostgreSQL advisory transaction lock on the coordinator, ensures one task, creates coordinator/worker membership, and rejects replay attempts that reserved another worker for the same launch. Worker indexing then validates persisted ownership, workspace, task, sandbox host and access metadata. <a href="repo/openswe/tasks/service.py">Delegation authorization</a>, lines 491–590; <a href="repo/openswe/tasks/store.py">reservation</a>, lines 43–125. This is real identity and authorization work. It is much stronger than assigning a role name in a prompt.</p>
+<h3 id="assessment-3-execution-tools-and-permissions">3. Execution, tools and permissions</h3>
+<p>Before the run starts, the backend resolves the catalog and signs a token; MDA adopts that run-specific context. File/shell tools execute in the selected sandbox or through backend-served remote files/bridges. The same middleware checks apply when these tools are composed through code mode. Shell commands matching push/PR patterns go through backend guards; reads can validate images and load ancestor <code>AGENTS.md</code> instructions. <a href="repo/mda/rt/file_tools.py">File tools</a>, lines 1–15, 56–78, 83–126. This is not a universal authorization barrier for all possible shell/network mutations: the detected shell patterns and workflow approval policy have narrower coverage. Reviewer catalogs omit commit/push/PR-creation tools and use read-only review credentials, but review instructions alone do not make a general shell immutable (<a href="repo/openswe/reviewer.py">reviewer</a>, lines 1–15, 45–48).</p>
+<p>Human and machine identities are also differentiated from mere attribution. A wakeup/event/task-message run can be attributed to a person without acting as that person; only verified sender-triggered runs receive the acting-user field (<a href="repo/openswe/dispatch.py">dispatch preparation</a>, lines 387–418). Machine bridges authorize the run against their owner on every request and fail when disconnected, rather than silently replacing the workspace (<a href="repo/openswe/bridge/backend.py">bridge backend</a>, lines 113–123, 177 onward). Wingman could reuse this separation when implementing Telegram-delivered decisions, but cannot infer employee authority from a worker message.</p>
+<h3 id="assessment-4-concurrency-and-communication">4. Concurrency and communication</h3>
+<p>Launching an async worker returns its thread immediately. Coordinators remain able to respond to new human input and do other work, then end their turn when waiting so completion can wake them. All task threads share one mutable sandbox and separate conversations/checkpoints. There is no evidence of an enforced file-lock manager, per-worker worktree or merge protocol; coordinating ownership, branch changes, installs, formatting and tests is instructed behavior. <a href="repo/openswe/resources/prompts/tasks/role.md.jinja">Task guidance</a>, lines 29–41, 59–78.</p>
+<p>Workers can send a task message to the coordinator; coordinators select a particular owned worker. A worker specifying another worker is denied. Messages are recorded before delivery, with deterministic/deduplicated delivery IDs and structured task-event display metadata. Delivery takes an advisory lock, avoids waking a cancelled worker, defers when an enqueue recipient is busy, increments bounded attempts and starts a durable <code>agent</code> run when deliverable. <a href="repo/openswe/tasks/service.py">Task service</a>, lines 657–705; <a href="repo/openswe/tasks/messages.py">messages</a>, lines 42–105, 190–233. This is a durable task mailbox, not arbitrary rooms or direct sibling collaboration. A technical dependency is usually a message/instruction. The task schema has no general ticket dependency graph. PR merge dependencies exist separately in the delivery subsystem and do not fill that project-management gap.</p>
+<h3 id="assessment-5-persistence-resumption-and-scheduling">5. Persistence, resumption and scheduling</h3>
+<p>MDA checkpoints retain conversation/graph state; PostgreSQL retains the index, metadata, transcript events, task/delegation records, undelivered messages, artifacts, comments, skills, memories and job state. A task's worker can finish, later receive a follow-up in the same thread, and continue using its existing sandbox. Completed task messages are not an indefinite archival room: message recording/reading prunes delivered records under a retention policy, while pending messages remain owed (<a href="repo/openswe/tasks/messages.py">messages</a>, lines 56–105). Durable project knowledge must therefore not depend solely on transient delivery queues.</p>
+<p>Resumption may come from a human message, task result, event subscription, background command/monitor completion, one-shot wakeup or recurring/event automation. <a href="repo/openswe/tools/schedule_thread_wakeup.py">Wakeup tool</a>, lines 30–38, 127–148, 162–185, stores new wakeups in the job queue while retaining migration cleanup for old Agent Server crons. <a href="repo/openswe/schedules/store.py">Automation store</a>, lines 97–209, 479–511, 1026–1135, defines schedule/GitHub/Slack/Linear trigger types and launches a fresh automation run under its configured workspace and execution identity. Cron support is concrete but does not establish a default portfolio supervisor.</p>
+<p>The <a href="repo/openswe/jobs/worker.py">job worker</a>, lines 15–19, 40–78 and 92–133, claims due jobs on replicas. Each worker allows up to 20 jobs in flight and renews leases every ten seconds. It cancels work for cancelled jobs and retries raised failures. Shutdown allows a lease to lapse so another worker can resume a job. These are backend job semantics, not a guarantee of exactly-once external side effects or a benchmark for agent concurrency.</p>
+<h3 id="assessment-6-interruption-cancellation-and-steering">6. Interruption, cancellation and steering</h3>
+<p>Human thread controls can interrupt all currently live runs, including those triggered outside the browser. The cancellation path updates transcript turns and metadata, and can dispatch previously queued human follow-ups afterward. Thus "stop" does not necessarily mean discarding all queued direction (<a href="repo/openswe/threads/handlers.py">handlers</a>, lines 281–336). Steering and queued follow-ups are explicit mechanisms (<a href="repo/openswe/threads/runs.py">runs</a>, lines 1240–1355, 1406–1512), not edits to a shared prompt file.</p>
+<p>Worker cancellation is stronger and task-specific: it marks the delegation cancelled, forgets event subscriptions, interrupts live runs, deletes owed messages and cancels wakeups. When a person stops a coordinator task, still-active workers can be silenced so pending/later results do not restart the coordinator; completed workers are spared. <a href="repo/openswe/tasks/service.py">Worker cancellation</a>, lines 724–774; <a href="repo/openswe/tasks/activity.py">activity settlement</a>, lines 91–135, 157–164. A cancelled worker cannot simply be reused as if it were a paused employee; indexing requires a new worker for further work.</p>
+<h3 id="assessment-7-failure-retry-and-recovery">7. Failure, retry and recovery</h3>
+<p>Recovery is deliberately differentiated. <a href="repo/mda/rt/model_retries.py">Model retries</a>, lines 1–2, 31–32, 35–76, 116–123, 149 onward, retry transient provider failures at the model-call boundary and can supersede partially streamed visible output. They do not replay the full tool-using run. Synchronous subagent task retry is separate, limited to two retries for configured transient failures, and returns model-fixable request errors as structured failures (<a href="repo/mda/rt/task_retry.py">task retry</a>, lines 12–25, 65–98). That mechanism must not be misdescribed as automatic retry of every async worker assignment.</p>
+<p>An unreachable coding sandbox ends the run and reports the condition rather than silently creating an empty replacement. Transient rejected calls and command-level errors follow different paths. The tests explicitly exercise this distinction (<a href="repo/tests/sandbox/test_sandbox_recovery.py">sandbox recovery tests</a>, lines 16–87). Worker <code>error</code>, <code>timeout</code> and <code>interrupted</code> outcomes are delivered to their coordinator as well as success; if the final answer cannot be recovered, the handoff still reports that the worker finished. A run paused for a human is not reported as completed (<a href="repo/openswe/tasks/events.py">task events</a>, lines 18–49, 69–134).</p>
+<p>Stalled runs with no transcript activity for 90 minutes are failed through the completion path and cancelled. The subsystem explicitly declines automatic restart because repeated frozen runs had frozen again (<a href="repo/openswe/threads/stalls.py">stalls</a>, lines 1–7, 27–34, 75–130). Task activity separately treats starts/report handoffs older than five minutes as lost or no longer expected (<a href="repo/openswe/tasks/activity.py">activity</a>, lines 22–25, 43–88). That is bounded operational settlement, not semantic proof all work was delivered. It is useful for preventing a CLI from serving forever, but Wingman should preserve explicit unresolved-result states for project accountability.</p>
+<h3 id="assessment-8-completion-acceptance-and-retirement">8. Completion, acceptance and retirement</h3>
+<p>A successful worker invocation ends with a final answer automatically handed to the coordinator, truncated to about 16,000 characters. Execution status and goal satisfaction are intentionally separate: the coordinator must assess combined results against the request/acceptance criteria. The prompt says <code>task_status</code> reports execution, not goal satisfaction (<a href="repo/openswe/resources/prompts/tasks/role.md.jinja">task guidance</a>, lines 22, 62–64; <a href="repo/openswe/tasks/events.py">result extraction</a>, lines 18–49).</p>
+<p>The normal coding delivery contract is a pushed branch and opened/updated PR; thread resolution can be tied to PR merge/close. Goal mode adds instructions to wait for passing checks and review rounds at the current head before reporting <code>complete</code>. Its runtime guard merely re-enters the model until a successful work-state/wait call or bounded nudge exhaustion, while <code>report_work_state</code> returns/sends a blocked/complete message. <a href="repo/openswe/resources/prompts/system/commit-pr.md">Delivery prompt</a>, lines 3–39; <a href="repo/openswe/resources/prompts/system/goal-mode.md">goal prompt</a>, lines 9–35; <a href="repo/openswe/tools/report_work_state.py">tool</a>, lines 16–31; <a href="repo/mda/rt/loop.py">guard</a>, lines 626–656. There is no first-class human acceptance of a product against a durable product definition of done.</p>
+<p>Threads may be resolved/unresolved or deleted, workers cancelled and automations disabled/deleted. Thread deletion cancels the latest known run best-effort, removes runtime/index copies, then deletes the mirrored transcript (<a href="repo/openswe/threads/handlers.py">handlers</a>, lines 392–419; <a href="repo/openswe/threads/store.py">store</a>, lines 204–210). Desktop local files/worktrees have their own ownership records. No inspected path established comprehensive deletion of every cloud sandbox/resource as part of thread deletion; sandbox expiry/cleanup belongs partly to MDA. This is session/resource retirement, not archiving a standing employee and reassigning its unfinished tickets.</p>
+<h2 id="assessment-coordination-trace-a-dashboard-request-delegated-to-a-worker">Coordination trace: a dashboard request delegated to a worker</h2>
+<p>This is a <strong>source-traced possible execution</strong>, not a live run or a captured production request. Consider an authenticated user asking Robin to fix a substantial login defect and the model deciding to delegate investigation.</p>
+<ol>
+<li><strong>Intake and context.</strong> <code>POST /threads</code> calls <code>create_dashboard_session</code>, checks repository access, resolves the workspace and persists a UUID thread with immutable ownership/visibility. If <code>start</code> is true the route emits protocol <code>run.start</code> with the actual human message. <a href="repo/openswe/threads/routes.py">Routes</a>, lines 105–141; <a href="repo/openswe/threads/runs.py">runs</a>, lines 444–481, 280–381. This is explicit user/session/repository context, not product discovery or automatic project-team creation.</li>
+<li><strong>Runtime dispatch.</strong> Backend run-start enrichment resolves catalog/settings and signs a token. ThreadRouter routes the new run to MDA <code>open-swe</code>; MDA owns the loop and checkpoint. <a href="repo/openswe/agent_api/client.py">Run client</a>, lines 120–161; <a href="repo/openswe/threads/router.py">router</a>, lines 328–345, 390–446. User, source, workspace and tool grants remain bound to this execution.</li>
+<li><strong>Worker launch.</strong> The model calls <code>start_async_task</code> with assignment instructions. Runtime middleware performs authorized launch/registration and MDA creates <code>open-swe--general-purpose</code>. The backend checks the child's actual parent/subagent identity, reserves a task/delegation by stable tool-call ID, indexes worker ownership and shared sandbox, then exposes the child in the sidebar. <a href="repo/mda/rt/middleware.py">Middleware launch constants</a>, lines 120–130; <a href="repo/openswe/tasks/service.py">registration</a>, lines 554–590; <a href="repo/openswe/tasks/store.py">reservation</a>, lines 43–102. A duplicate launch registration maps back to the first worker instead of becoming a second logical assignee.</li>
+<li><strong>Question or dependency.</strong> If investigation finds an ambiguity, worker <code>message_task_thread</code> selects only its coordinator. The service records a structured event and durable TaskMessage before attempting to deliver. If the coordinator is busy, enqueue delivery defers; its inbox/run-completion processing can pick up owed messages. <a href="repo/openswe/tasks/service.py">Message service</a>, lines 657–705; <a href="repo/openswe/tasks/messages.py">mailbox</a>, lines 56–105, 190–233. No sibling room is involved. The coordinator can decide itself, message an affected worker, or ask the human in the current thread.</li>
+<li><strong>Human steering.</strong> The user may send clarification while work continues. Dashboard controls can steer the current thread or enqueue another turn. The task prompt explicitly says this does not automatically redirect workers: the coordinator must message/cancel the selected children. <a href="repo/openswe/threads/runs.py">Runs</a>, lines 1240–1355, 1406–1512; <a href="repo/openswe/resources/prompts/tasks/role.md.jinja">task guidance</a>, lines 59–64. This avoids pretending conversation steering is a global shared instruction update.</li>
+<li><strong>Result handoff.</strong> A terminal completion webhook finds worker membership, extracts the result from that invocation's payload/history, checks human pauses and cancellation, records <code>finished:&lt;worker&gt;:&lt;run&gt;</code> and wakes the coordinator through the same durable message path. The UI renders a worker result/event with a thread link. <a href="repo/openswe/tasks/events.py">Events</a>, lines 22–49, 69–134; <a href="repo/ui/src/features/agents/components/messages/TaskEventMessage.tsx">message UI</a>, lines 17–46. Failure also follows this path; task execution does not silently become success.</li>
+<li><strong>Integration and delivery.</strong> The coordinator integrates shared-checkout work, performs focused verification, pushes/opens or updates the PR, and replies to the requester. Goal mode can keep it working/waiting through CI and review. The coordinator, not worker status, judges whether the user request is complete. <a href="repo/openswe/resources/prompts/tasks/role.md.jinja">Task guidance</a>, lines 62–78; <a href="repo/openswe/resources/prompts/system/commit-pr.md">delivery</a>, lines 13–39. The trace ends at engineering delivery. A product acceptance/ticket-closing ceremony is not present.</li>
+</ol>
+<p>The strongest coordination property is <strong>durable handoff with authenticated identities and idempotent event keys</strong>. The principal structural limitation is the coordinator-centered topology: shared filesystem and worker/coordinator messages, rather than independently staffed product teams collaborating in durable rooms over a common ticket system.</p>
+<h2 id="assessment-major-capabilities-beyond-wingmans-stated-product">Major capabilities beyond Wingman's stated product</h2>
+<h3 id="assessment-pr-review-and-review-centered-delivery">PR review and review-centered delivery</h3>
+<p>Robin has a distinct reviewer catalog with deterministic repository/diff preparation, evolving findings, in-diff location validation and reconciliation with GitHub review threads (<a href="repo/openswe/reviewer.py">reviewer</a>, lines 1–15, 590 onward, 1036 onward). The review-scout kind gathers human-input context and finishes a review plan, with a separate 150-call limit and specific termination/end hooks (<a href="repo/mda/rt/kinds.py">kind rules</a>, lines 77–97). Human-review assignment, readiness and expedited approval are substantial subsystems under <a href="repo/openswe/human_review">human_review</a> and <a href="repo/openswe/expedited_review">expedited_review</a>. These extend beyond Wingman's functional TestMaster remit: engineering review is a first-class delivery product.</p>
+<p>For Wingman this is valuable as an independent review service and PR evidence surface. Integrating it would require mapping review outcomes to a project/ticket/acceptance record and keeping automated findings distinct from product acceptance and human merge authority. Review capabilities do not themselves establish domain correctness or security coverage for the generated product.</p>
+<h3 id="assessment-durable-ci-babysitting-and-merge-orchestration">Durable CI babysitting and merge orchestration</h3>
+<p>The opt-in babysitter persists watches per PR, periodically checks every ten minutes, tracks the current head and retry/delivery/alert keys, bounds retry counts and routes follow-up into the task coordinator (<a href="repo/openswe/baby_sit.py">baby_sit</a>, lines 44–53, 76–140). It is a practical post-implementation follow-through mechanism, not simply a notification of CI failure.</p>
+<p>The merge queue supports native observation or a custom runtime. It verifies the configured repository identity, branch and mode. It applies constrained GitHub permissions and checks a configured workflow digest in custom mode. It schedules reconciliation and validates dependency cycles (<a href="repo/openswe/merge_queue/controller.py">controller</a>, lines 24–73, 116–144; <a href="repo/openswe/merge_queue/store.py">queue store</a>, lines 813–818). This is delivery infrastructure Wingman does not describe explicitly. Adoption would require repository-specific policy/configuration and a clear ownership boundary. It should not be mistaken for general task dependency management.</p>
+<h3 id="assessment-remote-local-machine-execution-with-one-continuous-cloud-conversation">Remote local-machine execution with one continuous cloud conversation</h3>
+<p>The CLI can continue a cloud thread against the current local directory, and Electron prepares task folders or worktrees with a diff checkpoint and persistent bridge. Local bridge registrations can reopen with the same bridge ID after sleep/app restart (<a href="repo/cli/src/main.ts">CLI</a>, lines 32–51; <a href="repo/desktop/src/main.cts">desktop</a>, lines 824–854; <a href="repo/desktop/src/local-bridges.cts">local bridges</a>, lines 10–18, 49–85). This allows cloud coordination and machine-resident build tools without requiring inbound access to the machine.</p>
+<p>Wingman could reuse the protocol/ownership/liveness pattern for heterogeneous execution hosts. It would still need per-agent host placement and multi-host team state. The existing "local" path executes shell/file operations with local-machine authority. It does not supply cloud-sandbox isolation or local Codex sessions.</p>
+<h3 id="assessment-learned-reusable-guidance-and-a-workspace-memory-curator">Learned reusable guidance and a workspace memory curator</h3>
+<p>Beyond persistent conversation, Robin has personal/workspace memories with pending/held/adopted/superseded/declined states and versioned workspace prompts. A long-lived system curator thread wakes daily only for workspaces with undecided memories, queues behind an existing run and uses deterministic workspace identity (<a href="repo/openswe/memories/store.py">memory store</a>, lines 1–6, 26–39, 43–95; <a href="repo/openswe/memories/curator.py">curator</a>, lines 1–5, 26–29, 47–99). Curator-visible person keys are HMAC-derived, and private-thread evidence links are withheld from the public curator representation (<a href="repo/openswe/memories/store.py">memory models</a>, lines 66–79, 110–127).</p>
+<p>This is a concrete organizational-learning primitive. It could improve Wingman's reusable runbooks and instructions, but distilled guidance must be scoped to products/roles and reviewed for correctness; workspace memories are not authoritative product decisions, specifications or acceptance evidence. Memory is also an experimental preference in the UI map, so availability in a deployment should be checked rather than assumed.</p>
+<h3 id="assessment-event-driven-automations-and-fine-grained-integration-tools">Event-driven automations and fine-grained integration tools</h3>
+<p>Automations support time, GitHub, Slack and Linear triggers with configured filters and durable run history/configuration; tools can be loaded through instance/workspace/personal integrations. Catalog construction keeps large integration tool sets out of the model's initial schema list and resolves/discovers them as needed, while code mode composes allowed tools (<a href="repo/openswe/schedules/store.py">automation schemas</a>, lines 97–209; <a href="repo/openswe/agent_api/run_catalog.py">catalog</a>, lines 194–240). This is useful for recurring maintenance, reports, repository triage and bounded external workflows beyond Wingman's ordinary product journey. Integration would require mapping identities, authorization and trigger outcomes into Wingman's organization rather than letting every automation become an untracked project.</p>
+<h3 id="assessment-incident-investigation-and-evidence-records">Incident investigation and evidence records</h3>
+<p>Robin also contains an incident-oriented workflow with watching/needs-attention/paused/completed states, policy/channel bindings, persisted reports and responder commands. An <code>IncidentSession</code> checks that the incident and policy still permit the run, collects evidence from human inputs/tool results, records failed-tool evidence gaps and exposes report/search/read tools (<a href="repo/openswe/incidents/runtime.py">incident runtime</a>, lines 50–156; <a href="repo/openswe/incidents/service.py">incident service</a>, lines 37–58, 122–132). Evidence records use content-derived IDs, source locations, bounded observations and redaction, explicitly retaining gaps when content was bounded (<a href="repo/openswe/incidents/evidence_tools.py">evidence collector</a>, lines 27–74). This is operational investigation beyond Wingman's product-development and functional-test remit. It could provide a later operations specialist and evidence model, but it is not project leadership or a substitute for a product tracker; production monitoring integrations, authority and escalation policy would need separate mapping.</p>
+<h3 id="assessment-delivery-and-usage-analytics">Delivery and usage analytics</h3>
+<p>The dashboard exposes authenticated usage leaderboards and PR merge-rate analysis by model, in addition to per-thread cost and trace links (<a href="repo/openswe/analytics/routes.py">analytics routes</a>, lines 42–87; <a href="repo/openswe/threads/summary.py">thread summary</a>, lines 588–594). This can help Wingman evaluate model cost and engineering outcomes across its delivery engine. Such measurements need project/agent attribution and careful interpretation: a merge-rate metric does not establish user acceptance, product quality or the effectiveness of a standing specialist.</p>
+<h2 id="assessment-distinctive-mechanisms-and-grounded-innovation">Distinctive mechanisms and grounded innovation</h2>
+<p>These are distinctive implementation choices in this checkout, not claims of historical invention or industry uniqueness.</p>
+<p><strong>One graph with a signed run catalog.</strong> Robin separates graph shape from run-specific models/tools/skills/grants/sandbox/loop rules, resolving credentials once in the backend and having MDA execute the loop with named typed callbacks. Shared graph caching therefore avoids recompiling an employee-like object for every task while preserving per-run context. This is useful for scaling a credentialed control plane across replicas. Its limit is equally concrete: this checkout depends on the MDA runtime/API contract, so a Wingman implementation centered on independently controlled Codex agents needs an adapter or runtime replacement, not just prompt customization. <a href="repo/mda/agent.py">Graph</a>, lines 1–30, 126–175, 306–333; <a href="repo/openswe/agent_api/client.py">run client</a>, lines 120–161.</p>
+<p><strong>Async subagents adopted into a durable task model.</strong> MDA launches the child. Robin verifies its actual parent and reserves one logical delegation per tool-call identity. It indexes the child as an inspectable thread. Its own mailbox returns results without duplicate parent wakeups. It combines real concurrency with auditability and recovery. The boundaries are a single coordinator, one shared sandbox, no nested worker delegation and a bounded final-report size. <a href="repo/openswe/tasks/service.py">Registration</a>, lines 554–590; <a href="repo/openswe/tasks/store.py">reservation</a>, lines 43–102; <a href="repo/mda/agent.py">worker graph</a>, lines 306–333.</p>
+<p><strong>Result delivery refers to the completed invocation, not whatever state is newest.</strong> Worker-result extraction first uses the completed payload, then invocation/run-filtered history. Deterministic <code>finished</code> delivery IDs, persisted messages and locked delivery prevent a completion callback from spuriously reading a later run or creating unbounded duplicate logical results. Cancelled/silenced workers and human-paused runs have distinct handling. This matters directly to trustworthy inter-agent coordination. It is not a general exactly-once guarantee for arbitrary model/tool side effects. <a href="repo/openswe/tasks/events.py">Events</a>, lines 22–49, 69–134; <a href="repo/openswe/tasks/messages.py">mailbox</a>, lines 56–105, 190–233.</p>
+<p><strong>Goal mode distinguishes saying "done" from reporting work state, but keeps its epistemic limit visible.</strong> The middleware inspects successful tool outcomes and loops back when the agent neither reports blocked/complete nor starts a valid wait. Reply guards can also prevent Slack silence by requesting a real reply and eventually posting available assistant text on the model's behalf. This improves persistence and delivery reliability. It remains bounded nudging and a model-reported outcome, not an external verifier of CI, acceptance criteria or product quality. <a href="repo/mda/rt/loop.py">Loop</a>, lines 626–710; <a href="repo/openswe/tools/report_work_state.py">work-state tool</a>, lines 16–31.</p>
+<p><strong>Bridge queues and fail-preserving sandbox recovery.</strong> PostgreSQL request state, heartbeat expiry and liveness re-reads let cloud runs use a remote local filesystem across replicas without relying on one backend process's memory. Failure preserves the identity of the original environment instead of quietly replacing it and losing uncommitted state. This is a strong pattern for Wingman host adapters. It still needs host selection, artifact synchronization and distributed task ownership. <a href="repo/openswe/bridge/store.py">Bridge store</a>, lines 1–19; <a href="repo/openswe/bridge/backend.py">bridge backend</a>, lines 1–12, 113–123; <a href="repo/tests/sandbox/test_sandbox_recovery.py">recovery tests</a>, lines 16–87.</p>
+<h2 id="assessment-practical-fit-for-wingman">Practical fit for Wingman</h2>
+<p><strong>Use directly as a bounded engineering service:</strong> send sufficiently defined repository work to Robin, let its coordinator/workers implement it, and consume PRs, reviews, plan artifacts and CI outcomes as deliverables. Its dashboard is useful for inspecting coding activity, its worker task model is real, and the durable mailbox/job/bridge patterns are practical references. This is the shortest route to useful value while keeping Wingman's product definitions and portfolio records outside Robin.</p>
+<p><strong>Adapt for the desired organization:</strong> add a Telegram Butler adapter with explicit mapping among human conversation, product, project leadership and task threads. Introduce stable agent/profile/team records separately from the current thread identity. Represent a BackendCoder or ProductMaster as a durable principal with explicit responsibilities and authorization, then bind its successive sessions/runs to that principal. Add project scopes/specifications/harness records and associate Robin plans/PRs with them; connect review/CI evidence to Wingman tickets and TestMaster's acceptance scenarios. Replace or extend the coordinator-star communication topology where ProductMaster, TechMaster and specialists need direct room participation.</p>
+<p>Build missing product/organization surfaces:</p>
+<ul>
+<li>A portfolio registry with semantic intake/new-vs-existing routing.</li>
+<li>Distinct per-project product and technical leadership.</li>
+<li>Proportionate domain discovery and stored question/answer cycles.</li>
+<li>Technical tickets with acceptance/dependencies/assignment/progress.</li>
+<li>Room1/Room2 with persisted participants/history.</li>
+<li>Active cross-project supervision.</li>
+<li>Executive current/recent/next/blocker summaries.</li>
+<li>Employee timelines linked to the underlying conversations/tasks/workspaces. Project folders, a status sidebar and raw transcripts are useful inputs, not these finished surfaces.</li>
+</ul>
+<p><strong>Resolve execution-model fit before adopting the whole platform.</strong> Wingman is explicitly a persistent organization of real Codex agents. Robin's graph/tool/permission contract is MDA/Deep Agents, and its model configuration does not create native Codex conversation identities. Using Robin as an external engine is straightforward conceptually; replacing its runtime with Codex sessions while retaining catalogs, typed calls, task lifecycle, transcript streaming, bridge semantics and completion webhooks is a substantial integration project. The code has Python/TypeScript packages, PostgreSQL, MDA, sandbox and external identity/integration requirements. This was not deployed or costed. The checkout's README describes active breaking development and MDA dependence (<a href="repo/README.md">README</a>, lines 27–40). No claim of production readiness follows from the breadth of its source tree.</p>
+<p><strong>Material code-reuse boundary:</strong> the root README states that MIT covers Robin's own code and excludes everything under <code>vendor/</code> (<a href="repo/README.md">README</a>, lines 89–94). The <a href="repo/vendor/README.md">vendor notice</a>, lines 3–8 and 18–20, says that inclusion grants no license to that code and that rights depend on its respective owner's terms. These are active runtime dependencies, not incidental unused copies: <a href="repo/mda/pyproject.toml">MDA package sources</a>, lines 36–43, resolve <code>managed-deepagents</code> and <code>langchain-quickjs</code> to editable paths inside <code>vendor/</code>. The vendor notice also says MDA build/deploy bundles the vendored runtime/code mode. Consequently, MIT status for Robin alone does not establish permission to redistribute or reuse its complete bundled runtime. This assessment establishes that declared boundary. It does not determine the separate owners' granted rights. Adopting the engine as checked out requires resolving those dependency terms or replacing the dependencies.</p>
+<h2 id="assessment-verification-scope-and-limits">Verification scope and limits</h2>
+<p><strong>Read and traced:</strong></p>
+<ul>
+<li>root and applicable tools/middleware/sandbox/UI <code>AGENTS.md</code>.</li>
+<li><code>langgraph.json</code>.</li>
+<li><code>mda/agent.py</code>.</li>
+<li>MDA loop/kinds/catalog/intake/file-tools/retry/instruction-loading code.</li>
+<li>backend runtime client/catalog.</li>
+<li>thread creation/router/store/summary/runs/handlers/plan APIs.</li>
+<li>task store/service/messages/events/activity.</li>
+<li>project store and workspace routing.</li>
+<li>Slack DM preference/routing and thread-start dispatch.</li>
+<li>wakeups/automations/job worker.</li>
+<li>bridge backend/store and desktop/CLI bridge preparation.</li>
+<li>review preparation, CI babysitting, merge controller, memory-curator, incident-session/evidence and analytics-route mechanisms.</li>
+<li>root/vendor licensing notices and MDA's vendored package sources.</li>
+</ul>
+<p>Implementation links and line references above refer to the inspected commit, not upstream latest.</p>
+<p><strong>Relevant tests read (not run):</strong></p>
+<ul>
+<li><a href="repo/tests/test_task_threads.py">Task-thread tests</a>, lines 36–124, 563–637, 883–1010: model inheritance, first-launch/replay concurrency, cancellation, async worker registration and registration races.</li>
+<li><a href="repo/tests/test_task_events.py">Task-event tests</a>, lines 37–78, 109–164, 168–226, 249–305: cancellation-vs-delivery, result extraction by invocation, failure handoff, untrusted worker text, human-pause and duplicate-completion cases.</li>
+<li><a href="repo/tests/sandbox/test_sandbox_recovery.py">Sandbox recovery tests</a>, lines 16–105: unreachable, transient and ordinary command errors have different recovery semantics.</li>
+<li><a href="repo/mda/tests/test_loop.py">Runtime loop tests</a>, lines 437–524: reply obligations and goal-mode state/wait nudging; <a href="repo/mda/tests/test_shared_graph.py">shared-graph tests</a>, lines 78–148, provide fake-model/catalog scaffolding for runtime behavior. These are source evidence, not results from this assessment.</li>
+<li><a href="repo/tests/threads/test_thread_router.py">Thread-router tests</a>, lines 276–368, 519–587, cover MDA routing/new-thread and channel-run behavior; <a href="repo/tests/agent/test_agent_schedules.py">schedule tests</a>, lines 213–249 and 301–342, cover queue-based registration/access and per-trigger repository selection. Only relevant sections were inspected, not every test in these large files.</li>
+</ul>
+<p><strong>Negative-feature search scope:</strong> searched <code>openswe</code>, <code>mda</code>, UI routes/features, task/project/workspace models, tools and system/task prompts for Telegram, named product/technical/specialist leaders, agent-profile/team models, acceptance scenarios/definition of done, room collaboration and task dependencies; excluded migration boilerplate/generated bundles when interpreting matches. Read actual project/task schemas, graph/run-kind definitions, thread summary payload and sidebar worker presentation to distinguish related primitives from missing capabilities. Searches found no implementation of Wingman's standing role hierarchy, Telegram channel, product discovery/acceptance model or employee executive timeline. Absence verdicts are scoped to the checked-out code; custom external MCP services or private deployment behavior could add functions not established here.</p>
+<p><strong>Not verified at runtime:</strong></p>
+<ul>
+<li>installation/startup.</li>
+<li>MDA hosting/scheduling/checkpoint retention.</li>
+<li>real provider behavior.</li>
+<li>sandbox recovery against an actual provider.</li>
+<li>GitHub/Slack/Linear authorization.</li>
+<li>desktop IPC.</li>
+<li>browser streaming.</li>
+<li>cross-machine bridge operation.</li>
+<li>test-suite pass status.</li>
+<li>throughput.</li>
+<li>operational costs or long-running autonomous product quality.</li>
+</ul>
+<p>No dependencies were installed, services launched, source files changed or integrations invoked. Runtime ownership lies partly in external MDA and providers, so local source establishes the adapter contract and intended mechanisms but does not establish every hosted behavior.</p></article>
+<section id="source-record"><h2>Source and evidence</h2><p class="url-text">https://github.com/langchain-ai/open-swe</p>
+<ul><li><a href="repo/">Open the pinned source checkout</a></li><li><a href="assessment/ASSESSMENT.md">Read the Markdown assessment</a></li>
+<li><a href="../generic/assessments/_audits/qa14.md">Read the historical independent source audit</a></li><li><a href="../generic/method.html">Read the method and evidence limits</a></li></ul></section>
+<nav class="report-switch" aria-label="Adjacent project reports"><a href="../open-multi-agent/index.html">Previous project: Open Multi Agent</a><a href="../openclaw/index.html">Next project: OpenClaw</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../index.html">Return to overview <img src="../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

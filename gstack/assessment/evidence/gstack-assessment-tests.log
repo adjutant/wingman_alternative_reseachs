@@ -1,0 +1,279 @@
+bun test v1.4.4 (38afee6c8)
+
+test/captain-brief.test.ts:
+(pass) heading parser > skips fenced code, ends a section at the same or a higher level, folds arrows [3.18ms]
+(pass) renderCaptainBrief > five parts in order, header first, one lettered ask line per choice with the recommendation as option 1, ids only on the agent line [10.38ms]
+(pass) renderCaptainBrief > a plan missing a section is not ready for approval and invites no reply [1.59ms]
+(pass) renderCaptainBrief > "do it", the advertised closing reply, parses as rec [0.69ms]
+(pass) renderCaptainBrief > an answered gate says nothing is pending; urgent findings come first [2.64ms]
+(pass) renderCaptainBrief > long sections are capped with a pointer to the plan [0.99ms]
+(pass) gstack-owner-brief render --captain > exit 0 when complete; exit 1 with CAPTAIN_BRIEF_INCOMPLETE unless --allow-incomplete [88.41ms]
+(pass) gstack-owner-brief render --captain > the Capy relay line appears only under GSTACK_CAPY=1 [0.05ms]
+(pass) carried decisions at a cap gate (#3546) > the Captain brief resolves rec to the carried choices, as gstack-gate render does, with the same choice labels [42.80ms]
+(pass) carried decisions at a cap gate (#3546) > an answer already given at this gate is what rec keeps, as gstack-autoplan answer --reply rec records it [366.64ms]
+(pass) carried decisions at a cap gate (#3546) > negative control: without carried decisions (gate items and their decision rows) both resolve rec to the recommendations [85.88ms]
+
+test/ship-queue-train-verify.test.ts:
+(pass) verify, freeze, repair and clear > verify accepts each merge only at prefix equality modulo stamps; an interrupted publication freezes the queue until one repair train lands [26152.78ms]
+(pass) verify, freeze, repair and clear > rule 22: verify --train binds the receipt to the pinned head when the current head is its stamp commit; a receipt for another head refuses the slot and merges nothing [18357.17ms]
+(pass) verify, freeze, repair and clear > from slot 2 on, a head that merges main into the pin verifies when its tree is the slot's prefix modulo stamps [10322.45ms]
+(pass) verify, freeze, repair and clear > GSTA-67 (#3345 at 593e61c): a merged-in head whose CHANGELOG was resolved by hand verifies even where T<i>'s mechanical CHANGELOG differs; an invented line or a head without main is still refused [10645.87ms]
+(pass) verify, freeze, repair and clear > train 24 (GSTA-96): a stacked child's head the pre-merge verify accepted confirms after its squash merge under the same CHANGELOG rule, corrections to the released parent included [12770.25ms]
+(pass) verify --train proves the slot stamp and a GitHub merge (#3531) > #3527: an unstamped slot head (the bare pin, or a no-commit base merge committed without the restamp it wrote) refuses QUEUE_TRAIN_UNSTAMPED naming both versions; the stamped head passes with STAMP_VERSION from the head [17537.64ms]
+(pass) verify --train proves the slot stamp and a GitHub merge (#3531) > the CHANGELOG rule is named: a head whose VERSION moved but whose entry is still [Unreleased] refuses [4995.46ms]
+(pass) verify --train proves the slot stamp and a GitHub merge (#3531) > claim-at-open: a pin that carries its own stamp verifies at head == pin [3955.09ms]
+(pass) verify --train proves the slot stamp and a GitHub merge (#3531) > #3530: an open release-only PR whose stamp-only diff makes main equal its prefix modulo stamps is not reported merged; it takes the pre-merge path [3799.59ms]
+(pass) verify --train proves the slot stamp and a GitHub merge (#3531) > no false freeze: main at the next prefix while GitHub reports the PR OPEN, or cannot be read, refuses QUEUE_PROOF_MISSING and never freezes; MERGED confirms [10778.06ms]
+
+test/office-hours-review.test.ts:
+(pass) office-hours canonical review schema > all five dimensions are explicit; PASS depends on findings, not a perfect score [0.07ms]
+(pass) office-hours canonical review schema > rejects version 1 [0.12ms]
+(pass) office-hours canonical review schema > rejects missing severity [0.02ms]
+(pass) office-hours canonical review schema > rejects unknown severity [0.01ms]
+(pass) office-hours canonical review schema > rejects unexpected fields [0.02ms]
+(pass) office-hours canonical review schema > rejects missing dimension [0.01ms]
+(pass) office-hours canonical review schema > rejects false dimension pass [0.01ms]
+(pass) office-hours canonical review schema > rejects empty dimension issues [0.01ms]
+(pass) office-hours canonical review schema > rejects unknown dimension [0.01ms]
+(pass) office-hours canonical review schema > rejects wrong round id [0.01ms]
+(pass) office-hours canonical review schema > rejects duplicate id [0.02ms]
+(pass) office-hours canonical review schema > rejects blank problem [0.01ms]
+(pass) office-hours canonical review schema > rejects missing remedy [0.01ms]
+(pass) office-hours canonical review schema > rejects blank document [0.01ms]
+(pass) office-hours canonical review schema > rejects relative document [0.03ms]
+(pass) office-hours canonical review schema > rejects invalid score [0.02ms]
+(pass) office-hours canonical review schema > rejects string score
+(pass) office-hours canonical review schema > rejects missing first round
+(pass) office-hours canonical review schema > rejects fabricated prior [0.02ms]
+(pass) office-hours canonical review schema > rejects omitted prior finding [0.05ms]
+(pass) office-hours canonical review schema > rejects duplicate prior reference [0.03ms]
+(pass) office-hours canonical review schema > rejects unknown prior reference [0.03ms]
+(pass) office-hours canonical review schema > rejects missing persistence reference [0.03ms]
+(pass) office-hours canonical review schema > rejects orphaned unverified finding [0.04ms]
+(pass) office-hours canonical review schema > rejects unknown current finding [0.03ms]
+(pass) office-hours canonical review schema > rejects resolved with current reference [0.04ms]
+(pass) office-hours canonical review schema > rejects blank resolution evidence [0.03ms]
+(pass) office-hours canonical review schema > rejects different document [0.02ms]
+(pass) office-hours canonical review schema > rejects merged unresolved prior obligations [0.02ms]
+(pass) office-hours canonical review schema > rejects persisting blocking finding downgraded to minor [0.05ms]
+(pass) office-hours canonical review schema > rejects unverified blocking finding downgraded to minor [0.03ms]
+(pass) office-hours prepared reviewer input > preserves the entire preceding verdict, including detailed remedies and prior-status evidence [0.51ms]
+(pass) office-hours prepared reviewer input > first review has explicit absent prior evidence; terminal outcomes cannot prepare another review [0.11ms]
+(pass) office-hours severity-based convergence > minor findings alone PASS and are recorded, never fixed by another round [0.08ms]
+(pass) office-hours severity-based convergence > blocking findings CONTINUE until round 3 even beside minor ones [0.05ms]
+(pass) office-hours severity-based convergence > a persisting blocking prior converges; a persisting minor prior does not [0.07ms]
+(pass) office-hours severity-based convergence > the reviewer prompt defines both severities with an example of each [0.07ms]
+(pass) office-hours severity-based convergence > a seal error is corrected by rewriting the whole verdict, never by Edit (ohsl flaky ledger 2026-10-19) [0.03ms]
+(pass) office-hours delta re-review > the helper captures an exact line diff with hunk context [0.16ms]
+(pass) office-hours delta re-review > a new later-round blocking finding must cite text inside the captured changes [0.16ms]
+(pass) office-hours delta re-review > a persisting prior keeps its finding without a citation, and later rounds with only minor findings PASS [0.06ms]
+212 |       expect(fs.readFileSync(path.join(outDir, 'round-1.design.md'), 'utf8')).toBe(fs.readFileSync(design, 'utf8'));
+213 |       const round1 = { ...review(1, 1), document: fs.realpathSync(design) };
+214 |       fs.appendFileSync(design, 'Rosters are now saved nightly to disk.\n');
+215 |       expect(String(run('prepare', '--design', design, '--out-dir', outDir).stderr)).toContain('design changed after round 1 was prepared');
+216 |       fs.writeFileSync(first.verdictPath, JSON.stringify(round1));
+217 |       const second = JSON.parse(String(run('prepare', '--design', design, '--out-dir', outDir, first.verdictPath).stdout));
+                                ^
+SyntaxError: JSON Parse error: Unexpected EOF
+      at <anonymous> (/Users/stk/tmp/gstack/test/office-hours-review.test.ts:217:27)
+(fail) office-hours delta re-review > prepare, seal and check enforce citations against the snapshots prepare captured [42.98ms]
+(pass) office-hours caller round limit > --max-rounds lowers the cap; reaching it stops at MAX_ITERATIONS with the usual dispositions [0.31ms]
+261 |       fs.mkdirSync(outDir);
+262 |       const first = JSON.parse(String(run('prepare', '--max-rounds', '2', '--design', design, '--out-dir', outDir).stdout));
+263 |       expect(first.dispatch).toContain("seal --max-rounds 2 --design '");
+264 |       fs.writeFileSync(first.verdictPath, JSON.stringify({ ...review(1, 1), document: fs.realpathSync(design) }));
+265 |       fs.appendFileSync(design, 'Rosters are now saved nightly to disk.\n');
+266 |       const second = JSON.parse(String(run('prepare', '--max-rounds', '2', '--design', design, '--out-dir', outDir, first.verdictPath).stdout));
+                                ^
+SyntaxError: JSON Parse error: Unexpected EOF
+      at <anonymous> (/Users/stk/tmp/gstack/test/office-hours-review.test.ts:266:27)
+(fail) office-hours caller round limit > the helper applies the same limit to prepare, seal, check and finalize [28.68ms]
+(pass) office-hours lifecycle and deterministic preservation > convergence precedes further editing even when another finding is new [0.23ms]
+(pass) office-hours lifecycle and deterministic preservation > unverified stays unresolved without triggering convergence; round 3 still stops [0.11ms]
+(pass) office-hours lifecycle and deterministic preservation > explicit resolutions allow a clean later PASS [0.06ms]
+(pass) office-hours lifecycle and deterministic preservation > refuses premature finalization or silent zero-review completion [0.05ms]
+(pass) office-hours lifecycle and deterministic preservation > an explicit failed attempt retains known earlier findings with honest unknown status [0.09ms]
+(pass) office-hours lifecycle and deterministic preservation > problem and remedy content cannot create competing headings or owned markers [0.37ms]
+(pass) office-hours owned Markdown sections > replaces the placeholder and preserves coaching, approval, and handoff; rerunning is stable [0.21ms]
+(pass) office-hours owned Markdown sections > headings inside fenced examples do not replace actual content [0.06ms]
+(pass) office-hours owned Markdown sections > owned markers inside a fenced example stay an example, with a visible report appended [0.06ms]
+(pass) office-hours owned Markdown sections > rejects open fences and owned markers enclosing another section [0.08ms]
+(pass) office-hours owned Markdown sections > preserves the closing boundary **Handoff**
+Not now. [0.08ms]
+(pass) office-hours owned Markdown sections > preserves the closing boundary **Assignment:** Observe Lee. [0.04ms]
+(pass) office-hours owned Markdown sections > preserves the closing boundary **Assignment**: Observe Lee. [0.04ms]
+(pass) office-hours owned Markdown sections > preserves the closing boundary **What I noticed about how you think**
+You checked the evidence. [0.03ms]
+(pass) office-hours owned Markdown sections > preserves the supported combined closing Handoff — the relationship closing [0.10ms]
+(pass) office-hours owned Markdown sections > preserves the supported combined closing Handoff - the relationship closing [0.07ms]
+(pass) office-hours owned Markdown sections > keeps non-closing or quoted emphasis inside the review: **Handoff — an unresolved review question** [0.03ms]
+(pass) office-hours owned Markdown sections > keeps non-closing or quoted emphasis inside the review: **Handoff-ish — the relationship closing** [0.02ms]
+(pass) office-hours owned Markdown sections > keeps non-closing or quoted emphasis inside the review: > **Handoff — the relationship closing** [0.02ms]
+(pass) office-hours owned Markdown sections > keeps non-closing or quoted emphasis inside the review: ```markdown
+**Handoff — the relationship closing**
+``` [0.03ms]
+(pass) office-hours owned Markdown sections > rejects ambiguous or partial managed output [0.01ms]
+(pass) office-hours owned Markdown sections > rejects ambiguous or partial managed output
+(pass) office-hours owned Markdown sections > rejects ambiguous or partial managed output [0.01ms]
+(pass) office-hours owned Markdown sections > rejects duplicate legacy report sections [0.06ms]
+462 |     const before = fs.readFileSync(data.design, 'utf8');
+463 |     const first = invoke('prepare', '--design', data.design, '--out-dir', outDir);
+464 |     expect(first.exitCode, first.stderr.toString()).toBe(0);
+465 |     const prepared = JSON.parse(first.stdout.toString());
+466 |     expect(prepared.round).toBe(1);
+467 |     expect(prepared.verdictPath).toBe(path.join(outDir, 'round-1.json'));
+                                       ^
+error: expect(received).toBe(expected)
+
+Expected: "/tmp/office-review-uKITHN/reviews/round-1.json"
+Received: "/private/tmp/office-review-uKITHN/reviews/round-1.json"
+
+      at <anonymous> (/Users/stk/tmp/gstack/test/office-hours-review.test.ts:467:34)
+      at fixture (/Users/stk/tmp/gstack/test/office-hours-review.test.ts:442:7)
+(fail) office-hours review CLI > prepare assigns rounds and writes the complete canonical prompt without rewriting input evidence [16.18ms]
+(pass) office-hours review CLI > seal validates the saved verdict and prints the receipt that check requires [490.87ms]
+(pass) office-hours review CLI > prepare refuses stale output, malformed or terminal history, and incomplete ordered history [69.81ms]
+(pass) office-hours review CLI > prepare refuses missing destinations and overlap with the design or saved verdict [68.27ms]
+(pass) office-hours review CLI > check is read-only; finalize renders both authoritative files from the same inventory [46.26ms]
+(pass) office-hours review CLI > at the cap, --fixes verifies listed fixes deterministically (issues verified: k of N) and never launches a reviewer; PASS refuses it [60.62ms]
+(pass) office-hours review CLI > invalid artifact cannot be ignored by --unreviewed and no destination changes [14.97ms]
+(pass) office-hours review CLI > wrong document, malformed report markers, and missing artifacts fail before publication [55.76ms]
+(pass) office-hours review CLI > explicit unavailable review can finalize without pretending a review ran [15.39ms]
+(pass) office-hours review CLI > finalization cannot overwrite its input evidence, including a symlink alias [28.90ms]
+(pass) office-hours formatter fixture copy > the copied formatter loads every local module it imports (marathon 39032308051) [16.06ms]
+
+test/autoplan-checkpoint.test.ts:
+71 |     const second = path.join(c.dir, 'second', 'run');
+72 |     expect(autoplan(['resume', '--out', second, '--from', c.collection]).status).toBe(0);
+73 |     const state = readRun(second);
+74 |     expect(state.plan_input).toBe(path.join(second, 'plan-input', 'plan.md'));
+75 |     expect(state.plan_source.startsWith(second + path.sep)).toBe(true);
+76 |     expect(state.active_plan).toBe(path.join(second, 'plan-active.md'));
+                                   ^
+error: expect(received).toBe(expected)
+
+Expected: "/tmp/autoplan-checkpoint-PSsmws/roundtrip/second/run/plan-active.md"
+Received: "/private/tmp/autoplan-checkpoint-PSsmws/roundtrip/run/plan-active.md"
+
+      at <anonymous> (/Users/stk/tmp/gstack/test/autoplan-checkpoint.test.ts:76:31)
+(fail) checkpoint and restore > write at gate_pending, delete the run and the plan file, restore twice, answer, revise and export: validate passes [863.38ms]
+(pass) checkpoint and restore > `checkpoints` lists every generation; a corrupt newest is skipped for the newest valid; an interrupted publish keeps the previous current [1008.22ms]
+(pass) checkpoint and restore > a stale copy never replaces a newer generation [1163.21ms]
+131 |     const root = path.join(c.dir, 'root');
+132 |     fs.mkdirSync(root);
+133 |     const live = path.join(root, c.run);
+134 |     fs.renameSync(c.out, live);
+135 |     const same = autoplan(['export', '--out', live], { env: env({ GSTACK_AUTOPLAN_CHECKPOINT_DIR: root }) });
+136 |     expect(same.status, same.stderr).toBe(0);
+                                           ^
+error: gstack-autoplan export: ENOENT: no such file or directory, open '/private/tmp/autoplan-checkpoint-PSsmws/overlap/run/plan-active.md'
+
+
+Expected: 0
+Received: 1
+
+      at <anonymous> (/Users/stk/tmp/gstack/test/autoplan-checkpoint.test.ts:136:38)
+(fail) checkpoint and restore > a checkpoint directory that is, contains or aliases the live run is refused before anything moves; the command still succeeds [860.62ms]
+(pass) checkpoint and restore > tampered, escaping, symlink-escaping and non-validating checkpoints and a non-empty target are refused and write nothing [891.53ms]
+
+test/autoplan-gate-artifacts.test.ts:
+(pass) B3: empty findings fence > LF, CRLF and whitespace-only empty fences parse as zero findings in both grammars [0.40ms]
+(pass) B3: empty findings fence > an opener without a closer is no fence; an invalid row is refused; two fences still parse [0.09ms]
+(pass) B7: repo-relative paths and plan lines > absolute repo paths become relative; snapshot and active-plan citations map to the plan source line or drop the line [0.83ms]
+(pass) B7: repo-relative paths and plan lines > end to end: a reviewer citing the snapshot and an absolute repo path binds repo-relative rows; the bound copy stays verbatim [345.71ms]
+(pass) B8/B11: pending attempts in status; outside voice labeled host-subagent > status prints PENDING per open attempt; an outside submit without --runner reads model (host-subagent) [520.12ms]
+(pass) B9: every gate page reaches the owner > 14 findings span three pages; --all prints every id once and paged output says to relay every page [29.41ms]
+(pass) B6: PLAN_REALITY flag beside the approval item > the plan names a minimum effect with no number: gate.json p1 carries the flag and the render prints it; nothing blocks [765.26ms]
+
+test/autoplan-run-recovery.test.ts:
+(pass) next/submit loop > next prepares both voices with one attempt each and ends awaiting_result; a second next re-prints the open attempts without new ids [246.23ms]
+(pass) next/submit loop > submit refuses a wrong receipt, a missing fence, a same-family outside model, a stale attempt, and writes nothing on refusal [893.34ms]
+(pass) next/submit loop > a phase closes when both voices are bound: consensus from canonical ids, Eng prompt carries the prior consensus, the gate ends gate_pending and validates [1350.41ms]
+(pass) recovery > killed after dispatch intent, before any result: resume marks EXECUTION_UNKNOWN, keeps the reservation, never redispatches on its own, and a late submit still binds [458.79ms]
+(pass) recovery > killed after the journal recorded the submit but before run.json: resume rebinds from the journal with no second charge [285.68ms]
+(pass) recovery > killed after sealing, before the journal: nothing is bound, resume reports the attempt unknown, and the same submit then binds once [371.19ms]
+(pass) recovery > the bound result is a sealed attempt-owned copy: a late write to the reviewer file changes nothing bound, and another attempt's file is refused [1040.50ms]
+(pass) recovery > a runner process killed mid-command leaves no lock behind that a later command cannot reclaim; a live owner is never stolen [330.96ms]
+(pass) recovery > the spend cap refuses a dispatch that would cross it, with nothing journaled [563.45ms]
+(pass) the wave plan through the loop > docs/designs/MULTI_AGENT_WAVE_2026_10_10.md runs ceo → dx → eng with the fixture reviewer and validates [1257.59ms]
+
+test/ship-queue-land-lock.test.ts:
+(pass) the lock module > two writers racing the same lock sha leave one winner [741.32ms]
+(pass) the lock module > absent, released, held and unreadable are distinct; an unreadable lock refuses, and --break-lock replaces it [971.02ms]
+(pass) the lock module > ownership compares the owner kind and journal: the same PR across commands and across trains refuses; a resume of the same journal and a sequential acquisition succeed [1427.32ms]
+(pass) the lock module > --break-lock prints the holder, refuses a live train run's lock without --break-train-lock, and keeps the staleness, mid-push, between and freeze rules [2662.89ms]
+(pass) land and train land share the lock > a train slot holding the lock refuses a standalone land (no takeover, no freeze; --break-lock names the train and wants --break-train-lock); the train keeps it between slots and releases it after the last [14694.77ms]
+(pass) land and train land share the lock > a refusal partway through a train (slot 1 merged, slot 2 cannot read its PR) keeps the lock between slots, so a standalone land still refuses [11156.98ms]
+(pass) land and train land share the lock > another train's freeze lock is taken over only on a freeze record cleared after the lock: no record, or one cleared before it, refuses [6420.50ms]
+(pass) land and train land share the lock > a standalone land takes over a freeze lock once a fetched freeze record shows it cleared after the lock, and a lock deleted on origin reads as absent [14709.53ms]
+(pass) land and train land share the lock > another train's lock is taken over once that train's record is terminal, and refused while it is still merging [6015.42ms]
+(pass) land and train land share the lock > a standalone land holding the lock refuses train land; a refusal before any push releases the train's lock [10530.31ms]
+(pass) land and train land share the lock > after a push the train keeps its lock through a failed wait and a resume takes it back [7276.01ms]
+(pass) land and train land share the lock > a stop that freezes leaves the lock in a freeze phase that --break-lock never breaks; only the admitted repair train takes it over, and it is released once the freeze clears [19771.71ms]
+
+test/outside-review-result.test.ts:
+(pass) classifyOutsideReview: separate execution, findings and verdict > clean review [1.25ms]
+(pass) classifyOutsideReview: separate execution, findings and verdict > review with an untagged finding [0.04ms]
+(pass) classifyOutsideReview: separate execution, findings and verdict > review with P1 [0.09ms]
+(pass) classifyOutsideReview: separate execution, findings and verdict > review with only P2 [0.03ms]
+(pass) classifyOutsideReview: separate execution, findings and verdict > review missing recommendation [0.01ms]
+(pass) classifyOutsideReview: separate execution, findings and verdict > structured untagged prose [0.02ms]
+(pass) classifyOutsideReview: separate execution, findings and verdict > structured explicit clear [0.02ms]
+(pass) classifyOutsideReview: separate execution, findings and verdict > structured native P1 label [0.01ms]
+(pass) classifyOutsideReview: separate execution, findings and verdict > spec passing score [0.04ms]
+(pass) classifyOutsideReview: separate execution, findings and verdict > spec failing score [0.02ms]
+(pass) classifyOutsideReview: separate execution, findings and verdict > nonzero exit [0.08ms]
+(pass) classifyOutsideReview: separate execution, findings and verdict > timeout [0.02ms]
+(pass) classifyOutsideReview: separate execution, findings and verdict > empty [0.02ms]
+(pass) classifyOutsideReview: separate execution, findings and verdict > refusal [0.01ms]
+(pass) classifyOutsideReview: separate execution, findings and verdict > consult answer without review markers [0.02ms]
+(pass) classifyOutsideReview: separate execution, findings and verdict > a non-zero exit names the exit code and the first stderr line [0.03ms]
+(pass) a no-findings statement counts only as the reply's conclusion (#3294) > the reporter's exact codex review reply reads clean through the reporter's CLI invocation [9.47ms]
+(pass) a no-findings statement counts only as the reply's conclusion (#3294) > clean conclusions, with the added regressions/defects vocabulary and the requested marker formatted [0.36ms]
+(pass) a no-findings statement counts only as the reply's conclusion (#3294) > mixed replies: untagged findings beside a "no X" phrase are unverified, never clean [0.48ms]
+(pass) a no-findings statement counts only as the reply's conclusion (#3294) > a review's Recommendation because-clause concludes under the same rules [0.14ms]
+(pass) validateOutsideReview keeps the text-only shape for direct importers > existing shapes are unchanged [0.15ms]
+(pass) validateOutsideReview keeps the text-only shape for direct importers > B1b: the structured gate fails on P0 as well as P1 [0.07ms]
+(pass) outside-review-result CLI > two-argument form keeps exit 0 completed / 1 unavailable / 2 usage, findings included [59.56ms]
+(pass) outside-review-result CLI > verdict form prints VERDICT and exits 0 clean / 3 findings / 4 unverified / 1 unavailable [32.26ms]
+(pass) outside-review-result CLI > --stderr and --exit imply the verdict form; a missing stderr file reads as empty [23.29ms]
+(pass) outside-review-result CLI > an old rendered caller (pre-verdict skill text) still records findings as completed [10.92ms]
+(pass) B1: a review whose sandbox could not start is unavailable, not clean > captured codex review in a container: exit 0, "no findings" text, bwrap failures on stderr [0.21ms]
+(pass) B1: a review whose sandbox could not start is unavailable, not clean > captured codex exec --json in a container: every command failed with a sandbox error [0.21ms]
+(pass) B1: a review whose sandbox could not start is unavailable, not clean > captured healthy runs count as executed even though Codex warns about bubblewrap [0.15ms]
+(pass) B1: a review whose sandbox could not start is unavailable, not clean > a real review that discusses bwrap, namespaces, landlock and seccomp still passes [0.46ms]
+(pass) B1: a review whose sandbox could not start is unavailable, not clean > sandbox stderr with a non-zero exit (preflight fixtures) names the sandbox line [0.07ms]
+(pass) B1: a review whose sandbox could not start is unavailable, not clean > exact execution-failure phrases are the last fallback; positive evidence wins [0.10ms]
+(pass) B1: a review whose sandbox could not start is unavailable, not clean > a clean "I did not find any issues" with empty stderr still passes [0.02ms]
+(pass) B1: a review whose sandbox could not start is unavailable, not clean > the CLI reads --events [8.17ms]
+(pass) Codex token usage from --json events (#2948) > one turn: every counter the event carries, nothing invented [0.14ms]
+(pass) Codex token usage from --json events (#2948) > the latest turn wins (codex reports the running session total); malformed and unrelated lines are skipped [0.05ms]
+(pass) Codex token usage from --json events (#2948) > a cumulative total_token_usage snapshot wins over per-turn usage, latest first [0.04ms]
+(pass) Codex token usage from --json events (#2948) > the CLI prints OUTSIDE_USAGE only when given --events, on every verdict [23.86ms]
+(pass) a mid-run Codex usage limit is unavailable (quota_exhausted); a mid-run 429 is unavailable (rate_limited) > failed call with the usage-limit line -> unavailable, reason quota_exhausted, detail is the line [0.12ms]
+(pass) a mid-run Codex usage limit is unavailable (quota_exhausted); a mid-run 429 is unavailable (rate_limited) > failed call with a bare 429 -> unavailable, reason rate_limited, detail is the line [0.09ms]
+(pass) a mid-run Codex usage limit is unavailable (quota_exhausted); a mid-run 429 is unavailable (rate_limited) > a 429 body that also names insufficient_quota is the quota (quota wins over rate limit) [0.02ms]
+(pass) a mid-run Codex usage limit is unavailable (quota_exhausted); a mid-run 429 is unavailable (rate_limited) > an echoed prompt that names usage limit, insufficient_quota and 429 stays execution_failed [0.04ms]
+(pass) a mid-run Codex usage limit is unavailable (quota_exhausted); a mid-run 429 is unavailable (rate_limited) > a timeout whose partial stderr has a usage-limit or rate-limit line keeps the timeout reason [0.03ms]
+(pass) a mid-run Codex usage limit is unavailable (quota_exhausted); a mid-run 429 is unavailable (rate_limited) > a completed review that discusses rate limits is not unavailable [0.05ms]
+(pass) a mid-run Codex usage limit is unavailable (quota_exhausted); a mid-run 429 is unavailable (rate_limited) > the probe and the classifier give the same outcome for the same Codex error output [845.67ms]
+
+test/autoplan-admission.test.ts:
+(pass) admission > GSTACK_CAPY=1 without a verdict refuses before writing anything [262.59ms]
+(pass) admission > a failing verdict, or one for another HEAD or checkout, refuses with the trailer [339.84ms]
+(pass) admission > an ok verdict admits; status and resume need none; every mutating verb is gated [693.52ms]
+(pass) admission > an unattended session with the PATH Bun below the supported minimum refuses even with an ok verdict (the Capy host's bash bun stub cannot shadow bun.exe on Windows) [342.39ms]
+(pass) admission > GSTACK_ALLOW_UNSUPPORTED_RUNTIME=1 overrides and is recorded as a run deviation [380.30ms]
+(pass) admission > an interactive session is not gated [410.14ms]
+
+5 tests failed:
+(fail) office-hours delta re-review > prepare, seal and check enforce citations against the snapshots prepare captured [42.98ms]
+(fail) office-hours caller round limit > the helper applies the same limit to prepare, seal, check and finalize [28.68ms]
+(fail) office-hours review CLI > prepare assigns rounds and writes the complete canonical prompt without rewriting input evidence [16.18ms]
+(fail) checkpoint and restore > write at gate_pending, delete the run and the plan file, restore twice, answer, revise and export: validate passes [863.38ms]
+(fail) checkpoint and restore > a checkpoint directory that is, contains or aliases the live run is refused before anything moves; the command still succeeds [860.62ms]
+
+ 180 pass
+ 5 fail
+ 1097 expect() calls
+Ran 185 tests across 9 files. [237.11s]

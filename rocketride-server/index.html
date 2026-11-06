@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Technical assessment against Wingman’s development organization."><title>RocketRide · Wingman Research</title>
+<link rel="icon" href="../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/report.css"><script defer src="../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../index.html"><img src="../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../index.html">Overview</a><a class="nav-link " href="../generic/index.html">Architecture findings</a><a class="nav-link " href="../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../generic/method.html">Method and evidence</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../index.html">Wingman Research</a><span class="crumb">/</span><span>RocketRide</span></div><span class="topbar-note">SOURCE REVIEW · 05 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>RocketRide</h1><p class="subtitle">Technical assessment against Wingman’s development organization.</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#decision">Decision summary</a><a href="#assessment-rocketride-server-assessment-against-wingman">RocketRide Server assessment against Wingman</a><a href="#assessment-identity-revision-and-verdict">Identity, revision and verdict</a><a href="#assessment-architecture-and-actual-execution-model">Architecture and actual execution model</a><a href="#assessment-complete-feature-comparison">Complete feature comparison</a><a href="#assessment-agent-definition-and-full-lifecycle">Agent definition and full lifecycle</a><a href="#assessment-coordination-mechanics-and-a-request-trace">Coordination mechanics and a request trace</a><a href="#assessment-major-additional-capabilities-beyond-wingmans-stated-product">Major additional capabilities beyond Wingman&#x27;s stated product</a><a href="#assessment-distinctive-mechanisms-and-grounded-innovation">Distinctive mechanisms and grounded innovation</a><a href="#assessment-practical-adoption-map">Practical adoption map</a><a href="#assessment-verification-scope-tests-and-limits">Verification scope, tests and limits</a><a href="#source-record">Source and evidence</a></div></nav><section id="decision" class="decision"><h2>Decision summary</h2>
+<div class="brief-columns"><div><h3>Useful for Wingman</h3><p>Study deployed pipelines, configured specialists, parallel Wave tools, scheduling, replay, and remote execution.</p></div><div><h3>Adoption boundary</h3><p>Pipeline requests are the durable unit. The workspace coding Agent tab has an explicit external implementation boundary.</p></div></div>
+<p class="scope-note">Source assessment at the commit below. Runtime limits appear in the technical report.</p></section>
+<dl class="facts"><div><dt>Source group</dt><dd>Infrastructure</dd></div><div><dt>Commit</dt><dd><code>a7f3770b1910b34080e07cf66bf0b242ef3b09ac</code></dd></div><div><dt>Coverage</dt><dd>24 Wingman features</dd></div></dl>
+<article id="technical-assessment" class="technical"><h2 id="assessment-rocketride-server-assessment-against-wingman">RocketRide Server assessment against Wingman</h2>
+<h2 id="assessment-identity-revision-and-verdict">Identity, revision and verdict</h2>
+<ul>
+<li><strong>Product:</strong> RocketRide (formerly Aparavi), an AI/data pipeline development environment and runtime, with a native engine, Python node catalog, Python/TypeScript clients, MCP and visual pipeline tooling.</li>
+<li class="url-text"><strong>Repository:</strong> https://github.com/rocketride-org/rocketride-server</li>
+<li><strong>Local checkout:</strong> <code>researchs/rocketride-server/repo</code>.</li>
+<li><strong>Assessed commit:</strong> <code>a7f3770b1910b34080e07cf66bf0b242ef3b09ac</code>.</li>
+<li><strong>Assessment date:</strong> 2026-11-05.</li>
+<li><strong>Method:</strong> source-only assessment of this local revision. No dependency installation, service launch, network integration or runtime test execution; checkout sources left unchanged.</li>
+</ul>
+<p><strong>Verdict: useful infrastructure and mechanism reference, a weak direct substitute for Wingman.</strong> RocketRide has implemented agent execution: framework drivers call models and real tools, managers delegate to configured specialists, Wave runs tools in parallel, and pipelines have deployment, scheduling and extensive replayable observability. Telegram input and remote pipeline execution are real source features. These deserve more credit than a simple prompt library.</p>
+<p>Its primary unit is nevertheless a deployed pipeline/source and an individual request through that graph. It does not supply the persistent Codex organization, project leadership, shared product tickets, collaboration rooms and portfolio supervision Wingman describes. A particularly important boundary is the <strong>workspace coding Agent tab</strong>: its transport literally calls the callback with <code>TO DO</code> in <a href="repo/apps/shared/src/modules/agent/agent.ts">agent.ts</a>, lines 50–62. The surrounding session persistence and UI are implemented, but they do not establish a working cloud coding agent. The VS Code <code>AgentManager</code> installs documentation/instruction stubs into existing coding tools. It does not launch or manage those tools as workers (<a href="repo/apps/vscode/src/agents/agent-manager.ts">agent-manager.ts</a>, lines 25–35, 69–79).</p>
+<p>The best role for RocketRide in Wingman would be an optional subsystem for document processing, retrieval, research/integration tools and inspectable AI workflows. Adopting it as the central organization would require building most of Wingman's defining coordination behavior around it.</p>
+<h2 id="assessment-architecture-and-actual-execution-model">Architecture and actual execution model</h2>
+<h3 id="assessment-four-different-meanings-of-agent">Four different meanings of “agent”</h3>
+<ol>
+<li>A <strong>pipeline agent node</strong> is a Python framework driver. <code>AgentBase</code> resolves its node configuration, instructions and tool-use guard; every incoming question gets a fresh run context. Wave, CrewAI, LangChain and DeepAgents implement real execution loops behind this base. This is operational agent behavior, not just a persona prompt (<a href="repo/packages/ai/src/ai/common/agent/agent.py">agent.py</a>, lines 49–104, 109–202).</li>
+<li>A <strong>managed subagent descriptor</strong> declares a role, goal, backstory, expected output and references to its own engine channels. CrewAI Manager constructs framework <code>Agent</code> and <code>Task</code> objects from these descriptors for one kickoff. A CrewAI subagent is deliberately not independently invokable via the questions lane (<a href="repo/nodes/src/nodes/agent_crewai/crewai_subagent/subagent.py">subagent.py</a>, lines 49–111).</li>
+<li>The <strong>workspace Agent session</strong> is a persisted UI conversation, with a UUID and stored messages, but the execution transport is a stub at this revision (<a href="repo/apps/shared/src/modules/agent/agent.ts">agent.ts</a>, lines 60–62, 74–79, 144–174, 187–215).</li>
+<li>An <strong>external IDE coding agent integration</strong> is a downloaded RocketRide documentation bundle plus tool-specific instruction stubs. Detection of Claude Code/Cursor/etc. is not lifecycle ownership of a coding process (<a href="repo/apps/vscode/src/agents/agent-manager.ts">agent-manager.ts</a>, lines 25–35, 84–105).</li>
+</ol>
+<h3 id="assessment-control-plane-runtime-and-data-plane">Control plane, runtime and data plane</h3>
+<p>The native executable enters <code>engine_run</code>. The shared engine bootstraps its application from there (<a href="repo/packages/server/engine/src/main.cpp">main.cpp</a>, lines 25–38; <a href="repo/packages/server/engine-mod/src/engine.cpp">engine.cpp</a>, lines 54–56). The Python web subsystem hosts FastAPI lifecycle hooks (<a href="repo/packages/ai/src/ai/web/server.py">server.py</a>, lines 150–169). Its task module registers the WebSocket task service, creates <code>TaskServer</code>, starts the deployment scheduler and app build worker, and owns their shutdown (<a href="repo/packages/ai/src/ai/modules/task/__init__.py">task module</a>, lines 23–64).</p>
+<p>A pipeline definition contains components and data/control connections, not a team roster and backlog. <code>TaskServer.start_task</code> validates and registers execution and returns an access token; task ownership and monitoring are scoped to users/teams. <code>Task.start_task</code> resolves the submitted definition and its environment, writes a temporary task file and launches an engine subprocess. It passes an isolated task-data channel bound to loopback, a fresh token hash and selected subprocess environment, then starts metrics, logs and status events (<a href="repo/packages/ai/src/ai/modules/task/task_server.py">task_server.py</a>, lines 1219–1300; <a href="repo/packages/ai/src/ai/modules/task/task_engine.py">task_engine.py</a>, lines 2752–2815, 2850–2866, 2914–3014). This is a real process boundary per pipeline task, not a new OS process per configured specialist.</p>
+<p>Within the engine, a node <code>IInstance.writeQuestions</code> calls its driver. The shared node driver and per-request context are different objects. Models, tools and memory are reached through host adapters that invoke connected nodes by component ID. Tools are discovered only on connected <code>tool</code> channels, namespaced as <code>&lt;node_id&gt;.&lt;tool_id&gt;</code>, with re-discovery on a missing tool; model providers can be swapped without changing framework logic (<a href="repo/nodes/src/nodes/agent_rocketride/IInstance.py">IInstance.py</a>, lines 26–72; <a href="repo/packages/ai/src/ai/common/agent/_internal/host.py">host.py</a>, lines 70–158, 190–225).</p>
+<p>The visual builder's <code>ProjectView</code> supplies design, source/deployment execution and trace/log/replay interfaces for a pipeline. Its run/stop/restart controls and per-source status maps are operational views of pipelines, not a software-project management board (<a href="repo/apps/shared/src/tools/pipelines/ProjectView.tsx">ProjectView.tsx</a>, lines 63–107, 147–155).</p>
+<h3 id="assessment-persistence-boundaries">Persistence boundaries</h3>
+<p>Pipeline/app deployment artifacts live in an organization-scoped registry with immutable numbered versions, hashes, review states and mutable audience/environment pointers. Compare-and-swap metadata updates handle concurrent publishers; loading an artifact verifies its hash (<a href="repo/packages/ai/src/ai/account/deployment_backend.py">deployment_backend.py</a>, lines 268–357, 1167–1191). These “projects” identify runnable artifacts rather than product discovery records.</p>
+<p>Run logs are continuous JSONL streams per project/source/run-kind. Runs are chapters, segments become immutable store objects, and a control file maps event positions to segments. Recovery restores stored history, not suspended execution. The module explicitly discards stale local spools at startup (<a href="repo/packages/ai/src/ai/modules/task/run_log.py">run_log.py</a>, lines 23–42, 103–170; <a href="repo/packages/ai/src/ai/modules/task/__init__.py">task module</a>, lines 23–27).</p>
+<p>Persistent memory can use Redis or an in-memory backend and supports session creation, resume, key/value state, history and expiry. The memory pipeline node restores context by <code>question.metadata.session_id</code> and stores <code>last_answer</code> plus an atomic answer counter. This requires explicit wiring and session IDs. It is not universal automatic agent conversation recovery (<a href="repo/nodes/src/nodes/memory_persistent/memory_store.py">memory_store.py</a>, lines 54–109, 120–189; <a href="repo/nodes/src/nodes/memory_persistent/IInstance.py">memory IInstance.py</a>, lines 41–99, 101–150). The separate UI <code>.agents/&lt;appId&gt;/catalog.json</code> and conversation files preserve the stub Agent tab's messages (<a href="repo/apps/shared/src/modules/agent/sessions.ts">sessions.ts</a>, lines 24–38, 51–76, 228–244).</p>
+<h2 id="assessment-complete-feature-comparison">Complete feature comparison</h2>
+<p>Verdicts credit implemented behavior at the stated boundary. <strong>Similar</strong> means a substantial equivalent with a scope/workflow difference; <strong>Resembles</strong> means a building block that does not by itself deliver the Wingman capability. No row is Exact for the full Wingman behavior.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Capability</th>
+<th scope="col">Verdict</th>
+<th scope="col">Implementation evidence and concrete difference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F01</td>
+<td>Real independent coding agents and specialist instances</td>
+<td><strong>Similar</strong></td>
+<td>Framework agents run models and tools, with per-delegate channels (<a href="repo/nodes/src/nodes/agent_crewai/crewai_manager/manager.py">manager.py</a>, 246–303), real Git file/commit tools (<a href="repo/nodes/src/nodes/tool_git/IInstance.py">Git IInstance</a>, 336–397) and remote code/command execution (<a href="repo/nodes/src/nodes/tool_daytona/IInstance.py">Daytona IInstance</a>, 94–184). Thus configured agents can do coding work. They are per-request framework executors rather than standing independent Codex workers. The purported general coding Agent UI is a stub (<a href="repo/apps/shared/src/modules/agent/agent.ts">agent.ts</a>, 54–62).</td>
+</tr>
+<tr>
+<td>F02</td>
+<td>Extensible agent profiles, roles and teams</td>
+<td><strong>Similar</strong></td>
+<td>Node instructions/descriptions and Crew role/goal/backstory/task descriptors are configurable (<a href="repo/packages/ai/src/ai/common/agent/agent.py">AgentBase</a>, 81–104; <a href="repo/nodes/src/nodes/agent_crewai/crewai_subagent/subagent.py">subagent.py</a>, 54–98). Team composition is graph wiring, with new nodes/framework drivers extending it; no persistent organization role registry or dynamic staffing policy.</td>
+</tr>
+<tr>
+<td>F03</td>
+<td>Agent directory and visible working relationships</td>
+<td><strong>Resembles</strong></td>
+<td>Component graphs expose connected manager/subagent/tool relationships. The manager discovers connected IDs (<a href="repo/nodes/src/nodes/agent_crewai/crewai_manager/manager.py">manager.py</a>, 196–238). The sidebar lists session IDs/dates/titles (<a href="repo/apps/shared/src/tools/agent/AgentTool.tsx">AgentTool.tsx</a>, 60–101). Neither is an organization directory with workers, projects and assignments.</td>
+</tr>
+<tr>
+<td>F04</td>
+<td>Telegram main channel and Butler routing</td>
+<td><strong>Similar</strong></td>
+<td>Genuine bot source supports long polling/webhooks, dispatches input through a pipeline and replies to the originating chat (<a href="repo/nodes/src/nodes/telegram/IEndpoint.py">Telegram endpoint</a>, 84–122, 310–411). No Butler, cross-project conversation router or persistent clarification correlation is supplied.</td>
+</tr>
+<tr>
+<td>F05</td>
+<td>Cross-project registry and intake routing</td>
+<td><strong>Resembles</strong></td>
+<td>Registry lists versioned pipeline/app artifacts by project ID (<a href="repo/packages/ai/src/ai/account/deployment_backend.py">deployment_backend.py</a>, 284–357, 644–699). It tracks deployments rather than identifying an existing product from a human request or creating and staffing a new one.</td>
+</tr>
+<tr>
+<td>F06</td>
+<td>Per-project product and technical leadership</td>
+<td><strong>Resembles</strong></td>
+<td>A CrewAI Manager delegates to roles in a hierarchical crew (<a href="repo/nodes/src/nodes/agent_crewai/crewai_manager/manager.py">manager.py</a>, 145–155, 324–370). ProductMaster/TechMaster could be configured as roles, but product/technical authority, durable responsibilities and their lifecycle are not implemented.</td>
+</tr>
+<tr>
+<td>F07</td>
+<td>Proportionate research and iterative clarification</td>
+<td><strong>Resembles</strong></td>
+<td>Agent loops can invoke connected research/integration tools and consume instructions (<a href="repo/packages/ai/src/ai/common/agent/agent.py">AgentBase</a>, 94–104, 175–202; <a href="repo/nodes/src/nodes/agent_rocketride/rocketride_agent.py">Wave loop</a>, 221–256, 340–353). No discovery phase, product-size policy or durable question/answer routing across human turns was found.</td>
+</tr>
+<tr>
+<td>F08</td>
+<td>Scope, specs, acceptance scenarios and done</td>
+<td><strong>Resembles</strong></td>
+<td>Crew tasks have <code>expected_output</code>; Wave can require a configured check after work (<a href="repo/nodes/src/nodes/agent_crewai/crewai_manager/manager.py">manager.py</a>, 289–303; <a href="repo/nodes/src/nodes/agent_rocketride/rocketride_agent.py">Wave</a>, 365–412). These are task instructions and local completion checks, not maintained product specifications and definition-of-done artifacts.</td>
+</tr>
+<tr>
+<td>F09</td>
+<td>Technical decomposition, assignment and tracker</td>
+<td><strong>Resembles</strong></td>
+<td>Manager constructs per-specialist framework Tasks, and Wave creates tool-call plans (<a href="repo/nodes/src/nodes/agent_crewai/crewai_manager/manager.py">manager.py</a>, 246–303; <a href="repo/nodes/src/nodes/agent_rocketride/planner.py">planner.py</a>, 601–675). No durable ticket board, assignees/blockers/comments or dependency-based software-work dispatch. Framework tasks end with kickoff.</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>Human portfolio/project management dashboard</td>
+<td><strong>Resembles</strong></td>
+<td>Pipeline design/deployment/status screens exist (<a href="repo/apps/shared/src/tools/pipelines/ProjectView.tsx">ProjectView.tsx</a>, 63–107). The “project” is a pipeline document and its sources, not a product's goals, tickets, team, acceptance and blockers.</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>Agent chat app, rooms and direct collaboration</td>
+<td><strong>Resembles</strong></td>
+<td>Agent-as-tool and hierarchical delegation enable machine collaboration (<a href="repo/nodes/src/nodes/agent_rocketride/IInstance.py">Wave IInstance</a>, 35–72; <a href="repo/nodes/src/nodes/agent_crewai/crewai_manager/manager.py">manager.py</a>, 289–303). Human chat UI and saved Agent-tab conversations are not inter-agent rooms. No room membership, shared discussion history or management/project room routing found.</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>Management escalation and human decisions/approvals</td>
+<td><strong>Resembles</strong></td>
+<td>Artifact review transitions submit/approve/reject and audit history exist (<a href="repo/packages/ai/src/ai/account/deployment_backend.py">deployment_backend.py</a>, 984–1027). They govern publication, not worker escalation or pausing a product decision pending a Butler-delivered human reply.</td>
+</tr>
+<tr>
+<td>F13</td>
+<td>Durable project knowledge and directives</td>
+<td><strong>Resembles</strong></td>
+<td>Explicit session memory persists context and answers (<a href="repo/nodes/src/nodes/memory_persistent/IInstance.py">memory IInstance</a>, 41–150), and agent docs are installed into workspaces (<a href="repo/apps/vscode/src/agents/agent-manager.ts">agent-manager.ts</a>, 25–35). Storage/instructions can underpin knowledge, but there is no per-product SCOPES/SPECS/HARNESS contract or automatic retrieval of its decisions for continuation.</td>
+</tr>
+<tr>
+<td>F14</td>
+<td>Persistent identity, conversation and work continuity</td>
+<td><strong>Similar</strong></td>
+<td>Redis-backed session state and saved UI conversations are substantial continuity primitives (<a href="repo/nodes/src/nodes/memory_persistent/memory_store.py">memory_store.py</a>, 54–109; <a href="repo/apps/shared/src/modules/agent/sessions.ts">sessions.ts</a>, 24–38). Node identity is reused but execution gets a fresh run ID (<a href="repo/packages/ai/src/ai/common/agent/agent.py">AgentBase</a>, 141–196, 515–523); no suspended framework/checkpointed Codex worker resume is established.</td>
+</tr>
+<tr>
+<td>F15</td>
+<td>Proactive supervision and blocker follow-up</td>
+<td><strong>Resembles</strong></td>
+<td>Cron scheduler rehydrates deployments, runs sources and warns about repeated overlap skips (<a href="repo/packages/ai/src/ai/modules/task/task_scheduler.py">task_scheduler.py</a>, 214–250, 286–374). No ProjectMaster examining ticket progress, contacting agents and resolving blockers; cron can trigger a custom pipeline that implements such behavior.</td>
+</tr>
+<tr>
+<td>F16</td>
+<td>Parallel products and concurrent specialists</td>
+<td><strong>Similar</strong></td>
+<td>Multiple pipeline subprocesses and parallel Wave/DeepAgent calls exist (<a href="repo/packages/ai/src/ai/modules/task/task_engine.py">task_engine.py</a>, 2914–2923; <a href="repo/nodes/src/nodes/agent_rocketride/executor.py">executor.py</a>, 1272–1328; <a href="repo/nodes/src/nodes/agent_deepagent/deepagent.py">DeepAgent</a>, 353–384). Concurrency is real; project leadership, isolated code ownership and integration coordination must be added.</td>
+</tr>
+<tr>
+<td>F17</td>
+<td>Real multi-host execution with shared coordination</td>
+<td><strong>Similar</strong></td>
+<td>Remote client creates a pipeline on a configured host over authenticated HTTP and streams via WebSocket (<a href="repo/nodes/src/nodes/remote/client/IGlobal.py">remote IGlobal</a>, 38–88); Daytona tools run code remotely (<a href="repo/nodes/src/nodes/tool_daytona/IInstance.py">Daytona IInstance</a>, 79–133). These are real remote execution paths, not local subprocesses. They do not supply host-addressable Codex conversations sharing Wingman's organization records. Remote operation was not exercised.</td>
+</tr>
+<tr>
+<td>F18</td>
+<td>Executive overview of current/recent/next/blockers</td>
+<td><strong>Absent</strong></td>
+<td>Searched pipeline status/deploy views, Agent sidebar/session types and task event/status machinery. Existing shapes contain source/task status or session title/date (<a href="repo/apps/shared/src/tools/pipelines/ProjectView.tsx">ProjectView</a>, 63–107; <a href="repo/apps/shared/src/tools/agent/types.ts">agent types</a>, 23–51), not agent briefings with accomplishments, next work and blockers.</td>
+</tr>
+<tr>
+<td>F19</td>
+<td>Individual summary timeline linked to work</td>
+<td><strong>Resembles</strong></td>
+<td>Run-log chapters and replay support a rich execution history (<a href="repo/packages/ai/src/ai/modules/task/run_log.py">run_log.py</a>, 23–42; <a href="repo/apps/shared/src/tools/pipelines/ProjectView.tsx">ProjectView</a>, 147–155). These are pipeline event streams, not semantic per-agent progress entries linked to organizational tickets, rooms and deliverables.</td>
+</tr>
+<tr>
+<td>F20</td>
+<td>Detailed per-agent coding workspace</td>
+<td><strong>Resembles</strong></td>
+<td>Pipeline design/source/trace workspace and saved Agent conversation tabs exist (<a href="repo/apps/shared/src/tools/pipelines/ProjectView.tsx">ProjectView</a>, 32–49, 147–155; <a href="repo/apps/shared/src/tools/agent/AgentTool.tsx">AgentTool</a>, 88–115). No working Agent-tab coding backend at this commit (<a href="repo/apps/shared/src/modules/agent/agent.ts">agent.ts</a>, 54–62).</td>
+</tr>
+<tr>
+<td>F21</td>
+<td>Live activity, lifecycle, steering and visibility</td>
+<td><strong>Similar</strong></td>
+<td>SSE callbacks, metrics, traces, task run/stop/restart and debugger-aware restart are implemented (<a href="repo/packages/ai/src/ai/common/agent/agent.py">AgentBase</a>, 488–513; <a href="repo/packages/ai/src/ai/modules/task/task_engine.py">task_engine.py</a>, 2653–2750, 2997–3023, 3080–3134). Boundaries are pipeline tasks, not start/fork/compact/archive/queued steering of durable coding conversations.</td>
+</tr>
+<tr>
+<td>F22</td>
+<td>Testing, integrated verification and acceptance/delivery</td>
+<td><strong>Resembles</strong></td>
+<td>Wave's optional verification tool refuses premature completion; pipeline validation and deploy artifacts support engineering checks (<a href="repo/nodes/src/nodes/agent_rocketride/rocketride_agent.py">Wave</a>, 365–450; <a href="repo/packages/ai/src/ai/modules/pipe/pipe_validate.py">pipe_validate.py</a>, 6–50). No independent TestMaster, integrated product acceptance process or human delivery acceptance workflow. Repo test suites validate RocketRide itself, not autonomous product acceptance.</td>
+</tr>
+<tr>
+<td>F23</td>
+<td>Autonomous work with human direction through organization</td>
+<td><strong>Resembles</strong></td>
+<td>Bounded tool-using loops and unattended scheduled pipelines are real (<a href="repo/nodes/src/nodes/agent_rocketride/rocketride_agent.py">Wave</a>, 221–450; <a href="repo/packages/ai/src/ai/modules/task/task_scheduler.py">scheduler</a>, 377–466). Human direction enters a pipeline/UI rather than a standing organization owning discovery through delivery.</td>
+</tr>
+<tr>
+<td>F24</td>
+<td>Chat/tracker/dashboard growth with new profiles</td>
+<td><strong>Resembles</strong></td>
+<td>Generic graph/service schemas and describe fan-out admit new agent configurations (<a href="repo/packages/ai/src/ai/common/agent/_internal/host.py">host.py</a>, 70–158; <a href="repo/nodes/src/nodes/agent_crewai/crewai_manager/manager.py">manager.py</a>, 196–238). No common agent-directory/task/chat identity model that automatically extends all Wingman views.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="assessment-agent-definition-and-full-lifecycle">Agent definition and full lifecycle</h2>
+<h3 id="assessment-definition-creation-and-identity">Definition, creation and identity</h3>
+<p>A developer saves a component graph with IDs, providers/configuration, input lanes and invoke links. Node initialization reads resolved node config. Common fields include instructions, description and <code>require_tool_call</code>; Wave adds <code>max_waves</code> (default 10), <code>verify_tool</code>, exact <code>verify_args</code> and tool timeout (<a href="repo/packages/ai/src/ai/common/agent/agent.py">AgentBase</a>, 81–104; <a href="repo/nodes/src/nodes/agent_rocketride/rocketride_agent.py">Wave</a>, 49–52, 113–126). A Crew subagent definition adds role, goal, backstory, task description and expected output. Team membership follows the graph, not an autonomous recruiter.</p>
+<p>Deploying/startup creates the pipeline task process. Receiving a question creates a fresh execution <code>run_id</code>. The logical <code>agent_id</code> comes from the component's logical type. <code>AgentContext</code> ties that run to the current invoker, pipe, host adapters and timestamps. A configuration object may survive several overlapping calls, but its existence should not be interpreted as a persistent worker with an inbox and a career history (<a href="repo/packages/ai/src/ai/common/agent/agent.py">AgentBase</a>, 141–196, 221–243, 515–523). Managed CrewAI subcontexts deliberately inherit the parent's run ID and tool tally. They are subordinate parts of the kickoff rather than separately durable conversations (<a href="repo/nodes/src/nodes/agent_crewai/crewai_manager/manager.py">manager.py</a>, 246–270).</p>
+<h3 id="assessment-execution-tools-permissions-and-routing">Execution, tools, permissions and routing</h3>
+<p>On the first question for an engine instance, <code>AgentBase</code> constructs and caches <code>AgentHostServices</code>; memory-required drivers fail if the corresponding node is missing. Host discovery enumerates wired tool nodes, queries schemas, namespaces names and targets the exact component on invocation. <code>run_agent</code> is also a discoverable tool, allowing nesting across agent frameworks (<a href="repo/nodes/src/nodes/agent_rocketride/IInstance.py">Wave IInstance</a>, 35–72). A manager is not a Crew subagent but can still be nested through this agent-as-tool route (<a href="repo/nodes/src/nodes/agent_crewai/crewai_manager/manager.py">manager.py</a>, 24–34).</p>
+<p>The primary capability boundary is wiring plus each tool's policy and credentials. Git defaults to read-only and safe modes and supports scoped mutations when enabled (<a href="repo/nodes/src/nodes/tool_git/IGlobal.py">Git IGlobal</a>, 113–124). The Python tool routes to a restricted in-process executor with an allowed-module set and timeout; Daytona provides real shell/code/file operations in an external sandbox (<a href="repo/nodes/src/nodes/tool_python/IInstance.py">Python IInstance</a>, 42–85; <a href="repo/nodes/src/nodes/tool_daytona/IInstance.py">Daytona IInstance</a>, 79–133, 135–184). These are not proof of a uniform per-action human approval system or security isolation for all node code. Task/control credentials are kept out of agent answer metadata because a parent might feed that payload back into a model (<a href="repo/packages/ai/src/ai/common/agent/agent.py">AgentBase</a>, 179–183).</p>
+<p>CrewAI Manager discovers each connected subagent, gives it its own model and tools, constructs one Agent/Task per descriptor and runs a hierarchical Crew. It assigns <code>max_iter=5</code>, disables specialist delegation and enables manager delegation. There is explicitly no implicit inter-task context: the manager must pass relevant information during delegation. To prevent CrewAI from accidentally giving delegate tools to the manager, post-construction task tool sets are overwritten with the manager's own channel (<a href="repo/nodes/src/nodes/agent_crewai/crewai_manager/manager.py">manager.py</a>, 256–370). This is substantive role/tool separation, but not product/technical leadership semantics.</p>
+<h3 id="assessment-concurrency-and-execution-state">Concurrency and execution state</h3>
+<p>Wave asks the model for a batch of tool calls and executes that wave concurrently on a thread pool; results preserve plan order. Full results live behind a per-run memory namespace and compact structural summaries return to the planner. Cross-wave references let future calls consume earlier results. DeepAgent constructs a fresh <code>create_deep_agent</code> graph and executes it using <code>asyncio.run(agent.ainvoke(...))</code>; async wrappers move blocking engine invocations into threads so subagent fan-out can overlap (<a href="repo/nodes/src/nodes/agent_rocketride/executor.py">executor.py</a>, 1272–1328, 1550–1560; <a href="repo/nodes/src/nodes/agent_deepagent/deepagent.py">DeepAgent</a>, 139–145, 224–229, 341–385).</p>
+<p>CrewAI has a different concurrency compromise: all kickoffs share one process-wide asyncio loop thread because the library's global event infrastructure is not thread safe. Runs interleave at awaits. A ContextVar routes events to the proper run. This is overlapping IO, not one isolated worker process per role (<a href="repo/nodes/src/nodes/agent_crewai/crewai_runner.py">crewai_runner.py</a>, 24–41, 70–122).</p>
+<h3 id="assessment-continuity-resume-and-scheduling">Continuity, resume and scheduling</h3>
+<p>A running pipeline can serve repeated requests and can be reattached/reused. Task startup's <code>useExisting</code> path distinguishes reuse from running the newly submitted configuration (<a href="repo/packages/ai/src/ai/modules/task/task_server.py">task_server.py</a>, 1270–1293). Restart replaces the process after full cleanup, resets status and starts from the supplied pipeline definition. It is not continuation from an interrupted reasoning stack (<a href="repo/packages/ai/src/ai/modules/task/task_engine.py">task_engine.py</a>, 2653–2750).</p>
+<p>Session memory offers explicit continuity if the same valid session ID and durable backend are supplied. By contrast, Wave's <code>RunMemory</code> prefixes all keys with the fresh run ID, hides abandoned results and clears its keys at run end; its scratch/history live within that request. DeepAgent's construction shown here passes no checkpointer or durable thread identifier. Consequently the presence of memory adapters and a library capable of persistence does not establish resumable framework execution (<a href="repo/nodes/src/nodes/agent_rocketride/run_state.py">run_state.py</a>, 119–147; <a href="repo/nodes/src/nodes/agent_deepagent/deepagent.py">DeepAgent</a>, 359–385).</p>
+<p>The scheduler loads enabled deployment schedules from storage, maintains a heap keyed by team/project/source, and prevents scheduled and manual runs of the same source from overlapping. At fire time it re-reads state and schedules and hash-verifies the referenced artifact. Transient dispatch errors leave the cadence available for the next occurrence; permission or invalid-artifact failures mark the deployment errored until corrected (<a href="repo/packages/ai/src/ai/modules/task/task_scheduler.py">task_scheduler.py</a>, 168–218, 240–250, 286–337, 377–466). This can run a custom supervision workflow periodically, but it does not inspect software-project progress itself.</p>
+<h3 id="assessment-interruption-failures-completion-and-retirement">Interruption, failures, completion and retirement</h3>
+<p>At process level, stop marks the run as stopping, sends terminate, waits for a bounded interval and escalates to kill. Stop/restart races are guarded so a stop during environment loading is honored. TTL expiry is recorded differently from an explicit user cancellation (<a href="repo/packages/ai/src/ai/modules/task/task_engine.py">task_engine.py</a>, 2683–2704, 2908–2923, 3080–3134). Cancellation of a pipeline affects the task hosting its agents, not an independently addressable specialist conversation.</p>
+<p>At agent level, exceptions become structured error answer payloads with run metadata and stop reason. The opt-in <code>require_tool_call</code> guard rejects answers that never attempted a host tool. A failing attempt counts, so this guarantees an attempted invocation, not successful evidence or correct output (<a href="repo/packages/ai/src/ai/common/agent/agent.py">AgentBase</a>, 204–214, 247–316, 455–483). DeepAgent retries malformed protocol output up to three times, distinguishing malformed tool calls from recoverable final prose (<a href="repo/nodes/src/nodes/agent_deepagent/deepagent.py">deepagent.py</a>, 103–145). Wave normalizes a plan and retries an unusable shape once; after errors or exhausted/empty waves it synthesizes a best-effort answer with an explicit stop reason (<a href="repo/nodes/src/nodes/agent_rocketride/planner.py">planner.py</a>, 601–675; <a href="repo/nodes/src/nodes/agent_rocketride/rocketride_agent.py">Wave</a>, 228–256, 437–450). No durable task checkpoint/requeue of partially completed software work was established.</p>
+<p>A timed-out Wave tool call is especially important: Python cannot stop its thread. Its result is abandoned and hidden from future reads, but the call can still perform a late side effect. The overall run waits without a limit for all such calls before releasing engine state. A permanently stuck tool can therefore keep the request alive despite the per-tool timeout. That design is explicit and tested. It is not safe cancellation or rollback (<a href="repo/nodes/src/nodes/agent_rocketride/executor.py">executor.py</a>, 1293–1301; <a href="repo/nodes/src/nodes/agent_rocketride/rocketride_agent.py">Wave</a>, 138–169).</p>
+<p>Ordinary completion returns content, framework metadata and raw trace; top-level answers are emitted on the answers lane. Wave optionally refuses <code>done</code> until the exact configured check succeeds in a later step than the last possible mutation, including late returns from timed-out calls. It also requires the model to see a check result before finishing. At wave exhaustion synthesis is still possible, so consumers must inspect stop reason instead of treating any answer as accepted delivery (<a href="repo/nodes/src/nodes/agent_rocketride/rocketride_agent.py">Wave</a>, 365–450). None of this determines product scope completion or human acceptance.</p>
+<p>Cleanup is resource-oriented: task registry removal and port/subprocess/channel cleanup, run memory deletion, session TTL/deletion and tool teardown. Git URL-backed clones are temporary and deleted when the node's global lifetime ends (<a href="repo/nodes/src/nodes/tool_git/IGlobal.py">Git IGlobal</a>, 26–35); Daytona handles may be recreated after remote expiry, losing ephemeral sandbox state (<a href="repo/nodes/src/nodes/tool_daytona/IInstance.py">Daytona IInstance</a>, 44–47, 79–92). There is no retirement of an organization member with reassigned tickets or archived role relationships. Agent UI sessions can be deleted, but fork/compact/archive of a running coding conversation is not implemented in that stub surface.</p>
+<h2 id="assessment-coordination-mechanics-and-a-request-trace">Coordination mechanics and a request trace</h2>
+<p><strong>Implemented coordination is graph invocation plus events and shared stores.</strong> Model messages and framework delegation carry task context. Typed lanes carry input and answers. Tools expose schema-validated invocation surfaces; per-component tool catalogs limit which capabilities a role can reach. SSE/status events update viewers, and persisted run logs let observers replay them. File stores and optional session memory provide shared data, but there is no durable organizational inbox, room log, ticket dependency graph or common product decision record. Artifact review states are genuine human control over distribution, a different concern from product clarification.</p>
+<p>A concrete source-level trace is a <strong>Telegram text request through a configured Wave pipeline</strong>. This is an implementation path, not a runtime exercise and not a claim that this exact combined graph ships as a working example:</p>
+<ol>
+<li>The Telegram source starts its HTTP session and polling task or registers a webhook. Polling obtains updates and advances the offset after handling each update; webhook handling is a separate registered path (<a href="repo/nodes/src/nodes/telegram/IEndpoint.py">Telegram endpoint</a>, 84–122, 216–264).</li>
+<li><code>_handle_update</code> extracts <code>chat.id</code> and runs the blocking text pipeline on a worker thread. <code>_run_text_pipeline</code> creates an entry URL containing chat ID plus a new UUID, borrows a pipe, writes text, closes it, reads the first answer and returns the pipe in <code>finally</code> (same file, lines 310–411). This correlates the reply to a chat. It does not look up a product from a registry or attach an agent session ID automatically.</li>
+<li>The configured graph must transform text into a question and connect it to the agent. Wave's <code>writeQuestions</code> enters <code>AgentBase.run_agent</code>, which builds the per-run context and adds instructions (<a href="repo/nodes/src/nodes/agent_rocketride/IInstance.py">Wave IInstance</a>, 31–33; <a href="repo/packages/ai/src/ai/common/agent/agent.py">AgentBase</a>, 141–202). Missing graph connections are configuration work, not automatic Butler planning.</li>
+<li>Wave builds a structured planning request with available tools, summaries and scratch, then calls the connected LLM. A valid plan's tool calls are sent to the wave executor; invocations use the namespaced catalog and exact component IDs (<a href="repo/nodes/src/nodes/agent_rocketride/planner.py">planner.py</a>, 601–644; <a href="repo/nodes/src/nodes/agent_rocketride/rocketride_agent.py">Wave</a>, 340–353; <a href="repo/packages/ai/src/ai/common/agent/_internal/host.py">host.py</a>, 93–123, 208–225). If a connected tool is another agent's <code>run_agent</code>, it performs a nested real run and returns a tool result; no Room2 discussion is created.</li>
+<li>Results are summarized and fed to later plans. When completion/check rules are satisfied, <code>AgentBase</code> emits an answer. The Telegram source sends the first returned answer to the original chat (<a href="repo/packages/ai/src/ai/common/agent/agent.py">AgentBase</a>, 318–331; <a href="repo/nodes/src/nodes/telegram/IEndpoint.py">Telegram endpoint</a>, 363–364, 391–405, 555–580).</li>
+<li>Thinking/tool/status traffic routes through the run's invoker; task events go to authorized subscriptions and the run-log stream. This supports diagnosis and replay. It creates neither an assigned ticket nor a pending human product decision (<a href="repo/packages/ai/src/ai/common/agent/agent.py">AgentBase</a>, 488–501; <a href="repo/packages/ai/src/ai/modules/task/task_server.py">task_server.py</a>, 1090–1118).</li>
+</ol>
+<p>This trace shows the adaptation gap precisely: transport, reasoning, tools and observability exist; project identity, leadership, backlog, room conversation and acceptance would have to be supplied by Wingman.</p>
+<h2 id="assessment-major-additional-capabilities-beyond-wingmans-stated-product">Major additional capabilities beyond Wingman's stated product</h2>
+<p><strong>AI and document data plane.</strong> The repository is organized around typed data lanes and specialized Python nodes: document extraction, multimodal media, embeddings, vector retrieval, databases and external business-system integrations. Agent execution can use the same provider/tool graph as non-agent data processing. This could make Wingman's domain research and document-heavy products much richer, especially a lending system processing documents. The consequence is operating a separate engine and its node dependencies, and defining which data/credentials can move through each graph. It does not remove the need for the coding-agent organization. The common host abstraction and multimodal Telegram dispatch show these are executable integration surfaces (<a href="repo/packages/ai/src/ai/common/agent/_internal/host.py">host.py</a>, 70–123; <a href="repo/nodes/src/nodes/telegram/IEndpoint.py">Telegram endpoint</a>, 338–360, 443–498).</p>
+<p><strong>Deployable artifacts and application distribution.</strong> Organization-scoped immutable artifacts, team/personal serving audiences, review states, recorded publishers and verified versions provide a real delivery substrate. The task module also owns an app build worker that recovers queued builds on startup (<a href="repo/packages/ai/src/ai/modules/task/__init__.py">task module</a>, 39–47; <a href="repo/packages/ai/src/ai/account/deployment_backend.py">deployment_backend.py</a>, 284–357, 984–1027, 1167–1191). Wingman could deliver a RocketRide app/pipeline through this system, but general generated software needs its own CI/deploy targets. Artifact review is not acceptance of an entire product.</p>
+<p><strong>MCP as both integration and operational control.</strong> Engine MCP tools can start inline pipelines, send data/files, return upload endpoints, terminate runs and retrieve observability through registered tools. The execution schema accepts thread count, TTL, source selection, reuse and trace level. MCP input is deliberately inline rather than arbitrary server-local paths; public upload credentials are separated from private task-control tokens (<a href="repo/packages/ai/src/ai/modules/mcp/tools/execution.py">execution.py</a>, 37–108, 111–177, 180–224). Wingman's existing agents could call this without adopting the visual editor as their workbench, while still needing to manage engine credentials and the lifetime of started pipelines.</p>
+<p><strong>Event replay and operational performance inspection.</strong> Source-specific logs, traces, metrics and replay can reveal exactly what a model/tool pipeline did across runs. This is deeper runtime inspection than the executive summaries in Wingman's purpose, although it serves a different audience (<a href="repo/packages/ai/src/ai/modules/task/run_log.py">run_log.py</a>, 23–42; <a href="repo/apps/shared/src/tools/pipelines/ProjectView.tsx">ProjectView</a>, 147–155; <a href="repo/packages/ai/src/ai/modules/task/task_engine.py">task_engine.py</a>, 2997–3023). If borrowed, the stream identity and access model must be translated into Wingman's agent/task/session identities, and a semantic summary layer must sit above the raw events.</p>
+<h2 id="assessment-distinctive-mechanisms-and-grounded-innovation">Distinctive mechanisms and grounded innovation</h2>
+<p>These are notable engineering choices in this checkout, not claims of historical novelty.</p>
+<p><strong>Wave planning separates result storage from model context.</strong> The model emits batches of tool calls; results remain in memory while compact structural previews enter subsequent prompts. <code>memory.peek</code> and template references retrieve targeted values, scratch preserves chosen notes, and removal/fingerprint tracking highlights repeated calls/results. Per-run namespaces prevent overlapping requests from sharing temporary results (<a href="repo/nodes/src/nodes/agent_rocketride/rocketride_agent.py">rocketride_agent.py</a>, 6–27, 153–169, 327–353, 415–435; <a href="repo/nodes/src/nodes/agent_rocketride/run_state.py">run_state.py</a>, 89–147). This can keep a research/integration agent's context smaller while exploiting parallelism. Its limit is that summaries can omit decisive information, prompts must make the model request it, and this state is intentionally cleaned up rather than becoming project knowledge.</p>
+<p><strong>Completion can be tied to a check after the last possible change.</strong> The Wave driver tracks check step, last ordinary invocation and late tool returns. Exact <code>verify_args</code> prevents a general-purpose command tool from counting an unrelated invocation as verification. A check in the same reply cannot license an answer the model wrote before seeing that result (<a href="repo/nodes/src/nodes/agent_rocketride/rocketride_agent.py">rocketride_agent.py</a>, 118–124, 365–412). This is directly relevant to Wingman's “do the work, then verify” discipline. It conservatively treats ordinary calls as potential mutations, depends on tool output correctly indicating failure, and cannot prove product acceptance. A wave-limit fallback must still be treated as incomplete when appropriate.</p>
+<p><strong>Timeout handling preserves engine ownership despite late side effects.</strong> Wave hides results from abandoned calls, records outstanding work and waits for it before clearing engine state. A late return invalidates prior verification (<a href="repo/nodes/src/nodes/agent_rocketride/executor.py">executor.py</a>, 1293–1323; <a href="repo/nodes/src/nodes/agent_rocketride/rocketride_agent.py">rocketride_agent.py</a>, 138–169, 377–383). This avoids a tool returning into recycled state and exposes a real limitation that many orchestration abstractions conceal: timing out a future does not cancel the external action. It sacrifices bounded overall completion when a call never returns.</p>
+<p><strong>Framework neutrality is implemented below agent logic.</strong> CrewAI, LangChain, DeepAgents and Wave call the same host model/tool adapters, with per-subagent channels; framework changes do not require moving integration credentials into every framework's native stack. Tool name prefixes prevent collisions, and refresh-on-miss handles tools that grow after initial discovery (<a href="repo/packages/ai/src/ai/common/agent/_internal/host.py">host.py</a>, 70–158; <a href="repo/nodes/src/nodes/agent_crewai/crewai_manager/manager.py">manager.py</a>, 256–287; <a href="repo/nodes/src/nodes/agent_deepagent/deepagent.py">DeepAgent</a>, 405–465). The cost is substantial adapter maintenance: manager task-tool overwrites and a dedicated CrewAI runner exist specifically to accommodate library semantics. Uniform invocation does not imply uniform persistence, cancellation or delegation behavior.</p>
+<p><strong>Logs form a replayable continuum across restarts of a task identity.</strong> Chapters separate runs without splitting their history into unrelated files. Immutable segment uploads and an explicit routing/control file allow stored replay while keeping live spools ephemeral; upload-before-delete and deferred deletion protect readers (<a href="repo/packages/ai/src/ai/modules/task/run_log.py">run_log.py</a>, 23–42). This is a useful pattern for Wingman's detailed session drill-down. It preserves operational history rather than executable agent state and may lose unsealed/unuploaded spool data on abrupt failure because recovery is intentionally store-side only.</p>
+<h2 id="assessment-practical-adoption-map">Practical adoption map</h2>
+<p><strong>Use directly, if RocketRide is introduced as a separate service:</strong> SDK/MCP pipeline invocation, connected research and document-processing nodes, Telegram source transport, optional remote execution, versioned pipeline/app delivery and detailed trace/log inspection. Wingman would call a pipeline as a tool and retain ownership of project/agent state. This keeps the integration small enough to evaluate without making every worker a RocketRide node.</p>
+<p>Adapt deliberately:</p>
+<ul>
+<li>Translate Telegram chat/thread identity into Wingman project/question identity.</li>
+<li>Expose narrowly scoped Wingman tracker/knowledge tools to pipeline agents.</li>
+<li>Map run/pipe/component IDs into an organization-wide activity record.</li>
+<li>Convert explicit session memory into project-scoped knowledge with retention rules.</li>
+<li>Wrap real Codex sessions as durable external workers if choosing the graph as a dispatch layer. Cron can trigger supervision, but the supervisor's actual tracker reads, follow-ups and escalation policy must be implemented. Remote pipelines and Daytona are useful execution mechanisms, but Mac/Endeavour assignment, retained host location and shared organizational state need their own control plane.</li>
+</ul>
+<p>Still build:</p>
+<ul>
+<li>Butler and portfolio intake.</li>
+<li>Persistent agent directory and identities.</li>
+<li>Per-project ProductMaster/TechMaster lifetimes.</li>
+<li>Discovery/clarification records.</li>
+<li>Product scopes/specifications/acceptance.</li>
+<li>Durable tickets/dependencies/assignees.</li>
+<li>Inter-agent rooms and direct messages.</li>
+<li>Management escalation and human reply correlation.</li>
+<li>Executive current/recent/next/blocker summaries and semantic timelines.</li>
+<li>Real Codex start/resume/fork/compact/archive/steer/stop controls.</li>
+<li>Project-wide test integration and accepted-delivery stopping rules. The workspace Agent-tab stub is not a shortcut around this work.</li>
+</ul>
+<p>The practical decision is therefore <strong>selective reuse, not replacement</strong>. RocketRide could be valuable when the products Wingman builds need AI data pipelines. Its complexity is harder to justify merely to obtain general-purpose software-team coordination that the checkout does not implement.</p>
+<h2 id="assessment-verification-scope-tests-and-limits">Verification scope, tests and limits</h2>
+<p>Read the repository-wide <code>AGENTS.md</code> and <code>nodes/AGENTS.md</code>, Wingman purpose and assessment guide before assessing implementation.</p>
+<p>Read paths included:</p>
+<ul>
+<li>native entry points.</li>
+<li>Python web/task initialization and task spawning/restart/stop.</li>
+<li>host adapters and base agent.</li>
+<li>Wave planner/executor/run state.</li>
+<li>CrewAI manager/subagent/runner.</li>
+<li>LangChain and DeepAgent adapters.</li>
+<li>Telegram polling/dispatch.</li>
+<li>remote pipeline client/server creation.</li>
+<li>Git/Python/Daytona tools.</li>
+<li>persistent memory.</li>
+<li>deployment backend and scheduler.</li>
+<li>MCP execution.</li>
+<li>pipeline project view.</li>
+<li>Agent tab transport/session persistence.</li>
+<li>VS Code coding-agent installers.</li>
+</ul>
+<p>Relevant tests inspected as source include:</p>
+<ul>
+<li><a href="repo/nodes/test/agent_rocketride/test_wave_timeouts.py">Wave timeout tests</a>, lines 262–344: a timed-out write blocks successful completion until it returns and is rechecked; failed runs wait before cleaning memory.</li>
+<li><a href="repo/nodes/test/agent_rocketride/test_wave_checks.py">Wave check tests</a>, lines 172–190, 301–391: exact check matching, missing check tools and failed checking agents. Test names and assertions support the intended boundaries. They were not executed here.</li>
+<li><a href="repo/nodes/test/agent_crewai/test_manager_tool_scoping.py">Crew manager tool-scoping tests</a>, lines 8–52, 71–125: framework doubles reproduce task-tool backfilling and manager restrictions. The test file explicitly says it does not import the real CrewAI, so it is not end-to-end assurance of the installed framework.</li>
+<li><a href="repo/packages/ai/tests/ai/modules/task/test_task_scheduler.py">Scheduler tests</a>, lines 166–250: source-specific team dispatch, fire-time rechecks, corrupt-artifact and permission failure, transient dispatch errors. Dispatch/account services are mocked.</li>
+<li><a href="repo/nodes/test/memory_persistent/test_memory_store.py">Memory regression tests</a>, lines 6–27, 35–105: atomic concurrent increments and TTL inheritance; Redis portions use a fake backend.</li>
+<li><a href="repo/nodes/test/telegram/test_endpoint.py">Telegram endpoint tests</a>, lines 87–177, 266–332: shared-server route/target wiring and startup failures. No Telegram network round-trip was performed.</li>
+</ul>
+<p>Absence findings were based on searches across <code>nodes/src</code>, <code>packages/ai/src</code>, <code>apps/shared/src</code> and <code>apps/vscode/src</code> for leadership names, Telegram, tickets, approvals, agent/session/routing surfaces, Codex/SSH/worktree and scheduling, followed by inspection of likely implementation paths. The hits distinguish real Telegram, publishing approval and graph execution from the missing organizational equivalents. Generated embedded introduction pages, generated type blobs, dependencies and credentials were not used as behavioral proof or reproduced.</p>
+<p>All behavioral statements above are source-derived. Native engine throughput, model quality, framework compatibility, Redis persistence, cloud account services, remote host connectivity, Daytona isolation, Telegram delivery, deployment builds and visual UI behavior remain unexercised. Source proves implemented paths and explicit stubs, not successful operation in the user's environment. No runtime performance or security guarantee is inferred from documentation or tests that were only read.</p></article>
+<section id="source-record"><h2>Source and evidence</h2><p class="url-text">https://github.com/rocketride-org/rocketride-server</p>
+<ul><li><a href="repo/">Open the pinned source checkout</a></li><li><a href="assessment/ASSESSMENT.md">Read the Markdown assessment</a></li>
+<li><a href="../generic/assessments/_audits/qa25.md">Read the historical independent source audit</a></li><li><a href="../generic/method.html">Read the method and evidence limits</a></li></ul></section>
+<nav class="report-switch" aria-label="Adjacent project reports"><a href="../ralph-orchestrator/index.html">Previous project: Ralph Orchestrator</a><a href="../routa/index.html">Next project: Routa</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../index.html">Return to overview <img src="../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

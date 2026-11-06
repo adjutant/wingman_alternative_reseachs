@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Technical assessment against Wingman’s development organization."><title>Agency · Wingman Research</title>
+<link rel="icon" href="../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/report.css"><script defer src="../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../index.html"><img src="../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../index.html">Overview</a><a class="nav-link " href="../generic/index.html">Architecture findings</a><a class="nav-link " href="../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../generic/method.html">Method and evidence</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../index.html">Wingman Research</a><span class="crumb">/</span><span>Agency</span></div><span class="topbar-note">SOURCE REVIEW · 05 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Agency</h1><p class="subtitle">Technical assessment against Wingman’s development organization.</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#decision">Decision summary</a><a href="#assessment-agency-assessment-against-wingman">Agency assessment against Wingman</a><a href="#assessment-what-the-product-actually-contains">What the product actually contains</a><a href="#assessment-feature-by-feature-comparison">Feature-by-feature comparison</a><a href="#assessment-agent-definition-and-lifecycle-in-depth">Agent definition and lifecycle in depth</a><a href="#assessment-coordination-a-concrete-source-level-journey">Coordination: a concrete source-level journey</a><a href="#assessment-major-capabilities-beyond-wingmans-described-product">Major capabilities beyond Wingman&#x27;s described product</a><a href="#assessment-distinctive-mechanisms-and-their-limits">Distinctive mechanisms and their limits</a><a href="#assessment-what-wingman-could-reuse-adapt-and-still-needs">What Wingman could reuse, adapt and still needs</a><a href="#assessment-evidence-and-verification-limits">Evidence and verification limits</a><a href="#source-record">Source and evidence</a></div></nav><section id="decision" class="decision"><h2>Decision summary</h2>
+<div class="brief-columns"><div><h3>Useful for Wingman</h3><p>Study the observation, proposal, human-decision, and local-dispatch pipeline.</p></div><div><h3>Adoption boundary</h3><p>Durable role records do not provide persistent concurrent coding conversations or the complete product journey.</p></div></div>
+<p class="scope-note">Source assessment at the commit below. Runtime limits appear in the technical report.</p></section>
+<dl class="facts"><div><dt>Source group</dt><dd>Standing teams</dd></div><div><dt>Commit</dt><dd><code>b62e995aac7d4204166831b3f4c212181771ead9</code></dd></div><div><dt>Coverage</dt><dd>24 Wingman features</dd></div></dl>
+<article id="technical-assessment" class="technical"><h2 id="assessment-agency-assessment-against-wingman">Agency assessment against Wingman</h2>
+<p>Assessed 2026-11-05 against <a href="../generic/purpose.html">WINGMAN_PURPOSE.md</a>.</p>
+<ul>
+<li class="url-text">Repository: https://github.com/christag/agency</li>
+<li>Local checkout: <code>researchs/agency/repo</code></li>
+<li>Verified revision: <code>b62e995aac7d4204166831b3f4c212181771ead9</code></li>
+<li>Evidence: independently revalidated from the local source on 2026-11-05, including entry points, all native execution adapters, templates, example agent instructions, setup templates and relevant tests. No dependencies installed, services started, model calls made or tests executed. Existing report text was treated as a draft rather than evidence.</li>
+</ul>
+<p><strong>Verdict: a useful standing-agent governance and knowledge dashboard, with lightweight local dispatch, but a partial foundation for Wingman rather than its development organization.</strong> Agency strongly matches durable role definitions, editable agent memory, a multi-group directory, human decisions and observation-to-action traceability. Its operating center is an <strong>observation → proposal → human decision → execution</strong> pipeline. Wingman's operating center is a continuing software organization that discovers products, delegates tickets to concurrent specialists, collaborates in rooms and delivers verified products. Agency has useful pieces of that organization, but does not implement that whole journey.</p>
+<p>The most consequential distinction is between a <strong>persistent agent record</strong> and a <strong>persistent running agent conversation</strong>. Agency keeps a named directory, native tool instructions, memory and attributed outputs. A scheduled run starts an external coding CLI with a prompt and waits for the process to finish. It does not retain and address a Codex thread, resume the preceding conversation or operate a durable worker control protocol. The SDK integration is explicitly a file contract with no execution. Those boundaries matter more for Wingman than the presence of attractive agent profile pages.</p>
+<h2 id="assessment-what-the-product-actually-contains">What the product actually contains</h2>
+<p>Agency uses Python, FastAPI, and Jinja templates. Configuration maps groups to directories and agent lists. Each group has a <code>shared/</code> tree for observations, proposals, decisions, prompts, and logs. Each agent has a tool-native identity file and usually <code>memory.md</code>. Dashboard queries read Markdown files with YAML frontmatter. Edits write those files. The application does not use an organization database. See <a href="repo/agency/app.py">app.py</a>, lines 32–77, 303–315, and 592–622. <a href="repo/agency/config.py">config.py</a>, lines 6–35, normalizes agent declarations and resolves their directories.</p>
+<p>The installed <code>agency</code> command enters <code>agency.cli:main</code>; <code>serve</code> delegates to <code>app.main()</code>, which reloads configuration and starts Uvicorn. This is a web management process, while periodic execution is a separate OS-launched Python process. The group switcher selects a governance namespace. It is not an automated request router or a portfolio scheduler. <a href="repo/pyproject.toml">pyproject.toml</a>, lines 17–18; <a href="repo/agency/cli.py">cli.py</a>, lines 81–90; <a href="repo/agency/app.py">app.py</a>, lines 3061–3075.</p>
+<p>Two execution paths sit beside this file-backed control plane:</p>
+<ol>
+<li>The OS timer invokes <code>agency.dispatch.run</code>. It reads enabled groups, evaluates daily or interval rules, calls an integration synchronously and writes captured stdout/stderr to dated log files. See <a href="repo/agency/dispatch/run.py">dispatch/run.py</a>, lines 57–203.</li>
+<li>A web proposal decision writes a decision document and schedules a FastAPI background task. That task resolves the originating agent, creates a prompt telling it to read the proposal and answers, invokes its integration, records completion/failure and deletes the temporary prompt. See <a href="repo/agency/app.py">app.py</a>, lines 437–517 and 2526–2584.</li>
+</ol>
+<p>The integration registry separates Agency's records from the tool used to execute them. Its contract is a <code>RunResult</code> containing exit code, complete stdout/stderr and duration, plus native-file identity parsing/writing. It is not an event stream or session API. <a href="repo/agency/integrations/__init__.py">integrations/<strong>init</strong>.py</a>, lines 12–94, defines the contract. For Codex, <code>run()</code> executes <code>codex exec --yolo &lt;prompt&gt;</code> with the agent directory as cwd and captures the result. The Claude implementation similarly starts a new <code>claude ... -p</code> process. <a href="repo/agency/integrations/agency/codex.py">codex.py</a>, lines 15–53; <a href="repo/agency/integrations/agency/claude_code.py">claude_code.py</a>, lines 68–89.</p>
+<p>A third, supplied <strong>template path</strong> matters: the setup skill can generate a project-specific shell dispatcher and a tmux session. The shell template includes backgrounded parallel invocations and a coordinator routine for outstanding proposal feedback. The tmux template starts separate interactive Claude sessions. These are concrete scripts for a coding agent/operator to generate and run, not routes or services automatically wired into the core Python scheduler. Their behavior must be credited separately from the installed dispatcher. <a href="repo/skills/agency-setup/references/dispatch-templates.md">dispatch-templates.md</a>, lines 91–115, 175–240, 243–259 and 359–440. The setup instruction limits the generated team to one code-editing builder, even though multiple observation agents can run together.</p>
+<p>Workspace plugins are a different abstraction again. They describe tmux scripts, IDE configuration, external applications or chat-channel metadata. They do not turn the dashboard into those applications. The chat workspace stores platform/channel/notes and renders a summary. It has no bot transport, message history, subscriptions or delivery function. <a href="repo/agency/workspaces/chat.py">workspaces/chat.py</a>, lines 6–33. The tmux plugin returns a shell launch command, while the implemented workspace routes list plugins and edit their allowlisted configuration files. The template renders a “Launchable” label rather than a launch action, confirming the boundary. <a href="repo/agency/workspaces/tmux.py">workspaces/tmux.py</a>, lines 32–44; <a href="repo/agency/app.py">app.py</a>, lines 2971–3058; <a href="repo/agency/templates/workspaces.html">workspaces.html</a>, lines 24–35.</p>
+<h2 id="assessment-feature-by-feature-comparison">Feature-by-feature comparison</h2>
+<p>Verdicts describe the pinned source, not what a sufficiently capable model could be instructed to improvise. <strong>Exact</strong> means the capability is implemented within its stated boundary; <strong>Similar</strong> means a substantial equivalent with different scope; <strong>Resembles</strong> means a useful primitive; <strong>Absent</strong> means no implementation found in the inspected paths. The searches and limits behind negative findings are recorded at the end.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Wingman capability</th>
+<th scope="col">Verdict</th>
+<th scope="col">Implemented behavior and concrete gap</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F01</td>
+<td>Real independent coding agents and specialist instances</td>
+<td><strong>Similar</strong></td>
+<td>Configured agents can invoke separate real Codex/Claude CLI processes in distinct directories. They are not merely names in one model prompt. However, scheduled agents execute serially within a dispatch cycle and each run is a fresh invocation, not a continuing independent Codex conversation. <a href="repo/agency/dispatch/run.py">run.py</a>, lines 90–147, 155–203; <a href="repo/agency/integrations/agency/codex.py">codex.py</a>, lines 33–53.</td>
+</tr>
+<tr>
+<td>F02</td>
+<td>Extensible profiles, roles and team composition</td>
+<td><strong>Similar</strong></td>
+<td>Arbitrary named agents, editable role files, integration selection and external directory overrides support custom teams. There is no reusable profile-to-many-instance model or workload-driven team sizing. Creation scaffolds a generic definition and memory. <a href="repo/agency/config.py">config.py</a>, lines 6–35; <a href="repo/agency/app.py">app.py</a>, lines 2069–2107.</td>
+</tr>
+<tr>
+<td>F03</td>
+<td>Agent directory and visible working relationships</td>
+<td><strong>Similar</strong></td>
+<td>Group-scoped agent lists expose identity, tool, health and open observations; profiles connect to logs, observations and memory. Group membership supplies basic working context, but reporting lines, assignments and collaboration relationships are not a directory graph. <a href="repo/agency/app.py">app.py</a>, lines 1048–1096 and 2184–2233.</td>
+</tr>
+<tr>
+<td>F04</td>
+<td>Telegram main channel and Butler routing</td>
+<td><strong>Absent</strong></td>
+<td>No Telegram ingestion, outbound bot messaging, human-conversation correlation or Butler service was found. Web/CLI decisions are the implemented human interface. The chat plugin is metadata only. <a href="repo/agency/workspaces/chat.py">chat.py</a>, lines 6–33; <a href="repo/agency/cli.py">cli.py</a>, lines 269–357.</td>
+</tr>
+<tr>
+<td>F05</td>
+<td>Cross-project registry, intake and new/existing routing</td>
+<td><strong>Resembles</strong></td>
+<td>The configured groups provide an explicit registry with names, paths and agent sets. Humans create/select groups; no natural-language intake determines whether a request continues a product or creates a new one. <a href="repo/agency/app.py">app.py</a>, lines 303–315, 1574–1628.</td>
+</tr>
+<tr>
+<td>F06</td>
+<td>Per-project product and technical leadership</td>
+<td><strong>Resembles</strong></td>
+<td>Teams can define any roles, but shipped Agency's product agent explicitly combines PM and developer responsibilities. No product-lead/technical-lead protocol or automatic project leadership creation exists in the dispatch/control model. <a href="repo/agents/product/CLAUDE.md">product/CLAUDE.md</a>, lines 1–7, 36–43; <a href="repo/agency/app.py">app.py</a>, lines 2069–2107.</td>
+</tr>
+<tr>
+<td>F07</td>
+<td>Proportionate discovery and iterative human clarification</td>
+<td><strong>Resembles</strong></td>
+<td>Proposals support boolean, choice, multi-select and free-response questions, and an agent can research before asking them. The content example performs a research scan. There is no product-intake discovery state machine, complexity-dependent investigation or correlated Telegram clarification cycle. <a href="repo/agency/app.py">app.py</a>, lines 2507–2582; <a href="repo/examples/content-team/shared/prompts/research-scan.md">research-scan.md</a>, lines 1–10.</td>
+</tr>
+<tr>
+<td>F08</td>
+<td>Scope/specifications/acceptance scenarios/definition of done</td>
+<td><strong>Resembles</strong></td>
+<td>Arbitrary documents and proposal evidence/investigation/action sections can hold this content. It is not a first-class, maintained product-definition package connected to technical planning and acceptance. <a href="repo/agency/app.py">app.py</a>, lines 710–753; <a href="repo/agents/shared/prompts/_observation-system-steps.md">_observation-system-steps.md</a>, lines 52–89.</td>
+</tr>
+<tr>
+<td>F09</td>
+<td>Decomposition, assignment and shared task tracking</td>
+<td><strong>Resembles</strong></td>
+<td>Shared observations/proposals/decisions have origin attribution and statuses; prompts have scheduled agent assignments. These are findings, decisions and recurring jobs, not dependency-aware technical tickets with claims, assignees and integration progress. <a href="repo/agency/app.py">app.py</a>, lines 592–622, 795–843 and 2852–2918.</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>Portfolio/project management dashboard</td>
+<td><strong>Resembles</strong></td>
+<td>A multi-group dashboard shows fleet health, pipeline counts, attention items, recent activity and running decisions. This is a governance dashboard. It does not present product goals, task assignees, deliverables, dependencies or product completion. A group selector is insufficient to supply Wingman's portfolio/project management view. <a href="repo/agency/app.py">app.py</a>, lines 2338–2379; <a href="repo/agency/templates/home.html">home.html</a>, lines 30–93, 138–198.</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>Agent chat application, rooms and direct collaboration</td>
+<td><strong>Resembles</strong></td>
+<td>Agents share findings, link observations and are instructed to obtain peer feedback within a run. This provides asynchronous document coordination, not persistent multi-participant rooms, direct message delivery or cross-host chat. The chat workspace is an external-channel reference. <a href="repo/agents/shared/prompts/_observation-system-steps.md">_observation-system-steps.md</a>, lines 7–18, 93–116; <a href="repo/agency/workspaces/chat.py">chat.py</a>, lines 6–33.</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>Management escalation and human decisions</td>
+<td><strong>Similar</strong></td>
+<td>The proposal/question/decision mechanism persists human answers and dispatches the originating agent to act on them; floated findings enter the attention queue. There is no Room2 → Room1 → Butler hierarchy, but there is a substantive human-decision loop. <a href="repo/agency/app.py">app.py</a>, lines 2346–2378, 2526–2584 and 437–517.</td>
+</tr>
+<tr>
+<td>F13</td>
+<td>Durable project knowledge and reusable directives</td>
+<td><strong>Similar</strong></td>
+<td>Tool-native identity files, agent/shared memory, reusable prompts and documents are persistent and editable. Memory loading/updating is agent instruction rather than automatic context assembly. No enforced <code>DIRECTIVES/SCOPES/SPECS/HARNESS</code> convention. <a href="repo/agency/app.py">app.py</a>, lines 846–858, 2921–2968; <a href="repo/agents/product/CLAUDE.md">product/CLAUDE.md</a>, lines 59–65.</td>
+</tr>
+<tr>
+<td>F14</td>
+<td>Persistent identity, conversation and work continuity</td>
+<td><strong>Similar</strong></td>
+<td>Names, native definitions, memory, pipeline artifacts and logs survive individual runs. Conversation/session continuity is the missing component: Codex launches have no thread ID or resume parameter, and output logs are not a resumable transcript. <a href="repo/agency/integrations/agency/codex.py">codex.py</a>, lines 23–53; <a href="repo/agency/app.py">app.py</a>, lines 1099–1162.</td>
+</tr>
+<tr>
+<td>F15</td>
+<td>Proactive supervision, periodic wake and follow-up</td>
+<td><strong>Similar</strong></td>
+<td>Real systemd/launchd timers run daily/interval agent prompts, with dated deduplication markers and a daily run limit. A supervisor could be configured to inspect records, but ProjectMaster-style blocker analysis and contact/escalation are not implemented policy. Conditions are explicitly skipped by the generic runner. <a href="repo/agency/dispatch/install.py">install.py</a>, lines 95–146, 189–232; <a href="repo/agency/dispatch/run.py">run.py</a>, lines 57–152.</td>
+</tr>
+<tr>
+<td>F16</td>
+<td>Parallel products and concurrent specialists</td>
+<td><strong>Resembles</strong></td>
+<td>Multiple groups can coexist. The core scheduled cycle runs groups/agents synchronously. The separate setup shell template supplies actual parallel process launching and tmux panes can hold independent interactive agents. No shared ticket/dependency/ownership controller coordinates these paths, and the setup policy gives only one builder code-edit permissions. <a href="repo/agency/dispatch/run.py">run.py</a>, lines 63–147; <a href="repo/skills/agency-setup/references/dispatch-templates.md">dispatch-templates.md</a>, lines 220–240, 420–440; <a href="repo/skills/agency-setup/SKILL.md">setup skill</a>, lines 55–66.</td>
+</tr>
+<tr>
+<td>F17</td>
+<td>Real multi-host execution and shared coordination</td>
+<td><strong>Absent</strong></td>
+<td>Directory overrides are local filesystem paths. Built-in integrations execute local subprocesses; no host registry, remote worker transport, shared event bus or distributed ownership/lease system was found. A custom script could implement SSH externally, but Agency does not supply that behavior. <a href="repo/agency/config.py">config.py</a>, lines 25–44; <a href="repo/agency/integrations/agency/script.py">script.py</a>, lines 68–91.</td>
+</tr>
+<tr>
+<td>F18</td>
+<td>Executive agent overview of current/recent/next/blockers</td>
+<td><strong>Resembles</strong></td>
+<td>Fleet health, observation counts, running decisions and activity feed give executive signals. Health is log recency, not running/liveness state, and no agent briefing schema records current assignment, last outcome, planned next task and blockers together. <a href="repo/agency/app.py">app.py</a>, lines 976–1045, 1048–1096, 2338–2379.</td>
+</tr>
+<tr>
+<td>F19</td>
+<td>Per-agent summary timeline linked to underlying work</td>
+<td><strong>Resembles</strong></td>
+<td>The real per-agent timeline links logs and observations chronologically. It shows filenames/statuses rather than synthesized accomplishments, planned work and outcomes linked to tickets, changes and tests. <a href="repo/agency/app.py">app.py</a>, lines 1116–1162; <a href="repo/agency/templates/agent_profile.html">agent_profile.html</a>, lines 115–158.</td>
+</tr>
+<tr>
+<td>F20</td>
+<td>Detailed per-agent coding workspace</td>
+<td><strong>Resembles</strong></td>
+<td>A profile opens definition, memory and completed logs; workspace plugins expose external-runner configuration files. It does not embed live Codex tools, commands, diffs, approvals, browser observations or session artifacts as an agent workspace. <a href="repo/agency/app.py">app.py</a>, lines 2197–2233, 2971–3058; <a href="repo/agency/templates/agent_profile.html">agent_profile.html</a>, lines 97–166.</td>
+</tr>
+<tr>
+<td>F21</td>
+<td>Live activity, lifecycle controls and steering</td>
+<td><strong>Resembles</strong></td>
+<td>Agent creation/rename/delete, definition edits, dispatch settings and decision retries exist. Core integrations write captured output after completion; generated shell logs can grow during a run and external tmux sessions allow native interactive controls. Agency supplies no live event transport, in-flight steering, session stop/fork/compact or budget-control protocol. <a href="repo/agency/app.py">app.py</a>, lines 2069–2178, 2649–2682; <a href="repo/agency/integrations/agency/codex.py">codex.py</a>, lines 33–53; <a href="repo/skills/agency-setup/references/dispatch-templates.md">dispatch-templates.md</a>, lines 203–206, 424–440.</td>
+</tr>
+<tr>
+<td>F22</td>
+<td>Testing, integrated verification and product acceptance</td>
+<td><strong>Resembles</strong></td>
+<td>Review prompts look for bugs and missing tests. An external coding tool can execute tests. The executor marks success from exit code, not validated acceptance evidence. No TestMaster workflow or integrated product delivery/acceptance gate exists. <a href="repo/examples/code-review-team/shared/prompts/review-recent.md">review-recent.md</a>, lines 1–15; <a href="repo/agency/app.py">app.py</a>, lines 501–511.</td>
+</tr>
+<tr>
+<td>F23</td>
+<td>Autonomous operation with human direction through organization</td>
+<td><strong>Similar</strong></td>
+<td>Periodic agents autonomously observe and propose; human answers trigger subsequent agent execution. This is a meaningful autonomous governance loop. It lacks autonomous product intake, leadership/ticket delegation and an organization-wide conversational representative. <a href="repo/agency/dispatch/run.py">run.py</a>, lines 57–203; <a href="repo/agency/app.py">app.py</a>, lines 2526–2584.</td>
+</tr>
+<tr>
+<td>F24</td>
+<td>New profiles participate in chat/tracker/dashboards</td>
+<td><strong>Resembles</strong></td>
+<td>New names appear through generic group configuration, directory collection and origin attribution; dashboard rendering is not restricted to fixed job titles. This is substantive extensibility of the implemented governance views. Newly added profiles still have no implemented chat-room or technical-ticket system to join, so the combined Wingman capability remains incomplete. <a href="repo/agency/app.py">app.py</a>, lines 1048–1096, 2069–2107, 2184–2233; <a href="repo/agency/workspaces/chat.py">chat.py</a>, lines 12–30.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Agency has no <strong>Exact</strong> rating for a full Wingman feature in this matrix because each described capability combines behavior Agency supplies with an organizational, runtime or interface requirement it does not. This is not a judgment that its individual primitives are fake: file-backed identities, proposal answers, scheduled invocations and profile timelines are implemented concretely.</p>
+<h2 id="assessment-agent-definition-and-lifecycle-in-depth">Agent definition and lifecycle in depth</h2>
+<h3 id="assessment-definition-creation-and-identity">Definition, creation and identity</h3>
+<p>An agent is primarily a configured <strong>name → directory → integration</strong> mapping. A string entry inherits the group's default integration. A dict can carry integration metadata and an absolute external directory. The latter lets several groups refer to an existing agent directory, but does not create a host-independent identity or execution handle. See <a href="repo/agency/config.py">config.py</a>, lines 6–35 and 57–60.</p>
+<p>The create endpoint normalizes the agent name and adds it to the group. It creates the directory and any missing generic instruction and memory files. It does not start a process or allocate a conversation. It also does not copy a specialist profile, assign a ticket, or connect channels. See <a href="repo/agency/app.py">app.py</a>, lines 2069–2107. The operator edits the role body and display metadata. Codex keeps instructions in <code>AGENTS.md</code> and display metadata in <code>.agency-meta.yaml</code>. Claude keeps YAML frontmatter directly in <code>CLAUDE.md</code>. See <a href="repo/agency/integrations/agency/codex.py">codex.py</a>, lines 21–31; <a href="repo/agency/integrations/__init__.py">integrations/<strong>init</strong>.py</a>, lines 111–163; and <a href="repo/agency/integrations/agency/claude_code.py">claude_code.py</a>, lines 26–66.</p>
+<p>Group initialization and agent creation are distinct operations: initialization creates shared record directories and empty agent directories, while auto-detection scans recognized identity files and replaces the configured list when it finds agents. Thus a directory alone is not a functioning specialist, and detection is a filesystem indexing operation rather than agent discovery over a network. <a href="repo/agency/app.py">app.py</a>, lines 1838–1906. A stable agent is the named record and its files. A scheduled task is a prompt/rule pair. An invocation is an external process; and peer-role subagents are delegated inside that process's tool. Agency stores no durable session entity linking these concepts.</p>
+<p>There are two ways to reason about an agent's specialization. The application permits arbitrary roles through editable text. Separately, the shipped setup skill proposes project-specific agents after inspecting project context and writes instructions, memory, prompts and tmux/dispatch scaffolding. That is a real supplied onboarding workflow, but it is interpreted by a coding agent, not executed as an Agency server orchestration service. Its default policy is a lean team of three to five, with <strong>only one code-editing builder</strong>. That differs materially from Wingman's concurrent backend/frontend/mobile/test workers. <a href="repo/skills/agency-setup/SKILL.md">skills/agency-setup/SKILL.md</a>, lines 17–66, 84–140. This assessment reads that skill as product source. It does not invoke it.</p>
+<h3 id="assessment-execution-and-toolpermission-model">Execution and tool/permission model</h3>
+<p>The integration interface provides whole-run invocation and identity I/O. Native tools own actual tool execution, model context, changes and any internal subagents. Agency does not define a common tool registry, per-role tool capabilities or per-session sandbox. Codex's execution path explicitly uses <code>--yolo</code>; Claude's uses <code>--dangerously-skip-permissions</code>. Roles can include textual boundaries, but those instructions are not enforced by an Agency permission layer. This is an architectural distinction for Wingman, whose organizational approvals should not be confused with whether a subprocess has technical authority to act. <a href="repo/agency/integrations/agency/codex.py">codex.py</a>, lines 33–53; <a href="repo/agency/integrations/agency/claude_code.py">claude_code.py</a>, lines 68–89; <a href="repo/agents/shared/prompts/_observation-system-steps.md">_observation-system-steps.md</a>, lines 127–140.</p>
+<p>The custom script integration substitutes prompt/directory placeholders into a configured shell command and executes it locally. It can adapt a non-native runner, including one that performs remote work, but anything beyond the command invocation is supplied by that script. SDK mode is different: it advertises <code>supports_execution = False</code> and returns a non-success result if asked to run. Its value is registering externally managed agents that already write the file contract. It is not an embedded agent SDK or remote worker scheduler. <a href="repo/agency/integrations/agency/script.py">script.py</a>, lines 15–33 and 62–91; <a href="repo/agency/integrations/agency/sdk.py">sdk.py</a>, lines 14–20 and 53–59.</p>
+<h3 id="assessment-routing-scheduling-and-concurrency">Routing, scheduling and concurrency</h3>
+<p>Human navigation and config choose the group. Proposal <code>origin_agent</code> chooses who should receive the decision. In the web executor, integration resolution checks on-disk identity detection before configured integration metadata. The scheduler resolves the explicitly normalized integration name. This means the two paths are not completely identical when native files and configured tool disagree. <a href="repo/agency/app.py">app.py</a>, lines 318–336, 458–497; <a href="repo/agency/dispatch/run.py">run.py</a>, lines 85–88 and 170–184. That is worth standardizing if Agency becomes a shared Wingman control plane.</p>
+<p>A concrete consequence is the custom-script/file-contract collision: both Script and SDK use <code>agent.md</code>, Script deliberately never auto-detects, and SDK detects that file. With that ordinary layout and no higher-priority native identity, the web resolver selects non-executable SDK before consulting a configured <code>script</code> integration, while periodic dispatch honors the configured Script. This is an inferred inconsistency from the actual detection branches, not an exercised failure. <a href="repo/agency/integrations/agency/script.py">script.py</a>, lines 14–33; <a href="repo/agency/integrations/agency/sdk.py">sdk.py</a>, lines 14–27; <a href="repo/agency/integrations/__init__.py">integrations/<strong>init</strong>.py</a>, lines 182–192. A shared execution-resolution function should precede integrating the two launch paths.</p>
+<p>Daily rules allow execution in a window around an <code>at</code> time and create a dated marker; interval rules compare a persistent marker's mtime against an <code>Nm</code>/<code>Nh</code> duration. The timer itself periodically invokes the cycle, with native systemd/launchd configuration. Windows timer installation is explicitly unimplemented. The generic cycle skips <code>condition</code> rules and expects a separate group dispatcher for those conditions. <a href="repo/agency/dispatch/run.py">run.py</a>, lines 20–48, 95–152; <a href="repo/agency/dispatch/install.py">install.py</a>, lines 16–57, 95–146 and 189–232.</p>
+<p>Within a cycle, groups, agents and rules are nested loops, and integration execution blocks until finished. There is no configured parallelism, cross-agent work dependency or task claim protocol. Web background tasks and external runners can independently operate at the same time, but no common agent-level lock, lease or workspace arbitration coordinates those paths. This is not evidence that simultaneous work is impossible. It means Agency does not make concurrent development safe or tractable as an organizational capability. A shared directory exposes data. It does not establish ownership of code changes.</p>
+<p>The generated shell dispatcher is a more capable concurrency primitive than the Python cycle: <code>run_agents_parallel()</code> starts <code>run_agent</code> in the background, saves PIDs and waits for them. Its output is redirected directly to <code>.out/.err</code> files, so those files can grow during execution. This differs from Python's post-run writes. However, it is a template with event-handler placeholders, no durable run IDs or ownership claims, and no browser terminal/event stream. Its optional coordinator reads <code>status: feedback</code> proposals and prompts a coordinator to dispatch missing reviewers. The standard shipped observation instructions instead require all peer feedback within one run. These are two supplied coordination patterns, not one consistently enforced state machine. <a href="repo/skills/agency-setup/references/dispatch-templates.md">dispatch-templates.md</a>, lines 91–115, 175–259, 262–286; <a href="repo/agents/shared/prompts/_observation-system-steps.md">standard steps</a>, lines 93–125.</p>
+<p>The daily limit counts produced <code>.out</code> files for that group/day. It is a run-count limit, not a monetary/token budget or a global concurrency quota. It applies in the scheduler path. Decision-triggered background execution follows its own path and does not consult that scheduler limit. <a href="repo/agency/dispatch/run.py">run.py</a>, lines 71–83, 112–115; <a href="repo/agency/app.py">app.py</a>, lines 465–497.</p>
+<h3 id="assessment-persistence-resume-and-continuity">Persistence, resume and continuity</h3>
+<p>Identity, memory, observations, proposals, answers and completed run outputs survive restarts as files. A later invocation can reconstruct context by reading them, provided its instructions tell it to. The supplied product role explicitly reads personal/shared memory at session start and writes durable corrections/preferences back to those files. <a href="repo/agents/product/CLAUDE.md">product/CLAUDE.md</a>, lines 59–65.</p>
+<p>Configuration replacement is atomic, but decision/observation/memory writes are ordinary read/modify/write operations, with no shared transaction across proposal status, answers and execution status. Concurrent background runs or human/agent edits therefore have no source-level lost-update protection. This follows from the write paths; no race was exercised. <a href="repo/agency/app.py">app.py</a>, lines 43–52, 421–434, 2566–2582 and 2956–2968. For Wingman's many independent writers, an execution claim and versioned coordination record would be needed even if Markdown remains the human-readable representation.</p>
+<p>Agency itself does not load those documents into a context envelope or persist the CLI's conversation identity. The Codex command lacks a resume operation, session/thread identifier, fork ancestry or compaction control. Therefore <strong>knowledge continuation is file-mediated</strong>, while <strong>conversation continuation is delegated to the external tool/operator and not implemented by Agency's run contract</strong>. An output log gives attribution and evidence after a run. It does not restore an interrupted tool operation.</p>
+<p>The so-called subagent control is also a filesystem/dashboard distinction: toggling moves the directory between the group root and <code>_subagents/</code> and changes list membership. It is not a runtime spawn, supervisor/child relationship or cancellation tree. The observation prompt separately instructs the current coding tool to spawn peer-role subagents and collect feedback during the same run. That behavior depends on the selected tool following the prompt and supporting delegation. <a href="repo/agency/app.py">app.py</a>, lines 2299–2335; <a href="repo/agents/shared/prompts/_observation-system-steps.md">_observation-system-steps.md</a>, lines 93–116.</p>
+<h3 id="assessment-interruption-recovery-completion-and-retirement">Interruption, recovery, completion and retirement</h3>
+<p>External subprocess timeouts become exit code 124 in the native integrations. Their implementations return an empty stdout and a timeout message rather than preserving partial output as a live run record. The scheduler writes output/error files after the integration returns. It logs failure but has no persisted retry queue, backoff or interrupted-run reconciliation. It touches scheduling markers after <code>_run_agent()</code> returns, so the marker means the scheduled dispatch attempt was processed. It does not certify successful work. <a href="repo/agency/integrations/agency/codex.py">codex.py</a>, lines 33–53; <a href="repo/agency/dispatch/run.py">run.py</a>, lines 143–152 and 194–203.</p>
+<p>The caller also marks a rule processed after some normal early returns. These include a missing agent, missing prompt, or non-executable integration. <code>_run_agent()</code> does not catch an exception around <code>integration.run()</code>. A missing CLI can therefore abort the cycle before later agents run. Web decision execution has a separate exception boundary that records failure.</p>
+<p>Agency exposes a timeout setting. It does not expose a process handle or cancellation endpoint. Python's subprocess timeout limits the immediate invocation. Agency has no explicit cancellation tree for descendant processes. See <a href="repo/agency/dispatch/run.py">run.py</a>, lines 143–152 and 155–203; <a href="repo/agency/integrations/agency/codex.py">codex.py</a>, lines 37–53; and <a href="repo/agency/app.py">app.py</a>, lines 474–517.</p>
+<p>Web decision execution has a more explicit <code>pending → running → complete/failed</code> record. Exceptions produce failed status. A retry endpoint finds the linked proposal's originating agent, resets the fields and launches the execution again. It does not require the currently stored execution to be failed, and the visible code does not establish idempotency or a durable execution claim. Web background work is tied to the serving process rather than a durable queue. A restart after setting <code>running</code> has no startup reconciliation in the inspected application. <a href="repo/agency/app.py">app.py</a>, lines 437–517, 2649–2682 and 3061–3075.</p>
+<p>Completion is inferred from process exit code unless the decision already contains <code>complete</code> or <code>failed</code>. There is no independent verifier requiring tests, acceptance scenarios, integration evidence or human delivery acceptance. The same launch path receives <strong>all</strong> answers, including deferred or rejected ones, and the prompt instructs the agent how to interpret them. Consequently the governance semantics are partly model-mediated: the server dispatches the agent to close the loop rather than enforcing an approval-only execution branch. <a href="repo/agency/app.py">app.py</a>, lines 443–455, 501–511 and 2576–2582.</p>
+<p>Retirement removes the agent from configuration, optionally deletes its local directory and avoids deleting externally shared directories. Group deletion removes the registry entry but retains files. These are configuration/file lifecycle operations, not termination of an active process or archival of a resumable conversation. Renaming similarly changes config/directory, without migrating historical observation attribution or scheduled rule keys in that endpoint. <a href="repo/agency/app.py">app.py</a>, lines 1817–1835, 2110–2178.</p>
+<h2 id="assessment-coordination-a-concrete-source-level-journey">Coordination: a concrete source-level journey</h2>
+<p>Consider a reviewer finding a regression and proposing a fix. This is a reconstruction of the supplied code/instructions, not a live execution trace.</p>
+<ol>
+<li>A timer fires. <code>run_dispatch_cycle()</code> selects a due prompt for a configured reviewer. <code>_run_agent()</code> finds <code>shared/prompts/&lt;prompt&gt;.md</code>, the reviewer directory and its integration, invokes it, and later stores captured logs. <a href="repo/agency/dispatch/run.py">run.py</a>, lines 57–203.</li>
+<li>The example review prompt tells the agent to read shared memory, inspect six hours of commits and write severity/file/line/suggested-fix observations. It does not create technical tickets. <a href="repo/examples/code-review-team/shared/prompts/review-recent.md">review-recent.md</a>, lines 1–15.</li>
+<li>The standard observation instructions tell agents to scan floated findings, deduplicate their own findings, link related findings from peers, and write timestamped Markdown records. With at least two converging observations they draft a proposal, subject to a prompt-level maximum of three nonterminal proposals. These rules are <strong>instructions</strong>, not validation enforced by the Python application. <a href="repo/agents/shared/prompts/_observation-system-steps.md">_observation-system-steps.md</a>, lines 7–91.</li>
+<li>The agent is instructed to read relevant peers' role definitions, spawn their expertise as subagents, synthesize returned feedback and finalize proposal questions in the same run. The record is a synthesized proposal document, not a persistent group-room exchange among separately scheduled workers. Same source, lines 93–125.</li>
+<li>The human sees actionable proposals and floated findings on the dashboard. The proposal page resolves linked observations and existing decision answers. Answer submission writes <code>shared/decisions/&lt;slug&gt;.md</code>, updates the proposal to <code>decided</code> and schedules <code>execute_decision()</code> for <code>origin_agent</code>. <a href="repo/agency/app.py">app.py</a>, lines 2338–2379, 2465–2584.</li>
+<li>The executor prompts the origin agent to read the decision/proposal, interpret approval/defer/reject/other answers and close the loop. It records outcome from the process result. The decision page follows links back through the proposal to observations. A retry button can resubmit execution. <a href="repo/agency/app.py">app.py</a>, lines 437–517 and 2599–2682.</li>
+</ol>
+<p>This is a useful <strong>evidence-and-decision chain</strong>. It does not yet implement <strong>request → ProductMaster discovery → TechMaster tickets → specialist collaboration → TestMaster acceptance</strong>. The single origin agent is the execution target. There is no decomposition/ownership/dependency transition creating work for a team.</p>
+<p>One integration concern is visible in the generated execution prompt: it spells paths as <code>agents/shared/...</code> while the selected process cwd is the agent directory (or group fallback). The scheduler examples also use their own relative-path conventions. The actual runner may infer or find the intended files, but the application does not consistently pass absolute artifact paths. A Wingman adapter should pass explicit canonical references rather than assume layout-dependent path interpretation. This is a source-level concern, not a demonstrated runtime failure. <a href="repo/agency/app.py">app.py</a>, lines 443–446 and 461–497.</p>
+<p>The CLI decision path has an additional boundary: it writes the answers and pending execution state but does not invoke <code>execute_decision()</code> in <code>cmd_decide()</code>. Thus browser decision auto-dispatch and CLI decision persistence are not equivalent behaviors at this revision. <a href="repo/agency/cli.py">cli.py</a>, lines 269–357. An external dispatcher could consume the decision, but the generic periodic runner does not implement a pending-decision queue.</p>
+<p>The records provide semantic dependencies (<code>linked_observations</code>, <code>observations</code>, <code>proposal</code>, <code>origin_agent</code>) rather than executable task dependencies. A proposal can point to evidence and the human answer can return to its originator, but no queue turns those links into a ready/running/blocked task graph. Similarly, a floated observation asks peers to notice a finding through subsequent file reads. It does not deliver a message or wake the intended peer. These distinctions explain why Agency's document cooperation earns partial credit without being treated as Wingman's agent chat and shared tracker.</p>
+<h2 id="assessment-major-capabilities-beyond-wingmans-described-product">Major capabilities beyond Wingman's described product</h2>
+<h3 id="assessment-continuous-organizational-sensing-and-proposal-governance">Continuous organizational sensing and proposal governance</h3>
+<p>Agency supports ongoing role-based observation of an environment. Agents can combine weak signals into a proposed action. A persistent human-governance pipeline records the resulting decision. Examples cover research, content opportunities, recent-code review, documentation, and security scans. Business teams can use this model without turning every finding into a coding ticket. See <a href="repo/examples/content-team">examples/content-team</a>, <a href="repo/examples/code-review-team">examples/code-review-team</a>, and the <a href="repo/agents/shared/prompts/_observation-system-steps.md">observation instructions</a>, lines 7–125. Wingman's required supervision concerns ongoing product development.</p>
+<p>The value for Wingman is an upstream opportunity/risk inbox for agents to surface things the human did not request. Its integration cost is maintaining a distinction between an observation, a product decision and an assigned technical task. Automatically treating proposals as tickets would lose the very evidence/convergence semantics that make the pipeline useful.</p>
+<h3 id="assessment-heterogeneous-tool-and-external-agent-governance">Heterogeneous tool and external-agent governance</h3>
+<p>Wingman is specifically an organization of Codex agents. Agency's product model permits mixed CLI tools, custom scripts and externally managed agents under one identity/memory/decision interface. Native files are respected through integration-specific parsers and sidecars, instead of requiring every tool to adopt a synthetic instructions format. In addition to Codex/Claude, actual adapters invoke Gemini, Aider, Goose, OpenCode and Pi through their own command forms. This is implemented adapter breadth, not proof those installed tool versions were exercised. <a href="repo/agency/integrations/__init__.py">integrations/<strong>init</strong>.py</a>, lines 51–77, 217–239; <a href="repo/agency/integrations/integrations.yaml">integrations.yaml</a>, lines 1–10; <a href="repo/agency/integrations/agency/gemini.py">gemini.py</a>, lines 33–54; <a href="repo/agency/integrations/agency/aider.py">aider.py</a>, lines 33–53; <a href="repo/agency/integrations/agency/goose.py">goose.py</a>, lines 33–54; <a href="repo/agency/integrations/agency/opencode.py">opencode.py</a>, lines 31–52; <a href="repo/agency/integrations/agency/pi.py">pi.py</a>, lines 31–52; <a href="repo/agency/integrations/agency/sdk.py">sdk.py</a>, lines 14–20, 53–59.</p>
+<p>This could let Wingman coordinate specialist research or automation tools beside its Codex workforce. The tradeoff is a lowest-common-denominator run result. Fine-grained steering, event streaming, permissions, resume and cancellation would require a richer adapter contract rather than merely registering more integrations.</p>
+<h3 id="assessment-human-editable-operational-knowledge-as-a-management-product">Human-editable operational knowledge as a management product</h3>
+<p>Agency exposes agent roles, memory, prompts, documents and schedules for direct editing in the management interface. This is more than display polish: the operator can alter the standing team's remit and recurring investigative behavior without building a new code-defined workflow. <a href="repo/agency/app.py">app.py</a>, lines 2236–2262, 2797–2918 and 2921–2968.</p>
+<p>Wingman could use this as an organization configuration/knowledge editor. To connect it to continuing conversations, edits would need versioning and a defined application point: next invocation, explicit context refresh or live steering. Agency currently changes source files for future reads. It does not prove an already running worker incorporates the change.</p>
+<h2 id="assessment-distinctive-mechanisms-and-their-limits">Distinctive mechanisms and their limits</h2>
+<p><strong>Signal convergence with explicit provenance.</strong> Agents can invite related observations, link peer findings, and combine them into a proposal. The dashboard follows the observation, proposal, and decision chain. This supports teams with different standing areas of expertise. A lightweight file contract connects evidence to decisions. Duplicate detection, convergence thresholds, peer feedback, and proposal caps remain prompt rules. Enforcement and consistency across tools depend on agent behavior. See <a href="repo/agents/shared/prompts/_observation-system-steps.md">standard steps</a>, lines 7–125, and <a href="repo/agency/app.py">app.py</a>, lines 2402–2440, 2465–2523, and 2599–2646.</p>
+<p><strong>Native identity formats and sidecar metadata.</strong> Agency preserves each tool's native instruction format. A Codex agent keeps <code>AGENTS.md</code> and separate display metadata. One dashboard can index these different file contracts. Filesystem detection and configuration precedence can still disagree. A shared directory alone cannot provide a universally addressable agent identity. See <a href="repo/agency/integrations/__init__.py">integrations/<strong>init</strong>.py</a>, lines 118–170 and the detection registry; <a href="repo/agency/integrations/agency/codex.py">codex.py</a>, lines 23–31; and <a href="repo/agency/app.py">app.py</a>, lines 318–336.</p>
+<p><strong>Temporal hygiene for an agent inbox.</strong> Observations and proposals carry TTLs. Reading their lists checks expiry and archives stale items, while dashboard statistics identify a rough observation-to-proposal bottleneck. This prevents an indefinite accumulation of obsolete weak signals, which is a real issue for continuously running agents. Expiry is lazy, triggered by reads. It is not evidence that an agent resolved the issue. The bottleneck is a count heuristic, not causal workflow analysis. <a href="repo/agency/app.py">app.py</a>, lines 530–565, 592–618 and 625–666.</p>
+<p><strong>Separation of management, execution and viewing environments.</strong> Integration plugins execute tools; workspace plugins describe the environment where a human uses them; files hold durable organizational records. This decomposition is useful if Wingman wishes to manage both local and external runners without rebuilding their IDEs. Its current implementation stops short of a live cross-runner session protocol, so “workspace” should not be read as an embedded coding session. <a href="repo/agency/integrations/__init__.py">integrations/<strong>init</strong>.py</a>, <a href="repo/agency/workspaces/__init__.py">workspaces/<strong>init</strong>.py</a>, <a href="repo/agency/app.py">app.py</a>, lines 2971–3058.</p>
+<p>These are distinctive choices within this checkout. The assessment does not claim first invention or uniqueness across the market.</p>
+<h2 id="assessment-what-wingman-could-reuse-adapt-and-still-needs">What Wingman could reuse, adapt and still needs</h2>
+<p>Reuse directly as concepts or a limited component:</p>
+<ul>
+<li>The observation/proposal/decision document contract.</li>
+<li>Agent-native identity adapters.</li>
+<li>Group-scoped directory/profile pages.</li>
+<li>Memory/prompt editing.</li>
+<li>Explicit human question types.</li>
+<li>Native periodic wake mechanisms.</li>
+<li>Traceable decision records. These would be valuable even if Wingman keeps its own Codex runtime and task tracker.</li>
+</ul>
+<p>Adapt before using as Wingman's control plane:</p>
+<ul>
+<li>Replace whole-process <code>RunResult</code> with durable run/session/event identifiers.</li>
+<li>Distinguish stable agents from profile instances and ephemeral tasks.</li>
+<li>Unify scheduler and decision execution policies and integration resolution.</li>
+<li>Add idempotent execution claims, versioned shared writes, durable queue/recovery and safe per-workspace concurrency.</li>
+<li>Pass canonical artifact paths.</li>
+<li>Enforce authorization outside prompt text.</li>
+<li>Make completion depend on task/acceptance evidence. The built-in Codex invocation is a real execution adapter, but insufficient for Wingman's detailed session lifecycle and host routing. The separate parallel shell/tmux templates are useful prototypes for local process launching, not substitutes for those guarantees.</li>
+</ul>
+<p>Build as substantial new product behavior:</p>
+<ul>
+<li>Telegram Butler and correlated clarification routing.</li>
+<li>Portfolio intake and project-continuation decisions.</li>
+<li>Distinct ProductMaster/TechMaster/TestMaster responsibilities.</li>
+<li>Shared technical tickets/dependencies/ownership.</li>
+<li>Persistent chat rooms and cross-host messaging.</li>
+<li>Mac/Endeavour worker registration/placement.</li>
+<li>Integrated verification and acceptance delivery.</li>
+<li>Per-agent current/recent/next/blocker briefings.</li>
+<li>A live per-agent coding workspace with approvals, steering, cancellation, resume/fork/compact/archive and usage/budget controls.</li>
+</ul>
+<p>The practical adoption boundary is therefore <strong>Agency as an organizational observation/governance surface over Wingman agents</strong>, or as a design reference for those surfaces. Adopting it as the full organization would still leave most of the development coordination runtime to implement. Its clean, inspectable file model helps bootstrap a small personal organization, but does not replace the distributed work and lifecycle guarantees that Wingman needs when several specialists share products across machines.</p>
+<h2 id="assessment-evidence-and-verification-limits">Evidence and verification limits</h2>
+<p>The original review used <code>git rev-parse HEAD</code> and <code>git remote -v</code> to record source identity. It did not modify checkout files. It found no applicable checkout or ancestor <code>AGENTS.md</code>. The supplied global instructions governed the review.</p>
+<p>Read-only inspection covered these areas:</p>
+<ul>
+<li>Python application routes and helpers.</li>
+<li>Configuration, scheduler, and installer.</li>
+<li>Integration registry and every native adapter's execution path.</li>
+<li>Script and SDK contracts.</li>
+<li>Workspace registry, chat metadata, and tmux implementation.</li>
+<li>Profile, home, proposal, and product-role templates.</li>
+<li>Observation, content, and code-review instructions.</li>
+<li>Setup skill and shell/tmux template source.</li>
+</ul>
+<p>The review read the setup skill as an Agency artifact. It did not invoke the skill or create teams.</p>
+<p>Negative findings use implementation searches across <code>agency/</code> and <code>tests/</code>. Terms covered Telegram, streaming, conversations, resume, cancellation, retries, tickets, dependencies, queues, SSH, and remote execution. Matches included the decision retry route, ordinary logs, activity handling, and chat metadata. The searches found no Telegram transport, live session protocol, technical-ticket scheduler, or distributed worker implementation. Direct shell/tmux inspection established local process concurrency and interactive-session controls. Those controls do not supply the missing server APIs. The adapter and route code confirms the local process and file-contract boundary. Operators can add external scripts or services. This assessment does not credit such unimplemented additions as shipped behavior.</p>
+<p>Relevant tests inspected as source:</p>
+<ul>
+<li><a href="repo/tests/test_dispatch_run.py">test_dispatch_run.py</a>, lines 15–51: time-window and interval-marker helpers. These do not exercise an end-to-end scheduled coding run or distributed dispatch.</li>
+<li><a href="repo/tests/test_dashboard.py">test_dashboard.py</a>, lines 6–66: pipeline counts, sparkline shape, simple bottleneck heuristic and interleaved activity-feed ordering/limits.</li>
+<li><a href="repo/tests/test_proposal_questions.py">test_proposal_questions.py</a>, lines 5–124: question structures, simulated form-answer construction and a test-local frontmatter parser. These are not evidence of successful production endpoint dispatch or approval enforcement.</li>
+<li><a href="repo/tests/test_integration_claude_code.py">test_integration_claude_code.py</a>, lines 12–74, and <a href="repo/tests/test_integration_sidecar.py">test_integration_sidecar.py</a>, lines 11–50 and 290–314: identity formats, metadata preservation, detection and detection precedence. They do not demonstrate model execution continuity.</li>
+<li><a href="repo/tests/test_integration_contract.py">test_integration_contract.py</a>, lines 16–50: adapter interface metadata/callability. This is an API-shape contract, not remote execution or lifecycle validation.</li>
+<li><a href="repo/tests/test_workspaces.py">test_workspaces.py</a>, lines 65–124, 190–209 and 249–305: plugin configuration, tmux command metadata, chat config and workspace file-route access. They do not implement or prove a functioning chat room service.</li>
+</ul>
+<p>Tests were not run, and repository README test counts/production-agent claims were not treated as verified results. Runtime behavior requiring real tool credentials, native timers, populated workspaces and actual external runners remains unexercised. Every fit judgment above is bounded to source evidence at the pinned revision.</p></article>
+<section id="source-record"><h2>Source and evidence</h2><p class="url-text">https://github.com/christag/agency</p>
+<ul><li><a href="repo/">Open the pinned source checkout</a></li><li><a href="assessment/ASSESSMENT.md">Read the Markdown assessment</a></li>
+<li><a href="../generic/assessments/_audits/qa01.md">Read the historical independent source audit</a></li><li><a href="../generic/method.html">Read the method and evidence limits</a></li></ul></section>
+<nav class="report-switch" aria-label="Adjacent project reports"><a href="../zeroshot/index.html">Previous project: Zeroshot</a><a href="../agent-deck/index.html">Next project: Agent Deck</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../index.html">Return to overview <img src="../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

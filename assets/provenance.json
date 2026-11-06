@@ -1,0 +1,13 @@
+{
+  "fonts": "Manrope Regular and Bold. License: fonts/OFL.txt.",
+  "patterns": "232px navy navigation, 56px top bar, pale surfaces, red accents, compact tables.",
+  "reference_css_sha256": "dd955b136439637bf1855e04d46b34eb5dca9e291ce06342feafbc597bf258bc",
+  "copied_assets": {
+    "fonts/OFL.txt": "a1a1fa953e9345b6d0b3e95f6210b401b0cacf44048bb3d82a0035210b5e2481",
+    "fonts/manrope-regular.ttf": "a13d9b41b0a471ce58f0e46d377fa3cc76615e4632c3b15eb397caadf7a13f0a",
+    "fonts/manrope-bold.ttf": "b9584e099e0e7f1e1e914c3037aabb9010c50346a3ce8df5eeeeecc0563044d8",
+    "icons/arrow-right.svg": "9e610751fbae11ffad8a98a583e046d970a8c2b8cc52958e78d96aedfc5850d2",
+    "icons/signal-dash.svg": "5d2874925135ef84c053c68be0e1fa847d2dab2ea7fd0fec5b7ea1f8d60560c3"
+  },
+  "icon_metadata": "The signal marker description uses neutral text."
+}

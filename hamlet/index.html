@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Technical assessment against Wingman’s development organization."><title>Hamlet · Wingman Research</title>
+<link rel="icon" href="../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/report.css"><script defer src="../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../index.html"><img src="../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../index.html">Overview</a><a class="nav-link " href="../generic/index.html">Architecture findings</a><a class="nav-link " href="../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../generic/method.html">Method and evidence</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../index.html">Wingman Research</a><span class="crumb">/</span><span>Hamlet</span></div><span class="topbar-note">SOURCE REVIEW · 05 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Hamlet</h1><p class="subtitle">Technical assessment against Wingman’s development organization.</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#decision">Decision summary</a><a href="#assessment-hamlet-assessment-against-wingman">Hamlet assessment against Wingman</a><a href="#assessment-fit-verdict">Fit verdict</a><a href="#assessment-architecture-and-execution-model">Architecture and execution model</a><a href="#assessment-feature-matrix">Feature matrix</a><a href="#assessment-agent-definition-creation-and-lifecycle">Agent definition, creation and lifecycle</a><a href="#assessment-coordination-mechanics-and-one-traced-request">Coordination mechanics and one traced request</a><a href="#assessment-major-additional-capabilities-and-grounded-innovations">Major additional capabilities and grounded innovations</a><a href="#assessment-multi-host-boundary-and-practical-adoption">Multi-host boundary and practical adoption</a><a href="#assessment-verification-scope-and-limits">Verification scope and limits</a><a href="#source-record">Source and evidence</a></div></nav><section id="decision" class="decision"><h2>Decision summary</h2>
+<div class="brief-columns"><div><h3>Useful for Wingman</h3><p>Study persistent identities, private memory, authorized communication, and recoverable organizational changes.</p></div><div><h3>Adoption boundary</h3><p>The pi-durable runtime lacks a Codex adapter and Wingman&#x27;s product tracker and discovery workflow.</p></div></div>
+<p class="scope-note">Source assessment at the commit below. Runtime limits appear in the technical report.</p></section>
+<dl class="facts"><div><dt>Source group</dt><dd>Standing teams</dd></div><div><dt>Commit</dt><dd><code>c944a2ff4081bf54cf3049e613c0833a7910e180</code></dd></div><div><dt>Coverage</dt><dd>24 Wingman features</dd></div></dl>
+<article id="technical-assessment" class="technical"><h2 id="assessment-hamlet-assessment-against-wingman">Hamlet assessment against Wingman</h2>
+<p class="url-text">Assessment date: 2026-11-05. Repository: https://github.com/voxell-tech/hamlet</p>
+<p>Local checkout: <code>researchs/hamlet/repo</code>. Inspected commit: <code>c944a2ff4081bf54cf3049e613c0833a7910e180</code>.</p>
+<p>Baseline: <a href="../generic/purpose.html">Wingman purpose</a>. This is a fresh static assessment of the checked-out implementation. No dependencies were installed, services launched, model calls made or tests run. Source links below are relative to this report; line numbers refer to this commit.</p>
+<h2 id="assessment-fit-verdict">Fit verdict</h2>
+<p>Hamlet is a substantial <strong>persistent agent society with a human oversight application</strong>. Its agents really have separate durable identities, private memory and conversations, execute coding tools, exchange messages through an authorized graph, and survive beyond the window that displays them. It is useful reference material for Wingman's standing organization, particularly identity, communication authorization, human questions, cancellation, recoverable organizational changes and execution boundaries.</p>
+<p>It does not supply Wingman's software-development organization as a product. The implemented model runtime is pi-durable, with a general personal-assistant charter. There is no Codex runtime adapter, Telegram Butler, project intake reconciliation, product/technical leadership pair, shared ticket system, discovery-to-specification workflow or integrated acceptance/delivery process. A hamlet can be used as a project team, and purpose strings can describe specialists, but those conventions do not create the missing application layer.</p>
+<p>Its distributed execution deserves qualified credit: a central server can execute tools and keep agent houses on a real remote Linux worker. However, the server selects one local or remote workspace for the whole realm. It does not place different agents simultaneously on different hosts. Remote selection also disables founding/removing/restoring hamlets and some other lifecycle operations. Treat it as remote execution infrastructure, not Wingman's complete multi-host organization.</p>
+<h2 id="assessment-architecture-and-execution-model">Architecture and execution model</h2>
+<pre aria-label="Code or source excerpt" role="region" tabindex="0"><code class="language-text">Native Bevy window or terminal CLI
+  -&gt; authenticated WebSocket client protocol
+Rust hamlet_server
+  -&gt; realm.sqlite: identities, records, approvals, bindings, inputs,
+     correspondence, accounting and operation markers
+  -&gt; JSON-lines runtime protocol over a child process's stdin/stdout
+Node pi adapter + pi-durable SQLite store
+  -&gt; independent conversations, model calls, compaction and recovery
+  -&gt; tool requests return to the Rust server's permission gate
+Rust tool execution
+  -&gt; local OS sandbox OR one configured remote Linux workspace worker
+</code></pre>
+<p><a href="repo/crates/hamlet_server/src/requests.rs">requests.rs</a>, lines 48–129, parses/schema-checks client requests and requires the server connection token in the initial hello. Lines 162–206 route chat operations to their owners. The server schema composes record, harness, chat and society tables, with SQLite WAL and FULL synchronization; <a href="repo/crates/hamlet_server/src/store.rs">store.rs</a>, lines 72–104 and 113–135. The server owns organizational authority and execution permission. The harness owns model execution and its conversation store. The GUI is a client rather than the execution owner. Disconnect handling removes client watches/model interactions rather than stopping agent work; <a href="repo/crates/hamlet_server/src/runtime.rs">runtime.rs</a>, lines 262–276.</p>
+<p>The pi child is launched with a stable runtime identity and store path, communicating over stdio; <a href="repo/crates/hamlet_server/src/harness/process.rs">harness/process.rs</a>, lines 102–170. The adapter opens pi-durable SQLite storage, checks the recorded runtime identity and advertises capabilities before starting work; <a href="repo/harnesses/pi/src/runtime.ts">runtime.ts</a>, lines 64–84 and 128–189. The pinned adapter identifies itself as <code>hamlet-pi 0.1.0</code> and its underlying harness as <code>pi-durable 1.2.0</code>. A configurable harness name is not evidence of multiple implemented harnesses: <a href="repo/crates/hamlet_server/src/harness.rs">harness.rs</a>, lines 578–612, explicitly refuses a harness other than the default pi implementation.</p>
+<p>An <strong>agent is a durable organizational identity</strong>, represented by hamlet ID and monotonically allocated number, with name, purpose, model override and character. It is not a dedicated process. A <strong>hamlet</strong> is a persistent group with one mayor, limits, a record and an optional shared project folder. A <strong>realm</strong> groups hamlets. A <strong>conversation</strong> is tied to an agent and permanently bound to the runtime in which it began; one agent can have human sessions plus separate peer conversations. A <strong>runtime</strong> is a Node process that can serve many such conversations. An <strong>errand</strong> is a constrained conversation used for a ballot, hearing, review, notes or librarian job. A <strong>root task</strong> identifies an instruction and propagated work for accounting/message limits. It is not a project ticket.</p>
+<p>Concurrency is real between conversations. Pi keeps a separate request chain per conversation, while its settings execute tools sequentially inside each conversation; <a href="repo/harnesses/pi/src/runtime.ts">runtime.ts</a>, lines 78–84 and 211–226. The Rust server owns the event loop and moves slow tool/house work into tasks. This separates responsive coordination from model and tool work, but it provides no automatic source branch or integration discipline for concurrent specialists.</p>
+<h2 id="assessment-feature-matrix">Feature matrix</h2>
+<p>Ratings evaluate the full Wingman capability. <strong>Similar</strong> means a substantial equivalent with a material boundary; <strong>Resembles</strong> means a relevant primitive without the complete behavior. Negative findings reflect the implementation searches described under verification.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Wingman capability</th>
+<th scope="col">Verdict</th>
+<th scope="col">Evidence and concrete difference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F01</td>
+<td>Real independent coding agents and specialist instances</td>
+<td>Similar</td>
+<td>Agents have distinct records, houses, conversations and executable shell/file tools. <a href="repo/crates/hamlet_server/src/society/agents.rs">agents.rs</a>, lines 17–120; <a href="repo/crates/hamlet_server/src/record/membership.rs">membership.rs</a>, lines 56–126. These are independent conversations using pi, rather than Codex sessions. Specialist behavior is a purpose/character instruction rather than a shipped software role.</td>
+</tr>
+<tr>
+<td>F02</td>
+<td>Extensible agent profiles, roles and team composition</td>
+<td>Similar</td>
+<td>Mayor creation accepts arbitrary purpose, character, model and roads, and organizational operations include removal/merge and cross-hamlet agreements. <a href="repo/crates/hamlet_server/src/society.rs">society.rs</a>, lines 43–154 and 166–207. There is no reusable profile registry separating a role definition from many instances; authority is chiefly mayor/member/errand based.</td>
+</tr>
+<tr>
+<td>F03</td>
+<td>Agent directory and visible working relationships</td>
+<td>Similar</td>
+<td>State projects agents, hamlets, mayor status, purposes and actual roads; <a href="repo/crates/hamlet_server/src/state.rs">state.rs</a>, lines 91–163 and 226–266. Native inspectors navigate the organization and peer chats. Directory relationships exist, but no product-ticket/profile relationships are implemented.</td>
+</tr>
+<tr>
+<td>F04</td>
+<td>Telegram as main human channel and Butler routing</td>
+<td>Absent</td>
+<td>Native/CLI requests use explicit agent addresses over the client protocol; <a href="repo/crates/hamlet_server/src/requests.rs">requests.rs</a>, lines 99–129 and 174–206. No Telegram transport/update handler or Butler relay was found in server, CLI, harness or client protocol.</td>
+</tr>
+<tr>
+<td>F05</td>
+<td>Cross-project registry, intake and new/existing project routing</td>
+<td>Resembles</td>
+<td>Realm registry and explicit <code>/found</code>, <code>/hamlets</code>, <code>/hamlet</code> operations provide durable groups and addressing; <a href="repo/crates/hamlet_server/src/realm/deeds.rs">realm/deeds.rs</a>, lines 16–119. A hamlet can represent a product, but there is no product registry with intake/history reconciliation or natural-language routing to existing products.</td>
+</tr>
+<tr>
+<td>F06</td>
+<td>Per-project product and technical leadership</td>
+<td>Resembles</td>
+<td>One mayor office creates agents and roads; <a href="repo/crates/hamlet_server/src/society.rs">society.rs</a>, lines 65–154. ProductMaster/TechMaster could be purpose strings, but separate product-definition and technical-planning responsibilities are not supplied workflow concepts.</td>
+</tr>
+<tr>
+<td>F07</td>
+<td>Proportionate research/discovery and iterative clarification</td>
+<td>Resembles</td>
+<td><code>ask_chief</code> validates structured multiple questions, options and text answers; <a href="repo/crates/hamlet_server/src/chats/asking.rs">asking.rs</a>, lines 8–35 and 91–155. This enables dialogue but supplies no proportional discovery process, uncertainty register or readiness-to-specification gate.</td>
+</tr>
+<tr>
+<td>F08</td>
+<td>Scope, specifications, acceptance scenarios and definition of done</td>
+<td>Resembles</td>
+<td>Shared project file tools and prompt injection of project instructions support durable documents; <a href="repo/crates/hamlet_server/src/prompt.rs">prompt.rs</a>, lines 436–519. No supplied scope/specification/acceptance schema or linked product-definition lifecycle was found. Writing arbitrary files alone is insufficient.</td>
+</tr>
+<tr>
+<td>F09</td>
+<td>Technical decomposition, assignment and shared task tracking</td>
+<td>Resembles</td>
+<td>Mayor delegation via letters/questions is implemented. <a href="repo/crates/hamlet_server/src/society/letters.rs">letters.rs</a>, lines 229–328. <code>society_task</code> stores only task/message count; <a href="repo/crates/hamlet_server/src/society/schema.sql">schema.sql</a>, lines 57–60. There is no shared ticket board with descriptions, assignees, dependency/status transitions or completion criteria.</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>Human-facing portfolio/project management dashboard</td>
+<td>Resembles</td>
+<td>Native overview lists/searches hamlets and opens group membership/account information; <a href="repo/crates/hamlet_app/src/screens/overview.rs">overview.rs</a>, lines 91–185. It is organizational oversight rather than a project dashboard of goals, tickets, specifications, deliverables and blockers.</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>Agent chat application, rooms and direct collaboration</td>
+<td>Similar</td>
+<td>Persistent pairwise letters and questions have human-readable peer conversations; <a href="repo/crates/hamlet_server/src/society/letters.rs">letters.rs</a>, lines 626–749; <a href="repo/crates/hamlet_server/src/chats/watch.rs">watch.rs</a>, lines 81–121. Direct collaboration is substantial, but roads carry pairwise conversations, not multi-participant Room1/Room2 rooms.</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>Management escalation and human decisions/approvals</td>
+<td>Similar</td>
+<td>Agents ask the chief structured questions and tool calls can persist as waits; mayor operations can be reserved for human approval. <a href="repo/crates/hamlet_server/src/chats/asking.rs">asking.rs</a>, lines 91–155; <a href="repo/crates/hamlet_server/src/gate.rs">gate.rs</a>, lines 196–239. Human decisions are implemented without Wingman's management-room/Butler escalation chain.</td>
+</tr>
+<tr>
+<td>F13</td>
+<td>Durable project knowledge and reusable directives</td>
+<td>Similar</td>
+<td>Project files/instructions, per-agent NOTES.md and skills, and a shared library are durable. <a href="repo/crates/hamlet_server/src/prompt.rs">prompt.rs</a>, lines 145–210 and 436–519. There is no enforced DIRECTIVES/SCOPES/SPECS/HARNESS organization or product knowledge model.</td>
+</tr>
+<tr>
+<td>F14</td>
+<td>Persistent identity, conversation and work continuity</td>
+<td>Similar</td>
+<td>Durable identity, immutable runtime bindings, input admission, sessions and resume exist. <a href="repo/crates/hamlet_server/src/harness/bindings.rs">bindings.rs</a>, lines 35–81 and 149–184; <a href="repo/crates/hamlet_server/src/chats/deeds.rs">deeds.rs</a>, lines 114–212. Continuity covers conversations and execution work, but no product-ticket continuity model.</td>
+</tr>
+<tr>
+<td>F15</td>
+<td>Proactive supervision, periodic wake and blocker follow-up</td>
+<td>Resembles</td>
+<td>The event loop sweeps votes/reviews/merges and restarts failed runtimes; <a href="repo/crates/hamlet_server/src/runtime.rs">runtime.rs</a>, lines 313–353. Reflection is turn-triggered; <a href="repo/crates/hamlet_server/src/chats/follow.rs">follow.rs</a>, lines 17–40 and 98–151. These are not a periodic ProjectMaster reviewing product progress/blockers. No such scheduled supervisor was found.</td>
+</tr>
+<tr>
+<td>F16</td>
+<td>Parallel products and concurrent specialists</td>
+<td>Similar</td>
+<td>Multiple hamlets retain their own limits/folders and many conversations execute concurrently; <a href="repo/crates/hamlet_server/src/state.rs">state.rs</a>, lines 145–163; <a href="repo/harnesses/pi/src/runtime.ts">runtime.ts</a>, lines 211–226. Product semantics and integration ownership remain conventions. Remote mode limits group creation/lifecycle.</td>
+</tr>
+<tr>
+<td>F17</td>
+<td>Real multi-host execution with shared coordination</td>
+<td>Similar</td>
+<td>Authenticated HTTP worker requests execute tools remotely under central coordination; <a href="repo/crates/hamlet_server/src/workspace.rs">workspace.rs</a>, lines 30–98; <a href="repo/crates/hamlet_workspace/src/main.rs">worker entry point</a>, lines 1–34 and 47–65. It is genuine distributed execution, but <a href="repo/crates/hamlet_server/src/papers.rs">papers.rs</a>, lines 56–103, chooses one realm-wide workspace, not per-agent mixed-host placement.</td>
+</tr>
+<tr>
+<td>F18</td>
+<td>Executive current/recent/next work and blockers</td>
+<td>Resembles</td>
+<td>Agent activity shows thinking/reading/running/waiting, steps, failures and recent text; <a href="repo/crates/hamlet_server/src/chats/activity.rs">activity.rs</a>, lines 12–86. This is execution state rather than a semantic briefing of completed/current/planned work and blockers linked to tasks.</td>
+</tr>
+<tr>
+<td>F19</td>
+<td>Individual summary timeline linked to underlying work</td>
+<td>Resembles</td>
+<td>Chat history and organizational decisions can be inspected, and watched transcripts page underlying entries; <a href="repo/crates/hamlet_server/src/chats/watch.rs">watch.rs</a>, lines 17–75. No separate plain-language per-agent summary timeline linking tickets, discussions, tests and changes was found. A transcript timeline is not that feed.</td>
+</tr>
+<tr>
+<td>F20</td>
+<td>Detailed per-agent coding workspace</td>
+<td>Similar</td>
+<td>Native inspector exposes conversation, notes, character, session archive, prompt and peer chats; <a href="repo/crates/hamlet_app/src/screens/inspector/agent.rs">agent.rs</a>, lines 38–66 and 103–209. Tool/file activity is inspectable, but integrated repository diffs, test/browser evidence and ticket-aware review are missing.</td>
+</tr>
+<tr>
+<td>F21</td>
+<td>Live activity, lifecycle controls, steering and visibility</td>
+<td>Similar</td>
+<td>New/resume/retry/stop, queued input, rewind/fork, usage, questions and live activity are implemented; <a href="repo/crates/hamlet_server/src/chats/deeds.rs">deeds.rs</a>, lines 114–212, 388–426 and 429–549. This is a capable session control surface, with fewer Wingman goal/budget/host controls and no equivalent full Codex workspace. Ordinary chief lines use queued input (<code>steer: false</code>); <a href="repo/crates/hamlet_server/src/chats/say.rs">say.rs</a>, lines 853–885.</td>
+</tr>
+<tr>
+<td>F22</td>
+<td>Testing, integrated verification and acceptance/delivery</td>
+<td>Resembles</td>
+<td>Shell/file tools can implement and run tests, and shared project instructions are available; <a href="repo/crates/hamlet_server/src/tools/shell.rs">shell.rs</a>, lines 1–29; <a href="repo/crates/hamlet_server/src/prompt.rs">prompt.rs</a>, lines 480–519. No TestMaster workflow, integrated product acceptance gate or delivery process was found. Hamlet's own acceptance-test suite is not a feature for accepting generated products.</td>
+</tr>
+<tr>
+<td>F23</td>
+<td>Autonomous operation with human organizational direction</td>
+<td>Similar</td>
+<td>A chief can instruct a mayor, which creates and delegates to independent agents under persisted limits/approvals. <a href="repo/crates/hamlet_server/src/society/agents.rs">agents.rs</a>, lines 37–120; <a href="repo/crates/hamlet_server/src/society/letters.rs">letters.rs</a>, lines 229–328. Execution can continue independently of viewing clients, but the full autonomous research-to-delivery organization is absent.</td>
+</tr>
+<tr>
+<td>F24</td>
+<td>Views/chat/tracker accommodate new agent profiles</td>
+<td>Resembles</td>
+<td>Generic identity-driven state and inspector render newly created agents without fixed specialist enums; <a href="repo/crates/hamlet_server/src/state.rs">state.rs</a>, lines 164–266; <a href="repo/crates/hamlet_app/src/screens/inspector/agent.rs">agent.rs</a>, lines 103–209. Chat/directory extensibility is substantial, but there is no profile registry or tracker/dashboard workflow to extend.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="assessment-agent-definition-creation-and-lifecycle">Agent definition, creation and lifecycle</h2>
+<h3 id="assessment-definition-and-authority">Definition and authority</h3>
+<p>A created agent's configurable substance is <code>name</code>, <code>purpose</code>, optional <code>roads</code>, <code>model</code> and <code>character</code>, accompanied by a creation reason; <a href="repo/crates/hamlet_server/src/society/agents.rs">agents.rs</a>, lines 17–27. Prompt assembly adds the shared charter, machine environment, project instructions, character, notes, personal skills, shared library and organizational brief; <a href="repo/crates/hamlet_server/src/prompt.rs">prompt.rs</a>, lines 145–210. Thus durable identity/configuration is distinct from the prompt rendered for a particular turn.</p>
+<p>The shipped <a href="repo/crates/hamlet_server/assets/charter.md">charter</a>, lines 1–18, defines a personal assistant that grows skills, keeps NOTES.md, uses file/shell tools, cannot install software and should not open an application/browser. That is a material fit boundary for development and browser verification. It can be replaced, but Wingman's responsibilities and permitted toolchains would need an intentional new charter and policies. Personal notes are prompted memory, not a structured project specification store.</p>
+<p>Role authority is server-owned. Mayor-only creation/removal/merging differs from every-agent messaging and question tools; ballot conversations get narrowly scoped ballot authority. The tool/role table is explicit in <a href="repo/crates/hamlet_server/src/society.rs">society.rs</a>, lines 65–154. Giving an ordinary worker a character saying “TechMaster” does not grant mayor capabilities or establish a new permission class.</p>
+<h3 id="assessment-admission-identity-and-first-execution">Admission, identity and first execution</h3>
+<p>Founding a hamlet creates agent number zero as mayor, establishes chief membership and resets the group's next agent number to one; <a href="repo/crates/hamlet_server/src/record.rs">record.rs</a>, lines 899–924. Later <code>create_agent</code> calls flow through a record operation and transactional result marker. Admission checks globally available names, nonempty mayor-supplied purpose, agent-room limits and allowed models. It allocates a stable number, stores configuration and creation/model decisions, then tries the requested roads; <a href="repo/crates/hamlet_server/src/record/membership.rs">membership.rs</a>, lines 56–126. Road refusals can coexist with successful agent creation, so the caller receives that distinction.</p>
+<p>After the identity is committed, house initialization runs as separate work. Creation returns “Give it work with ask_agent”. It does not start an autonomous perpetual process simply because a record exists. Initialization builds missing folders/notes locally or asks the selected remote worker; <a href="repo/crates/hamlet_server/src/papers.rs">papers.rs</a>, lines 290–327. <a href="repo/crates/hamlet_server/src/society/agents.rs">agents.rs</a>, lines 109–119, deliberately allows initialization to be retried at startup. This avoids conflating a failed filesystem step with nonexistent organizational identity.</p>
+<p>First use binds a conversation to the agent's selected model and the pi runtime. Existing conversations retain their runtime; changing the configured harness affects later conversations only. <a href="repo/crates/hamlet_server/src/harness/bindings.rs">bindings.rs</a>, lines 35–48 and 149–184. Agent creation is therefore distinct from conversation creation, model generation and OS tool-process creation.</p>
+<h3 id="assessment-tools-permissions-and-concurrent-work">Tools, permissions and concurrent work</h3>
+<p>Basic tools cover reading, searching/finding, writing/editing and shell execution. The permission gate classifies the call by reach; read operations differ from edits/commands, and chief limits may reserve society changes. <a href="repo/crates/hamlet_server/src/gate.rs">gate.rs</a>, lines 19–110 and 196–239. A call identity is tied to its runtime, conversation, input, tool and canonical argument digest, preventing reuse of an operation key with altered content; <a href="repo/crates/hamlet_server/src/chats/calls/decide.rs">decide.rs</a>, lines 76–114.</p>
+<p>Manual project mode asks before edits and commands; auto mode relies on grants and confinement. Local project commands write in the shared project and agent house, while prompt instructions suggest mayor-arranged git worktrees when agents must work apart; <a href="repo/crates/hamlet_server/src/prompt.rs">prompt.rs</a>, lines 436–499. That is guidance, not an implemented worktree allocator, file-lock system or merge queue. Several agents can therefore edit one product concurrently without guaranteed branch isolation. Shell commands have a 120-second maximum that the model may shorten; <a href="repo/crates/hamlet_server/src/tools/shell.rs">shell.rs</a>, lines 27–29. Long build/test workflows need accommodation. The local sandbox selects Seatbelt on macOS and bubblewrap on Linux; Windows has an explicit insecure mode, so confinement guarantees are platform-dependent; <a href="repo/crates/hamlet_server/src/sandbox.rs">sandbox.rs</a>, lines 30–76.</p>
+<p>The code also loads hand-added tool manifests with schema validation, reserved-name protection, executable and declared sandbox reach; <a href="repo/crates/hamlet_server/src/hand.rs">hand.rs</a>, lines 20–32, 68–131 and 133–180. Runtime definitions refresh dynamically. This is a concrete extension route, not an existing Telegram/Codex/project-management integration.</p>
+<h3 id="assessment-persistence-resume-scheduling-and-recovery">Persistence, resume, scheduling and recovery</h3>
+<p>Chief input is associated with a root task and persisted before it is sent to the harness. Request identifiers deduplicate repeated admission; <a href="repo/crates/hamlet_server/src/chats/say.rs">say.rs</a>, lines 853–885; <a href="repo/crates/hamlet_server/src/harness.rs">harness.rs</a>, lines 615–628. The harness records queued/placed/done/unanswered states. Sessions can be started, retired with an owed reflection, and resumed; <a href="repo/crates/hamlet_server/src/chats/deeds.rs">deeds.rs</a>, lines 114–212. Rewind creates a fork of earlier conversation entries and changes the current pointer. It does not undo commands, changed files or spend.</p>
+<p>Startup relaunches runtimes with their bound conversations. Unexpected closure schedules restart unless shutdown or protocol refusal prevents it. See <a href="repo/crates/hamlet_server/src/harness.rs">harness.rs</a>, lines 363–397 and 904–982. Pi bounds ordinary retries and does not retry inside a stream. Its separate cutoff-recovery task aborts the old generation, compacts, and creates one successor under the original input. Stop/retry bookkeeping persists. See <a href="repo/harnesses/pi/src/runtime.ts">runtime.ts</a>, lines 78–93, and <a href="repo/harnesses/pi/src/recovery.ts">recovery.ts</a>, lines 15–101 and 117–165.</p>
+<p>The strongest recovery guarantee applies to server-owned transactional operations. Authority, organizational effect and result marker commit together; replay can return the saved result, while a conflicting request digest is refused. <a href="repo/crates/hamlet_server/src/operation.rs">operation.rs</a>, lines 144–218. This does not make arbitrary shell side effects transactional. Remote transport explicitly reports uncertain outcomes rather than silently retrying a possibly completed operation; <a href="repo/crates/hamlet_server/src/workspace.rs">workspace.rs</a>, lines 16–18 and 70–117.</p>
+<p>The 50-ms server tick and two-second tool rescan are runtime maintenance. The tick advances votes, reviews, merges and overdue provider requests; <a href="repo/crates/hamlet_server/src/runtime.rs">runtime.rs</a>, lines 132–175 and 308–353. Automatic reflection is based on completed human turns and session retirement; <a href="repo/crates/hamlet_server/src/chats/follow.rs">follow.rs</a>, lines 17–40 and 98–151. Neither implements a periodic project manager that wakes to inspect delivery progress, discover blockers and contact owners. Such a supervisor remains to build.</p>
+<h3 id="assessment-interruption-completion-and-retirement">Interruption, completion and retirement</h3>
+<p>Stopping an agent traverses its running conversations, stops tool tasks, durably cancels harness work, drops queued input and closes waits. Cancellation can survive runtime downtime; <a href="repo/crates/hamlet_server/src/chats/deeds.rs">deeds.rs</a>, lines 464–549. Remote pending-operation drop additionally sends a cancel request to the worker; <a href="repo/crates/hamlet_server/src/workspace.rs">workspace.rs</a>, lines 165–181. This is execution interruption, not automatic rollback of completed effects.</p>
+<p>Input completion is followed once. The server marks instructions done, counts turns, requests reflection, reports failures and continues queued work; <a href="repo/crates/hamlet_server/src/chats/follow.rs">follow.rs</a>, lines 43–151. “Done” means that input's execution ended successfully, not that product acceptance scenarios passed. There is no supplied product acceptance authority or delivery artifact gate.</p>
+<p>Removal archives identity/roads, stops conversations and revokes network/unconfined grants and session trust; <a href="repo/crates/hamlet_server/src/society/leaving.rs">leaving.rs</a>, lines 73–161. The record protects agents with outstanding/recent human instructions against mayor removal/merge; chiefs can override the protection; <a href="repo/crates/hamlet_server/src/record/membership.rs">membership.rs</a>, lines 129–197. Restoration/erasure are explicit chief actions. Merge is a richer lifecycle operation with saved manifests, house snapshots, note combination and reversible file transfers. Local startup can finish interrupted file work; remote uncertain attempts are not blindly replayed; <a href="repo/crates/hamlet_server/src/society/merging.rs">merging.rs</a>, lines 689–747 and 821–870. These are substantial retirement/recovery mechanisms, though not Wingman's conversation archive/profile lifecycle verbatim.</p>
+<h2 id="assessment-coordination-mechanics-and-one-traced-request">Coordination mechanics and one traced request</h2>
+<p>The shared coordination substrate consists of organizational records, road topology, durable pairwise correspondence, waits/approvals, instructions and accounting. Shared project files give collaborators a common filesystem. There is no ticket dependency DAG or multi-party room schema: <a href="repo/crates/hamlet_server/src/society/schema.sql">society/schema.sql</a>, lines 1–79, stores peer bindings, messages, a message counter, pending society calls and JSON society documents.</p>
+<p>A representative implemented request path is a chief asking the mayor to have another agent implement a change. This is a source trace, not a claim that a live model was observed choosing these actions:</p>
+<ol>
+<li>A client <code>Say</code> request authenticates and dispatches into chat handling; <a href="repo/crates/hamlet_server/src/requests.rs">requests.rs</a>, lines 99–129 and 174–176. The chief's text gets an instruction/root-task mark, current conversation binding and durable input before runtime submission; <a href="repo/crates/hamlet_server/src/chats/say.rs">say.rs</a>, lines 839–885.</li>
+<li>If another specialist is needed, the mayor's <code>create_agent</code> call is checked against server authority/limits and commits the agent record/result once, then initializes its house. It still needs a separate work message; <a href="repo/crates/hamlet_server/src/society/agents.rs">agents.rs</a>, lines 37–120.</li>
+<li>The mayor calls <code>ask_agent(name, message)</code> to wait for the specialist's result, or <code>tell_agent</code> to continue while a later reply arrives. <code>ask_agent</code> resolves and preserves the recipient identity across replays; <a href="repo/crates/hamlet_server/src/society/letters.rs">letters.rs</a>, lines 229–328. The server requires a road, rejects empty messages, inherits the root task, creates/reuses a recipient conversation dedicated to this sender and message kind, and commits correspondence before submission; lines 626–749.</li>
+<li>Sending increments the root-task message count and records use of the communication road. New requests can be capped, but replies have a return path even when the cap/road would refuse new traffic; <a href="repo/crates/hamlet_server/src/society/letters.rs">letters.rs</a>, lines 560–623. Synchronous questions also check waiting cycles; lines 338–369. These mechanisms constrain delegation loops without creating ticket dependencies.</li>
+<li>The specialist receives its own prompt/memory and accesses shared project files through the tool gate. In manual mode a changed file or command raises a human wait. An ambiguous product choice can be asked through <code>ask_chief</code>. Human decisions are attached to the call/session rather than relayed through Butler or a management room.</li>
+<li>The recipient answer/failure is retained with the correspondence, wakes a synchronous caller, or is submitted as a new input for an asynchronous letter; <a href="repo/crates/hamlet_server/src/society/letters.rs">letters.rs</a>, lines 870–997. A watched native peer chat exposes the underlying exchange; <a href="repo/crates/hamlet_server/src/chats/watch.rs">watch.rs</a>, lines 81–121. The mayor can incorporate the result into its response to the chief. That closes conversational delegation, not a verified product delivery milestone.</li>
+</ol>
+<p>This supports real direct collaboration and durable attribution. Wingman would need project/ticket IDs and room membership threaded through these records to connect correspondence, acceptance records and executive summaries.</p>
+<h2 id="assessment-major-additional-capabilities-and-grounded-innovations">Major additional capabilities and grounded innovations</h2>
+<p><strong>Organizational governance.</strong> Agents can propose replacing the mayor or founding another hamlet. A vote fixes its voters and records reasons, hearings, and ballots. Timeout and threshold rules control progression. A chief can overturn the result. See <a href="repo/crates/hamlet_server/src/society/votes.rs">votes.rs</a>, lines 27–78 and 345–442.</p>
+<p>Grounding uses a limited text check. A normalized four-word evidence sequence must occur in frozen notes or recent history. Policy can require grounded yes votes (lines 554–575 and 891–949). This makes evidence traceable. It does not prove the claim's meaning or truth. Wingman would need to reconcile elective leadership and group formation with appointed project responsibility and human direction.</p>
+<p><strong>Communication topology as enforceable policy and resource.</strong> Roads are checked before messages, usage is recorded, and root-task limits bound new correspondence while preserving answers; <a href="repo/crates/hamlet_server/src/society/letters.rs">letters.rs</a>, lines 560–623 and 645–707. The visible graph therefore corresponds to real permitted communication, rather than decorative reporting lines. This can limit uncontrolled chatter and expose actual collaboration patterns. It can also obstruct a worker who needs an unconnected specialist, requiring mayor relay or road creation. Room-wide discussion would need a different membership/broadcast abstraction.</p>
+<p><strong>Recoverable organizational mutations at a runtime boundary.</strong> Input admission, immutable runtime binding and operation markers coordinate two durable stores. Authority/effect/result commit together for realm operations, and changed requests cannot reuse call keys; <a href="repo/crates/hamlet_server/src/operation.rs">operation.rs</a>, lines 98–122 and 144–218; <a href="repo/crates/hamlet_server/src/chats/calls/decide.rs">decide.rs</a>, lines 76–114. This is a useful design for Wingman actions such as creating agents or assigning authority across restarts. Its limits matter: filesystem/shell effects and remote uncertain responses require different recovery treatment.</p>
+<p><strong>Memory-aware merge and restoration.</strong> Agent retirement can combine knowledge and skills into another identity, preserve file collisions and save a restoration manifest. Hash checks preserve subsequently edited files during restoration; <a href="repo/crates/hamlet_server/src/society/merging.rs">merging.rs</a>, lines 689–747. This is more sophisticated than deleting a completed worker process. The integration consequence is significant: knowledge ownership, agent identity, conversation references and project obligations must stay coherent after organizational restructuring. It is not a merge of product source branches.</p>
+<p><strong>Private learning promoted through a shared librarian.</strong> Reflection asks agents to save reusable lessons into notes and skills; <a href="repo/crates/hamlet_server/src/chats/follow.rs">follow.rs</a>, lines 17–24. Skill offers snapshot files and prompt a separate librarian judgment about usefulness, clarity, duplication and private information. An answer whose first word is <code>ACCEPT</code> publishes the snapshot with provenance; unchanged private copies are removed while later private edits are preserved; <a href="repo/crates/hamlet_server/src/society/library.rs">library.rs</a>, lines 257–296 and 313–409. This is a concrete personal-to-organizational knowledge pipeline. Textual librarian acceptance is not execution validation, test coverage or a reliable privacy proof; Wingman should add capability/security checks appropriate to reusable development scripts.</p>
+<p><strong>Explicit execution isolation and remote uncertainty.</strong> The Rust authority controls model-originated tools independently of the model runtime, and a bearer-authenticated worker transports scoped operations rather than giving the runtime arbitrary host access; <a href="repo/crates/hamlet_server/src/workspace.rs">workspace.rs</a>, lines 20–98. In remote mode the agent sees <code>/house</code>, shared <code>/project</code> and read-only <code>/library</code>, with buffered command output capped at 1 MiB and per-file transfer capped at 4 MiB; <a href="repo/crates/hamlet_server/src/papers/remote.rs">papers/remote.rs</a>, lines 17–35. This helps maintain host boundaries, but large build artifacts, rich live terminal output and integrations needing arbitrary private-network access require adaptation.</p>
+<p>These are distinctive implementation mechanisms relative to Wingman's described product. No historical novelty or industry-wide uniqueness is claimed. The 3D world usefully visualizes persistent agents and communication relations, but its appearance alone is not evidence for project management or executive reporting.</p>
+<h2 id="assessment-multi-host-boundary-and-practical-adoption">Multi-host boundary and practical adoption</h2>
+<p><a href="repo/crates/hamlet_server/src/papers.rs">Houses</a>, lines 56–103, owns one <code>Workspace::Local</code> or <code>Workspace::Remote</code> selected at startup. This permits a local control server/window and remote Linux tools, but not agent A on Mac and agent B on Endeavour under individual execution-host routing. The Linux-only worker is an actual executable implementation, not merely a remote UI connection; <a href="repo/crates/hamlet_workspace/src/main.rs">worker main</a>, lines 1–34 and 47–65.</p>
+<p>Remote <code>Houses::allows</code> refuses all enumerated special capabilities: erase house, found/move/remove/restore/erase hamlet and move house between hamlets; <a href="repo/crates/hamlet_server/src/papers.rs">papers.rs</a>, lines 29–52 and 122–130. Founding checks this before proceeding; <a href="repo/crates/hamlet_server/src/realm/deeds.rs">realm/deeds.rs</a>, lines 35–47. Existing remote agents can still perform supported work, including some merges, but local group-lifecycle behavior must not be assumed to carry over. Remote outcomes can be uncertain. There is deliberately no automatic host fallback to rerun an operation elsewhere.</p>
+<p>Wingman could use Hamlet directly as a separate persistent society/execution experiment, and could borrow its identity/binding model, road authorization, durable waits, operation markers, memory lifecycle and native agent inspector design. Those are the strongest assets.</p>
+<p>Adopting it as the core product would require substantial adaptation: a Codex harness adapter; software-development charter and reusable role profiles; per-project product/technical/test responsibilities; project-aware shared room messaging; and client surfaces matching Wingman's dashboards. The native Rust/Bevy and Node/pi architecture is a concrete technology commitment, not a drop-in extension to existing Codex chats.</p>
+<p>The principal missing layer remains Telegram Butler; ProjectMaster portfolio intake/reconciliation and periodic supervision; scope/specification/acceptance records; tickets/dependencies and progress tracking; semantic current/recent/next/blocker summaries and linked timelines; integrated code/diff/test/browser review; acceptance/delivery gates; and per-agent multi-host placement. Generic tools and prompts could implement pieces, but the checked-out product does not ship their coordination guarantees.</p>
+<h2 id="assessment-verification-scope-and-limits">Verification scope and limits</h2>
+<p>Read the complete assessment guide and Wingman purpose, checkout <code>AGENTS.md</code>, required documentation index/tour, code/comment conventions and glossary. No parent-directory AGENTS.md files were present in the checked paths; no nested Hamlet AGENTS.md was found. The optional sibling backlog was absent. Only this report was written; Hamlet source remained read-only.</p>
+<p>The implementation review covered these areas:</p>
+<ul>
+<li>Client authentication, request dispatch, schema composition, and agent admission/authority.</li>
+<li>Purpose/model/character, prompts, charters, house initialization, runtime binding, and input durability.</li>
+<li>Session creation/resume/retry/rewind/stop, follow-up, reflection, operation IDs/markers, and permission gates.</li>
+<li>Letters, questions, message limits, peer conversations, founding, votes, and librarian publication.</li>
+<li>Removal/merge recovery, remote transport, worker selection, state projection, and agent inspection.</li>
+</ul>
+<p>Large files received targeted reading along these execution paths. External pi-durable internals and vendored GUI dependencies were not independently audited.</p>
+<p>Relevant test bodies inspected, without execution:</p>
+<ul>
+<li><a href="repo/crates/hamlet_server/tests/harness/main.rs">Harness integration tests</a>, lines 126–170 and 220–256: crash boundaries around effect/result commits and a negative control with deliberately split commits; unsafe replay refusal.</li>
+<li>The same file, lines 562–673: admission cutoff, queued-input cancellation, lapsed waits and cancel during runtime downtime. Lines 884–961: loopback-provider cutoff recovery at abort/summary fault points, preserving exact original user input and task-attributed usage.</li>
+<li><a href="repo/crates/hamlet_server/tests/crashes/society.rs">Society crash tests</a>, lines 77–164: interrupted merges at three stages, collision preservation, avoiding duplicate note facts, and restoration that preserves later file edits.</li>
+<li><a href="repo/crates/hamlet_server/tests/crashes/remote.rs">Remote crash/transport test</a>, lines 985–1070: a fake worker returns an uncertain write result; assertions check no host-file leakage, one write request, no local houses/fallback and no write replay after restart. This test uses a loopback worker fixture, not proof of a deployed remote Linux sandbox.</li>
+</ul>
+<p>Absence searches used likely implementation paths across server, CLI, native app, client/runtime protocol and pi source for Telegram/Butler, tickets/kanban, cron/heartbeat/supervisor, acceptance/definition-of-done and leadership names. Manual inspection of schema, request dispatch, society tool registry, prompt/charter, state model and native views supported the reported gaps. Documentation/proposals were orientation, not proof of shipped behavior. Generic OS subprocess supervision and Hamlet's own acceptance-test infrastructure were not counted as product supervision or generated-product acceptance.</p>
+<p>No runtime behavior, passing suite, live-provider quality, throughput, cross-platform correctness, remote deployment readiness or autonomous software-delivery success was established by this assessment. The findings describe implemented mechanisms and inspected test intent at the stated commit.</p></article>
+<section id="source-record"><h2>Source and evidence</h2><p class="url-text">https://github.com/voxell-tech/hamlet</p>
+<ul><li><a href="repo/">Open the pinned source checkout</a></li><li><a href="assessment/ASSESSMENT.md">Read the Markdown assessment</a></li>
+<li><a href="../generic/assessments/_audits/qa04.md">Read the historical independent source audit</a></li><li><a href="../generic/method.html">Read the method and evidence limits</a></li></ul></section>
+<nav class="report-switch" aria-label="Adjacent project reports"><a href="../gstack/index.html">Previous project: gstack</a><a href="../happy/index.html">Next project: Happy</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../index.html">Return to overview <img src="../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

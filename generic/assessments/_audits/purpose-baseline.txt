@@ -1,0 +1,416 @@
+# WINGMAN
+
+WINGMAN is a personal software-development organization made up of autonomous Codex agents. It brings agent orchestration, coordination and collaboration into one continuing working environment, with a human directing the organization through conversation.
+
+The human describes a product, asks for a change or raises an idea. WINGMAN takes that request through discovery, clarification, product definition, technical planning, implementation, testing and delivery. Its agents have distinct responsibilities, communicate with one another, maintain shared project records and involve the human when a decision needs their judgment.
+
+WINGMAN can develop several products at the same time. Each product has its own context, product and technical leadership, work assignments, specifications and deliverables. An organization-wide layer keeps track of those projects and provides one place for the human to communicate with the team.
+
+Its purpose is to let one person direct a capable, persistent development organization while that organization handles the coordination needed to turn ideas into working products.
+
+The working environment combines an agent directory, a chat application, a project management dashboard and an executive dashboard with a detailed workspace for each agent. Telegram is the human's main communication channel; the dashboards provide an overview of the organization and access to its work.
+
+## 1. The experience
+
+Telegram is the main entry point. The human talks to Butler through **@KraIOBot**, describing what they want in ordinary language.
+
+A conversation might begin with:
+
+- “Build a mortgage loan origination system for new houses, covering conventional and Islamic lending.”
+- “Create an analytics product similar to Redash.”
+- “Take the CRM mockup and make it usable by pilot customers.”
+- “What is blocking the mobile application?”
+- “Continue the project we discussed yesterday, but change the onboarding flow.”
+
+WINGMAN identifies the project, gathers the relevant context and organizes the work. Butler brings back questions, decisions, progress and delivery information. The human can continue the conversation over time while the agents maintain the working context behind it.
+
+The human concentrates on product direction: goals, priorities, business decisions and acceptance. Agents handle research, planning, delegation, implementation, testing, progress tracking and routine coordination.
+
+## 2. A standing organization of real agents
+
+WINGMAN's roles are separate Codex agents, each with its own identity, conversation and responsibilities. Agents work independently and exchange information through shared records and communication rooms.
+
+The organization has three levels:
+
+1. **Organization-wide coordination:** Butler and ProjectMaster handle the human relationship and the portfolio of projects.
+2. **Project leadership:** ProductMaster and TechMaster define and organize each product.
+3. **Specialist execution:** BackendCoder, FrontendCoder, MobileCoder and TestMaster implement and verify the work.
+
+A project can have several instances of the same specialist. Two BackendCoders can work on separate backend components, for example, while FrontendCoder builds the interface and TestMaster prepares integration tests. Each worker has an identifiable assignment and reports its own progress.
+
+Team size follows the workload. A small mockup needs a smaller team and a lighter process than a substantial product with several applications and integrations.
+
+### An organization that can grow
+
+Butler, ProjectMaster, ProductMaster, TechMaster and the specialist workers form the starting set of agent profiles. WINGMAN can add new profiles, responsibilities and team structures as its work expands. Each profile can have multiple agent instances, with their own identities, assignments and histories.
+
+The agent directory, chat application and project management dashboard grow with that organization. New roles can participate in conversations, receive work, report progress and appear in the executive dashboard. Rooms, project views and workflows accommodate the responsibilities of the teams using them.
+
+### Agent directory
+
+The directory lists the agents working together across WINGMAN. For each agent, it shows its identity, role or profile, project and team, current activity and working relationships. It connects the agent to its tasks, conversations and personal timeline.
+
+The human can see the whole organization or focus on one project's team, then open an individual agent's overview or detailed workspace. The directory includes both the starting profiles and profiles added as WINGMAN grows.
+
+### Butler
+
+Butler is the human-facing representative of WINGMAN.
+
+It receives Telegram messages, passes requests to ProjectMaster, communicates project notifications and brings questions from the organization to the human. It returns the human's answers to the agent responsible for the question, preserving the project and conversation context.
+
+Butler provides a consistent relationship with the whole organization. The human can ask about several projects in one conversation while Butler keeps the underlying discussions connected to the right teams.
+
+### ProjectMaster
+
+ProjectMaster oversees the portfolio of projects.
+
+It maintains the shared project registry, identifies whether a request belongs to an existing project or starts a new one, and initiates the appropriate project leadership. When a new project is created, it tells Butler so the human is informed.
+
+ProjectMaster also supervises ongoing work. It checks progress, follows up with agents, helps resolve blockers and escalates issues through Butler when the organization needs a human decision.
+
+Its perspective spans projects: which products are active, who is working on them, what is progressing and what needs attention.
+
+### ProductMaster
+
+Each project has a ProductMaster responsible for understanding the product and defining what successful delivery means.
+
+ProductMaster reads existing project material, investigates the domain, researches product and market context, identifies uncertainty and asks clarification questions. It adapts the depth of discovery to the size and consequences of the request.
+
+Once the direction is sufficiently clear, it writes the product scope and specifications, including product components, behavior, test scenarios and definition of done. It remains available throughout development to answer product questions and discuss changes with TechMaster and the workers.
+
+### TechMaster
+
+Each project has a TechMaster responsible for translating the product definition into technical work.
+
+TechMaster reads the scope and specifications, discusses unclear points with ProductMaster, decomposes the work into tickets and coordinates the appropriate specialists. It connects backend, frontend, mobile and testing work into a coherent implementation effort.
+
+ProductMaster and TechMaster can exchange ideas directly. They resolve questions together and escalate decisions that need the human's input through Butler.
+
+### Specialist workers
+
+| Worker | Responsibility |
+|---|---|
+| **BackendCoder** | Backend services, APIs, data models and databases, using the languages and databases appropriate to the product. |
+| **FrontendCoder** | Websites and web applications, primarily using TypeScript. |
+| **MobileCoder** | Mobile applications, primarily using Flutter or React Native. |
+| **TestMaster** | Test cases, manual testing, automated testing and browser-based verification, including tools such as Playwright. |
+
+Workers read their assignments and project context, carry out the work, update ProjectTracker and communicate progress or problems in the project collaboration room.
+
+TestMaster focuses on functional testing and product acceptance. Security and DevOps sit outside that role's responsibilities.
+
+## 3. Project intake and continuity
+
+Every incoming request is interpreted against the shared project registry.
+
+| Request | WINGMAN's response |
+|---|---|
+| A new product idea | Establish a project and begin discovery. |
+| An explicit request to build a new product | Create the project, inform the human and organize its team. |
+| A change to an existing product | Continue the existing project using its stored context. |
+| A question about progress | Consult the project's tracker and responsible agents. |
+| An ambiguous reference | Clarify which project or outcome the human means. |
+
+An existing project carries its history forward. ProductMaster consults its scopes, specifications, directives and notes before interpreting a new request. Previous decisions and completed work become context for the next step.
+
+Continuity also supports substantial changes in direction. Turning a CRM mockup into a usable pilot and turning it into a loan origination system require different levels of reassessment. WINGMAN evaluates the actual change and adjusts discovery and planning accordingly.
+
+## 4. Discovery that fits the product
+
+Product discovery is a core capability of WINGMAN. ProductMaster turns an initial request into a sufficiently clear product direction through research and conversation.
+
+The depth of that work depends on the request:
+
+| Product situation | Discovery approach |
+|---|---|
+| A bounded mockup | Establish the audience, key screens, demonstrated flows and expected fidelity. |
+| A modest change to an established product | Read existing context and clarify the affected behavior and acceptance criteria. |
+| A substantial new product | Research the domain, market, technology, users, workflows and important tradeoffs. |
+| A major transformation of an existing product | Revisit product boundaries and identify which previous assumptions still apply. |
+
+For a substantial product, ProductMaster investigates what it can independently and brings meaningful choices to the human. Research supports the questions, and the answers become part of the project's working knowledge.
+
+### The clarification cycle
+
+1. ProductMaster assesses the request and records its understanding, uncertainties and questions.
+2. Butler presents the questions through Telegram.
+3. The human answers in the same conversation.
+4. Butler routes the answers to the relevant ProductMaster.
+5. ProductMaster updates its understanding and decides whether more clarification is needed.
+6. When the direction is ready, ProductMaster writes the scope and specifications.
+
+Questions, answers and their context stay associated with the right project, including when several discovery conversations are active at once.
+
+### Example: a loan origination system
+
+A request for an LOS starts a product conversation. ProductMaster investigates and clarifies such matters as target users, jurisdiction, lending structures, origination stages, decision responsibilities, integrations and acceptance criteria.
+
+Conventional and Islamic mortgages for new houses give that conversation a direction. Discovery develops the details needed to define the actual product and plan its implementation.
+
+## 5. From product definition to technical work
+
+The product definition connects the human's intent to the team's execution.
+
+ProductMaster maintains:
+
+- The product's purpose and intended users.
+- Scope and component boundaries.
+- Functional behavior and important workflows.
+- Relevant decisions and constraints.
+- Product test cases and acceptance scenarios.
+- The product definition of done.
+
+TechMaster turns that definition into technical tickets in ProjectTracker. Each ticket gives the responsible worker enough context to understand the assignment, its relationship to the product and the expected result.
+
+Workers can ask questions as implementation reveals new information. ProductMaster and TechMaster remain involved, so product understanding and technical planning can develop together while retaining a shared direction.
+
+Testing is connected to the product definition. TestMaster verifies behavior against the agreed scenarios, and the team resolves defects and integration problems before presenting delivery for acceptance.
+
+Product completion is judged against the definition of done. The organization brings together the implementation, testing results and product assessment to determine what has been delivered and what remains open. After accepted delivery, active development and testing stop until there is further work to do.
+
+## 6. Project management dashboard and shared ProjectTracker
+
+ProjectTracker is the common working record for the entire organization. All agents can consult it and update the parts relevant to their work.
+
+It brings together:
+
+- The registry of projects.
+- Tickets and task descriptions.
+- Assignees and responsibilities.
+- Status and progress.
+- Comments, blockers and follow-up information.
+
+ProjectMaster uses it to understand the portfolio. ProductMaster and TechMaster use it to connect product direction with execution. Workers use it to receive assignments and report what is happening. The human can inspect it to understand progress.
+
+### Human-facing project dashboard
+
+The project management dashboard presents the shared tracker as a navigable view of the portfolio and each project's work. It shows:
+
+- Active projects, their goals and overall progress.
+- The agents and teams responsible for each project.
+- Tasks, assignees, status and progress updates.
+- Completed work, work in progress and upcoming assignments.
+- Blockers, open questions and decisions needing attention.
+- Links to relevant specifications, conversations and deliverables.
+
+The human can move from a portfolio overview into a project, inspect its tasks and open the responsible agent or discussion. Agent updates keep these views connected to the actual work.
+
+The dashboard supports new agent profiles and evolving project workflows. Its assignment, status and collaboration views can grow as the organization's responsibilities expand.
+
+### Shared working record
+
+The underlying tracker stays lightweight and inspectable. Markdown ticket files or a small database-backed application can provide the shared coordination record that the dashboard presents.
+
+The essential behavior is that assignments, updates and blockers remain available to everyone who needs them, across agent conversations and project sessions.
+
+## 7. Chat application, communication and escalation
+
+WINGMAN includes a chat application where agents discuss work, coordinate and solve problems together. Conversations retain their participants, project context and history, with connections to the relevant agents and tasks.
+
+The human can browse rooms and follow discussions to understand how the organization is working. Telegram remains the main channel for communicating requests, answers and decisions through Butler.
+
+The starting collaboration structure contains two types of room:
+
+| Room | Participants | Purpose |
+|---|---|---|
+| **Room1** | Butler, ProjectMaster, ProductMaster and TechMaster | Management coordination, cross-project issues and human escalation. |
+| **Room2** | ProductMaster, TechMaster and specialist workers | Product clarification, technical discussion, implementation coordination and progress. |
+
+Workers update ProjectTracker and discuss their work in Room2. Backend and frontend agents can settle an integration question together. TestMaster can discuss a failing scenario with the relevant developer. ProductMaster and TechMaster can clarify the intended behavior in the same working conversation.
+
+The escalation path moves an issue toward whoever can resolve it:
+
+```text
+Worker or project issue
+    → discussion with the relevant agents in Room2
+    → management discussion in Room1 if still unresolved
+    → Butler asks the human through Telegram when a human decision is needed
+```
+
+Room history preserves useful context and decisions. The chat application makes that history readable and navigable, including conversations stored as simple appended Markdown records.
+
+As WINGMAN adds agent profiles and teams, the chat application supports their participation and the rooms and discussion structures their work needs. Room1 and Room2 provide the starting organization for that collaboration.
+
+Direct collaboration extends across machines. An agent's host determines where it executes; its project and responsibilities determine whom it works with.
+
+## 8. Persistent project knowledge
+
+Every product has a durable project workspace with a `DIRECTIVES/` structure. It holds the material agents need to understand, continue and verify the product.
+
+The core areas are:
+
+| Area | Content |
+|---|---|
+| **SCOPES** | Product goals, boundaries and agreed scope. |
+| **SPECS** | Product behavior, technical specifications and relevant decisions. |
+| **HARNESS** | Instructions and supporting material for running, testing and verifying the product. |
+
+Projects can also maintain research, plans, questions, runbooks and evaluation evidence as the work calls for them.
+
+WINGMAN preserves several kinds of continuity together:
+
+- **Agent identity:** which role and project an agent belongs to.
+- **Conversation context:** what the agent and its collaborators have discussed.
+- **Work state:** assignments, progress, blockers and outcomes.
+- **Project knowledge:** scope, specifications, decisions and operating guidance.
+
+This lets the human return with a follow-up and lets agents resume useful work with the relevant context available.
+
+### Workspace organization
+
+WINGMAN's own development workspace is separate from the products it creates:
+
+| Location | Purpose |
+|---|---|
+| `~/workspace/engineering/adjutant/wingman/` | WINGMAN's own code, scope, specifications and supporting workspace. |
+| `~/neuralForge/wingman/` | Generated products and their shared tracking and communication environment. |
+| `/tmp/wingman/` | Temporary working material. |
+
+The product environment is organized around shared coordination and distinct product directories:
+
+```text
+~/neuralForge/wingman/
+├── ProjectTracker/
+├── Communication/
+│   ├── Room1/
+│   └── Room2/
+├── product-a/
+│   ├── DIRECTIVES/
+│   │   ├── SCOPES/
+│   │   ├── SPECS/
+│   │   └── HARNESS/
+│   └── ...source and artifacts...
+└── product-b/
+    ├── DIRECTIVES/
+    └── ...source and artifacts...
+```
+
+## 9. Active supervision
+
+ProjectMaster periodically wakes to inspect ongoing work. It looks at the tracker and communication history, checks in with project leadership and workers, and follows up when progress needs attention.
+
+A supervision cycle consists of:
+
+1. Reviewing active projects and worker progress.
+2. Identifying blockers, unresolved questions or work that needs follow-up.
+3. Contacting the responsible agents and helping coordinate a resolution.
+4. Escalating through Room1 and Butler where necessary.
+5. Recording the resulting progress or decision.
+6. Sleeping between useful checks.
+
+Supervision keeps work moving without requiring the human to poll every agent. Agents can raise problems themselves, and ProjectMaster can discover a stalled effort during its own review.
+
+## 10. Parallel products and scalable teams
+
+WINGMAN supports parallel work at two levels: several products can progress simultaneously, and each product can use multiple independent specialists.
+
+Each product retains its own leadership, scope, questions, tickets, assignments, source workspace and artifacts. The shared organizational layer keeps these efforts visible while preserving their individual context.
+
+For example, one team can develop a mortgage LOS while another develops a Redash-like analytics product. ProductMaster for each project conducts its own discovery. TechMaster for each coordinates the relevant backend, frontend and testing work. Butler carries questions and updates from both teams through the human's Telegram conversation.
+
+Within a product, workers can make progress concurrently where assignments permit it. They coordinate interfaces and integration points through the shared rooms and record progress in ProjectTracker.
+
+## 11. Execution across machines
+
+WINGMAN uses both the MacBook Pro and Endeavour, the Arch Linux machine, as execution resources. Codex agents operate on both hosts.
+
+The Mac provides the central human-facing Telegram and organizational coordination environment. Endeavour contributes substantial execution capacity for product development, builds, automated tests and browser work.
+
+Project placement stays coherent over time. Existing projects retain their working location while new work can be assigned to the appropriate host. Agents on either machine participate in the same organization and retain access to the project context needed for their assignments.
+
+The human can direct distributed work through the same Butler conversation. Project tracking and communication connect the teams regardless of where their processes run.
+
+## 12. Visibility and control
+
+WINGMAN provides an executive overview of the organization with the ability to open a detailed working environment for any agent. These views are accessible through web and mobile interfaces.
+
+### Executive dashboard
+
+The executive dashboard gives the human a concise briefing on each AI agent's progress and tasks. Its main view answers:
+
+- Who is working, and on which project?
+- What is each agent working on now?
+- What has each agent just finished, and what was the outcome?
+- What is each agent expected to work on next?
+- Which agents are blocked, waiting or need human attention?
+
+Each agent has an overview containing its identity, role, project, current task, recent accomplishments, upcoming work and important blockers. The human can scan the whole organization and focus on a project or agent when something needs attention.
+
+### A timeline feed for each agent
+
+Every agent has its own timeline feed, summarizing how its work develops over time. Entries describe meaningful activity in plain language: starting an assignment, completing a component, finishing a test run, asking a question, encountering a blocker or preparing the next task.
+
+For example, a BackendCoder's overview could read:
+
+| Part of the briefing | Summary |
+|---|---|
+| Just finished | Completed the application data model and its migration tests. |
+| Working on | Implementing the application submission API. |
+| Next | Connect the API to the frontend flow and support integration testing. |
+| Needs attention | Waiting for a decision about required applicant documents. |
+
+The timeline gives those updates a chronological history. Summaries link to their underlying tasks, conversations, changes or test results, and show when they were last updated. Planned next work is identified as planned, while completed entries describe the actual outcome.
+
+This lets the human understand progress at an executive level before deciding where closer inspection is useful.
+
+### Drill down into an agent's workspace
+
+Opening an agent from the executive dashboard leads to a detailed workspace comparable to a Codex, Claude Code or Orca development session for that individual agent.
+
+The human can move from the summary into the agent's conversation, live activity, task context, tool calls, commands, file edits, tests and artifacts. Relevant project tasks and chat discussions remain connected to the session, so the human can trace an overview entry back to the work behind it.
+
+The detailed workspace provides the controls appropriate to the agent and its work:
+
+| Capability | What it provides |
+|---|---|
+| **Agent lifecycle management** | Start, resume, fork, rename, compact and archive conversations. |
+| **Live activity** | Follow output, commands, tool use, edits, plans and execution state. |
+| **Usage visibility** | Inspect agent usage and the state of ongoing work. |
+| **Questions and approvals** | See requests that need human attention and return a response. |
+| **Steering and queued input** | Supply instructions and attachments to ongoing work or queue them for later handling. |
+| **Execution control** | Stop work, manage continuing goals and budgets, and understand interrupted work. |
+| **Review and artifacts** | Inspect files, changes, generated artifacts, browser observations and review results. |
+| **Host and conversation routing** | Reach the appropriate conversation and execution host. |
+| **Background continuity** | Keep agents and their work running independently of the viewing interface. |
+
+### Connected views of the same organization
+
+The executive dashboard, project management dashboard, chat application and individual agent workspaces provide connected views of the same work:
+
+| View | Main question it answers |
+|---|---|
+| **Agent directory** | Who is in the organization, and how are they working together? |
+| **Executive dashboard** | What is each agent doing, finishing and planning next? |
+| **Project management dashboard** | How is each product progressing, and who owns its work? |
+| **Chat application** | What are the agents discussing, deciding and escalating? |
+| **Individual agent workspace** | What exactly is this agent doing, and what happened in its session? |
+
+An agent's timeline can lead to a task, that task can lead to a discussion, and either can lead to the agent's detailed session. Newly added agent profiles participate in these same views as the organization grows.
+
+Butler remains the human's main conversational representative through Telegram. The dashboards let the human review progress at a glance and investigate further when needed.
+
+## 13. Autonomy and human judgment
+
+WINGMAN carries out the development process through its own agents. They research, clarify, plan, implement, test and coordinate using the organization's shared environment.
+
+Human involvement concentrates on decisions the team needs: product intent, priorities, business tradeoffs, unresolved questions and acceptance. Butler carries those conversations between the human and the responsible agents.
+
+During operation, the external agent developing WINGMAN stays outside the product teams' work. Product direction enters through Telegram and Butler. Infrastructure inspection and repair support the organization while its own agents remain responsible for developing the products.
+
+This separation makes the organization accountable for its results. Its progress, decisions, testing and deliverables are visible through its records and conversations.
+
+## 14. A complete product journey
+
+A typical project moves through the following sequence:
+
+1. **Request:** The human describes an idea or desired change through Telegram.
+2. **Routing:** Butler passes it to ProjectMaster, which identifies or creates the project.
+3. **Context:** ProductMaster reads the project's existing material and assesses the request.
+4. **Discovery:** ProductMaster researches the product and clarifies important questions through Butler.
+5. **Definition:** ProductMaster records the scope, specifications, test scenarios and definition of done.
+6. **Planning:** TechMaster discusses the product definition and creates technical tickets.
+7. **Execution:** Independent specialists implement their assignments and coordinate directly.
+8. **Supervision:** ProjectMaster checks progress, follows up and helps resolve blockers.
+9. **Verification:** TestMaster and the team validate the integrated product against its acceptance criteria.
+10. **Delivery:** The organization assesses completion and Butler communicates the result to the human.
+11. **Continuation:** The project retains its context for fixes, improvements and future requests.

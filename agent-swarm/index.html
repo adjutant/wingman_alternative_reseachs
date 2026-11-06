@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Technical assessment against Wingman’s development organization."><title>Agent Swarm · Wingman Research</title>
+<link rel="icon" href="../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/report.css"><script defer src="../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../index.html"><img src="../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../index.html">Overview</a><a class="nav-link " href="../generic/index.html">Architecture findings</a><a class="nav-link " href="../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../generic/method.html">Method and evidence</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../index.html">Wingman Research</a><span class="crumb">/</span><span>Agent Swarm</span></div><span class="topbar-note">SOURCE REVIEW · 05 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Agent Swarm</h1><p class="subtitle">Technical assessment against Wingman’s development organization.</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#decision">Decision summary</a><a href="#assessment-agent-swarm-assessment-against-wingman">Agent Swarm assessment against Wingman</a><a href="#assessment-identity-revision-and-verdict">Identity, revision and verdict</a><a href="#assessment-architecture-and-actual-execution-model">Architecture and actual execution model</a><a href="#assessment-complete-feature-matrix">Complete feature matrix</a><a href="#assessment-agent-definition-and-complete-lifecycle">Agent definition and complete lifecycle</a><a href="#assessment-coordination-mechanics-and-one-end-to-end-source-trace">Coordination mechanics and one end-to-end source trace</a><a href="#assessment-substantial-capabilities-beyond-wingmans-described-scope">Substantial capabilities beyond Wingman&#x27;s described scope</a><a href="#assessment-distinctive-mechanisms-and-grounded-innovation-assessment">Distinctive mechanisms and grounded innovation assessment</a><a href="#assessment-practical-adoption-fit">Practical adoption fit</a><a href="#assessment-verification-scope-and-limits">Verification scope and limits</a><a href="#source-record">Source and evidence</a></div></nav><section id="decision" class="decision"><h2>Decision summary</h2>
+<div class="brief-columns"><div><h3>Useful for Wingman</h3><p>Study persistent worker identities, shared tasks, discussion channels, and task steering.</p></div><div><h3>Adoption boundary</h3><p>The one-lead model needs Wingman&#x27;s portfolio and project leadership. Codex continuity uses fresh sessions.</p></div></div>
+<p class="scope-note">Source assessment at the commit below. Runtime limits appear in the technical report.</p></section>
+<dl class="facts"><div><dt>Source group</dt><dd>Standing teams</dd></div><div><dt>Commit</dt><dd><code>6aff700f53755cb71bd6a1aa2e2fa1da9586b892</code></dd></div><div><dt>Coverage</dt><dd>24 Wingman features</dd></div></dl>
+<article id="technical-assessment" class="technical"><h2 id="assessment-agent-swarm-assessment-against-wingman">Agent Swarm assessment against Wingman</h2>
+<h2 id="assessment-identity-revision-and-verdict">Identity, revision and verdict</h2>
+<ul>
+<li><strong>Product:</strong> Agent Swarm, Desplega Labs' self-hosted agent company/work orchestration platform. This is not the unrelated OpenAI Swarm library.</li>
+<li class="url-text"><strong>Repository:</strong> https://github.com/desplega-ai/agent-swarm</li>
+<li><strong>Local checkout:</strong> <code>researchs/agent-swarm/repo/</code></li>
+<li><strong>Assessed commit:</strong> <code>6aff700f53755cb71bd6a1aa2e2fa1da9586b892</code>.</li>
+<li><strong>Assessment date:</strong> 2026-11-05.</li>
+<li><strong>Method:</strong> static source assessment of this checkout; no installation, server, containers, model calls or external integrations were run. Implementation findings below are source-established, not observed deployment outcomes.</li>
+</ul>
+<p><strong>Verdict:</strong> Agent Swarm provides a strong foundation for Wingman's ongoing agent operations. Independent coding workers have durable identities and configurable templates. Shared tasks, internal chat, Telegram, supervision, remote controllers, and human questions support coordination. Session views expose detailed execution records.</p>
+<p>Its organization centers on <strong>one lead plus workers</strong>, repositories, task trees, and workflow runs. Wingman needs a product portfolio and separate product and technical leaders for each project. Proportionate discovery and authoritative scope, specification, and acceptance records need explicit workflows. Accepted delivery must stop active product development.</p>
+<p>The executive home shows task activity by agent. It does not provide the required plain-language account of recent results, current work, next work, and blockers. Native conversation resume is deprecated. Fresh sessions reconstruct continuity from bounded task ancestry and persistent records.</p>
+<p>Evidence links are relative to this report; cited line numbers refer to the assessed revision. Wingman reference: <a href="../generic/purpose.html">purpose</a>, especially §§2–7 and §§9–14. Assessment rubric: <a href="../generic/assessments/ASSESSMENT_GUIDE.md">guide</a>.</p>
+<h2 id="assessment-architecture-and-actual-execution-model">Architecture and actual execution model</h2>
+<p>The API entry <a href="repo/src/http.ts">src/http.ts</a>, lines 1–4, installs logging/internal-AI support and imports <code>http/index</code>. The latter creates the HTTP server, registers routes and starts integrations, workflows, scheduler, heartbeat and runtime supervisor; see <a href="repo/src/http/index.ts">http/index.ts</a>, lines 626–748 and 783–891. <a href="repo/src/server.ts">server.ts</a> registers the MCP surface. HTTP and MCP are different interfaces to the same server-owned state, rather than separate trackers.</p>
+<p>The storage core is SQLite, with migrations and an async DB client. <a href="repo/src/be/db/runtime.ts">db/runtime.ts</a>, lines 73–136 and 334–359, opens the database, enables WAL and a 5-second busy timeout, and exposes the client. Repository architecture rules explicitly forbid worker imports of SQLite/server DB code: <a href="repo/AGENTS.md">AGENTS.md</a>, lines 7–27. Workers call HTTP using identity headers and tokens. This allows a worker on another machine to use the same coordination service without sharing the SQLite file. This central API remains an operational dependency. The presence of remote workers does not imply distributed consensus or active-active API availability.</p>
+<p>A long-lived worker runner is distinct from a model session. <a href="repo/src/commands/worker.ts">commands/worker.ts</a>, lines 1–14, passes worker configuration to <code>runAgent</code>. <a href="repo/src/commands/runner.ts">commands/runner.ts</a>, lines 5856–6191, resolves identity/configuration, chooses a provider adapter, establishes concurrency and registers a runtime. Its delivery loop, lines 7116–7738, services completions, config changes, cancellation and triggers, then starts provider sessions. Multiple specialists therefore execute separately. A template alone is only instructions until a runner/runtime is launched.</p>
+<p>Provider sessions normalize actual harness behavior into message, tool, result, context and compaction events. The contract in <a href="repo/src/providers/types.ts">providers/types.ts</a>, lines 91–206 and 265–284, separates an executing session (<code>waitForCompletion</code>, <code>abort</code>, optional steering) from the adapter and its capability traits. For a concrete coding path, <a href="repo/src/providers/codex-adapter.ts">codex-adapter.ts</a>, lines 2510–2528, creates either an in-process Codex session or, normally, a <code>CodexSubprocessSession</code>, and explicitly refuses native resume. The runner invokes adapter creation around lines 4487–4522, captures/logs events around lines 4614–5011, and settles provider results around lines 5442–5630. This is real coding-harness execution, not a chat-only simulation.</p>
+<p>Infrastructure and harness are independent choices. Runtime pools provision Docker/E2B/boxd resources or use static operator-managed workers; remote controllers can execute infrastructure commands from another host. Providers choose the coding harness inside those resources. Confusing those two axes would overstate either model portability or machine portability.</p>
+<h2 id="assessment-complete-feature-matrix">Complete feature matrix</h2>
+<p><strong>Exact</strong> means the capability is implemented within the boundary stated. It does not mean runtime-tested in this assessment. <strong>Similar</strong> means a substantial equivalent with a material difference. <strong>Resembles</strong> means enabling primitives without the complete Wingman behavior. No numerical coverage score is implied.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Wingman capability</th>
+<th scope="col">Verdict</th>
+<th scope="col">Implementation evidence and concrete difference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F01</td>
+<td>Real independent coding agents and specialist instances</td>
+<td><strong>Exact</strong></td>
+<td>Persistent agent IDs, separately registered runtimes, and concurrent provider sessions are implemented in <a href="repo/src/commands/runner.ts">runner.ts</a>, lines 5856–6191, 7284–7738; Codex subprocess execution is explicit in <a href="repo/src/providers/codex-adapter.ts">codex-adapter.ts</a>, lines 2510–2522. Multiple coder/tester/reviewer instances can execute independently. An unlaunched profile is not credited as an active agent.</td>
+</tr>
+<tr>
+<td>F02</td>
+<td>Extensible agent profiles, roles and team composition</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/types.ts">types.ts</a>, lines 1307–1339, supports free-form roles, capabilities and six identity/setup documents; <a href="repo/src/be/runtime-pools/db.ts">runtime-pools/db.ts</a>, lines 531–565, creates template-backed pool agents. Composition is extensible, but project/team membership and reporting hierarchy are not first-class fields in this agent schema; pool and template creation enforce one lead.</td>
+</tr>
+<tr>
+<td>F03</td>
+<td>Agent directory and visible working relationships</td>
+<td><strong>Similar</strong></td>
+<td>The real directory renders roles, status, harness and capacity in <a href="repo/apps/ui/src/pages/agents/page.tsx">agents/page.tsx</a>, lines 36–202, and links into profiles/tasks. Cross-agent parent/child task connectors appear in <a href="repo/apps/ui/src/components/dashboard/agent-activity-timeline.tsx">agent-activity-timeline.tsx</a>, lines 680–733. These are work relationships, not project/team/manager relationships.</td>
+</tr>
+<tr>
+<td>F04</td>
+<td>Telegram main human channel and Butler routing</td>
+<td><strong>Similar</strong></td>
+<td>Telegram adapter construction is real: <a href="repo/src/integrations/chat-sdk/adapters.ts">adapters.ts</a>, lines 67–101. <a href="repo/src/integrations/chat-sdk/router.ts">router.ts</a>, lines 124–201, routes pinned IDs, channel mappings, continuing owners and lead fallback; <a href="repo/src/tools/chat-reply.ts">chat-reply.ts</a>, lines 17–60, returns questions/updates. Telegram can be Wingman's main entry, but no dedicated Butler→ProjectMaster role chain is built in; structured approvals normally use a dashboard URL.</td>
+</tr>
+<tr>
+<td>F05</td>
+<td>Cross-project registry, intake and existing/new routing</td>
+<td><strong>Resembles</strong></td>
+<td>Registered repositories have URLs, clone paths, branches and guidelines: <a href="repo/src/types.ts">types.ts</a>, lines 2036–2085; <a href="repo/src/http/repos.ts">http/repos.ts</a>, lines 14–106. Thread continuity and task <code>vcsRepo</code> route existing work. Searches of schemas, routes, UI pages and official templates found no native portfolio/product registry, product creation transaction or semantic existing/new product intake policy. A repository is not necessarily a product.</td>
+</tr>
+<tr>
+<td>F06</td>
+<td>Per-project product and technical leadership</td>
+<td><strong>Resembles</strong></td>
+<td>Free roles can encode ProductMaster/TechMaster, and the lead template directs delegation and planning: <a href="repo/templates/official/lead/CLAUDE.md">lead/CLAUDE.md</a>, lines 3–21. However <a href="repo/src/tools/join-swarm.ts">join-swarm.ts</a>, lines 102–108, and <a href="repo/src/be/runtime-pools/db.ts">runtime-pools/db.ts</a>, lines 539–550, enforce a single lead in those creation paths. Dedicated per-project paired leadership, ownership and escalation are policies Wingman must add.</td>
+</tr>
+<tr>
+<td>F07</td>
+<td>Proportionate research, discovery, iterative human clarification</td>
+<td><strong>Resembles</strong></td>
+<td>Lead instructions route research and sequence research→plan→implementation; <a href="repo/src/tools/request-human-input.ts">request-human-input.ts</a>, lines 13–87 and 116–153, supports multi-question human requests. <a href="repo/src/tools/chat-reply.ts">chat-reply.ts</a>, lines 17–60, supports conversational questions. Shipped system-default <a href="repo/templates/skills/planning/content.md">planning/content.md</a>, lines 3–13 and 36–44, adds iterative clarification and a small-task one-shot/full-plan sizing rule; <a href="repo/templates/skills/researching/content.md">researching/content.md</a>, lines 24–42, provides adjustable technical research. This is prompt-level technical discovery, partly Claude-tool-specific, rather than product/market discovery with a per-project ProductMaster and organizational readiness state.</td>
+</tr>
+<tr>
+<td>F08</td>
+<td>Scope, specifications, acceptance scenarios, definition of done</td>
+<td><strong>Resembles</strong></td>
+<td>Persistent documents, memory, repo guidelines and schema-validated outputs can store these artifacts. <a href="repo/src/tools/store-progress.ts">store-progress.ts</a>, lines 163–218 and 536–587, validates declared output structure; <a href="repo/src/types.ts">RepoGuidelinesSchema</a>, lines 2036–2060, describes PR/merge checks. The shipped <a href="repo/templates/skills/planning/files/template.md">planning template</a>, lines 14–20 and 49–73, explicitly records desired state, exclusions, automated checks, QA scenarios and human verification. Credit this technical specification/acceptance artifact as prompt-level support. No authoritative product specification/DoD model or organizational readiness gate was found. A valid JSON result or technical phase checklist alone does not establish accepted product scope.</td>
+</tr>
+<tr>
+<td>F09</td>
+<td>Decomposition, assignment and shared task tracking</td>
+<td><strong>Exact</strong></td>
+<td><a href="repo/src/tools/send-task.ts">send-task.ts</a>, lines 72–138, 396–420 and 656–745, supports directed assignments, offers, dependency lists, parent tracking, routing explanations, priority and repo linkage; <a href="repo/src/be/db.ts">db.ts</a>, lines 2505–2565 and 3107–3159, implements persistent creation/atomic claiming. Lead decomposition remains agent reasoning, backed by a real shared tracker.</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>Human portfolio/project management dashboard</td>
+<td><strong>Resembles</strong></td>
+<td>Tasks have a real table/kanban UI in <a href="repo/apps/ui/src/pages/tasks/page.tsx">tasks/page.tsx</a>, and registered repositories have <a href="repo/apps/ui/src/pages/repos/page.tsx">repos/page.tsx</a>. <a href="repo/apps/ui/src/pages/home/unified-home.tsx">home/unified-home.tsx</a>, lines 34–118, centers activity/triage. No native product portfolio with goals, leadership, agreed scope, delivery and acceptance rollups was found in the page/schema/route inventory.</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>Agent chat application, rooms, direct collaboration</td>
+<td><strong>Exact</strong></td>
+<td><a href="repo/apps/ui/src/pages/chat/page.tsx">chat/page.tsx</a>, lines 71–217, 438–490 and 497–675, implements channels and threads; <a href="repo/src/tools/post-message.ts">post-message.ts</a>, lines 17–88, supplies agent messaging. <a href="repo/src/be/db.ts">db.ts</a>, lines 4008–4165, persists public/DM channels, mentions and explicit <code>/task</code> conversion. Room1/Room2 and their membership/escalation policy must be configured. A source-level tool-adapter issue is noted under verification limits.</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>Management escalation and human decisions/approvals</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/src/tools/request-human-input.ts">request-human-input.ts</a>, lines 49–87 and 116–153, creates durable requests; <a href="repo/src/workflows/executors/human-in-the-loop.ts">human-in-the-loop.ts</a>, lines 74–128, adds approver policies and timeout rejection. <a href="repo/src/workflows/approval-notifications.ts">approval-notifications.ts</a>, lines 305–351, creates follow-up work. No automatic Room2→Room1→Butler escalation organization; structured answers generally happen on the dashboard.</td>
+</tr>
+<tr>
+<td>F13</td>
+<td>Durable project knowledge and reusable directives</td>
+<td><strong>Similar</strong></td>
+<td>Identity documents synchronize across sessions in <a href="repo/src/commands/profile-sync.ts">profile-sync.ts</a>, lines 1–80 and 387–409; repo guidelines attach reusable policy; <a href="repo/src/be/memory/providers/sqlite-store.ts">sqlite-store.ts</a>, lines 619–747, supplies hybrid memory retrieval. These are agent/swarm/repo scoped, not Wingman's product <code>DIRECTIVES/SCOPES/SPECS/HARNESS</code> authority model.</td>
+</tr>
+<tr>
+<td>F14</td>
+<td>Persistent identity, conversation and work continuity</td>
+<td><strong>Similar</strong></td>
+<td>Durable agent rows and registration reuse are implemented in <a href="repo/src/http/agents.ts">http/agents.ts</a>, lines 709–795. Task trees and source-key sessions preserve inspectable history. <a href="repo/src/commands/resume-session.ts">resume-session.ts</a>, lines 1–16 and 57–77, always skips native resume; <a href="repo/src/commands/context-preamble.ts">context-preamble.ts</a>, lines 31–48 and 136–196, reconstructs bounded context. Same identity/history does not mean the same full native conversation continues.</td>
+</tr>
+<tr>
+<td>F15</td>
+<td>Proactive supervision, periodic wake, blocker follow-up</td>
+<td><strong>Exact</strong></td>
+<td><a href="repo/src/heartbeat/heartbeat.ts">heartbeat.ts</a>, lines 118–162, 448–503 and 1796–1862, combines deterministic stall handling with periodic lead checklist tasks. <a href="repo/templates/official/lead/HEARTBEAT.md">lead/HEARTBEAT.md</a>, lines 3–17, explicitly checks stuck tasks, idle capacity and failures. Exact within the configured boundary: a reachable Lead with nonempty <code>heartbeatMd</code> receives managerial checklist tasks, subject to quiet-tick gating; empty content, no Lead, or disabled checklist settings suppress that layer. The shipped lead template provides nonempty standing orders. Deterministic stall checks are separate. This is not an unconditional supervisor for every role. Actual managerial judgment remains model behavior.</td>
+</tr>
+<tr>
+<td>F16</td>
+<td>Parallel products and concurrent specialists</td>
+<td><strong>Similar</strong></td>
+<td>Multiple repos/tasks and specialists can progress concurrently, with logical capacity enforced in <a href="repo/src/http/poll.ts">http/poll.ts</a>, lines 319–414 and 548–656, and local concurrent session limits in <a href="repo/src/commands/runner.ts">runner.ts</a>, lines 6133–6151 and 7250–7263. Product-specific leadership/context boundaries are not represented by this concurrency mechanism.</td>
+</tr>
+<tr>
+<td>F17</td>
+<td>Real multi-host execution with shared coordination</td>
+<td><strong>Exact</strong></td>
+<td><a href="repo/src/commands/controller.ts">commands/controller.ts</a>, lines 13–40 and 56–163, receives authenticated WebSocket infrastructure commands and executes provision/terminate/status/list/renew/pause/resume on its host; <a href="repo/src/runtime-providers/types.ts">runtime-providers/types.ts</a>, lines 1–9 and 81–99, defines DB-free remote-capable adapters. HTTP workers share central tasks/chat. This supports real remote execution, but Mac+Arch placement, shared filesystem semantics and host-affine product placement need deployment configuration and validation.</td>
+</tr>
+<tr>
+<td>F18</td>
+<td>Executive overview of current/recent/next work and blockers</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/apps/ui/src/components/dashboard/agent-activity-timeline.tsx">agent-activity-timeline.tsx</a>, lines 75–89, 294–340 and 1240–1319, shows task spans, status, title, timing and usage by agent, with lineage connectors. <a href="repo/apps/ui/src/pages/agents/[id]/page.tsx">agents/[id]/page.tsx</a>, lines 421–525, shows profile and activity. Neither is a semantic current/recent/next/blocker briefing. Pending future tasks are deliberately outside the chart's plotted statuses.</td>
+</tr>
+<tr>
+<td>F19</td>
+<td>Individual summary timeline linked to underlying work</td>
+<td><strong>Resembles</strong></td>
+<td>Per-agent task history and linked activity bars are real, and session timelines show messages/delegations. <a href="repo/apps/ui/src/pages/agents/[id]/page.tsx">agents/[id]/page.tsx</a>, lines 570–673; <a href="repo/apps/ui/src/components/dashboard/agent-activity-timeline.tsx">agent-activity-timeline.tsx</a>, lines 1250–1319. They do not generate the requested meaningful milestone/test/blocker/next-work summaries as a durable personal executive feed. A task bar or transcript is not credited as that feed.</td>
+</tr>
+<tr>
+<td>F20</td>
+<td>Detailed individual coding workspace drill-down</td>
+<td><strong>Similar</strong></td>
+<td>Agent→task→session navigation exposes parsed transcripts, raw logs, commands/tool events, context and costs: <a href="repo/apps/ui/src/pages/tasks/[id]/page.tsx">tasks/[id]/page.tsx</a>, lines 383–411, 577–628 and 779–846. Source-key session groups and descendant chains are in <a href="repo/src/http/sessions.ts">http/sessions.ts</a>, lines 544–550, 785–807 and 1213–1228. This is a strong harness log/steering workspace, not a full per-agent filesystem editor, interactive terminal or universal code-review IDE.</td>
+</tr>
+<tr>
+<td>F21</td>
+<td>Live activity, lifecycle controls, steering, execution visibility</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/apps/ui/src/pages/tasks/[id]/task-actions.tsx">task-actions.tsx</a>, lines 120–154 and 385–454, exposes retry/pause/resume/cancel. <a href="repo/src/http/tasks.ts">http/tasks.ts</a>, lines 429–587 and 706–756, supplies cancellation, steering and supersede. Provider event logs and usage are substantial. Fork/full native resume/manual compaction/archive equivalence was not found in task/session control routes; pause status is not sufficient proof of process suspension.</td>
+</tr>
+<tr>
+<td>F22</td>
+<td>Testing, integrated verification, acceptance/delivery</td>
+<td><strong>Similar</strong></td>
+<td>There is a real tester profile (<a href="repo/templates/official/tester/config.json">tester/config.json</a>, lines 1–26), reviewer instructions, repo PR/merge gates and workflow validation. <a href="repo/templates/official/lead/CLAUDE.md">lead/CLAUDE.md</a>, lines 13–21, requires CI and human review before merge. System-default <a href="repo/templates/skills/implementing/content.md">implementing/content.md</a>, lines 119–154 and 176–182, also prescribes phase reports, spec/code review, re-verification and human-confirmed manual checks. These are substantive prompt-level technical acceptance practices, partly dependent on Claude-oriented skills/tools; no product acceptance/DoD state transition that ends development was found. Instructions do not prove agents obey every check.</td>
+</tr>
+<tr>
+<td>F23</td>
+<td>Autonomous operation with direction through the organization</td>
+<td><strong>Similar</strong></td>
+<td>Human chat creates tasks, the lead delegates to workers, terminal effects create lead follow-ups, and heartbeat wakes the lead: <a href="repo/src/integrations/chat-sdk/inbound.ts">inbound.ts</a>, lines 565–620; <a href="repo/src/tasks/task-terminal-effects.ts">task-terminal-effects.ts</a>, lines 155–174; <a href="repo/src/heartbeat/heartbeat.ts">heartbeat.ts</a>, lines 1796–1862. Continuing operation is implemented; autonomous product discovery→acceptance under the prescribed Wingman management layers is not prebuilt.</td>
+</tr>
+<tr>
+<td>F24</td>
+<td>New profiles participate across chat, tracker and dashboards</td>
+<td><strong>Exact</strong></td>
+<td>Agent lists, task assignees, channel participants and chart lanes resolve arbitrary registered IDs/roles. <a href="repo/src/types.ts">types.ts</a>, lines 1307–1339; <a href="repo/apps/ui/src/pages/chat/page.tsx">chat/page.tsx</a>, lines 497–511; <a href="repo/apps/ui/src/components/dashboard/agent-activity-timeline.tsx">agent-activity-timeline.tsx</a>, lines 294–340. New identities do not require hard-coded BackendCoder-style UI branches. Per-project views still need their own model.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="assessment-agent-definition-and-complete-lifecycle">Agent definition and complete lifecycle</h2>
+<h3 id="assessment-definition-templates-and-identity">Definition, templates and identity</h3>
+<p>The durable <code>Agent</code> is a database entity, not a single indefinitely running model conversation. The <a href="repo/src/types.ts">schema</a>, lines 1307–1390, stores ID, name, lead status, free role, capability tags, provider, credential state, capacity and timestamps. <code>soulMd</code> holds behavior/persona, <code>identityMd</code> expertise/style, <code>claudeMd</code> working instructions, <code>toolsMd</code> operational context, <code>heartbeatMd</code> standing orders, and <code>setupScript</code> environment setup. A default role can be specialized with both persona and operational instructions. A field named capabilities is a declaration used in routing, not evidence that the agent actually possesses or reliably exercises the skill.</p>
+<p>Templates bundle defaults and files. <a href="repo/templates/official/lead/config.json">lead/config.json</a>, lines 11–25, assigns coordination capabilities and capacity two. <a href="repo/templates/official/coder/config.json">coder/config.json</a>, lines 11–27, assigns implementation/testing capabilities and capacity three. <a href="repo/templates/official/tester/config.json">tester/config.json</a>, lines 11–26, defines QA, browser, and end-to-end testing specialization. These profiles do not define a product-leadership hierarchy. Instances can share a template while retaining separate agent IDs and histories.</p>
+<p>Self-edited identity files persist through <a href="repo/src/commands/profile-sync.ts">profile-sync.ts</a>, lines 1–80 and 387–409. The file includes baselines and conflict/rejection handling. The API profile handler records budget rejection, conflict and reconciliation events in <a href="repo/src/http/agents.ts">http/agents.ts</a>, lines 975–1120. This is more than rereading a static persona prompt each launch. It also introduces mutable identity as operational state: Wingman would need to distinguish agent-owned notes from human-approved product directives.</p>
+<h3 id="assessment-creation-and-activation">Creation and activation</h3>
+<p>There are several different creation paths:</p>
+<ol>
+<li><code>join-swarm</code> creates a durable row for an existing MCP caller, checks ID/name and lead uniqueness, generates default identity content and updates the profile: <a href="repo/src/tools/join-swarm.ts">join-swarm.ts</a>, lines 88–161. <strong>It does not itself spawn a worker.</strong></li>
+<li>A worker registers/re-registers through <code>POST /api/agents</code>. Existing identity is retained. A new registration creates the row and records the process runtime: <a href="repo/src/http/agents.ts">http/agents.ts</a>, lines 670–795. A missing per-process runtime ID is rejected when multi-runtime mode is enabled. In that mode a restarting process cannot overwrite the logical agent's capacity policy with its own reported slots.</li>
+<li>A pool can create an initially offline logical agent, store a <code>TEMPLATE_ID</code>, and bind it to a pool: <a href="repo/src/be/runtime-pools/db.ts">runtime-pools/db.ts</a>, lines 531–565. The supervisor later provisions capacity for demand. This separates organization membership from infrastructure availability.</li>
+<li>Operator-managed Compose/static workers can start independently and register to the same API. The entrypoint initializes workspace/personal folders, repos, MCP configuration and startup scripts: <a href="repo/docker-entrypoint.sh">docker-entrypoint.sh</a>, lines 472–479, 571–622, 798–870 and 875–955.</li>
+</ol>
+<p>The runner reads logical <code>AGENT_ID</code> while generating a new runtime instance ID per process boot (<a href="repo/src/commands/runner.ts">runner.ts</a>, lines 5874 and 6179–6188). Provider session IDs and task IDs are additional identities. A logical agent may survive many worker restarts and provider sessions, and can be served by several runtimes. Treating each runtime as a different permanent specialist would misrepresent the system.</p>
+<h3 id="assessment-assignment-routing-concurrency-and-execution">Assignment, routing, concurrency and execution</h3>
+<p><code>send-task</code> accepts direct assignments or offers, a capability/lead authorization constraint, priority, repo, <code>parentTaskId</code>, <code>dependsOn</code>, follow-up instructions and output schema. It requires a reason/note for explicitly choosing an agent. Parent attachment and requester propagation are checked rather than blindly trusting all caller-supplied context: <a href="repo/src/tools/send-task.ts">send-task.ts</a>, lines 318–420, 482–554 and 656–745. Parent lineage and dependency ordering have different meanings: a child can inherit conversational context without needing to wait for every sibling. A dependency expresses readiness.</p>
+<p>All task writes converge on <code>createTaskExtended</code>, which validates the options and chooses draft/offered/pending/backlog/unassigned state: <a href="repo/src/be/db.ts">db.ts</a>, lines 2505–2565. The poll path does transactional capacity and readiness work; offers, assigned work, mentions and eligible pooled tasks are separate trigger types: <a href="repo/src/http/poll.ts">http/poll.ts</a>, lines 319–414, 520–548 and 548–656. The atomic pool claim is an <code>UPDATE ... WHERE status='unassigned' RETURNING *</code>, preventing two claimants from winning the same row (<a href="repo/src/be/db.ts">db.ts</a>, lines 3107–3159). This is claim atomicity, not a claim that a task's external side effects execute exactly once after crashes.</p>
+<p>Capacity has two boundaries: the durable logical agent's <code>maxTasks</code>, and the process's available sessions/slots. Multi-runtime registration records process slots without redefining the policy; poll claims check policy atomically. <a href="repo/src/be/runtime-pools/demand.ts">runtime-pools/demand.ts</a>, lines 5–64, computes ready demand and desired runtimes against slot and pool limits. Local runner capacity independently controls how many sessions start. Two tasks on one logical agent may still use the same repo clone; <a href="repo/src/commands/runner.ts">runner.ts</a>, lines 289–368, explicitly discusses preserving dirty state when siblings run concurrently. There is no basis to claim automatic per-task worktree isolation from that code.</p>
+<p>The runner obtains resolved config, repo/workspace context, provider credentials, prompts and model selection, then creates a harness session. Claim-time model resolution is authoritative. A spawn guard rejects a model from the wrong harness family (<a href="repo/src/commands/runner.ts">runner.ts</a>, lines 4320–4366). This is suitable for actual Codex specialist work. The common event abstraction also allows heterogeneous harnesses without pretending every provider supports every control.</p>
+<h3 id="assessment-shipped-research-planning-and-implementation-practices">Shipped research, planning and implementation practices</h3>
+<p>These are implemented as seeded reusable skill content, not only hypothetical custom prompts. <a href="repo/src/be/seed-skills/index.ts">seed-skills/index.ts</a>, lines 117–122, 155–172 and 365–378, imports and registers researching/planning/implementing. Each corresponding <code>config.json</code> marks it <code>systemDefault: true</code>. <a href="repo/templates/skills/planning/content.md">planning/content.md</a>, lines 3–13 and 36–48, prescribes iterative human clarification, design-option review, concrete phase deliverables, automated verification/QA and smaller one-shot plans when appropriate. Its <a href="repo/templates/skills/planning/files/template.md">artifact template</a>, lines 14–20 and 49–73, supplies desired end state, explicit exclusions, success criteria and verification scenarios.</p>
+<p><a href="repo/templates/skills/researching/content.md">researching/content.md</a>, lines 24–42 and 54–95, coordinates source-backed technical research. Its stated scope is documenting existing code. It limits unrequested critique and web research. <a href="repo/templates/skills/implementing/content.md">implementing/content.md</a>, lines 119–154 and 176–182, connects approved plans to implementation phases. It prescribes specification/code review, automated checks, and user confirmation of manual verification.</p>
+<p>These procedures support technical discovery, definition, and verification. They do not enforce deterministic gates or complete market/domain discovery. They also do not establish product acceptance. Some procedures reference <code>AskUserQuestion</code>, Claude Code sessions, background subagents, and external <code>desplega:*</code> skills. Check those dependencies for Codex workers and Telegram clarification. The assessment read these files as source artifacts. It did not invoke their instructions.</p>
+<h3 id="assessment-tools-and-permission-boundaries">Tools and permission boundaries</h3>
+<p>Tools include task operations, messaging, memory, profiles, skills, repo policy, schedules, workflows, scripts, app/page artifacts, approvals and integrations. Role-based server authorization, scoped session/runtime tokens and resource ownership govern API operations; see <a href="repo/src/rbac/legacy-policy.ts">rbac/legacy-policy.ts</a>, lines 30–85 and 114–193, and <a href="repo/src/http/sessions.ts">http/sessions.ts</a>, lines 215–352. Those controls protect coordination actions. They are separate from permissions inside the coding container.</p>
+<p>Codex's harness config explicitly sets <code>approval_policy: never</code> and <code>sandbox_mode: danger-full-access</code>, while disabling account apps/connectors: <a href="repo/src/providers/codex-adapter.ts">codex-adapter.ts</a>, lines 593–611. Claude's CLI uses permission-bypass arguments in <a href="repo/src/providers/claude-adapter.ts">claude-adapter.ts</a>, lines 1055–1059. Thus the intended trust boundary is largely the worker environment, credentials and API permissions, not per-command human approval. Wingman should preserve container/host separation when adapting this to the Mac and Endeavour; substituting an unrestricted host worker changes the practical boundary.</p>
+<h3 id="assessment-persistence-and-resume">Persistence and resume</h3>
+<p>Task state, logs, session costs/context, approvals, identity, memory and source/thread keys survive in server storage. Repo clones and personal files survive only according to configured volumes/drives. Persistent API state should not be confused with guaranteed persistence of every runtime filesystem.</p>
+<p>Native resume is explicitly removed across adapters. <a href="repo/src/commands/resume-session.ts">resume-session.ts</a>, lines 1–16 and 57–77, returns skipped candidates; <a href="repo/src/providers/codex-adapter.ts">codex-adapter.ts</a>, lines 2525–2528, returns false for resume capability. A fresh session receives <a href="repo/src/commands/context-preamble.ts">context-preamble.ts</a>, lines 31–48 and 136–196: typically a roughly 2,000-token text budget, up to five ancestors, immediate parent subject/output/artifact pointers and older pointer summaries. Resume-task preambles have a larger default budget and use recent session logs. Full records remain retrievable, but the worker must choose to consult them. Some tool descriptions still mention resuming a parent's Claude session. The current implementation takes precedence over that stale wording.</p>
+<p>Dashboard “sessions” are also not one native provider session. <code>GET /api/sessions/{rootTaskId}</code> groups a root task and descendants, with steering/citations/approvals added to the chain: <a href="repo/src/http/sessions.ts">http/sessions.ts</a>, lines 785–807 and 1213–1228. This produces continuing human work threads over fresh model sessions, a useful but materially different continuity model from Wingman's requested individual conversation lifecycle controls.</p>
+<h3 id="assessment-scheduling-and-supervision">Scheduling and supervision</h3>
+<p>The scheduler polls due cron/interval/one-time schedules, claims occurrences and recovers missed work: <a href="repo/src/scheduler/scheduler.ts">scheduler.ts</a>, lines 350–441 and 557–609. It can drive tasks/workflows rather than keeping a model waiting in a sleep loop.</p>
+<p>Heartbeat has two layers. Code-level triage defaults to a 90-second interval. It uses separate thresholds for a missing session, a stale session heartbeat, and absent task progress. Recovery defaults to a three-generation limit. See <a href="repo/src/heartbeat/heartbeat.ts">heartbeat.ts</a>, lines 118–162 and 448–503.</p>
+<p>The lead's editable checklist creates separate supervision tasks, normally every 30 minutes. It removes duplicate open checklists. An optional gate script can suppress quiet ticks. See the same file, lines 219–239 and 1796–1862. The official checklist asks the lead to investigate stranded work and idle capacity. The model and its instructions determine the follow-up decisions.</p>
+<p><code>defer-task</code> finishes the current task and books a future child. It can wake early on all/any watched task outcomes while retaining a time ceiling: <a href="repo/src/tools/defer-task.ts">defer-task.ts</a>, lines 162–215. “Completed” can therefore mean the present execution yielded with future work scheduled, not product delivery. Wingman rollups would have to follow continuation chains rather than count every completed row as an accepted deliverable.</p>
+<h3 id="assessment-interruption-steering-and-shutdown">Interruption, steering and shutdown</h3>
+<p>Steering is durable and acknowledged with delivery/handling status. The runner dispatches through optional provider capabilities and preserves pending input where a successor must receive it: <a href="repo/src/commands/runner.ts">runner.ts</a>, lines 609–746. Codex implements native turn interruption/steering in <a href="repo/src/providers/codex-adapter.ts">codex-adapter.ts</a>, lines 1120–1166. Unsupported providers can report an undeliverable outcome rather than fabricate delivery.</p>
+<p>Cancellation changes server task state and the runner requests session abortion, with a settlement grace period so a stuck adapter does not hold a slot indefinitely: <a href="repo/src/commands/runner.ts">runner.ts</a>, lines 5350–5415. It is not a rollback of commands or external effects already performed. Supersede is a distinct path that terminates old work logically and creates a fresh continuation; workflow-owned tasks instead defer to engine retry policy (<a href="repo/src/http/tasks.ts">http/tasks.ts</a>, lines 740–756).</p>
+<p>Pause/resume buttons exist, but the persistent primitives merely change <code>in_progress</code>↔<code>paused</code>: <a href="repo/src/be/db/tasks/write.ts">tasks/write.ts</a>, lines 1003–1088. The runner reconciliation snippet aborts cancelled/terminal tasks, not every paused status. This assessment therefore does not equate the UI pause label with a universal live process freeze. Native fork, archive and manually requested compaction were not established from the task/session API inventory. Compaction event reporting is present; reporting it is not equivalent to an operator command that all adapters can perform.</p>
+<h3 id="assessment-failure-retry-and-recovery">Failure, retry and recovery</h3>
+<p>The heartbeat compares stale work with active session liveness. A worker that reported fresh progress after the sweep read its candidates wins against a stale remediation decision. See compare-and-swap handling in <a href="repo/src/heartbeat/heartbeat.ts">heartbeat.ts</a>, lines 764–825, and the targeted test discussed below. A crash between supersede and replacement creation is repaired by <code>repairSupersededWithoutResume</code>, lines 658–698. Reboot sweep reconciles tasks against the current API boot and sessions instead of assuming every old session is dead (lines 894–1004).</p>
+<p><a href="repo/src/tasks/worker-follow-up.ts">worker-follow-up.ts</a>, lines 474–662, creates continuation tasks, preserves requester/context/model/routing metadata and prefers eligible original identities for selected recovery reasons. Lead-only authorization survives recovery. A resume pinned to a worker that never reclaims it can become lead rerouting work instead of silently remaining queued (lines 689–779). Workflow tasks are carved out so engine retries do not compete with generic worker retries.</p>
+<p>Infrastructure failure has its own recovery loop. <a href="repo/src/be/runtime-pools/supervisor.ts">runtime-pools/supervisor.ts</a>, lines 96–180, records provisioning errors, increments attempts, backs off, opens pool circuits and eventually fails ready pending tasks with lead follow-up. Remote controller disconnection causes liveness/reconnect behavior rather than local fake execution. These mechanisms improve continuity, but cannot guarantee application-level idempotency of a partially completed deploy, PR action or external write.</p>
+<h3 id="assessment-completion-acceptance-retirement-and-cleanup">Completion, acceptance, retirement and cleanup</h3>
+<p>Workers can report progress, finish with an output/failure and optionally attach a reusable learning. <code>store-progress</code> checks ownership, idempotent terminal transitions, schema output and citations: <a href="repo/src/tools/store-progress.ts">store-progress.ts</a>, lines 503–587 and 679–703. The runner has a fallback when a provider exits without completing the task, including structured-output handling (<a href="repo/src/commands/runner.ts">runner.ts</a>, lines 1605–1637 and 1853–1999). Consequently a successful process exit can produce a completed task without constituting independent product acceptance.</p>
+<p><a href="repo/src/tasks/task-terminal-effects.ts">task-terminal-effects.ts</a>, lines 27–108 and 155–174, writes completion/failure memory and creates lead follow-up for ordinary tasks; failures in those secondary effects do not undo the terminal task. The official lead template requires repo policy, CI success and human review before merge. Those are instructions and PR policy artifacts, not a universal transactional acceptance gate over arbitrary shell commands. No product-level “accepted; stop development/testing until a new request” state was established.</p>
+<p>Logical retirement and infrastructure cleanup differ. Runtime termination/token revocation, idle pool teardown and cache release are supervisor lifecycle concerns; static pools are explicitly operator-managed (<a href="repo/src/runtime-providers/static.ts">static.ts</a>, lines 4–16). An internal <a href="repo/src/be/db/agents.ts">deleteAgent</a>, lines 507–522, logs departure and deletes the row, but a complete user-facing retire/archive-product workflow was not found. Wingman would need an explicit retirement policy connecting queued work, conversations, artifact retention and runtime placement rather than deleting an ID alone.</p>
+<h2 id="assessment-coordination-mechanics-and-one-end-to-end-source-trace">Coordination mechanics and one end-to-end source trace</h2>
+<p>The following is a concrete implemented Telegram request path, not a claim to have exercised a live Telegram bot or watched the models complete a product.</p>
+<ol>
+<li><strong>Ingress and identity.</strong> <code>loadAdapter('telegram')</code> constructs an adapter with verified webhooks and explicit bot-reply recognition (<a href="repo/src/integrations/chat-sdk/adapters.ts">adapters.ts</a>, lines 67–101). <code>handleChatInbound</code> classifies DM/mention/reply/requester follow-up, ignores unrelated group chatter and emits an incoming event (<a href="repo/src/integrations/chat-sdk/inbound.ts">inbound.ts</a>, lines 118–154). Sender identity is resolved rather than inheriting a previous requester's attribution blindly.</li>
+<li><strong>Active steering or buffered intake.</strong> If the thread has a suitable active task, the text can become steering with durable acknowledgment (lines 155–201). Otherwise the input is buffered with attachments and message facts; <code>!now</code> requests immediate flush (lines 204–226). This preserves short consecutive human messages as one ask without inventing a task for every fragment.</li>
+<li><strong>Route to a real recipient.</strong> <a href="repo/src/integrations/chat-sdk/router.ts">router.ts</a>, lines 124–201, checks explicit <code>swarm#&lt;id&gt;</code>/broadcast, stored channel agent/workflow mapping, reachable thread owner, and lead fallback. Telegram groups expire stale ownership after a configurable default 15-minute window; DMs keep continuing ownership. This is channel/thread continuity, not semantic selection of an existing software product.</li>
+<li><strong>Create durable contextual work.</strong> Flush builds <code>source='chat'</code>, <code>taskType='chat-inbound'</code>, priority 70, a chat context key, requester, message anchor, optional dependency on the latest active task and parent linkage to recent work (<a href="repo/src/integrations/chat-sdk/inbound.ts">inbound.ts</a>, lines 565–620). Attachments are stored with the task, and a source label is remembered for dashboard grouping.</li>
+<li><strong>Claim and run.</strong> The selected runner polls or receives a work nudge, the API atomically reserves eligible work/capacity, and the runner builds a provider session with identity, tool configuration, repo context and preamble. If the recipient is the lead, decomposition into coder/tester/reviewer tasks is a model decision using <code>send-task</code>, with a recorded task tree and dependencies. The platform does not deterministically materialize a ProductMaster/TechMaster team just because the incoming message names a new product.</li>
+<li><strong>Collaborate and clarify.</strong> Agents post/read internal channel messages and threaded replies; mentions nudge recipients. Ordinary chat is not always a ticket: <a href="repo/src/be/db.ts">db.ts</a>, lines 4068–4165, creates tasks only for the explicit <code>/task</code> prefix with target mentions. A lead/worker can ask the human a conversational question through <code>chat-reply</code>; formal questions use a persistent approval request and shareable response URL. Answers generate later follow-up tasks, so waiting for a human need not consume a running model session.</li>
+<li><strong>Report and supervise.</strong> The worker writes progress and output; completion memory and lead follow-up run, unless workflow ownership or explicit configuration changes that behavior. The lead's completion follow-up includes the output/failure and cascade impact (<a href="repo/src/tasks/worker-follow-up.ts">worker-follow-up.ts</a>, lines 269–418). Heartbeat detects silent failures independently of the worker remembering to complain.</li>
+<li><strong>Return to the human.</strong> <a href="repo/src/integrations/chat-sdk/relay.ts">relay.ts</a>, lines 42–92, formats terminal output/failure with a task tag; lines 102–217 process persisted pending relay obligations, retry with backoff and send output attachments. A terminal event causes an early relay tick (lines 220 onward). The human can follow the task/session links into the same state shown on the dashboard. Relay retry is bounded, so “eventually sent forever regardless of platform availability” is not guaranteed.</li>
+</ol>
+<p>Internal shared state comprises agent/task rows, dependency edges, channel messages/read cursors, scoped KV, memory, repo policy, workflow runs/steps and approval requests. Workflow events link these components, but a process-local event bus is not by itself durable; persisted task/run/relay/wait state and recovery scans provide the recovery paths. Wingman should carry project identity explicitly through those records rather than rely solely on a chat context key or repo string to imply product ownership.</p>
+<h2 id="assessment-substantial-capabilities-beyond-wingmans-described-scope">Substantial capabilities beyond Wingman's described scope</h2>
+<h3 id="assessment-heterogeneous-harnesses-and-portable-execution-intent">Heterogeneous harnesses and portable execution intent</h3>
+<p>The provider contract normalizes messages, tools, results, context and steering while exposing traits instead of assuming parity. Portable model tiers are resolved at claim time with task pins, config, worker overrides and defaults: <a href="repo/src/be/model-tier-resolution.ts">model-tier-resolution.ts</a>, lines 1–25, 318–338 and 352–396. This enables a planner to ask for a capability/cost tier without embedding a concrete vendor model into every task. Wingman is specified around Codex, so other providers are optional; adopting them adds testing/auth/context differences, and “regular” across providers does not establish equal quality.</p>
+<h3 id="assessment-durable-dag-workflows-structured-results-and-human-gates">Durable DAG workflows, structured results and human gates</h3>
+<p>Workflow steps can be agent tasks, scripts, reusable swarm scripts, waits, foreach, validation, notifications, VCS work and human input; see <a href="repo/src/workflows/executors/index.ts">executors/index.ts</a>. The engine hydrates completed outputs, persists step state and handles retry/validation routing (<a href="repo/src/workflows/engine.ts">engine.ts</a>, lines 490–504, 613–641, 1096–1228). Human gates allow explicit approvers and timeout rejection. This is useful for repeatable delivery pipelines beyond informal leadership conversations. It adds a second owner of task progression: generic recovery must defer to engine-owned work, and workflow authors must map upstream outputs explicitly rather than assume every prior result is in scope.</p>
+<h3 id="assessment-agent-authored-scripts-and-programmable-policy-extensions">Agent-authored scripts and programmable policy extensions</h3>
+<p>Reusable TypeScript scripts are stored/versioned and typechecked; <a href="repo/src/tools/script-upsert.ts">script-upsert.ts</a>, lines 23–41, exposes source, scope, filesystem mode and executor selection. Native execution runs a child process with configured resource/time/output limits, stdin-delivered configuration and process-group teardown: <a href="repo/src/scripts-runtime/executors/native.ts">native.ts</a>, lines 190–196 and 245–318. QuickJS is a separate executor. Per-run tokens can bind SDK operations to the invoking agent and are revoked in <code>finally</code>: <a href="repo/src/be/scripts/run-credential.ts">run-credential.ts</a>, lines 24–65. Sentinel/system callers can fall back to operator credentials. This is not a uniform least-privilege guarantee.</p>
+<p>Extensions can intercept task creation/routing/steering/remediation and observe post events. <a href="repo/src/extensions/dispatcher.ts">dispatcher.ts</a>, lines 60–80, 291–321 and 382–496, authenticates bridge origin, applies timeouts and guards against pre-hooks inside DB transactions. This is a practical location for Wingman project routing/authorization rules. Extensions are trusted executable policy, not harmless prompt text; activation, failures, recursion avoidance and policy audit become integration responsibilities.</p>
+<p>The extension API permits agent-owned catalog drafts. It separately guards inline installation and activation. Worker edits do not silently replace live code. See <a href="repo/src/http/extensions.ts">http/extensions.ts</a>, lines 92–114 and 493–519.</p>
+<p><a href="repo/src/extensions/lifecycle.ts">extensions/lifecycle.ts</a>, lines 125–223, loads hooks under an extension identity. It enables declared assets only after loading succeeds. Disable unloads and deactivates the extension. Version changes reconcile assets transactionally and support rollback restoration. Installation validates and plans assets before the transaction. It creates the identity, rows, and disabled assets together (lines 261–285). Uninstall removes pristine assets and detaches user-edited assets (lines 288–294). Startup reloads enabled records. Shutdown removes registrations and temporary material (lines 371–406).</p>
+<p>These controls support reviewable policy packages and controlled rollout. <code>ext:&lt;name&gt;</code> identifies an API/system principal. It is not a coding worker. Loaded extensions have API-process privileges. Draft ownership and versioning do not provide an untrusted-code sandbox.</p>
+<h3 id="assessment-searchable-institutional-memory-with-retrieval-feedback">Searchable institutional memory with retrieval feedback</h3>
+<p>Memory retrieval combines SQLite full-text search and vector candidates through reciprocal-rank fusion. It also uses reranking and graph-neighbor expansion. See <a href="repo/src/be/memory/providers/sqlite-store.ts">sqlite-store.ts</a>, lines 135–168 and 619–747. <a href="repo/src/be/memory/graph-expansion.ts">graph-expansion.ts</a>, lines 46–80 and 155–170, checks visibility. It caps graph scores relative to seed memories. <a href="repo/src/be/memory/search-candidates.ts">search-candidates.ts</a>, lines 1–46, widens retrieval until chunk collapse yields enough distinct documents. The limit is 4,096 candidates. Completion, citation, and rating records retain links to prior work.</p>
+<p>This can improve specialist continuity and retrieve mistakes/decisions across sessions. It requires embedding/retrieval configuration and retention rules, and it is probabilistic recall rather than authoritative product specification storage. Wingman should keep accepted scopes/decisions directly addressable even when memory retrieval misses them.</p>
+<h3 id="assessment-demand-driven-runtimes-and-cross-host-infrastructure-controllers">Demand-driven runtimes and cross-host infrastructure controllers</h3>
+<p>The remote controller separates infrastructure credentials/location from central orchestration, with typed provision/status/terminate/renew/pause/resume operations and liveness reconnects. Pools compute demand, apply provisioning backoff/circuit behavior and manage owner-labeled resources. This goes beyond merely running fixed specialists on two machines, enabling elastic capacity. Docker's adapter supports local Unix sockets, so a remote machine uses a controller there rather than arbitrary TCP Docker-host magic (<a href="repo/src/runtime-providers/docker.ts">docker.ts</a>, lines 16–54). Source coordination is shared; repo clones/volumes and runtime images still need deliberate Mac/Linux placement and artifact transport.</p>
+<h3 id="assessment-generated-apps-pages-and-realtime-collaboration">Generated apps, pages and realtime collaboration</h3>
+<p>The repository includes versioned data-backed apps, rendered pages, synchronization, migrations, and realtime rooms. <a href="repo/src/apps/definition.ts">apps/definition.ts</a>, lines 20–26, 251–322, and 460–554, defines models, queries, and actions. It validates model/query relationships. <a href="repo/src/apps/sync.ts">apps/sync.ts</a> synchronizes external data. <a href="repo/src/http/rooms.ts">http/rooms.ts</a> exposes realtime room operations. Wingman could use this platform for organizational tools and artifacts. It still needs a portfolio schema, migration ownership, access controls, and compatible deployment versions.</p>
+<h3 id="assessment-realtime-shared-documents-presence-and-ephemeral-channels">Realtime shared documents, presence and ephemeral channels</h3>
+<p>Realtime rooms differ from persisted chat transcripts. <a href="repo/src/realtime/document.ts">realtime/document.ts</a>, lines 44–99, implements Yjs-backed JSON documents. Operations include set, delete, array insertion, increment, and collaborative text. <a href="repo/src/realtime/rooms.ts">realtime/rooms.ts</a>, lines 403–467, checks versions and generations before changes or resets. Lines 471–519 serialize snapshots into key-value storage and retry failed flushes. Generation checks prevent obsolete snapshots from overwriting current rooms.</p>
+<p>Changes publish immediately. Persistence normally follows a one-second debounce (lines 14–21 and 233–246). An acknowledged live edit can therefore remain vulnerable to an abrupt API crash. Snapshot-size and room-count limits bound the collaboration state. The feature is not an arbitrary file store.</p>
+<p><a href="repo/src/realtime/transport.ts">realtime/transport.ts</a>, lines 328–365 and 490–526, authorizes namespace operations. It supplies WebSocket document synchronization, awareness, presence, and publish/subscribe channels. Channel payloads have a 64 KiB limit. Presence has an 8 KiB limit. Disconnect removes connection presence. Document snapshots persist.</p>
+<p><a href="repo/src/realtime/bus.ts">realtime/bus.ts</a>, lines 5–33, uses synchronous <strong>ephemeral in-process</strong> delivery. Channels have no durable replay. The bus does not span an API cluster. The browser resynchronizes documents after reconnect. See <a href="repo/src/realtime/browser.ts">realtime/browser.ts</a>, lines 205–281.</p>
+<p>These mechanisms can support shared boards, artifact collaboration, typing presence, and worker nudges. Wingman must distinguish authoritative tracker changes from transient notifications. It needs recovery for missed notifications. Horizontal scaling also needs a distributed transport or a retained single-API boundary.</p>
+<h3 id="assessment-multi-user-identity-integrations-budgets-and-operational-accounting">Multi-user identity, integrations, budgets and operational accounting</h3>
+<p>Agent Swarm supports mapped users, tokens, role-based access control, and external issue, VCS, email, and chat integrations. It also records pricing, context, costs, and session sharing. <a href="repo/src/be/budget-admission.ts">budget-admission.ts</a>, lines 64–133, checks daily spend before work claims. Checks cover the global, agent, and requester budgets. <a href="repo/src/http/sessions.ts">http/sessions.ts</a>, lines 818–850, exposes session sharing.</p>
+<p>Budgets control admission. They do not guarantee an exact task cost. Running tasks can continue spending after the daily threshold. These integrations also add operational work beyond Wingman's minimum personal organization.</p>
+<h2 id="assessment-distinctive-mechanisms-and-grounded-innovation-assessment">Distinctive mechanisms and grounded innovation assessment</h2>
+<p>These mechanisms are distinctive within this checkout and relevant to Wingman. This assessment makes no claim of historical or industry-wide novelty.</p>
+<p><strong>Separate logical identity, runtime capacity and model session.</strong> One durable specialist can have multiple process instances, each with reported slots and liveness, while sharing a server-enforced logical capacity policy. Registration does not let competing runtimes redefine that policy. The implementation links staffing continuity to elastic infrastructure without making every restart a new employee. Its limit is shared mutable agent/repo state: concurrent sessions under one identity do not automatically become isolated task workspaces. Evidence: <a href="repo/src/http/agents.ts">http/agents.ts</a>, lines 709–795; <a href="repo/src/be/runtime-pools/demand.ts">runtime-pools/demand.ts</a>, lines 31–64.</p>
+<p><strong>Explicit continuation graphs instead of native session resurrection.</strong> Superseded/failed work gets linked fresh tasks with inherited context, and generic preambles reconstruct bounded state across providers. This makes continuity more portable and less dependent on a specific container's native rollout files. The mechanism sacrifices implicit full-conversation context and requires good summaries/retrievable artifacts. Its name “resume” must not obscure that tradeoff. Evidence: <a href="repo/src/commands/resume-session.ts">resume-session.ts</a>, lines 1–16; <a href="repo/src/commands/context-preamble.ts">context-preamble.ts</a>, lines 136–196; <a href="repo/src/tasks/worker-follow-up.ts">worker-follow-up.ts</a>, lines 474–662.</p>
+<p><strong>Deferred work follows logical outcomes, not just the first completed row.</strong> A task can complete to release a session while its continuation remains pending; all/any event waits follow deferred/superseded successors and preserve a single original deadline. This gives agents a durable “check back when these things really settle, or at the ceiling” primitive without occupying model capacity. It is particularly valuable for ProjectMaster supervision and integration gates, but requires outcome rollups to understand deferral and replacement rather than treating any terminal status as business completion. Evidence: <a href="repo/src/tools/defer-task.ts">defer-task.ts</a>, lines 162–215; <a href="repo/src/scheduler/deferred-task-waits.ts">scheduler/deferred-task-waits.ts</a>; tests at <a href="repo/src/tests/deferred-task-wake.test.ts">deferred-task-wake.test.ts</a>, lines 293–343 and 641–721.</p>
+<p><strong>Deterministic supervision with repairable handoff gaps.</strong> The system checks liveness in code, protects freshly progressing tasks with compare-and-swap, repairs superseded parents lacking replacement tasks, and caps recovery generations before leadership triage. The lead's model is then used for the judgment-intensive follow-up rather than being the sole detector of a dead worker. This reduces dependence on polite progress messages while keeping limits explicit. A quiet but healthy computation can still resemble a stall if thresholds/progress reporting are wrong. Evidence: <a href="repo/src/heartbeat/heartbeat.ts">heartbeat.ts</a>, lines 448–503, 658–698 and 764–825.</p>
+<p><strong>Memory retrieval corrects chunk crowding and records usefulness.</strong> Document-aware widening, rank fusion and visibility-aware graph expansion handle practical failures of naïvely fetching the nearest N chunks. This helps persistent specialists find distinct prior work rather than many fragments of one long answer. It remains bounded, relevance-ranked recall and needs measurement. It does not establish every retrieved memory is correct. Evidence: <a href="repo/src/be/memory/search-candidates.ts">search-candidates.ts</a>, lines 1–46; <a href="repo/src/be/memory/providers/sqlite-store.ts">sqlite-store.ts</a>, lines 135–168 and 703–747; <a href="repo/src/be/memory/graph-expansion.ts">graph-expansion.ts</a>, lines 46–80 and 155–170.</p>
+<p><strong>Human conversational context survives delegation without blindly transferring authority.</strong> Chat thread keys/requester IDs flow into tasks and children, routing checks guard parent attachment, and another sender does not automatically gain the prior requester's attribution. This is useful for Butler handling several conversations without mixing authorization or replies. It models conversational provenance, not product ownership, so Wingman still needs project-aware routing. Evidence: <a href="repo/src/integrations/chat-sdk/inbound.ts">inbound.ts</a>, lines 565–591; <a href="repo/src/tools/send-task.ts">send-task.ts</a>, lines 396–420; <a href="repo/src/tests/chat-sdk-inbound.test.ts">chat-sdk-inbound.test.ts</a>, lines 829–916.</p>
+<h2 id="assessment-practical-adoption-fit">Practical adoption fit</h2>
+<p>Use these mechanisms after deployment verification:</p>
+<ul>
+<li>Long-lived Codex worker execution and extensible identities/templates.</li>
+<li>Shared assignments, dependencies, and progress.</li>
+<li>Public and direct-message collaboration channels.</li>
+<li>Telegram intake, replies, and context-aware steering.</li>
+<li>Durable human questions, memory, and artifact records.</li>
+<li>Heartbeat, scheduling, and remote controllers.</li>
+<li>Task/session logs and cost inspection.</li>
+</ul>
+<p><strong>Adapt deliberately:</strong> define Butler as the human-facing role and ProjectMaster as portfolio supervisor; decide whether the platform's privileged lead represents one or both responsibilities. Add ProductMaster/TechMaster as real separately executed workers with project ownership, rather than treating an <code>isLead</code> flag as sufficient. Carry immutable project IDs across intake, chat/task context, directives, artifacts, approvals, scheduling and host placement. Establish the intended Mac/Endeavour runtime configuration, source/artifact sharing and placement policy. Keep authoritative accepted product knowledge directly retrievable alongside search memory. Decide whether bounded fresh-session reconstruction meets the required conversation continuity or whether Wingman needs an additional native-session control layer.</p>
+<p>Build missing product behaviors and views:</p>
+<ul>
+<li>A product/portfolio registry and intake resolver.</li>
+<li>Project-specific team/leadership relationships.</li>
+<li>Discovery questions/answers with explicit readiness and proportionality.</li>
+<li>Scope/specification/acceptance/DoD artifacts and change control.</li>
+<li>Project rollups and stop-on-accepted-delivery state.</li>
+<li>Room1/Room2 escalation semantics.</li>
+<li>Per-agent briefings for recent results, current work, next work, and blockers, with provenance and freshness.</li>
+<li>A meaningful personal summary timeline.</li>
+<li>Lifecycle and IDE capabilities beyond transcript viewing.</li>
+</ul>
+<p>The app and page platform can support these views. Wingman must still define and implement them.</p>
+<p>The adoption decision should turn on whether Wingman wants to own a product-organization layer over a broad existing control plane. Replacing the control plane entirely would discard substantial working mechanisms. Treating Agent Swarm as a finished Wingman replacement would leave the core discovery, portfolio, acceptance and executive-reporting requirements implicit in prompts.</p>
+<h2 id="assessment-verification-scope-and-limits">Verification scope and limits</h2>
+<p>The original read-only review covered these areas:</p>
+<ul>
+<li>Purpose, guide, checkout instructions, commit, and remote.</li>
+<li>API/MCP startup, schema, persistence, agent creation, registration, and profiles.</li>
+<li>Worker runner, Codex execution, task creation, claims, completion, and continuation.</li>
+<li>Scheduler, heartbeat, Telegram intake, routing, and relay.</li>
+<li>Channel storage and UI; approvals, pools, and controllers.</li>
+<li>Memory retrieval, scripts, extensions, apps, and selected dashboard/session/task components.</li>
+</ul>
+<p>The findings distinguish executable paths from prompt instructions. The review did not run tests, model sessions, services, containers, Telegram delivery, migrations, or external trackers.</p>
+<p>Relevant tests inspected as source include:</p>
+<ul>
+<li><a href="repo/src/tests/chat-sdk-inbound.test.ts">chat-sdk-inbound.test.ts</a>, lines 175–223, 254–278 and 422–438: buffered Telegram messages become one lead task; pinned recipients/mappings; active work steering; pending follow-ups inherit dependency/parent. Later tests, lines 829–916, cover requester attribution boundaries.</li>
+<li><a href="repo/src/tests/runner-context-preamble.test.ts">runner-context-preamble.test.ts</a>, lines 110–170: parent subject/output and artifact pointers are reconstructed, missing parent returns null, ancestor-chain cases follow. This verifies intended test coverage, not a passing run in this assessment.</li>
+<li><a href="repo/src/tests/heartbeat-stall-cas.test.ts">heartbeat-stall-cas.test.ts</a>, lines 64–81: a progress update occurring after candidate read must prevent supersede and replacement creation.</li>
+<li><a href="repo/src/tests/heartbeat-supersede-resume.test.ts">heartbeat-supersede-resume.test.ts</a>, lines 333–436 and 486–553: stale-session recovery, workflow carve-out, original-agent pinning and no duplicate replacement on repeated sweep.</li>
+<li><a href="repo/src/tests/multi-runtime-registration.test.ts">multi-runtime-registration.test.ts</a>, lines 352–411: provisioning adoption, draining-runtime claim refusal, runtime shutdown/token revocation and session-close distinction.</li>
+<li><a href="repo/src/tests/runtime-controller-liveness.test.ts">runtime-controller-liveness.test.ts</a>, lines 90–123: silent connections reconnect while ping/pong traffic keeps an idle controller alive.</li>
+<li><a href="repo/src/tests/deferred-task-wake.test.ts">deferred-task-wake.test.ts</a>, lines 293–343 and 641–721: following repeated deferrals, any/all outcome behavior, deadline/event races, restart reconciliation and rollback when child creation fails.</li>
+</ul>
+<p>Missing-capability searches covered task/agent/repo schemas, HTTP route inventory, UI pages/components, official role templates, seeded research/planning/implementation skill content and worker/provider controls for project/portfolio/team leadership, discovery, scope/specifications/DoD, executive summaries, personal timelines, fork/compact/archive and worktree behavior. Shipped technical plan/verification instructions receive explicit partial credit above. The missing finding concerns the complete organizational product behavior, not absence of all planning guidance. Ordinary “project” strings in provider metadata, GitLab IDs, app examples or onboarding copy were not counted as an organizational product model. Logs, task bars, approval prompts and personas were not upgraded to the fuller Wingman capabilities they might help implement.</p>
+<p>Two source caveats need follow-up before adoption. Some tool descriptions still say “resume parent's Claude session.” Execution code explicitly removes native resume. This assessment follows the execution code.</p>
+<p><a href="repo/src/tools/create-channel.ts">create-channel.ts</a>, lines 48–61, calls async <code>createChannel</code> without <code>await</code>. It places the promise in result data. <a href="repo/src/be/db.ts">db.ts</a>, lines 4008–4035, returns <code>Promise&lt;Channel&gt;</code>. This appears to be a serialization and error-propagation defect in the tool adapter. The review did not execute or repair it. Separate database and HTTP/UI paths still implement chat. This defect requires interface verification before deployment; broad source coverage cannot prove operational reliability.</p>
+<p>External service behavior, artifact-drive availability, host filesystem durability, provider authentication, model quality, successful integrated product delivery and operational reliability remain unverified. The report assesses what the checked-out implementation provides and where Wingman must supply additional organization and product semantics.</p></article><section id="support-legacy-evidence" class="technical supporting"><h2 id="support-legacy-evidence-retained-agent-swarm-experiment-evidence">Retained Agent Swarm experiment evidence</h2>
+<h2 id="support-legacy-evidence-scope">Scope</h2>
+<p>The older research used commit <code>6aff700f53755cb71bd6a1aa2e2fa1da9586b892</code>.
+The selected upstream run recorded 363 passes across 14 files.
+Five additional probes used in-memory state without model calls.
+The current <a href="index.html">technical assessment</a> governs the Wingman fit verdict.</p>
+<h2 id="support-legacy-evidence-useful-probe-findings">Useful probe findings</h2>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Probe</th>
+<th scope="col">Recorded result</th>
+<th scope="col">Engineering consequence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Read three unread messages with limit one</td>
+<td>The read returned the newest message. The remaining unread count became zero.</td>
+<td>A cursor can mark omitted messages as read. Retained storage does not ensure later unread retrieval.</td>
+</tr>
+<tr>
+<td>Reply after the parent message was read</td>
+<td>The reply stored no mentions. Normal unread mention retrieval found none.</td>
+<td>Inherited notification intent needs an explicit persisted target.</td>
+</tr>
+<tr>
+<td>Request live steering</td>
+<td>The API reported <code>steered</code>. The database row remained <code>pending</code>.</td>
+<td>Admission is not confirmed delivery or handling.</td>
+</tr>
+<tr>
+<td>Complete work with unaccepted steering</td>
+<td>A delivered row remained <code>delivered</code>.</td>
+<td>Terminal completion does not acknowledge every instruction.</td>
+</tr>
+<tr>
+<td>Create a channel through the tool</td>
+<td>The success result contained an empty channel object.</td>
+<td>A missing <code>await</code> returned a Promise-shaped value.</td>
+</tr>
+</tbody>
+</table></div>
+<p>These results concern specific paths at the pinned commit.
+They do not prove that all discussion or steering paths fail.
+Stored messages can still exist after an unread cursor advances.</p>
+<h2 id="support-legacy-evidence-retained-records">Retained records</h2>
+<ul>
+<li><a href="assessment/evidence/agent-swarm-assessment-tests.log">Selected upstream test log</a>.</li>
+<li><a href="assessment/evidence/agent-swarm-communication-probe.ts">Original probe script</a>.</li>
+<li><a href="assessment/evidence/agent-swarm-communication-probe.log">Original probe results</a>.</li>
+<li><a href="assessment/evidence/agent-swarm-communication-probe.relocated.ts">Relocated probe script</a>.</li>
+<li><a href="assessment/evidence/relocated-probe.log">Relocated probe results</a>.</li>
+<li><a href="assessment/evidence/relocated-probe-preflight.log">Preflight refusal</a>.</li>
+</ul>
+<p>The preflight refusal required an explicit encryption key for an in-memory database.
+The later run used a temporary test key.
+The scripts retain historical import paths. Inspect those paths before a new run.
+This reorganization preserved the raw records without editing them.</p></section>
+<section id="source-record"><h2>Source and evidence</h2><p class="url-text">https://github.com/desplega-ai/agent-swarm</p>
+<ul><li><a href="repo/">Open the pinned source checkout</a></li><li><a href="assessment/ASSESSMENT.md">Read the Markdown assessment</a></li>
+<li><a href="../generic/assessments/_audits/qa01.md">Read the historical independent source audit</a></li><li><a href="../generic/method.html">Read the method and evidence limits</a></li></ul></section>
+<nav class="report-switch" aria-label="Adjacent project reports"><a href="../agent-orchestrator/index.html">Previous project: Agent Orchestrator</a><a href="../agentopology/index.html">Next project: AgenTopology</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../index.html">Return to overview <img src="../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

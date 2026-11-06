@@ -1,0 +1,29 @@
+✔ task DAG waits for all dependencies and rejects missing dependencies (23.49575ms)
+✔ decision gate blocks a task until resolved (11.962208ms)
+✔ mail replays until acknowledgment; duplicate acknowledgment preserves newer mail (12.853291ms)
+✔ a new coordinator fences the old consumer generation (11.752291ms)
+✔ starting a worker records a task attempt and refuses a duplicate active attempt (10.714291ms)
+✔ run, task, and unacknowledged mail survive reopening the database (22.675958ms)
+✔ a nudge delivery does not consume mail; normal take consumes FIFO, not priority order (21.127833ms)
+✔ failure to save the consuming-check receipt rolls back consumption (14.464ms)
+✔ mutation receipts replay identical request IDs and reject changed input (11.163ms)
+✔ questions are correlated and idempotently answered; a conflicting answer is refused (12.473208ms)
+✔ settling a dispatch closes its outstanding question (11.979917ms)
+✔ worker completion requires the owning pane and unlocks a dependent only on success (12.62875ms)
+✔ a failed worker report does not unlock its dependent (11.028792ms)
+✔ completion message and task transition roll back together (11.387542ms)
+✔ heartbeat records liveness without placing unread work in the coordinator inbox (10.054375ms)
+✔ a helper reports to its live creator, then falls back to the Run home (10.240667ms)
+✔ federated imports deduplicate, reject gaps, and roll back a failed cursor update (10.406833ms)
+✔ a finished federated worker refuses follow-up mail (0.188959ms)
+✔ automatic mailbox notices point to check rather than including message bodies (0.116ms)
+✔ an ended turn without worker_done escalates once and does not complete the task (12.029375ms)
+✔ a decision gate refuses to pretend an active supervised worker has been paused (9.434666ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 21
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 255.407584

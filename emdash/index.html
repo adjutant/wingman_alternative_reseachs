@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Technical assessment against Wingman’s development organization."><title>Emdash · Wingman Research</title>
+<link rel="icon" href="../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/report.css"><script defer src="../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../index.html"><img src="../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../index.html">Overview</a><a class="nav-link " href="../generic/index.html">Architecture findings</a><a class="nav-link " href="../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../generic/method.html">Method and evidence</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../index.html">Wingman Research</a><span class="crumb">/</span><span>Emdash</span></div><span class="topbar-note">SOURCE REVIEW · 05 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Emdash</h1><p class="subtitle">Technical assessment against Wingman’s development organization.</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#decision">Decision summary</a><a href="#assessment-emdash-assessment-for-wingman">Emdash assessment for Wingman</a><a href="#assessment-fit-verdict">Fit verdict</a><a href="#assessment-architecture-and-evidence-map">Architecture and evidence map</a><a href="#assessment-feature-by-feature-assessment">Feature-by-feature assessment</a><a href="#assessment-agent-definitions-and-lifecycle">Agent definitions and lifecycle</a><a href="#assessment-a-concrete-coordination-trace">A concrete coordination trace</a><a href="#assessment-major-capabilities-beyond-the-wingman-purpose">Major capabilities beyond the Wingman purpose</a><a href="#assessment-distinctive-mechanisms-and-innovation-assessment">Distinctive mechanisms and innovation assessment</a><a href="#assessment-practical-use-in-wingman">Practical use in Wingman</a><a href="#assessment-verification-scope-and-remaining-uncertainty">Verification scope and remaining uncertainty</a><a href="#source-record">Source and evidence</a></div></nav><section id="decision" class="decision"><h2>Decision summary</h2>
+<div class="brief-columns"><div><h3>Useful for Wingman</h3><p>Study coding workspaces, SSH execution, ACP conversation identity, activation control, and review integration.</p></div><div><h3>Adoption boundary</h3><p>Human-created task workspaces do not provide Wingman&#x27;s standing employees or product leadership.</p></div></div>
+<p class="scope-note">Source assessment at the commit below. Runtime limits appear in the technical report.</p></section>
+<dl class="facts"><div><dt>Source group</dt><dd>Coding workspaces</dd></div><div><dt>Commit</dt><dd><code>592281113a9d83a2987d8a1715d0fedf854d44c4</code></dd></div><div><dt>Coverage</dt><dd>24 Wingman features</dd></div></dl>
+<article id="technical-assessment" class="technical"><h2 id="assessment-emdash-assessment-for-wingman">Emdash assessment for Wingman</h2>
+<p class="url-text">Assessment date: 2026-11-05. Repository: https://github.com/generalaction/emdash</p>
+<p>Local source: <code>researchs/emdash/repo</code>. Inspected commit: <code>592281113a9d83a2987d8a1715d0fedf854d44c4</code>. Baseline: <a href="../generic/purpose.html">Wingman purpose</a>. License: <a href="repo/LICENSE.md">Apache-2.0</a>, lines 1–6. This fresh source assessment follows the <a href="../generic/assessments/ASSESSMENT_GUIDE.md">assessment guide</a> and checkout <a href="repo/AGENTS.md">AGENTS.md</a>. Selected test implementations were inspected; no dependencies were installed and no provider processes, desktop application or remote server were launched.</p>
+<h2 id="assessment-fit-verdict">Fit verdict</h2>
+<p><strong>Verdict:</strong> Emdash provides a strong individual coding workspace and distributed execution foundation for Wingman. It runs external coding harnesses and links conversations to projects, tasks, and Git workspaces. It supports local/SSH hosts, structured tool activity, permissions, issue intake, code review, and pull requests.</p>
+<p>The ACP lifecycle retains conversation identity across provider-process eviction. Restore errors preserve saved history pointers. Activation coordinates concurrent callers. Initial prompt delivery has an explicit persistence boundary. These mechanisms do not supply Wingman's standing organization.</p>
+<p>The organizing unit is a human-created <strong>task workspace with one or more provider conversations</strong>, not an employee-like agent with a persistent organizational role. There is no built-in Butler, project-routing conversation, ProductMaster/TechMaster hierarchy, team roster, shared agent rooms, specialist assignment/dependency scheduler or product definition-of-done workflow. Users can ask a provider to act as a specialist and can schedule recurring prompts, but these are ingredients for building that organization rather than its implementation.</p>
+<p>Two distinctions matter especially for Wingman. First, independent ACP conversations can share one provider process when provider, working directory and environment match; separate agent conversations do not imply one OS process per agent. Second, an automation run becomes <code>done</code> after it provisions a workspace and starts a session. That status does <strong>not</strong> establish that the coding request, tests or product delivery succeeded. A Wingman supervisor must observe work outcomes separately.</p>
+<h2 id="assessment-architecture-and-evidence-map">Architecture and evidence map</h2>
+<p>The checkout is a TypeScript monorepo. The Electron desktop owns project/task entities and annotations in SQLite. A host owns the repository, worktree, process and conversation records physically resident on that machine. Desktop rows mirror host observations and link them to human-facing tasks. The React UI reaches typed domain controllers through Wire. These delegate to runtime workers, Git services and the database. The <code>packages/core</code> runtimes are transport-independent; provider behavior is injected from <code>packages/plugins</code>.</p>
+<p>The executable path is visible in <a href="repo/apps/emdash-desktop/src/entry/main.ts">desktop main</a>, lines 16–36: bootstrap is dynamically loaded, with a recovery entry on failure. <a href="repo/apps/emdash-desktop/src/main/gateway/desktop-wire.ts">Desktop Wire</a>, lines 16–40 and 48–69, grants the renderer a message port, queues calls until the controller bundle is ready and routes typed calls/live subscriptions to domain controllers. <a href="repo/apps/emdash-desktop/src/entry/preload.ts">Preload</a>, lines 8–35, exposes this port plus file-path and boot-recovery/reporting escape hatches. ACP runs through a separate <a href="repo/apps/emdash-desktop/src/main/gateway/entries/acp.ts">Wire component worker entry</a>, lines 1–7. Thus the rich renderer is a client of domain/runtime services, rather than the authority for a running agent's process.</p>
+<p>There are two execution paths. TUI conversations run provider CLIs through terminal/PTY services. Structured chat conversations use ACP and a session manager, with provider adapters where necessary. Local and remote workspace servers expose the same runtime vocabulary. SSH forwards the workspace server's Unix socket rather than turning every operation into a one-off SSH shell command. This is genuine remote execution with host-owned state, although it is not a shared multi-agent organization spanning hosts.</p>
+<p>The following references establish the implementation behind the feature grades. Line references are for the pinned revision and identify the relevant regions rather than claiming every file was read exhaustively.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Evidence</th>
+<th scope="col">Source and relevant lines</th>
+<th scope="col">What it proves</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E01</td>
+<td><a href="repo/apps/emdash-desktop/src/core/services/app-db/node/schema.ts">Desktop schema</a>, lines 64–117, 153–187, 369–459</td>
+<td>Repository-linked projects, local task state, linked issues, automation definitions/runs, conversation mirrors and provider resume pointers. No standing role/team hierarchy in these entities.</td>
+</tr>
+<tr>
+<td>E02</td>
+<td><a href="repo/apps/emdash-desktop/src/core/features/tasks/node/operations/createTask.ts">Task creation</a>, lines 79–250 and subsequent commit/provision functions</td>
+<td>Project validation, host placement, worktree/Git-plan compilation, tombstone conflict admission, task/conversation provisioning.</td>
+</tr>
+<tr>
+<td>E03</td>
+<td><a href="repo/apps/emdash-desktop/src/core/features/conversations/node/createConversation.ts">Conversation creation</a>, lines 47–204</td>
+<td>Stable conversation UUID, task/workspace/host binding, host-first registration, ACP versus TUI configuration, spawn compensation.</td>
+</tr>
+<tr>
+<td>E04</td>
+<td><a href="repo/packages/plugins/src/agents/registry.ts">Provider registry</a>, lines 1–87; <a href="repo/packages/plugins/src/agents/impl/codex/index.ts">Codex plugin</a>, lines 21–158</td>
+<td>Extensible implementation-level provider plugins; model, ACP, hooks, MCP, auth, session-resume and launch capabilities.</td>
+</tr>
+<tr>
+<td>E05</td>
+<td><a href="repo/packages/core/src/runtimes/acp/api/contract.ts">ACP contract</a>, lines 52–137</td>
+<td>Attach/start/terminate, prompt queue edits, cancellation, configuration, permissions, history, transcript/raw-log export, usage/plan/subagent/terminal live models.</td>
+</tr>
+<tr>
+<td>E06</td>
+<td><a href="repo/packages/core/src/runtimes/acp/node/connection/source.ts">ACP process source</a>, lines 60–174</td>
+<td>Resource-cached provider processes keyed by provider, normalized cwd and hashed environment; generation-scoped close routing.</td>
+</tr>
+<tr>
+<td>E07</td>
+<td><a href="repo/packages/core/src/runtimes/acp/node/runtime/session-manager.ts">Session manager</a>, lines 120–184, 283–320, 323–375, 547–578</td>
+<td>Lifecycle chassis, routing, persistence before initial dispatch, prompt wake and no-wake history/export behavior.</td>
+</tr>
+<tr>
+<td>E08</td>
+<td><a href="repo/packages/core/src/runtimes/acp/node/runtime/session-materializer.ts">Materializer</a>, lines 83–218</td>
+<td>Native load/new-session paths, serialized restore handshake, preservation of history on errors, constrained missing-session fallback and configuration-before-prompt.</td>
+</tr>
+<tr>
+<td>E09</td>
+<td><a href="repo/packages/core/src/runtimes/acp/node/runtime/conversation-handle.ts">Conversation handle</a>, lines 23–95, 166–184, 304–387, 454–501</td>
+<td>Conversation-lifetime state distinct from an activation, suspended presentation, fresh/resume mode and durable provider-pointer/queue-consumption commit.</td>
+</tr>
+<tr>
+<td>E10</td>
+<td><a href="repo/packages/core/src/runtimes/acp/node/session/permission-broker.ts">Permission broker</a>, lines 6–35</td>
+<td>Interactive permission promises, selected/cancelled outcomes and teardown draining.</td>
+</tr>
+<tr>
+<td>E11</td>
+<td><a href="repo/apps/emdash-desktop/src/core/services/hosts/node/remote-host-workspace-server.ts">Remote host server</a>, lines 81–160; <a href="repo/apps/emdash-desktop/src/core/services/hosts/node/workspace-server/connect/ssh-streamlocal-transport.ts">SSH transport</a>, lines 6–13</td>
+<td>Host server installation/start/stop controls and RPC transport through the actual SSH connection.</td>
+</tr>
+<tr>
+<td>E12</td>
+<td><a href="repo/apps/emdash-desktop/src/core/features/automations/node/deployment-builder.ts">Automation deployment builder</a>, lines 41–190</td>
+<td>Project-bound prompt, host/workspace selection, ACP/TUI launch config and cron/timezone deployment.</td>
+</tr>
+<tr>
+<td>E13</td>
+<td><a href="repo/packages/core/src/runtimes/automations/node/scheduling/scheduler.ts">Automation scheduler</a>, lines 16–18, 86–178, 184–220; <a href="repo/packages/core/src/runtimes/automations/node/runs/executor.ts">executor</a>, lines 17–60</td>
+<td>Durable due-run scheduling, bounded startup workers, cancellation, interrupted-start classification and <code>done</code> after session start.</td>
+</tr>
+<tr>
+<td>E14</td>
+<td><a href="repo/packages/core/src/runtimes/automations/node/ports/session-start.ts">Automation session port</a>, lines 33–119, 165–198</td>
+<td>Headless host conversation registration, workspace activation, ACP fresh/TUI start and host-native session record configuration.</td>
+</tr>
+<tr>
+<td>E15</td>
+<td><a href="repo/apps/emdash-desktop/src/core/features/tasks/node/operations/archiveTask.ts">Task archive</a>, lines 9–45; <a href="repo/apps/emdash-desktop/src/core/features/tasks/api/node/task-session-manager.ts">task session teardown</a>, lines 222–252; <a href="repo/apps/emdash-desktop/src/core/features/tasks/node/operations/deleteTask.ts">task deletion</a>, lines 49–123 and subsequent deletion flow</td>
+<td>Archive records state before attempting session teardown and preserves worktree/resume identity; teardown failures are logged without undoing archive. Deletion can retain conversations and protect shared workspaces.</td>
+</tr>
+<tr>
+<td>E16</td>
+<td><a href="repo/packages/plugins/src/integrations/registry.ts">Integration registry</a>, lines 1–35; <a href="repo/apps/emdash-desktop/src/core/features/tasks/browser/create-task-modal/initial-conversation-text.ts">prompt construction</a>, lines 7–18</td>
+<td>Multiple external work systems and issue context joined with the human's initial prompt.</td>
+</tr>
+<tr>
+<td>E17</td>
+<td><a href="repo/apps/emdash-desktop/src/core/primitives/tasks/api/tasks.ts">Task types</a>, lines 39–81; <a href="repo/apps/emdash-desktop/src/core/features/projects/browser/components/task-view/task-list.tsx">project task list</a></td>
+<td>Explicit todo/in-progress/review/done and related states, task navigation and conversation/PR associations rather than an employee directory.</td>
+</tr>
+<tr>
+<td>E18</td>
+<td><a href="repo/apps/emdash-desktop/src/core/features/tasks/browser/components/activity-badge.tsx">Workspace activity UI</a>, lines 26–41, 122–178</td>
+<td>Human-readable workspace lifecycle steps, timestamps and drill-down into script activity; not an agent accomplishment feed.</td>
+</tr>
+<tr>
+<td>E19</td>
+<td><a href="repo/apps/emdash-desktop/src/core/features/library/node/prompt-library-service.ts">Prompt library service</a>, lines 21–109; <a href="repo/apps/emdash-desktop/src/core/services/pull-requests/api/contract.ts">pull-request API</a>, including lines 95–102</td>
+<td>Reusable prompt assets and integrated PR create/merge operations.</td>
+</tr>
+<tr>
+<td>E20</td>
+<td><a href="repo/agents/architecture/state-ownership.md">State ownership design</a>; <a href="repo/agents/architecture/acp-runtime.md">ACP architecture</a></td>
+<td>Design context for single-authority resources, tombstone reconciliation and lifecycle intent; cross-checked against the code above, not used alone as proof of operation.</td>
+</tr>
+<tr>
+<td>E21</td>
+<td><a href="repo/apps/emdash-desktop/src/core/features/conversations/node/launch-tui-conversation.ts">TUI launcher</a>, lines 29–86; <a href="repo/packages/core/src/runtimes/tui-agents/node/runtime/runtime.ts">TUI runtime</a>, lines 145–164, 595–705 and 1038–1076; <a href="repo/packages/core/src/runtimes/tui-agents/api/contract.ts">TUI contract</a>, lines 17–117</td>
+<td>Per-conversation launch mutex, native hook/status projection, PTY execution, stop/kill/delete separation, early-resume fresh fallback and bounded unexpected-exit respawn.</td>
+</tr>
+<tr>
+<td>E22</td>
+<td><a href="repo/apps/emdash-desktop/src/core/features/tasks/browser/create-task-modal/build-create-task-params.ts">Initial conversation builder</a>, lines 10–53; <a href="repo/apps/emdash-desktop/src/core/features/tasks/browser/create-task-modal/use-create-task-callback.ts">create callback</a>, lines 24–58</td>
+<td>Human-selected project, provider and transport; ACP issue context is hidden prompt context, whereas TUI uses concatenated initial text.</td>
+</tr>
+<tr>
+<td>E23</td>
+<td><a href="repo/packages/core/src/runtimes/agent-config/node/runtime/skills.ts">Skills manager</a>, lines 14–16, 35–119 and 133–159; <a href="repo/packages/core/src/runtimes/agent-config/node/runtime/mcp.ts">MCP manager</a>, lines 32–63 and 106–171</td>
+<td>Host-side durable skill files, canonical MCP configuration adapted across selected providers and serialized writes. Neither is an organizational profile/team registry.</td>
+</tr>
+<tr>
+<td>E24</td>
+<td><a href="repo/packages/core/src/runtimes/acp/node/agent-ports/fs-port.ts">ACP filesystem port</a>, lines 12–22; <a href="repo/packages/plugins/src/agents/impl/codex/index.ts">Codex launch behavior</a>, lines 175–190</td>
+<td>Actual file-tool boundary and provider launch flags, including the explicit breadth of Codex's optional TUI auto-approval mode. Worktrees should not be mistaken for a security sandbox.</td>
+</tr>
+<tr>
+<td>E25</td>
+<td><a href="repo/apps/workspace-server/src/index.ts">Workspace-server executable</a>, lines 24–97; <a href="repo/apps/workspace-server/src/gateway/worker-manifest.ts">remote worker manifest</a>, lines 30–91</td>
+<td>Remote server creates the runtime host and serves typed calls over socket/stdio; ACP, TUI, automation, files, Git, terminals and workspace registry are actual runtime workers on that host.</td>
+</tr>
+<tr>
+<td>E26</td>
+<td><a href="repo/apps/emdash-desktop/src/core/features/conversations/api/node/operations/conversation-removal.ts">Conversation removal</a>, lines 65–121; <a href="repo/apps/emdash-desktop/src/core/features/conversations/node/sweep/conversation-deletion-sweep.ts">deletion sweep</a>, lines 33–87; <a href="repo/apps/emdash-desktop/src/core/services/reconcile-sweep/node/reconcile-sweep-service.ts">reconciliation service</a>, lines 93–169</td>
+<td>Frozen deletion intent, idempotent host termination/index removal, reconnect/periodic sweep, mirror-confirmed purge and durable terminal-stop classification.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="assessment-feature-by-feature-assessment">Feature-by-feature assessment</h2>
+<p><strong>Exact</strong> means the described behavior is implemented within the stated boundary. <strong>Similar</strong> is a substantial equivalent with a different scope/workflow. <strong>Resembles</strong> identifies a useful primitive that does not deliver the full Wingman capability. <strong>Absent</strong> means no corresponding product mechanism was found in the searched implementation. These grades compare the whole feature, not whether the underlying model could be prompted to attempt it.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Wingman feature</th>
+<th scope="col">Grade</th>
+<th scope="col">Implementation and concrete gap</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F01</td>
+<td>Real independent coding agents and specialist instances</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/apps/emdash-desktop/src/core/features/conversations/node/createConversation.ts">Conversation execution</a>, lines 47–204. E03–E08 run real provider conversations and CLIs concurrently, including Codex. Multiple specialist prompts are possible. Emdash has conversation/workspace identity rather than durable specialist employees; ACP sessions may share a process.</td>
+</tr>
+<tr>
+<td>F02</td>
+<td>Extensible profiles, roles and team composition</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/packages/plugins/src/agents/registry.ts">Provider extension</a>, lines 45–87. E04 adds provider implementations and capabilities; E19 reuses prompts. Neither creates an organizational role with responsibilities, team membership and staffing rules. A new backend persona remains a conversation configured by the operator.</td>
+</tr>
+<tr>
+<td>F03</td>
+<td>Directory and visible working relationships</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/apps/emdash-desktop/src/core/services/app-db/node/schema.ts">Task/conversation entities</a>, lines 153–187, 413–468. E01/E17 connect projects, tasks, conversations, providers and hosts. The UI shows these work resources. No peer/manager/reporting hierarchy or agent directory was found in the schema, agents feature or project/task views.</td>
+</tr>
+<tr>
+<td>F04</td>
+<td>Telegram main channel and Butler routing</td>
+<td><strong>Absent</strong></td>
+<td><a href="repo/packages/plugins/src/integrations/registry.ts">Searched integration registry</a>, lines 1–35. No Telegram receiver, bot conversation routing or Butler service was found in application features, plugin integrations or runtime sources. E16's external integrations are work-item sources, not a conversational organizational representative.</td>
+</tr>
+<tr>
+<td>F05</td>
+<td>Cross-project registry, intake and new/existing routing</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/apps/emdash-desktop/src/core/features/tasks/browser/create-task-modal/use-create-task-callback.ts">Explicit project selection</a>, lines 24–58. E01 gives a persistent repository/project registry and E16 supplies issue context. The human chooses the project and creates the task. There is no semantic portfolio intake agent deciding whether a request continues a product or starts discovery for a new one.</td>
+</tr>
+<tr>
+<td>F06</td>
+<td>Per-project product and technical leadership</td>
+<td><strong>Absent</strong></td>
+<td><a href="repo/apps/emdash-desktop/src/core/services/app-db/node/schema.ts">Project/task schema</a>, lines 64–117, 153–187. E01/E03/E04 define projects, tasks and provider conversations; none establishes ProductMaster/TechMaster identities, their division of responsibility or leadership collaboration. Additional conversations can be manually given those prompts.</td>
+</tr>
+<tr>
+<td>F07</td>
+<td>Proportionate discovery and iterative clarification</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/packages/core/src/runtimes/acp/api/contract.ts">Chat and approval primitives</a>, lines 72–100. ACP chat and queued prompts (E05) permit research and human follow-up inside a session. No discovery state machine, uncertainty record or Butler-mediated project clarification cycle was found. Permission questions (E10) are execution approval, not product discovery.</td>
+</tr>
+<tr>
+<td>F08</td>
+<td>Scope, specifications, scenarios and definition of done</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/apps/emdash-desktop/src/core/primitives/tasks/api/tasks.ts">Task record</a>, lines 39–81. Agents can create repository documents; reusable prompts (E19) and issue context (E16) can request specification work. The task/project models (E01/E17) do not bind product scope, acceptance scenarios and definition of done into a maintained product record.</td>
+</tr>
+<tr>
+<td>F09</td>
+<td>Decomposition, assignment and shared task tracking</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/apps/emdash-desktop/src/core/features/tasks/node/operations/createTask.ts">Task persistence</a>, lines 345–375. E01/E17 implement persistent named tasks, status, linked issues, conversations and PRs. Missing are autonomous technical decomposition, specialist assignment/claiming, dependency readiness and agent-facing shared ticket coordination. A local Emdash task is principally a workbench unit.</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>Portfolio/project management dashboard</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/apps/emdash-desktop/src/core/features/projects/browser/components/task-view/task-list.tsx">Project task surface</a>, lines 37–129. Persistent projects and project task lists, status, workspaces, conversations and PRs provide a real navigable management surface (E01/E17). It lacks product goals, team ownership, integrated blockers/decisions and specification/room links expected of Wingman's dashboard.</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>Agent chat rooms and direct collaboration</td>
+<td><strong>Absent</strong></td>
+<td><a href="repo/packages/core/src/runtimes/acp/api/contract.ts">Searched chat contract</a>, lines 52–137. ACP is human–provider chat (E05); multiple conversation tabs do not constitute shared rooms. No addressed peer messaging, room membership, shared room history or delivery-to-another-agent contract was found in conversations, task or core runtime APIs. Native provider subagents do not establish an Emdash-wide room system.</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>Management escalation and human decisions</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/packages/core/src/runtimes/acp/node/session/permission-broker.ts">Permission broker</a>, lines 6–35. E10 implements actual permission responses; E05 exposes them alongside live sessions. There is no Room2→Room1→Butler escalation chain, project decision routing or management hierarchy. Direct interaction with each session is the available model.</td>
+</tr>
+<tr>
+<td>F13</td>
+<td>Durable knowledge and reusable directives</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/packages/core/src/runtimes/agent-config/node/runtime/skills.ts">Durable skills</a>, lines 53–119, 133–159. Git workspaces retain project files, E19 provides durable reusable prompts, and E23 manages reusable host-side skill files. Existing repository guidance can be read by harnesses. Emdash does not maintain Wingman's SCOPES/SPECS/HARNESS taxonomy or ensure knowledge is shared among independent project-role agents.</td>
+</tr>
+<tr>
+<td>F14</td>
+<td>Identity, conversation and work continuity</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/packages/core/src/runtimes/acp/node/runtime/conversation-handle.ts">Conversation continuity</a>, lines 383–403, 458–528. Strong conversation continuity: E01/E03/E08/E09 preserve stable UUID, host/cwd, native provider pointer and desired config; suspended sessions load history before prompting. Worktree/task persistence is real. The identity is a conversation, not a standing role across many tasks; restoration depends on provider support and retained provider data.</td>
+</tr>
+<tr>
+<td>F15</td>
+<td>Proactive supervision and blocker follow-up</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/packages/core/src/runtimes/automations/node/scheduling/scheduler.ts">Periodic scheduler</a>, lines 86–178. Cron deployments (E12–E14) can repeatedly start a supervisory prompt; process lifecycle sweeps manage idle/crashed resources (E07). No built-in manager audits product progress or contacts blocked specialists. Automation <code>done</code> is launch completion, which is particularly unsuitable as a product-supervision signal.</td>
+</tr>
+<tr>
+<td>F16</td>
+<td>Parallel products and concurrent specialists</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/packages/core/src/runtimes/acp/node/connection/source.ts">Concurrent process/session layer</a>, lines 60–105. Multiple project/task/workspace/conversation resources can run in parallel (E01–E08), locally and remotely (E11). This supports independent coding execution, but staffing, interface coordination, integration order and product leadership remain human or external orchestration responsibilities.</td>
+</tr>
+<tr>
+<td>F17</td>
+<td>Multi-host execution with shared coordination</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/apps/emdash-desktop/src/core/services/hosts/node/workspace-server/connect/ssh-streamlocal-transport.ts">Actual SSH RPC transport</a>, lines 6–13. E11 establishes real SSH workspace-server execution, and E02/E03 persist host placement. One desktop coordinates resources on several machines. Shared agent communication, cross-host team scheduling and a globally accessible tracker are additional work. This is not merely a local subprocess mislabeled remote.</td>
+</tr>
+<tr>
+<td>F18</td>
+<td>Executive current/recent/next/blocker overview</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/packages/core/src/runtimes/acp/api/contract.ts">Operational live projections</a>, lines 118–134. Task states, provider status, PR associations and workspace activity (E01/E17/E18) reveal operational state. No synthesized per-agent current task, outcome, planned next assignment and decision/blocker briefing was found. Status icons and task names supply only part of that overview.</td>
+</tr>
+<tr>
+<td>F19</td>
+<td>Individual summary timeline linked to work</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/apps/emdash-desktop/src/core/features/tasks/browser/components/activity-badge.tsx">Workspace activity timeline</a>, lines 26–41, 122–180. E18 shows timestamped workspace creation/script steps; ACP provides conversation history (E05). Neither is the requested continuing semantic accomplishment/blocker/next-work feed attached to a standing agent. A timeline of machine steps must not be counted as executive work summaries.</td>
+</tr>
+<tr>
+<td>F20</td>
+<td>Detailed individual coding workspace</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/packages/core/src/runtimes/acp/api/contract.ts">Workspace transcript/tools/usage</a>, lines 102–136. This is Emdash's strongest fit: structured chat, tool/terminal activity, plans, subagents and usage (E05), plus files, diffs and PR workflows (E19 and source-control feature). It maps to a task conversation rather than an organization-agent overview and lacks some requested controls as a uniform first-class interface.</td>
+</tr>
+<tr>
+<td>F21</td>
+<td>Live activity, lifecycle controls and steering</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/packages/core/src/runtimes/acp/api/contract.ts">Lifecycle and steering controls</a>, lines 52–100. E05 supplies native start/resume/fresh, terminate/cancel, queued prompt editing/reordering, option changes, permission responses and live models. E15 supplies archival/deletion. No uniform first-class fork/compact, continuing-goal or budget policy was established by the inspected contract; provider commands can differ.</td>
+</tr>
+<tr>
+<td>F22</td>
+<td>Testing, integrated verification and acceptance</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/packages/core/src/runtimes/automations/node/runs/executor.ts">Launch completion boundary</a>, lines 22–60. Providers can execute tests in terminals, setup/run scripts are inspectable, and E19 supports PR review/merge. No TestMaster orchestration or product acceptance gate was found. E13 explicitly finishes automation startup before the work result, so a green launch cannot serve as acceptance.</td>
+</tr>
+<tr>
+<td>F23</td>
+<td>Autonomous organization with human direction</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/apps/emdash-desktop/src/core/features/automations/node/deployment-builder.ts">Scheduled session configuration</a>, lines 155–190. Independent coding agents and scheduled prompts are autonomous at session level (E03/E12–E14). The human still supplies project selection, decomposition, coordination, review and ongoing direction. No continuing organization executes the entire discovery-to-delivery journey itself.</td>
+</tr>
+<tr>
+<td>F24</td>
+<td>Shared surfaces accommodate new profiles</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/packages/plugins/src/agents/registry.ts">Generic provider registry</a>, lines 45–87. Generic provider/conversation/task rendering and plugin capabilities (E01/E04/E05) offer extensible workspace surfaces. There is no profile/team entity or shared room/tracker workflow to extend; Wingman must add those concepts and their connected views.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="assessment-agent-definitions-and-lifecycle">Agent definitions and lifecycle</h2>
+<h3 id="assessment-what-an-agent-actually-is">What an “agent” actually is</h3>
+<p>Emdash uses several different identities that should remain separate in a Wingman design:</p>
+<ul>
+<li>A <strong>provider</strong> is an implementation plugin such as Codex or Claude, with metadata and capabilities. It describes how to authenticate, detect/install a CLI, launch it, observe hooks, configure models, integrate MCP and restore a native session. It is not a worker instance or organizational profile.</li>
+<li>A <strong>project</strong> binds desktop metadata to a repository workspace on a host. It is not an automatically discovered product organization.</li>
+<li>A <strong>task</strong> is a named human work item with lifecycle state, issue/PR associations and a workspace binding.</li>
+<li>A <strong>conversation</strong> has an Emdash UUID, provider/transport, configuration, working directory, host and optional provider session pointer. A task can have multiple conversations. This is the durable identity closest to Wingman's detailed agent session.</li>
+<li>An <strong>activation</strong> is the currently materialized runtime state for a conversation. It owns transient prompt/permission/terminal/transcript state and can be evicted while its conversation remains resumable.</li>
+<li>A <strong>provider process</strong> hosts the actual ACP server and may host multiple conversations. The process cache and conversation directory are deliberately different layers.</li>
+</ul>
+<p>These distinctions are explicit in E01/E03/E06–E09. They make Emdash a useful foundation but do not give each conversation an employee identity with manager, specialty, project responsibilities and a queue of independently assigned tickets.</p>
+<h3 id="assessment-definition-creation-and-placement">Definition, creation and placement</h3>
+<p>The human selects an installed provider, task configuration, workspace/Git choice, prompt and transport. The provider plugin advertises capabilities rather than every UI assuming the same controls. Codex, for example, declares ACP, usage probing, hooks, resumable sessions, MCP and TUI auto-approval support (E04). Reusable prompt-library entries can supply role instructions, but there is no separate persistent ProductMaster profile automatically instantiated per project.</p>
+<p><code>prepareCreateTask</code> first requires an attached project and resolves its workspace target. For a new worktree it compiles a Git plan, resolves base/push remotes, derives the host from the project, allocates a path and checks pending-deletion conflicts before registering resources (E02). The task can instead reuse a repository instance. This means worktree isolation is a primary default/workflow, not an invariant that every conversation owns a different checkout: multiple task conversations can share a workspace, and the configuration supports existing repository workspaces.</p>
+<p>Conversation creation freezes a host/workspace association and refuses new remote conversations when that host is offline. It registers the host record before committing the desktop registry link. If registration or launch fails, compensating deletion/untracking avoids claiming an active conversation that was never established. <code>providerSessionId</code> starts null and becomes a native resume pointer only after successful session creation (E03). ACP sessions materialize when the chat starts them; TUI conversations launch through the TUI path during creation. This provides a clean distinction between a persistent record and a running process.</p>
+<p>Initial task creation commits before background worktree preparation finishes. <a href="repo/apps/emdash-desktop/src/core/features/tasks/node/operations/createTask.ts">createTask</a>, lines 415–468, registers the initial host conversation and commits desktop rows. It starts the registry worktree operation in the background, then returns. If worktree creation fails, the task remains with a provisioning failure.</p>
+<p><a href="repo/apps/emdash-desktop/src/core/features/tasks/node/operations/createTask.test.ts">createTask.test.ts</a>, lines 788–818, asserts successful task creation alongside failed pending worktree preparation. This is test-source evidence. A task UUID establishes durable intent. It does not prove workspace or agent readiness.</p>
+<h3 id="assessment-execution-tools-permissions-and-routing">Execution, tools, permissions and routing</h3>
+<p>ACP process acquisition resolves the provider adapter and executable for that host, builds its spawn specification and initializes a connection. Cache identity combines provider, normalized cwd and a hash of the requested environment (E06). Therefore sessions with different environments are not indiscriminately pooled. Route ownership also includes process generation, preventing a delayed old-process callback from mutating a replacement session.</p>
+<p>The materializer loads an existing native session when one is present and supported; otherwise it creates a native session. It injects session MCP configuration and applies desired provider options before releasing the prompt (E08). Session routing correlates provider notifications, permissions and terminal requests to the Emdash conversation. Provider subagent activity is represented in live models, but these observations are not a fleet-wide employee directory or authority for Emdash-level task assignment.</p>
+<p>The permission broker holds requests until a selected option or cancellation resolves them, and drains outstanding requests on teardown (E10). ACP requests reaching the app remain interactive; TUI auto-approval is a separate provider launch setting. Native harness/tool access still determines what the coding agent can do. The presence of a Git worktree is isolation of edits and branches, not evidence of an OS security sandbox or a least-privilege organizational policy.</p>
+<p>The distinction is concrete in E24: ACP's filesystem port delegates read/write calls to its host filesystem. The port itself is not a per-role access-control policy. Codex's optional TUI auto-approval command explicitly sets approval policy to <code>never</code> and sandbox mode to <code>danger-full-access</code>. Wingman would need to select and enforce the appropriate native harness policy rather than assume Emdash's role prompt or separate worktree supplies permissions. Host-targeted MCP and skills controllers provide useful configuration seams (E23), but MCP's <code>providerId</code> is a harness identifier, not a specialist employee identifier.</p>
+<h3 id="assessment-concurrency-steering-and-queues">Concurrency, steering and queues</h3>
+<p>Independent tasks/conversations can execute concurrently. ACP's process-sharing optimization keeps session state separate from process allocation. Materialization is coordinated per conversation so concurrent startup or prompt submission joins an activation instead of launching duplicate sessions; materializer load handshakes are serialized per process generation (E08). Prompt submission wakes a suspended conversation, resolves attachments and enters the session's prompt machinery (E07).</p>
+<p>The public API includes send, edit/delete/reorder queued prompts, cancel the current turn, set a provider-native option and terminate (E05). These are meaningful steering controls. Queued human input inside a conversation is not a shared project backlog: it has no specialist assignment or inter-agent dependency semantics. Likewise, a session plan is provider execution context, not the common ProjectTracker contract described by Wingman.</p>
+<p>Prompt acceptance is separate from turn completion. <code>sendPrompt</code> resolves its caller through an acceptance callback while the host retains the activation lease until prompt execution finishes (<a href="repo/packages/core/src/runtimes/acp/node/runtime/session-manager.ts">session manager</a>, lines 323–392). A client disconnect therefore need not cancel accepted work. The inspected <a href="repo/packages/core/src/runtimes/acp/node/runtime/prompt-acknowledgement.wire.test.ts">Wire acknowledgment test</a>, lines 16–76, encodes both delivered and lost acknowledgments while the fake provider continues. This matters for mobile/desktop reconnection: uncertain delivery must be reconciled against live/history state, not blindly sent again. It does not establish a durable receipt journal or completion acknowledgment for organizational tickets.</p>
+<h3 id="assessment-persistence-suspension-restart-and-recovery">Persistence, suspension, restart and recovery</h3>
+<p>The durable conversation record and retained wake intent outlive a live activation. The handle can present closed, suspended, materializing and active states while preserving desired settings and selected presentation. In the ACP path, a provider-process exit suspends affected conversations. It does not automatically retry an interrupted coding turn or decide that a product is blocked; explicit start/prompt materializes work again. The implementation tests directly assert that an ACP mid-turn crash does not call load/new-session automatically.</p>
+<p>Restoration is conservative (E08): if a provider cannot load a saved session, its pointer is preserved and an error is returned. If loading fails for an ambiguous reason, the app does not silently replace the session with an empty chat. Automatic replacement is limited to a provider-confirmed missing session that is known to be untouched and has no replayed history. A used/missing session produces <code>session_not_found</code>. The human can retry or explicitly start fresh. This avoids treating a transient transport or configuration error as proof that previous work should be discarded.</p>
+<p>The session manager persists a materialized native pointer and then prepares the initial queue. It durably marks the initial queue consumed before releasing dispatch (E07/E09). This reduces accidental replay of the original task on later attachment. It is not an exactly-once work guarantee: a crash after the consumption commit can leave delivery uncertain, and live accepted queues are not a durable job outbox. Wingman must retain task intent and delivery/acknowledgment state above this layer if it needs reliable automatic redispatch.</p>
+<p>History and exports are deliberately non-waking reads. A suspended session can report retained presentation while its live transcript is unavailable. A historical replay is not shown as a newly executing agent turn. Tests inspect these boundaries, pooling, TTL release, stale callbacks and restore preservation. The design is useful for an executive dashboard because merely viewing an old agent must not unexpectedly launch expensive coding work.</p>
+<p><strong>TUI recovery has different guarantees.</strong> The <a href="repo/apps/emdash-desktop/src/core/features/conversations/node/launch-tui-conversation.ts">TUI launcher</a>, lines 40–85, serializes starts by conversation ID, chooses start versus resume from the stored provider pointer and relies on host reports to converge that pointer. The runtime installs provider hooks for status/native-ID capture and uses a PTY, optionally attached to tmux (E21). Its <a href="repo/packages/core/src/runtimes/tui-agents/node/runtime/runtime.ts">exit handling</a>, lines 612–644 and 680–695, treats a resume CLI exiting within three seconds as an unsuccessful restore, then launches fresh and reports <code>replaced-by-new</code>. This uses an exit-timing heuristic, including an early zero exit. It is less conservative than ACP's provider-confirmed missing-session policy. Separately, lines 1038–1076 allow one unexpected non-tmux respawn after 500 ms, using a known native session ID where available. This is limited process recovery, not acceptance-aware replay of a worker's assignment. A tmux client detaching can leave its agent running; stop/kill/delete must operate on the tmux resource, not merely close the visible terminal.</p>
+<h3 id="assessment-scheduling-and-supervision-limits">Scheduling and supervision limits</h3>
+<p>Automations persist project, schedule, prompt, provider configuration and workspace choice, then compile a host-bound deployment (E12). The host scheduler ticks at a default minute interval and limits concurrent startup workers to four. It reconciles queued/due work, respects enabled/deleted deployments, supports manual runs and cancellation, and marks interrupted provisioning/session-start work during scheduler startup (E13).</p>
+<p>The executor's state machine is narrowly scoped: provision workspace → start session → <code>done</code>. It does not wait for the agent's turn to end, tests to pass or a PR to merge. Its concurrency limit bounds these startup workers, not all coding conversations still running after startup. A recurring “inspect all projects” prompt could serve as a custom supervisor only after Wingman supplies project/agent context and communication tools; Emdash does not supply the organizational behavior or prove that supervisor completed its review.</p>
+<h3 id="assessment-completion-acceptance-retirement-and-cleanup">Completion, acceptance, retirement and cleanup</h3>
+<p>Task states include todo, in progress, review, done, cancelled, backlog, duplicate and triage (E17). They support human workflow, but the inspected code does not connect <code>done</code> to an executable product definition of done. A provider's stopped turn, an automation's completed launch, a task's status and a merged PR are different outcomes. A Wingman TestMaster must attach acceptance evidence and a product-level delivery decision rather than infer one from these signals.</p>
+<p>Archiving a task commits <code>archivedAt</code> before attempting session teardown in archive mode, keeping the worktree and persisted session identity for restoration (E15). The teardown can time out or return an error; archive catches/logs failures without undoing the archived timestamp. Archived state therefore records the user's archive intent and cleanup attempt, not proof that execution terminated. Termination removes active ACP intent while leaving the conversation record manually resumable (E05). Deletion supports explicit worktree/branch/conversation options and avoids deleting a workspace shared with another live task. Declining conversation deletion unlinks rather than destroys the records. Host deletion intent uses tombstones and later reconciliation, so an offline machine is not confused with an already removed resource. These are substantial lifecycle mechanics, but they retire conversations/resources rather than employees or organizational assignments.</p>
+<h2 id="assessment-a-concrete-coordination-trace">A concrete coordination trace</h2>
+<p>Consider a human importing an existing issue and asking Codex to implement it on a remote project.</p>
+<ol>
+<li>The project already identifies a repository workspace and SSH host. The human chooses that project and provider in the <a href="repo/apps/emdash-desktop/src/core/features/tasks/browser/create-task-modal/use-create-task-callback.ts">creation callback</a>, lines 24–54. An external integration supplies issue data. For ACP, <a href="repo/apps/emdash-desktop/src/core/features/tasks/browser/create-task-modal/build-create-task-params.ts">buildInitialQueue</a>, lines 10–31, preserves the human text and adds issue/mention details as <code>hiddenContext</code>. The TUI branch concatenates issue context and prompt through <code>buildFinalPrompt</code>, lines 45–48 (E16/E22). There is no Butler or semantic product-routing step.</li>
+<li>Task preparation validates the attached project and selected target, resolves remote Git settings, compiles a worktree plan and reserves a UUID/path subject to pending-deletion conflicts (E02). The workspace physically belongs to that host.</li>
+<li><code>createTask</code>, lines 415–468, registers the initial host-side conversation before its desktop transaction adds task/conversation links and starts background worktree creation (E02). Separate additional conversations use <code>createConversation</code> (E03). Post-commit conversation events and database pokes update subscribed desktop views (createTask, lines 382–412). The remote workspace server is reached through the SSH-forwarded socket (E11).</li>
+<li>Starting structured chat acquires the provider process, creates/loads the native session and applies options/MCP before dispatch (E06–E08). The remote agent edits files and runs its tools on the remote host. Wire models bring transcript, terminal/tool activity, plans, usage and permission requests back to the desktop (E05).</li>
+<li>If a permission request occurs, the human selects an option. If further instructions are needed, the human sends or queues another prompt. There is no automatic ProductMaster consultation or peer-room exchange (E05/E10).</li>
+<li>The human inspects changes, tests and PR state and can create/merge a PR through the workbench integration (E19). Task state provides organization for this workflow. Emdash does not enforce product acceptance or send Butler's delivery report.</li>
+<li>Archive records the task as archived and attempts to stop its execution while retaining the worktree/session identity; teardown failure can leave the archived timestamp in place, so the timestamp alone does not confirm termination. Deletion can later remove selected host resources or retain conversations (E15). Future work can resume the conversation when provider data remains available.</li>
+</ol>
+<p>The coordination mechanism is therefore <strong>human-to-task-to-provider plus external issue/PR systems and host RPC</strong>. It is more than a launcher, but it is not either chat-based agent teamwork or autonomous ticket-based agent coordination. Those are major product gaps, not missing UI polish.</p>
+<p>The typed event stream coordinates software views and runtime observations. It is not an addressed agent mailbox. Tasks store status, workspace and linked issue data but have no built-in specialist assignee or task dependency edges in the inspected schema (E01/E17). External issue adapters can expose external assignees; that does not make an Emdash conversation the assigned employee or cause dependency-ready work to be dispatched. Shared files in one workspace allow indirect coordination, but do not supply room participants, delivery acknowledgment, leadership decisions or conflict-resolution policy. Permission promises correlate an execution decision to its requesting session, while product questions are handled through human follow-up chat rather than organizational escalation.</p>
+<h2 id="assessment-major-capabilities-beyond-the-wingman-purpose">Major capabilities beyond the Wingman purpose</h2>
+<h3 id="assessment-a-multi-provider-coding-platform">A multi-provider coding platform</h3>
+<p>Wingman's purpose centers on Codex employees. Emdash implements a large provider registry with explicit capability negotiation and different launch/auth/hooks/MCP/session behavior (E04). This allows experiments across coding harnesses and models without rebuilding every workspace control. The consequence is genuine normalization work: feature availability and history/resume semantics vary, so Wingman must retain provider capability boundaries rather than promise identical lifecycle controls everywhere.</p>
+<h3 id="assessment-external-work-system-and-source-control-operations">External work-system and source-control operations</h3>
+<p>The integration registry includes GitHub, GitLab, Linear, Jira, Forgejo, Asana, Monday, Notion, Plane, Trello, Featurebase, Plain and YouTrack (E16). These are substantial bridges to existing organizational work rather than a new isolated Markdown-only tracker. PR create/merge and task-to-PR associations connect imported work to delivery review (E17/E19). Wingman could keep external tickets authoritative while using a separate agent assignment/knowledge layer. It would still need reliable state synchronization and avoid equating external assignees with its AI employees.</p>
+<h3 id="assessment-a-host-owned-remote-developer-environment">A host-owned remote developer environment</h3>
+<p>The remote workspace server supplies an execution location with durable resource identity, typed RPC, deployment/start controls and SSH transport (E11). This is a meaningful product beyond “send an agent an SSH command.” It can place heavy builds and coding on Endeavour while the Mac remains the viewing/control machine. Wingman still needs organizational messages, shared knowledge and job delivery across those hosts; Emdash's host and desktop state authorities should be preserved rather than replaced with two writers racing over one resource.</p>
+<h3 id="assessment-scheduled-headless-coding-starts">Scheduled headless coding starts</h3>
+<p>Automations deploy recurring prompt/workspace configurations to a runtime rather than requiring a mounted chat view (E12–E14). That supports maintenance, recurring review or research jobs. The limiting semantics are explicit: launch completion, no product outcome gate, and startup concurrency rather than a budget for every running agent. Wingman can borrow scheduling while adding outcome tracking, retry policy and supervision.</p>
+<h3 id="assessment-host-side-tool-and-skill-configuration">Host-side tool and skill configuration</h3>
+<p>Emdash has substantive configuration machinery beyond a list of model names. The <a href="repo/packages/core/src/runtimes/agent-config/node/runtime/skills.ts">skills manager</a>, lines 53–119, installs or generates <code>SKILL.md</code> files under the host's <code>.agentskills</code>, keeps catalog provenance and publishes installed state. The <a href="repo/packages/core/src/runtimes/agent-config/node/runtime/mcp.ts">MCP manager</a>, lines 32–63 and 120–171, maps canonical server definitions into provider registrations, aggregates installations and serializes configuration writes. Desktop controllers route these actions to a selected host. This could distribute Wingman's tracker/chat tools and reusable operating instructions to each machine. The limit is configuration scope: selecting providers is not selecting distinct BackendCoder instances; same-name aggregation is not organizational identity, and the cross-provider save loop is not an atomic fleet-wide deployment transaction. Wingman needs per-role policy and version/provenance records above this mechanism.</p>
+<h3 id="assessment-integrated-code-investigation-and-review">Integrated code investigation and review</h3>
+<p>The application combines files/editor, terminal execution, structured transcript, diff review, preview-server features and source-control/PR work in a task environment. These are substantive developer-workbench capabilities, especially when linked to remote execution, rather than cosmetic additions. Wingman's description requests access to such a workspace but does not specify its implementation; Emdash supplies reusable depth in that part of the product while leaving executive synthesis and standing team coordination to be built.</p>
+<h2 id="assessment-distinctive-mechanisms-and-innovation-assessment">Distinctive mechanisms and innovation assessment</h2>
+<p>These are distinctive engineering choices visible in this checkout, not claims that Emdash invented them or is unique across all alternatives.</p>
+<p><strong>Conversation identity independent of the running provider.</strong> A retained handle, native session pointer, activation record and pooled process are different objects (E06–E09). This enables idle resource reclamation without deleting the identity the human is inspecting. Wingman benefits directly: persistent employees should likewise survive replacing their current process. The limit is that Emdash preserves a conversation, while an employee's role, ticket queue and cross-session knowledge still need a higher-level record.</p>
+<p><strong>Conservative restoration with explicit evidence of loss.</strong> Materialization preserves old pointers on unsupported or failed load, only treating a provider-confirmed missing untouched session as replaceable (E08). This prevents a transient failure from silently producing a new conversation that falsely appears continuous. It enables trustworthy “resume” behavior. It cannot recover history that the provider genuinely lost, and successful loading alone does not prove that an interrupted edit or shell command is safe to replay.</p>
+<p><strong>Durable commit before initial prompt dispatch.</strong> The pointer and queue-consumption writes precede the effects that send the original request (E07/E09). The mechanism addresses repeated attachment/startup races rather than simply checking an in-memory boolean. It reduces duplicated starts across runtime reactivation. It deliberately does not solve arbitrary exactly-once agent work or make live prompt queues durable; Wingman should not use it as a substitute for acknowledged ticket delivery.</p>
+<p><strong>Generation-aware pooling and routing.</strong> Cache identity incorporates environment without persisting it as plain identity text, while routed events carry a process generation (E06). Conversations can share useful resources without stale process events being attributed to replacements. This helps scale a workspace containing many live agents. Shared process failure can still affect all sessions on that connection, so organizational availability cannot be inferred from a single conversation's record existing.</p>
+<p><strong>Single-authority host resources and deletion as data.</strong> Host resource records, desktop annotations and pending deletion are separated (E01/E15/E26; E20 explains the design). Tombstones retain intent when a machine is unreachable. A later sweep invokes idempotent host removal. The sweep only purges after the mirror confirms disappearance and can record a terminal failure rather than spin forever. This is particularly relevant to a Mac/Linux organization: a disconnected host is not “empty,” and a local UI update is not proof of remote cleanup. The tradeoff is a more explicit eventual state model and a need to show pending/retry/untrack decisions clearly.</p>
+<p><strong>Protocol-level live projections rather than only scraped terminal text.</strong> ACP exposes transcript, plans, tools, subagent activity, terminals and usage as typed models while retaining TUI compatibility (E05). This enables rich drill-down and future executive summaries grounded in source events. It does not itself create semantic progress summaries, shared rooms or a trustworthy completion criterion. Those interpretations must be added deliberately.</p>
+<h2 id="assessment-practical-use-in-wingman">Practical use in Wingman</h2>
+<p>The <strong>individual workspace and host execution subsystem</strong> offers the most direct reuse:</p>
+<ul>
+<li>Project/host bindings, stable conversation identity, and native Codex sessions.</li>
+<li>Remote execution, live tools/terminal output, permissions, and queued steering.</li>
+<li>Code review and controlled resource cleanup.</li>
+</ul>
+<p>Use the ACP runtime and Wire contracts for integration. They avoid dependence on Electron automation or terminal scraping.</p>
+<p>Adaptation should introduce a durable Wingman agent-instance record that references an Emdash conversation and host instead of treating the conversation title or provider ID as the employee. A role/profile record needs responsibilities, tools, project/team membership and staffing policy. A conversation can then be resumed, replaced or archived while the employee retains its identity, assignment history and executive timeline. Tasks should distinguish product tickets from execution workspaces and from automation-start records.</p>
+<p>Wingman still needs these organization capabilities:</p>
+<ul>
+<li>Telegram Butler intake with correlated replies.</li>
+<li>Portfolio registry and product-aware request routing.</li>
+<li>Project discovery and separate product/technical leadership.</li>
+<li>Product artifacts, acceptance contracts, shared rooms, tickets, and dependencies.</li>
+<li>Shared cross-host organization state and proactive supervision.</li>
+<li>Executive summaries of recent results, current work, next work, and blockers.</li>
+<li>Product acceptance that stops active development until another request arrives.</li>
+</ul>
+<p>For a first integration, preserve Emdash's resource lifecycle boundary, build agent/tracker/chat services beside it, and use native events to attach evidence to Wingman records. A scheduled review prompt can be useful only after those records and tools exist. Keep “conversation started,” “agent turn ended,” “tests passed,” “ticket accepted” and “product delivered” as separate states. The source explicitly demonstrates why collapsing them would make Wingman's dashboard misleading.</p>
+<p>The built-in human interface is an Electron desktop. This review did not establish a mobile/web executive client or standalone public orchestration API for Telegram Butler. Core/Wire interfaces provide possible adaptation points. Extraction must preserve provider packaging, host identity, configuration, and protocol-version behavior. Source reuse must follow the Apache-2.0 terms. External provider CLIs, credentials, and compatibility remain separate dependencies.</p>
+<h2 id="assessment-verification-scope-and-remaining-uncertainty">Verification scope and remaining uncertainty</h2>
+<p>The review read repository instructions and the full purpose/assessment baselines. Implementation inspection covered these areas:</p>
+<ul>
+<li>Executable entry, Wire gateway, and task/conversation creation.</li>
+<li>Provider registration, Codex capabilities/launch, ACP contracts, workspace preparation, handle persistence, and process pooling.</li>
+<li>Interactive permissions, filesystem delegation, TUI launch, hooks, PTY, and retries.</li>
+<li>Remote server, worker manifest, controls, transport, and automation deployment/scheduling/execution/session ports.</li>
+<li>Task archive/deletion, conversation tombstones/sweeps, MCP, skills, and integration registration.</li>
+<li>Prompts, task models, and selected task/activity/review UI.</li>
+</ul>
+<p>Architecture documents located mechanisms. Implementation supported the verdicts.</p>
+<p>Relevant tests were inspected, <strong>not run</strong>:</p>
+<ul>
+<li><a href="repo/packages/core/src/runtimes/acp/node/runtime/session-manager.test.ts">ACP session-manager tests</a>, notably lines 78–98 (attach without spawning), 221–294 (process sharing, idle eviction and wake-before-prompt), 479–501 (crash suspension without auto-wake), plus named cases for retained pointers, no-wake operations, generation fencing and close barriers.</li>
+<li><a href="repo/packages/core/src/runtimes/automations/node/runs/executor.test.ts">Automation executor tests</a>, lines 107–160: the happy path asserts <code>done</code> immediately after fake workspace/session ports, and failures identify provisioning versus startup.</li>
+<li><a href="repo/packages/core/src/runtimes/automations/node/scheduling/scheduler.test.ts">Automation scheduler tests</a>, selected cases for future scheduling, startup recovery, concurrent workers and cancellation.</li>
+<li><a href="repo/apps/emdash-desktop/src/core/features/tasks/node/operations/createTask.test.ts">Task creation tests</a>, selected cases for tombstone admission, remote placement, existing-workspace reuse and host-registration compensation.</li>
+<li><a href="repo/packages/core/src/runtimes/acp/node/runtime/session-initial-queue.test.ts">ACP initial queue tests</a>, lines 16–117: stopped preparation cannot dispatch, persistence failure retains retryability and successful consumption prevents replay after reactivation.</li>
+<li><a href="repo/packages/core/src/runtimes/acp/node/runtime/prompt-acknowledgement.wire.test.ts">ACP Wire acknowledgment test</a>, lines 16–76: accepted work continues in the fake runtime after disconnect, including when the acknowledgment was lost.</li>
+<li><a href="repo/packages/core/src/runtimes/tui-agents/node/runtime/runtime.test.ts">TUI runtime tests</a>, lines 611–648 and 896–922: early resume exit falls back to fresh, idle eviction removes session residue and a bounded unexpected-exit respawn retains its credential channel until final exit.</li>
+</ul>
+<p>Negative-feature checks covered desktop models, agent/project/task/conversation/automation features, provider/integration registration, and runtime contracts. Searches used <code>telegram</code>, <code>Butler</code>, <code>ProjectMaster</code>, <code>ProductMaster</code>, <code>TechMaster</code>, <code>Room1</code>, <code>Room2</code>, <code>agentChat</code>, <code>teamId</code>, <code>dependsOn</code>, <code>dependencyIds</code>, and <code>executive</code>. Further searches covered rooms, participants, recipients, assignments, timelines, forks, compaction, goals, and budgets.</p>
+<p>Organizational terms produced no corresponding implementation in those paths. Dependency, assignee, and timeline matches concerned software dependencies, external issue users, and workspace activity. Provider subagents and lifecycle participants did not establish an organization engine. Custom prompts, MCP services, or provider extensions could add workflows. Those additions remain outside this built-in-product assessment.</p>
+<p>Live provider compatibility, permission UX, remote installation/connectivity, daemon survival across desktop shutdown, end-to-end issue/PR authorization and UI behavior were not exercised. No runtime claim here should be interpreted as a successful deployment on the user's Mac or Endeavour. The report establishes source-level mechanisms and boundaries at the pinned revision.</p></article>
+<section id="source-record"><h2>Source and evidence</h2><p class="url-text">https://github.com/generalaction/emdash</p>
+<ul><li><a href="repo/">Open the pinned source checkout</a></li><li><a href="assessment/ASSESSMENT.md">Read the Markdown assessment</a></li>
+<li><a href="../generic/assessments/_audits/qa06.md">Read the historical independent source audit</a></li><li><a href="../generic/method.html">Read the method and evidence limits</a></li></ul></section>
+<nav class="report-switch" aria-label="Adjacent project reports"><a href="../edict/index.html">Previous project: Edict</a><a href="../gastown/index.html">Next project: Gas Town</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../index.html">Return to overview <img src="../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

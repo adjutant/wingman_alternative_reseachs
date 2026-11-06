@@ -1,0 +1,884 @@
+{
+  "checked": [
+    {
+      "issues": [],
+      "path": "index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "generic/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "generic/purpose.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "generic/method.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "agent-swarm/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "agency/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "teammcp/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "edict/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "claw-empire/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "clawteam/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "multica/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "scion/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "paperclip/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "openrig/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "tinyagi/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "hamlet/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "multi-agent-shogun/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "agent-of-empires/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "orkas/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "amux/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "automaker/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "emdash/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "paseo/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "golutra/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "munder-difflin/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "herdr/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "agent-deck/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "intent/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "omnigent/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "agent-orchestrator/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "routa/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "crewly/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "maestro/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "claude-squad/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "happy/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "orca/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "paradev/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "wrenyard/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "cli-agent-orchestrator/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "multiclaude/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "kander/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "codex-autorunner/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "gastown/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "stagewise/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "cmux/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "open-swe/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "warren/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "agentrail/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "sortie/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "symphony/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "openhands/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "swarmos/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "swe-agent/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "zeroshot/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "agentopology/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "superplane/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "gstack/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "squad/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "deepcode/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "ralph-orchestrator/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "continuous-claude-v3/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "antfarm/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "oh-my-openagent/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "myclaude/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "oh-my-codex/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "oh-my-claudecode/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "ruflo/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "hcom/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "mission-control/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "companyhelm/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "ax/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "open-multi-agent/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "plano/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "nasiko/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "swarm/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "bernstein/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "rocketride-server/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "babysitter/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "openclaw/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "generic/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "generic/purpose.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "generic/method.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "agent-swarm/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "agency/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "teammcp/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "edict/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "claw-empire/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "clawteam/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "multica/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "scion/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "paperclip/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "openrig/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "tinyagi/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "hamlet/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "multi-agent-shogun/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "agent-of-empires/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "orkas/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "amux/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "automaker/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "emdash/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "paseo/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "golutra/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "munder-difflin/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "herdr/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "agent-deck/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "intent/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "omnigent/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "agent-orchestrator/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "routa/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "crewly/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "maestro/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "claude-squad/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "happy/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "orca/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "paradev/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "wrenyard/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "cli-agent-orchestrator/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "multiclaude/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "kander/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "codex-autorunner/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "gastown/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "stagewise/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "cmux/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "open-swe/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "warren/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "agentrail/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "sortie/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "symphony/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "openhands/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "swarmos/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "swe-agent/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "zeroshot/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "agentopology/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "superplane/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "gstack/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "squad/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "deepcode/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "ralph-orchestrator/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "continuous-claude-v3/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "antfarm/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "oh-my-openagent/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "myclaude/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "oh-my-codex/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "oh-my-claudecode/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "ruflo/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "hcom/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "mission-control/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "companyhelm/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "ax/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "open-multi-agent/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "plano/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "nasiko/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "swarm/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "bernstein/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "rocketride-server/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "babysitter/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "openclaw/index.html",
+      "width": 390
+    }
+  ],
+  "failures": [],
+  "pages": 79,
+  "renderChecks": 158,
+  "viewports": [
+    1440,
+    390
+  ],
+  "html_sha256": {
+    "agency/index.html": "0593ede9fe889b03c07f9385acdfb5f65f172b026e3245a69620843d8c39b8a9",
+    "agent-deck/index.html": "9ff6a43cb8cbb9ea412ab4c32b249608e0983648102da9f891e0072861bdf8af",
+    "agent-of-empires/index.html": "1e65d6bb6f63f48769571a7b47c48e81e8d5b17e35bac8e7c6098b15ae9a79d8",
+    "agent-orchestrator/index.html": "a16355f90eab16d64c6de8133d0e225dd344953702c4364441d9d4e838c2d1ca",
+    "agent-swarm/index.html": "ba98cdcbd9e70381367d89bdff11eb3d355b6472ee9d1f9a1c9481413b5dfe32",
+    "agentopology/index.html": "55aec9dc1e1efedf1196f399eac2e043d7974b7f4d2cc53e21832bae47021b0d",
+    "agentrail/index.html": "6ff92d3aa42043ec18d5e72652c2c7f3a0e1fb6570274de7d9f0f7598a4ed123",
+    "amux/index.html": "b68c51bb26c76bb24503931c3c4d4a439aa59ec29cfe63ed0fc24082eb5177fb",
+    "antfarm/index.html": "c2cdd1dad6d2fe87d57a1bef2cc18054036481410e090e5f76835d87c10fda6d",
+    "automaker/index.html": "0b6840110d137a6a068e485cd26a0196a94ad629e678f227cb2827f7b26d6ec5",
+    "ax/index.html": "8d56c50c6f736b148dfb7a7b5adb55e9746545796d04fd97dbf7ce0ca62c06a8",
+    "babysitter/index.html": "a89bb222a56f9afc8a7c53c87af1e67c7ac9435166435d7790b5f84aad54d313",
+    "bernstein/index.html": "bcf5004e3559e070ae72d35751b72336dfd87b1fb6c3a444ffd3b70e3039e539",
+    "claude-squad/index.html": "5c3648f6ed276c87092f10521876ae14687101ac01beebe25c3db160b13a481f",
+    "claw-empire/index.html": "cd5e0357466710fc246f5ed3a276db8032ef085087c18fdb88551b8b062f5257",
+    "clawteam/index.html": "9a6c929ff14374cc9f95f2233152a978c774758954c0bbf03d260f2b92c57c73",
+    "cli-agent-orchestrator/index.html": "8b52c50ed6e374bb7b3e32dcd00e00783001c5e6486b6da74cf88949bc361fcd",
+    "cmux/index.html": "6d0c54254b9b2a379dd19b4324c156f329d4dbc0e9af06fa584ea52260c90758",
+    "codex-autorunner/index.html": "9796e92fff9307f9c0ea8953a7dbc55639beedb11a053e65b4c15c2f92ded4ec",
+    "companyhelm/index.html": "a0bf1149329ed98798db77e58e1d580ed779fda2379b625f20911ea2280668ed",
+    "continuous-claude-v3/index.html": "eebb0e219713e629987b2354159cc80b48114c4b5d5ec1bdb7bc87a2a613defc",
+    "crewly/index.html": "758666b0b7691641ecffb16bf9b1e3057987554c39a36512f620cfead8e507e3",
+    "deepcode/index.html": "9077375e43f6b42d1613227b73524d4ee4289c3af7715f1a33a88b08fa5cb9e6",
+    "edict/index.html": "40f4137f25bfd560ad26edd79827e130f178fcf6b4538b1a9d3e30b9ebb02c2c",
+    "emdash/index.html": "ce26ed665a8a23369a5ff0eb434646ab2435d0247ba6494cf521e2187d97baa1",
+    "gastown/index.html": "218f2b0d71adb8988b55758d8439f4a7a4927907f6bbf5960a541ade832a85e1",
+    "generic/index.html": "5755885931cd445805ebc94a3f094dbffcc759fdebf8cc304cc7b8b50d68dd9e",
+    "generic/method.html": "22153c8bd375ff40417bc285d9fe041d7cf1fc78d8cd7f03048d67864153e34c",
+    "generic/purpose.html": "2ab3e56fffccee26ed39b4d7220d576e38e68fd324518f9c1ed664233428cc1f",
+    "golutra/index.html": "0d45e1ac456142f44f9e939e0d6a2b60a426024c32c40813b84f941fe987eb04",
+    "gstack/index.html": "d741056a143c31ef7f6fe9cb460fed3a028d33005f3c12c25d344dc7f3e9c880",
+    "hamlet/index.html": "3aeb29cf41f2c36c8a54669650001a6a9f05ee87ece26f10deb4d254a696b695",
+    "happy/index.html": "a5f73eb59dd142c2686afd9381a10c55e4493360eda1811b5ca4ad4c509fda33",
+    "hcom/index.html": "456bfcc4ff14bb39f6230a47d79eb34c525d633158288dffc47c9262aab7ffbe",
+    "herdr/index.html": "d45fdf303df146baafc5297bff4653334f6d7b10af8980186f040ba961f7f733",
+    "index.html": "feec0701f40a782f5b3a082f22fb8d102d3edc4d17ab233f0b19f7b63f4c6366",
+    "intent/index.html": "467303cbd02ad6217e94e186e635d7d3f1d91664d7c2a8d2ed8ed9924b424305",
+    "kander/index.html": "f715c0211a35fa46a7ee5583ac99f69283bfcfe7dfb0d7af6fc95307fe7a0de4",
+    "maestro/index.html": "24750e04fe30d30746656fbddba532998032cf156f03e84c65fea85d5c4ccbcf",
+    "mission-control/index.html": "b13adfa411d38797900b3bc313b5eacdecdee507b2d740d29334491492a57368",
+    "multi-agent-shogun/index.html": "7997246d7fadfbefc1875e5e8e0f45a1ffe949d7a23a05be6dabd6059ca948a9",
+    "multica/index.html": "34a4c50406ab241c438cc17fe4fcf3af1f33610089d643abea10f1dcf0c97a8d",
+    "multiclaude/index.html": "45c3fa94ec6d2fa89eab72f0111092460d2c86da2eb38072bddfe318069671d2",
+    "munder-difflin/index.html": "9b77bc4cc362bc0ba8c8e4db1b732271fa8d2e76df6294e474dc6fdae637dbc8",
+    "myclaude/index.html": "edd236ab597308436622757ae5b1208cee82eb34c95f8df35868e206d2445e1c",
+    "nasiko/index.html": "c93c1184ca2e79e733d2da668ab80660eafb8baa89083e199258ec9f42f6f00e",
+    "oh-my-claudecode/index.html": "8b1f4fac3a55ba465fa605a963a484394938e4e06a708d77aed1203e1d17884f",
+    "oh-my-codex/index.html": "aad3f4c875d8f0cdba0b01bf149ae5eeec853e09816eb9da1e6d71d709fa83ed",
+    "oh-my-openagent/index.html": "48a6a2a83d22d36bf0f80c2a337115da5172e59739631cbc56407755faeb2d5d",
+    "omnigent/index.html": "f258166165e8071610005eb3d4b7d7b20ce9875788efeadae42491cac5c008f0",
+    "open-multi-agent/index.html": "ecfc4948c00167f0d8778bf90385fd8cd798ab710cad6e269a666c6f694eda24",
+    "open-swe/index.html": "d2b2b5dc6032bb7d7b19eb2fd7b7bc21a5acc29030eef6ad8693ed140e21db82",
+    "openclaw/index.html": "5d89d283f564c20fe4408e811789849dd570245195891c4b1f08f1a3ca65d501",
+    "openhands/index.html": "cd12a7e56774a13566e4a8b9accecc80e0bd4547064fd706a1a781599db436da",
+    "openrig/index.html": "75f36d34374a06db2c1c4985326522211a09271cf7c4d2463f9e919ba4da9ae7",
+    "orca/index.html": "81fe5cbe8a407942adfd837a8f60d0c7b3ab7ea4d5cdf7a7a320f99cd7ac9513",
+    "orkas/index.html": "c2c732fb78ce55ef8dbf1530991609b51b1de6615fb76a4ebb65ac4d9b7344da",
+    "paperclip/index.html": "7d4429dd5f801e0c7d779f9ba9092dfc9c83fdb9e57935b14b77af9397cc9256",
+    "paradev/index.html": "d29c261283e808a5ea76c947baac12fa4dcff189a376785c382734966d421ede",
+    "paseo/index.html": "d3dc86a159ecfdd845b28f135b7dab6ab64148401bc22dd3925d40309aede04f",
+    "plano/index.html": "732f897a05cafbce5da05f0ad7dfa345e02da68800c4baaba77a76d40ad25fa9",
+    "ralph-orchestrator/index.html": "a74ee5543b74157fb3cb4f353e2ea1a651e75936dac01726876b4892ed377643",
+    "rocketride-server/index.html": "2438ff4bf4b06d3d9c8eb8f60a026e38150675a7f4454033a4edaf457f2c8ffc",
+    "routa/index.html": "d2dfe7f6ec300a042a9d0aeb9bb7b35fb401bc9796f3c53c11a30b41b85b08ec",
+    "ruflo/index.html": "f9fe5b4132f4768bc29eb8f18e0f0f2d2e5e8b1c24c30877506939a7332a1ddd",
+    "scion/index.html": "383e5642f03b16c71c69308681b4c5bb27358071e652bdecb4a6194cfb8a4a24",
+    "sortie/index.html": "27784775c92fd37381c28aeb345518a4d2e6e3f0e4ebf1dfbe349104942e2a1a",
+    "squad/index.html": "2e39a744b3a90a6ad93cfcfb311d7adf785777299a1cc3c9c26ebd296fb4c83d",
+    "stagewise/index.html": "d4547e9bc19d49908195cdd621b56b418e0a26d983b79c09950eb9ebd4ce8d65",
+    "superplane/index.html": "4c48316e489a4328de1365e2ad7cadda3e08a4d0dcf7ee23e424025bddfc9be3",
+    "swarm/index.html": "dcda42e9d7b210183f3db3d6266fd122208e0043b00aec27831942fe2630e6a3",
+    "swarmos/index.html": "1287c561f186f96986b95aa0906d387269e2ddd064cc1bac0a238b5633e9ad37",
+    "swe-agent/index.html": "3e68a0fa845f103eae006328999524dd2b951e5c0466c8bb58254cdda70806f1",
+    "symphony/index.html": "4b8d9c4993d59ba74243ac917d43f52db8c5f97b220c7ef52160781066782e1f",
+    "teammcp/index.html": "d64af9f3ec8bbae1ba1602bfcb3f0685a3e05f399ce8f92245041395c081a227",
+    "tinyagi/index.html": "b60a159378616022bdda635c307083512a6f48fd297dc062922fed4e7326e9d1",
+    "warren/index.html": "899bc8765e028032887207bcdbe9aad095dd7a6fa50e9f7c57a6192e8c24050b",
+    "wrenyard/index.html": "dd353fe427635209f38c3cb14327dd5b7930019f08c5c134484612de6787f4da",
+    "zeroshot/index.html": "94352b4af0d6169e8077958f6dc0d0105696bbe4255fdd867a79c1d5fb5fc514"
+  },
+  "build_state": "Final prose build with keyboard-scroll correction, 2026-11-06",
+  "scope": "All 79 pages at 1440px and 390px. Fonts, heading sizes, navigation layout, images, overflow, visible branding and keyboard access to code blocks."
+}

@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Technical assessment against Wingman’s development organization."><title>Paperclip · Wingman Research</title>
+<link rel="icon" href="../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/report.css"><script defer src="../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../index.html"><img src="../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../index.html">Overview</a><a class="nav-link " href="../generic/index.html">Architecture findings</a><a class="nav-link " href="../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../generic/method.html">Method and evidence</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../index.html">Wingman Research</a><span class="crumb">/</span><span>Paperclip</span></div><span class="topbar-note">SOURCE REVIEW · 05 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Paperclip</h1><p class="subtitle">Technical assessment against Wingman’s development organization.</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#decision">Decision summary</a><a href="#assessment-paperclip-assessment-for-wingman">Paperclip assessment for Wingman</a><a href="#assessment-fit-verdict">Fit verdict</a><a href="#assessment-architecture-and-execution-model">Architecture and execution model</a><a href="#assessment-feature-by-feature-comparison">Feature-by-feature comparison</a><a href="#assessment-agent-lifecycle-in-depth">Agent lifecycle in depth</a><a href="#assessment-a-concrete-coordination-path">A concrete coordination path</a><a href="#assessment-major-capabilities-beyond-wingmans-description">Major capabilities beyond Wingman&#x27;s description</a><a href="#assessment-distinctive-mechanisms-and-innovation">Distinctive mechanisms and innovation</a><a href="#assessment-practical-use-for-wingman">Practical use for Wingman</a><a href="#assessment-evidence-and-verification-limits">Evidence and verification limits</a><a href="#source-record">Source and evidence</a></div></nav><section id="decision" class="decision"><h2>Decision summary</h2>
+<div class="brief-columns"><div><h3>Useful for Wingman</h3><p>Study company-scoped agents, issue ownership, authorized runs, governed hiring, and human decisions.</p></div><div><h3>Adoption boundary</h3><p>Configure the Wingman leadership workflow. Existing chat and status cards do not supply all room and timeline requirements.</p></div></div>
+<p class="scope-note">Source assessment at the commit below. Runtime limits appear in the technical report.</p></section>
+<dl class="facts"><div><dt>Source group</dt><dd>Standing teams</dd></div><div><dt>Commit</dt><dd><code>46fb933b0155d183ce64a8bdc4950d1b58c926f6</code></dd></div><div><dt>Coverage</dt><dd>24 Wingman features</dd></div></dl>
+<article id="technical-assessment" class="technical"><h2 id="assessment-paperclip-assessment-for-wingman">Paperclip assessment for Wingman</h2>
+<p class="url-text">Repository: https://github.com/paperclipai/paperclip</p>
+<p>Checkout: <code>researchs/paperclip/repo</code><br/>
+Commit: <code>46fb933b0155d183ce64a8bdc4950d1b58c926f6</code><br/>
+Assessed: November 5, 2026. Static implementation review; services and providers were not launched.</p>
+<h2 id="assessment-fit-verdict">Fit verdict</h2>
+<p>Paperclip is a strong candidate for Wingman's organizational control plane: durable agents, reporting relationships, governed hiring, projects, task ownership, runs, human decisions, channel integrations and an extensive operator UI are implemented together. This checkout is substantially broader than a minimal task board. In particular, Telegram transport, agent chat, summary generation, execution environments, watchdogs and runner recovery have concrete implementations.</p>
+<p>Its organizing primitive is the <strong>company-scoped issue and its authorized execution</strong>, rather than Wingman's two shared agent rooms. A company can represent the organization and projects can represent products. The desired Butler/ProductMaster/TechMaster workflow still needs deliberately configured teams and operating instructions. Existing chat screens are not proof of arbitrary agent group chat, and generated status cards are not yet Wingman's prescribed per-agent current/recent/next timeline.</p>
+<h2 id="assessment-architecture-and-execution-model">Architecture and execution model</h2>
+<p>The Express server owns company-scoped state and orchestration. The React application presents it. Drizzle/PostgreSQL schemas hold agents, issues, sessions, wake requests, environments, approvals, documents and work products. An agent is a durable organization member, separate from the provider process handling a particular run.</p>
+<p>The <a href="repo/packages/db/src/schema/agents.ts">agent schema</a>, lines 20–59, includes company membership, arbitrary role/title/capabilities, <code>reportsTo</code>, adapter and runtime configuration, environment selection, permissions, monthly budget, lifecycle holds and an operation version. That is directly useful for an extensible organization: a new role is data plus instructions and an execution configuration, not a new hardcoded application class.</p>
+<p><a href="repo/server/src/services/heartbeat.ts">Heartbeat orchestration</a> delegates queueing, session preparation, workspaces, execution, completion and recovery into cohesive modules. <a href="repo/server/src/services/heartbeat/runtime-execution.ts">Runtime execution</a>, lines 1–130 and its execution body, distinguishes provider execution, environment ownership, workspace preservation and finalization. The adapter/runner layer is responsible for actual coding harnesses. The server remains the source of work authority.</p>
+<h3 id="assessment-entry-points-and-execution-authority">Entry points and execution authority</h3>
+<p>The source confirms the control-plane split rather than only describing it. <a href="repo/server/src/index.ts">Server bootstrap</a>, lines 493–528 and 699–719, selects external PostgreSQL or an embedded PostgreSQL cluster; lines 935–950 and 1060 onward construct the app and bind its listener. The repository AGENTS.md still mentions PGlite, but that is not the default bootstrap path inspected here. <a href="repo/server/src/app.ts">Express app wiring</a>, lines 764–783, 880 onward and 1038, mounts agent, project and issue services under <code>/api</code>. This is a database-backed service with web and agent clients, not a terminal multiplexer or a set of role prompts.</p>
+<p>A wake request is distinct from dispatch permission. <a href="repo/server/src/services/heartbeat/queue.ts">Queue admission/dispatch</a>, lines 1911–1937, reloads agent invokability, counts running attempts and computes remaining slots before selecting queued work. <a href="repo/server/src/services/heartbeat/runtime-execution.ts">Runtime execution</a>, lines 523–547 and 794–870, branches into native Runner execution or the adapter contract, realizes assigned MCP access and invokes the provider under a guarded dispatch callback. The <a href="repo/packages/adapters/codex-local/src/server/execute.ts">legacy Codex adapter</a>, lines 1388–1425, actually launches the selected execution target, streams accounting/logs and parses Codex JSONL. The durable agent owns configuration and work authority. The run owns an execution attempt. The provider session is continuation state. This separation lets the organization persist while coding processes start, end or move across environments.</p>
+<h2 id="assessment-feature-by-feature-comparison">Feature-by-feature comparison</h2>
+<p>Verdicts describe the pinned implementation, not successful live deployment.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Wingman capability</th>
+<th scope="col">Verdict</th>
+<th scope="col">Implemented behavior and remaining difference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F01</td>
+<td>Independent coding agents</td>
+<td>Exact</td>
+<td>Durable agent rows plus independently dispatched adapter/runner invocations; <a href="repo/packages/db/src/schema/agents.ts">schema</a> and <a href="repo/server/src/services/heartbeat/runtime-execution.ts">runtime execution</a>. Actual Codex process invocation: <a href="repo/packages/adapters/codex-local/src/server/execute.ts">adapter execution</a>, lines 1388–1425; durable identity: agent schema, lines 20–50.</td>
+</tr>
+<tr>
+<td>F02</td>
+<td>Extensible profiles and teams</td>
+<td>Exact</td>
+<td>Roles, configuration and hierarchy are data; team catalog installs reusable agent bundles. See <a href="repo/server/src/services/teams-catalog.ts">teams service</a>. Team installation implementation: teams-catalog.ts, lines 905–960; agent roles/configuration: schema, lines 23–46.</td>
+</tr>
+<tr>
+<td>F03</td>
+<td>Agent directory and relationships</td>
+<td>Similar</td>
+<td>Agent list and org chart expose members and reporting structure. The complete project/team/current/recent/next directory contract is not present: <a href="repo/ui/src/pages/Agents.tsx">Agents</a>, <a href="repo/ui/src/pages/OrgChart.tsx">OrgChart</a>. Roster/org queries: Agents.tsx, lines 229–246; org rendering, line 460; OrgChart.tsx, lines 209–231.</td>
+</tr>
+<tr>
+<td>F04</td>
+<td>Telegram and Butler routing</td>
+<td>Similar</td>
+<td>Concrete Telegram parsing, setup, commands and inbound conversation binding exist; assigning Butler and its organizational routing policy is configuration/workflow work. <a href="repo/server/src/services/chat-channels.ts">Channel service</a>, lines 1436–1500 and 2140–2290 (admission and task binding).</td>
+</tr>
+<tr>
+<td>F05</td>
+<td>Cross-project registry and intake</td>
+<td>Similar</td>
+<td>Projects, goals and issues persist centrally; shipped <a href="repo/server/src/services/agent-conversations.ts">chat guidance</a>, lines 90–119, explicitly requires inspecting projects/repositories and reusing or creating a project before handoff. Classification remains model-led rather than an enforced intake classifier. <a href="repo/server/src/services/projects.ts">Projects service</a>. Project/repository workspace updates: projects.ts, lines 935–982; intake prompt: agent-conversations.ts, line 106.</td>
+</tr>
+<tr>
+<td>F06</td>
+<td>Product/technical leadership</td>
+<td>Similar</td>
+<td>Hierarchy and catalog teams support managerial agents. The product-engineering CTO instructions explicitly cover priorities, coordination and verification. Wingman's separate ProductMaster and TechMaster contract must be supplied. <a href="repo/packages/teams-catalog/catalog/bundled/software-development/product-engineering/agents/cto/AGENTS.md">CTO profile</a>. CTO profile, lines 1–13; <a href="repo/server/src/services/agents.ts">org/chain service</a>, lines 209–244.</td>
+</tr>
+<tr>
+<td>F07</td>
+<td>Discovery and clarification</td>
+<td>Similar</td>
+<td>Shipped chat guidance explicitly calls for research, focused clarification and revision of a conversation plan; task-planning guidance scales planning effort. The domain research and readiness judgment remain model-led. <a href="repo/server/src/services/agent-conversations.ts">Chat guidance</a>, lines 90–119; <a href="repo/packages/skills-catalog/catalog/bundled/paperclip-operations/task-planning/SKILL.md">task-planning skill</a>, lines 18–36; <a href="repo/server/src/services/question-interaction-answers.ts">question answers</a>, lines 66–83.</td>
+</tr>
+<tr>
+<td>F08</td>
+<td>Scope/specification/DoD</td>
+<td>Similar</td>
+<td>Issue documents, plans and review policies persist product material. An agreed product-level DoD is not supplied automatically. <a href="repo/packages/db/src/schema/issue_documents.ts">Issue documents schema</a>, <a href="repo/server/src/services/issue-review-policy.ts">review policy</a>. Issue documents schema, lines 6–24; <a href="repo/server/src/services/required-quality-review.ts">current-output review</a>, lines 44–117.</td>
+</tr>
+<tr>
+<td>F09</td>
+<td>Tickets and assignment</td>
+<td>Exact</td>
+<td>Central issues include hierarchy, dependencies, assignee, accepted-plan-to-child-task conversion and atomic checkout; <a href="repo/server/src/services/issues.ts">decomposition</a>, lines 9819–10095; <a href="repo/server/src/services/issues.ts">issues</a>, lines 12168–12280. Agents propose the split. The service binds it to an accepted plan revision and persists resumable child creation.</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>Project management dashboard</td>
+<td>Exact</td>
+<td>Portfolio/project/issue screens navigate the corresponding server entities: <a href="repo/ui/src/pages/Projects.tsx">Projects</a>, <a href="repo/ui/src/pages/ProjectDetail.tsx">ProjectDetail</a>, <a href="repo/ui/src/pages/Issues.tsx">Issues</a>. Projects.tsx, lines 70–119; ProjectDetail.tsx, lines 224–245, renders the project issue collection.</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>Agent group chat and rooms</td>
+<td>Resembles</td>
+<td>Task comments and human-facing Agent Chats are implemented; Agent Chat is gated by an experimental setting. <a href="repo/server/src/services/agent-chat-messages.ts">Agent chat sending</a>, lines 33–180, routes an execution agent to its responsible human. This is not a direct implementation of Room1/Room2 memberships and unrestricted peer rooms.</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>Escalation and human decisions</td>
+<td>Similar</td>
+<td>Org chain, approvals and structured interactions offer strong primitives; Wingman's exact room-to-room escalation sequence needs policy. <a href="repo/server/src/services/approvals.ts">Approvals</a>. Approval decisions: approvals.ts, lines 180–203; <a href="repo/server/src/services/agents.ts">manager chain</a>, lines 232–244.</td>
+</tr>
+<tr>
+<td>F13</td>
+<td>Reusable project knowledge</td>
+<td>Similar</td>
+<td>Persistent issue documents, instruction revisions, skills and work products exist. Wingman's per-product DIRECTIVES layout needs mapping. <a href="repo/server/src/services/agent-instructions.ts">Instructions</a>, <a href="repo/server/src/services/work-products.ts">work products</a>. Managed fingerprint/revision protection: agent-instructions.ts, lines 518–536; work-products.ts, lines 209–247.</td>
+</tr>
+<tr>
+<td>F14</td>
+<td>Identity/conversation/work continuity</td>
+<td>Exact</td>
+<td>Durable agents, task sessions and runtime state separate organization identity from runs. <a href="repo/packages/db/src/schema/agent_task_sessions.ts">Task sessions schema</a>, <a href="repo/server/src/services/heartbeat/session-preparation.ts">session preparation</a>. Task session identity/index: schema, lines 16–55; prepare/resume/reset logic: session-preparation.ts, lines 154–233.</td>
+</tr>
+<tr>
+<td>F15</td>
+<td>Proactive supervision</td>
+<td>Similar</td>
+<td>Timer scheduling, task watchdogs and recovery wakeups implement detection/follow-up machinery. Generic unscoped timer wakes exclude paperclip_runner; use task-bound routines/monitors for that runner. A ProjectMaster interpreting portfolio progress remains an agent policy. <a href="repo/server/src/services/task-watchdogs.ts">Watchdogs</a>, <a href="repo/server/src/services/heartbeat/scheduling.ts">scheduling</a>. Watchdog actual enqueue: task-watchdogs.ts, lines 1608–1631; scheduling.ts, lines 1296–1378.</td>
+</tr>
+<tr>
+<td>F16</td>
+<td>Parallel projects/workers</td>
+<td>Exact</td>
+<td>Company/project/agent/run records and queued dispatch represent multiple independent projects and workers. Issue execution ownership prevents concurrent checkout of one ticket. See <a href="repo/server/src/services/issues.ts">checkout</a>, lines 12168–12300, and <a href="repo/packages/db/src/schema/agent_task_sessions.ts">session identity</a>, lines 17–56. Per-agent available capacity: <a href="repo/server/src/services/heartbeat/queue.ts">queue</a>, lines 1911–1937; independent agent/task sessions do not promise concurrent writes to a shared workspace.</td>
+</tr>
+<tr>
+<td>F17</td>
+<td>Multi-host execution</td>
+<td>Similar</td>
+<td>Runner selection explicitly supports SSH and sandbox/cloud environments; workspace transport and ownership are implemented. Mac/Endeavour placement and credentials still require deployment setup. <a href="repo/server/src/services/agent-runner-selection.ts">Runner selection</a>, <a href="repo/server/src/services/remote-workspaces.ts">remote workspaces</a>. Concrete remote command execution: <a href="repo/packages/adapter-utils/src/ssh.ts">SSH transport</a>, lines 44–79; <a href="repo/server/src/services/native-runtime/native-ssh-command-runner.ts">native SSH bridge</a>, lines 4–13.</td>
+</tr>
+<tr>
+<td>F18</td>
+<td>Executive current/recent/next overview</td>
+<td>Similar</td>
+<td>Dashboard, recent tasks and model-generated status cards offer real summaries. Cards watch issue scopes. A uniform current/recent/next briefing for every agent is additional product work. <a href="repo/server/src/services/status-cards.ts">Status cards</a>, lines 88–146. Actual agent overview: <a href="repo/ui/src/pages/AgentDetail.tsx">AgentDetail</a>, lines 1442–1540, shows audit metrics, skills/profile and recent tasks.</td>
+</tr>
+<tr>
+<td>F19</td>
+<td>Agent summary timeline</td>
+<td>Resembles</td>
+<td>Work timeline reconstructs actors, runs, assignments, approvals and edges; status-card updates keep summary history. These are complementary primitives, not one per-agent narrative feed; event projection alone is not a summary timeline. <a href="repo/server/src/services/work-timeline.ts">Work timeline</a>, lines 710–822.</td>
+</tr>
+<tr>
+<td>F20</td>
+<td>Detailed agent workspace</td>
+<td>Similar</td>
+<td>Agent detail drills into runs, provider traces, instructions and artifacts; not every provider exposes a fully equivalent interactive IDE. <a href="repo/ui/src/pages/AgentDetail.tsx">AgentDetail</a>, lines 2913 onward. Run hydration and trace permission: AgentDetail.tsx, lines 2908–2935; provider session details, lines 3359–3408.</td>
+</tr>
+<tr>
+<td>F21</td>
+<td>Live controls and visibility</td>
+<td>Similar</td>
+<td>Run logs, cancel/retry, goals, instruction controls and activity are substantial; support varies by adapter. <a href="repo/ui/src/pages/AgentDetail.tsx">AgentDetail</a>, lines 3111–3123, warns that Grok Bot may continue after authority is revoked. Cancel/retry/rerun implementations: AgentDetail.tsx, lines 2965–3045; task session clearing, lines 3384–3408.</td>
+</tr>
+<tr>
+<td>F22</td>
+<td>Verification and accepted delivery</td>
+<td>Similar</td>
+<td>Review policies, required quality review, work products and finalization distinguish work submission from acceptance. Domain-specific integrated acceptance tests still belong to the team. <a href="repo/server/src/services/required-quality-review.ts">Required review</a>. Required review enforcement: required-quality-review.ts, lines 81–117; issue update invokes it at <a href="repo/server/src/services/issues.ts">issues.ts</a>, line 11456.</td>
+</tr>
+<tr>
+<td>F23</td>
+<td>Autonomous organization</td>
+<td>Similar</td>
+<td>Event/timer-triggered agents can act within budgets and permissions; Wingman's operating organization and human-channel discipline must be configured. See <a href="repo/server/src/services/heartbeat/scheduling.ts">scheduling</a>, lines 1296–1378, and <a href="repo/server/src/services/chat-channels.ts">channel task creation</a>, lines 2140–2290.</td>
+</tr>
+<tr>
+<td>F24</td>
+<td>Tools grow with profiles</td>
+<td>Similar</td>
+<td>Generic agent identifiers, arbitrary role descriptions, team catalog and operator pages make UI/tracking extensible. Shared Room1/Room2 chat semantics remain an adaptation. See <a href="repo/packages/db/src/schema/agents.ts">agent schema</a>, lines 20–48, and <a href="repo/server/src/services/agent-chat-messages.ts">chat restrictions</a>, lines 33–96.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="assessment-agent-lifecycle-in-depth">Agent lifecycle in depth</h2>
+<p><strong>Definition and creation.</strong> Agent configuration combines role/capabilities, instruction files, adapter/model settings, tools and an environment. Hiring can require board approval. Creation is not equivalent to starting a long-lived subprocess: the durable organization member is created first, then preparation and verification establish that its execution environment is usable.</p>
+<p>The <a href="repo/server/src/routes/agents.ts">hire route</a>, lines 4558–4573 and 4585–4689, normalizes skill/runtime configuration, validates environment selection, fingerprints the request and reuses an existing same-run hire when appropriate. It calls the lifecycle service with a new UUID, chooses <code>pending_approval</code> when company policy requires it, materializes the instruction bundle and creates the hiring approval. This is an executable creation path; naming a role does not itself start coding. The same-run lock and activity lookup shown here should not be mistaken for proof of exactly-once distributed hiring under arbitrary process failures.</p>
+<p><strong>Lifecycle authority.</strong> <a href="repo/server/src/services/agent-lifecycle.ts">Lifecycle effects</a>, lines 32–85, connect policy holds, configuration, hiring, budget changes, creation events and dependency cleanup. The <a href="repo/server/src/services/agent-lifecycle-driver.ts">driver</a>, lines 15–65, invokes lifecycle plugins and rejects results whose operation ID or version no longer matches. It resumes queued work only after readiness. Pause/termination request actual invocation stops, and some operations remain pending until execution has settled.</p>
+<p><strong>Work admission and execution.</strong> A wake request enters the queue. Scheduling, agent eligibility, budgets, issue ownership and environment readiness determine whether it may become a run. Session preparation selects or resumes the appropriate context. A configured adapter or native runner executes the coding task with an injected identity and controlled tool/API access. Thus agent identity, task identity, run identity and provider session identity are separate concepts.</p>
+<p><strong>Concurrency and stale work.</strong> Atomic issue checkout checks the assignee, expected status, execution run and dependency readiness. Subtree pause holds can prohibit checkout. The update writes both checkout and execution run ownership; competing invocations cannot legitimately become the same ticket's owner simply because they both saw it available. This is much closer to a reliable task control plane than a prompt telling workers not to collide.</p>
+<p><strong>Persistence and restart.</strong> Run/session state, events and workspace operations survive process lifetimes. <a href="repo/server/src/services/heartbeat/recovery.ts">Recovery</a> treats restart reconciliation separately from normal dispatch. Workspace saving and provider completion have separate owners; accepted provider work can still require preservation/finalization. Source presence establishes these paths, not fault-free behavior in an actual deployment.</p>
+<p><strong>Interruption and retirement.</strong> Pausing and termination pass through lifecycle state and the heartbeat stop paths. Plugin-owned resources can require cleanup; policy holds and operation versions protect transitions. Provider-specific termination limitations remain visible rather than being erased by a UI status change. Deleting an agent also removes/reconciles dependent state through the lifecycle effects and dependency cleanup service.</p>
+<h3 id="assessment-the-identities-and-states-that-actually-exist">The identities and states that actually exist</h3>
+<p>The lifecycle has more precision than the word “agent” suggests:</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Concept</th>
+<th scope="col">Durable identity and responsibility</th>
+<th scope="col">What it does not mean</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agent</td>
+<td>Company member with UUID, arbitrary role/title/capabilities, manager, configuration, policy holds and lifecycle version; <a href="repo/packages/db/src/schema/agents.ts">schema</a>, lines 20–55.</td>
+<td>A continuously resident model process or one global conversation.</td>
+</tr>
+<tr>
+<td>Issue/task</td>
+<td>Assignable unit, parent/child context, dependencies, documents, comments and execution ownership; <a href="repo/server/src/services/issues.ts">checkout</a>, lines 12168–12300.</td>
+<td>A dedicated agent identity.</td>
+</tr>
+<tr>
+<td>Heartbeat run</td>
+<td>One authorized execution attempt with run-specific context, result and resource settlement.</td>
+<td>Proof that an issue or product was accepted.</td>
+</tr>
+<tr>
+<td>Task session</td>
+<td>Saved provider continuation keyed uniquely by company, agent, adapter and task key; <a href="repo/packages/db/src/schema/agent_task_sessions.ts">schema</a>, lines 17–56.</td>
+<td>Guaranteed preservation of provider context after a configuration or model change.</td>
+</tr>
+<tr>
+<td>External conversation</td>
+<td>Channel endpoint plus external conversation/thread and session generation, bound to an internal issue; <a href="repo/server/src/services/chat-channels/inbound/conversation-binding.ts">binding</a>, lines 16–70.</td>
+<td>A project classifier or shared peer collaboration room.</td>
+</tr>
+</tbody>
+</table></div>
+<p>The actual <a href="repo/server/src/modules/agent-lifecycle/domain/policy.ts">transition function</a>, lines 21–67, allows approval to move <code>pending_approval → preparing</code>, preparation to move <code>preparing → verifying → ready</code>, pause to move eligible agents through <code>pausing → paused</code>, and resume through <code>resuming</code>. Termination moves through <code>terminating → cleaning_up → terminated</code>; rejection is separate. Purge is permitted only for terminated or rejected agents. Compatibility <code>status</code> and <code>lifecycleState</code> are distinct: an agent can have a stable organizational identity while its execution status is idle, running or error. This is useful for Wingman's standing workforce because neither an idle worker nor the end of one run destroys the role.</p>
+<p><a href="repo/server/src/modules/agent-lifecycle/index.ts">Lifecycle commands</a>, lines 46–100, route hiring, configuration, pause, resume, retry and termination through the same service. The <a href="repo/server/src/services/agent-lifecycle-driver.ts">driver</a>, lines 12–65, selects required lifecycle plugins, passes operation ID/version/phase, checks returned operation identity, and verifies the harness before readiness. A required missing plugin is an error, not a silent downgrade. Stop phases wait for invocations to settle. These are concrete preparation and retirement hooks, distinct from simply creating a prompt file.</p>
+<h3 id="assessment-tools-permissions-and-execution-placement">Tools, permissions and execution placement</h3>
+<p>The agent row's <code>permissions</code> is only one part of authority. <a href="repo/server/src/services/heartbeat/run-preparation.ts">Runtime MCP preparation</a>, lines 893–940, resolves effective assigned tools/connections and run-bound human identity; <a href="repo/server/src/services/heartbeat/run-preparation.ts">runtime tool access</a>, lines 1227–1260, mints a token scoped to agent, company, run and responsible user. With no responsible user or reachable API, that tool access is unavailable. Paperclip's governance must therefore be carried into any Wingman bridge instead of sending an unscoped master credential to every worker. Coding-harness filesystem/shell permissions remain adapter/environment concerns. A governed API token is not by itself a shell sandbox.</p>
+<p><a href="repo/server/src/services/agent-runner-selection.ts">Runner selection</a>, lines 24–94 and 97–190, evaluates environment driver and platform compatibility, native versus legacy runner availability, and whether supplied settings can be honored. It can reject incompatible settings rather than silently reinterpret them. SSH is an actual execution target here, not just a URL field. <a href="repo/server/src/services/remote-workspaces.ts">Remote workspace reservation, preparation and saving</a>, lines 166–288, 373–535 and 618–734, connect remote execution to shared durable workspace authority. This supports the mechanics needed for Mac/Endeavour cooperation, while host provisioning, credentials, path policy and exact persistent project placement remain deployment decisions to validate.</p>
+<h3 id="assessment-resume-scheduling-and-failure-semantics">Resume, scheduling and failure semantics</h3>
+<p><a href="repo/server/src/services/heartbeat/session-preparation.ts">Session preparation</a>, lines 73–230, computes a configuration fingerprint from instructions, agent revision, model/runtime config, environment, workspace policy, secret manifest, skills and relevant overrides. It compares saved metadata, chooses a compatible provider session or resets it, and prepares a fresh-session handoff from task history. This is a strong continuity mechanism, but “same agent” does not guarantee “same model conversation forever.” Wingman should keep its authoritative product knowledge in project documents even when provider continuation works.</p>
+<p><a href="repo/server/src/services/heartbeat/scheduling.ts">Timer scheduling</a>, lines 1296–1378, filters active companies and invokable agents, reads interval policy, claims due timer work and submits it through normal queue admission. A consequential boundary is <a href="repo/server/src/services/heartbeat-policy.ts">supportsUnscopedTimerHeartbeat</a>, lines 4–11: <code>paperclip_runner</code> cannot receive a generic taskless interval heartbeat. Task-bound schedules and monitors use other paths. A Wingman ProjectMaster on that runner needs a supervisory task or routine, rather than assuming that enabling a heartbeat interval alone creates portfolio supervision.</p>
+<p>Retries are a durable execution mechanism, not a promise of unlimited self-healing. <a href="repo/server/src/services/heartbeat/retries.ts">Retry configuration</a>, lines 126–140, sets two bounded transient retry delays, 30 and 60 seconds, and classifies selected workspace preparation failures. Other reasons have their own policies. <a href="repo/server/src/services/heartbeat/retries.test.ts">Retry tests</a>, lines 99–147, inspect exhaustion recording before escalation, avoiding duplicate successor work after a case handoff, and publishing promotion effects after the durable change. Those tests were read, not run in this assessment.</p>
+<p>Cancellation has an equally important boundary. <a href="repo/server/src/services/heartbeat/run-control.test.ts">Run-control tests</a>, lines 109–141, check that unknown native ownership retains leases, persisted failure changes resource disposition, and a busy warm session defers destruction. <a href="repo/server/src/services/heartbeat/recovery.test.ts">Recovery tests</a>, lines 515–550, require exact authenticated remote termination evidence before retiring a remote identity. A mismatched receipt does not qualify. The <a href="repo/server/src/services/heartbeat/recovery.ts">recovery implementation</a>, lines 975–1017, also distinguishes reattaching an existing local/remote runner, resuming a dead runner and incomplete bootstrap, with lease renewal for remote reattachment; lines 2019–2027 register workspace finalization as separately tracked work. The source therefore aims to avoid both losing unfinished work and falsely reporting a remote process stopped. This is an implementation contract, not evidence that every failure mode has passed against live providers.</p>
+<h3 id="assessment-completion-review-and-retiring-the-workforce">Completion, review and retiring the workforce</h3>
+<p>A run finishing, an issue entering review, a reviewer accepting an output, workspace copy-back completing and an agent being retired are separate events. <a href="repo/server/src/services/required-quality-review.ts">Required quality review</a>, lines 11–124, is opt-in. Once accepted in policy, an agent cannot remove or change that requirement. An authenticated human can. Review targets must be exact current output-document revisions or attachments bound by asset/hash, not a plan or a generic assertion. Changed outputs make earlier approval stale. The service checks human-only resolution and the current target before reporting the gate satisfied.</p>
+<p>This is a valuable DoD enforcement primitive, but it is not Wingman's TestMaster. Someone still must define the integrated scenarios, execute tests and attach meaningful evidence. Similarly, done tickets do not automatically retire the organization or halt every recurring routine. Wingman's accepted-product stop rule must explicitly resolve ongoing work and supervision obligations while keeping identities and records available for later continuation. Final deletion follows termination/cleanup. It should not substitute for an idle standing team.</p>
+<h2 id="assessment-a-concrete-coordination-path">A concrete coordination path</h2>
+<p>A Telegram message is normalized by the channel platform implementation and passes common admission/authorization. <a href="repo/server/src/services/chat-channels/inbound/conversation-binding.ts">Conversation binding</a> connects the external endpoint/thread to an internal conversation. The channel service creates a task for the endpoint's configured agent or reuses its conversation binding, then stages normal authorized execution. This is configured-agent routing, not autonomous portfolio classification. That agent can create or update company-scoped work; assignment and dependencies govern later execution.</p>
+<p>The worker checks out its issue, receives task/context/instructions, executes through its configured runtime and writes comments or work products. Review policy and task state control the delivery transition. Channel publication sends the response back through the originating transport. This supports a Butler-like entry agent, but the application must still teach Butler how to classify product requests and delegate to ProjectMaster.</p>
+<p>The specific state transitions are visible in <a href="repo/server/src/services/chat-channels.ts">channel processing</a>, lines 1436–1500 and 2140–2290. Incoming self/bot/system messages are filtered, provider data is normalized, and durable admission deduplicates receipt. Under task creation authority checks for both the human and assigned agent, a new thread creates a <code>todo</code> issue with <code>originKind: chat_channel</code>, an idempotency key and optional project/workspace defaults. The binding records endpoint, external channel/thread, generation, communication guidance and issue ID. A later message can reopen a done/cancelled bound task and is persisted as a comment. Project selection at this point comes from endpoint/resource defaults. It does not infer whether “the CRM we discussed yesterday” belongs to an existing portfolio project.</p>
+<p>Downstream, the <a href="repo/server/src/services/issues.ts">checkout write</a>, lines 12168–12300, tests dependency readiness, active subtree holds and expected statuses, and conditionally updates assignee, checkout run, execution run and <code>in_progress</code>. <a href="repo/server/src/services/heartbeat/session-preparation.ts">Session preparation</a>, lines 73–230, loads compatible continuation/context before execution. Review gates then concern the actual saved outputs. That trace demonstrates a channel-to-task execution product; adding Butler and ProjectMaster must add the separate project-intake, discovery and delegation policy rather than assuming the transport implements it.</p>
+<p>The key caution is chat semantics. <code>sendAgentChatMessage</code> requires a current task-bound run, verifies that it still owns its source task, and creates/uses a conversation with the responsible human. It deliberately rejects restricted source content flowing into company-visible chat. Peer work largely revolves around issue comments, mentions, assignments and handoffs. External provider group chats are supported: <a href="repo/packages/db/src/schema/chat_channels.ts">endpoint schema</a>, line 74, stores allowGroupChats, and provider setup/UI exposes group participation. Those are external destination settings for a configured bot/agent, not evidence of an internal multi-agent room membership model. A chat page alone should not be counted as Wingman's two shared agent rooms.</p>
+<p>The wake and outbound ends are also concrete. After persisting the inbound comment, <a href="repo/server/src/services/chat-channels.ts">channel processing</a>, lines 2377–2384, stages an inbound wake in the task transaction. <a href="repo/server/src/services/chat-channels/publications/transport.ts">Publication transport</a>, lines 302–345, supports Telegram Markdown fallback attachments and sends through the provider thread. Thus the trace is external message → durable task/comment → admitted run → task result/publication, not an assumed call directly from Telegram to a permanent model process. This is a static path trace; no actual Telegram request was delivered during review.</p>
+<h3 id="assessment-discovery-and-planning-are-shipped-behavior-with-a-delegation-boundary">Discovery and planning are shipped behavior, with a delegation boundary</h3>
+<p>Paperclip supplies more than empty text fields for product planning. <a href="repo/server/src/services/agent-conversations.ts">AGENT_CHAT_DIRECTIVE</a>, lines 90–119, is injected into conversation task context by <a href="repo/server/src/services/heartbeat/task-markdown.ts">task Markdown rendering</a>, lines 222–224. It asks the agent to research, clarify, develop and revise a plan, inspect available projects and repositories, reuse a suitable project or create one, and carry accepted scope into assigned execution tasks. Explicitly requested plan approval is revision-bound. An ambiguous answer with several pending proposals requires clarification. <a href="repo/packages/skills-catalog/catalog/bundled/paperclip-operations/task-planning/SKILL.md">Task-planning instructions</a>, lines 18–36, say to plan only as much as the work needs and split work when ownership, parallel output, dependencies or review justify it. These are concrete prompts wired into execution, though they do not mechanically guarantee good domain research.</p>
+<p>A critical fit limit is in that same chat directive: ordinary tasks default to the agent in the conversation, and another agent/person is assigned only when the user explicitly specifies that owner. Conversation tasks are kept separate from execution tasks. The conversational agent must not do substantial implementation in the chat. This supports a persistent planning relationship, but it is not automatically Wingman's Butler deciding to delegate through ProjectMaster and per-project leaders. Changing only an agent's display name would leave the injected handoff policy in place. Wingman needs a reviewed organizational workflow or role-aware directive extension that gives the intended delegation authority while preserving approval boundaries. This finding concerns the shipped human Agent Chat path. It does not imply ordinary managerial execution tasks are globally forbidden from delegating.</p>
+<p>The implementation also has an actual accepted-plan decomposition API. <a href="repo/server/src/services/issues.ts">decomposeAcceptedPlan</a>, lines 9819–10095, verifies that the supplied revision belongs to the source task's <code>plan</code> document and has an accepted confirmation. It stores a request fingerprint and child cursor under a durable claim. Repeating the same revision with a different child set is a conflict. Child creation advances the cursor in individually locked transactions, so partial creation can resume without duplicating the already recorded prefix. <a href="repo/server/src/routes/issues.ts">The route</a>, lines 13335–13485, validates assignments, environment selection, monitor policy and attribution before invoking the service. This is a substantial technical-planning feature rather than a README promise, while the quality of the proposed decomposition still belongs to the agents.</p>
+<h2 id="assessment-major-capabilities-beyond-wingmans-description">Major capabilities beyond Wingman's description</h2>
+<ul>
+<li><strong>Company governance and economic controls.</strong> Company isolation, hiring approval, scoped tools, budgets and accounting turn an organization into a governed execution system. <a href="repo/server/src/services/budgets.ts">Budget admission</a>, lines 195–219, applies company, project and agent scopes, so this is more than a spending chart. Wingman could adopt these to control spending and authority, but would inherit more administrative concepts than its personal-team workflow currently requires.</li>
+<li><strong>Pluggable execution environments and lifecycle ownership.</strong> Plugins can provision agent environments and participate in preparation/cleanup through <a href="repo/server/src/services/agent-lifecycle-driver.ts">versioned lifecycle calls</a>, lines 20–65. This is a substantial extension point for remote compute, not merely another model selector.</li>
+<li><strong>Reusable team, skill and connection catalogs.</strong> Teams can package agent instructions and skills into installable organizations. That offers a practical mechanism for Wingman's future growth beyond its initial profiles.</li>
+<li><strong>Model-generated, watched status cards.</strong> <a href="repo/server/src/services/status-cards.ts">Status-card generation</a>, lines 88–146 and 580–613, compiles a human interest prompt into bounded searches. A summarizer updates Markdown from changed issues and keeps revisions. This is a useful executive information product in its own right.</li>
+<li><strong>Governed work products and decisions.</strong> Deliverables, task documents, approval records and <a href="repo/server/src/services/required-quality-review.ts">revision-bound quality review</a>, lines 44–124, provide inspectable organizational outputs rather than only conversation transcripts. Adopting them makes artifact registration and revision identity part of Wingman's delivery contract, with the benefit that approval cannot silently apply to a later changed file.</li>
+<li><strong>Reusable recurring work as a product.</strong> <a href="repo/server/src/services/routines.ts">Routines</a>, lines 112–115, 245–265, 334–465 and 550–587, support webhook URLs, time-zone-aware cron, typed input validation and revision snapshots of routine/trigger settings. This extends Wingman's periodic supervisory wake into configurable operational workflows. It also creates obligations to manage trigger authorization, secrets, duplicate delivery and what should continue after a product is accepted.</li>
+</ul>
+<h3 id="assessment-portable-company-packages-and-controlled-import">Portable company packages and controlled import</h3>
+<p>Paperclip can move organizational configuration and selected work as an inspectable company package, rather than requiring every installation to rebuild its teams manually. <a href="repo/server/src/services/company-portability.ts">Export construction</a>, lines 3879–3934, selects agents, projects, issues and skills, excludes built-in managed skills and rejects project-restricted skills whose access cannot be preserved. Lines 4240–4274 normalize portable agent/runtime configuration, collect environment inputs and remap reporting relationships to slugs. <a href="repo/server/src/services/company-portability.ts">Export preview</a>, lines 4815–4860, returns manifest/files, an inventory and resource counts. This is a useful mechanism for versioned Wingman organization templates, sharing a development team and moving a curated project setup to another instance. It is broader than the team catalog's installation entry point.</p>
+<p>The transfer has explicit authority and validation boundaries. <a href="repo/server/src/routes/companies.ts">Company-scoped routes</a>, lines 1125–1175, authorize the board or same-company CEO, provide preview/apply operations and prohibit replacement or targeting a different existing company through the safe import path. <a href="repo/server/src/services/company-portability.ts">Import implementation</a>, lines 5257–5331, rejects incomplete inline bundles, preview errors, update actions in agent-safe mode and blobs whose contents do not match their declared SHA-256. Optional <code>pauseAutomations</code> parks imported agents and routines (<a href="repo/server/src/services/company-portability.ts">agent import</a>, lines 5690–5703; <a href="repo/server/src/services/company-portability.ts">routine import</a>, lines 6066–6088), making activation a separate operational step.</p>
+<p>For Wingman, this means a reusable organization can be a concrete package with reviewable changes and environment requirements. Integration must still bind destination accounts, execution environments, secrets and filesystem/workspace placement. The inspected package path is not proof that a running provider process, every external credential or an arbitrary live conversation can migrate intact. Hash validation proves the packaged blob matches its declared bytes. It does not establish that imported instructions are trustworthy or that a multi-resource import is globally atomic under every failure. Source-level route checks and import validation were inspected; no actual export/import was performed.</p>
+<h3 id="assessment-governed-connection-and-tool-gateway">Governed connection and tool gateway</h3>
+<p>Paperclip also implements a connected-tool execution boundary beyond Wingman's stated chat/tracker/dashboard requirements. The <a href="repo/server/src/app.ts">app</a>, lines 977–990, mounts the tool gateway alongside browser-use and plugin routes. <a href="repo/server/src/services/tool-gateway.ts">Tool execution admission</a>, lines 10319–10326, validates an active gateway session and its <code>tools/call</code> authority. Lines 10975–10991 evaluate policy with session, tool, effective arguments and idempotency key, consume rate-limit policy and record the invocation/audit decision. Lines 11060–11105 persist approval requests or surface a denial with its policy/rate-limit evidence. This is implemented execution governance, not just a list of configured MCP server URLs.</p>
+<p>The approved action is bound to what was reviewed. <a href="repo/server/src/services/tool-gateway.ts">Approval revalidation</a>, lines 10872–10920, compares the current connected target to the signed approval snapshot and verifies the stored arguments' hash/signature. Lines 10330–10386 recover the originating identity context even if the run subsequently accepted steering from another person; lines 10950–10974 reject already-consumed action requests and record the execution claim. <a href="repo/server/src/services/tool-gateway.ts">Provider dispatch</a>, lines 11140–11222, rechecks the current issuer, then invokes remote HTTP MCP/REST, local stdio MCP, plugin or builtin tools and validates/redacts the result before saving outcome metadata.</p>
+<p>Wingman could use this as the shared authority layer for repository, browser and business-service capabilities across its workers. The integration consequence is that Butler, managers and remote coding agents must carry run/company/user identity through the gateway; handing workers unrestricted connector credentials would bypass the principal mechanism being adopted. Approval snapshots also require stable target/argument identity and refreshed decisions when that identity changes. These checks do not themselves sandbox arbitrary shell commands, prove perfect prompt-injection detection or establish exactly-once external side effects after an ambiguous provider failure. Live provider compatibility, human approval delivery and failure recovery across external services remain untested here.</p>
+<h3 id="assessment-experimental-cases-and-reusable-workflow-handoffs">Experimental Cases and reusable workflow handoffs</h3>
+<p>A further substantial capability is a persistent business/work record whose primary task can move through agents and named workflow phases. <a href="repo/server/src/services/case-handoffs.ts">Case handoff application</a>, lines 242–281, checks the case handoff version, task status version, old assignee, current execution ownership, original actor authority and recipient visibility before assigning that same task to the next agent and saving <code>pending_dispatch</code>. Lines 459–499 create the case/initial primary task and save initial workflow documents. <a href="repo/server/src/services/case-workflows.ts">Workflow capture/application</a>, lines 8–44, snapshots workflow names/phases and the exact document revision, then adopts a selected workflow through the ordinary document revision API.</p>
+<p>This extends Wingman's ticket-and-room structure with a durable case that can carry an evolving process across successive owners. It could implement a controlled discovery → planning → engineering → acceptance handoff. The source inspected implements explicit authorized transfers and document-based guidance. It does not establish an executable, validated state-machine language for every transition described in the Markdown. It is experimental, and a single moving primary task is a different coordination model from concurrently assigned specialist subtasks. Adopting it needs a deliberate choice about which work belongs to a case and which belongs to a parallel task tree.</p>
+<h2 id="assessment-distinctive-mechanisms-and-innovation">Distinctive mechanisms and innovation</h2>
+<p>The strongest design is the separation of <strong>durable organizational authority from disposable model execution</strong>. The <a href="repo/server/src/modules/agent-lifecycle/domain/policy.ts">lifecycle transition policy</a>, lines 21–67, <a href="repo/server/src/services/issues.ts">conditional issue checkout</a>, lines 12240–12285, and <a href="repo/server/src/services/agent-chat-messages.ts">task-bound chat authorization</a>, lines 50–149, are concrete expressions of that design. Agent lifecycle versions, task checkout, run-specific permissions and finalization ownership prevent an old invocation from being treated as the current organization merely because it still runs.</p>
+<p>Accepted-plan decomposition is another distinctive mechanism: an approved revision, immutable request fingerprint and persisted child cursor connect human intent to recoverable delegation. It prevents a retried planning operation from silently inventing a different task tree, while explicitly representing partial progress rather than assuming the whole handoff was atomic.</p>
+<p>The signed connected-tool approval mechanism is also substantive: it binds the reviewed arguments and target snapshot to the originating identity, then checks them again at execution. It enables approval of a concrete external action while rejecting target drift and identity confusion. It does not convert every provider into a transactional service. The portability path similarly treats import as a previewed, mode-restricted transfer with blob-integrity checks and optional paused activation, rather than copying raw database rows without policy.</p>
+<p>Versioned case handoffs are another grounded mechanism: task ownership transfers revalidate both the original principal and the recipient when the transfer is applied, rather than treating earlier acceptance as permanent permission. Capturing workflow document revisions also preserves what a transition meant at that time. This enables inspectable process continuity while leaving semantic workflow correctness to instructions and agent decisions.</p>
+<p>Status cards are especially relevant to Wingman's executive dashboard. The implementation compiles the human's interest into structured queries, provides bounded snapshots or changed issues, and requests a short update from a designated summarizer. Watched issue references can expand the card's tracking scope. This is more sophisticated than counting completed tickets, but its scope and privacy controls also make it more complex to reuse as a simple agent feed.</p>
+<p>The code also makes <strong>result acceptance, provider termination, workspace preservation and resource cleanup separate facts</strong>. That is valuable for distributed coding agents where a finished model turn may coexist with unfinished copy-back or uncertain remote termination. These are distinctive engineering choices in this checkout. This assessment does not establish industry-first novelty.</p>
+<h2 id="assessment-practical-use-for-wingman">Practical use for Wingman</h2>
+<p>Use Paperclip as a potential backend and operator surface for agents, projects, tickets, runs, environments, decisions and summaries. Configure a Wingman-specific team with Butler, ProjectMaster and per-project product/technical leads, and reconcile the injected chat handoff policy with autonomous managerial delegation. Prototype the discovery-to-ticket workflow before replacing Wingman's coordination layer wholesale.</p>
+<p>The <a href="repo/ui/src/pages/AgentOverview.test.tsx">AgentOverview component test</a>, lines 26–94, expects Activity, Runs, Costs, Budget used, Profile, Skills and Recent tasks. Those are useful operator controls, but they do not establish the executive current/recent/next narrative. The detailed run panel exposes provider sessions and clearing task sessions (<a href="repo/ui/src/pages/AgentDetail.tsx">AgentDetail</a>, lines 3359–3407). Searches in AgentDetail and agent routes did not establish a complete uniform fork/compact/archive conversation workflow. Wingman should validate those individual controls per chosen harness rather than infer them from a generic agent-management page.</p>
+<p>The largest adaptations are shared group-room semantics, per-agent executive current/recent/next feeds, project creation/routing policy, DIRECTIVES integration and the exact product acceptance process. Preserve the existing authority model when adding those features; bypassing it with an external chat relay would discard much of Paperclip's strongest value.</p>
+<h2 id="assessment-evidence-and-verification-limits">Evidence and verification limits</h2>
+<p>Independently rechecked the prior draft against the pinned source.</p>
+<p>Reviewed:</p>
+<ul>
+<li>server bootstrap/app wiring.</li>
+<li>actual Codex process invocation.</li>
+<li>SSH command transport.</li>
+<li>schemas.</li>
+<li>lifecycle transition policy/driver code.</li>
+<li>heartbeat orchestration and targeted execution/recovery modules.</li>
+<li>issue checkout.</li>
+<li>Telegram/inbound channel routing.</li>
+<li>agent chat authority.</li>
+<li>status-card generation.</li>
+<li>timeline projection.</li>
+<li>review policy.</li>
+<li>runner selection.</li>
+<li>case handoff/workflow application.</li>
+<li>company export/import construction and safe routes.</li>
+<li>tool-gateway admission/approval revalidation/provider dispatch.</li>
+<li>team-catalog installation and relevant UI pages.</li>
+</ul>
+<p>Revised the chat-room and per-agent summary-timeline verdicts to Resembles: the inspected primitives do not by themselves deliver those complete Wingman capabilities. Inspected the <a href="repo/ui/src/pages/AgentOverview.test.tsx">agent overview test</a> for what the overview actually presents, alongside implementation. Read focused retry tests (exhaustion, handoff and post-commit publication), run-control tests (ownership and resource retention), and recovery tests (local stop versus exact remote receipts), linked above. Read <a href="repo/server/src/__tests__/agent-chat-messages.test.ts">agent-chat delivery tests</a>, lines 192–230: concurrent first sends reuse a committed message, replay crosses run retries, and routine delivery does not itself start or replace a chat reply. Other lifecycle, runner-selection, remote-workspace and channel tests are present but were not executed.</p>
+<p>Absence/gap conclusions are scoped:</p>
+<ul>
+<li>shared peer rooms were checked by searching server, schema and UI source for Room1/Room2, peer chat, group chat and room terms, then tracing task-bound human chat and external-conversation bindings.</li>
+<li>matches for external provider group participation were distinguished from internal peer rooms.</li>
+<li>project intake was checked against channel task creation/defaults and project records.</li>
+<li>per-agent briefings were checked against AgentOverview, work-timeline projection and status-card generation.</li>
+<li>native timer supervision was checked against scheduling and heartbeat-policy.</li>
+</ul>
+<p>Those mechanisms support the comparison but do not establish global absence of every extension/plugin that could add the missing workflow.</p>
+<p>No dependencies were installed and no agents, network channels, database or environments were launched. Provider compatibility, actual Telegram delivery and crash/restart behavior therefore remain unverified operationally. Features marked Similar distinguish the implementation mechanism from Wingman's complete workflow; no absence claim relies solely on the README.</p></article>
+<section id="source-record"><h2>Source and evidence</h2><p class="url-text">https://github.com/paperclipai/paperclip</p>
+<ul><li><a href="repo/">Open the pinned source checkout</a></li><li><a href="assessment/ASSESSMENT.md">Read the Markdown assessment</a></li>
+<li><a href="../generic/assessments/_audits/qa03.md">Read the historical independent source audit</a></li><li><a href="../generic/method.html">Read the method and evidence limits</a></li></ul></section>
+<nav class="report-switch" aria-label="Adjacent project reports"><a href="../orkas/index.html">Previous project: Orkas</a><a href="../paradev/index.html">Next project: Paradev</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../index.html">Return to overview <img src="../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

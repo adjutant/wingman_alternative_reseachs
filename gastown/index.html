@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Technical assessment against Wingman’s development organization."><title>Gas Town · Wingman Research</title>
+<link rel="icon" href="../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/report.css"><script defer src="../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../index.html"><img src="../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../index.html">Overview</a><a class="nav-link " href="../generic/index.html">Architecture findings</a><a class="nav-link " href="../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../generic/method.html">Method and evidence</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../index.html">Wingman Research</a><span class="crumb">/</span><span>Gas Town</span></div><span class="topbar-note">SOURCE REVIEW · 05 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Gas Town</h1><p class="subtitle">Technical assessment against Wingman’s development organization.</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#decision">Decision summary</a><a href="#assessment-gas-town-assessment">Gas Town assessment</a><a href="#assessment-identity-and-fit-verdict">Identity and fit verdict</a><a href="#assessment-architecture-and-execution-model">Architecture and execution model</a><a href="#assessment-feature-by-feature-comparison">Feature-by-feature comparison</a><a href="#assessment-agent-definition-creation-and-full-lifecycle">Agent definition, creation and full lifecycle</a><a href="#assessment-coordination-mechanics-and-a-concrete-task-trace">Coordination mechanics and a concrete task trace</a><a href="#assessment-major-additional-capabilities-and-integration-consequences">Major additional capabilities and integration consequences</a><a href="#assessment-distinctive-mechanisms-and-grounded-innovation-assessment">Distinctive mechanisms and grounded innovation assessment</a><a href="#assessment-practical-fit-and-remaining-work">Practical fit and remaining work</a><a href="#assessment-verification-scope-and-confidence-limits">Verification scope and confidence limits</a><a href="#source-record">Source and evidence</a></div></nav><section id="decision" class="decision"><h2>Decision summary</h2>
+<div class="brief-columns"><div><h3>Useful for Wingman</h3><p>Study durable task ownership, worktree isolation, worker supervision, dependency-bearing issues, and tested merge integration.</p></div><div><h3>Adoption boundary</h3><p>Repository rigs and town roles differ from Wingman&#x27;s product hierarchy. Telegram intake and product acceptance need adaptation.</p></div></div>
+<p class="scope-note">Source assessment at the commit below. Runtime limits appear in the technical report.</p></section>
+<dl class="facts"><div><dt>Source group</dt><dd>Delivery engines</dd></div><div><dt>Commit</dt><dd><code>466aa41c83ee73b1fa0eb79eb9d172fb1eca9476</code></dd></div><div><dt>Coverage</dt><dd>24 Wingman features</dd></div></dl>
+<article id="technical-assessment" class="technical"><h2 id="assessment-gas-town-assessment">Gas Town assessment</h2>
+<h2 id="assessment-identity-and-fit-verdict">Identity and fit verdict</h2>
+<ul>
+<li><strong>Project:</strong> Gas Town, the <code>gt</code> multi-agent workspace manager.</li>
+<li class="url-text"><strong>Repository:</strong> https://github.com/gastownhall/gastown</li>
+<li><strong>Local checkout:</strong> <code>researchs/gastown/repo</code>.</li>
+<li><strong>Actual inspected commit:</strong> <code>466aa41c83ee73b1fa0eb79eb9d172fb1eca9476</code> (read from checkout HEAD; module/import paths still use <code>steveyegge/gastown</code>).</li>
+<li><strong>Assessment date:</strong> 2026-11-05.</li>
+<li><strong>Method:</strong> static source and test inspection, against <a href="../generic/purpose.html">WINGMAN_PURPOSE.md</a> and the complete <a href="../generic/assessments/ASSESSMENT_GUIDE.md">assessment guide</a>. No dependencies installed, services launched, live agent work dispatched, or checkout files changed.</li>
+</ul>
+<p><strong>Verdict:</strong> Gas Town provides a strong coding-delivery and supervision foundation for Wingman. Independent coding processes use isolated Git worktrees. Durable task ownership, operational identities, messages, dependencies, and failure supervision coordinate the work. A merge engine integrates submissions through configured gates. The source also includes a web dashboard and an idea-to-PRD-to-plan workflow. Wingman's complete product organization still needs adaptation.</p>
+<p>Its organization is a town containing repository-oriented rigs. The town-wide Mayor coordinates; Deacon/Boot and per-rig Witnesses supervise; Polecats execute assignments; Refineries integrate; persistent Crew workspaces support longer-lived human-directed work. This is materially different from Wingman's Butler/ProjectMaster/ProductMaster/TechMaster arrangement. Telegram intake, separate standing product and technical leadership, a profile-extensible organization directory, product-level acceptance and shutdown, and linked executive summaries remain to build. Remote execution is especially concrete as a gap: the machine registry accepts SSH configuration but its connection factory returns <code>ssh connections not yet implemented</code> (<a href="repo/internal/connection/registry.go">registry.go</a>, lines 12–18, 168–182).</p>
+<h2 id="assessment-architecture-and-execution-model">Architecture and execution model</h2>
+<p>The executable is a Go CLI: <a href="repo/cmd/gt/main.go">cmd/gt/main.go</a>, lines 1–12, calls <code>cmd.Execute()</code>. Cobra commands form the control plane. The root pre-run initializes the town/session registries, records command activity and touches Polecat heartbeats (<a href="repo/internal/cmd/root.go">root.go</a>, lines 25–40, 124–168). The CLI does not itself contain a coding model loop. It launches installed coding tools such as Claude Code and Codex, supplying role context, startup prompts, environment, hooks and working directories. Those tools own model interaction and their native editing/shell tools.</p>
+<p>There are several persistence domains rather than one universal agent object:</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Domain</th>
+<th scope="col">Actual representation and boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Town and rigs</td>
+<td>Town settings plus a <code>mayor/rigs.json</code> registry mapping rig names to repository/push/upstream URLs and Beads prefixes. A rig is a repository workspace/container, not a full product/business record. See <a href="repo/internal/config/types.go">types.go</a>, lines 614–633, 648–677.</td>
+</tr>
+<tr>
+<td>Work and relationships</td>
+<td>Beads issues, dependencies, labels, assignees, descriptions and attachment metadata, backed by Dolt; CLI paths frequently invoke <code>bd</code>, while the daemon also opens Beads stores. See <a href="repo/internal/daemon/daemon.go">daemon.go</a>, lines 478–489, 2073–2118, and <a href="repo/internal/cmd/sling.go">sling.go</a>, lines 944–977, 1034–1075.</td>
+</tr>
+<tr>
+<td>Agent identity</td>
+<td>Named role/address and an agent bead, carrying role, rig, hook, state, active MR and completion information. These can outlive one model conversation or tmux process. See <a href="repo/internal/polecat/manager.go">polecat/manager.go</a>, lines 850–859, and <a href="repo/internal/cmd/done.go">done.go</a>, lines 1827–1842, 1887–1906.</td>
+</tr>
+<tr>
+<td>Execution</td>
+<td>Local tmux session/pane running an external coding CLI, with declared <code>GT_*</code>, <code>BD_ACTOR</code>, process-name and run-ID environment. Optional ACP proxy supplies a separate JSON-RPC process path, especially for Mayor integration. See <a href="repo/internal/session/lifecycle.go">session/lifecycle.go</a>, lines 161–222, and <a href="repo/internal/acp/proxy.go">acp/proxy.go</a>, lines 42–83, 94–125.</td>
+</tr>
+<tr>
+<td>Files and code</td>
+<td>Polecats receive branches/worktrees sharing a rig repository; Crew receive separately cloned persistent workspaces. Both redirect Beads access toward shared coordination state. See <a href="repo/internal/polecat/manager.go">polecat/manager.go</a>, lines 733–821, and <a href="repo/internal/crew/manager.go">crew/manager.go</a>, lines 208–237, 267–285.</td>
+</tr>
+<tr>
+<td>Communication and activity</td>
+<td>Town-level message beads, channel/list/queue abstractions, a filesystem nudge queue, and <code>.events.jsonl</code>. Message persistence and delivery notification are separate mechanisms. See <a href="repo/internal/mail/router.go">mail/router.go</a>, lines 214–225, and <a href="repo/internal/nudge/queue.go">nudge/queue.go</a>, lines 1–9, 58–70.</td>
+</tr>
+</tbody>
+</table></div>
+<p>The background daemon holds an exclusive lock, manages Dolt and process health, handles lifecycle requests, and uses periodic tickers for recovery and optional maintenance. Its heartbeat starts/restarts configured Deacon, Witness, Refinery and Mayor processes, checks non-progressing hooked work and orphan assignments, and respects emergency-stop state (<a href="repo/internal/daemon/daemon.go">daemon.go</a>, lines 446–510, 728–785, 853–975). This deterministic infrastructure complements LLM patrol roles. It is not all prompt-based coordination. A separate mTLS proxy client/server exposes allowed host coordination commands and Git to externally isolated workers. It is a genuine network boundary, but does not implement the missing managed remote-host launcher or distributed supervisor (<a href="repo/cmd/gt-proxy-client/main.go">gt-proxy-client/main.go</a>, lines 31–119; <a href="repo/internal/proxy/exec.go">proxy/exec.go</a>, lines 27–110).</p>
+<p>The web UI is an embedded Go template/static-JavaScript dashboard. It fetches rigs, workers, tasks, convoys, queue state, mail, escalations and activity; API handlers execute validated <code>gt</code>, <code>bd</code>, <code>gh</code> and tmux commands. It has issue CRUD and mail threads, not merely a terminal grid (<a href="repo/internal/web/templates.go">web/templates.go</a>, lines 16–35; <a href="repo/internal/web/api.go">web/api.go</a>, lines 111–146, 153–195). The dashboard still observes a local town and exposes a much narrower individual-workspace experience than Codex-style structured conversations/tools/artifacts.</p>
+<h2 id="assessment-feature-by-feature-comparison">Feature-by-feature comparison</h2>
+<p>Verdicts describe the checked-out implementation, including template-based workflows when backed by executable dispatch primitives. “Similar” is not an assurance that the supplied workflow has been exercised end to end.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Wingman capability</th>
+<th scope="col">Verdict</th>
+<th scope="col">Implementation evidence and concrete difference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F01</td>
+<td>Real independent coding agents and specialist instances</td>
+<td><strong>Similar</strong></td>
+<td>A Polecat is a separate tmux coding CLI session with its own worktree, assignment and environment; multiple workers can exist concurrently (<a href="repo/internal/polecat/session_manager.go">polecat/session_manager.go</a>, lines 355–427, 445–498). Specialist prompts/review legs are real independently dispatched work, but Backend/Frontend/Mobile/TestMaster are not built-in durable specialist profile types.</td>
+</tr>
+<tr>
+<td>F02</td>
+<td>Extensible agent profiles, roles and team composition</td>
+<td><strong>Similar</strong></td>
+<td>Runtime presets/custom aliases, per-role/per-worker mappings, directive overrides and formula legs allow customization (<a href="repo/internal/config/types.go">config/types.go</a>, lines 52–75, 680–703; <a href="repo/internal/formula/types.go">formula/types.go</a>, lines 103–129). Core role validation is restricted to seven names, so arbitrary new operational roles require code changes or specialization within Crew/Polecat (<a href="repo/internal/config/roles.go">config/roles.go</a>, lines 108–145).</td>
+</tr>
+<tr>
+<td>F03</td>
+<td>Agent directory and visible working relationships</td>
+<td><strong>Similar</strong></td>
+<td>Session/worker listings identify role, rig and named worker; hooks connect assignments and agents, and rigs connect their support roles (<a href="repo/internal/cmd/agents.go">cmd/agents.go</a>, lines 21–42, 75–115; <a href="repo/internal/web/templates.go">web/templates.go</a>, lines 37–54, 87–105, 174–185). No general organizational relationship graph, arbitrary reporting hierarchy or directory-linked personal workspace is established.</td>
+</tr>
+<tr>
+<td>F04</td>
+<td>Telegram main channel and Butler routing</td>
+<td><strong>Absent</strong></td>
+<td>Searches for Telegram/telegram/bot paths across <code>internal/</code>, templates and docs found no Telegram transport or Butler routing. Mayor receives human direction locally and escalation has email/SMS/Slack routes (<a href="repo/internal/cmd/escalate_impl.go">escalate_impl.go</a>, lines 129–192, 686–758). Those are notification actions, not a Telegram request/reply bridge.</td>
+</tr>
+<tr>
+<td>F05</td>
+<td>Cross-project registry, intake and existing/new routing</td>
+<td><strong>Similar</strong></td>
+<td>Registered rigs and prefix-based issue routing provide cross-repository continuity; Mayor is instructed to create and sling work in the owning rig (<a href="repo/internal/config/types.go">types.go</a>, lines 614–633; <a href="repo/internal/templates/roles/mayor.md.tmpl">mayor.md.tmpl</a>, lines 115–187). <code>formula run</code> can infer a single rig, but multiple rigs require explicit choice. A product registry and semantic existing/new-product intake service are not present.</td>
+</tr>
+<tr>
+<td>F06</td>
+<td>Per-project product and technical leadership</td>
+<td><strong>Resembles</strong></td>
+<td>Witness is an operational monitor, Refinery an integration agent, Mayor a town-wide coordinator. Per-rig Crew can be adapted as leaders but there is no separate standing ProductMaster/TechMaster pair or enforced handoff contract (<a href="repo/internal/config/roles.go">roles.go</a>, lines 108–120; <a href="repo/internal/templates/roles/mayor.md.tmpl">mayor.md.tmpl</a>, lines 185–189). The idea-to-plan orchestrator is a workflow responsibility, not a new durable leadership type.</td>
+</tr>
+<tr>
+<td>F07</td>
+<td>Proportionate research, discovery and iterative human clarification</td>
+<td><strong>Similar</strong></td>
+<td><code>mol-idea-to-plan</code> structures a PRD, sends six review dimensions to real workers, consolidates questions, and pauses for human answers (<a href="repo/internal/formula/formulas/mol-idea-to-plan.formula.toml">mol-idea-to-plan.formula.toml</a>, lines 60–151, 153–200). This is meaningful discovery support, but its fixed multi-round review recipe is not Wingman's proportionate standing ProductMaster/domain-research loop, and answers arrive in the current chat rather than Telegram.</td>
+</tr>
+<tr>
+<td>F08</td>
+<td>Scope, specifications, acceptance scenarios and definition of done</td>
+<td><strong>Similar</strong></td>
+<td>PRD template includes problem, goals, non-goals, user stories, constraints and questions; work issues support acceptance criteria and merge checks reject unchecked items (<a href="repo/internal/formula/formulas/mol-idea-to-plan.formula.toml">mol-idea-to-plan.formula.toml</a>, lines 75–112; <a href="repo/internal/refinery/engineer.go">refinery/engineer.go</a>, lines 997–1025). No standardized product-level <code>DIRECTIVES/SCOPES/SPECS/HARNESS</code> contract or final integrated product DoD assessment is supplied.</td>
+</tr>
+<tr>
+<td>F09</td>
+<td>Technical decomposition, assignment and shared task tracking</td>
+<td><strong>Similar</strong></td>
+<td>Beads tasks/epics/dependencies, formula-generated steps/legs, hooked assignees and scheduler dispatch form a substantial tracker (<a href="repo/internal/cmd/formula.go">formula.go</a>, lines 457–495, 593–695, 739–828; <a href="repo/internal/cmd/sling.go">sling.go</a>, lines 1034–1075). Decomposition quality still depends on agents; tracker is repo/town work, not Wingman's full product model.</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>Human portfolio/project management dashboard</td>
+<td><strong>Similar</strong></td>
+<td>Web dashboard includes rigs, convoys with progress and tracked issues, open issues/assignees, merge queue, blockers/escalations and task CRUD (<a href="repo/internal/web/templates.go">web/templates.go</a>, lines 16–35, 116–125, 198–221; <a href="repo/internal/web/api.go">web/api.go</a>, lines 127–138). Strong task/engineering portfolio equivalent, without product scope, business milestones or acceptance views.</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>Agent chat application, rooms and direct collaboration</td>
+<td><strong>Similar</strong></td>
+<td>Durable mail, threads, mailing lists, broadcast channels and subscription commands support direct/group communication, with web inbox/thread/read/send endpoints (<a href="repo/internal/mail/router.go">mail/router.go</a>, lines 83–185, 214–225; <a href="repo/internal/cmd/mail_channel.go">mail_channel.go</a>, lines 28–119; <a href="repo/internal/web/api.go">web/api.go</a>, lines 119–126). Channels can approximate rooms, but the shipped UI is mail-oriented; Room1/Room2 membership and project conversation navigation are not supplied.</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>Management escalation and human decisions/approvals</td>
+<td><strong>Similar</strong></td>
+<td>Escalation beads contain severity/source/related work, route mail and external notifications, support ack/close and stale re-escalation; interactive workflow steps retain human dialog (<a href="repo/internal/cmd/escalate_impl.go">escalate_impl.go</a>, lines 114–218, 356–414, 416–458; <a href="repo/internal/cmd/formula.go">formula.go</a>, lines 831–910). No Butler-correlated Telegram decision path; command confirmation is distinct from product approval.</td>
+</tr>
+<tr>
+<td>F13</td>
+<td>Durable project knowledge and reusable directives</td>
+<td><strong>Similar</strong></td>
+<td>Town/rig role directives merge; Git workspaces, PRDs/plans, Beads notes and memory injection survive context replacement (<a href="repo/internal/config/directives.go">config/directives.go</a>, lines 9–40; <a href="repo/internal/cmd/prime.go">prime.go</a>, lines 606–655; <a href="repo/internal/formula/formulas/mol-polecat-work.formula.toml">mol-polecat-work.formula.toml</a>, lines 234–240). Useful persistence, with different layout and no mandatory Wingman product-document lifecycle.</td>
+</tr>
+<tr>
+<td>F14</td>
+<td>Persistent identity, conversation and work continuity</td>
+<td><strong>Similar</strong></td>
+<td>Agent identity/mailbox/history outlive sessions; hooks/assignment state reconstitute work, <code>handoff</code> cycles context, and Crew supports runtime-specific resume (<a href="repo/internal/polecat/types.go">polecat/types.go</a>, lines 8–28; <a href="repo/internal/cmd/handoff.go">handoff.go</a>, lines 111–128; <a href="repo/internal/crew/manager.go">crew/manager.go</a>, lines 746–760). Work continuity is stronger than universal conversation continuity: native transcript/resume depends on runtime and session cycling often starts a fresh conversation.</td>
+</tr>
+<tr>
+<td>F15</td>
+<td>Proactive supervision, periodic wake and blocker follow-up</td>
+<td><strong>Similar</strong></td>
+<td>Daemon recovery heartbeat plus Witness patrol scans/nudges, escalation, event wake and exponential idle backoff implement supervision (<a href="repo/internal/daemon/daemon.go">daemon.go</a>, lines 853–975; <a href="repo/internal/formula/formulas/mol-witness-patrol.formula.toml">mol-witness-patrol.formula.toml</a>, lines 39–49, 75–135). Operational work/agent health is central; Wingman's portfolio/product judgment would need added policy.</td>
+</tr>
+<tr>
+<td>F16</td>
+<td>Parallel products and concurrent specialists</td>
+<td><strong>Similar</strong></td>
+<td>Multiple rigs, concurrent named Polecats/Crew, convoy legs and capacity limits support parallel repositories and assignments (<a href="repo/internal/cmd/formula.go">formula.go</a>, lines 658–695; <a href="repo/internal/scheduler/capacity/pipeline.go">scheduler/capacity/pipeline.go</a>, lines 126–178). Repository boundaries stand in for products; specialist team semantics are conventions.</td>
+</tr>
+<tr>
+<td>F17</td>
+<td>Real multi-host execution with shared coordination</td>
+<td><strong>Resembles</strong></td>
+<td>The mTLS proxy client/server can bridge externally provisioned workers to host coordination commands and Git (<a href="repo/cmd/gt-proxy-client/main.go">gt-proxy-client/main.go</a>, lines 31–119; <a href="repo/internal/proxy/exec.go">proxy/exec.go</a>, lines 27–110). This is a real network primitive. Managed SSH launch is explicitly unimplemented (<a href="repo/internal/connection/registry.go">connection/registry.go</a>, lines 168–182); dispatch/supervision inspected remain local tmux/process paths. Wasteland is DoltHub work federation, not unified Mac/Endeavour placement, remote lifecycle and host-session routing.</td>
+</tr>
+<tr>
+<td>F18</td>
+<td>Executive current/recent/next/blockers agent overview</td>
+<td><strong>Resembles</strong></td>
+<td>Worker rows show current issue, activity age, status hint and working/stale/stuck state; aggregate alerts show blocked operations (<a href="repo/internal/web/templates.go">web/templates.go</a>, lines 139–185). There is no per-agent meaningful “just finished / now / planned next” briefing model. An activity-colored status row is not that executive summary.</td>
+</tr>
+<tr>
+<td>F19</td>
+<td>Individual summary timeline linked to underlying work</td>
+<td><strong>Resembles</strong></td>
+<td>Dashboard reads last 50 town events, filters by actor/rig/category and formats short summaries (<a href="repo/internal/web/fetcher.go">web/fetcher.go</a>, lines 1812–1875, 1940–1976; <a href="repo/internal/web/templates/convoy.html">convoy.html</a>, lines 408–471). An additional actor-filtered CLI audit merges Git/Beads/town/feed entries with summaries and work IDs (<a href="repo/internal/cmd/audit.go">audit.go</a>, lines 30–70, 89–144). These provide useful provenance rather than a durable individual outcome narrative; dashboard <code>ActivityRow</code> drops structured task/artifact links (<a href="repo/internal/web/templates.go">templates.go</a>, lines 127–137).</td>
+</tr>
+<tr>
+<td>F20</td>
+<td>Detailed per-agent coding workspace drill-down</td>
+<td><strong>Resembles</strong></td>
+<td>Can attach/capture a live coding terminal; dashboard preview exposes last 30 pane lines (<a href="repo/internal/polecat/session_manager.go">polecat/session_manager.go</a>, lines 770–831; <a href="repo/internal/web/api.go">web/api.go</a>, lines 2090–2141). The underlying CLI may have richer tools, but Gas Town's UI does not provide an integrated structured conversation/tool/edit/test/artifact workspace comparable to Wingman.</td>
+</tr>
+<tr>
+<td>F21</td>
+<td>Live activity, lifecycle controls, steering and visibility</td>
+<td><strong>Similar</strong></td>
+<td>Start/stop/restart, attach/capture/inject, nudge queue, handoff, role/rig parking and emergency stop provide substantial execution controls (<a href="repo/internal/polecat/session_manager.go">polecat/session_manager.go</a>, lines 631–658, 770–831; <a href="repo/internal/cmd/handoff.go">handoff.go</a>, lines 111–128; <a href="repo/internal/estop/estop.go">estop.go</a>, lines 1–7, 56–75). Forking/resume is provider-specific. A single mobile/web UI with all budgets, attachments, approvals and review controls is not established.</td>
+</tr>
+<tr>
+<td>F22</td>
+<td>Testing, integrated verification and acceptance/delivery</td>
+<td><strong>Similar</strong></td>
+<td>Workers follow test/build instructions; deterministic Refinery runs named gates, rechecks acceptance criteria, merges and verifies delivery, with rework paths (<a href="repo/internal/refinery/engineer.go">engineer.go</a>, lines 606–684, 997–1025, 1092–1189). Strong code integration, but no standing TestMaster product acceptance role or mandatory whole-product acceptance/delivery/idle transition.</td>
+</tr>
+<tr>
+<td>F23</td>
+<td>Autonomous operation directed through organization</td>
+<td><strong>Similar</strong></td>
+<td>Mayor creates/delegates; hooking work restores autonomous directives; daemon/patrols keep work moving without continuous human polling (<a href="repo/internal/templates/roles/mayor.md.tmpl">mayor.md.tmpl</a>, lines 44–63, 185–227; <a href="repo/internal/cmd/prime.go">prime.go</a>, lines 898–958). Human entry remains local Mayor/Crew conversation; product organizational responsibility and Telegram-only direction need adaptation.</td>
+</tr>
+<tr>
+<td>F24</td>
+<td>Chat/tracker/dashboard accommodate new profiles</td>
+<td><strong>Resembles</strong></td>
+<td>New named workers/runtime aliases fit existing task-assignee/mail flows, but UI categories and operational role validation are fixed (<a href="repo/internal/cmd/agents.go">cmd/agents.go</a>, lines 21–32, 44–73; <a href="repo/internal/config/roles.go">roles.go</a>, lines 108–145; <a href="repo/internal/web/templates.go">web/templates.go</a>, lines 174–185). Adding a new business profile under Crew works as a convention; first-class new role types across all views do not automatically appear.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="assessment-agent-definition-creation-and-full-lifecycle">Agent definition, creation and full lifecycle</h2>
+<h3 id="assessment-what-is-an-agent-here">What is an agent here?</h3>
+<p>Three concepts must stay separate. A <strong>role definition</strong> is TOML containing scope, session/workdir patterns, environment, health thresholds, nudge and prompt-template name. A <strong>runtime preset</strong> says which installed coding CLI to invoke, arguments, resume/fork abilities, instruction file, hook provider and readiness behavior. A <strong>named worker identity</strong> is the rig/name/address and persistent record associated with work and mail. A tmux session is one execution of that identity. A Beads issue is work, not an agent. A convoy leg is an assignment/prompt which becomes an independent agent execution when dispatched.</p>
+<p>Role TOML loads built-ins then merges town and rig overrides. Importantly <code>LoadRoleDefinition</code> rejects unknown roles: custom prompts do not create a new first-class role taxonomy (<a href="repo/internal/config/roles.go">config/roles.go</a>, lines 18–80, 108–175). Runtime extensibility is broader: settings choose default aliases, role aliases and named Crew aliases, and presets declare capabilities for Claude, Codex and other CLIs (<a href="repo/internal/config/agents.go">config/agents.go</a>, lines 20–56, 63–175; <a href="repo/internal/config/types.go">config/types.go</a>, lines 52–75, 680–703). Changing <code>crew_agents[alice]</code> chooses Alice's runtime. It does not by itself define Alice as ProductMaster with a reporting structure and UI schema.</p>
+<p>Roles have distinct responsibilities:</p>
+<ul>
+<li>Mayor coordinates the town.</li>
+<li>Deacon and Dogs perform maintenance.</li>
+<li>Each rig's Witness monitors workers.</li>
+<li>Refinery owns merge processing.</li>
+<li>Crew provides a persistent user-managed workspace.</li>
+<li>Polecat performs task-oriented execution.</li>
+</ul>
+<p>The code's role list includes <code>dog</code>. Some session UI enums hardcode only Mayor, Deacon, Witness, Refinery, Crew, and Polecat. New profiles therefore need changes across layers. A new prompt alone cannot provide that extensibility.</p>
+<h3 id="assessment-provisioning-and-launch">Provisioning and launch</h3>
+<p>For Polecats, <code>AllocateAndAdd</code> locks the pool and reconciles existing state. It allocates a name, locks that identity, and creates its directory. The pool lock releases only after allocation becomes visible. Separate workers can then perform expensive setup concurrently. See <a href="repo/internal/polecat/manager.go">polecat/manager.go</a>, lines 658–719.</p>
+<p>Setup selects a fresh branch or resumed PR branch and fetches the rig repository. It creates a worktree and installs context files. It connects Beads to shared state, copies overlays, and runs setup hooks/commands. It then creates a spawning agent bead and hook. Failure removes newly created worktrees/directories and releases the name (lines 725–859).</p>
+<p>Crew differs: creation clones the repository, optionally makes <code>crew/&lt;name&gt;</code>, establishes mailbox/shared Beads/PRIME and overlays, and saves worker timestamps/state. <code>Start</code> can create a missing workspace, resolves its named runtime and validates a requested resume command before killing an existing session (<a href="repo/internal/crew/manager.go">crew/manager.go</a>, lines 195–343, 682–760, 803–840). This is closer to a lasting personal development seat; Polecats are dispatch capacity around independently tracked work.</p>
+<p>The Polecat session manager resolves explicit agent overrides before role defaults. It prepares runtime settings and a startup beacon. tmux creation receives <code>GT_ROLE</code>, <code>GT_RIG</code>, worker/actor identity, branch/path/run ID, and supported process names. The manager then checks startup, readiness, and liveness. Hook-capable and promptless tools use different fallback nudges. Runtime declaration lets Witness distinguish non-Claude processes. See <a href="repo/internal/polecat/session_manager.go">polecat/session_manager.go</a>, lines 369–498 and 508–605. These are independent CLI processes.</p>
+<h3 id="assessment-tools-and-permissions">Tools and permissions</h3>
+<p>Coding tools come primarily from the selected runtime. Gas Town supplies CLI coordination commands, Git workspace and environment, runtime hooks and optional wrapper plugins. The defaults favor autonomous host execution: Claude starts with <code>--dangerously-skip-permissions</code>; Codex uses <code>--dangerously-bypass-approvals-and-sandbox</code> (<a href="repo/internal/config/agents.go">config/agents.go</a>, lines 232–257, 283–301). Worktree separation is a change-isolation mechanism, not an OS sandbox. Role instructions forbid certain behavior, and <code>gt sling</code> explicitly prevents Polecat delegation, but these do not form a general capability boundary (<a href="repo/internal/cmd/sling.go">sling.go</a>, lines 215–226; <a href="repo/internal/formula/formulas/mol-polecat-work.formula.toml">mol-polecat-work.formula.toml</a>, lines 223–232).</p>
+<p>Exec-wrapper plugins can insert a sandbox command around startup, but require that wrapper/configuration to exist; their existence should not be reported as sandboxed default behavior (<a href="repo/internal/plugin/types.go">plugin/types.go</a>, lines 112–147). Wingman would need to choose trust/approval policy per role and host rather than inheriting broad defaults silently.</p>
+<h3 id="assessment-routing-concurrency-and-scheduling">Routing, concurrency and scheduling</h3>
+<p><code>gt sling</code> accepts tasks/formulas/epics/convoys and different target forms. A rig target can allocate a Polecat. A Crew address selects an existing named worker. It guards cross-rig ownership, serializes hook writes, persists formula/arguments/dispatcher metadata, then starts a newly created session only after attachment state is durable. Direct and deferred/batch scheduler paths coexist; source explicitly notes that the single-sling path still duplicates the unified dispatch flow (<a href="repo/internal/cmd/sling.go">sling.go</a>, lines 443–529, 698–780, 1018–1107).</p>
+<p>Capacity scheduling filters unresolved blockers, excludes communication artifacts, limits dispatch to available slots and batch size, and can retry or quarantine after failure counts. Persistent scheduler state tracks pause/dispatch information (<a href="repo/internal/scheduler/capacity/pipeline.go">scheduler/capacity/pipeline.go</a>, lines 85–211; <a href="repo/internal/scheduler/capacity/state.go">state.go</a>, lines 13–40, 64–119). Concurrency is local process/worktree concurrency, not host-resource placement. Formula workflow dependencies and convoy synthesis allow more structure than a flat pool, while the LLM still performs semantic decomposition and decides what the issue should contain.</p>
+<p>Scheduling also includes ongoing operational work. The daemon has independent tickers for Dolt health/backups, optional checkpointing and main-branch tests, maintenance, compaction and quota scans (<a href="repo/internal/daemon/daemon.go">daemon.go</a>, lines 650–717, 752–785). Patrol formulas wait on actual activity with bounded exponential idle backoff rather than requiring a human to poll (<a href="repo/internal/formula/formulas/mol-witness-patrol.formula.toml">mol-witness-patrol.formula.toml</a>, lines 75–135). This schedules engineering operations, not a business/project lifecycle calendar.</p>
+<h3 id="assessment-persistence-resume-and-context-replacement">Persistence, resume and context replacement</h3>
+<p>Work continuity is centered on durable records: shared Beads, role directives, branch contents, mail, formula attachment, dispatcher arguments and completion checkpoints. <code>gt prime</code> resolves identity/current assignment, injects role/work details, memory and mail, and outputs an autonomous work directive (<a href="repo/internal/cmd/prime.go">prime.go</a>, lines 530–549, 606–691, 743–785, 898–1030). It reconstructs the relevant state for a successor rather than guaranteeing that the old model context remains alive.</p>
+<p><code>gt handoff --auto</code> saves state without cycling; <code>--cycle</code> collects state, mails a handoff and respawns with the work hook intact. Normal Polecat handoff redirects toward deferred completion; other standing roles can restart in place (<a href="repo/internal/cmd/handoff.go">handoff.go</a>, lines 30–65, 111–145). Crew can resume a native runtime session explicitly. Preset flags record that resume semantics and hook support differ by tool; Codex does not declare fork-session support (agents.go, lines 83–107, 283–301). Thus “persistent agent” means identity and work can survive a fresh process/conversation, not that every agent always resumes the same conversation.</p>
+<p>A separate <code>seance</code> facility discovers predecessor sessions from events and can start a forked/resumed native conversation to ask the predecessor questions. Its value is retaining access to reasoning context that was omitted from a handoff; its boundary is runtime-specific transcript availability, not a universal organizational memory system (<a href="repo/internal/cmd/seance.go">seance.go</a>, lines 33–62, 85–105).</p>
+<h3 id="assessment-interruption-cancellation-and-retirement">Interruption, cancellation and retirement</h3>
+<p>A running session supports stop, capture, attachment, and input injection. Stop kills the session and process descendants. Queued nudges target natural turn boundaries. They need not interrupt an active tool call. See <a href="repo/internal/polecat/session_manager.go">polecat/session_manager.go</a>, lines 631–658 and 770–831; <a href="repo/internal/crew/manager.go">crew/manager.go</a>, lines 909–940; and <a href="repo/internal/nudge/queue.go">nudge/queue.go</a>, lines 1–9 and 58–70. Queue TTL and depth limits bound delivery. Nudges do not replace durable message beads.</p>
+<p>Emergency stop uses a town or per-rig sentinel. It freezes agent work and prevents daemon restarts. Mayor remains available to coordinate recovery. See <a href="repo/internal/estop/estop.go">estop.go</a>, lines 1–7, 56–75, and 79–122; and <a href="repo/internal/daemon/daemon.go">daemon.go</a>, lines 853–869.</p>
+<p>Stopping a process is distinct from canceling its assigned issue. Recovery intentionally notices dead agents with open work, so Wingman must also update durable assignment/work state when canceling a business request, or its supervisor may try to resume it. Likewise, “park/dock rig” is needed for intentional dormancy rather than merely killing support sessions, as the Mayor instructions explain (<a href="repo/internal/templates/roles/mayor.md.tmpl">mayor.md.tmpl</a>, lines 310–332).</p>
+<p>Removal checks uncommitted/unpushed/stashed work and active MRs before resetting identity state and deleting resources, with force/nuclear overrides as explicit escape paths (<a href="repo/internal/polecat/manager.go">polecat/manager.go</a>, lines 1138–1199). The persistent agent identity is not equivalent to a permanently allocated directory or live session. Wingman's agent-conversation archive/rename/fork UX is only partially covered through underlying CLI/session operations.</p>
+<h3 id="assessment-failure-retry-and-recovery">Failure, retry and recovery</h3>
+<p>There are several layers of recovery, each addressing a different failure:</p>
+<ul>
+<li>Allocation/setup failures roll back resources and release worker capacity; failed session startup rolls back attached work/artifacts (<a href="repo/internal/polecat/manager.go">polecat/manager.go</a>, lines 739–755; <a href="repo/internal/cmd/sling.go">sling.go</a>, lines 1098–1107).</li>
+<li>Startup nudges are verified/retried and runtime capability mismatches detected; daemon health checks recover missing infrastructure and hooked-but-dead sessions (<a href="repo/internal/polecat/session_manager.go">polecat/session_manager.go</a>, lines 549–597; <a href="repo/internal/daemon/daemon.go">daemon.go</a>, lines 894–975).</li>
+<li>Witness distinguishes explicit stuck requests, dead processes, dead sessions, incomplete completion and pending merge state. Its restart path preserves worktree/branch rather than treating every failure as permission to delete work (<a href="repo/internal/witness/handlers.go">witness/handlers.go</a>, lines 1298–1315, 1616–1627, 1728–1854).</li>
+<li>Failed dispatch can retry or enter quarantine. Failed gates and conflicts return typed outcomes with a rework route. Stale escalation can increase severity up to configured limits. See <a href="repo/internal/scheduler/capacity/pipeline.go">capacity/pipeline.go</a>, lines 181–211; <a href="repo/internal/refinery/engineer.go">engineer.go</a>, lines 606–627 and 653–682; and <a href="repo/internal/cmd/escalate_impl.go">escalate_impl.go</a>, lines 416–458.</li>
+</ul>
+<p>These are recovery mechanisms, not proof that all autonomous failure modes are solved. Some operational truth is reported by agents and some is independently checked; silent warnings and provider-specific readiness paths remain integration risks.</p>
+<h3 id="assessment-completion-acceptance-and-conflicting-lifecycle-descriptions">Completion, acceptance and conflicting lifecycle descriptions</h3>
+<p><code>gt done</code> is specifically a Polecat command. It validates identity/worktree and exit type (<code>COMPLETED</code>, <code>ESCALATED</code>, <code>DEFERRED</code>), checks/pushes work, creates or reuses a merge-request bead, records completion/checkpoint metadata, updates agent state and nudges Refinery/Witness. Push/MR failure preserves session/hook for recovery. Clean successful non-local completion retires the live session only after durable handoff (<a href="repo/internal/cmd/done.go">done.go</a>, lines 92–100, 668–695, 1807–1859, 1881–1955, 2400–2443). A submitted MR can outlive its worker execution.</p>
+<p>Refinery rechecks source-issue eligibility and unchecked acceptance criteria. It runs configured gates and performs provider PR merging or local merge/push. It verifies delivered work before clearing the corresponding state. See <a href="repo/internal/refinery/engineer.go">engineer.go</a>, lines 504–535, 606–684, 997–1025, and 1352 onward. Review-only/no-merge paths report to the dispatcher. They can close source work without merging (done.go, lines 1536–1605).</p>
+<p>These controls support task-level acceptance. A passing gate or closed convoy does not establish the complete product definition of done. Wingman still needs product acceptance, human delivery, and a rule that stops active testing after acceptance.</p>
+<p><strong>The checkout contains inconsistent lifecycle prose.</strong> The work formula says “submit + nuke yourself” (<a href="repo/internal/formula/formulas/mol-polecat-work.formula.toml">mol-polecat-work.formula.toml</a>, lines 8–31), while the Witness formula introduction says sandbox preserved/reusable and no automatic nuke (<a href="repo/internal/formula/formulas/mol-witness-patrol.formula.toml">mol-witness-patrol.formula.toml</a>, line 1). Current types explicitly distinguish persistent identity, retired session, pending cleanup and safe idle capacity (<a href="repo/internal/polecat/types.go">polecat/types.go</a>, lines 8–28); executable <code>runDone</code> retires successful sessions and leaves sandbox cleanup to Witness/Refinery (done.go, lines 1936–1937). This report privileges those implementation paths. The contradictions are an adoption concern because agents consume the templates as operational instructions. They should be reconciled before relying on unattended behavior.</p>
+<h2 id="assessment-coordination-mechanics-and-a-concrete-task-trace">Coordination mechanics and a concrete task trace</h2>
+<p>A code-grounded request trace is <code>gt sling &lt;existing-work-bead&gt; &lt;rig&gt;</code>, issued by Mayor/Crew after a request has been turned into a concrete issue. This trace is reconstructed from source, <strong>not a runtime experiment</strong>:</p>
+<ol>
+<li><strong>Intake context and ownership.</strong> Mayor's injected instructions prescribe “user request → create bead → sling,” keeping global coordination separate from normal code work. The owning rig/prefix determines task location, not the issuer's current directory (<a href="repo/internal/templates/roles/mayor.md.tmpl">mayor.md.tmpl</a>, lines 44–63, 147–172). Natural-language routing is agent judgment above these primitives.</li>
+<li><strong>Validate and admit.</strong> <code>runSling</code> rejects Polecat delegation, resolves town/target, chooses direct or deferred scheduling and prevents assigning a rig's task to the wrong repository. It reserves named/local worker capacity (<a href="repo/internal/cmd/sling.go">sling.go</a>, lines 215–226, 443–485, 712–780).</li>
+<li><strong>Create identity/workspace, then attach.</strong> New target resolution provisions a Polecat. Bare task dispatch normally applies <code>mol-polecat-work</code>; instantiation bonds a workflow wisp to the original issue. Hook status/assignee, dispatcher arguments and molecule metadata are stored, then the session starts. This ordering prevents a newly primed worker seeing an assignment without its workflow (<a href="repo/internal/cmd/sling.go">sling.go</a>, lines 878–977, 1034–1107).</li>
+<li><strong>Execute with recovered context.</strong> Startup beacon plus hooks/fallback prompt lead the external CLI to <code>gt prime</code>, task details and role/work instructions. The ordinary work formula is inline/root-only by default: its many checklist steps are not automatically independent agent executions or separate step-bead checkpoints. <code>Formula.Pour</code> explicitly controls materialized sub-wisps (<a href="repo/internal/formula/types.go">formula/types.go</a>, lines 27–36; <a href="repo/internal/formula/formulas/mol-polecat-work.formula.toml">mol-polecat-work.formula.toml</a>, lines 19–21; <a href="repo/internal/cmd/prime.go">prime.go</a>, lines 898–1030).</li>
+<li><strong>Ask and coordinate.</strong> Worker stores discoveries in issue notes and sends durable mail for unclear requirements/scope. Message beads live at town scope, including rig-agent messages; router resolves addresses, lists, queues and channels, while notifications use immediate/queued nudges (<a href="repo/internal/mail/router.go">mail/router.go</a>, lines 83–185, 214–225; <a href="repo/internal/formula/formulas/mol-polecat-work.formula.toml">mol-polecat-work.formula.toml</a>, lines 109–118, 223–240). Persistent message payload and transient attention signal are intentionally different.</li>
+<li><strong>Escalate a blocker.</strong> Witness/worker can create an escalation bead linked to the task. Severity selects mail/human notification actions; JSON delivery reports preserve partial failures. Ack/close and stale re-escalation are separate actions (<a href="repo/internal/cmd/escalate_impl.go">escalate_impl.go</a>, lines 114–218, 356–458). This is richer than printing an approval prompt, but human answer correlation back to a Telegram project discussion is absent.</li>
+<li><strong>Submit and integrate.</strong> <code>gt done</code> records branch/MR/source links, completion metadata and events; successful task handoff retires its session. Refinery verifies source/criteria/gates, merges and proves delivery. Task/convoy completion can release the next dependency-ready assignment (<a href="repo/internal/cmd/done.go">done.go</a>, lines 1807–1955; <a href="repo/internal/refinery/engineer.go">engineer.go</a>, lines 606–684, 997–1025). Witness's slot-open handler can run the scheduler before notifying Mayor (<a href="repo/internal/witness/handlers.go">witness/handlers.go</a>, lines 752–853).</li>
+<li><strong>Observe.</strong> The UI joins workers/hooks/issues and convoy relationships, exposes mail threads/task details, and reads operational events into a short town timeline (<a href="repo/internal/web/api.go">web/api.go</a>, lines 119–146; <a href="repo/internal/web/fetcher.go">web/fetcher.go</a>, lines 1812–1875). The CLI <code>audit --actor</code> additionally merges readable Git/issue/town/feed provenance with timestamps and IDs (<a href="repo/internal/cmd/audit.go">audit.go</a>, lines 30–70, 89–144). The UI can show the current terminal preview but does not preserve a complete navigable task-to-tool-call-to-artifact chain.</li>
+</ol>
+<p>The idea-to-plan path should receive separate credit. <code>formula run</code> creates actual workflow/convoy/leg issue records and dependency edges; parallel review legs are slung to independent Polecats, while synthesis is blocked on legs. For workflows containing interactive steps, ready work stays hooked in the current session and output tells the orchestrator to close steps as it proceeds (<a href="repo/internal/cmd/formula.go">formula.go</a>, lines 457–695, 739–828, 831–915). The supplied idea formula uses this to write a PRD and ask clarified questions. It is executable orchestration scaffolding plus model instructions, not a deterministic product-discovery service that independently checks whether a human's answers are sufficient. Subsequent agent actions still matter. The report does not infer that every narrated multi-round workflow has been proven end to end.</p>
+<h2 id="assessment-major-additional-capabilities-and-integration-consequences">Major additional capabilities and integration consequences</h2>
+<h3 id="assessment-merge-factory-with-work-delivery-proofs-and-configurable-gate-phases">Merge factory with work-delivery proofs and configurable gate phases</h3>
+<p>Gas Town has a dedicated merge-request lifecycle. Named gates can run concurrently with per-gate timeouts. A separate phase verifies the combined merge result. GitHub/Bitbucket PR providers can apply provider policies. A local merge/push path is also available. The engine rejects unchecked issue criteria and source-head drift.</p>
+<p>Tests assert three important properties. Failed post-merge proof preserves the remote branch. Verified cleanup uses the submitted head. An advanced source branch is rejected. See <a href="repo/internal/refinery/engineer.go">engineer.go</a>, lines 58–89, 136–155, 606–684, 997–1025, and 1147–1189; and <a href="repo/internal/refinery/engineer_test.go">engineer_test.go</a>, lines 1055–1170. These are inspected assertions, not a reported test run.</p>
+<p>This is directly valuable for integrating many worker branches. Wingman would need to map task-level criteria and real product acceptance separately, configure suitable language/project gates, and treat PR-provider behavior as a runtime dependency. The configuration may omit gates. The presence of the engine alone does not mean every project is verified.</p>
+<h3 id="assessment-composable-workflow-and-multi-perspective-review-library">Composable workflow and multi-perspective review library</h3>
+<p>Formulas describe parallel convoy legs plus synthesis, sequential dependency-bearing steps, expansion and aspect types. Definitions can extend parent workflows and expand individual steps; <code>shiny-enterprise</code> extends <code>shiny</code> with <code>rule-of-five</code> at implementation (<a href="repo/internal/formula/types.go">formula/types.go</a>, lines 13–76, 103–129; <a href="repo/internal/formula/formulas/shiny-enterprise.formula.toml">shiny-enterprise.formula.toml</a>, lines 1–11). Executable <code>formula run</code> directly handles convoy/workflow types. The CLI explains alternate <code>bd cook</code>/molecule paths for others (<a href="repo/internal/cmd/formula.go">formula.go</a>, lines 217–307).</p>
+<p>The shipped PRD/plan/design/security review patterns can bootstrap Wingman discovery and independent review. They also bring overhead: a fixed six-leg or multiple-round process may be excessive for a mockup, and semantic criteria remain instructions rather than a guarantee. Adapt formula selection to product size and preserve one stable product record across runs.</p>
+<h3 id="assessment-operational-maintenance-as-first-class-work">Operational maintenance as first-class work</h3>
+<p>Plugins have gate schedules (cron/cooldown/condition/event/manual), execution modes (agent-interpreted Markdown, script, startup wrapper), timeout/severity and tracking metadata. The daemon can dispatch maintenance Dogs and run optional checkpoint, compaction, backup and main-branch-test cycles (<a href="repo/internal/plugin/types.go">plugin/types.go</a>, lines 1–8, 16–51, 65–147; <a href="repo/internal/daemon/daemon.go">daemon.go</a>, lines 650–717, 948–960). This extends the organization into self-maintenance and continuous infrastructure work, beyond Wingman's outlined product-team loop.</p>
+<p>The value is explicit operational ownership instead of ad hoc repair prompts. The cost is a persistent Dolt/tmux/process estate, data retention, task garbage collection and host configuration. Wingman should distinguish infrastructure supervision from agents actually developing the human's products.</p>
+<h3 id="assessment-credentialquota-rotation-and-heterogeneous-runtime-support">Credential/quota rotation and heterogeneous runtime support</h3>
+<p>Quota planning scans hard/near-limited sessions, reads persisted account quota state, clears expired states, validates alternate tokens, and groups swaps by shared configuration directory. The daemon can schedule quota scans (<a href="repo/internal/quota/rotate.go">quota/rotate.go</a>, lines 10–63, 64–140; <a href="repo/internal/daemon/daemon.go">daemon.go</a>, lines 708–717). The runtime registry centralizes resume flags, hook support, instruction filenames and readiness differences across coding tools (<a href="repo/internal/config/agents.go">config/agents.go</a>, lines 63–175).</p>
+<p>This can improve long-running capacity and allow different models per role. It is not a generic Codex budget/goal controller, and credential/keychain assumptions are provider/platform-sensitive. A Codex-only Wingman could use the adapter/capability design while omitting unrelated account rotation.</p>
+<h3 id="assessment-wasteland-work-federation-and-reputation">Wasteland work federation and reputation</h3>
+<p>Wasteland implements a DoltHub commons using fork/clone/register/push/upstream primitives, with CLI workflows for posted work and a reputation/trust subsystem. The Spider component queries patterns such as reciprocal/collusive stamps, rubber stamping, confidence inflation and self-loops (<a href="repo/internal/wasteland/wasteland.go">wasteland/wasteland.go</a>, lines 1–6, 97–169, 315–375; <a href="repo/internal/wasteland/spider.go">spider.go</a>, lines 105–200, 249–301).</p>
+<p>This is additional cross-organization work/reputation machinery, not required by Wingman's personal organization. It could support outside contributions but adds identity, trust and synchronization policy. It must not be mistaken for distributing one Wingman project's live agents across Mac and Linux: the missing SSH connection implementation remains decisive.</p>
+<h3 id="assessment-authenticated-coordinationgit-bridge-for-isolated-workers">Authenticated coordination/Git bridge for isolated workers</h3>
+<p>The proxy client can stand in for <code>gt</code>/<code>bd</code> inside an externally provisioned worker environment, forwarding arguments over mTLS and returning the actual host-command exit code. Server command/subcommand allowlists, binary-path resolution, per-client rate limits, global subprocess concurrency and deadlines restrict the exposed command surface. The Git smart-HTTP bridge serves host bare repositories and checks allowed worker push refs (<a href="repo/cmd/gt-proxy-client/main.go">gt-proxy-client/main.go</a>, lines 31–119; <a href="repo/internal/proxy/server.go">proxy/server.go</a>, lines 24–60, 105–138; <a href="repo/internal/proxy/exec.go">proxy/exec.go</a>, lines 27–110; <a href="repo/internal/proxy/git.go">proxy/git.go</a>, lines 1–38, 75–118).</p>
+<p>This could let Wingman execute coding tools in an isolated environment while retaining shared tasks/mail/Git without mounting the host coordination filesystem or distributing its direct provider credentials. It is more than a design document and merits F17 primitive credit. It still requires certificate provisioning, a reachable service, worker environment creation and lifecycle orchestration. It does not fill the SSH factory or manage Endeavour placement. Normal CLI sessions remain broad host processes unless a wrapper/deployment supplies isolation. Proxy and regular Polecat branch conventions also deserve an explicit integration test before deployment.</p>
+<h3 id="assessment-run-correlated-operational-telemetry">Run-correlated operational telemetry</h3>
+<p>Optional OpenTelemetry export adds run IDs to agent-session and subprocess events. It derives a machine/town instance ID. Counters cover lifecycle changes, prompts, agent events, dispatch, messages, completion, and daemon restarts. Optional conversation logging streams native JSONL output. See <a href="repo/internal/telemetry/telemetry.go">telemetry/telemetry.go</a>, lines 1–14 and 88–100; <a href="repo/internal/telemetry/recorder.go">telemetry/recorder.go</a>, lines 24–58 and 79–108; and <a href="repo/internal/polecat/session_manager.go">polecat/session_manager.go</a>, lines 607–617.</p>
+<p>This supports diagnosing a town and measuring the coordination machinery beyond the dashboard. It needs a configured collector/storage and retention policy, is best-effort, and has provider-specific conversation coverage. A correlated log stream remains different from Wingman's readable executive outcomes and structured per-agent workspace; Wingman could consume it as evidence for those views.</p>
+<h3 id="assessment-emergency-stop-and-predecessor-interrogation">Emergency stop and predecessor interrogation</h3>
+<p>Town/per-rig emergency stops preserve an explicit operator intent that the recovery daemon must obey, instead of letting automatic restarts undo a human stop. The predecessor <code>seance</code> facility goes beyond flat transcript browsing by asking a resumed/forked old session to explain past work (<a href="repo/internal/estop/estop.go">estop.go</a>, lines 1–7, 56–122; <a href="repo/internal/cmd/seance.go">seance.go</a>, lines 33–62). Both are worthwhile operational concepts. E-stop still needs cross-host propagation for Wingman, while seance needs supported native transcripts and cannot substitute for durable scopes/specifications.</p>
+<h2 id="assessment-distinctive-mechanisms-and-grounded-innovation-assessment">Distinctive mechanisms and grounded innovation assessment</h2>
+<p><strong>Durable work hooks separate “what must happen” from the disposable model session.</strong> Sling stores task ownership and workflow attachment before starting the CLI; prime reconstructs obligations; completion metadata/checkpoints let supervisors distinguish a worker that died from one that submitted. This enables replaceable conversations without losing the assignment. Its limit is that the agent must persist semantic discoveries; unsaved reasoning still disappears, and default inline formula checklist steps are not individually checkpointed. Evidence: <a href="repo/internal/cmd/sling.go">sling.go</a>, lines 1034–1107; <a href="repo/internal/cmd/prime.go">prime.go</a>, lines 898–1030; <a href="repo/internal/cmd/done.go">done.go</a>, lines 1855–1913, 2439–2443.</p>
+<p><strong>An engineering organization has multiple recovery layers instead of one immortal coordinator.</strong> Deterministic daemon recovery, Boot/Deacon judgment, per-rig Witness scans and separate Refinery integration divide failure ownership. The system cross-checks declared assignment/completion state against process/worktree/Git reality, and distinguishes explicit stuck work from dead execution. This is useful for Wingman's proactive ProjectMaster supervision, but role prompt contradictions and partial self-reporting mean the hierarchy needs coherent policy and verification. Evidence: <a href="repo/internal/daemon/daemon.go">daemon.go</a>, lines 894–975; <a href="repo/internal/witness/handlers.go">witness/handlers.go</a>, lines 1298–1315, 1616–1627, 1728–1854.</p>
+<p><strong>Communication payload and attention delivery are split.</strong> Mail is durable task-like state; nudge queues carry bounded/expiring attention signals for the next safe turn, avoiding destructive injection during tool use. Provider capability metadata handles tools with different turn-boundary hooks. This is a useful model for Butler escalation and direct worker collaboration; Wingman would still need message/project/question correlation and a stable room application. Evidence: <a href="repo/internal/mail/router.go">mail/router.go</a>, lines 214–225; <a href="repo/internal/nudge/queue.go">nudge/queue.go</a>, lines 1–9, 35–70; <a href="repo/internal/config/agents.go">config/agents.go</a>, lines 159–175.</p>
+<p><strong>Verification can be moved toward workers while retaining merge-time invalidation.</strong> <code>ProcessMRInfo</code> accepts a pre-verified base SHA; if the target still matches it can skip gates, otherwise reruns them. Submitted-head checks and post-merge proof protect the transition from worker completion to landed work. This reduces centralized integration cost, but the fast path relies on truthful/relevant recorded verification. It is not independent product QA. Both pre-merge and post-squash gate execution are skipped by the matching-base fast path. Evidence: <a href="repo/internal/refinery/engineer.go">engineer.go</a>, lines 606–611, 673–677, 1329–1349; <a href="repo/internal/refinery/engineer_test.go">engineer_test.go</a>, lines 1055–1170.</p>
+<p><strong>One issue/dependency substrate can represent implementation, review synthesis, mail, escalation and operational lifecycle.</strong> Formula dispatch creates concrete legs/steps and tracking edges, and capacity scheduling explicitly filters communication artifacts out of executable work. This makes one shared record inspectable to agents and dashboard, but also creates type/retention/routing complexity. The defensive messaging filter is evidence of the boundary that must be maintained. Evidence: <a href="repo/internal/cmd/formula.go">formula.go</a>, lines 457–695, 739–828; <a href="repo/internal/scheduler/capacity/pipeline.go">capacity/pipeline.go</a>, lines 126–178.</p>
+<p>These are distinctive implementation choices within this checkout. No claim of historical novelty or industry-wide uniqueness is made. The strongest transferable ideas are recoverable work ownership, separation of identity/session/worktree/task, and integration proofs. The least appropriate extrapolation would be assuming that the named town roles already implement Wingman's complete product organization.</p>
+<h2 id="assessment-practical-fit-and-remaining-work">Practical fit and remaining work</h2>
+<p>Useful mechanisms for direct use or thin integration include:</p>
+<ul>
+<li>Local Codex workers, isolation, and named Crew seats.</li>
+<li>Beads tasks, dependencies, assignments, and task/convoy scheduling.</li>
+<li>Durable mail, nudges, monitoring, recovery, and role directives.</li>
+<li>Task-level merge gates and engineering dashboard.</li>
+</ul>
+<p>Keep task submission separate from verified integration when several specialists edit one repository.</p>
+<p><strong>Adapt substantially:</strong> model Wingman products independently from rigs, because one product can have several repositories and one repository can contain several products. Map ProductMaster and TechMaster into independently named persistent agents with a clear interface rather than renaming Witness/Refinery, whose existing operational responsibilities are useful. Choose bounded discovery formulas for mockups and richer workflows for substantial products. Preserve <code>DIRECTIVES/SCOPES/SPECS/HARNESS</code> as durable product artifacts and map tasks/acceptance back to those records. Extend the dashboard around actual role/profile metadata and stable task/session/conversation identifiers.</p>
+<p>Build:</p>
+<ul>
+<li>Telegram Butler with correlated multi-project questions/answers and human decisions. An organization-wide product registry/intake router.</li>
+<li>Genuine product and technical leadership relationships. A room-first chat application.</li>
+<li>Executive per-agent current/recent/next summaries and outcome timelines with links. A structured per-agent coding workspace for tools, edits, tests, approvals, artifacts and usage.</li>
+<li>Explicit product acceptance/delivery/idle behavior.</li>
+<li>Real Mac/Endeavour execution transport, host placement and shared coordination. The SSH stub means the last item is implementation work, not configuration work.</li>
+</ul>
+<p>Adoption should first settle lifecycle semantics and privilege policy. The code and consumed prompts currently mix self-cleaning, preserved sandbox and clean-session-retirement descriptions. A Wingman integration should make exactly one owner responsible for each transition (worker submission, session retirement, MR acceptance, sandbox/branch cleanup and slot reuse), then verify those transitions against the intended Codex runtime. Default broad permission flags and local credential assumptions should become deliberate role/host policy. These are material engineering integration issues, not reasons to discount the working coordination machinery.</p>
+<h2 id="assessment-verification-scope-and-confidence-limits">Verification scope and confidence limits</h2>
+<p>This was <strong>static inspection only</strong>. No <code>gt</code>, <code>bd</code>, <code>dolt</code>, coding-agent, tmux runtime, build, test suite, dashboard/proxy server or external provider call was executed. Git was used read-only to identify HEAD/origin; source/searches inspected implementation rather than treating README claims as proof. Applicable checkout <a href="repo/AGENTS.md">AGENTS.md</a> was read; its referenced <code>CLAUDE.md</code> is absent at this revision. Its task-dispatch/push workflow was not invoked because the assessment scope explicitly requires read-only checkouts and report-only changes.</p>
+<p>The implementation review covered these areas:</p>
+<ul>
+<li>CLI entry, role/runtime/settings/directive models, and rig registration.</li>
+<li>Polecat allocation/state/sessions and Crew creation/start/resume/stop.</li>
+<li>Session lifecycle, sling/formula dispatch, prime, handoff, completion, and cleanup.</li>
+<li>Witness handlers, daemon lifecycle/heartbeat, and scheduler capacity.</li>
+<li>Mail routing, channels, nudges, web routes/models/templates/API, and actor audit collection.</li>
+<li>Refinery gates/merge, connections, network proxy commands/Git, and telemetry.</li>
+<li>ACP process proxy, emergency stop, plugins, quota rotation, and Wasteland federation/Spider.</li>
+</ul>
+<p>Relevant test bodies inspected, <strong>not run</strong>:</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Area</th>
+<th scope="col">Evidence inspected</th>
+<th scope="col">What it establishes about intended behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Role extension boundaries</td>
+<td><a href="repo/internal/config/roles_test.go">config/roles_test.go</a>, lines 100–138, 290–309</td>
+<td>Unknown roles reject; seven role names are expected. A town-level override changes the nudge.</td>
+</tr>
+<tr>
+<td>Workflow target inference</td>
+<td><a href="repo/internal/cmd/formula_test.go">cmd/formula_test.go</a>, lines 17–95</td>
+<td>Single-rig inference succeeds; multiple rigs require explicit target. This is not semantic product intake.</td>
+</tr>
+<tr>
+<td>Shared coordination and completion</td>
+<td><a href="repo/internal/cmd/done_test.go">cmd/done_test.go</a>, lines 18–115</td>
+<td>Shared Beads redirect lookup and close/retry helper intent. These tests do not themselves prove a live agent submits successfully.</td>
+</tr>
+<tr>
+<td>Scheduler failure accounting</td>
+<td><a href="repo/internal/scheduler/capacity/dispatch_test.go">capacity/dispatch_test.go</a>, lines 104–142, 244–299</td>
+<td>Per-item failure handling; successful execution with failed bookkeeping is not counted as a completed dispatch.</td>
+</tr>
+<tr>
+<td>Gate outcomes/timeouts</td>
+<td><a href="repo/internal/refinery/engineer_test.go">refinery/engineer_test.go</a>, lines 803–868</td>
+<td>Success, failing command, empty gate and timeout expectations.</td>
+</tr>
+<tr>
+<td>Delivery proof and cleanup</td>
+<td><a href="repo/internal/refinery/engineer_test.go">refinery/engineer_test.go</a>, lines 1055–1170</td>
+<td>Failed proof preserves remote work, verified cleanup deletes the matching branch, submitted head remains reachable after merge, source-head drift rejects.</td>
+</tr>
+<tr>
+<td>Web command policy</td>
+<td><a href="repo/internal/web/api_test.go">web/api_test.go</a>, lines 19–90</td>
+<td>Examples of safe/mutating commands and blocked patterns; not runtime authentication or overall UI QA.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Negative-feature searches covered these areas:</p>
+<ul>
+<li>Telegram/transport in <code>internal/</code>, templates, and documentation.</li>
+<li>Role/profile definitions in configuration, templates, and session/web enums.</li>
+<li>Product/PRD/discovery in formula definitions and execution paths.</li>
+<li>Timeline/summary/next-work in web models, data loading, and templates.</li>
+<li>SSH/remote-host/federation in connection, launch, daemon, routing, and Wasteland code.</li>
+</ul>
+<p>Matches established an SSH stub, mTLS worker bridge, PRD workflow, dashboard/mail endpoints, and hardcoded roles. They did not establish Telegram, arbitrary standing product leadership, a structured coding-workspace viewer, or a unified multi-host scheduler.</p>
+<p>Confidence is high for these code/data-model boundaries and task dispatch/merge architecture, moderate for end-to-end autonomous behavior across all supported runtimes, and limited for operational reliability/performance because nothing was exercised. Third-party coding tools, Beads/Dolt binaries/provider services and native conversation storage remain external dependencies. The formula/patrol documentation inconsistencies warrant explicit runtime validation before treating Gas Town as a dependable unattended foundation.</p></article>
+<section id="source-record"><h2>Source and evidence</h2><p class="url-text">https://github.com/gastownhall/gastown</p>
+<ul><li><a href="repo/">Open the pinned source checkout</a></li><li><a href="assessment/ASSESSMENT.md">Read the Markdown assessment</a></li>
+<li><a href="../generic/assessments/_audits/qa13.md">Read the historical independent source audit</a></li><li><a href="../generic/method.html">Read the method and evidence limits</a></li></ul></section>
+<nav class="report-switch" aria-label="Adjacent project reports"><a href="../emdash/index.html">Previous project: Emdash</a><a href="../golutra/index.html">Next project: Golutra</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../index.html">Return to overview <img src="../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

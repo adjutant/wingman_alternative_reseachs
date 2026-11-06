@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Technical assessment against Wingman’s development organization."><title>Kander · Wingman Research</title>
+<link rel="icon" href="../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/report.css"><script defer src="../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../index.html"><img src="../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../index.html">Overview</a><a class="nav-link " href="../generic/index.html">Architecture findings</a><a class="nav-link " href="../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../generic/method.html">Method and evidence</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../index.html">Wingman Research</a><span class="crumb">/</span><span>Kander</span></div><span class="topbar-note">SOURCE REVIEW · 05 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Kander</h1><p class="subtitle">Technical assessment against Wingman’s development organization.</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#decision">Decision summary</a><a href="#assessment-kander-assessment">Kander assessment</a><a href="#assessment-fit-verdict">Fit verdict</a><a href="#assessment-architecture-and-actual-execution-model">Architecture and actual execution model</a><a href="#assessment-feature-comparison">Feature comparison</a><a href="#assessment-agent-definition-creation-and-lifecycle">Agent definition, creation and lifecycle</a><a href="#assessment-coordination-mechanics-and-a-source-grounded-task-trace">Coordination mechanics and a source-grounded task trace</a><a href="#assessment-major-additional-capabilities-beyond-wingmans-stated-product">Major additional capabilities beyond Wingman&#x27;s stated product</a><a href="#assessment-distinctive-mechanisms-and-grounded-innovation">Distinctive mechanisms and grounded innovation</a><a href="#assessment-practical-adoption-path-and-remaining-gaps">Practical adoption path and remaining gaps</a><a href="#assessment-verification-scope-and-confidence">Verification scope and confidence</a><a href="#source-record">Source and evidence</a></div></nav><section id="decision" class="decision"><h2>Decision summary</h2>
+<div class="brief-columns"><div><h3>Useful for Wingman</h3><p>Study Markdown task cards, recoverable execution IDs, review evidence, integration protocols, and host terminals.</p></div><div><h3>Adoption boundary</h3><p>The LLM follows orchestration rules. A standing portfolio manager and durable employee organization remain work.</p></div></div>
+<p class="scope-note">Source assessment at the commit below. Runtime limits appear in the technical report.</p></section>
+<dl class="facts"><div><dt>Source group</dt><dd>Delivery engines</dd></div><div><dt>Commit</dt><dd><code>285fb4f2994a2dc6e10dff589179fa8a6ead4cb6</code></dd></div><div><dt>Coverage</dt><dd>24 Wingman features</dd></div></dl>
+<article id="technical-assessment" class="technical"><h2 id="assessment-kander-assessment">Kander assessment</h2>
+<ul>
+<li class="url-text">Repository: https://github.com/dualface/kander</li>
+<li>Checkout: <code>researchs/kander/repo</code></li>
+<li>Assessed commit: <code>285fb4f2994a2dc6e10dff589179fa8a6ead4cb6</code></li>
+<li>Assessment date: 2026-11-05</li>
+<li>Reference: <a href="../generic/purpose.html">Wingman purpose</a> and <a href="../generic/assessments/ASSESSMENT_GUIDE.md">assessment guide</a>.</li>
+<li>Method: source and test inspection only; no dependency installation, agent launch, service launch, or test execution. The checkout was kept unchanged.</li>
+</ul>
+<h2 id="assessment-fit-verdict">Fit verdict</h2>
+<p>Kander is a strong candidate for Wingman's <strong>local delivery and recovery substrate</strong>, rather than a replacement for its persistent software-development organization. It launches real external coding agents, gives each launched card a recoverable execution identity, coordinates concurrent work through a shared Markdown board, and supplies unusually detailed dispatch, review, integration, and completion evidence protocols. Its optional dsh integration adds an actual project board and interactive agent terminals in a web/desktop host. These are implemented capabilities, not just workflow aspirations.</p>
+<p>Its unit of continuity is primarily a <strong>task card and execution session</strong>, not a standing specialist employee. Agent definitions mostly describe executable adapters, argv, session discovery and review isolation. Orchestration is an LLM session obeying shipped rules and invoking mechanical commands. There is no continuously running portfolio manager or organization service. Telegram/Butler intake, project registry and discovery leadership, agent rooms, an organizational directory, executive summaries and timelines, and true cross-machine shared coordination remain to build. The released protocol explicitly makes the board local to one machine/filesystem (<a href="repo/rules/KANDER-KANBAN-RULES.md#L9">kanban protocol</a>, lines 9–19).</p>
+<h2 id="assessment-architecture-and-actual-execution-model">Architecture and actual execution model</h2>
+<p>The Go executable's entry point calls <code>cli.Run(os.Args)</code> (<a href="repo/cmd/kander/main.go#L1">main.go</a>, lines 1–11). The CLI owns a command registry, including board operations, <code>start</code>, <code>orchestrate</code>, <code>resume</code>, <code>notify</code>, <code>dispatch</code>, <code>coordinator</code>, <code>subscribe</code>, and <code>review</code>. The no-subcommand runner is provided by the terminal UI (<a href="repo/internal/cli/cli.go#L20">cli.go</a>, lines 20–72). Launch registers its implementations and the issue-triage starter at initialization (<a href="repo/internal/launch/cmd.go#L16">launch/cmd.go</a>, lines 16–26). This is an executable toolset used by humans and coding agents, not a model inference server.</p>
+<p>The main durable store is a main-worktree <code>kanban/</code> directory shared by that repository's local worktrees. Cards occupy <code>backlog</code>, <code>todo</code>, <code>working</code>, <code>review</code>, <code>done</code>, <code>archived</code>, or <code>trash</code>; allowed transitions are explicit (<a href="repo/internal/board/board.go#L16">board.go</a>, lines 16–54). New tasks are directory cards with <code>spec.md</code>; <code>SIZE</code> determines small/large semantics, independent of physical directory form. Card fields include owner, external CLI session reference, terminal address, timestamps, task group, branch and result. Contract sections include goal, user decisions, expected outcome, acceptance criteria, threat model, out of scope and discussion (<a href="repo/internal/board/template.go#L19">template.go</a>, lines 19–68). The task creation implementation allocates the dated ID, checks uniqueness and stages the directory under an exclusive board transaction (<a href="repo/internal/board/move.go#L11">move.go</a>, lines 11–64).</p>
+<p>This is more than editable Markdown. <code>Snapshot</code> carries an optimistic revision; <code>Version</code> also pins execution fencing information. Transactions fix a lock set, stage multiple document/control changes, publish a prepared redo record, then apply it. A publication failure leaves explicit recovery work; readers do not silently repair it. Once a redo intent exists, publication follows a non-cancellable completion protocol (<a href="repo/internal/board/transaction.go#L15">transaction.go</a>, lines 15–91 and 100–163). The rules distinguish controlled <code>update</code> from direct file editing and require explicit <code>init</code> recovery for interrupted publication (<a href="repo/rules/KANDER-KANBAN-RULES.md#L113">kanban protocol</a>, lines 113–130). These guarantees apply to cooperating tools, not arbitrary programs rewriting the files.</p>
+<p><code>Start</code> resolves the card, its task-size execution settings and any pins, prepares a terminal backend, locates the executable, allocates or discovers its session, writes a UTF-8 task file and builds argv. It records a start attempt before launching, then persists the terminal location and discovered session or settles failure (<a href="repo/internal/launch/start.go#L24">start.go</a>, lines 24–187). The external coding CLI performs planning, tools, edits and testing. Git worktree creation, dependency scheduling, integration and many policy decisions are instructions for the executing/orchestrator agent. The start command itself is not a complete deterministic delivery scheduler.</p>
+<p>Terminal control goes through a capability-based <code>Backend</code>: create container, run command, session marking/reporting, pane facts/output, text delivery, reverse identity lookup, focus and close. Direct foreground/console execution and terminal containers have deliberately different capabilities (<a href="repo/internal/terminal/terminal.go#L29">terminal.go</a>, lines 29–60 and 161–203). Embedded declarative backends cover herdr, herdr-core, luvus, tmux/tmux-session and dsh; definitions can be extended without making launch logic build terminal-specific commands. The implementation boundary matters: a live terminal may expose a rich coding CLI, but Kander does not thereby acquire a structured tool-call/edit/test model of its own.</p>
+<p>The optional Node dsh plugin maps dsh workspaces to their Git main-worktree boards, executes <code>kander list --json --agent-status</code> asynchronously, and starts tasks through <code>kander start --launcher dsh</code> (<a href="repo/integrations/kander-dsh/lib/boards.js#L61">boards.js</a>, lines 61–92 and 119–155). Its host owns pane multiplexing, input/output subscription and carrier status (<a href="repo/integrations/kander-dsh/lib/host.js#L13">host.js</a>, lines 13–107). The host application supplies authenticated web routing; Kander's plugin opens no independent network port. This optional integration is a useful interface layer, but requires the external dsh environment.</p>
+<h2 id="assessment-feature-comparison">Feature comparison</h2>
+<p>Verdicts follow the guide: <strong>Exact</strong> meets Wingman's described behavior; <strong>Similar</strong> supplies a substantial equivalent with a scope/workflow difference; <strong>Resembles</strong> supplies only a related primitive; <strong>Absent</strong> means corresponding implementation was not found in the searched paths. No row claims runtime verification.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Capability</th>
+<th scope="col">Verdict</th>
+<th scope="col">Implementation evidence and concrete Wingman difference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F01</td>
+<td>Real independent coding agents and specialist instances</td>
+<td><strong>Similar</strong></td>
+<td><code>Start</code> launches a selected external executable into a separate terminal/process, with session and window identity (<a href="repo/internal/launch/start.go#L56">start.go</a>, lines 56–187). Several cards can have independent execution sessions. They are task executors; BackendCoder/FrontendCoder/TestMaster are not durable built-in specialist instances. Self-claimed cards can instead execute in the current session, so a card alone does not prove a separate agent.</td>
+</tr>
+<tr>
+<td>F02</td>
+<td>Extensible profiles, roles and team composition</td>
+<td><strong>Resembles</strong></td>
+<td>Custom <code>AgentDefinition</code> supplies path, process name, dialect, argv, session and review settings; <code>AgentNames</code> merges custom names (<a href="repo/internal/config/agents.go#L15">agents.go</a>, lines 15–56 and 90–182). This extends coding-CLI adapters and named configurations, not a personnel profile/team schema with responsibilities, memberships and standing role instances. PMQA/Security are review roles, not the whole organization.</td>
+</tr>
+<tr>
+<td>F03</td>
+<td>Agent directory and visible relationships</td>
+<td><strong>Resembles</strong></td>
+<td>Board snapshots expose task owner/session/window/group and observed runtime state (<a href="repo/internal/board/list_snapshot.go#L17">list_snapshot.go</a>, lines 17–66). A user can infer assignment relationships. There is no agent-first directory with project/team membership, reporting lines, conversations and personal timelines; searches covered CLI, board, config, TUI and dsh view.</td>
+</tr>
+<tr>
+<td>F04</td>
+<td>Telegram and Butler-style routing</td>
+<td><strong>Absent</strong></td>
+<td>Entry surfaces are CLI/TUI, GitHub issue handling and the dsh plugin (<a href="repo/internal/cli/cli.go#L23">cli.go</a>, lines 23–60; <a href="repo/internal/launch/chat.go#L48">chat.go</a>, lines 48–52). Searches of <code>cmd</code>, <code>internal</code>, <code>rules</code> and non-vendored integration code found no Telegram bot/webhook or Butler router. TUI chat launches a local agent session.</td>
+</tr>
+<tr>
+<td>F05</td>
+<td>Project registry, intake and existing/new routing</td>
+<td><strong>Resembles</strong></td>
+<td>dsh resolves workspaces to boards through Git and ancestor directories (<a href="repo/integrations/kander-dsh/lib/boards.js#L73">boards.js</a>, lines 73–92). GitHub source keys identify imported issues (<a href="repo/internal/issue/import.go#L126">import.go</a>, lines 126–139). Neither is a durable product registry or semantic conversation router. The human starts in an existing workspace/board.</td>
+</tr>
+<tr>
+<td>F06</td>
+<td>Per-project product and technical leadership</td>
+<td><strong>Resembles</strong></td>
+<td><code>StartOrchestrator</code> launches an agent with confirmed plan notes and ordered card references (<a href="repo/internal/launch/orchestrate.go#L44">orchestrate.go</a>, lines 44–107). The rules make it coordinate rather than implement (<a href="repo/rules/snippets/orchestrate-sessions.md#L7">orchestrator sessions</a>, lines 7–13). It is plan-scoped technical coordination, not a continuing ProductMaster/TechMaster pair.</td>
+</tr>
+<tr>
+<td>F07</td>
+<td>Research, discovery and iterative clarification</td>
+<td><strong>Resembles</strong></td>
+<td>Research is a supported card type (<a href="repo/internal/board/board.go#L44">board.go</a>, lines 44–49); intake requires analysis/plan and an explicit execution choice (<a href="repo/rules/KANDER-TASK-INTAKE-RULES.md#L9">intake rules</a>, lines 9–40). These do not implement domain/market research or a project-associated clarification cycle through a human liaison. A general coding agent could perform research when instructed.</td>
+</tr>
+<tr>
+<td>F08</td>
+<td>Scope, specs, acceptance scenarios and definition of done</td>
+<td><strong>Similar</strong></td>
+<td>Cards require goal, expected outcome, acceptance criteria and out-of-scope sections; todo gates require review records and decidable checklist items (<a href="repo/rules/KANDER-KANBAN-RULES.md#L110">kanban protocol</a>, lines 110–129; <a href="repo/internal/board/gate.go#L3">gate.go</a>, lines 3–15). This is a substantial task contract/acceptance mechanism, but lacks an independently maintained product definition with cross-component scenarios and ProductMaster ownership.</td>
+</tr>
+<tr>
+<td>F09</td>
+<td>Decomposition, assignment and shared tracking</td>
+<td><strong>Similar</strong></td>
+<td>Tasks, group membership and internal/external prerequisites are represented and resolved (<a href="repo/internal/board/deps.go#L23">deps.go</a>, lines 23–91). Intake and orchestration rules specify splitting and conflict-aware ordered starts (<a href="repo/rules/KANDER-TASK-INTAKE-RULES.md#L19">intake rules</a>, lines 19–21; <a href="repo/rules/snippets/orchestrate-start.md#L39">orchestrate-start</a>, lines 39–55). Splitting/scheduling judgments remain agent responsibilities on a repository-local board.</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>Portfolio/project dashboard</td>
+<td><strong>Similar</strong></td>
+<td>There is a real task dashboard, not merely a terminal grid: dsh shows board columns, card IDs/sizes/agent states, Start and terminal drill-down, with a board selector (<a href="repo/docs/dsh-kander-view.md#L7">dsh view</a>, lines 7–31; <a href="repo/integrations/kander-dsh/lib/boards.js#L136">boards.js</a>, lines 136–155). It lacks portfolio goals/overall product progress, team relationships and linked discussion/decision navigation. Core UI is terminal-based.</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>Agent chat, rooms and direct collaboration</td>
+<td><strong>Resembles</strong></td>
+<td><code>notify</code> routes a task message to a verified executor or an eligible resumed session (<a href="repo/internal/notify/command.go#L85">notify/command.go</a>, lines 85–159). Shared card discussion also exists. TUI chat starts a board-free session, explicitly recording no card identity (<a href="repo/internal/launch/chat.go#L48">chat.go</a>, lines 48–126). No retained multi-participant rooms, room memberships or agent-to-agent conversation application was found.</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>Escalation and human decisions/approvals</td>
+<td><strong>Similar</strong></td>
+<td>The orchestrator inspects blockers, resolves only specified in-contract issues, and reports unresolved decisions to the user with options (<a href="repo/rules/snippets/orchestrate-sessions.md#L15">orchestrator sessions</a>, lines 15–41). Card contract changes and termination store decision references (<a href="repo/rules/KANDER-KANBAN-RULES.md#L126">kanban protocol</a>, lines 126–130). This is direct session escalation; no Room2→Room1→Butler hierarchy. Decision-reference strings record a basis but do not cryptographically verify human intent.</td>
+</tr>
+<tr>
+<td>F13</td>
+<td>Durable knowledge and reusable directives</td>
+<td><strong>Similar</strong></td>
+<td>Cards accept <code>plan.md</code>, <code>report.md</code> and attachments, with protected contracts and controlled revisions (<a href="repo/rules/KANDER-KANBAN-RULES.md#L122">kanban protocol</a>, lines 122–130). Shipped rules supply reusable operating instructions. This preserves useful project/task context but does not implement Wingman's product-owned <code>DIRECTIVES/SCOPES/SPECS/HARNESS</code> knowledge structure or its discovery stewardship.</td>
+</tr>
+<tr>
+<td>F14</td>
+<td>Identity, conversation and work continuity</td>
+<td><strong>Similar</strong></td>
+<td>Execution records preserve owner/session/window/cycle and immutable transitions (<a href="repo/internal/board/execution.go#L65">execution.go</a>, lines 65–109). Native resume uses the existing external CLI session; explicit takeover creates a new one (<a href="repo/internal/launch/commands.go#L141">commands.go</a>, lines 141–217). Conversation content itself belongs to the external CLI. A lasting role/project employee identity spanning assignments is absent.</td>
+</tr>
+<tr>
+<td>F15</td>
+<td>Periodic supervision and blocker follow-up</td>
+<td><strong>Similar</strong></td>
+<td><code>subscribe</code> produces versioned snapshots/state/liveness events with a default 900-second heartbeat (<a href="repo/internal/liveness/subscribe.go#L20">subscribe.go</a>, lines 20–80). Rules require orchestrators to use 600 seconds, inspect implementation records and pane tails, and follow up on blockers (<a href="repo/rules/snippets/orchestrate-sessions.md#L12">orchestrator sessions</a>, lines 12–41). This is real support for active supervision while that LLM/session and subscriber remain running, not a standing portfolio daemon that wakes independently.</td>
+</tr>
+<tr>
+<td>F16</td>
+<td>Parallel products and specialists</td>
+<td><strong>Similar</strong></td>
+<td>Separate boards can serve distinct projects; independent card sessions and ready group members run concurrently, with conflicts/dependencies constraining starts (<a href="repo/rules/snippets/orchestrate-start.md#L39">orchestrate-start</a>, lines 39–55; <a href="repo/integrations/kander-dsh/lib/boards.js#L73">boards.js</a>, lines 73–92). There is no shared organizational layer connecting those products or retaining their specialist teams.</td>
+</tr>
+<tr>
+<td>F17</td>
+<td>Multi-host execution with shared coordination</td>
+<td><strong>Absent</strong></td>
+<td>The released storage contract explicitly says same host/filesystem and “remote agents cannot see it” (<a href="repo/rules/KANDER-KANBAN-RULES.md#L9">kanban protocol</a>, lines 9–19). dsh's two hosts share <code>DSH_HOME</code> and elect a single carrier. The other cannot Start or access its terminals (<a href="repo/integrations/kander-dsh/lib/host.js#L1">host.js</a>, lines 1–35; <a href="repo/docs/dsh-kander-view.md#L37">dsh view</a>, lines 37–49). These are local app host processes, not Mac/Linux execution nodes.</td>
+</tr>
+<tr>
+<td>F18</td>
+<td>Executive current/recent/next/blockers overview</td>
+<td><strong>Resembles</strong></td>
+<td>Snapshot fields and TUI five-second runtime observations expose current assignments, states, dates and blocked/waiting/lost marks (<a href="repo/internal/board/list_snapshot.go#L26">list_snapshot.go</a>, lines 26–54; <a href="repo/internal/tui/agent_status.go#L17">agent_status.go</a>, lines 17–109). They do not generate an agent-oriented plain-language briefing of accomplishments and planned next work across tasks.</td>
+</tr>
+<tr>
+<td>F19</td>
+<td>Per-agent summary timeline with links</td>
+<td><strong>Resembles</strong></td>
+<td>Immutable execution transitions bind revisions, owners, sessions, dispatch IDs and decisions (<a href="repo/internal/board/execution.go#L85">execution.go</a>, lines 85–109), and subscriptions expose events. Neither is an executive summary timeline. Searches of snapshot, TUI, dsh view and rules found no per-agent chronological activity-summary feed.</td>
+</tr>
+<tr>
+<td>F20</td>
+<td>Detailed individual coding workspace</td>
+<td><strong>Similar</strong></td>
+<td>dsh opens each agent in an interactive terminal tab with streamed buffered/live output and input (<a href="repo/integrations/kander-dsh/lib/host.js#L61">host.js</a>, lines 61–91; <a href="repo/docs/dsh-kander-view.md#L23">dsh view</a>, lines 23–31). External CLI controls are accessible there. Kander supplies no native structured conversation/tool/edit/test/artifact workspace comparable to the full Codex app.</td>
+</tr>
+<tr>
+<td>F21</td>
+<td>Live activity, lifecycle, steering and visibility</td>
+<td><strong>Similar</strong></td>
+<td>Backends expose output, text delivery, focus and close; start/resume/takeover/adopt/notify/dismiss implement guarded execution control (<a href="repo/internal/terminal/terminal.go#L185">terminal.go</a>, lines 185–203; <a href="repo/internal/launch/settle.go#L48">settle.go</a>, lines 48–83). It lacks first-class conversation fork/rename/compaction, usage accounting, goals/budgets and a durable queued-input UI. Terminal availability varies by backend.</td>
+</tr>
+<tr>
+<td>F22</td>
+<td>Testing, integration and acceptance/delivery</td>
+<td><strong>Similar</strong></td>
+<td>Review runs, task-context snapshots, immutable evidence and completion gates are extensive (<a href="repo/internal/review/review.go#L59">review.go</a>, lines 59–164; <a href="repo/internal/board/review_gate.go#L48">review_gate.go</a>, lines 48–119 and 244–288). Group rules verify actual delivered Git commits before releasing successors/integrating (<a href="repo/rules/snippets/orchestrate-start.md#L75">orchestrate-start</a>, lines 75–80). Agents run project tests; Kander does not supply a standing functional TestMaster or automatically establish integrated product acceptance from user scenarios.</td>
+</tr>
+<tr>
+<td>F23</td>
+<td>Autonomous operation through an organization</td>
+<td><strong>Similar</strong></td>
+<td>A separately launched orchestrator can advance a confirmed multi-card plan, supervise executors and summarize delivery (<a href="repo/internal/launch/orchestrate.go#L44">orchestrate.go</a>, lines 44–151; <a href="repo/rules/snippets/orchestrate-sessions.md#L7">orchestrator sessions</a>, lines 7–41). Human direction enters the current session, with task-scoped authorization. The continuing portfolio, liaison and product-leadership organization are missing.</td>
+</tr>
+<tr>
+<td>F24</td>
+<td>Interfaces accommodate newly added profiles</td>
+<td><strong>Resembles</strong></td>
+<td>Named custom adapters are merged into agent configuration and task snapshots carry generic owner/session strings (<a href="repo/internal/config/agents.go#L90">agents.go</a>, lines 90–108; <a href="repo/internal/board/list_snapshot.go#L26">list_snapshot.go</a>, lines 26–45). This allows additional executable identities in the board. There is no common role/profile entity propagated into directory, rooms, team memberships and executive views.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="assessment-agent-definition-creation-and-lifecycle">Agent definition, creation and lifecycle</h2>
+<h3 id="assessment-what-is-an-agent-here">What is an agent here?</h3>
+<p>There are four distinct concepts. An <strong>execution-agent definition</strong> is an adapter for a coding program. A <strong>card</strong> is an assignment/contract and its work state. An <strong>execution record</strong> is one claim/start/takeover/recovery cycle on that card. An <strong>external CLI session</strong> is the conversation/runtime that actually uses tools. Reviewers are separate bounded CLI invocations with role prompts. An orchestrator is another interactive coding-agent session, instructed to coordinate a plan, but it owns no card. None of these automatically creates a durable person with a role, project and organizational relationships.</p>
+<p><code>AgentDefinition</code> is explicit about this boundary: it records <code>Path</code>, <code>ProcessName</code>, <code>Dialect</code>, <code>Args</code>, <code>Session</code>, <code>PromptDelivery</code>, <code>Review</code>, <code>ExitCommand</code> and program-status reporting. A custom map key becomes the stable name stored on cards; missing fields inherit appropriate dialect defaults (<a href="repo/internal/config/agents.go#L15">agents.go</a>, lines 15–56 and 110–182). A user could name a wrapper <code>backend-coder</code>, but Kander would still see an executable adapter, not infer a backend responsibility or team relationship. Its session policies include generated/none IDs, preallocated IDs and discovered/hooked sessions; session file declarations can resolve a path identity into a true session ID (<a href="repo/internal/config/agents.go#L44">agents.go</a>, lines 44–88; <a href="repo/internal/launch/session.go#L89">session.go</a>, lines 89–107).</p>
+<p>Creation begins with <code>new</code>, which stages a contract in backlog, or with issue import. Creation does not start an agent. A card must become ready, pass the todo contract gate and then be picked/started. <code>RequiresCardReview</code> requires a record for large or grouped cards, but explicitly says the tool checks the line, while reviewer independence remains a human/agent duty (<a href="repo/internal/board/gate.go#L3">gate.go</a>, lines 3–15). The shipped intake module offers current-session self-execution, separate executor/orchestrator handoff, backlog-only creation, direct execution without a board, or plan revision. These are workflow rules, not an autonomous product-discovery engine (<a href="repo/rules/KANDER-TASK-INTAKE-RULES.md#L23">intake rules</a>, lines 23–40).</p>
+<h3 id="assessment-identity-launch-permissions-and-tools">Identity, launch, permissions and tools</h3>
+<p>A launched card gets <code>OWNER</code> (the adapter name), <code>SESSION</code> (adapter plus external session reference) and <code>WINDOW</code> (backend-specific address). Multiple <code>codex</code> owners are distinguished by task/execution/session IDs, not by a directory of named employees. The execution ledger separates pending, running, unresolved, rolled-back and handed-off records; immutable transitions account for owner, session, window and cycle changes (<a href="repo/internal/board/execution.go#L22">execution.go</a>, lines 22–125).</p>
+<p><code>Start</code> performs validation and resource resolution before claiming wherever possible. It writes a task-file instruction, persists a pending start, launches, discovers/records identity and confirms success. A failure after launch is not casually treated as “nothing started.” When an executor may exist or cleanup cannot be proved, Kander preserves the card/container and returns <code>started-unresolved</code> (exit 3). Adoption or takeover must then explicitly settle the situation. An ordinary failed start can roll back only when there is no executor evidence and cleanup succeeds (<a href="repo/internal/launch/start.go#L130">start.go</a>, lines 130–187; <a href="repo/internal/launch/settle.go#L14">settle.go</a>, lines 14–45, 48–83 and 120–154). This is a valuable protection against duplicate executors following an uncertain launch.</p>
+<p>Tools and sandboxing mostly belong to the selected CLI. In this checkout, embedded Codex start/resume argv includes <code>--dangerously-bypass-approvals-and-sandbox</code>, whereas review uses <code>exec</code>, <code>--sandbox read-only</code>, <code>--ephemeral</code>, a private <code>CODEX_HOME</code>, and a last-message output file (<a href="repo/internal/config/agents/codex.json#L5">codex.json</a>, lines 5–67). Therefore ordinary worker launch is not a Kander-enforced per-role capability sandbox. Wingman adopting these adapters should make the execution permission policy an explicit integration decision. Rules and epoch tokens govern cooperating agent behavior. They are not protection against a malicious local user or fully privileged worker.</p>
+<h3 id="assessment-routing-concurrency-and-scheduling">Routing, concurrency and scheduling</h3>
+<p>Execution selection uses task size, configuration and optional card-level executor/reviewer/model/effort pins. Terminal placement is delegated through the backend's capabilities. <code>notify</code> routes by task identity, repairs missing session information when possible, probes the target, and delivers an instruction to read a message file; busy or uncertain identity must not simply trigger another session. Legacy fallback can native-resume when safe and not dispatch-bound (<a href="repo/internal/notify/command.go#L16">notify/command.go</a>, lines 16–74 and 85–159).</p>
+<p>There is no central queue of autonomous standing workers. An orchestrator session is launched from the large execution tier with plan notes and card/group references. The command checks backlog/todo readiness and complete group expansion but intentionally writes no board state. It also records no card session/window identity for the orchestrator (<a href="repo/internal/launch/orchestrate.go#L44">orchestrate.go</a>, lines 44–151 and 154–211). The LLM follows rules to start ready members, inspect overlapping files, release dependencies only after delivery is actually received, and arrange reviews and integration. This enables concurrent specialists but depends on an alive, rule-following orchestrator. <code>TaskDependenciesOf</code> resolves in-group, external-card and external-group prerequisites. It is a validator/resolver, not an always-running scheduler (<a href="repo/internal/board/deps.go#L23">deps.go</a>, lines 23–91).</p>
+<p>The separate <code>subscribe</code> process polls committed state and emits JSONL events with subscription ID, sequence, task revisions, membership version/completeness, dispatch summaries and liveness observation identity/age/validity. Its default heartbeat is 900 seconds; orchestrator rules require 600 seconds (<a href="repo/internal/liveness/subscribe.go#L20">subscribe.go</a>, lines 20–80; <a href="repo/rules/snippets/orchestrate-sessions.md#L12">orchestrator sessions</a>, lines 12–26). The heartbeat wakes a consumer; follow-up reasoning is performed by that orchestrator, not by the event producer. A new snapshot supports restart without relying on an in-memory event sequence. TUI runtime observation is a separate five-second display mechanism and must not be confused with supervisory reasoning (<a href="repo/internal/tui/agent_status.go#L17">agent_status.go</a>, lines 17–109).</p>
+<h3 id="assessment-continuation-interruption-failure-and-recovery">Continuation, interruption, failure and recovery</h3>
+<p>Native resume is limited to working/review cards and a resumable external session. Supplying an explicit replacement agent selects takeover and allocates a new session, instead of pretending another executable can resume the old conversation (<a href="repo/internal/launch/commands.go#L107">commands.go</a>, lines 107–217). A self-claimed card has no executor session; its recovery path is claim/reclaim/recover evidence rather than ordinary notify/dismiss. Direct foreground/console identities receive special native-resume refusals. The presence of a generic <code>resume</code> command does not mean every backend/session supports it.</p>
+<p>Interruption has several levels. External coding terminals expose that CLI's own stop/input behavior. Subscription APIs carry cancellation. Review installs SIGINT/SIGTERM handling and collects its process tree. Board publication, once its redo intent is durable, completes under its explicit recovery semantics rather than aborting halfway. These are different guarantees. There is no unified Wingman-style goals/budgets and conversation interruption controller.</p>
+<p>Review runtime execution creates a private temporary directory, snapshots applicable task context, writes a read-only review contract, collects stdout/error/output and process evidence, and checks that the target worktree was not changed. It treats failed process collection or changed target state as failure (<a href="repo/internal/review/review.go#L147">review.go</a>, lines 147–164; <a href="repo/internal/review/execute.go#L16">execute.go</a>, lines 16–42 and 54–175). Its safety posture is per adapter and platform. The assessment does not infer universal OS isolation from an inspection prompt.</p>
+<h3 id="assessment-completion-acceptance-and-retirement">Completion, acceptance and retirement</h3>
+<p>Task completion is evidence-aware. <code>validateTaskReview</code> requires the execution's review plan, preserves obligations across cycle changes, requires sealing and coverage, detects unplanned/stale runs, and checks closed-batch target/conclusion/evidence bindings. Pending obligations reject completion (<a href="repo/internal/board/review_gate.go#L48">review_gate.go</a>, lines 48–170 and 244–288). Review plans can explicitly mark roles N/A, so this does not mean every card must run every reviewer. The Kander repository's own <code>AGENTS.md</code> disables Security for work on itself; that repository exception should not be mistaken for the released product's only possible review configuration.</p>
+<p>The engine still relies on agents to write truthful implementation/test records and judge the user-level result. The ordinary done target validator checks <code>RESULT: completed</code> and a non-placeholder summary for a small card or readable nonempty <code>report.md</code> for a large card. It does not itself require every acceptance checkbox to be checked (<a href="repo/internal/board/document.go#L246">document.go</a>, lines 246–269). The acceptance-freezing test reaches done after an explicit N/A review fixture while its original checklist remains unticked (<a href="repo/internal/board/acceptance_ticks_test.go#L99">acceptance_ticks_test.go</a>, lines 99–128). A closed review chain is therefore not independently observed product acceptance. Group rules add actual Git containment/delivery checks and integration ordering. They cannot replace Wingman's integrated functional acceptance role.</p>
+<p><code>done</code> retains a recent card. <code>dismiss</code> is restricted to done/archived, resolves the executor identity and terminal topology, sends its exit command and closes the verified container (<a href="repo/internal/takeover/dismiss.go#L28">dismiss.go</a>, lines 28–93 and 96–147). Card archiving is terminal, stores the outcome/decision, and can prune settled review/execution/dispatch control evidence. Pruning uses an archive-time durable intent and per-card receipts so an interrupted cleanup can resume without calling deliberately removed originals corruption (<a href="repo/internal/board/prune.go#L17">prune.go</a>, lines 17–68 and 84–105). Wingman would need an explicit retention policy before treating these records as permanent organizational memory. Board-free chat/orchestrator sessions are outside card liveness/dismiss coverage and require separate container cleanup.</p>
+<h2 id="assessment-coordination-mechanics-and-a-source-grounded-task-trace">Coordination mechanics and a source-grounded task trace</h2>
+<p>Kander has two communication layers: human/agent prose in cards and terminal messages, and machine-verifiable protocol records. Cards provide task contracts, discussion, implementation updates and references. Task groups/prerequisites describe dependencies. Subscriptions announce observations. Durable dispatches bind fix/sync/wrap-up work to a stable ID, execution epoch, message hash, base commit and optional evidence. A dispatch moves through prepared, delivery-unknown, accepted, completed, failed or cancelled; transport success never implies acceptance (<a href="repo/internal/board/dispatch.go#L15">dispatch.go</a>, lines 15–82 and 109–129).</p>
+<p>Acceptance is the receiving agent's ID/epoch-bound move into working. Completion is a bound move into review or done with a full delivery commit and, where applicable, disposition/integration evidence. The receipt and relocation are published in one transaction. An identical receipt is replayable, while a conflicting one is rejected (<a href="repo/internal/board/dispatch_receipt.go#L31">dispatch_receipt.go</a>, lines 31–118). A timeout does not license inventing a new logical request or resetting its original confirmation deadline.</p>
+<p>The coordinator checkpoint adds a separate fence over the consumer's progress cursor. It records members, revisions, execution cycle/transition positions, expected dispatch identity, pending confirmation/delivery/wrap-up and review references. Its authority token controls checkpoint writers only, not task execution, integration or cleanup (<a href="repo/internal/board/coordinator.go#L13">coordinator.go</a>, lines 13–121). A bad member can remain blocked at its last good mirror while other members advance. This is recoverable coordination state, not a transcript or a replacement for source-owned receipts and review originals.</p>
+<p>The following trace follows the implemented multi-card handoff path. It is a representative code trace, <strong>not a task run performed during this assessment</strong>:</p>
+<ol>
+<li>A user confirms a multi-card plan and chooses separate execution. The intake rule instructs the creating agent to create complete card contracts, preserve plan decisions and pass ordered references plus notes to <code>kander orchestrate</code> (<a href="repo/rules/KANDER-TASK-INTAKE-RULES.md#L33">intake rules</a>, lines 33–38). New card creation is a locked transaction. A prose plan alone creates no executor.</li>
+<li><code>StartOrchestrator</code> loads the named cards, expands groups, rejects duplicate/already-started references, validates backlog readiness, picks an execution adapter, writes the handover task file and launches one board-free coordination session (<a href="repo/internal/launch/orchestrate.go#L48">orchestrate.go</a>, lines 48–151 and 154–211). The Go command does not automatically execute the plan after returning.</li>
+<li>That LLM session reads the group rules, verifies outside prerequisites, claims a full-member coordinator checkpoint and starts ready cards. Each <code>Start</code> records pending ownership/session identity before starting its CLI, then confirms the actual result (<a href="repo/internal/launch/start.go#L80">start.go</a>, lines 80–187; <a href="repo/rules/snippets/orchestrate-start.md#L90">orchestrate-start</a>, lines 90–97). Separate ready cards become separate CLI sessions, while overlapping/dependent cards wait.</li>
+<li>A worker completes its branch/tests, records delivery and enters review. The orchestrator's subscriber wakes it. The orchestrator verifies the recorded SHA against the real task branch and receives it into the group branch before releasing a dependent task (<a href="repo/rules/snippets/orchestrate-start.md#L48">orchestrate-start</a>, lines 48–55 and 75–80). The review column alone is explicitly insufficient evidence of group reception.</li>
+<li>If group drift requires a rebase or a reviewer identifies a fix, the orchestrator prepares one logical sync/fix dispatch and notifies the original worker. Durable acceptance/completion receipts distinguish a delivered instruction from work actually begun and a branch actually re-delivered (<a href="repo/internal/board/dispatch.go#L34">dispatch.go</a>, lines 34–82; <a href="repo/internal/board/dispatch_receipt.go#L62">dispatch_receipt.go</a>, lines 62–118). A restarted consumer reconciles the current snapshot with those receipts rather than replaying presumed historical transitions.</li>
+<li>Review runs produce retained originals/report evidence. The plan/batch closure and Git checks establish what was reviewed/integrated. Wrap-up binds the final delivery and integration evidence to done. The completion gate rejects outstanding plans/batches/dispositions (<a href="repo/internal/board/review_gate.go#L244">review_gate.go</a>, lines 244–288). The orchestrator reports final states, integration results and unresolved blockers in its own session. There is no automatic Butler/Telegram handoff.</li>
+<li>A blocked worker is inspected on heartbeats using both runtime facts and pane/card evidence. The rules permit bounded in-contract answers and same-ID reconciliation, but route scope changes, takeovers and unresolved issues to the user while other cards continue (<a href="repo/rules/snippets/orchestrate-sessions.md#L15">orchestrator sessions</a>, lines 15–41). This is useful technical supervision, without persistent rooms or a management hierarchy.</li>
+</ol>
+<h2 id="assessment-major-additional-capabilities-beyond-wingmans-stated-product">Major additional capabilities beyond Wingman's stated product</h2>
+<p><strong>Recoverable local transaction and execution protocol.</strong> Wingman describes lightweight shared tickets and continuity but does not prescribe multi-file redo transactions, execution-cycle chains, receipt-based dispatch or checkpoint fencing. Kander supplies these concretely. The value is preventing conflicting writers, duplicate launches after uncertainty, stale-owner writes and false completion after coordinator restart. Integration would require all relevant Wingman writers to use the protocol; simply placing ordinary Markdown tickets beside managed files would bypass its guarantees. Same-host file locks and local paths make a distributed translation a separate design task.</p>
+<p><strong>Independent review runtime with retained evidence and completion gates.</strong> Kander supports configurable reviewer adapters/models, task-context snapshots, immutable run originals, role conclusions, author dispositions, plan/batch chains and Git-bound closure checks. The runner supplies process cleanup and worktree-unchanged checks as well as prompts (<a href="repo/internal/review/review.go#L59">review.go</a>, lines 59–164; <a href="repo/internal/review/execute.go#L89">execute.go</a>, lines 89–175). This is useful for auditability and incremental repair review, beyond a generic TestMaster assignment. It adds storage/operational complexity and needs explicit applicability and retention policies. It complements functional product tests rather than establishing them by itself.</p>
+<p><strong>GitHub issue intake and result reconciliation.</strong> Imports preserve a schema-versioned issue/comment snapshot under <code>source/</code>, canonical repository/source identity and a binding to one card; remote title/body data is separated from managed contract structure (<a href="repo/internal/issue/import.go#L19">import.go</a>, lines 19–103 and 129–195). Result proposals assess every card acceptance item as met/unmet/unknown, cite recorded verification commands and require completion-document evidence for full resolution. Publication records uncertainty before calling the provider and reconciles matching observed comments; issue closure requires a fresh target-bound user decision/reference and refuses blind retry or old consent reuse (<a href="repo/internal/issue/result_sync.go#L16">result_sync.go</a>, lines 16–100, 130–218 and 221–285). This is a valuable alternate engineering intake/output channel, but does not replace conversational multi-product discovery or actually execute the cited verification itself. Wingman would need to connect issue identity to its product registry and preserve the issue text's untrusted-data boundary.</p>
+<p><strong>Interchangeable execution programs and terminal backends.</strong> Instead of assuming Codex-only sessions, the embedded agent inventory supports multiple coding CLIs plus custom adapters, while terminal capabilities describe what liveness, identity, focus and recovery operations are possible. The dsh plugin supplies an optional board-plus-terminal web surface with output streaming, input ordering and resize handling. This gives Wingman a practical adapter pattern and local operator interface, at the cost of maintaining each CLI's session/permission/output contract and accepting weaker visibility on limited backends. dsh's carrier mechanism handles local host-process contention, not remote-machine routing.</p>
+<h2 id="assessment-distinctive-mechanisms-and-grounded-innovation">Distinctive mechanisms and grounded innovation</h2>
+<ol>
+<li><strong>Uncertainty is preserved as state.</strong> Launch has a third outcome, <code>started-unresolved</code>, and delivery has <code>delivery-unknown</code>. An API error is not treated as proof that the external action never occurred. This enables safe operator recovery without blindly duplicating work. The limit is deliberately conservative availability: unknown evidence may require human adoption/takeover or diagnosis rather than an automatic retry (<a href="repo/internal/launch/settle.go#L14">settle.go</a>, lines 14–83 and 120–154; <a href="repo/internal/board/dispatch.go#L15">dispatch.go</a>, lines 15–25).</li>
+<li><strong>Transport, business acceptance and delivery are separate facts.</strong> Stable dispatch intent, payload hash and epoch bind receipt-producing state changes. The same ID can be retried without creating a new deadline/authorization; completion records the exact delivery SHA. This directly addresses terminal message delivery's ambiguity. It relies on cooperating receivers using controlled commands; terminal output alone still proves no business completion (<a href="repo/internal/board/dispatch.go#L34">dispatch.go</a>, lines 34–82 and 120–129; <a href="repo/internal/board/dispatch_receipt.go#L31">dispatch_receipt.go</a>, lines 31–118).</li>
+<li><strong>Recovery consumes producer-owned evidence rather than promoting events into truth.</strong> Coordinator checkpoints retain explicit expected rounds and source references; subscription events carry revision/membership/observation validity. A changed column or a heartbeat cannot silently become a completed dispatch. Per-member blocking helps the rest of a group progress. This is a useful design for an LLM coordinator because it constrains recovery reasoning with machine checks, but it does not remove the LLM's scheduling/integration judgments (<a href="repo/internal/board/coordinator.go#L21">coordinator.go</a>, lines 21–121; <a href="repo/rules/snippets/orchestrate-start.md#L90">orchestrate-start</a>, lines 90–97).</li>
+<li><strong>Review closure is a durable obligation graph.</strong> Plans bind members/cycles and batches; closure verifies reviewed target, role conclusions, disposition state and unchanged evidence. A new execution cycle or stale report cannot simply borrow an old pass. This makes “done” more meaningful than a label, while retaining explicit N/A and user-decision paths. It remains a code/review evidence protocol rather than automatic proof of product quality (<a href="repo/internal/board/review_gate.go#L48">review_gate.go</a>, lines 48–170 and 244–288).</li>
+<li><strong>Bounded composite protocol exploration.</strong> The repository includes a state-model test that drives real board operations from seeded lifecycle/dispatch/review situations and searches for dead ends within explicit bounds/allow lists. Seeds include unresolved starts, stale runs, dropped review obligations, old takeovers and group recovery (<a href="repo/internal/board/model_test.go#L3">model_test.go</a>, lines 3–6, 19–24 and 40–118). This is valuable engineering evidence for protocol composition. It is bounded testing, not an exhaustive correctness proof or an assessment-time test run.</li>
+</ol>
+<p>These are distinctive mechanisms visible in this checkout. This assessment makes no historical priority or industry-wide uniqueness claim.</p>
+<h2 id="assessment-practical-adoption-path-and-remaining-gaps">Practical adoption path and remaining gaps</h2>
+<p>Use directly, within a local delivery boundary:</p>
+<ul>
+<li>The card contract and controlled update API.</li>
+<li>Real CLI execution adapters.</li>
+<li>Task/session/window association.</li>
+<li>Dependency/group vocabulary.</li>
+<li>Subscribe snapshots and observed liveness.</li>
+<li>Guarded message delivery.</li>
+<li>Uncertain-launch recovery.</li>
+<li>Review/evidence completion gates.</li>
+<li>Optional dsh board/terminal inspection. They could support Wingman's TechMaster-to-worker delivery loop on either individual machine.</li>
+</ul>
+<p>Adapt before making them organizational foundations:</p>
+<ul>
+<li>Give profiles and agent instances first-class identities separate from executable names and card ownership.</li>
+<li>Map project/team IDs into task/session records.</li>
+<li>Route human decisions through Butler while retaining exact decision/authorization references.</li>
+<li>Keep product specifications and acceptance scenarios above card-level contracts.</li>
+<li>Translate subscriptions/receipts into executive summaries with links.</li>
+<li>Make permissions, reviewer applicability and retention explicit. Persistent chat and orchestrator sessions need lifecycle tracking because Kander deliberately leaves them outside the card ledger.</li>
+</ul>
+<p><strong>Build rather than configure:</strong></p>
+<ul>
+<li>Telegram intake/routing.</li>
+<li>portfolio registry.</li>
+<li>ProductMaster/TechMaster standing leadership and discovery cycles.</li>
+<li>direct retained agent rooms.</li>
+<li>directory/relationship views.</li>
+<li>per-agent summary timelines.</li>
+<li>structured usage/artifact/workspace controls.</li>
+<li>autonomous portfolio supervision independent of an open orchestration session.</li>
+</ul>
+<p>A shared Mac/Endeavour system needs a networked coordination and execution-host layer. The current local board must not simply be mirrored with Git or symlinks: both its protocol and safety assumptions prohibit that approach. dsh's two-host carrier does not solve this gap.</p>
+<p>The main tradeoff is favorable if Wingman wants a rigorous local engine under a new organization layer. It is unfavorable if the aim is to obtain most of the organization by installing Kander: the majority of Wingman's human relationship, persistent team and knowledge-discovery behavior would still be new product work.</p>
+<h2 id="assessment-verification-scope-and-confidence">Verification scope and confidence</h2>
+<p>Inspected implementation paths:</p>
+<ul>
+<li>the purpose and full assessment guide.</li>
+<li>repository <code>AGENTS.md</code>.</li>
+<li>CLI entry/registry.</li>
+<li>agent schema and embedded Codex definition.</li>
+<li>task creation/templates/dependencies.</li>
+<li>board snapshots/transactions/execution/dispatch/coordinator/pruning.</li>
+<li>start/orchestrate/resume/session/uncertain-launch paths.</li>
+<li>notify and dismiss.</li>
+<li>subscription event schema.</li>
+<li>TUI agent observation.</li>
+<li>review entry/runtime/completion gates.</li>
+<li>issue import.</li>
+<li>dsh host/board routing plus its documented interface boundaries.</li>
+</ul>
+<p>Links above identify the implementation spans behind the conclusions.</p>
+<p>Relevant tests were inspected, not executed:</p>
+<ul>
+<li><a href="repo/internal/launch/launch_test.go#L200">launch_test.go</a>, lines 200–250: fake CLI/terminal boundary, task-size agent selection and persisted owner/session/window.</li>
+<li><a href="repo/internal/launch/orchestrate_test.go#L57">orchestrate_test.go</a>, lines 57–115: ordered task handoff, prompt/container launch and no board state writes by the launcher.</li>
+<li><a href="repo/internal/notify/dispatch_crash_test.go#L59">dispatch_crash_test.go</a>, lines 59–140: sender killed before/after send, preserved delivery uncertainty and same-ID reconciliation without changing the deadline/authorization.</li>
+<li><a href="repo/internal/board/coordinator_test.go#L33">coordinator_test.go</a>, lines 33–100: checkpoint observation construction, blocked-mirror assertions and concurrent claim/fencing setup.</li>
+<li><a href="repo/internal/board/review_gate_test.go#L64">review_gate_test.go</a>, lines 64–145: explicit N/A fixture closure versus a missing plan rejected at done. These structural fixtures explicitly do not prove real Git execution.</li>
+<li><a href="repo/internal/board/acceptance_ticks_test.go#L99">acceptance_ticks_test.go</a>, lines 99–128: done freezes checklist changes, but reaching done does not itself require checklist completion.</li>
+<li><a href="repo/internal/liveness/subscribe_dispatch_test.go#L86">subscribe_dispatch_test.go</a>, lines 86–115: fast accepted/completed wrap-up observable from a restarted initial snapshot without a historical working edge.</li>
+<li><a href="repo/internal/board/model_test.go#L19">model_test.go</a>, lines 19–118: explicit bounded state exploration and seeded lifecycle/review/dispatch combinations.</li>
+<li><a href="repo/integrations/kander-dsh/test/routes.test.mjs#L27">dsh routes tests</a>, lines 27–135: fake host/board setup, board/start routing, non-carrier refusal, ordered terminal input, resize and streamed replay setup.</li>
+</ul>
+<p>Absence findings are based on searches across <code>cmd</code>, <code>internal</code>, shipped <code>rules</code> and non-vendored dsh integration sources for Telegram/Butler/management roles/rooms, portfolio, timelines, cron and remote-host/SSH coordination. The review then inspected command registry, agent definitions, board location/snapshot, TUI chat, subscriptions, terminal backends and dsh carrier/view. The only relevant SSH matches were GitHub remote identity parsing. The only substantial periodic supervisor is the rule-driven orchestrator consuming subscriptions. The board's explicit local-only contract is stronger evidence for F17 than the absence of a README claim.</p>
+<p>No runtime claim is made about actual external CLI compatibility, model availability, terminal behavior, Windows isolation, dsh authentication, live GitHub operations or completion quality. Those boundaries depend on external programs/platforms and were not exercised. Confidence is high for the architectural fit/gaps and the existence of the local protocols; operational robustness remains a candidate for a separate authorized runtime evaluation.</p></article>
+<section id="source-record"><h2>Source and evidence</h2><p class="url-text">https://github.com/dualface/kander</p>
+<ul><li><a href="repo/">Open the pinned source checkout</a></li><li><a href="assessment/ASSESSMENT.md">Read the Markdown assessment</a></li>
+<li><a href="../generic/assessments/_audits/qa13.md">Read the historical independent source audit</a></li><li><a href="../generic/method.html">Read the method and evidence limits</a></li></ul></section>
+<nav class="report-switch" aria-label="Adjacent project reports"><a href="../intent/index.html">Previous project: Intent</a><a href="../maestro/index.html">Next project: Maestro</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../index.html">Return to overview <img src="../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

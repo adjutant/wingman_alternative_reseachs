@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Technical assessment against Wingman’s development organization."><title>gstack · Wingman Research</title>
+<link rel="icon" href="../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/report.css"><script defer src="../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../index.html"><img src="../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../index.html">Overview</a><a class="nav-link " href="../generic/index.html">Architecture findings</a><a class="nav-link " href="../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../generic/method.html">Method and evidence</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../index.html">Wingman Research</a><span class="crumb">/</span><span>gstack</span></div><span class="topbar-note">SOURCE REVIEW · 05 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>gstack</h1><p class="subtitle">Technical assessment against Wingman’s development organization.</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#decision">Decision summary</a><a href="#assessment-gstack-assessment-against-wingman">gstack assessment against Wingman</a><a href="#assessment-architecture-and-execution-model">Architecture and execution model</a><a href="#assessment-feature-matrix">Feature matrix</a><a href="#assessment-agent-definition-and-lifecycle-in-detail">Agent definition and lifecycle in detail</a><a href="#assessment-coordination-mechanics-and-a-concrete-request-trace">Coordination mechanics and a concrete request trace</a><a href="#assessment-major-capabilities-beyond-wingmans-described-product">Major capabilities beyond Wingman&#x27;s described product</a><a href="#assessment-distinctive-mechanisms-and-grounded-innovation-assessment">Distinctive mechanisms and grounded innovation assessment</a><a href="#assessment-practical-fit-and-remaining-work">Practical fit and remaining work</a><a href="#assessment-verification-scope-and-limits">Verification scope and limits</a><a href="#source-record">Source and evidence</a></div></nav><section id="decision" class="decision"><h2>Decision summary</h2>
+<div class="brief-columns"><div><h3>Useful for Wingman</h3><p>Study discovery procedures, executable specifications, review state machines, evidence receipts, and merge trains.</p></div><div><h3>Adoption boundary</h3><p>The host supplies much of the workforce and messaging. Wingman&#x27;s persistent organization remains a separate layer.</p></div></div>
+<p class="scope-note">Source assessment at the commit below. Runtime limits appear in the technical report.</p></section>
+<dl class="facts"><div><dt>Source group</dt><dd>Workflow layers</dd></div><div><dt>Commit</dt><dd><code>f8085aa0e499085c411f712d6d5c00a81d1b104a</code></dd></div><div><dt>Coverage</dt><dd>24 Wingman features</dd></div></dl>
+<article id="technical-assessment" class="technical"><h2 id="assessment-gstack-assessment-against-wingman">gstack assessment against Wingman</h2>
+<p class="url-text">Assessment date: <strong>2026-11-05</strong>. Repository: https://github.com/garrytan/gstack . Local checkout: <code>researchs/gstack/repo</code>. Inspected commit: <strong><code>f8085aa0e499085c411f712d6d5c00a81d1b104a</code></strong>. The checked-in package identifies version <code>1.94.39</code> (<a href="repo/package.json">package.json</a>, lines 1–9).</p>
+<p><strong>Verdict:</strong> gstack is a substantial engineering workflow and verification layer that Wingman could adopt selectively. It is not a self-contained replacement for Wingman's persistent, multi-product Codex organization. The distinction matters at this revision: gstack now includes a Captain/controller crew model, executable review dispatch, durable planning state machines, approval records and sophisticated merge trains. Calling it merely a collection of personas would miss real coordination machinery. Conversely, the workers, shared machines, messages, thread directory and scheduling in the Captain/Capy model are largely supplied by the external host, while gstack supplies instructions, artifacts and engineering gates. Its CEO and engineering-review skills do not instantiate standing ProductMaster and TechMaster agents.</p>
+<p>The strongest fit is product clarification → executable specification → reviewed implementation → evidence-bound delivery. The largest gaps are the organization service, portfolio intake, stable agent identities, Telegram routing, peer rooms, proactive cross-project supervision and connected web/mobile dashboards. Assess these separately from the browser daemon: that daemon is an automation tool server, not a workforce scheduler.</p>
+<p>This report follows <a href="../generic/purpose.html">Wingman's purpose</a> and the <a href="../generic/assessments/ASSESSMENT_GUIDE.md">assessment guide</a>. Evidence links are relative to this report; line numbers refer to the inspected checkout. “Implemented” below can mean executable local machinery or an explicit host-driven workflow. Those are distinguished. Nothing was installed, no services or model sessions were launched, and no runtime tests were executed for this assessment.</p>
+<h2 id="assessment-architecture-and-execution-model">Architecture and execution model</h2>
+<h3 id="assessment-the-host-executes-skills-gstack-provides-methodology-and-bounded-tools">The host executes skills; gstack provides methodology and bounded tools</h3>
+<p>The top-level <a href="repo/AGENTS.md">AGENTS.md</a>, lines 1–6, accurately describes the basic unit as a <code>SKILL.md</code> specialist workflow. A skill has metadata, triggers, tool declarations, preambles and procedural instructions. For example <a href="repo/captain/SKILL.md.tmpl">captain/SKILL.md.tmpl</a>, lines 1–43, declares a controller skill with Bash/file tools and AskUserQuestion, then explains a crew of host threads. Loading that file changes what the current host agent does. It does not create a new process or durable employee.</p>
+<p><code>setup</code> selects and installs host-specific renders, with Claude the default and Codex among the experimental hosts (<a href="repo/setup">setup</a>, lines 24–49, 80–104, 232–294). Consequently, Codex compatibility is a documented integration target, but not evidence that every Claude- or Capy-specific behavior is equally supported on Codex. Templates and section files are rendered by the generation pipeline. The package's actual command entry points include build, type checking, free-test shards and documentation generation (<a href="repo/package.json">package.json</a>, lines 11–33). The report treats the source templates and executable helpers as the behavioral source, rather than inferring capability from the skill catalog alone.</p>
+<p>The execution graph is approximately:</p>
+<pre aria-label="Code or source excerpt" role="region" tabindex="0"><code class="language-text">human in an agent host
+  → skill prompt / generated host instructions
+  → current host agent reads code, asks questions, writes plan/spec
+  → gstack CLIs create run manifests, attempts, receipts and approvals
+  → host subagents / local CLI reviewer / direct model API execute bounded work
+  → tests, GitHub CI, PR and merge-train helpers bind evidence to source trees
+  → host presents report and continues or stops
+
+optional host controller (Capy Captain)
+  → lane threads, branch/file ownership, shared-drive artifacts
+  → READY reports → gate/train/slot verification → merge → digest/report
+</code></pre>
+<p>Some arrows are enforced code paths; some are instructions for an LLM and external host. A host failing to relay a Captain message is not repaired by a gstack messaging server, because none is implemented here.</p>
+<h3 id="assessment-planning-and-review-are-real-state-machines">Planning and review are real state machines</h3>
+<p>The unattended planning runner stores phases, voices, attempts, amendments, spending, round limits and carry-forward state in a durable manifest. <a href="repo/lib/autoplan-state.ts">lib/autoplan-state.ts</a>, lines 15–83, makes these concepts explicit. The fixed artifact set includes <code>run.json</code>, <code>attempts.jsonl</code>, <code>run.lock</code>, <code>spend.json</code>, <code>plan-active.md</code> and <code>restore.md</code> (lines 96–113). JSON writes use a temporary file and rename. The attempts journal is appended separately. This is durable workflow state, not a database of autonomous employee conversations.</p>
+<p><a href="repo/lib/autoplan-run.ts">lib/autoplan-run.ts</a>, lines 210–284, performs these steps:</p>
+<ol>
+<li>Read the manifest and refuse stopped or gated work.</li>
+<li>Check deadlines and pending amendments.</li>
+<li>Open the next phase and calculate spending reservations.</li>
+<li>Prevent overspending and create attempt IDs.</li>
+<li>Journal dispatch intent and enter <code>awaiting_result</code>.</li>
+</ol>
+<p>An <code>ATTEMPT</code> record does not prove that a reviewer ran. The host or selected runner must execute it and attach a result. <a href="repo/autoplan/DRIVER.md">autoplan/DRIVER.md</a>, lines 22–38 and 61 onward, supplies the orchestration loop.</p>
+<p>The outside-voice abstraction distinguishes <code>codex-cli</code>, <code>api</code> and <code>host-subagent</code> rather than pretending all are equivalent. <a href="repo/lib/outside-voice-runner.ts">lib/outside-voice-runner.ts</a>, lines 25–60, records repository access and whether execution happens locally. The Codex runner resolves a model and sandbox, starts <code>codex exec</code> with JSON events and output files, enforces timeout, records usage and classifies unavailable/unverified/failed results (lines 112–160). An API voice sees supplied prompt bytes, not the repository (lines 164–169). Cross-family checking is explicit in lines 63–91. This is a strong boundary for honest multi-agent evidence.</p>
+<h3 id="assessment-captain-coordination-depends-on-host-primitives">Captain coordination depends on host primitives</h3>
+<p>The crew model has an owner, one controller and lanes. Lanes own named files and branches, stop at an unstamped READY, and never merge. The controller maintains rules, digest, notes and approvals, then drives merge trains (<a href="repo/docs/captain.md">docs/captain.md</a>, lines 17–67). The shared drive contains <code>AGENTS.md</code>, <code>CREW.md</code>, <code>DIGEST.md</code>, <code>NOTES.md</code>, reports, handoffs and approved plans. These are concrete, inspectable coordination artifacts. The mounted drive itself is a Capy prerequisite, not a storage service included in gstack.</p>
+<p>Unlike Wingman's Room2 peer collaboration, this design deliberately sends <strong>all</strong> ownership questions, cross-thread messages, new scope and handoffs through the controller (<a href="repo/docs/captain.md">docs/captain.md</a>, lines 122–126). It favors one place holding state and one committer per tree over decentralized specialist discussion. That is an architectural choice Wingman would have to change or limit to release management.</p>
+<p><a href="repo/lib/capy-review-pass.js">lib/capy-review-pass.js</a>, lines 1–17, 49–95, 176–223, and 260–280, implements host integration. It loads a persistent pass manifest and sends exact briefs. It calls Capy <code>tools.subagent.create/start/list/stop</code> on <code>machine: 'shared'</code>. It polls readers and collects results within bounded windows. Later calls resume from disk. External Capy supplies the threads, machines, and API behavior. This checkout cannot establish Capy's internal durability or multi-host scheduling guarantees.</p>
+<h3 id="assessment-persistence-is-split-by-purpose">Persistence is split by purpose</h3>
+<p><a href="repo/lib/state-root.ts">lib/state-root.ts</a>, lines 1–28, centrally resolves <code>GSTACK_STATE_ROOT → GSTACK_HOME → GSTACK_STATE_DIR → gstack plugin data → ~/.gstack</code>. Under that root, project slugs scope decisions, task lists, learnings, checkpoints and timeline events. This is useful per-repository continuity, not a portfolio registry with project lifecycle, leadership and assignments.</p>
+<p>Merge-train records have a distinct distributed durability mechanism: local JSON records are mirrored as Git notes under <code>refs/notes/gstack-trains</code>, before dependent remote effects. Records represent trains, READY receipts, attempts, freezes and waves, and can be reconstructed on a replacement machine (<a href="repo/lib/ship-queue-train-record.ts">lib/ship-queue-train-record.ts</a>, lines 1–25, 37–99). This shares release state across machines through Git. It does not share all agents' conversations or establish host placement for product development.</p>
+<h3 id="assessment-the-browser-is-a-separate-tool-plane">The browser is a separate tool plane</h3>
+<p>The browser path first tries Aside, then falls back to gstack's persistent Chromium daemon. The CLI's actual command path posts to localhost <code>/command</code> (<a href="repo/browse/src/cli.ts">browse/src/cli.ts</a>, lines 1109–1110). The server has an explicit idle-shutdown loop (<a href="repo/browse/src/server.ts">browse/src/server.ts</a>, lines 702–717). The architectural explanation and state-file/health model are in <a href="repo/ARCHITECTURE.md">ARCHITECTURE.md</a>, lines 5–58 and 74–102. Browser persistence means tabs/cookies survive successive browser commands. It does not mean coding agents persist as organization members.</p>
+<p>The fallback browser also has a real Claude terminal companion. <a href="repo/browse/src/terminal-agent.ts">browse/src/terminal-agent.ts</a>, lines 1–36 and 57–148, describes and implements session records, live WebSocket attachment, PTY state, scrollback and a bounded detach window. This is material for F20/F21, but is a local browser-side terminal rather than a directory of all workers' detailed sessions.</p>
+<h2 id="assessment-feature-matrix">Feature matrix</h2>
+<p>No “Exact” verdict is needed to acknowledge substantial value: the Wingman features combine specific organizational, persistence and presentation requirements which gstack generally addresses only in a host-specific or repository-scoped form.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Capability</th>
+<th scope="col">Verdict</th>
+<th scope="col">Implementation evidence and concrete difference from Wingman</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F01</td>
+<td>Real independent coding agents and specialist instances</td>
+<td><strong>Similar</strong></td>
+<td>Real local <code>claude -p</code> implementation sessions can be spawned from a spec, and Capy review workers are created through host tools: <a href="repo/spec/sections/gate-and-file.md">spec/sections/gate-and-file.md</a>, lines 399–461; <a href="repo/lib/capy-review-pass.js">lib/capy-review-pass.js</a>, lines 176–223, 278. Most named skills are procedures for the current agent. No standing BackendCoder/FrontendCoder identities or employee-instance registry.</td>
+</tr>
+<tr>
+<td>F02</td>
+<td>Extensible profiles, roles and team composition</td>
+<td><strong>Similar</strong></td>
+<td>Skills and specialist checklists are extensible; review planning has named specialist classes in <a href="repo/lib/review-depth.ts">lib/review-depth.ts</a>, lines 25–37. Crew parameters and arbitrary lane briefs allow varying team size: <a href="repo/captain/SKILL.md.tmpl">captain/SKILL.md.tmpl</a>, lines 35–43, 62–94. This configures methodology and host workers, not durable profile types joined to organization-wide agents.</td>
+</tr>
+<tr>
+<td>F03</td>
+<td>Agent directory and visible relationships</td>
+<td><strong>Resembles</strong></td>
+<td>The digest lists thread, ownership, state and last report; owner/controller/lane relationships are documented: <a href="repo/captain/templates/DIGEST.md">captain/templates/DIGEST.md</a>, lines 24–33; <a href="repo/docs/captain.md">docs/captain.md</a>, lines 29–48. No native searchable agent directory or identity/relationship graph was found in the implementation/UI paths.</td>
+</tr>
+<tr>
+<td>F04</td>
+<td>Telegram and Butler routing</td>
+<td><strong>Resembles</strong></td>
+<td>The OpenClaw integration explicitly instructs repository resolution, <code>sessions_spawn(runtime: 'acp')</code>, report-back and retaining the user in Telegram: <a href="repo/openclaw/agents-gstack-section.md">openclaw/agents-gstack-section.md</a>, lines 5–42. <a href="repo/docs/OPENCLAW.md">docs/OPENCLAW.md</a>, lines 3–8, states this is a prompt bridge. No Telegram bot transport or Butler service is implemented by gstack.</td>
+</tr>
+<tr>
+<td>F05</td>
+<td>Cross-project registry, intake and project routing</td>
+<td><strong>Resembles</strong></td>
+<td>Repository slugs scope artifacts; OpenClaw instructions resolve a named repo and ask when its path is unknown (<a href="repo/openclaw/agents-gstack-section.md">openclaw/agents-gstack-section.md</a>, lines 10–12). This lacks a portfolio registry, existing/new-product classification, new-project creation and leadership allocation. State-root and project buckets are storage addressing, not project intake.</td>
+</tr>
+<tr>
+<td>F06</td>
+<td>Per-project product and technical leadership</td>
+<td><strong>Resembles</strong></td>
+<td>CEO/eng phases and Captain/lane responsibilities provide product and technical perspectives: <a href="repo/lib/autoplan-state.ts">autoplan-state.ts</a>, lines 45–83; <a href="repo/docs/captain.md">docs/captain.md</a>, lines 29–48, 134–164. CEO/eng are review phases, not independently available persistent leaders for each product. Captain concentrates coordination in one controller.</td>
+</tr>
+<tr>
+<td>F07</td>
+<td>Proportionate discovery and iterative clarification</td>
+<td><strong>Similar</strong></td>
+<td><code>/spec</code> forces why, scope, code-grounded questioning and draft review: <a href="repo/spec/SKILL.md.tmpl">spec/SKILL.md.tmpl</a>, lines 81–180. Office-hours considers user goals and planning distinguishes fixes, lean features and full runs (<a href="repo/office-hours/SKILL.md.tmpl">office-hours/SKILL.md.tmpl</a>, lines 99–110; <a href="repo/captain/SKILL.md.tmpl">captain/SKILL.md.tmpl</a>, lines 299–308). Strong methodology, but questions occur through the host/controller rather than project-correlated Butler conversations.</td>
+</tr>
+<tr>
+<td>F08</td>
+<td>Scope, specs, acceptance scenarios and done criteria</td>
+<td><strong>Similar</strong></td>
+<td>Spec templates include scope, execution sequencing, dependency graph and measurable definition of done (<a href="repo/spec/SKILL.md.tmpl">spec/SKILL.md.tmpl</a>, lines 135–176, 260–417). Filing/archive flow connects the issue and local spec. The unit is usually one issue/feature. There is no enforced product-wide <code>DIRECTIVES/SCOPES/SPECS/HARNESS</code> record model.</td>
+</tr>
+<tr>
+<td>F09</td>
+<td>Decomposition, assignment and shared task tracking</td>
+<td><strong>Similar</strong></td>
+<td>Spec execution plans and crew briefs allocate work; <code>gstack-tasks</code> persists review tasks and reconciles carried/done/dropped items (<a href="repo/bin/gstack-tasks">bin/gstack-tasks</a>, lines 21–38, 68–99). Crew digest records lane ownership. These are real tracking primitives, but no unified ProjectTracker with arbitrary worker assignments, ticket state and shared comments across products.</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>Portfolio/project management dashboard</td>
+<td><strong>Resembles</strong></td>
+<td><code>/landing-report</code> renders a read-only workspace version/ship queue (<a href="repo/landing-report/SKILL.md.tmpl">landing-report/SKILL.md.tmpl</a>, lines 6–8, 81–121); digest is Markdown. Neither is a portfolio application presenting projects, specifications, tasks and responsible agents. No such native dashboard routes/components were found.</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>Agent chat app, rooms and direct collaboration</td>
+<td><strong>Resembles</strong></td>
+<td>Capy host messages and shared reports support controller-mediated communication. The crew explicitly forbids peer-to-peer routing (<a href="repo/docs/captain.md">docs/captain.md</a>, lines 122–126). No gstack chat application, Room1/Room2 persistence or direct specialist room conversation implementation. External host chat remains external.</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>Escalation and human decisions/approvals</td>
+<td><strong>Similar</strong></td>
+<td>Plan gates, owner briefs, approval records and relayed owner words are substantive: <a href="repo/captain/SKILL.md.tmpl">captain/SKILL.md.tmpl</a>, lines 266–319; <a href="repo/test/capy-captain-flow.test.ts">test/capy-captain-flow.test.ts</a>, lines 54–85. Gate revision/recommendation hashes bind the reply. This replaces a multi-level room escalation chain with owner → controller → lane.</td>
+</tr>
+<tr>
+<td>F13</td>
+<td>Durable project knowledge and directives</td>
+<td><strong>Similar</strong></td>
+<td>Plans/spec archives, decisions, learnings, checkpoints and repo-scoped retrieval persist knowledge. <a href="repo/context-save/SKILL.md.tmpl">context-save/SKILL.md.tmpl</a>, lines 149–228; <a href="repo/bin/gstack-brain-context-load.ts">bin/gstack-brain-context-load.ts</a>, lines 3–24. Wingman's directive hierarchy and product knowledge ownership need mapping; optional gbrain sync adds an external dependency.</td>
+</tr>
+<tr>
+<td>F14</td>
+<td>Persistent identity, conversation and work continuity</td>
+<td><strong>Similar</strong></td>
+<td>Planning attempts and train state have durable IDs; checkpoints preserve decisions, remaining work, repo/worktree/HEAD; <code>/spec</code> prints native <code>claude --resume</code> guidance (<a href="repo/lib/autoplan-state.ts">autoplan-state.ts</a>, lines 15–83; <a href="repo/context-save/SKILL.md.tmpl">context-save/SKILL.md.tmpl</a>, lines 149–228; <a href="repo/spec/sections/gate-and-file.md">spec/sections/gate-and-file.md</a>, lines 458–464). Continuous agent identity and full conversation retention rely on the host.</td>
+</tr>
+<tr>
+<td>F15</td>
+<td>Proactive supervision and periodic wake</td>
+<td><strong>Resembles</strong></td>
+<td>Captain digest identifies stale lanes/READYs and prescribes follow-up; daily flaky-pass automation has a supplied prompt (<a href="repo/captain/templates/DIGEST.md">captain/templates/DIGEST.md</a>, lines 32–33; <a href="repo/captain/SKILL.md.tmpl">captain/SKILL.md.tmpl</a>, lines 250–264, 321–343). No native ongoing ProjectMaster scheduler, autonomous wake registry or organization blocker supervisor; scheduled thread creation belongs to the host.</td>
+</tr>
+<tr>
+<td>F16</td>
+<td>Parallel products and concurrent specialists</td>
+<td><strong>Similar</strong></td>
+<td>Independent worktrees, lanes, reviewer processes and Capy subagents genuinely allow concurrency (<a href="repo/spec/sections/gate-and-file.md">spec/sections/gate-and-file.md</a>, lines 405–458; <a href="repo/lib/capy-review-pass.js">lib/capy-review-pass.js</a>, lines 176–278). Project-scoped state avoids some cross-repo mixing. Multiple products remain separate host/repository workstreams, without a portfolio coordinator allocating teams.</td>
+</tr>
+<tr>
+<td>F17</td>
+<td>Multi-host execution with shared coordination</td>
+<td><strong>Resembles</strong></td>
+<td>Real remote compute is implemented: Ubicloud provisions VMs, waits for SSH, synchronizes repository/worktree state, runs checks remotely and returns artifacts (<a href="repo/scripts/ubicloud/ubi-runner.sh">scripts/ubicloud/ubi-runner.sh</a>, lines 971–1023, 1116–1201). Other real remote surfaces include browser tunnel pairing, iPhone tailnet, remote CI and Git-note train recovery (<a href="repo/browse/src/routes/pairing.ts">browse/src/routes/pairing.ts</a>, lines 13–45; <a href="repo/ios-qa/daemon/src/index.ts">ios-qa/daemon/src/index.ts</a>, lines 1–13; <a href="repo/lib/ship-queue-train-record.ts">ship-queue-train-record.ts</a>, lines 1–9). Capy also supplies external-host workers. These are substantive distributed job/tool primitives, but no native Mac/Endeavour standing Codex placement, host registry or shared full-organization protocol.</td>
+</tr>
+<tr>
+<td>F18</td>
+<td>Executive current/recent/next/blocker overview</td>
+<td><strong>Similar</strong></td>
+<td>Captain digest has Needs you, New and In progress with thread, ownership, age and blocker states. It is rewritten every controller turn (<a href="repo/captain/templates/DIGEST.md">captain/templates/DIGEST.md</a>, lines 1–33). This is a meaningful executive briefing primitive, not merely an event log. It is crew-level Markdown, lacks standardized per-agent next-work fields and connected web/mobile executive views.</td>
+</tr>
+<tr>
+<td>F19</td>
+<td>Individual summary timeline with underlying links</td>
+<td><strong>Resembles</strong></td>
+<td>Timeline log records skill started/completed, branch, outcome, duration and session (<a href="repo/bin/gstack-timeline-log">bin/gstack-timeline-log</a>, lines 2–10); read helper filters project/branch. It is a project session/event history, not a per-employee narrative feed linked to tasks/chats/artifacts. Stop-hook completions may say <code>unknown</code> and cannot reliably attribute the current native session (<a href="repo/hosts/claude/hooks/timeline-stop-hook.ts">hosts/claude/hooks/timeline-stop-hook.ts</a>, lines 3–48).</td>
+</tr>
+<tr>
+<td>F20</td>
+<td>Detailed individual coding workspace</td>
+<td><strong>Similar</strong></td>
+<td>Browser sidebar has a PTY-backed Claude session, streamed output, session IDs and replay (<a href="repo/browse/src/terminal-agent.ts">browse/src/terminal-agent.ts</a>, lines 1–36, 86–148). Native host sessions provide fuller coding tools. No integrated navigation from an organization agent directory to every worker's files, tools, tests and artifacts.</td>
+</tr>
+<tr>
+<td>F21</td>
+<td>Live activity, lifecycle controls, steering and visibility</td>
+<td><strong>Similar</strong></td>
+<td>Native terminal input/attach/restart and Capy subagent start/list/stop provide real controls; runner timeout/cancel and durable planning status are implemented (<a href="repo/browse/src/terminal-agent.ts">terminal-agent.ts</a>, lines 57–148; <a href="repo/lib/capy-review-pass.js">capy-review-pass.js</a>, lines 176–223; <a href="repo/lib/outside-voice-runner.ts">outside-voice-runner.ts</a>, lines 124–160). No single workforce UI for fork/rename/compact/archive/queued attachments, budgets and execution host routing.</td>
+</tr>
+<tr>
+<td>F22</td>
+<td>Testing, integrated verification and acceptance/delivery</td>
+<td><strong>Similar</strong></td>
+<td>Strongest execution fit: QA/verify/ship workflows, staged specialist review, receipts, CI and train-prefix verification. <a href="repo/bin/gstack-review-dispatch">bin/gstack-review-dispatch</a>, lines 43–91; <a href="repo/lib/ship-queue-train-verify.ts">lib/ship-queue-train-verify.ts</a>, lines 1–15, 118–167; <a href="repo/spec/SKILL.md.tmpl">spec/SKILL.md.tmpl</a>, lines 479–487. Shipping evidence is stronger than a simple green checklist, but product acceptance by a standing ProductMaster/TestMaster organization is not implemented.</td>
+</tr>
+<tr>
+<td>F23</td>
+<td>Autonomous organization under human direction</td>
+<td><strong>Resembles</strong></td>
+<td>Unattended planning and crew lane discipline support sustained bounded work, with recorded human gates (<a href="repo/lib/autoplan-run.ts">autoplan-run.ts</a>, lines 210–284; <a href="repo/docs/captain.md">docs/captain.md</a>, lines 128–164). The host must initiate/continue workers, supply messaging and scheduling, and the controller remains one host agent. No self-contained continuing organization from Telegram intake to multi-product delivery.</td>
+</tr>
+<tr>
+<td>F24</td>
+<td>Chat/tracker/dashboards grow with new profiles</td>
+<td><strong>Resembles</strong></td>
+<td>Generic lane names, arbitrary skill/checklist additions and parameterized crew templates accept new worker kinds. Digest rows are flexible text (<a href="repo/captain/SKILL.md.tmpl">captain/SKILL.md.tmpl</a>, lines 62–94; <a href="repo/captain/templates/DIGEST.md">captain/templates/DIGEST.md</a>, lines 24–28). There are no native chat/tracker/dashboard schemas to extend consistently when adding an organizational profile.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="assessment-agent-definition-and-lifecycle-in-detail">Agent definition and lifecycle in detail</h2>
+<h3 id="assessment-what-is-actually-an-agent">What is actually an agent?</h3>
+<p>Four distinct entities must not be conflated. A <strong>skill</strong> is a prompt/procedure loaded into an existing host session. A <strong>planning run</strong> is an on-disk state machine coordinating review phases and artifacts. A <strong>reviewer</strong> is a bounded host subagent, local Codex CLI subprocess, or remote model call. A <strong>crew lane</strong> is an external-host thread with branch/file ownership and an explicit completion contract. The browser terminal's Claude PTY is another real local coding session, but not a standing project role.</p>
+<p>The model preference helper reinforces this distinction: it selects a preferred model for lanes, subagents and reviewers, with request/config/preferences/host precedence, and exempts cross-family outside voices and evaluation arms (<a href="repo/lib/agent-model.ts">lib/agent-model.ts</a>, lines 5–53, 75–86). A model choice is not an agent identity or team membership declaration.</p>
+<h3 id="assessment-definition-creation-and-identity">Definition, creation and identity</h3>
+<p>Skill definitions carry metadata and allowed tools; specialist review checklists define what to inspect. Captain configuration supplies repository, base, required checks, train policy, spend and controller identity; lane briefs supply ownership and scope. There is no persisted “create BackendCoder instance” API. The controller creates a host thread/subagent, then gives it those instructions.</p>
+<p>The <code>/spec</code> procedure files and archives an issue, checks dirty-worktree handling, and pins a commit. It creates a unique branch/worktree suffix and the worktree. It then starts <code>GSTACK_SESSION_KIND=spawned claude -p</code>. stdin receives the archived specification and autoplan contract. See <a href="repo/spec/sections/gate-and-file.md">spec/sections/gate-and-file.md</a>, lines 365–461.</p>
+<p>Skill instructions initiate this background process. They do not register an enduring organizational worker. PID, branch/path, and issue/specification IDs identify the work. Native Claude identifies the conversation. If worktree creation fails, documented fallback can use the current directory (lines 430–434). Isolation is therefore conditional.</p>
+<p>Capy reviewers instead get manifest reader identifiers, prompts, host paths and recorded state transitions. The program records intent before host creation and records the returned path afterward; pending/rejected work is started as capacity becomes available (<a href="repo/lib/capy-review-pass.js">lib/capy-review-pass.js</a>, lines 176–200, 260–280; <a href="repo/bin/gstack-review-dispatch">bin/gstack-review-dispatch</a>, lines 67–91). Their host identity belongs to a task, not a persistent organization directory.</p>
+<h3 id="assessment-execution-tools-and-permissions">Execution, tools and permissions</h3>
+<p>Host skills use the tools exposed by their harness. A YAML <code>allowed-tools</code> declaration is a host instruction/configuration surface. It is not gstack's own universal process sandbox. The local outside Codex reviewer does have a selected sandbox and read-only repository-review capability in the runner contract. API review explicitly has no filesystem access. Host-subagent access is marked <code>host</code>, avoiding a false promise of a common security boundary (<a href="repo/lib/outside-voice-runner.ts">lib/outside-voice-runner.ts</a>, lines 29–35, 112–148).</p>
+<p>Browser pairing has a separate capability system. Setup-key exchange issues an expiring client token; root-only <code>/pair</code> resolves scopes, control access, rate limits and own-tab policy, and narrowing a grant revokes old access before issuing replacement keys (<a href="repo/browse/src/routes/pairing.ts">browse/src/routes/pairing.ts</a>, lines 29–45, 52–116). That governs browser operations, not arbitrary coding-agent shell permissions. The terminal companion is loopback-only with WebSocket origin validation and internal-grant cookies (<a href="repo/browse/src/terminal-agent.ts">terminal-agent.ts</a>, lines 6–15).</p>
+<h3 id="assessment-routing-and-concurrency">Routing and concurrency</h3>
+<p>There are several routes: user → current skill; OpenClaw → ACP spawned Claude; Captain → lane; planning phase → native/outside reviewer; CLI → browser daemon. OpenClaw's five dispatch tiers choose simple, medium, heavy, full or plan-only methodology (<a href="repo/openclaw/agents-gstack-section.md">openclaw/agents-gstack-section.md</a>, lines 19–51). This can be reused as intake policy, but it does not look up a project registry or attach a persistent ProductMaster.</p>
+<p>Concurrency exists at the process, worktree and host-subagent levels. Same-run mutation is serialized by a lock which refuses live owners and reclaims dead-owner locks (<a href="repo/lib/autoplan-run.ts">lib/autoplan-run.ts</a>, lines 40–76). Review manifests distinguish readers/stages so red-team review receives earlier specialists' findings. File ownership is a Captain policy rather than a distributed lock over product files; integration is serialized by READY pins and train slots. Wingman would still need to decide how concurrent agents share source, how tickets lease ownership and how conflicting decisions are reconciled outside the release queue.</p>
+<h3 id="assessment-persistence-and-resumption">Persistence and resumption</h3>
+<p>Planning IDs survive process death through manifests and journals. <code>next</code> redisplays open attempts instead of minting duplicates; completed voices are not resurrected. Resume replays terminal journal outcomes, rebinds completed results only when hashes match, and marks unaccounted dispatches <code>execution_unknown</code> (<a href="repo/lib/autoplan-run.ts">lib/autoplan-run.ts</a>, lines 247–279, 487–545). It does not blindly repeat possibly paid calls. Explicit redispatch supersedes the unknown attempt and preserves unknown spend before a new reservation (lines 261–275).</p>
+<p>Checkpoints capture semantic work state: what was done, decisions and remaining work, with branch, origin, worktree and HEAD metadata (<a href="repo/context-save/SKILL.md.tmpl">context-save/SKILL.md.tmpl</a>, lines 76–119, 149–228). Restore prefers current-branch checkpoints, retains cross-branch fallback, and distinguishes foreign/unverified project buckets (<a href="repo/context-restore/SKILL.md.tmpl">context-restore/SKILL.md.tmpl</a>, lines 36–48, 93–166). This is a prompt-driven context handoff, not serialized restoration of every live tool/process or native conversation. <code>claude --resume</code> remains the native conversation route for the spawned implementation path.</p>
+<p>The terminal has stable non-secret session IDs, one-time attach grants, in-memory PTY records and bounded replay. A detached session survives only the configured window, default 60 seconds; scrollback is capped (<a href="repo/browse/src/terminal-agent.ts">terminal-agent.ts</a>, lines 57–81, 121–148). This should not be confused with indefinite background workforce continuity. Process identity and cleanup use structured PID/generation/start-time records rather than regex-based killing (<a href="repo/browse/src/terminal-agent-control.ts">terminal-agent-control.ts</a>, lines 1–15, 121–164).</p>
+<h3 id="assessment-scheduling-interruption-and-cancellation">Scheduling, interruption and cancellation</h3>
+<p>Captain says to update the digest every turn, act on stalls and schedule a daily flaky-fix lane. Its supplied automation is a prompt for the host to schedule, not a gstack clock or durable wake queue (<a href="repo/captain/SKILL.md.tmpl">captain/SKILL.md.tmpl</a>, lines 250–264, 321–343). Browser idle checks and terminal watchdogs supervise tool processes. They do not wake product management agents to inspect work.</p>
+<p>The outside CLI runner's <code>cancel()</code> sends SIGTERM; timeouts send SIGTERM then schedule SIGKILL and return distinct cancelled/timeout statuses (<a href="repo/lib/outside-voice-runner.ts">lib/outside-voice-runner.ts</a>, lines 124–160). Capy pass code stops a stuck outside reviewer, records unavailable coverage rather than a clean review, and stops on other failed/ambiguous reader states (<a href="repo/lib/capy-review-pass.js">lib/capy-review-pass.js</a>, lines 5–17, 129–137, 200–223). There is no single gstack cancellation API that retires an entire project team, cancels every host process and updates an organizational agent directory.</p>
+<h3 id="assessment-failure-retry-and-recovery">Failure, retry and recovery</h3>
+<p>The recovery machinery is unusually explicit for a workflow layer. Planning journals dispatch before the final manifest write, reserves potential spend and refuses unknown executions. Plan edits can require amendments/reviews instead of silently reusing old approval. A spend-cap stop remains incomplete, not success. Native versus outside model-family checks prevent two voices from being credited as independent families when they are not.</p>
+<p>Release failure is handled separately. A train stores pinned PR heads, prefix trees, gate attempts and landed slots. Verification checks both the current head and the expected base/prefix. A partial publication mismatch writes a freeze locally and to Git notes before dispatching a backstop (<a href="repo/lib/ship-queue-train-verify.ts">lib/ship-queue-train-verify.ts</a>, lines 1–15, 143–167). A new machine can reconstruct freeze state. This is durable recovery for a release protocol, not automatic repair of arbitrary worker blockers.</p>
+<h3 id="assessment-completion-acceptance-and-cleanup">Completion, acceptance and cleanup</h3>
+<p>Different entities have different terminal states. A review voice completes when its output is classified and bound. A planning run can be reviewed, gate-pending, incomplete, refused or complete. An approved plan is permission to build, not proof of product completion. A lane completes its task at READY plus its report; merge/delivery is owned by the controller. A train completes only after verified slot merges. <code>/spec</code> instructs <code>/ship</code> to close the source issue only if the PR delivers the full archived spec and acceptance criteria, not simply because the branch name resembles an issue (<a href="repo/spec/SKILL.md.tmpl">spec/SKILL.md.tmpl</a>, lines 479–487).</p>
+<p>Cleanup follows those boundaries. Train terminal states allow branch pruning (<a href="repo/lib/ship-queue-train-record.ts">ship-queue-train-record.ts</a>, lines 21–25). Captain archives only its own crew threads according to their plan, while owner threads remain owner-controlled (<a href="repo/docs/captain.md">docs/captain.md</a>, lines 34–42). Capy instructions stop a finished <code>/ship</code> child after the parent subscribes to its PR and takes ownership (<a href="repo/capy/skill/gstack/SKILL.md">capy/skill/gstack/SKILL.md</a>, line 58). The <code>/spec</code> path preserves user stashes rather than automatically dropping them (gate-and-file, lines 464–471). No universal agent retirement/tombstone lifecycle exists beyond host threads, process cleanup and workflow records.</p>
+<h2 id="assessment-coordination-mechanics-and-a-concrete-request-trace">Coordination mechanics and a concrete request trace</h2>
+<p>The native coordination medium is files and typed artifacts, complemented by GitHub issues/PRs/checks and host messages. Task rows are findings from plan review, with IDs, priority, component, title, source finding, estimated effort and files. Carry-forward dispositions track done/dropped work and reasons, and supersede reconciled earlier lists (<a href="repo/bin/gstack-tasks">bin/gstack-tasks</a>, lines 21–38, 79–99). They are not a general issue-dependency scheduler; dependencies and sequencing can be written in a spec, while a host controller decides assignment/order.</p>
+<p>A concrete checked-in request is the webhook retry-backoff scenario in <a href="repo/test/capy-captain-flow.test.ts">test/capy-captain-flow.test.ts</a>, lines 20–47. It proposes 500 ms to 30 s exponential backoff, jitter and persisted attempt count, triggered by “webhooks vanish under load.” The fixture traces actual CLIs on a simulated Capy host. It is stronger than a README example, but was inspected rather than executed here:</p>
+<ol>
+<li>The controller/lane writes a plan containing ELI5, before/after, why, trigger, decisions and implementation plan. Test lines 54–60 call the autoplan runner and supply native/outside phase results. The runner creates state, snapshots and attempts; CEO/eng phases close only after results are bound.</li>
+<li>The run reaches <code>gate_pending</code> and emits a <code>RELAY</code> command rather than treating reviewers' recommendations as owner permission (test lines 61–63). The run's artifact IDs and gate revision correlate the request and decision.</li>
+<li><code>gstack-owner-brief render --captain --json</code> renders the human-facing brief, checks required sections and exposes <code>gate_rev</code> and <code>rec_hash</code> (test lines 65–70). The behavior is implemented in <a href="repo/lib/captain-brief.ts">lib/captain-brief.ts</a>, alongside the gate/owner-brief helpers. The controller must send this via its host's communication tool; gstack does not deliver a Telegram message.</li>
+<li>The relayed answer calls <code>answer --gate-rev … --reply … --rec-hash … --by agent:GSTA-1 --owner-reply …</code>. The test checks <code>APPROVED</code> (lines 72–75). Owner words are attached to a specific recommendation snapshot, reducing stale-approval ambiguity.</li>
+<li><code>gstack-approvals import --autoplan …</code> records the owner decision and mirrors it into the shared approvals directory. A second identical import is skipped (lines 77–85). This is persisted decision evidence, not a conversation-room event.</li>
+<li>The lane implements in its owned branch, runs <code>/ship</code>, and requests READY. <a href="repo/lib/ship-queue-train-ready.ts">lib/ship-queue-train-ready.ts</a>, lines 1–19, 98–104, and 145–167, selects a screen explicitly. It binds that selection to a receipt. A prior red screen cannot count as a new opportunity at the same merge SHA. The READY contract also requires a pinned head, required CI, pregate, and ship receipt. See <a href="repo/captain/SKILL.md.tmpl">captain/SKILL.md.tmpl</a>, lines 96–129.</li>
+<li>The controller builds a train from frozen pins; integration is tested on prefix trees. A slot is stamped on call, verified before merge and verified again afterward. <a href="repo/test/ship-queue-train-verify.test.ts">test/ship-queue-train-verify.test.ts</a>, lines 21–85, traces two slots, an out-of-order refusal, a stray-file mismatch, durable freeze, fresh-state reconstruction and repair. This connects branch work to delivered source evidence without claiming that the webhook feature itself was built by that test.</li>
+<li>The controller updates Needs you/New/In progress and appends notes. The lane writes Outcome/PR/Needs/Cost/Lesson/Approvals. Host subscriptions and scheduled wakes continue the conversation externally. No Room2 broadcast or product registry transaction occurs in this path.</li>
+</ol>
+<p>The key dependency is source identity: plans, reviewer inputs, PR heads, CI and trees must refer to the same work. This is more carefully enforced than task ownership or human-message delivery. A Wingman integration should retain these typed receipts while supplying reliable organization events, ticket transactions and host routing around them.</p>
+<h2 id="assessment-major-capabilities-beyond-wingmans-described-product">Major capabilities beyond Wingman's described product</h2>
+<h3 id="assessment-evidence-preserving-specialist-review-and-model-diversity">Evidence-preserving specialist review and model diversity</h3>
+<p>The review dispatcher renders exact specialist prompts, verifies what was sent, collects raw labeled findings, and rejects judgment that drops or downgrades findings. It distinguishes refusal/empty output from “no findings” and checks the reviewed checkout/tree (<a href="repo/bin/gstack-review-dispatch">bin/gstack-review-dispatch</a>, lines 43–66; <a href="repo/lib/review-ledger.ts">lib/review-ledger.ts</a>, lines 1–41 and 256 onward). Staged manifests coordinate specialist → red-team → adversarial voices. Wingman describes functional testing but does not specify this evidence chain or cross-model adversarial process.</p>
+<p>Value: prevent a coordinating agent from compressing away inconvenient review findings or claiming an unavailable reviewer was clean. Integration consequence: preserve prompt/output bytes, model family, tree identity and review dispositions as first-class tracker artifacts. Enforced severity preservation can also retain false-positive noise. A separate explicit resolution policy is needed, rather than silently lowering labels.</p>
+<h3 id="assessment-release-trains-stamp-equivalence-and-distributed-recovery">Release trains, stamp equivalence and distributed recovery</h3>
+<p>READY pins, one full gate on a train, prefix trees, stamp-only changes, post-merge verification, freeze/backstop repair and Git-note recovery go substantially beyond Wingman's delivery outline. The train record contains enough state to distinguish dispatch-unknown, gate-pending, incomplete, red, merging and superseded outcomes (<a href="repo/lib/ship-queue-train-record.ts">lib/ship-queue-train-record.ts</a>, lines 21–99). Generic policy inspection also reads branch protection and workflow requirements before recommending a usable train configuration (<a href="repo/lib/ship-queue-train-init.ts">lib/ship-queue-train-init.ts</a>, lines 1–10, 25–69).</p>
+<p>Value: concurrent specialists can integrate without letting late release metadata invalidate all evidence or letting a partial merge disappear from memory. Integration consequence: adopt repository-specific ship policies, GitHub permissions, expected-head merging and a single release owner; mirror failures and freeze state into Wingman's tracker instead of just printing them in a terminal. Git notes are useful backup transport but do not replace transactional organization storage.</p>
+<h3 id="assessment-browser-authenticated-remote-browser-and-real-device-qa">Browser, authenticated remote browser and real-device QA</h3>
+<p>Aside/fallback browser tooling covers persistent browser state, visual evidence and real logged-in sessions. Pairing adds scoped remote browser clients; iOS QA has a Mac-side device tunnel broker with optional Tailscale identity/allowlist/capability gating (<a href="repo/browse/src/routes/pairing.ts">browse/src/routes/pairing.ts</a>, lines 29–116; <a href="repo/ios-qa/daemon/src/index.ts">ios-qa/daemon/src/index.ts</a>, lines 1–27, 57–99). The iOS broker caches one bootstrap across concurrent callers and guards stale tunnel invalidation. This is a real remote execution surface, even though it is not distributed agent management.</p>
+<p>Value: TestMaster could test authenticated flows or a USB-attached iPhone while executing elsewhere. Integration consequence: Wingman needs to separate tool capability from agent identity, route credentials/owner actions correctly, serialize conflicting device/browser interactions and attach evidence to the right project. Aside is optional and platform-specific; fallback behavior and dependencies need host-specific validation.</p>
+<h3 id="assessment-contained-security-assessment-with-explicit-assurance-levels">Contained security assessment with explicit assurance levels</h3>
+<p>Wingman places security outside TestMaster. gstack's <code>/cso</code> adds runtime/scanner catalogs, contained preparation/execution, structured findings, repair bundles, and external assertion witnesses. <a href="repo/lib/cso/verification.ts">lib/cso/verification.ts</a>, lines 43–79, records before/after observations and policy/source/harness hashes. It also records <code>testCompletionAssurance: 'self_reported'</code>. <a href="repo/lib/cso/contracts.ts">lib/cso/contracts.ts</a>, lines 106–112 and 352–354, separates runtime-tested and tested assurance. A reported passing command alone does not establish independent verification.</p>
+<p>Value: add a security specialist with auditable coverage instead of silently expanding TestMaster. Integration consequence: Docker/native helper prerequisites, platform-qualified images and trust boundaries need an explicit deployment plan; static-only and runtime-tested results must remain visibly different. This assessment did not exercise containment or authenticate catalog qualification.</p>
+<h3 id="assessment-cross-session-memory-and-research-retrieval">Cross-session memory and research retrieval</h3>
+<p>Beyond saved plans, gbrain integration can ingest timelines/decisions/learnings and retrieve context at skill start. The loader dispatches vector/list/filesystem queries with repo filters, bounded timeouts and an untrusted-data envelope (<a href="repo/bin/gstack-brain-context-load.ts">bin/gstack-brain-context-load.ts</a>, lines 3–24). This goes beyond simply having directive files by adding a retrieval layer and cross-machine sync options.</p>
+<p>Value: bring earlier decisions and recurring findings into the next specialist session. Integration consequence: preserve authoritative directive files and provenance; retrieval is advisory and can be unavailable. Optional sync/privacy settings and external gbrain availability must not silently become prerequisites for basic project continuity.</p>
+<h3 id="assessment-paid-work-budgets-and-workflow-quality-evaluation">Paid-work budgets and workflow-quality evaluation</h3>
+<p>Autoplan reserves potential model spend before dispatch, accounts for unknown executions and stops when the next voices would cross the cap (<a href="repo/lib/autoplan-run.ts">lib/autoplan-run.ts</a>, lines 242–279). Capy pass programs read real thread token/credit counters (<a href="repo/lib/capy-review-pass.js">lib/capy-review-pass.js</a>, lines 81–84), while gstack has a separate extensive free/paid evaluation infrastructure. The repository's validation rules distinguish rule, behavior and judge cases and forbid arbitrary retry-to-green (<a href="repo/AGENTS.md">AGENTS.md</a>, Validation discipline).</p>
+<p>Value: Wingman can put economic and evidentiary bounds around autonomous coordination, not just per-agent token limits. Integration consequence: reconcile unknown costs and host counters, distinguish verification code from paid model behavior, and keep capability claims tied to observed runs. Test infrastructure itself is not an always-on agent organization.</p>
+<h3 id="assessment-ephemeral-remote-compute-with-ownership-and-recovery">Ephemeral remote compute with ownership and recovery</h3>
+<p>The Ubicloud runner implements remote workloads with owner/TTL-named VMs, quota preflight, SSH, and watchdogs. Detached phases support reattachment and checkpoints. Cleanup includes an owner-scoped reaper. See <a href="repo/scripts/ubicloud/ubi-runner.sh">scripts/ubicloud/ubi-runner.sh</a>, lines 22–101, 269–329, 401–491, and 758 onward.</p>
+<p>Provisioning creates a VM with a temporary SSH key and records state across signals. It waits for a running address, then checks SSH readiness (lines 971–1023). Repository packing uses Git transport for a consistent refs snapshot. It preserves the index, staged blobs, tracked files, and nonignored untracked files. It handles linked-worktree metadata and synchronizes the archive remotely (lines 1100–1187). Artifact pulls return selected remote files (lines 1190–1201).</p>
+<p>This can move verification workloads and evidence between machines. It does not provide persistent distributed-agent placement. TTL enforcement requires a later invocation of the owner's reaper. It is not an independently hosted expiry guarantee. See <a href="repo/ubicloud/SKILL.md.tmpl">ubicloud/SKILL.md.tmpl</a>, lines 69–100 and 112–137.</p>
+<p>Value: TechMaster can allocate temporary build/evaluation capacity with attributable ownership and bounded hanging commands. Integration consequence: cloud credentials/costs, quota accounting, cleanup after a controller disappears and remote receipt ingestion need explicit Wingman ownership. A VM runner is not an Endeavour agent supervisor.</p>
+<h3 id="assessment-design-generation-document-artifacts-and-bounded-production-monitoring">Design generation, document artifacts and bounded production monitoring</h3>
+<p>The design CLI exposes model-backed mockup generation, variants, iteration, comparison, checking and design-to-code prompts; generation sends a receipted provider request with timeout and persists session/output/accounting (<a href="repo/design/src/cli.ts">design/src/cli.ts</a>, lines 1–36; <a href="repo/design/src/generate.ts">design/src/generate.ts</a>, lines 1–57). PDF orchestration renders Markdown, diagram fences, images and document figures through the chosen browser engine (<a href="repo/make-pdf/src/orchestrator.ts">make-pdf/src/orchestrator.ts</a>, lines 1–44, 87–250). These are substantial deliverable-generation tools beyond Wingman's stated coordination product, not additional autonomous job roles.</p>
+<p>The <code>/canary</code> workflow also prescribes a bounded post-deploy observation loop with screenshots, console-message identity, navigation timing, text snapshots and broken-link baseline comparison (<a href="repo/canary/SKILL.md.tmpl">canary/SKILL.md.tmpl</a>, lines 31–85). It is agent-driven monitoring for a selected run, not a production alert service or ProjectMaster scheduler. Value: FrontendCoder can explore alternatives, ProductMaster can share reviewable artifacts, and release owners can observe production after delivery. Integration consequence: artifact ownership, paid provider access, browser permissions and monitor lifetime must be attached to the responsible project/agent; long-term operations remain separate infrastructure.</p>
+<h2 id="assessment-distinctive-mechanisms-and-grounded-innovation-assessment">Distinctive mechanisms and grounded innovation assessment</h2>
+<p>These are distinctive combinations visible in this checkout, not claims of historical novelty or industry uniqueness.</p>
+<p><strong>Dispatch-intent journaling plus conservative economic recovery.</strong> Planning records an attempt before work, distinguishes submitted/cancelled/superseded/unknown execution and keeps unknown reservations on crash. Resume only rebinds a result when its file hash matches; redispatch is explicit. This enables resumable paid multi-voice workflows without pretending every lost response was free or every retry harmless. The limit is that it protects the workflow ledger, not the underlying model service's exactly-once execution, and does not preserve arbitrary coding-process state (<a href="repo/lib/autoplan-run.ts">autoplan-run.ts</a>, lines 247–279, 487–545).</p>
+<p><strong>Approval attached to reviewed recommendations, with relay provenance.</strong> The Captain flow carries gate revision/recommendation hash, owner words and relaying agent, then imports that record idempotently. This is a promising Butler pattern: human-facing prose remains readable while machine state prevents a reply from being applied to a different gate. It cannot prove the external host really delivered a human's message; authentication and trustworthy routing remain the host's responsibility (<a href="repo/test/capy-captain-flow.test.ts">test/capy-captain-flow.test.ts</a>, lines 54–85; <a href="repo/capy/skill/gstack/captain.md">capy/skill/gstack/captain.md</a>, lines 103–128).</p>
+<p><strong>Review transport as an auditable no-loss protocol.</strong> Render/sent/output/judgment hashes turn “I asked specialists” into reconstructible evidence. Reader manifests make stage ordering and missing coverage explicit; collection rejects wrong-tree and non-review output. This enables stronger accountability between a TechMaster-like coordinator and reviewers. It does not establish that every finding is correct, and its prose parsing and clean markers still require careful tests (<a href="repo/bin/gstack-review-dispatch">bin/gstack-review-dispatch</a>, lines 43–91; <a href="repo/test/review-dispatch.test.ts">test/review-dispatch.test.ts</a>, lines 163–292).</p>
+<p><strong>Tree-equivalence-aware release acceptance and a recoverable freeze.</strong> The queue reasons about tested prefix trees and allowed stamp changes rather than accepting any later green head. Unexpected publication after a partial merge becomes a durable freeze before a backstop is dispatched. Git notes let another controller machine recover that state. This enables disciplined parallel release integration with lower repeated full-gate cost. Its limits are declared stamp policy, GitHub workflow/branch-protection semantics, exclusive release ownership and remote-access availability. It does not solve arbitrary concurrent source edits (<a href="repo/lib/ship-queue-train-verify.ts">ship-queue-train-verify.ts</a>, lines 1–15, 118–167; <a href="repo/lib/ship-queue-train-record.ts">ship-queue-train-record.ts</a>, lines 1–9).</p>
+<p><strong>Explicitly scoped remote tool identity.</strong> Pairing narrows a browser client's grant without leaving old broad setup keys alive; iOS remote access binds Tailscale identity to capabilities. This enables a remote worker to borrow a human machine's browser/device safely within a defined tool scope. It remains tool-level delegation, not a global agent trust/identity system (<a href="repo/browse/src/routes/pairing.ts">browse/src/routes/pairing.ts</a>, lines 61–109; <a href="repo/ios-qa/daemon/src/index.ts">ios-qa/daemon/src/index.ts</a>, lines 3–13).</p>
+<p>The architecture's most transferable innovation is therefore the conversion of selected coordination promises into typed, hash-bound, resumable protocols. The less formal parts—crew chat routing, ownership, digest updates and scheduled supervision—remain instructions to a capable host/controller. Wingman should adopt the former without mistaking the latter for an implemented organization backend.</p>
+<h2 id="assessment-practical-fit-and-remaining-work">Practical fit and remaining work</h2>
+<p><strong>Use directly as a methodology/tool library:</strong> <code>/spec</code>'s evidence-grounded clarification, product and engineering review sections, specialist checklists, QA procedures, explicit unknown/unavailable evidence statuses, checkpoint conventions and generic Captain briefing/report templates. Selected executables could supply reviewer ledgers, plan manifests, approval records and release gates after evaluating their dependency/support boundaries. The Ubicloud runner is also a concrete candidate for optional heavy remote jobs: it provisions/synchronizes/executes/collects/cleans up, with quota and hang controls. It would complement execution capacity, while a separate Wingman host adapter would still manage standing Codex agents on Mac and Endeavour. The checked-in Codex host being experimental argues for a targeted adapter spike before broad rollout, not an assumption of full parity with Claude/Capy.</p>
+<p>Adapt into Wingman contracts:</p>
+<ul>
+<li>Map spec/plan/task artifacts to <code>DIRECTIVES</code> and ProjectTracker.</li>
+<li>Assign real ProductMaster/TechMaster/worker identities independently of skill names.</li>
+<li>Put project/agent/host IDs on every attempt, approval and timeline event.</li>
+<li>Turn <code>NEXT</code>, READY, budget-stop and freeze outputs into tracker updates/events.</li>
+<li>Connect human briefs to Butler's project-correlated Telegram conversation. Keep controller-only release authority while allowing the Room2 direct collaboration Wingman actually requires. Use gstack's run IDs and hashes for evidence, while Wingman remains the source of truth for work ownership and accepted scope.</li>
+</ul>
+<p>Build around it:</p>
+<ul>
+<li>Telegram transport and Butler service.</li>
+<li>Cross-project registry/intake.</li>
+<li>Durable agent directory and profile lifecycle.</li>
+<li>Independently resumable Codex sessions.</li>
+<li>Team/host placement across Mac and Endeavour.</li>
+<li>Shared chat rooms with participant/project/task links.</li>
+<li>General ticket dependency/assignment state.</li>
+<li>Periodic ProjectMaster supervision.</li>
+<li>Executive and project web/mobile applications.</li>
+<li>Per-agent narrative summaries/timelines.</li>
+<li>Integrated session drill-down and steering controls. These are primary Wingman product components, not minor setup tasks solved by installing gstack.</li>
+</ul>
+<p>The most sensible architectural role is an <strong>engineering execution layer below Wingman's organization and project services</strong>. A release-focused Captain pattern could guide TechMaster's integration responsibilities, but replacing Butler/ProjectMaster/ProductMaster/TechMaster with one Captain would materially change the intended organization. Multiple gstack installations and shared Git notes help distribute tools and release state. They do not, by themselves, create shared conversations, cross-host agent supervision or a portfolio control plane.</p>
+<h2 id="assessment-verification-scope-and-limits">Verification scope and limits</h2>
+<p>Read applicable checkout <a href="repo/AGENTS.md">AGENTS.md</a> before substantive inspection. No ancestor <code>AGENTS.md</code> files were present in the traversed workspace ancestry. The supplied global user instructions were followed. <code>captain/templates/AGENTS.md</code> is a template for future crews, not governing instructions for this report. Repository sources were read-only; only this assessment file was created.</p>
+<p>The implementation review covered these areas:</p>
+<ul>
+<li>Setup, package, architecture, Captain procedures, and Capy/OpenClaw integration.</li>
+<li><code>/spec</code>, gate/file/process-creation sections, and context save/restore templates.</li>
+<li>State roots, model selection, planning state/run/recovery, and outside-review runners.</li>
+<li>Review dispatch, Capy passes, task reconciliation, and train ready/record/init/verify modules.</li>
+<li>Browser pairing, terminal processes, timeline/Stop hooks, memory retrieval, and iOS daemon.</li>
+<li>CSO verification/contracts, Ubicloud, design generation, PDF orchestration, and canary templates.</li>
+</ul>
+<p>The cited line ranges support each conclusion. Documentation-only behavior remains identified as host procedures or instructions.</p>
+<p>Relevant tests inspected, <strong>not executed</strong>:</p>
+<ul>
+<li><a href="repo/test/autoplan-run-recovery.test.ts">test/autoplan-run-recovery.test.ts</a>, lines 26–105 and 130–240: open-attempt reuse, receipt/family/stale-result refusal, phase closure, crash/unknown/resume and sealed-result behavior.</li>
+<li><a href="repo/test/autoplan-run-concurrency.test.ts">test/autoplan-run-concurrency.test.ts</a>, lines 26–105: live/empty lock handling, concurrent submits/next, revision ownership and acknowledgment idempotence.</li>
+<li><a href="repo/test/capy-captain-flow.test.ts">test/capy-captain-flow.test.ts</a>, lines 1–8 and 54–92: simulated-host CLI relay/approval flow and a non-Capy negative control. This does not exercise the real hosted Capy system.</li>
+<li><a href="repo/test/ship-queue-train-verify.test.ts">test/ship-queue-train-verify.test.ts</a>, lines 21–85, 92–135 and later stamp checks: fixture-backed prefix acceptance, wrong head, freeze, reconstruction and repair. GitHub behavior is simulated by fixtures.</li>
+<li><a href="repo/test/review-dispatch.test.ts">test/review-dispatch.test.ts</a>, lines 41–101, 163–292: prompt integrity, collection, dropped/downgraded finding refusal and missing-reader conditions.</li>
+<li><a href="repo/test/captain-skill.test.ts">test/captain-skill.test.ts</a>, lines 20–111: skill/contract/template presence. These are largely source/content assertions, not proof a real autonomous Captain reliably runs a crew.</li>
+<li><a href="repo/test/state-root-parity.test.ts">test/state-root-parity.test.ts</a>, lines 72–145: Bash/TypeScript state/config precedence parity.</li>
+</ul>
+<p>Missing-feature conclusions used implementation inventory/searches across <code>lib/</code>, <code>bin/</code>, <code>captain/</code>, <code>capy/</code>, <code>openclaw/</code>, browser routes/terminal code, context helpers and timeline/dashboard/session files. Searches covered Telegram/Butler/project routing, registry, chat/rooms, scheduler/wake/supervision, directory/dashboard and host/session control terms. This located the OpenClaw Telegram prompt bridge, real timeline helpers, digest, browser terminal, remote tool protocols and scheduled-automation template, which are credited above. It did not locate a native Telegram transport, project-portfolio backend, chat-room service, agent directory application or periodic organization scheduler. Negative findings concern this checkout; external Capy, OpenClaw, Aside and gbrain may supply additional capabilities outside its implementation.</p>
+<p>No claims here verify real model quality, successful paid evals, browser/device operation, containment security, production merges or multi-machine continuity. Existing historical logs elsewhere in the Wingman workspace were not used as proof for this revision. This is a fresh source-grounded assessment of the stated commit, with host-dependent behavior and runtime uncertainty retained explicitly.</p></article><section id="support-legacy-evidence" class="technical supporting"><h2 id="support-legacy-evidence-retained-gstack-experiment-evidence">Retained gstack experiment evidence</h2>
+<h2 id="support-legacy-evidence-scope">Scope</h2>
+<p>The older research used commit <code>f8085aa0e499085c411f712d6d5c00a81d1b104a</code>.
+It tested selected local mechanics without paid model calls.
+The current <a href="index.html">technical assessment</a> governs the Wingman fit verdict.</p>
+<h2 id="support-legacy-evidence-recorded-results">Recorded results</h2>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Run</th>
+<th scope="col">Result</th>
+<th scope="col">Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Initial nine-file run</td>
+<td>185 cases: 180 passes and five failures.</td>
+<td>Preserve the failures as part of the record.</td>
+</tr>
+<tr>
+<td>Canonical-path two-file rerun</td>
+<td>84 passes and zero failures.</td>
+<td>The selected cases overlap the first run. Do not add them as distinct coverage.</td>
+</tr>
+</tbody>
+</table></div>
+<p>The selected areas included plan admission, recovery, checkpoints, gate artifacts, review lifecycle, and verdict classification.
+They also included Captain briefs, merge locks, and train verification.
+The rerun corrected the path context for affected cases.
+It did not establish a complete release acceptance result.</p>
+<h2 id="support-legacy-evidence-useful-process-findings">Useful process findings</h2>
+<p>Office-hours and specification procedures provide explicit discovery guidance.
+The host model must still apply that guidance to the actual domain.
+Captain assigns implementation lanes and records readiness evidence.
+The host supplies much of the thread, machine, message, and scheduling behavior.
+Procedure artifacts and runtime guarantees must remain separate in the assessment.</p>
+<h2 id="support-legacy-evidence-retained-records">Retained records</h2>
+<ul>
+<li><a href="assessment/evidence/gstack-assessment-tests.log">Initial test log</a>.</li>
+<li><a href="assessment/evidence/gstack-assessment-canonical-path-tests.log">Canonical-path rerun log</a>.</li>
+</ul>
+<p>This reorganization did not rerun these tests.
+No complete free acceptance suite, paid evaluation, live browser workflow, or remote-host deployment is established by these logs.</p></section>
+<section id="source-record"><h2>Source and evidence</h2><p class="url-text">https://github.com/garrytan/gstack</p>
+<ul><li><a href="repo/">Open the pinned source checkout</a></li><li><a href="assessment/ASSESSMENT.md">Read the Markdown assessment</a></li>
+<li><a href="../generic/assessments/_audits/qa18.md">Read the historical independent source audit</a></li><li><a href="../generic/method.html">Read the method and evidence limits</a></li></ul></section>
+<nav class="report-switch" aria-label="Adjacent project reports"><a href="../golutra/index.html">Previous project: Golutra</a><a href="../hamlet/index.html">Next project: Hamlet</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../index.html">Return to overview <img src="../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

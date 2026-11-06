@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Technical assessment against Wingman’s development organization."><title>CompanyHelm · Wingman Research</title>
+<link rel="icon" href="../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/report.css"><script defer src="../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../index.html"><img src="../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../index.html">Overview</a><a class="nav-link " href="../generic/index.html">Architecture findings</a><a class="nav-link " href="../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../generic/method.html">Method and evidence</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../index.html">Wingman Research</a><span class="crumb">/</span><span>CompanyHelm</span></div><span class="topbar-note">SOURCE REVIEW · 05 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>CompanyHelm</h1><p class="subtitle">Technical assessment against Wingman’s development organization.</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#decision">Decision summary</a><a href="#assessment-companyhelm-assessment-against-wingman">CompanyHelm assessment against Wingman</a><a href="#assessment-architecture-and-actual-execution-model">Architecture and actual execution model</a><a href="#assessment-complete-feature-comparison">Complete feature comparison</a><a href="#assessment-agent-definition-and-lifecycle">Agent definition and lifecycle</a><a href="#assessment-coordination-mechanics-and-a-traced-task">Coordination mechanics and a traced task</a><a href="#assessment-major-additional-capabilities-and-consequences">Major additional capabilities and consequences</a><a href="#assessment-distinctive-mechanisms-and-grounded-innovation-assessment">Distinctive mechanisms and grounded innovation assessment</a><a href="#assessment-practical-use-for-wingman">Practical use for Wingman</a><a href="#assessment-verification-scope-and-limits">Verification scope and limits</a><a href="#source-record">Source and evidence</a></div></nav><section id="decision" class="decision"><h2>Decision summary</h2>
+<div class="brief-columns"><div><h3>Useful for Wingman</h3><p>Study durable agent identities, coding sessions, inter-agent messages, tasks, schedules, and detailed workspaces.</p></div><div><h3>Adoption boundary</h3><p>Concrete remote compute uses E2B Linux. Wingman&#x27;s host placement and product organization need adaptation.</p></div></div>
+<p class="scope-note">Source assessment at the commit below. Runtime limits appear in the technical report.</p></section>
+<dl class="facts"><div><dt>Source group</dt><dd>Infrastructure</dd></div><div><dt>Commit</dt><dd><code>8651f20e14b3fa0daa4d11e56abca0981554532b</code></dd></div><div><dt>Coverage</dt><dd>24 Wingman features</dd></div></dl>
+<article id="technical-assessment" class="technical"><h2 id="assessment-companyhelm-assessment-against-wingman">CompanyHelm assessment against Wingman</h2>
+<ul>
+<li><strong>Product:</strong> CompanyHelm, a distributed coding-agent control plane and company workspace.</li>
+<li class="url-text"><strong>Repository:</strong> https://github.com/CompanyHelm/companyhelm</li>
+<li><strong>Local checkout:</strong> <code>researchs/companyhelm/repo</code>.</li>
+<li><strong>Assessed commit:</strong> <code>8651f20e14b3fa0daa4d11e56abca0981554532b</code>.</li>
+<li><strong>Assessment date:</strong> 2026-11-05.</li>
+<li><strong>Method:</strong> Read-only source and test inspection; no dependency installation, service startup, model calls, browser session, or execution of tests. Findings concern this checkout, not the hosted service.</li>
+</ul>
+<p><strong>Fit verdict:</strong> CompanyHelm is a substantial candidate for Wingman's execution, persistence, task, conversation and detailed-workspace infrastructure. Its agents are durable identities with independently executable sessions, not merely named prompts, and those sessions can exchange messages, create more agents, execute tasks and run scheduled workflows. However, the product implements a general company workspace around coding sessions, rather than Wingman's continuing product-development organization. Telegram/Butler, a project registry, project-specific product and technical leadership, management rooms, portfolio supervision, acceptance governance and executive agent briefings still need implementation. The biggest infrastructure mismatch is execution placement: the concrete remote compute provider is E2B Linux, and the separately published runner CLI does not execute work on the user's Mac and Endeavour machines.</p>
+<p>The distinction matters for adoption. The code already supplies many difficult platform mechanisms; adding role prompts alone would not supply Wingman's missing organizational behavior. Conversely, dismissing CompanyHelm as a chat UI would understate its durable task runs, transaction-scoped agent messaging, runtime reconstruction, scheduling, remote environments and artifact records.</p>
+<h2 id="assessment-architecture-and-actual-execution-model">Architecture and actual execution model</h2>
+<p>The TypeScript monorepo has a Fastify/Mercurius GraphQL API, a React/Relay web application and a standalone runner package. <a href="repo/apps/api/src/main.ts">API startup</a> lines 19–29 loads configuration, builds the dependency container, runs database bootstrap and starts the server. <a href="repo/apps/api/src/server/api_server.ts">ApiServer</a> lines 190–234 registers GraphQL, authentication, GitHub webhook and environment terminal routes, then starts in-process BullMQ consumers for sessions, schedules, usage, GitHub events, skill updates, deletion and environment metrics. The durable control plane is PostgreSQL through Drizzle; Redis supplies queueing, live publication and session ownership. These are real deployment dependencies, not an optional Markdown-only mode.</p>
+<pre aria-label="Code or source excerpt" role="region" tabindex="0"><code class="language-text">Web UI / GraphQL mutation / agent tool / GitHub event / cron
+    → company-scoped PostgreSQL state and queued message
+    → Redis/BullMQ wake job
+    → worker acquires Redis session lease
+    → reconstruct PI Mono agent runtime from stored context
+    → model + CompanyHelm custom tools
+        → remote E2B environment for shell/files/desktop
+        → tasks, artifacts, skills, inbox and agent messages
+    → persist transcript, tools, context and usage; publish updates
+    → dispose runtime, release lease, wake again if work remains
+</code></pre>
+<p><a href="repo/apps/api/src/services/agent/session/session_prompt_service.ts">SessionPromptService</a> lines 67–227 persists a prompt and attribution before notifying execution; <a href="repo/apps/api/src/services/agent/session/process/execution.ts">SessionProcessExecutionService</a> lines 122–408 coordinates one leased processing pass. The <a href="repo/apps/api/src/workers/session_process.ts">worker</a> lines 58–101 uses configured concurrency. The <a href="repo/apps/api/src/services/agent/session/process/lease.ts">lease implementation</a> lines 19–79 uses token-checked heartbeat/release operations. Consequently, multiple worker processes may consume the shared queue, while a session has one live owner. This is distributed control-plane infrastructure. It is not proof of a supplied heterogeneous local-runner fleet.</p>
+<p>The LLM loop itself runs in the API worker through <code>@mariozechner/pi-coding-agent</code>, rather than launching a local Codex CLI per agent. <a href="repo/apps/api/src/services/agent/session/pi-mono/session_manager_service.ts">PiMonoSessionManagerService</a> lines 180–288 creates an in-memory SDK session, restores PostgreSQL context, resolves model credentials and registers custom tools. It explicitly disables PI's built-in tools. Codex OAuth is a model credential/provider path here, not evidence of Codex desktop session parity. Shell, file patching and computer use are CompanyHelm adapters into the execution environment.</p>
+<p>Remote execution is concrete: <a href="repo/apps/api/src/services/environments/providers/e2b/e2b_provider.ts">E2B provider</a> lines 79–143 creates Linux sandboxes, tags them with company/agent/session identity and enables pause-on-timeout with auto-resume. But the README's claim that every agent session gets a fresh VM is broader than the implementation. <a href="repo/apps/api/src/services/environments/selection_service.ts">Environment selection</a> lines 40–103 first searches session lease history, then agent lease history, skipping leased or unhealthy environments. <a href="repo/apps/api/src/services/environments/prompt_scope.ts">Prompt scope</a> lines 29–57 lazily acquires one environment and reuses it during a prompt. A durable agent, a session, a transient model runtime and an environment therefore have different lifetimes. Warm reuse improves continuity and cost, but means filesystem cleanliness cannot be inferred from the word “session.”</p>
+<p>Company isolation is a first-class persistence boundary: <a href="repo/apps/api/src/db/app_runtime_transaction_provider.ts">AppRuntimeTransactionProvider</a> lines 13–29 wraps operations with company context; schemas consistently carry <code>companyId</code>. Wingman products are not an equivalent existing boundary: no <code>projects</code> entity or project ID appears in the inspected schema/API/task/routing paths. Using one company for all products would require adding a project partition within it; using one company per product would split the shared organization.</p>
+<h2 id="assessment-complete-feature-comparison">Complete feature comparison</h2>
+<p>Verdicts assess the full described Wingman capability. “Resembles” credits useful primitives without treating a configurable prompt or data field as a delivered organizational workflow.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Capability</th>
+<th scope="col">Verdict</th>
+<th scope="col">Implementation evidence and concrete difference from Wingman</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F01</td>
+<td>Real independent coding agents and specialist instances</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/apps/api/src/db/schema/agents.ts">Agents schema</a>, lines 30–52, persists independent UUID identities; <a href="repo/apps/api/src/services/agent/session/pi-mono/session_manager_service.ts">runtime creation</a>, lines 180–288, creates actual tool-using SDK executions. Fresh same-agent sessions can be started by messages. Specialists are configurable identities, not the supplied Wingman Codex role set or separate permanent processes.</td>
+</tr>
+<tr>
+<td>F02</td>
+<td>Extensible agent profiles, roles and team composition</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/apps/api/src/services/agent/session/pi-mono/tools/agents/service.ts">Agent creation service</a>, lines 259–329, validates and persists model, compute, prompt and secrets; <a href="repo/apps/web/src/pages/agents/agent_detail_page.tsx">agent configuration UI</a>, lines 36–155, exposes skills/MCP/defaults. New roles can be represented without code changes, but there is no reusable profile-to-instance model, project team object or reporting hierarchy.</td>
+</tr>
+<tr>
+<td>F03</td>
+<td>Agent directory and visible working relationships</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/apps/web/src/pages/agents/agents_page.tsx">Agents page</a>, lines 23–101 and 192–201, lists named/titled agents and model configuration; <a href="repo/apps/web/src/pages/conversations/conversations_page.tsx">conversation browser</a>, lines 53–94, identifies participants and their sessions. Directory and interaction relationships exist; project/team membership, management links and current responsibility are not unified into an organizational directory.</td>
+</tr>
+<tr>
+<td>F04</td>
+<td>Telegram main channel and Butler-style routing</td>
+<td><strong>Absent</strong></td>
+<td>Searches across API, web, templates, integrations and docs found no Telegram bot, Telegram update handler or Butler routing. <a href="repo/apps/api/src/server/api_server.ts">Server routes</a>, lines 213–217, register GraphQL/auth/GitHub/terminal entry points; <a href="repo/apps/web/src/pages/chats/chat_composer_pane.tsx">Chats composer</a>, lines 325–407, targets selected sessions. A Telegram and project-aware representative layer must be added.</td>
+</tr>
+<tr>
+<td>F05</td>
+<td>Cross-project registry, intake and existing/new routing</td>
+<td><strong>Absent</strong></td>
+<td><a href="repo/apps/api/src/db/schema/index.ts">Schema index</a> and <a href="repo/apps/api/src/db/schema/tasks.ts">task schema</a>, lines 44–90, provide company-scoped task trees, not product/project records. Searches for <code>projectId</code>, <code>project_id</code>, project routing and project registries across API/web found no corresponding implementation. Task roots or repositories could be a future mapping, but no semantic intake router currently establishes it.</td>
+</tr>
+<tr>
+<td>F06</td>
+<td>Per-project product and technical leadership</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/apps/api/src/services/bootstrap/company.ts">Company bootstrap</a>, lines 81–87 and 302–317, seeds “CEO” with a null custom prompt. Arbitrary role prompts and delegation are supported by agent creation, but no ProductMaster/TechMaster pair, per-project assignment or leadership workflow is supplied. The <a href="repo/apps/api/tests/company_bootstrap_service.test.ts">bootstrap test</a>, lines 688–745, explicitly expects no seeded onboarding workflows in OSS.</td>
+</tr>
+<tr>
+<td>F07</td>
+<td>Proportionate research, discovery and iterative clarification</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/apps/api/src/services/agent/session/pi-mono/modules/default_registry.ts">Module registry</a>, lines 62–87, supplies web and inbox tools; <a href="repo/apps/api/src/services/inbox/service.ts">inbox service</a>, lines 162–254 and 281–390, persists questions/proposals/answers and resumes the requesting session. These enable research and repeated clarification, but there is no discovery owner, product-size policy, readiness decision or project-scoped question cycle.</td>
+</tr>
+<tr>
+<td>F08</td>
+<td>Scope, specifications, acceptance scenarios and definition of done</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/apps/api/src/db/schema/artifacts.ts">Artifacts schema</a>, lines 19–71, stores durable Markdown documents at company/task/session scope; task descriptions accept freeform acceptance detail. There are no typed product scopes, specification/acceptance relationships or readiness/completion gates. Agents could author the documents, but the development process must be designed.</td>
+</tr>
+<tr>
+<td>F09</td>
+<td>Technical decomposition, assignment and shared task tracking</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/apps/api/src/db/schema/tasks.ts">Task schema</a>, lines 44–131, has root/parent tasks, agent/user assignees, stages and execution runs; <a href="repo/apps/api/src/services/task_service.ts">TaskService</a>, lines 206–282, 418–557 and 936–1052, creates/updates/starts them. A real shared tracker exists. Decomposition is agent-authored, and task dependency edges, blocked state and technical planning governance are not present.</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>Human-facing portfolio/project dashboard</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/apps/web/src/pages/tasks/tasks_page.tsx">Tasks page</a> and <a href="repo/apps/web/src/pages/dashboard/dashboard_page.tsx">dashboard query</a>, lines 17–65, show tasks/stages/assignees, workflow runs and environments. These are useful management views, but do not show a portfolio of durable projects, project goals/specifications, project team context or aggregate product readiness.</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>Agent chat application, rooms and direct collaboration</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/apps/api/src/services/conversations/command_service.ts">Conversation command service</a>, lines 43–94, persists a canonical conversation and sends a real queued/steered prompt; <a href="repo/apps/api/src/services/conversations/delivery_planner.ts">delivery planner</a>, lines 65–220, addresses agents/sessions and creates two participants. <a href="repo/apps/web/src/pages/conversations/conversations_page.tsx">Conversation UI</a>, lines 53–94, exposes history. This is direct two-party collaboration, not named multi-party Room1/Room2 with project membership.</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>Management escalation and human decisions/approvals</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/apps/api/src/services/inbox/service.ts">Inbox service</a>, lines 137–254 and 281–390, supports proposed answers with pros/cons/rating and durable resolution back into a session. This is a substantial human handoff mechanism. It is not a management escalation hierarchy or a tool-enforced approval policy; agents must choose to ask and respect the answer.</td>
+</tr>
+<tr>
+<td>F13</td>
+<td>Durable project knowledge and reusable directives</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/apps/api/src/db/schema/artifacts.ts">Artifacts</a>, lines 19–71, and <a href="repo/apps/api/src/services/skills/session_service.ts">session skill service</a>, lines 56–103 and 138–170, persist documents/reusable instructions and active skill state. Git-backed skill materialization adds files. There is no project-owned <code>DIRECTIVES/SCOPES/SPECS/HARNESS</code> convention or automatic project-context loading.</td>
+</tr>
+<tr>
+<td>F14</td>
+<td>Persistent identity, conversation and work continuity</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/apps/api/src/db/schema/sessions.ts">Sessions schema</a>, lines 48–135, stores agent identity, latest model context, turns and fork lineage; <a href="repo/apps/api/src/services/agent/session/pi-mono/session_manager_service.ts">SDK reconstruction</a>, lines 230–247, reloads that context. Task runs and artifacts persist separately. Continuity is real, but scoped to company/agent/session/task rather than Wingman's product identity and directives.</td>
+</tr>
+<tr>
+<td>F15</td>
+<td>Proactive supervision, periodic wake and blocker follow-up</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/apps/api/src/services/schedules/queued_agent_message_service.ts">Queued-message scheduler</a>, lines 65–95 and 98–216, can periodically wake a live session; <a href="repo/apps/api/src/services/workflows/service.ts">workflow scheduling</a>, lines 626–715, starts cron-triggered work with overlap checks. No built-in supervisor scans projects/tasks, detects stalled workers or escalates blockers. Lease heartbeats monitor ownership, not managerial progress.</td>
+</tr>
+<tr>
+<td>F16</td>
+<td>Parallel products and concurrent specialists</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/apps/api/src/workers/session_process.ts">Session worker</a>, lines 58–101, consumes with configured concurrency; <a href="repo/apps/api/src/services/conversations/delivery_planner.ts">delivery planner</a>, lines 114–175, can create fresh sessions for parallel handoffs. Multiple tasks/repos can proceed, but product boundaries and product-specific leadership/context must be added.</td>
+</tr>
+<tr>
+<td>F17</td>
+<td>Real multi-host execution with shared coordination</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/apps/api/src/services/environments/providers/e2b/e2b_provider.ts">E2B provisioning</a>, lines 79–143, executes on remote Linux sandboxes coordinated by the central API. This is real remote compute, not a local subprocess claim. However, <a href="repo/apps/api/src/services/environments/providers/provider_registry.ts">provider registry</a>, lines 14–19, registers only E2B; <a href="repo/packages/runner/src/runner_cli.ts">runner CLI</a>, lines 48–69, only prints start/status information. Mac/Endeavour host registration, placement and routing are absent.</td>
+</tr>
+<tr>
+<td>F18</td>
+<td>Executive agent overview: current/recent/next/blockers</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/apps/web/src/pages/dashboard/dashboard_page.tsx">Dashboard</a>, lines 17–65 and 188–200, derives running/completed task and environment activity. <a href="repo/apps/web/src/pages/agents/agent_detail_page.tsx">Agent detail</a>, lines 36–65 and 157–230, shows configuration/usage. These are operational views, not per-agent plain-language briefings with explicit next work and blockers.</td>
+</tr>
+<tr>
+<td>F19</td>
+<td>Individual agent summary timeline linked to work</td>
+<td><strong>Absent</strong></td>
+<td>Searches across schema, GraphQL, agents/dashboard/chats pages and presentation helpers found no agent timeline/briefing entity or semantic summarization pipeline. <a href="repo/apps/api/src/services/agent/session/pi-mono/session_event_handler.ts">Event handler</a>, lines 366–424 and 883–959, records a session transcript/tool stream. That detailed event history is not Wingman's agent-level summary timeline spanning assignments and sessions.</td>
+</tr>
+<tr>
+<td>F20</td>
+<td>Detailed per-agent coding workspace drill-down</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/apps/web/src/pages/chats/use_chat_transcript.ts">Chat transcript hook</a>, <a href="repo/apps/web/src/pages/chats/chat_composer_pane.tsx">composer</a>, lines 325–407, and <a href="repo/apps/web/src/pages/environments/environment_terminal_page.tsx">environment terminal</a> expose session activity, steering, files/tools, artifacts and remote terminals/desktop access. It is a genuine detailed coding-session surface, though not a complete Codex desktop workspace/review system.</td>
+</tr>
+<tr>
+<td>F21</td>
+<td>Live activity, lifecycle controls, steering and visibility</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/apps/api/src/services/agent/session/session_lifecycle_service.ts">Lifecycle service</a>, lines 218–418, 418–524 and 540–680, supports archive/unarchive/delete/fork/interrupt; <a href="repo/apps/api/src/services/agent/session/session_prompt_service.ts">prompt service</a>, lines 229–285, supports queued-message steering/deletion. Transcript, thinking, context usage and auto-compaction are implemented. Continuing goals/budgets and full Codex lifecycle parity are not established.</td>
+</tr>
+<tr>
+<td>F22</td>
+<td>Testing, integrated verification and acceptance/delivery</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/apps/api/src/services/agent/session/pi-mono/tools/terminal/bash_exec.ts">Shell execution</a>, lines 44–95, PTY/computer tools and <a href="repo/apps/api/src/db/schema/artifacts.ts">artifact types</a>, lines 19–22, enable tests, demonstrations and PR deliverables. <a href="repo/apps/api/src/services/task_service.ts">Task completion</a>, lines 821–890, closes task runs when status becomes completed. There is no TestMaster integration, required acceptance evidence or definition-of-done gate; completed is a state mutation, not verified product acceptance.</td>
+</tr>
+<tr>
+<td>F23</td>
+<td>Autonomous operation with human direction through organization</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/apps/api/src/services/agent/session/pi-mono/modules/default_registry.ts">Default modules</a>, lines 62–87, expose tasks, conversation, web, inbox and system commands; <a href="repo/apps/api/src/services/system_command_service.ts">command dispatcher</a>, lines 105–155, lets activated skills manage agents/tasks/artifacts/workflows. Agents can carry out substantial work without the UI staying open. End-to-end organizational accountability and product lifecycle behavior remain policy/application work.</td>
+</tr>
+<tr>
+<td>F24</td>
+<td>New agent profiles accommodated by chat/tracker/dashboards</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/apps/api/src/db/schema/agents.ts">Agent schema</a>, lines 30–52; <a href="repo/apps/api/src/db/schema/tasks.ts">task assignees</a>, lines 64–69; and <a href="repo/apps/api/src/db/schema/conversations.ts">conversation participants</a>, lines 28–52, reference generic agent IDs. New agents appear through generic queries rather than hardcoded specialist lists. Project teams/rooms, relationship views and executive summaries must first be built before they can grow with profiles.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="assessment-agent-definition-and-lifecycle">Agent definition and lifecycle</h2>
+<h3 id="assessment-what-is-an-agent-and-what-is-a-session">What is an agent, and what is a session?</h3>
+<p>An <strong>agent</strong> is a persistent company-scoped configuration and identity: UUID, name, optional title, model/default reasoning/options, compute template, auto-compaction percentage and system prompt (<a href="repo/apps/api/src/db/schema/agents.ts">agents schema</a>, lines 30–52). Skills, skill groups, MCP servers, secrets and secret groups attach through related records. It is not a permanently running operating-system process or a separately implemented BackendCoder class. Its specialization comes from instructions and tools.</p>
+<p>A <strong>session</strong> is an independently addressable ongoing conversation owned by an agent. It stores selected model configuration, optional human owner, status, title, context snapshot, context usage and fork lineage (<a href="repo/apps/api/src/db/schema/sessions.ts">sessions schema</a>, lines 25–97). One durable agent can have multiple concurrent sessions, including a fresh self-handoff. A <strong>turn</strong> records an individual prompt execution and usage. A <strong>task</strong> is shared business work, while a <strong>task run</strong> links an execution attempt to a task, agent and session. An <strong>environment</strong> is a remote filesystem/process resource with a separate lease history. A <strong>runtime</strong> is the short-lived in-memory PI Mono object reconstructed for a wake pass. These distinctions are valuable for Wingman: agent continuity can survive runtime disposal, but a single agent's multiple sessions do not automatically share conversational memory.</p>
+<h3 id="assessment-definition-creation-and-identity">Definition, creation and identity</h3>
+<p>Humans create/configure agents through GraphQL and the Agents page; agents can also create/update them through the activated Manage agents system skill. <a href="repo/apps/api/src/services/agent/session/pi-mono/tools/agents/service.ts">AgentManagementToolService</a>, lines 259–329, checks required fields, resolves a company-accessible model credential, verifies compute/template selection, writes the agent and attaches selected secrets in a transaction. Creating an agent does not itself start an inference loop. Starting a session or delivering a message supplies work.</p>
+<p><a href="repo/apps/api/src/services/agent/session/session_lifecycle_service.ts">Session creation</a>, lines 121–215, resolves the agent within the company, selects an explicit or default model, derives reasoning/options, inserts a queued session, copies default secrets and inserts its first queued prompt. User-initiated sessions record an owner; task, workflow and agent-initiated work also carry principal attribution. The company seed CEO is an ordinary durable agent with broad system skills, not a supplied executive orchestration engine; its custom prompt is null and the OSS bootstrap test expects no onboarding workflow. The remaining onboarding service can start a named workflow if it exists, but this is insufficient to credit a turnkey organization in this checkout.</p>
+<h3 id="assessment-execution-and-toolpermission-assembly">Execution and tool/permission assembly</h3>
+<p>The worker wakes a session by ID, acquires a Redis ownership lease, loads current runtime/model/company settings and builds the SDK runtime. <a href="repo/apps/api/src/services/agent/session/pi-mono/session_manager_service.ts">Runtime creation</a>, lines 180–288, restores the stored context into PI's in-memory session manager, adds company/resource prompts and registers CompanyHelm's tools. The <a href="repo/apps/api/src/services/agent/session/pi-mono/modules/default_registry.ts">ordered module registry</a>, lines 62–87, covers core/runtime, terminal, optional computer use, secrets, skills, system commands, GitHub, Exa web search, MCP, human inbox, conversations and assigned tasks. <a href="repo/apps/api/src/services/agent/session/pi-mono/modules/mcp.ts">MCP module</a>, lines 27–56, discovers enabled attached servers and exposes their catalogs as tools.</p>
+<p>This has useful explicit boundaries: company-scoped transactions; agent-attached MCP capabilities; selected session secrets; and activated system skills. <a href="repo/apps/api/src/services/system_command_service.ts">SystemCommandService</a>, lines 105–155, rejects a command unless its owning system skill is active, then dispatches to company-scoped handlers. Activation is an instruction/capability discovery gate, not proof of a separate human approval for each command or a complete least-privilege role hierarchy.</p>
+<p><a href="repo/apps/api/src/services/agent/session/pi-mono/tools/terminal/bash_exec.ts">Shell execution</a>, lines 16–95, runs commands through the leased remote environment; one-shot commands have a 60-second maximum and long-lived work uses PTYs. File patches, image reads and remote computer actions are custom tools as well. The LLM is not granted ordinary PI built-in host filesystem tools. Nevertheless, there is no inspected per-command approval system equivalent to Codex sandbox approval modes. The optional ask-human tool is a conversational handoff. Infrastructure isolation and product acceptance policy must not be conflated.</p>
+<h3 id="assessment-routing-and-concurrency">Routing and concurrency</h3>
+<p>Every wake identifies company and session. The worker pool can execute different sessions concurrently; <a href="repo/apps/api/src/services/agent/session/process/lease.ts">Redis lease</a>, lines 43–79, serializes ownership of one session. If another worker owns it, <a href="repo/apps/api/src/services/agent/session/process/execution.ts">execution</a>, lines 131–138 and 513–530, can enqueue a delayed wake when pending work exists. Environment leases separately prevent two live sessions from using the same warm environment. There is no corresponding project-leader scheduler assigning capacity across Mac and Endeavour.</p>
+<p>Direct messages can target a particular session or an agent. <a href="repo/apps/api/src/services/conversations/delivery_planner.ts">Delivery planner</a>, lines 79–175, rejects archived recipients, steers a selected/reusable session, or creates a fresh target session. <code>createNewSession: true</code> also permits parallel work by the same agent identity. This makes agent IDs durable contacts while session IDs disambiguate concurrent work. The model must still choose the right collaborator and supply relevant context; addressing an agent is not a semantic project router.</p>
+<h3 id="assessment-persistence-resumption-and-scheduling">Persistence, resumption and scheduling</h3>
+<p><a href="repo/apps/api/src/services/agent/session/pi-mono/session_manager_service.ts">Runtime prompt processing</a>, lines 291–390, starts a durable turn, runs the SDK prompt, drains late steering messages, finishes the turn and persists the resulting model context. <a href="repo/apps/api/src/services/agent/session/pi-mono/session_event_handler.ts">Event handling</a>, lines 260–335, 366–424, 883–959 and 1444–1479, serializes streamed events, writes transcript/tool content, publishes updates and saves context snapshots. The agent-end path saves context and marks a session stopped; stopped means idle/resumable, not accepted or retired. Auto-compaction is represented in state and transcript, with configurable thresholds, rather than silently replacing the durable agent.</p>
+<p>A subsequent prompt reconstructs the runtime from the latest context snapshot. <a href="repo/apps/api/src/services/agent/session/session_lifecycle_service.ts">Forking</a>, lines 418–524, requires available context and a completed turn, creates a stopped session with copied context/model settings and fork lineage, then copies session secrets. This is a latest-context conversational fork, not a point-in-time clone of the remote VM, source checkout or every task assignment.</p>
+<p><a href="repo/apps/api/src/services/schedules/queued_agent_message_service.ts">Queued-message schedules</a>, lines 65–95 and 98–216, store a cron pattern, timezone, and target session. They create a schedule-run record, queue attributed text, and notify execution. Disabled or archived targets produce skips. Errors produce failed schedule runs. A message schedule becomes done after queueing and execution notification (lines 180–190). The agent need not have finished the work. Schedule delivery success therefore does not establish product success.</p>
+<p><a href="repo/apps/api/src/services/workflows/service.ts">Workflow service</a>, lines 552–715 and 717–812, launches named durable workflows. It copies ordered steps into each run. A scheduled workflow skips an occurrence when its previous scheduled run remains active. A step stores instructions and progress for execution through an agent session. It is not a separately provisioned agent at each node of a general dependency graph.</p>
+<p><a href="repo/apps/api/src/services/workflows/execution_session_service.ts">Workflow execution session service</a>, lines 134–180 and 208–260, supports execution in the existing chat or delegation to another agent. The owning session updates step status. Wingman could build supervision on these mechanisms. The checkout does not supply that scheduled ProjectMaster workflow.</p>
+<h3 id="assessment-steering-interruption-cancellation-and-failure">Steering, interruption, cancellation and failure</h3>
+<p>Queued input is durable and can be promoted to steering or deleted while pending. The execution service subscribes to steer and interrupt channels; steering reaches the active SDK runtime rather than merely updating a UI placeholder (<a href="repo/apps/api/src/services/agent/session/process/execution.ts">execution</a>, lines 186–242 and 466–505). <a href="repo/apps/api/src/services/agent/session/session_lifecycle_service.ts">Interrupt lifecycle</a>, lines 540–680, checks owner/state, marks stopped, closes active turn/message records with interruption information, clears queued work and publishes an abort signal. The worker persists interrupted context/usage and aborts PI. The tmux PTY adapter’s <code>dispose()</code> is a no-op (<a href="repo/apps/api/src/services/environments/providers/tmux_pty.ts">adapter</a>, lines 179–181), so interruption or ordinary runtime disposal does not establish that long-running remote PTYs were killed. A separate <a href="repo/apps/api/src/services/agent/session/pi-mono/tools/terminal/pty_kill.ts">PTY kill tool</a>, lines 22–42, terminates environment processes. Session interruption should not be assumed to roll back repository edits or every external side effect.</p>
+<p><a href="repo/apps/api/src/services/agent/session/process/queue.ts">Wake queue configuration</a>, lines 45–65, gives three attempts with exponential backoff starting at two seconds. <a href="repo/apps/api/src/services/agent/session/process/execution.ts">Execution failure handling</a>, lines 291–408, returns primary queued input to pending on a prompt exception, disposes runtime/tool resources, releases the lease and requeues undispatched steering. Lease-heartbeat loss aborts the runtime. <a href="repo/apps/api/src/services/agent/session/pi-mono/session_event_handler.ts">Event handler</a>, lines 822–959, persists model error information alongside transcript state.</p>
+<p>These are meaningful recovery mechanisms, but not an exactly-once external-action guarantee. A command, network action or source edit may complete before an exception/retry; PostgreSQL, Redis wake notification and remote tool effects are separate operations. A hard worker death also differs from the caught-exception path: a lease eventually expiring does not itself establish that every previously dispatched queue row will be safely replayed. The inspected tests cover lease contention, prompt failures, undispatched steer recovery and interrupts. They do not demonstrate end-to-end recovery from every process/Redis/Postgres/E2B failure combination. Wingman would need operational reconciliation and idempotence rules around business-critical delivery actions.</p>
+<h3 id="assessment-completion-acceptance-and-retirement">Completion, acceptance and retirement</h3>
+<p><a href="repo/apps/api/src/services/task_service.ts">Task status synchronization</a>, lines 821–890, closes an open run when the task is marked completed, or cancels it when reset/reassigned. <a href="repo/apps/api/src/services/task_service.ts">Task start checks</a>, lines 532–557 and 936–1052, prevent taking another agent/user's task and reject a task already active in a different session. A normal model turn ending is not equivalent to task completion. An agent must update the tracker, and a workflow must update its own steps. There is no automatic integrated test verdict or human product-acceptance transition attached to task completion.</p>
+<p>Sessions can be archived/unarchived and renamed. <a href="repo/apps/api/src/services/agent/session/session_lifecycle_service.ts">Lifecycle archive/delete</a>, lines 218–417, marks the session archived, removes queued input and requests interruption of running work; deletion requires an archived session. The Redis interrupt is a request handled asynchronously by the worker, not an awaited acknowledgment that remote activity has stopped. Archiving resolves open human questions and makes history read-only in the relevant UI. <a href="repo/apps/api/src/graphql/mutations/delete_agent.ts">DeleteAgentMutation</a>, lines 44–85, deletes the company-scoped identity; database relationships cascade or restrict different histories (for example task runs restrict agent deletion). There is no separate “retired agent” state retaining an organizational directory entry. Environment stop/delete is separate from session archive. <a href="repo/apps/api/src/services/environments/session_environment.ts">Environment disposal</a>, lines 140–150, releases an idle lease. It does not kill the warm sandbox. This is another reason not to interpret an archived conversation as guaranteed filesystem cleanup.</p>
+<h2 id="assessment-coordination-mechanics-and-a-traced-task">Coordination mechanics and a traced task</h2>
+<p>The shared task model is richer than a flat to-do list: parent/root IDs support decomposition, stages support configurable lanes, tasks can belong to a human or an agent, and runs preserve session-backed attempts. It is narrower than a project-management system with dependency scheduling: the <a href="repo/apps/api/src/db/schema/tasks.ts">task schema</a>, lines 44–131, has no dependency edge, blocked reason, project foreign key or definition-of-done relation. Searches in task services, tools, GraphQL and web pages found no separate implementation of those concepts. A stage named “Blocked” would be a user convention, not an automatic blocker engine.</p>
+<p>Agent messages are actual executable handoffs. <a href="repo/apps/api/src/services/conversations/command_service.ts">Conversation command service</a>, lines 43–94 and 122–155, validates source identity, resolves recipient delivery, persists canonical conversation/message state and queues the target prompt in the same transaction before notifying after commit. Conversations bind agent/session participants and are browsable by humans. There is no named room with many participating agents, room subscriptions or organization-wide management room semantics in the inspected service/schema. <a href="repo/apps/api/src/services/conversations/loop_guard.ts">Loop guard</a>, lines 14–79, suppresses short acknowledgment ping-pong when both parties have already sent low-information closures. It deliberately permits substantive questions/links, and its English phrase heuristic is not a general loop/cost controller.</p>
+<p>Human decisions use a durable inbox. Agents can ask a question with proposals, pros/cons, ratings and optional freeform answers. The result is tied to the originating agent/session and optional tool call. <a href="repo/apps/api/src/services/inbox/service.ts">Resolution</a>, lines 281–390, validates the selected/custom answer, persists it, sends a steer prompt back and reopens the question if prompt delivery throws. This routes context better than an unassociated notification. Asking does not suspend the runtime behind a mandatory approval latch: it is a nonblocking record-and-resume pattern, so organizational instructions must tell agents when to wait.</p>
+<p>A concrete existing execution path is <strong>the human clicking Execute for an agent-assigned task</strong>. This is a static trace through implemented code, not a scenario exercised during assessment:</p>
+<ol>
+<li><a href="repo/apps/api/src/graphql/mutations/execute_task.ts">ExecuteTaskMutation</a>, lines 42–63, authenticates company/user and calls <code>TaskRunService.executeTask</code> with the task ID.</li>
+<li><a href="repo/apps/api/src/services/task_run_service.ts">TaskRunService</a>, lines 106–161, loads the task under company scope, requires an agent assignee, reuses an existing open session-backed run, or closes a stale run missing its session. This avoids silently launching duplicate attempts through repeated clicks.</li>
+<li>The same service, lines 164–237, renders the task description and stage into a prompt. It creates a session and queued message with <code>principalType: task</code> and the run ID. It stores the linked run, marks the task in progress, commits, and notifies execution. The <a href="repo/apps/api/src/templates/execute_task.njk">execute-task template</a>, lines 1–14, directs work in that session. It requires a review/approval request before the agent considers the task complete.</li>
+<li><a href="repo/apps/api/src/services/agent/session/process/execution.ts">Session execution</a>, lines 122–291, acquires ownership, restores runtime state, marks queued input processing and calls PI. A shell/file tool lazily leases an E2B environment. A non-coding question need not allocate one.</li>
+<li>The agent can activate Manage tasks to create child tasks, send another agent an implementation question or start a fresh specialist session. <a href="repo/apps/api/src/services/conversations/delivery_planner.ts">Delivery planner</a>, lines 65–175, makes that handoff queued/steered execution rather than passive chat text.</li>
+<li>If product intent is unclear, the agent can create an inbox question. The answer returns to the exact requesting session through the resolution path above. No Butler or management hierarchy is involved.</li>
+<li><a href="repo/apps/api/src/services/agent/session/pi-mono/session_event_handler.ts">Event handler</a>, lines 883–959 and 1008–1099, persists messages/tools and publishes UI updates. Artifacts can attach documents, links or PRs to the task/session. These are durable outputs, not proof the deliverable passed acceptance.</li>
+<li>The agent marks the task completed through assigned-task/system-command tools. <a href="repo/apps/api/src/services/task_service.ts">TaskService</a>, lines 821–890, timestamps and closes the open run. The human can inspect the run/session and artifact in the task detail UI, but there is no enforced TestMaster verification or accepted-delivery ceremony.</li>
+</ol>
+<p>This trace covers the useful infrastructure boundary precisely: CompanyHelm executes and records assigned work, coordinates addressed sessions and carries human answers, while Wingman's portfolio interpretation, product definition and acceptance obligations remain to be supplied.</p>
+<h2 id="assessment-major-additional-capabilities-and-consequences">Major additional capabilities and consequences</h2>
+<p><strong>Managed remote development environments with interactive inspection.</strong> E2B templates, lazy acquisition, warm reuse, pause/resume, terminal connections, environment metrics and optional desktop/VNC access provide a concrete way to run applications and let a human inspect them before merging. This goes beyond Wingman's described Mac/Endeavour execution layer and is useful for sandboxed tests and demos. It also introduces E2B credentials, templates, network/storage behavior, cost and lifecycle management. It cannot substitute unchanged for durable local product placement. Evidence: <a href="repo/apps/api/src/services/environments/providers/e2b/e2b_provider.ts">E2B provider</a>, lines 79–143 and later start/stop/VNC methods; <a href="repo/apps/web/src/pages/environments/environment_terminal_page.tsx">environment terminal page</a>; <a href="repo/apps/api/src/services/environments/metrics/collection_service.ts">metrics collection</a>.</p>
+<p><strong>A provider-independent model and credential control plane.</strong> The schema/configuration separates model credentials, synchronized models, default selections, reasoning/options and actual session model choices. OAuth refresh and provider errors/rate-limit handling are implemented services rather than a single hardcoded API key. This supports a mixed-model organization and cost experiments, but adopting it means Wingman's explicit Codex-agent experience becomes a PI-based model/tool experience unless a separate Codex execution backend is built. Evidence: <a href="repo/apps/api/src/db/schema/agents.ts">model credential schema</a>, lines 54–119; <a href="repo/apps/api/src/services/agent/session/runtime/model_resolver.ts">runtime model resolver</a>; <a href="repo/apps/api/src/services/ai_providers/llm_oauth_credential_refresh_service.ts">OAuth refresh service</a>.</p>
+<p><strong>GitHub integration and PR-feedback continuation.</strong> GitHub App installation/repository access and tracked pull requests provide delivery integration. <a href="repo/apps/api/src/github/webhooks/processor.ts">Webhook processor</a>, lines 52–88 and 149–307, handles PR/review/comment activity and routes tracked PR activity back into linked sessions. This can support post-review fixes without manual transcript copying, but depends on GitHub App setup, correct artifact/PR/session linkage and filtering/idempotence. It is not an integrated acceptance gate or a general issue-to-product intake engine.</p>
+<p><strong>Typed artifacts and human decision records.</strong> Documents, links and pull requests have names, state, authorship and company/task/session scope, while questions preserve structured alternatives and final answers. These provide an inspectable product-output and decision substrate that Wingman's lightweight records would otherwise need to implement. The consequence is a database/API-based record system that must be exported or bridged if Wingman keeps canonical filesystem directives. Evidence: <a href="repo/apps/api/src/db/schema/artifacts.ts">artifacts schema</a>, lines 19–93, and <a href="repo/apps/api/src/services/inbox/service.ts">inbox service</a>, lines 162–254 and 281–390.</p>
+<p><strong>Reusable workflows with execution history and cron.</strong> Durable definitions/inputs/step snapshots, local or delegated execution, parent workflow links and scheduled overlap control support repeatable review, maintenance and onboarding procedures. This is more explicit process infrastructure than Wingman's described initial supervision cycle. However, steps remain model-executed instructions with reported status, not verified deterministic transitions, and schedules do not themselves implement stalled-agent diagnosis. Evidence: <a href="repo/apps/api/src/services/workflows/service.ts">workflow service</a>, lines 552–812, and <a href="repo/apps/api/src/services/workflows/execution_session_service.ts">workflow session service</a>, lines 134–260.</p>
+<p><strong>Company tenancy, membership and operational accounting.</strong> Multiple authenticated users/companies, invitations, company-scoped database operations, LLM cost/token aggregation and environment usage/metrics support a collaborative hosted control plane. Wingman's single-director organization could use these for access and observability, but would inherit authorization, migration, queue and operations complexity. Company tenancy does not automatically solve per-product isolation within one organization. Evidence: <a href="repo/apps/api/src/services/bootstrap/company.ts">company bootstrap membership</a>, lines 98–161; <a href="repo/apps/api/src/db/schema/sessions.ts">usage aggregate schema</a>, lines 137–180; <a href="repo/apps/web/src/pages/dashboard/dashboard_page.tsx">dashboard usage queries</a>, lines 66–140.</p>
+<h2 id="assessment-distinctive-mechanisms-and-grounded-innovation-assessment">Distinctive mechanisms and grounded innovation assessment</h2>
+<p>The strongest design contribution is the <strong>separation of durable identity, durable conversation, transient runtime and leased environment</strong>. Rather than equating a browser tab, subprocess and agent, the code reconstructs model context on demand and manages execution resources separately. That enables resumed sessions, independently concurrent sessions for one identity, optional environment allocation and warm resource reuse. Its limit is that conversational forks are not filesystem snapshots and remote workspace state is not guaranteed clean for every new chat. This is a useful architectural pattern to borrow, without a claim of historical novelty.</p>
+<p>The <strong>durable message plus disposable wake</strong> design keeps the actual work input in PostgreSQL and uses BullMQ jobs to request processing. Redis leases serialize session ownership, while explicit principal metadata distinguishes human/task/workflow/schedule/agent/GitHub input in the transcript. This enables several sources to feed the same session pipeline and supports live steering during a model run. The code takes care to requeue undispatched steering and avoid replaying already in-flight input. Its limits are cross-system failure windows and side effects outside transactions; three queue attempts are not an organizational recovery policy.</p>
+<p>The <strong>canonical conversation plus executable delivery</strong> mechanism bridges chat records and work. A send transaction resolves/creates participants, persists an understandable conversation and inserts the recipient's prompt, followed by an execution notification. It can reuse a known collaborating session or deliberately make a new one. That offers a stronger foundation than a transcript-only chat room, but currently binds a pair of sessions and requires model-authored coordination. The acknowledgment loop guard adds a focused safeguard, with phrase/length-based limits rather than a proof that collaboration cannot cycle.</p>
+<p>The <strong>activated skill to typed platform command</strong> boundary separates reusable instructions from the data-mutating command catalog. <a href="repo/apps/api/src/services/system_command_service.ts">Command dispatcher</a>, lines 105–155, verifies active skill ownership for a command; <a href="repo/apps/api/src/services/skills/session_service.ts">session skill activation</a>, lines 56–103, records activation separately from default attachments. This enables an extensible agent to learn product operations on demand without embedding every management command in the initial tool list. It is a context/capability assembly mechanism, not an authority hierarchy or blanket safety guarantee.</p>
+<p>Finally, <strong>workflow-run snapshots and session-bound execution</strong> keep a launched process associated with the exact ordered instructions and agent session it started with, while allowing delegation to another agent. This supports repeatable organizational routines and inspectable progress. It does not supply dependency-aware multi-agent scheduling or objective acceptance tests: “done” is an agent-reported workflow/task state. The practical innovation is in combining these mechanisms into one inspectable control plane, not in establishing an unprecedented autonomous company.</p>
+<h2 id="assessment-practical-use-for-wingman">Practical use for Wingman</h2>
+<p>Useful mechanisms after configuration include:</p>
+<ul>
+<li>Company/agent catalog and independent tool-using sessions.</li>
+<li>Task, subtask, and run records.</li>
+<li>Human inbox with answer routing and direct agent messages.</li>
+<li>Durable artifacts and skills.</li>
+<li>Live transcripts, tools, usage, queues, leases, and persistence.</li>
+<li>Named workflow schedules.</li>
+<li>E2B remote shell/desktop execution where that deployment model fits Wingman.</li>
+</ul>
+<p>Adapt these areas:</p>
+<ul>
+<li>Represent product boundaries in explicit project records.</li>
+<li>Add team, profile-instance membership, and leadership relationships.</li>
+<li>Make scope, specification, and harness documents discoverable as project knowledge.</li>
+<li>Connect task decomposition to acceptance documents.</li>
+<li>Extend two-party conversations into project-aware management and collaboration rooms.</li>
+<li>Generate evidence-linked summaries of recent results, current work, next work, and blockers.</li>
+<li>Supervise actual progress signals.</li>
+</ul>
+<p>Generic agent IDs and APIs can support these extensions. The UI and query schema still need the new records and relationships.</p>
+<p>Wingman still needs Telegram intake, Butler replies, and persistent project selection with disambiguation. ProjectMaster needs portfolio state. ProductMaster needs discovery and clarification ownership. TechMaster needs planning and dependency policy. TestMaster needs integration and acceptance gates. Organization-wide escalation and accepted-delivery stop/continuation rules also need implementation.</p>
+<p>Reliable Mac/Endeavour placement requires a new compute provider and runner protocol. The <a href="repo/apps/api/src/services/environments/providers/provider_registry.ts">provider registry</a>, lines 14–19, knows only E2B. The <a href="repo/packages/runner/src/runner_cli.ts">runner CLI</a>, lines 48–69, lacks a connection loop, registration, polling, process execution, and result upload. Its package name does not establish a working remote runner.</p>
+<p>There are two credible adoption paths. Wingman could use CompanyHelm as the primary agent/session/task control plane and build organizational workflows plus local providers into it. This maximizes reuse but adopts PI Mono and the web/database operational stack. Or Wingman could retain its Codex-native execution/Telegram organization and borrow CompanyHelm's task-run, durable message, lease, decision and artifact designs. This preserves the intended agent experience but requires implementing and connecting the platform. Neither path is a configuration-only transformation. For the specific Wingman purpose, CompanyHelm is a strong <strong>infrastructure base or mechanism source</strong>, with substantial organizational and host-execution gaps.</p>
+<h2 id="assessment-verification-scope-and-limits">Verification scope and limits</h2>
+<p>The implementation review covered these areas:</p>
+<ul>
+<li>API/server/worker startup and company/agent/session/task/conversation/artifact/environment schemas.</li>
+<li>Company initialization, onboarding, agent creation, prompts, lifecycle, and runtime reconstruction.</li>
+<li>Redis leases, queue retries, event persistence, and context snapshots.</li>
+<li>Environment selection, E2B provisioning, task execution, and status synchronization.</li>
+<li>Conversation planning, loop guards, inbox answers, workflows, and message schedules.</li>
+<li>Skill/system-command dispatch, GitHub webhook feedback, and web agent/task/dashboard/chat/environment views.</li>
+</ul>
+<p>The review inspected the standalone runner separately from the main API runtime.</p>
+<p>Relevant tests inspected include:</p>
+<ul>
+<li><a href="repo/apps/api/tests/session_process_execution_service.test.ts">Session process execution tests</a>, especially lines 14–128, 199–238, 461–499, 963–1005, 1196–1230 and 1645–1695: lease contention/delayed wake, in-flight replay avoidance, follow-up wakes, undispatched steering recovery, cleanup after failure and interrupts.</li>
+<li><a href="repo/apps/api/tests/pi_mono_session_event_handler.test.ts">Session event-handler tests</a>, lines 436–618, 1102–1163, 1368–1523 and 1973–2053: running/stopped/archive state, serialized turn closure, streamed tool content and principal/queue attribution.</li>
+<li><a href="repo/apps/api/tests/agent_conversation_service.test.ts">Conversation service tests</a>, lines 100–283, 325–413 and 453–595: explicit-session steering, fresh recipient sessions, same-agent fresh sessions and canonical readable history; <a href="repo/apps/api/tests/agent_conversation_loop_guard.test.ts">loop guard tests</a> cover the narrow acknowledgment heuristic.</li>
+<li><a href="repo/apps/api/tests/task_service_task_run_idempotency.test.ts">Task-run idempotency tests</a>, lines 136–237: repeated status/start transitions, linking a session-backed run and claiming an unassigned task.</li>
+<li><a href="repo/apps/api/tests/agent_environment_selection_service.test.ts">Environment reuse test</a>, lines 5–86: fallback past an unhealthy history candidate into a reusable environment.</li>
+<li><a href="repo/apps/api/tests/agent_workflow_tools.test.ts">Workflow tools tests</a>, lines 71–278: local/delegated execution and rejecting conflicting workflow ownership; <a href="repo/apps/api/tests/schedule_worker.test.ts">schedule worker tests</a>, lines 72–200: dispatch into workflow versus queued-message services.</li>
+<li><a href="repo/apps/api/tests/company_bootstrap_service.test.ts">Bootstrap test</a>, lines 688–745: OSS CEO identity/defaults/system skills and no seeded onboarding process. <a href="repo/apps/api/tests/agent_inbox_tools.test.ts">Inbox tool tests</a>, lines 6–64, cover exposure and compact acknowledgment of a durable human question.</li>
+</ul>
+<p>These tests largely use test harnesses or mocked dependencies. Their presence supports intended contracts; none was run for this assessment, and no claim is made that the checked-out system currently boots or that its external integrations succeed. In particular, E2B provisioning/desktop access, model/OAuth calls, Redis/Postgres crash recovery, GitHub authentication/webhooks, real simultaneous model sessions and mobile interaction were not exercised.</p>
+<p>Negative-feature checks covered these implementation areas:</p>
+<ul>
+<li>Database schema, indexes, and GraphQL for projects, teams, and timelines.</li>
+<li>Agent initialization, onboarding, and templates for leadership and discovery.</li>
+<li>Task services/tools/pages for dependencies, blockers, and acceptance gates.</li>
+<li>Server/integration routes for Telegram.</li>
+<li>Dashboard/agent/chat pages for executive summaries.</li>
+<li>Provider registry and runner source for local multi-host execution.</li>
+</ul>
+<p>Search terms included Telegram, Butler, leadership names, project IDs, reporting links, discovery, acceptance, definition of done, supervision, blockers, and timelines. Generic prompts, freeform descriptions, configurable stages, and plans did not receive Exact credit as implemented behavior. Hosted CompanyHelm and externally provisioned onboarding workflows remain outside the available evidence.</p></article>
+<section id="source-record"><h2>Source and evidence</h2><p class="url-text">https://github.com/CompanyHelm/companyhelm</p>
+<ul><li><a href="repo/">Open the pinned source checkout</a></li><li><a href="assessment/ASSESSMENT.md">Read the Markdown assessment</a></li>
+<li><a href="../generic/assessments/_audits/qa22.md">Read the historical independent source audit</a></li><li><a href="../generic/method.html">Read the method and evidence limits</a></li></ul></section>
+<nav class="report-switch" aria-label="Adjacent project reports"><a href="../codex-autorunner/index.html">Previous project: CAR / Codex Autorunner</a><a href="../continuous-claude-v3/index.html">Next project: Continuous Claude v3</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../index.html">Return to overview <img src="../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

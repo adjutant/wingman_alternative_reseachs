@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Technical assessment against Wingman’s development organization."><title>Stagewise · Wingman Research</title>
+<link rel="icon" href="../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/report.css"><script defer src="../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../index.html"><img src="../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../index.html">Overview</a><a class="nav-link " href="../generic/index.html">Architecture findings</a><a class="nav-link " href="../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../generic/method.html">Method and evidence</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../index.html">Wingman Research</a><span class="crumb">/</span><span>Stagewise</span></div><span class="topbar-note">SOURCE REVIEW · 05 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Stagewise</h1><p class="subtitle">Technical assessment against Wingman’s development organization.</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#decision">Decision summary</a><a href="#assessment-stagewise-assessment-against-wingman">Stagewise assessment against Wingman</a><a href="#assessment-identity-and-fit-verdict">Identity and fit verdict</a><a href="#assessment-architecture-and-actual-execution-model">Architecture and actual execution model</a><a href="#assessment-complete-feature-comparison">Complete feature comparison</a><a href="#assessment-agent-definition-creation-and-lifecycle-in-depth">Agent definition, creation and lifecycle in depth</a><a href="#assessment-coordination-mechanics-and-a-traced-request">Coordination mechanics and a traced request</a><a href="#assessment-major-additional-capabilities-beyond-wingmans-described-baseline">Major additional capabilities beyond Wingman&#x27;s described baseline</a><a href="#assessment-distinctive-mechanisms-and-grounded-innovation-assessment">Distinctive mechanisms and grounded innovation assessment</a><a href="#assessment-practical-fit-and-remaining-work">Practical fit and remaining work</a><a href="#assessment-verification-scope-and-uncertainty">Verification scope and uncertainty</a><a href="#source-record">Source and evidence</a></div></nav><section id="decision" class="decision"><h2>Decision summary</h2>
+<div class="brief-columns"><div><h3>Useful for Wingman</h3><p>Study durable coding chats, browser context, tool activity, approvals, model routing, and Git worktrees.</p></div><div><h3>Adoption boundary</h3><p>The human coordinates conversations. Product leadership, specialist assignments, rooms, and portfolio supervision remain work.</p></div></div>
+<p class="scope-note">Source assessment at the commit below. Runtime limits appear in the technical report.</p></section>
+<dl class="facts"><div><dt>Source group</dt><dd>Coding workspaces</dd></div><div><dt>Commit</dt><dd><code>17a0123a0e896885465df36169457199d5225eb5</code></dd></div><div><dt>Coverage</dt><dd>24 Wingman features</dd></div></dl>
+<article id="technical-assessment" class="technical"><h2 id="assessment-stagewise-assessment-against-wingman">Stagewise assessment against Wingman</h2>
+<h2 id="assessment-identity-and-fit-verdict">Identity and fit verdict</h2>
+<ul>
+<li class="url-text">Repository: https://github.com/stagewise-io/stagewise</li>
+<li>Local checkout: <code>researchs/stagewise/repo/</code></li>
+<li>Assessed commit: <code>17a0123a0e896885465df36169457199d5225eb5</code></li>
+<li>Assessment date: 2026-11-05.</li>
+<li>Basis: static inspection of the checked-out implementation and selected tests, using <a href="../generic/purpose.html">Wingman's purpose</a> and the <a href="../generic/assessments/ASSESSMENT_GUIDE.md">assessment guide</a>. No dependencies installed, services launched, or source files changed.</li>
+</ul>
+<p><strong>Verdict: a strong reference and possible component source for Wingman's detailed coding workspace, but a weak substitute for its standing development organization.</strong> Stagewise implements independent, durable coding conversations with live tools, browser context, plans, approvals, model routing, worktrees and history. Its shipped agent type is <code>CHAT</code>. It does not supply Butler, portfolio intake, product/technical leadership, specialist assignment, agent rooms, or organization-wide supervision. A conversation can perform substantial autonomous coding, but the human remains the coordinator among conversations.</p>
+<p>The distinction matters when evaluating its use of “agent.” The application creates real runnable agent instances, not just named personas, yet their durable identities identify coding chats rather than employees with enduring organizational roles. A registered <code>AgentProfile</code> controls prompt fragments and environment domains. It is not a business role, team membership or reporting relationship. The implementation has useful child-agent infrastructure, but searches found no shipped call site exposing the child-spawn helper through the native chat toolset. See <a href="repo/packages/agent-core/src/types/agent.ts">agent type enum</a>, lines 9–11; <a href="repo/apps/browser/src/backend/agents/agents-registry.ts">browser registry</a>, lines 20–23; <a href="repo/packages/agent-core/src/agents/chat/chat.ts">chat tools</a>, lines 89–107; and <a href="repo/apps/browser/src/backend/agents/chat/chat.ts">browser additions</a>, lines 24–37.</p>
+<h2 id="assessment-architecture-and-actual-execution-model">Architecture and actual execution model</h2>
+<p>Stagewise is an Electron application with a React interface, a backend service layer and an extracted TypeScript agent runtime. The backend <a href="repo/apps/browser/src/backend/index.ts">entry point</a>, lines 39–42 and 127–158, configures local profile storage, imports <code>main</code> after Electron is ready, and quits when all windows close. Execution therefore lives behind the viewing panel while the app is running, but this is not a separately deployed durable organization daemon.</p>
+<p>The composition root creates an <code>AgentStore</code>/command seam, an <code>AgentHost</code> with paths and model services, and <code>AgentCorePersistence</code>; later it registers the browser chat constructor and constructs <code>AgentManagerService</code>. The host wires environment adapters for workspaces, <code>AGENTS.md</code>, skills, memory, plans, logs and file diffs. See <a href="repo/apps/browser/src/backend/main.ts">main.ts</a>, lines 273–320, 590–635, 655–737 and 750–819. The layering is concrete: <code>packages/agent-core</code> owns the agent loop, state, persistence and universal file tools. The browser subclass adds shell, sandbox, console, diagnostics, library-documentation and question tools. The Node runtime and shell packages provide filesystem/search and PTY execution; Electron supplies browser control and UI.</p>
+<p>UI actions reach typed Karton procedures. <code>AgentManagerService</code> forwards lifecycle and message procedures into <code>CommandRegistry</code>, and core <code>AgentManager</code> creates or addresses the runnable instance. <code>AgentStore</code> is canonical for migrated agent state; <code>AgentCoreBridge</code> projects granular Immer patches into Karton, so streaming updates can reach the interface without copying a whole chat envelope. This is application state synchronization, not an agent-to-agent messaging bus. Evidence: <a href="repo/apps/browser/src/backend/services/agent-manager/agent-manager.ts">browser manager</a>, lines 32–66, 107–134 and 212–227; <a href="repo/apps/browser/src/backend/services/agent-core-bridge/index.ts">bridge</a>, lines 40–67 and 96–125.</p>
+<p>There are two materially different execution paths:</p>
+<ol>
+<li><strong>Native Stagewise harness:</strong> <code>BaseAgent.runStep</code> checks eligibility, captures context, obtains the selected model and tools, and calls AI SDK <code>streamText</code> with an abort signal, retry configuration and output limits. Tool results drive subsequent steps; ordinary model completion returns the conversation to idle. See <a href="repo/packages/agent-core/src/agents/base-agent.ts">base-agent.ts</a>, lines 1676–1715, 1884–1903 and 2673–2774.</li>
+<li><strong>External harness through ACP:</strong> a per-instance <code>AcpAgentRuntime</code> selects a Codex, Claude Code or OpenCode adapter. It launches a <strong>local</strong> subprocess over NDJSON stdio, initializes ACP, creates/resumes the provider session, forwards prompts and translates notifications into Stagewise messages, plans, tools, images and usage. See <a href="repo/apps/browser/src/backend/agents/acp/adapter-registry.ts">adapter registry</a>, lines 1–18; <a href="repo/apps/browser/src/backend/agents/acp/runtime.ts">runtime</a>, lines 153–221, 280–335 and 397–440; <a href="repo/apps/browser/src/backend/agents/acp/process-client.ts">process client</a>, lines 60–128. Calling a cloud model or launching a local external agent is not multi-host execution.</li>
+</ol>
+<p>The primary durable record is a local SQLite database: instance UUID, type, title, model/provider instance, drafts, queued input, mounts, approval preference, unread and archive state, plus normalized message rows. See <a href="repo/packages/agent-core/src/services/agent-persistence/schema.ts">schema</a>, lines 98–150. Separate persistence services hold diffs, attachment blobs and read/image caches. The runtime also writes inspectable Markdown/JSONL memory transcripts and an index. These complement the database rather than creating a project management system.</p>
+<p>The separate <code>apps/stagewise-cli</code> is a minimal extracted-runtime host. It accepts a prompt and working directory. It creates a fresh UUID under the temporary directory, registers <code>CliChatAgent</code> and mounts the workspace. Permission mode is <code>alwaysAllow</code>. It waits up to ten minutes for idle, then removes its PTYs. It does not expose the browser's durable multi-conversation interaction or a cross-machine control plane. See <a href="repo/apps/stagewise-cli/src/index.ts">CLI entry</a>, lines 57–109, 168–175, 193–260 and 307–351.</p>
+<h2 id="assessment-complete-feature-comparison">Complete feature comparison</h2>
+<p>“Similar” credits substantial working behavior with the stated boundary. “Resembles” credits a useful primitive without treating it as the full organizational capability. “Absent” means no implementation was found within the search scope documented below.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Wingman capability</th>
+<th scope="col">Verdict</th>
+<th scope="col">Implementation evidence and concrete difference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F01</td>
+<td>Real independent coding agents and specialist instances</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/packages/agent-core/src/services/agent-manager/agent-manager.ts">Manager</a>, lines 1046–1059, 1180–1246, creates separately identified runnable instances in an active map. <a href="repo/apps/browser/src/backend/agents/agents-registry.ts">Browser registry</a>, lines 20–23, registers only chat. Independent coding sessions exist; shipped backend/frontend/test specialists and their assignments do not.</td>
+</tr>
+<tr>
+<td>F02</td>
+<td>Extensible agent profiles, roles and team composition</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/packages/agent-core/src/agents/agents-registry.ts">Type registry</a>, lines 3–29 and 56–95, supports host constructors; <a href="repo/packages/agent-core/src/host/host.ts">AgentProfile</a>, lines 108–143 and 294–324, supports environment/prompt customization. These are code-level extension seams, not a user-managed role/team catalog.</td>
+</tr>
+<tr>
+<td>F03</td>
+<td>Agent directory and visible working relationships</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/apps/browser/src/ui/screens/main/_lib/agent-list-model.ts">Workspace grouping</a>, lines 366–423, groups conversations by repository/worktree; <a href="repo/apps/browser/src/ui/screens/main/sidebar/agents-list/_components/agent-card.tsx">agent card</a>, lines 37–60 and 111–175, exposes title/state. No role, reporting, team or colleague relationships.</td>
+</tr>
+<tr>
+<td>F04</td>
+<td>Telegram as main human channel and Butler routing</td>
+<td><strong>Absent</strong></td>
+<td><a href="repo/apps/browser/src/backend/services/agent-manager/agent-manager.ts">Browser RPC entry</a>, lines 32–66 and 212–227, routes direct UI calls by instance ID; <a href="repo/apps/stagewise-cli/src/index.ts">CLI</a>, lines 57–109, takes a prompt. Searches found no Telegram receiver, bot routing or Butler equivalent.</td>
+</tr>
+<tr>
+<td>F05</td>
+<td>Cross-project registry and existing/new intake routing</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/packages/agent-core/src/services/agent-manager/agent-manager.ts">Creation handler</a>, lines 465–537, selects explicit/last-used workspace mounts. <a href="repo/apps/browser/src/ui/screens/main/_lib/agent-list-model.ts">Grouping</a>, lines 366–423, organizes those paths. No project entity or semantic request classification establishes/continues products.</td>
+</tr>
+<tr>
+<td>F06</td>
+<td>Per-project product and technical leadership</td>
+<td><strong>Absent</strong></td>
+<td><a href="repo/packages/agent-core/src/types/agent.ts">Agent types</a>, lines 9–11, and <a href="repo/apps/browser/src/backend/agents/agents-registry.ts">browser registry</a>, lines 20–23, contain only chat. No leadership lifecycle, product responsibility or technical manager assignment was found in runtime, commands or UI.</td>
+</tr>
+<tr>
+<td>F07</td>
+<td>Proportionate research, discovery and clarification</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/apps/browser/src/backend/agents/chat/chat.ts">Browser tools</a>, lines 24–37, include docs/browser access and questions; <a href="repo/apps/browser/src/backend/services/toolbox/tools/user-interaction/ask-user-questions.ts">question implementation</a>, lines 38–79 and 155–180, collects structured answers. No research-depth policy, discovery record or ProductMaster/Butler clarification workflow.</td>
+</tr>
+<tr>
+<td>F08</td>
+<td>Scope, specifications, acceptance scenarios and definition of done</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/packages/agent-core/src/env/adapters/plans.prompt.md">Plan guidance</a>, lines 3–13, defines Markdown checkbox plans; <a href="repo/packages/agent-core/src/agents/chat/chat.ts">ChatAgent</a>, lines 50–69, stops after writing a plan for review. Arbitrary specifications can be written, but there is no required product-definition schema or acceptance gate.</td>
+</tr>
+<tr>
+<td>F09</td>
+<td>Decomposition, assignment and shared task tracking</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/packages/agent-core/src/plans/ownership.ts">Plan ownership</a>, lines 35–60, derives owned plans from tool history; <a href="repo/apps/browser/src/ui/screens/main/agent-chat/chat/_components/footer-status-card/index.tsx">status card</a>, lines 145–188, shows plan progress. Checkboxes lack assignees, dependencies, shared ticket comments and worker allocation.</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>Portfolio/project management dashboard</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/apps/browser/src/ui/screens/main/_lib/agent-list-model.ts">Repository/worktree groups</a>, lines 366–423, and <a href="repo/apps/browser/src/ui/screens/main/agent-chat/chat/_components/footer-status-card/index.tsx">per-chat plans</a>, lines 145–188, provide work navigation. This is not a portfolio dashboard of goals, tickets, responsibilities and project decisions.</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>Agent chat application, rooms and direct collaboration</td>
+<td><strong>Absent</strong></td>
+<td><a href="repo/packages/agent-core/src/agents/base-agent.ts">sendUserMessage</a>, lines 800–863, targets one human/assistant history. <a href="repo/packages/agent-core/src/agents/base-agent.ts">Child spawn helper</a>, lines 1528–1604, provides callbacks, not rooms. No peer messaging, room membership or agent discussion store found.</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>Management escalation and human decisions/approvals</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/apps/browser/src/backend/services/toolbox/tools/user-interaction/ask-user-questions.ts">Question forms</a>, lines 38–125, and <a href="repo/packages/agent-core/src/agents/base-agent.ts">approval continuation</a>, lines 866–945, return decisions to the owning conversation. Direct decisions work; escalation through project/organization managers is absent.</td>
+</tr>
+<tr>
+<td>F13</td>
+<td>Durable project knowledge and reusable directives</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/packages/agent-core/src/services/mount-manager/workspace-info/agents-md.ts">AGENTS.md reader</a>, lines 13–33, <a href="repo/packages/agent-core/src/services/mount-manager/workspace-info/skills.ts">skill discovery</a>, lines 67–121, and <a href="repo/packages/agent-core/src/agents/shared/memory/index.ts">memory writer</a>, lines 24–107 and 438–479, preserve reusable material. No prescribed per-product <code>DIRECTIVES/SCOPES/SPECS/HARNESS</code> or project knowledge ownership.</td>
+</tr>
+<tr>
+<td>F14</td>
+<td>Persistent identity, conversation and work continuity</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/packages/agent-core/src/services/agent-persistence/schema.ts">Persistence schema</a>, lines 98–150, and <a href="repo/packages/agent-core/src/services/agent-manager/agent-manager.ts">resume</a>, lines 1265–1348, restore identity/history/queue/model/mounts. Running state is reset, children cannot resume, and organizational role continuity is not modeled.</td>
+</tr>
+<tr>
+<td>F15</td>
+<td>Proactive supervision, periodic wake and blocker follow-up</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/packages/agent-shell/src/engine/session-manager.ts">Watcher engine</a>, lines 637–705 and 1361–1398, emits one-shot events; <a href="repo/apps/browser/src/backend/services/agent-manager/agent-manager.ts">browser handler</a>, lines 166–209, wakes the owning chat. No standing manager reviewing other agents or durable periodic schedule; watchers end with the app process.</td>
+</tr>
+<tr>
+<td>F16</td>
+<td>Parallel products and concurrent specialists</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/packages/agent-core/src/services/agent-manager/agent-manager.ts">Active-agent map and creation</a>, lines 149–152 and 1236–1246, permit multiple independent sessions; <a href="repo/apps/browser/src/backend/services/toolbox/services/mount-manager/index.ts">worktree creation</a>, lines 811–843, provides local isolation. Users can work on multiple repositories concurrently; product teams and automatic specialist coordination are missing.</td>
+</tr>
+<tr>
+<td>F17</td>
+<td>Real multi-host execution with shared coordination</td>
+<td><strong>Absent</strong></td>
+<td><a href="repo/apps/browser/src/backend/agents/acp/process-client.ts">ACP process client</a>, lines 60–98, launches local stdio children. <a href="repo/packages/agent-core/src/fs/index.ts">Filesystem seam</a>, lines 2–19 and 26–58, still delegates to local Node/chokidar. Host abstraction and future remote comments do not implement Mac/Linux distributed execution.</td>
+</tr>
+<tr>
+<td>F18</td>
+<td>Executive current/recent/next/blocker overview</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/apps/browser/src/ui/screens/main/_lib/agent-list-model.ts">State indicators</a>, lines 207–229, report working/waiting/error/unread; <a href="repo/apps/browser/src/ui/screens/main/agent-chat/chat/_components/footer-status-card/index.tsx">status card</a>, lines 50–82 and 145–188, adds queues/plans. These do not provide synthesized accomplished/current/next/blocker briefings across agents.</td>
+</tr>
+<tr>
+<td>F19</td>
+<td>Agent summary timeline linked to underlying work</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/packages/agent-core/src/types/agent.ts">History entry type</a>, lines 140–150, stores message counts/timestamps; <a href="repo/packages/agent-core/src/agents/shared/memory/index.ts">memory transcript writer</a>, lines 438–479, serializes history. Chat/tool history is inspectable, but no separate semantic agent timeline with task/discussion evidence links was found.</td>
+</tr>
+<tr>
+<td>F20</td>
+<td>Detailed per-agent coding workspace</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/apps/browser/src/ui/screens/main/agent-chat/chat/index.tsx">Chat panel</a>, lines 1–9, and <a href="repo/apps/browser/src/backend/agents/chat/chat.ts">browser toolset</a>, lines 24–37, provide individual coding interaction; <a href="repo/apps/browser/src/backend/services/agent-manager/agent-manager.ts">lifecycle RPCs</a>, lines 32–66, expose controls. Strong desktop workspace; no executive/project-room linkage, mobile organization interface or execution-host routing.</td>
+</tr>
+<tr>
+<td>F21</td>
+<td>Live activity, lifecycle controls, steering and visibility</td>
+<td><strong>Similar</strong></td>
+<td><a href="repo/apps/browser/src/backend/services/agent-manager/agent-manager.ts">RPC catalog</a>, lines 32–66, includes create/fork/resume/stop/queue/retry/archive; <a href="repo/packages/agent-core/src/agents/base-agent.ts">message queue</a>, lines 800–863, and <a href="repo/apps/browser/src/backend/services/agent-core-bridge/index.ts">stream bridge</a>, lines 58–67, provide steering/live output. No standing organizational goals/budget controller; compaction is automatic context maintenance.</td>
+</tr>
+<tr>
+<td>F22</td>
+<td>Testing, integrated verification and product acceptance/delivery</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/apps/browser/src/backend/agents/chat/chat.ts">Browser tools</a>, lines 28–36, enable shell tests, diagnostics, console inspection and browser verification. <a href="repo/packages/agent-core/src/agents/base-agent.ts">Loop termination</a>, lines 2725–2773, follows tool/model completion, not a TestMaster verdict or product definition-of-done/delivery gate.</td>
+</tr>
+<tr>
+<td>F23</td>
+<td>Autonomous operation with human direction through organization</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/packages/agent-core/src/agents/base-agent.ts">Step loop</a>, lines 2673–2774, continues through tools; <a href="repo/apps/browser/src/backend/services/agent-manager/agent-manager.ts">watcher callback</a>, lines 166–209, can trigger follow-up. Autonomy exists inside a coding conversation; no organization interprets, assigns, supervises and accepts products on the human's behalf.</td>
+</tr>
+<tr>
+<td>F24</td>
+<td>Views accommodate newly added agent profiles</td>
+<td><strong>Resembles</strong></td>
+<td><a href="repo/packages/agent-core/src/agents/agents-registry.ts">Registry</a>, lines 56–95, and <a href="repo/packages/agent-core/src/types/agent.ts">generic state</a>, lines 74–128, support extension. <a href="repo/packages/agent-core/src/services/agent-manager/agent-manager.ts">Create RPC</a>, lines 483–490, hardcodes chat; rooms/tracker/team views do not exist to grow with new roles.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="assessment-agent-definition-creation-and-lifecycle-in-depth">Agent definition, creation and lifecycle in depth</h2>
+<h3 id="assessment-what-an-agent-is">What an agent is</h3>
+<p>The native agent is a <code>BaseAgent</code> subclass instantiated in the Electron main process, with its own instance ID, message state, model selection, tool access and loop. The external ACP process is a separate harness execution resource attached to that instance, with its own provider session ID. A shell session is a PTY, not a specialist agent. A plan task is a Markdown checkbox, not a scheduled worker. A side chat is a conversation branch. None of those constructs by itself creates Wingman's standing role-bearing employee.</p>
+<p>Definition has three levels. <code>ChatAgent.config</code> declares persistence, model requirements, user input, title generation, context compression and finish-tool behavior. Host subclasses choose extra tools. <code>AgentHost.defineAgentProfile</code> sets environment-domain allowlists, output protocols/aliases and system-prompt slot overrides. These let a developer build another host or agent class. They do not currently let the human grow an organization by defining a profile in the UI. The sole enum member and sole browser constructor are chat. See <a href="repo/packages/agent-core/src/agents/chat/chat.ts">ChatAgent configuration</a>, lines 11–47; <a href="repo/packages/agent-core/src/host/host.ts">host profile</a>, lines 108–143 and 294–324; <a href="repo/packages/agent-core/src/agents/chat/system-prompt-builder/system-prompt-builder.ts">prompt builder</a>, lines 35–100.</p>
+<h3 id="assessment-creation-identity-and-routing">Creation, identity and routing</h3>
+<p>The UI's <code>agents.create</code> handler accepts a model ID, provider-instance ID, approval mode, draft input and workspace paths. It always creates <code>AgentTypes.CHAT</code>. Explicit mount paths normally resolve to the repository's main worktree unless the caller requests exact preservation; without explicit paths it reuses the last chat's workspace paths. <code>createAgent</code> generates a UUID, seeds a canonical store envelope, obtains the registered constructor, binds state mutations and persistence callbacks, creates any external-runtime adapter and inserts the agent in <code>activeAgents</code>. There is no discovery of a product from the meaning of a request. The caller chooses the conversation and mounts. See <a href="repo/packages/agent-core/src/services/agent-manager/agent-manager.ts">manager</a>, lines 465–537 and 1046–1246.</p>
+<p>Routing preserves <code>(providerInstanceId, modelId)</code>, allowing the same model label to address different provider instances. New conversations can inherit the last valid selection; resume validates that the persisted provider/model still exists. ACP routing maps provider type to adapter and derives a process key incorporating approval behavior. A native turn after an ACP turn can invalidate the old ACP thread so subsequent use re-seeds appropriate history. This is harness routing for one conversation, not project/personnel routing. See <a href="repo/packages/agent-core/src/services/agent-manager/agent-manager.ts">manager selection</a>, lines 1061–1084 and 1292–1315; <a href="repo/apps/browser/src/backend/agents/acp/runtime.ts">ACP runtime</a>, lines 139–150 and 280–335.</p>
+<h3 id="assessment-execution-tools-and-permissions">Execution, tools and permissions</h3>
+<p><code>sendUserMessage</code> assigns a fresh message UUID. Working conversations queue input; idle conversations append it and start a step. Older queued input retains order, while special queue flushes can prioritize steering. Before accepting a new direct message, the agent terminates obsolete pending tool states so the loop cannot remain blocked by stale approvals. <code>canRunStep</code> prevents overlapping native generation using the abort controller and checks tool parts for unresolved execution/approval states. Different agent objects can run concurrently. This is a collection of independent loops, with no team scheduler, dependency graph or per-product concurrency policy. See <a href="repo/packages/agent-core/src/agents/base-agent.ts">base-agent.ts</a>, lines 800–863 and 3181–3217.</p>
+<p>The universal toolset supplies read/write/copy/edit/delete/glob/grep. Browser additions supply persistent JavaScript, documentation lookup, lint diagnostics, console reading, structured questions, PTYs and watchers. Filesystem mounts have read/list/create/edit/delete permissions, including explicit read-only and full-access sets. Tool approval defaults to <code>alwaysAsk</code>; users can choose <code>alwaysAllow</code> or <code>smart</code>. In smart mode, a classifier tries a bounded sequence of models and falls back to human approval if all classifiers fail. This is an operational approval system, not a product management escalation policy. See <a href="repo/packages/agent-core/src/env/permissions.ts">permissions</a>, lines 12–25; <a href="repo/packages/agent-core/src/types/tool-approval.ts">approval modes</a>, lines 3–20; <a href="repo/apps/browser/src/backend/services/toolbox/tools/shell/smart-approval/index.ts">classifier</a>, lines 58–151.</p>
+<p>Mount restrictions should not be interpreted as a demonstrated whole-machine security sandbox: the shell tool resolves a working directory and runs a real local PTY. ACP permission behavior is provider-specific; inspected tests explicitly cover automatically approving Claude workspace edits and mapping Codex “Always ask” to a read-only agent mode. A Wingman integration would need to retain and understand those differences rather than assume all harnesses enforce identical capabilities. See <a href="repo/packages/agent-shell/src/tools/execute-shell-command.ts">shell cwd resolution</a>, lines 270–299; <a href="repo/apps/browser/src/backend/agents/acp/runtime.test.ts">ACP tests</a>, lines 667–705 and 1269–1327.</p>
+<p>The protected child-spawn helper can return a synchronous child's finish output or start an asynchronous child with an error callback. The manager supplies parent IDs and completion/error callbacks. However, no current <code>getSpawnChildAgentTool</code> call site was found beyond its definition/documentation, and neither chat tool list includes delegation. The asynchronous helper's success response merely says a child spawned. It is not a collaboration room or automatic aggregation workflow. Sub-agent rows cannot be resumed directly. This is latent extension infrastructure, not a shipped specialist hierarchy. See <a href="repo/packages/agent-core/src/agents/base-agent.ts">spawn helper</a>, lines 1528–1604; <a href="repo/packages/agent-core/src/services/agent-manager/agent-manager.ts">manager spawn/resume</a>, lines 1249–1289.</p>
+<h3 id="assessment-persistence-resume-and-branching">Persistence, resume and branching</h3>
+<p>The database separates instance metadata from messages. The persisted queue, drafts, model/provider and mounts survive normal persistence; working state, errors and pending approval maps are ephemeral. Resume refuses archived records until unarchived and refuses sub-agent records, recreates the top-level runtime with <code>isWorking: false</code>, then remounts saved workspaces while logging individual mount failures. It restores a conversation's ability to continue. It does not resume an instruction pointer in an interrupted tool/process. Startup attempts the last open conversation and otherwise creates a default one. See <a href="repo/packages/agent-core/src/types/agent.ts">state annotations</a>, lines 59–127; <a href="repo/packages/agent-core/src/services/agent-manager/agent-manager.ts">resume</a>, lines 1265–1348; <a href="repo/apps/browser/src/backend/main.ts">startup wiring</a>, lines 657–674.</p>
+<p>Forking uses the side-chat path: copy message history and selection, clone attachment blobs, mount the same workspaces, persist the branch, then promote it by clearing <code>sideChatParentId</code>. Forking does <strong>not</strong> create a worktree automatically. The copies initially point at the same source paths. A side chat cannot be forked again before promotion, and a working side chat cannot be promoted. The mechanism is useful for exploring an alternative conversation without equating it with delegated work. See <a href="repo/packages/agent-core/src/services/agent-manager/agent-manager.ts">fork/side-chat implementation</a>, lines 1397–1497.</p>
+<p>The native loop compresses history when its token threshold is crossed, retaining a recent tail and summary context. In addition, the memory writer records full history in Markdown and JSONL with metadata and a global index, using content hashes, append/tail replacement and periodic rewrites. Those records help recover detailed context after compaction. They are transcripts rather than curated product specifications or executive timeline entries. See <a href="repo/packages/agent-core/src/agents/base-agent.ts">post-step compression</a>, lines 2832–2857; <a href="repo/packages/agent-core/src/agents/shared/memory/index.ts">memory writer</a>, lines 31–39, 64–107 and 431–535.</p>
+<p>ACP adds <code>acp-session.json</code> with adapter/process/session identity. It resumes only when adapter/key match and the provider advertises resume; otherwise the runtime creates a session and can seed chat history. This adds real continuity but relies on external harness behavior, which was not executed here. See <a href="repo/apps/browser/src/backend/agents/acp/runtime.ts">ACP persistence shape</a>, lines 62–67 and 111–126, and <a href="repo/apps/browser/src/backend/agents/acp/runtime.ts">session setup</a>, lines 280–335.</p>
+<h3 id="assessment-scheduling-interruption-failure-and-recovery">Scheduling, interruption, failure and recovery</h3>
+<p>There is no durable periodic organizational scheduler in the inspected execution paths. A native chat can create a one-shot watcher with a command and deadline. The engine starts a dedicated PTY, stores the full command in a temporary script, and arms a timeout. Zero exit becomes a triggered event; nonzero exit becomes failure; expiry kills the session and records timeout. The browser manager packages event data as a user message to the owning agent, with verification/follow-up guidance and <code>queueIfBlocked: true</code>. Watchers explicitly run only in the current application process and are not restored after restart. See <a href="repo/packages/agent-shell/src/tools/execute-shell-command.ts">watcher tool guidance</a>, lines 147–162; <a href="repo/packages/agent-shell/src/engine/session-manager.ts">engine</a>, lines 637–705, 1268–1276 and 1361–1398; <a href="repo/apps/browser/src/backend/services/agent-manager/agent-manager.ts">event routing</a>, lines 166–209.</p>
+<p>Stopping invalidates the step generation before aborting, clears deferred continuations, cancels host dialogs, stops any external runtime and marks unfinished tools as interrupted/denied. Manager stop recurses through active children. ACP sends cancellation and waits three seconds. It closes/restarts a process that does not settle, and some adapters request restart after cancellation even when settled. Cancellation therefore has defined recovery semantics, but it does not undo files or external side effects. See <a href="repo/packages/agent-core/src/agents/base-agent.ts">native internal stop</a>, lines 3307–3363; <a href="repo/packages/agent-core/src/services/agent-manager/agent-manager.ts">manager stop</a>, lines 1759–1802; <a href="repo/apps/browser/src/backend/agents/acp/runtime.ts">ACP stop/teardown</a>, lines 245–277.</p>
+<p>Recovery includes SDK retries, model fallback and explicit retry-last-user-message. The manager scans for network failures every five seconds with bounded backoff intervals, but only registers automatic retry when connectivity is actually offline. A retryable-looking error while online is not automatically treated as an offline event. Recovery after suspend/event-loop stall only selects working agents without pending user questions or approvals. These mechanisms restore a coding run after infrastructure failure, not semantic detection of stalled tasks, missing deliverables or unresolved project blockers. See <a href="repo/packages/agent-core/src/services/agent-manager/agent-manager.ts">retry constants</a>, lines 144–147; <a href="repo/packages/agent-core/src/services/agent-manager/agent-manager.ts">network/recovery logic</a>, lines 897–1042; <a href="repo/packages/agent-core/src/agents/base-agent.ts">fallback transition</a>, lines 2045–2070.</p>
+<h3 id="assessment-completion-acceptance-and-retirement">Completion, acceptance and retirement</h3>
+<p>The loop continues after tool calls, pauses on approvals, can continue after truncated output, and ends on ordinary completion or configured limits. <code>ChatAgent</code> additionally returns idle after creating/updating a plan so the user can review it. A child type could supply a finish schema and callback, but shipped chat has no structured product-completion output. No system-level acceptance tests, definition-of-done reconciliation, delivery approval or automatic stop-after-accepted-delivery policy was found. Testing can be performed through shell/browser tools, with the model and human deciding what the results mean. See <a href="repo/packages/agent-core/src/agents/base-agent.ts">continuation conditions</a>, lines 2673–2774; <a href="repo/packages/agent-core/src/agents/chat/chat.ts">plan stop hook</a>, lines 50–69.</p>
+<p>Archive stops execution, reports premature termination to a parent, finalizes pending diffs, archives active children, optionally persists/marks the row and tears down/removes active state. Hard deletion recursively deletes children, removes the database record and attachment blobs. That path does not demonstrate deletion of all memory transcript artifacts, and worktree deletion is a separate operation. Worktree deletion refuses the main worktree and requires force for uncommitted changes, then detaches that path from all agents while preserving conversations. See <a href="repo/packages/agent-core/src/services/agent-manager/agent-manager.ts">agent cleanup</a>, lines 1517–1614; <a href="repo/apps/browser/src/backend/services/toolbox/services/mount-manager/index.ts">worktree cleanup</a>, lines 1072–1122.</p>
+<h2 id="assessment-coordination-mechanics-and-a-traced-request">Coordination mechanics and a traced request</h2>
+<p>The central coordination mechanism is shared application state around a <strong>single selected conversation</strong>. Messages, queued steering, tool approvals, plan files and mount state are keyed by agent ID; Karton provides live UI updates. Global plan/log/memory directories and mounted source files allow information reuse, but they do not supply room participants, peer delivery, task ownership arbitration or dependency scheduling. A user must intentionally supply shared-file protocols if several chats are to cooperate. Worktrees reduce edit collision without deciding integration responsibility.</p>
+<p>A representative supported request is: <strong>“Inspect this repository, propose an implementation plan, then implement it after review.”</strong> This is a static path trace, not a claim that a live request was executed:</p>
+<ol>
+<li>The UI calls <code>agents.create</code> with model/provider/mount options. The core handler creates a chat and mounts the chosen repository, normally resolving a linked checkout back to the main worktree. The instance UUID becomes the routing key. <a href="repo/packages/agent-core/src/services/agent-manager/agent-manager.ts">Creation handler</a>, lines 465–537.</li>
+<li><code>agents.sendUserMessage</code> reaches the per-instance agent; working sessions queue it, otherwise it enters history and triggers <code>runStep</code>. <a href="repo/apps/browser/src/backend/services/agent-manager/agent-manager.ts">Browser forwarding</a>, lines 212–227; <a href="repo/packages/agent-core/src/agents/base-agent.ts">base-agent message intake</a>, lines 800–863.</li>
+<li>Registered adapters capture the allowed environment domains and render full state/change state. The agent can inspect source, its root <code>AGENTS.md</code>, skills, plans and browser/shell context. Changed-domain entries become durable message context rather than a live lookup required whenever old messages are rendered. <a href="repo/packages/agent-core/src/env/contract.ts">Domain capture</a>, lines 117–191; <a href="repo/apps/browser/src/backend/main.ts">adapter registration</a>, lines 750–819.</li>
+<li>If product intent is unclear, <code>askUserQuestions</code> allocates a question UUID and deferred response keyed to the agent. Each step advances state; submit resolves answers; cancellation or a new user message resolves partial/cancelled output. No Butler or room intervenes. <a href="repo/apps/browser/src/backend/services/toolbox/tools/user-interaction/ask-user-questions.ts">Question lifecycle</a>, lines 27–125 and 155–180.</li>
+<li>The agent writes <code>plans/example.md</code>. <code>ChatAgent.onStepFinished</code> detects the plan-path write and stops. Plan ownership is inferred from that conversation's write/edit tool history. The UI computes progress and offers implementation actions. This is a user-review checkpoint, not a technical manager assigning tickets. <a href="repo/packages/agent-core/src/agents/chat/chat.ts">Plan stop</a>, lines 50–69; <a href="repo/packages/agent-core/src/plans/ownership.ts">ownership</a>, lines 35–60; <a href="repo/apps/browser/src/ui/screens/main/agent-chat/chat/_components/footer-status-card/index.tsx">plan status</a>, lines 145–188.</li>
+<li>The user triggers implementation. The same agent loop edits files and invokes shell/browser/diagnostic tools, subject to operational permissions. State changes and tool output stream through the store/bridge; messages, queue and mounts persist through <code>persistAgentState</code>. <a href="repo/packages/agent-core/src/env/adapters/plans.prompt.md">Plan protocol</a>, lines 7–13; <a href="repo/packages/agent-core/src/services/agent-manager/agent-manager.ts">persistence</a>, lines 1351–1394.</li>
+<li>The loop returns idle when the model finishes. The user can examine edits/results, continue, branch, archive or retry. There is no automatic handoff to an independent TestMaster or portfolio-level delivery report. <a href="repo/packages/agent-core/src/agents/base-agent.ts">Loop decisions</a>, lines 2673–2774; <a href="repo/apps/browser/src/backend/services/agent-manager/agent-manager.ts">lifecycle catalog</a>, lines 32–66.</li>
+</ol>
+<p>The ACP alternative follows the same user-selected conversation at the surface but sends the task to a local external harness; tool/plan notifications are normalized back into the same interface. This is valuable execution interoperability. It does not create inter-agent coordination merely because different chats can select different harnesses.</p>
+<h2 id="assessment-major-additional-capabilities-beyond-wingmans-described-baseline">Major additional capabilities beyond Wingman's described baseline</h2>
+<p><strong>Integrated browsing, debugging and programmable browser operations.</strong> Stagewise combines browser tabs and source editing with a persistent per-agent JavaScript VM in a separate utility process. Worker APIs send CDP commands, subscribe to CDP events, emit streamed output and create attachments that can be returned to agent context. This could make Wingman's frontend/TestMaster workspace far more capable for reproducing and inspecting UI problems. Integration would require an explicit binding between the owning organizational agent, tabs, mounts and artifact permissions. This VM's persistence is process-local and its timeouts are execution bounds, not a durable workflow engine. See <a href="repo/apps/browser/src/backend/services/sandbox/index.ts">sandbox service</a>, lines 19–40 and 72–109; <a href="repo/apps/browser/src/backend/services/sandbox/sandbox-worker.ts">worker APIs</a>, lines 309–409 and 594–628; <a href="repo/apps/browser/src/backend/services/sandbox/sandbox-worker.ts">execution limits</a>, lines 664–716.</p>
+<p><strong>Multiple provider/harness routes within one workbench.</strong> Native direct models and ACP Codex/Claude Code/OpenCode can share UI primitives for messages, file edits, plans, images, approvals and usage. This offers a migration path or toolbench for non-Codex specialists, although Wingman's stated organization uses Codex. The adaptation cost includes handling divergent provider permissions, resume capabilities, plan formats and subprocess lifecycle. The normalization layer is substantial code, not proof all providers behave identically. See <a href="repo/apps/browser/src/backend/agents/acp/adapter-registry.ts">ACP registry</a>, lines 1–18; <a href="repo/apps/browser/src/backend/agents/acp/runtime.ts">notification translation</a>, lines 397–440; <a href="repo/apps/browser/src/backend/agents/providers/codex/stagewise-harness.ts">Codex native-harness provider</a>, lines 150–172.</p>
+<p><strong>Repository/worktree lifecycle and setup integration.</strong> The workbench can create a worktree from the trusted main repository, remember pending setup, start setup after mounting, group chats by repository/worktree and detach removed paths from all conversations. Wingman describes parallel specialists but does not prescribe that isolation mechanism. These controls could support worker placement and cleanup, provided Wingman adds assignment ownership, merge/integration responsibility and a policy for preserving deliverables. Conversation forking alone shares paths, so it must not be confused with worktree isolation. See <a href="repo/apps/browser/src/backend/services/toolbox/services/mount-manager/index.ts">worktree creation</a>, lines 811–843 and 920–927; <a href="repo/apps/browser/src/backend/services/toolbox/services/mount-manager/index.ts">deletion</a>, lines 1072–1122; <a href="repo/apps/browser/src/ui/screens/main/_lib/agent-list-model.ts">grouping</a>, lines 366–423.</p>
+<p><strong>Credential substitution and mini-app interaction.</strong> The sandbox exposes credential lookup through placeholders, and a host-scope fetch wrapper substitutes real values only for allowed origins while disabling automatic redirects for requests carrying placeholders. It also exposes open/close/send-message APIs for mini-apps. Those are richer application-integration primitives than Wingman's stated chat/tracker baseline. Reusing them would require binding plugin/credential authority to organizational roles and project context. Their specific protection is credential handling on this fetch path. It is not a demonstrated universal data-loss prevention system. See <a href="repo/apps/browser/src/backend/services/sandbox/sandbox-worker.ts">worker credential/app APIs</a>, lines 358–368 and 411–455; <a href="repo/apps/browser/src/backend/services/sandbox/utils/credential-fetch.ts">fetch origin validation and substitution</a>, lines 121–147 and 245–330.</p>
+<p><strong>Conversation branching with attachment continuity.</strong> Side chats and promoted forks copy conversation state and attachment blobs while retaining mounts. This can support exploratory product questions, alternative plans and investigation without overwriting the original discussion. Wingman would need to decide whether a branch represents a new worker identity, a temporary advisory session or merely a conversation branch; Stagewise does not make that organizational decision. See <a href="repo/packages/agent-core/src/services/agent-manager/agent-manager.ts">branching</a>, lines 1397–1497.</p>
+<h2 id="assessment-distinctive-mechanisms-and-grounded-innovation-assessment">Distinctive mechanisms and grounded innovation assessment</h2>
+<p>The strongest mechanism is <strong>versioned environment snapshots with rendered differences</strong>. Each domain owns state capture, equality, prompt rendering and optional prompt guidance. On change the registry stores raw state, a full rendered keyframe and a rendered change; unchanged domains are omitted. Profiles explicitly select allowed domains, and adapter failures are isolated. This reduces repetitive prompt context and makes previous turns interpretable even when a current workspace/tab no longer exists. It is useful for Wingman's agent-session observability and future host separation. Its limits are equally important: captured state can be stale, failed domains retain earlier effective state, and the mechanism does not coordinate agents or execute remotely. See <a href="repo/packages/agent-core/src/env/contract.ts">contract</a>, lines 24–78 and 117–191; <a href="repo/packages/agent-core/src/host/host.ts">profile contract</a>, lines 108–143.</p>
+<p>A second mechanism is <strong>one canonical agent store with granular UI projection</strong>. The bridge validates command coverage at attachment and forwards only relevant mutation patches into Karton. It gives a way to separate reusable agent logic from an Electron host while preserving efficient token/tool streaming. Wingman could use the same principle to make executive and detailed views derive from one source of truth. The current bridge is a local host/UI adapter; comments about future clients and remote use do not establish a distributed replicated organizational store. See <a href="repo/apps/browser/src/backend/services/agent-core-bridge/index.ts">bridge</a>, lines 40–67, 96–125 and 179–202.</p>
+<p>A third mechanism is <strong>event-to-conversation continuation</strong>. Watcher completion is converted into structured metadata and a normal queued user turn, using existing agent serialization and blocked-input semantics. This reuses one control path for both human steering and background follow-up. It is a good building block for operational monitoring. It needs durable event ownership, restart recovery, deduplication and a real supervision policy before it could serve ProjectMaster. See <a href="repo/packages/agent-shell/src/engine/session-manager.ts">watcher finalization</a>, lines 1361–1398; <a href="repo/apps/browser/src/backend/services/agent-manager/agent-manager.ts">chat injection</a>, lines 166–209.</p>
+<p>A fourth mechanism is <strong>inspectable full-history memory alongside compressed model context</strong>. The writer tracks ID/content hashes and tail offsets to append new messages or repair the changing final message, forcing periodic full rewrites. This preserves detailed tool input/output for retrieval without repeatedly serializing the entire conversation. It is useful evidence continuity, but automatic transcript capture does not produce curated knowledge, executive summaries or a project decision model. See <a href="repo/packages/agent-core/src/agents/shared/memory/index.ts">writer state</a>, lines 31–39 and 64–107; <a href="repo/packages/agent-core/src/agents/shared/memory/index.ts">rewrite/append paths</a>, lines 431–535; <a href="repo/packages/agent-core/src/agents/shared/memory/memory.test.ts">restart-tail test</a>, lines 749–779.</p>
+<p>These are distinctive engineering choices within this checkout. This assessment makes no claim of historical invention or industry-wide uniqueness.</p>
+<h2 id="assessment-practical-fit-and-remaining-work">Practical fit and remaining work</h2>
+<p><strong>Use directly as a workbench reference:</strong> per-conversation history, queued steering, structured questions, approval state, live tool rendering, file/browser inspection, plan review and worktree navigation. Stagewise is especially useful when designing the detailed workspace reached from Wingman's agent directory. The extracted core/shell boundaries provide a more focused starting point than adopting the entire browser product.</p>
+<p>Adapt before reuse:</p>
+<ul>
+<li>Introduce durable organizational agent IDs separately from conversation IDs.</li>
+<li>Represent roles, team and product membership.</li>
+<li>Bind multiple sessions to one standing agent.</li>
+<li>Preserve tool/provider permissions.</li>
+<li>Expose task/room/evidence links in the detailed UI.</li>
+<li>Replace local-only assumptions with host routing and durable shared coordination. Ensure forks and worktrees have distinct semantics. Operational recovery and watchers should feed a supervisor policy rather than being presented as that policy themselves.</li>
+</ul>
+<p><strong>Build beyond Stagewise:</strong></p>
+<ul>
+<li>Telegram/Butler.</li>
+<li>project intake and registry.</li>
+<li>ProductMaster/TechMaster roles.</li>
+<li>specialist allocation.</li>
+<li>discovery/clarification records.</li>
+<li>product scopes/specifications/acceptance scenarios.</li>
+<li>shared ticket dependencies and ownership.</li>
+<li>agent rooms/direct messaging.</li>
+<li>management escalation.</li>
+<li>executive semantic summaries/timelines.</li>
+<li>product acceptance/delivery.</li>
+<li>periodic supervision and true Mac/Endeavour execution.</li>
+</ul>
+<p>Generic extension hooks lower some implementation cost but do not supply these features.</p>
+<p>There are also concrete adoption boundaries in this revision. <code>agent-core</code> and <code>agent-shell</code> package manifests identify version <code>0.0.0</code>, <code>private: true</code> and <code>license: MIT</code>. The root README identifies the complete application as AGPLv3. This is mixed repository metadata to resolve for the precise components chosen, not an assumption that the whole browser can be consumed under a package's declaration. See <a href="repo/packages/agent-core/package.json">core manifest</a>, lines 1–9; <a href="repo/packages/agent-shell/package.json">shell manifest</a>, lines 1–9; <a href="repo/README.md">README</a>, lines 83–89. The checked-out README also announces the Stagewise account service's planned end in November 2026. This report records that revision's statement rather than independently verifying service availability. An evaluation should center the implemented bring-your-own-provider paths. See <a href="repo/README.md">README</a>, lines 54–81.</p>
+<h2 id="assessment-verification-scope-and-uncertainty">Verification scope and uncertainty</h2>
+<p>This was a read-only static assessment. <code>git rev-parse HEAD</code> and <code>git remote -v</code> established the revision and origin above. The repository's root <code>AGENTS.md</code> was read; no additional <code>AGENTS.md</code> instructions applied to the inspected production paths. Nested guidance under <code>.agents/skills/</code> was outside those paths. No application, provider, ACP subprocess, shell watcher, test suite or build was run. References to runtime behavior mean implementation findings, not observed live outcomes.</p>
+<p>Primary implementation paths inspected include:</p>
+<ul>
+<li>Electron entry/composition.</li>
+<li>browser manager/registry/chat tools.</li>
+<li>core manager creation, resume, fork, cleanup, queue and retry logic.</li>
+<li><code>BaseAgent</code> message intake, spawn helper, generation, termination, continuation and compaction.</li>
+<li>state/persistence schema.</li>
+<li>host profiles and prompt construction.</li>
+<li>environment adapters/contract.</li>
+<li>plans/ownership.</li>
+<li><code>AGENTS.md</code>/skills discovery.</li>
+<li>memory serialization/writer.</li>
+<li>ACP adapter/runtime/process client.</li>
+<li>sandbox worker/service/credential fetch.</li>
+<li>PTY watcher engine/tool.</li>
+<li>worktree creation/deletion.</li>
+<li>the sidebar/status UI.</li>
+</ul>
+<p>The report links their relevant lines at the claims they support.</p>
+<p>Selected tests were read as corroborating design evidence, <strong>not executed</strong>:</p>
+<ul>
+<li><a href="repo/packages/agent-core/src/agents/chat/chat.test.ts">ChatAgent tests</a>, lines 34–102: universal tools, host separation, null filtering and tool extension.</li>
+<li><a href="repo/packages/agent-core/src/services/agent-manager/agent-manager.create-handler.test.ts">Manager create-handler tests</a>, lines 69–147 and 151–180: unread persistence, deletion despite attachment-cleanup failure, model/provider/approval propagation.</li>
+<li><a href="repo/apps/browser/src/backend/agents/acp/runtime.test.ts">ACP runtime tests</a>, lines 149–175, 667–705 and 1269–1372: failed-process disposal, workspace edit permission mapping, Codex mode mapping and cancellation restart. Test names across that file were also surveyed for plan/image/form normalization coverage.</li>
+<li><a href="repo/packages/agent-core/src/agents/shared/memory/memory.test.ts">Memory tests</a>, lines 239–269 and 749–779: per-agent files/global index and changed-tail repair after restart.</li>
+</ul>
+<p>Absence conclusions used repository inventories and searches across <code>packages/agent-core/src</code>, <code>packages/agent-shell/src</code>, <code>apps/browser/src/backend</code>, <code>apps/browser/src/ui</code> and <code>apps/stagewise-cli/src</code> for agent types/registration/spawn calls, Telegram/Butler, project/portfolio, ticket/assignee/dependency, rooms/peer communication, leadership, schedules/cron/supervision, remote/SSH/host routing and executive/timeline concepts. Implementation tracing confirmed workspace grouping, plans, local ACP children, retry scans and watcher events. These support execution. They do not establish semantic project intake, shared assigned tickets, distributed hosts or management supervision. Generated bundles, vendored dependencies and unrelated website/update-service code were not treated as evidence for missing organizational features.</p>
+<p>Provider-side internals and hosted service behavior remain outside the verified scope. External harnesses might independently possess additional delegation or planning abilities, but those do not establish Stagewise-native specialist roles, rooms, tracker integration or portfolio supervision. Future-oriented “remote”/“Split-Brain” seams were credited as architecture only. The findings apply to this commit, not a later release or a live service promise.</p></article>
+<section id="source-record"><h2>Source and evidence</h2><p class="url-text">https://github.com/stagewise-io/stagewise</p>
+<ul><li><a href="repo/">Open the pinned source checkout</a></li><li><a href="assessment/ASSESSMENT.md">Read the Markdown assessment</a></li>
+<li><a href="../generic/assessments/_audits/qa14.md">Read the historical independent source audit</a></li><li><a href="../generic/method.html">Read the method and evidence limits</a></li></ul></section>
+<nav class="report-switch" aria-label="Adjacent project reports"><a href="../squad/index.html">Previous project: Squad</a><a href="../superplane/index.html">Next project: SuperPlane</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../index.html">Return to overview <img src="../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>
