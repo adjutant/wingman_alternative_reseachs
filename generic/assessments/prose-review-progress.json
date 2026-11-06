@@ -104,7 +104,7 @@
   "review_boundary": "Applied short sentences, active voice, one topic per sentence and consistent terminology. Kept technical details, verdicts, source links and evidence limits. This is an editorial review, not formal ASD-STE100 certification.",
   "documents_reviewed": 119,
   "reviewed_document_sha256": {
-    "AGENTS.md": "5bd6b6cc97e3b6a58f341f66c4ea37863e630f611b5b713c75526abfaabb219b",
+    "AGENTS.md": "c0c44f9e7bb6ae4892f76020ce7541071cffd6e6bb6144d6636ecce3077daf50",
     "WINGMAN_PURPOSE.md": "08f5e62bb2a6186e9eca882c28bcd3986f92504290a07c77aef718b669e7d6ec",
     "agency/assessment/ASSESSMENT.md": "78cf221ba3aece1e7a92469dd93dda490492ccc16323ddd1cb3bd95a07b0f34b",
     "agent-deck/assessment/ASSESSMENT.md": "c7d80dce5c91d1e4364718d065122ef23e7dd90195734c9720c9dad6173db0fb",

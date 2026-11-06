@@ -1,0 +1,13 @@
+{
+  "date": "2026-11-07",
+  "scope": "HTTP checks through this machine's LAN address. A separate LAN device was not used.",
+  "listen_host": "10.10.1.14",
+  "port": 8765,
+  "report_pages_checked": 79,
+  "asset_and_guide_paths_checked": 7,
+  "unit_tests": 3,
+  "blocked_private_paths_checked": 4,
+  "directory_listing_disabled": true,
+  "issues": [],
+  "server_sha256": "bc44b0ed8458e4bdc23dff77caef77625f9b8c0ea5e01185933549aaa00d21d2"
+}

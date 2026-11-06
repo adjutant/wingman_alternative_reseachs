@@ -3,6 +3,7 @@
 
 # Local environment and generated caches.
 .venv/
+.run/
 __pycache__/
 *.py[cod]
 .DS_Store

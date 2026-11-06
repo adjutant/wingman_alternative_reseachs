@@ -44,6 +44,31 @@ Project reports start with a decision summary.
 Their technical sections cover architecture, 24 features, lifecycle, coordination, extra capabilities, and adoption gaps.
 Code links refer to the pinned local checkout.
 
+## Serve on your LAN
+
+Start the server from this repository's root:
+
+```sh
+python3 tools/serve_reports.py
+```
+
+The server uses Python's standard library. No extra packages are required.
+It listens on all IPv4 interfaces on port 8765.
+Open the machine's LAN address on that port from another device.
+Use `--host` to bind one address or `--port` to select another port.
+Press Ctrl-C to stop the foreground server.
+
+The server serves reports, assets, assessments and provenance files.
+It blocks hidden paths, directory listings and files outside this report collection.
+Source checkout links are disabled by default. Add `--include-source` to serve those code links on the LAN.
+Git metadata stays blocked with either setting.
+
+Run the server checks with:
+
+```sh
+python3 tools/test_serve_reports.py
+```
+
 ## Git repository
 
 This repository tracks assessments, HTML reports, shared assets, tools and provenance records.

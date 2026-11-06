@@ -20,6 +20,7 @@ Read a checkout's own instructions before you operate inside that checkout.
 - `generic/purpose.html` presents the Wingman purpose.
 - `assets/` contains shared CSS, JavaScript, fonts, and navigation icons.
 - `tools/` contains the report builder and validators.
+- `tools/serve_reports.py` serves reports on the LAN. Source checkout access requires `--include-source`.
 - `checkouts.json`, `coverage.json`, and `migration.json` record source provenance.
 
 `research/` is the physical folder and Git repository root.
