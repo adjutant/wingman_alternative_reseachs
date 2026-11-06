@@ -2,7 +2,7 @@
 
 Assessment date: 2026-11-05. Repository: https://github.com/getpaseo/paseo
 
-Local checkout: `researchs/paseo/repo`. Actual inspected commit: `b920243c74e25ec06e523019fb154f78ea9870be`. This assessment describes that checkout, not an earlier release or the current hosted Hub service. Requirements come from [WINGMAN_PURPOSE.md](../../WINGMAN_PURPOSE.md) and [ASSESSMENT_GUIDE.md](../../generic/assessments/ASSESSMENT_GUIDE.md).
+Local checkout: `research/paseo/repo`. Actual inspected commit: `b920243c74e25ec06e523019fb154f78ea9870be`. This assessment describes that checkout, not an earlier release or the current hosted Hub service. Requirements come from [WINGMAN_PURPOSE.md](../../WINGMAN_PURPOSE.md) and [ASSESSMENT_GUIDE.md](../../generic/assessments/ASSESSMENT_GUIDE.md).
 
 **Verdict: a strong candidate for Wingman's execution and individual-agent workbench layer, with substantial real delegation infrastructure. It does not supply Wingman's standing development organization.** Paseo manages independent provider sessions, exposes child creation and direct messages to agents, preserves identities and provider resume handles, delivers completion/permission notifications, schedules recurring prompts, and routes work to other daemons. Its desktop/mobile/web workspace is much closer to Wingman's detailed agent workspace than its portfolio, tracker, room, discovery or leadership requirements. Those organizational behaviors need an application built above the daemon rather than a change of profile names.
 

@@ -3,7 +3,7 @@
 ## Identity and fit verdict
 
 - Repository: https://github.com/a5c-ai/babysitter
-- Local checkout: `researchs/babysitter/repo`
+- Local checkout: `research/babysitter/repo`
 - Inspected commit: `feb68abe397acc14f32b34984975c48fedba2b33` (`git rev-parse HEAD`); root package version `6.0.3`.
 - Assessment date: 2026-11-05.
 - Baseline: [Wingman purpose](../../WINGMAN_PURPOSE.md); [assessment guide](../../generic/assessments/ASSESSMENT_GUIDE.md).

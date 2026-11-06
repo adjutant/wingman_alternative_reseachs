@@ -1,7 +1,7 @@
 # Kander assessment
 
 - Repository: https://github.com/dualface/kander
-- Checkout: `researchs/kander/repo`
+- Checkout: `research/kander/repo`
 - Assessed commit: `285fb4f2994a2dc6e10dff589179fa8a6ead4cb6`
 - Assessment date: 2026-11-05
 - Reference: [Wingman purpose](../../WINGMAN_PURPOSE.md) and [assessment guide](../../generic/assessments/ASSESSMENT_GUIDE.md).

@@ -1,5 +1,5 @@
 {
-  "scope": "Final-build browser interactions, 2026-11-06",
+  "scope": "Browser interactions after canonical folder rename, 2026-11-07",
   "http": {
     "failures": [],
     "results": [
@@ -63,6 +63,6 @@
       }
     ]
   },
-  "local_navigation": "Opened Paperclip from the file-based comparison table and returned through the top bar. Both resulting file URLs were observed.",
+  "local_navigation": "Opened Paperclip from the file-based comparison table at the canonical research path and returned through the top bar. Both resulting file URLs were observed.",
   "script_sha256": "16f77be3542d5bf9e074b67c76b796c8fe75a9182ca9f87434ed120f447d8818"
 }

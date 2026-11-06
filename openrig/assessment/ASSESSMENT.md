@@ -1,7 +1,7 @@
 # OpenRig assessment against Wingman
 
 Repository: https://github.com/mvschwarz/openrig  
-Checkout: `researchs/openrig/repo`  
+Checkout: `research/openrig/repo`  
 Revision inspected: `fa3262d360fbb8d785acfa9bd8f1b40439325b4f`  
 Assessment date: November 5, 2026 (fresh implementation audit)  
 Baseline: [Wingman purpose](../../WINGMAN_PURPOSE.md). This assessment concerns this local source snapshot, not the current hosted service or the behavior of an installed release.

@@ -4,7 +4,7 @@
 
 - **Product:** RocketRide (formerly Aparavi), an AI/data pipeline development environment and runtime, with a native engine, Python node catalog, Python/TypeScript clients, MCP and visual pipeline tooling.
 - **Repository:** https://github.com/rocketride-org/rocketride-server
-- **Local checkout:** `researchs/rocketride-server/repo`.
+- **Local checkout:** `research/rocketride-server/repo`.
 - **Assessed commit:** `a7f3770b1910b34080e07cf66bf0b242ef3b09ac`.
 - **Assessment date:** 2026-11-05.
 - **Method:** source-only assessment of this local revision. No dependency installation, service launch, network integration or runtime test execution; checkout sources left unchanged.

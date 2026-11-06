@@ -3,7 +3,7 @@
 ## Identity and verdict
 
 - Repository: https://github.com/herdrdev/herdr
-- Local checkout: `researchs/herdr/repo/`
+- Local checkout: `research/herdr/repo/`
 - Assessed commit: `ee5bfb5041bb3e4a49d591c72308aae3c81ecdde` (actual local `HEAD`; source checkout clean when inspected).
 - Assessment date: 2026-11-05.
 - Product: a Rust terminal runtime and mouse/keyboard TUI for independently running coding-agent CLIs, with background servers, a JSON control API, persistence, plugins and SSH-connected machines.

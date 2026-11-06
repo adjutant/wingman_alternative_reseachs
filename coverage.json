@@ -10,7 +10,7 @@
       "initial_git_status": "",
       "report": "agent-swarm/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "4d56d37b18492addfff3d47abed87f5244533949a26d29812cf6b84a4584bfb2",
+      "report_sha256": "b15af72d1f74adcfc78418acac333b56aca8be3ed60943cd49ec2d5abd8ae78d",
       "feature_verdicts": {
         "F01": "Exact",
         "F02": "Similar",
@@ -48,7 +48,7 @@
       "initial_git_status": "",
       "report": "agency/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "a961710cd650e8869137b7347e77d287fb4c57bd17ed3bc69f1ebe6f157965a3",
+      "report_sha256": "78cf221ba3aece1e7a92469dd93dda490492ccc16323ddd1cb3bd95a07b0f34b",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -86,7 +86,7 @@
       "initial_git_status": "",
       "report": "teammcp/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "6add16f2b3ac216e6d3d7a45b3805a64ece6a6526d079872704e06f097587d91",
+      "report_sha256": "7b84a7891653c781f5da5224949b3afa4cc4cb10c597f8f20cb94e2134c6e0c2",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -124,7 +124,7 @@
       "initial_git_status": "",
       "report": "edict/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "3915060c2be05958fc8934710fa356de1dcbb07d05a78205eb871d38f2a2ae39",
+      "report_sha256": "5c7e836a807bfae9cb8c6319528afb7e67ccdae00e4bd92dad527b7528a068f7",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Resembles",
@@ -162,7 +162,7 @@
       "initial_git_status": "",
       "report": "claw-empire/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "b8e98511be33dd6859db9c0cae2a052f9cbaa497ba6d881e1866666439caac65",
+      "report_sha256": "b5b563bf7569d19d7f26a066cf4fe7b13d52925ccfa5b48eca6425551690de97",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -200,7 +200,7 @@
       "initial_git_status": "",
       "report": "clawteam/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "13e06e86838ad1d9ba03706baa5f4fe1a672e38192e9efc0a7bd12e40a9e4138",
+      "report_sha256": "0fdfa5eaa4396afbde5b2888de0e53d4b9c9446893ead2ae44b2384e506047a6",
       "feature_verdicts": {
         "F01": "Exact",
         "F02": "Similar",
@@ -238,7 +238,7 @@
       "initial_git_status": "",
       "report": "multica/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "61cc54be9e8259126fe53f71721f14ddf5964919c43f8361cefdbfbde8e4da17",
+      "report_sha256": "91d67b4f2013c9f29a07b356105d5aee5c9e23058aa980913476c5542008b05c",
       "feature_verdicts": {
         "F01": "Exact",
         "F02": "Similar",
@@ -276,7 +276,7 @@
       "initial_git_status": "",
       "report": "scion/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "8665da0406e67a231b2ae636f1324280e6e943931260a01eb8e3a4a2a45f695f",
+      "report_sha256": "9f383c68893f5e39a4b5e6293e3f2bd251045bb0466c95cddb2cd7506a4aef16",
       "feature_verdicts": {
         "F01": "Exact",
         "F02": "Exact",
@@ -314,7 +314,7 @@
       "initial_git_status": "",
       "report": "paperclip/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "8d8d48836bf4c3c5272c1186d3d3fe3f24ed52fe3c22b17e11aba99eeb7ffb82",
+      "report_sha256": "38779fb7e9e8609f0a1600fc6b824f717e06d962db4fc7cd5f992bb729d7545d",
       "feature_verdicts": {
         "F01": "Exact",
         "F02": "Exact",
@@ -352,7 +352,7 @@
       "initial_git_status": "",
       "report": "openrig/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "d5b8d1d6c5c2be0d2b64d80e1cce19e662252f949a08275f8fb594e9f58558f3",
+      "report_sha256": "736287c2bfd3e98ca656e398efa3cb3e54c694319d95c1a7edfb848a6956d6c9",
       "feature_verdicts": {
         "F01": "Exact",
         "F02": "Exact",
@@ -390,7 +390,7 @@
       "initial_git_status": "",
       "report": "tinyagi/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "50f717d2d9d01dcd999535ac20064990b159ad9dbcebd26b676258cc6543d84b",
+      "report_sha256": "2e23f1dfda791f8d29245d796bd06eef83efcac0b7c9ee24be73b75f325c5561",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -428,7 +428,7 @@
       "initial_git_status": "",
       "report": "hamlet/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "db07e1215babe3a0615476c141d4c48a03ce26d4bc518c407fb72d49aab3d8e7",
+      "report_sha256": "f39749de6e4dc5ab22710767bd8189924eacd3261a033764178167cced53c40d",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -466,7 +466,7 @@
       "initial_git_status": "",
       "report": "multi-agent-shogun/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "01cc6935a526abb768e98700a62ea5617cfc57b1f63e6fb0ef51d03d4b0abae6",
+      "report_sha256": "11e908961c8f381dea108a089faec2facc6eb0af92978ba01e6734d05ffdcea8",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Resembles",
@@ -504,7 +504,7 @@
       "initial_git_status": "",
       "report": "agent-of-empires/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "eead9c831426d8640e647170e85411d4f9669acaedf0af348a20eb63c713465a",
+      "report_sha256": "434d01b31a1cb73a11445dbe2e26fda6317f76e49740bd08a2b481d28867525e",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -542,7 +542,7 @@
       "initial_git_status": "",
       "report": "orkas/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "f34a52b363c93807f6ab378aaadc08d78b67883b9231b31f0008d043f68faa1a",
+      "report_sha256": "4eab8565b6652fcb421197ab64f5f22ee5310e3f88e52f47e6953bc98598616b",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -580,7 +580,7 @@
       "initial_git_status": "",
       "report": "amux/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "15fe112ef13e44e69cff895527c8e61e62220ef940c8489a6cbe447fc57b55cb",
+      "report_sha256": "91a09b5f6feb7cde4dbac7ddd5750abc9d6282c4c45698264eb74e28fc2e9639",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -618,7 +618,7 @@
       "initial_git_status": "",
       "report": "automaker/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "c2f52c1633b982a5c441a76ee5cb72598c8c347347b6e343b173e0d17c0d52b2",
+      "report_sha256": "d18880dac7d83cc8ed67960e4ad36d1df580afa1cb8eddb9fb2d3071409f1c6e",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Resembles",
@@ -656,7 +656,7 @@
       "initial_git_status": "",
       "report": "emdash/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "23c202c765707b55cf2ddf6f9f3c1a4ee8d4a9451dcf61d3514988fea87cbc9e",
+      "report_sha256": "b9d451fdc8a77420e512cb88b22b861bb89ff980f338ba708f199b118a198de1",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Resembles",
@@ -694,7 +694,7 @@
       "initial_git_status": "",
       "report": "paseo/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "4a50ef086e1505251cfc3c5e8da5c5d3102d86b824ef90e4f06fd357b6480eeb",
+      "report_sha256": "6eb43526b6abe2c91174ee5837150b6b768fc2962cdcda84a8c534fba37b0d74",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -732,7 +732,7 @@
       "initial_git_status": "",
       "report": "golutra/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "5734abab4961793885ceb44d4a47f542a62bdf0f2853a4ff9d650d6554da09b5",
+      "report_sha256": "e6c9208117a5559041e270a6917fc8fc3999048e9e4caa6cb0c5de916d09042c",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Resembles",
@@ -770,7 +770,7 @@
       "initial_git_status": "",
       "report": "munder-difflin/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "00b7ebd18874974808b5f98626bb4a674218d45869d99c313c8bab539451ccf4",
+      "report_sha256": "86579be9919850e88cbc35fa1939b94efe36ffb73dbce59adb89b976c3df994d",
       "feature_verdicts": {
         "F01": "Exact",
         "F02": "Similar",
@@ -808,7 +808,7 @@
       "initial_git_status": "",
       "report": "herdr/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "225ac8ae4c247c4aaac5a2cbfb8d9862ba78b5a570d7b10c87b26cfe9da9e4ec",
+      "report_sha256": "e08950f5c3ec30f82312ba7591fdb04d5311933eb428aeb7a96bb47c2a8e27f2",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Resembles",
@@ -846,7 +846,7 @@
       "initial_git_status": "",
       "report": "agent-deck/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "8bc90b36ef35acc624f69a9b2d2e6f034ae590a933e62a655f1129fdc48ab137",
+      "report_sha256": "c7d80dce5c91d1e4364718d065122ef23e7dd90195734c9720c9dad6173db0fb",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -884,7 +884,7 @@
       "initial_git_status": "",
       "report": "intent/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "ecae8ef901ae1fb3990edcba380258e93d8430753f190c64a314f71ab64a0234",
+      "report_sha256": "15a5d245217b5bbafc73be7e2e1d35bd5efe4c7ead36739df3c5f8812c352847",
       "feature_verdicts": {
         "F01": "Unclear",
         "F02": "Unclear",
@@ -922,7 +922,7 @@
       "initial_git_status": "",
       "report": "omnigent/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "99788f13b76acf6064b292cb60c22c35360c3cf35f2cbce4f40dcfaf6fd6b137",
+      "report_sha256": "e4e677002bce3b64777e769f4c28e31a77223237d56f00ea778ab039c45da585",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -960,7 +960,7 @@
       "initial_git_status": "",
       "report": "agent-orchestrator/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "52a20c83cb8d4f10c8214628421f4ce3fce58adc2707c238b72b61f3b376ba17",
+      "report_sha256": "a70476f7a8b9cdc26919e54a8942c09105f55d6b05a8b550fb64d3887d10ec3f",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Resembles",
@@ -998,7 +998,7 @@
       "initial_git_status": "",
       "report": "routa/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "34d92215946334c6fcfdce4d4354f465967874b80431ad6696fa228e5a1e06be",
+      "report_sha256": "bbd96d241fca729aec8e3d45518963f606b493413c66a5421fed30cc4cf449db",
       "feature_verdicts": {
         "F01": "Exact",
         "F02": "Similar",
@@ -1036,7 +1036,7 @@
       "initial_git_status": "",
       "report": "crewly/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "f299cec1e0a5f7b4163f81c4de32ea7e0475a77b735d97f6057f7b55f1d509dd",
+      "report_sha256": "9423b39eaf035a185d80022132a02fced5030c45a07f088ed057f8d58421429a",
       "feature_verdicts": {
         "F01": "Exact",
         "F02": "Similar",
@@ -1074,7 +1074,7 @@
       "initial_git_status": "",
       "report": "maestro/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "60c06f9db49d1a5f610e34e8cddb8fd0e0b7066bfab7d5618c429f4a16bca094",
+      "report_sha256": "0ecde5cf0b6448034df4f2555ebe07bbce551e762985aaf0c44f2f51a936a553",
       "feature_verdicts": {
         "F01": "Exact",
         "F02": "Similar",
@@ -1112,7 +1112,7 @@
       "initial_git_status": "",
       "report": "claude-squad/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "b109f9d48234b27862fa3660b3a6402a306e998a58bad26d76dcded2ef4a0236",
+      "report_sha256": "75c6bdfaee5b266f878687e604062dc920497516ed6abcfa9872d5afcd666789",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Resembles",
@@ -1150,7 +1150,7 @@
       "initial_git_status": "",
       "report": "happy/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "f250f6196cc5aa28b539b770a366048c8292a6c95e7dececfba413501b446a4e",
+      "report_sha256": "923af1f12410595653868ebcf03b8a3139fd522fea3d221a16126ba959629bee",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Resembles",
@@ -1188,7 +1188,7 @@
       "initial_git_status": "",
       "report": "orca/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "57b7b0e07b9328e0b5f2fea1c1d4e49259a376ffaa087cdb13aafcfb0874db9f",
+      "report_sha256": "da4aacff9422cd93e794065d2e7b7634156671a2bf74428d6f738402d877b13f",
       "feature_verdicts": {
         "F01": "Exact",
         "F02": "Similar",
@@ -1226,7 +1226,7 @@
       "initial_git_status": "",
       "report": "paradev/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "4f6b9516cb86becf9b1ab1f5eb1559d417d19c0ec171c37155b05abc7ff52a2b",
+      "report_sha256": "a399ec1c5faaef393ae307b15cb357317e8214a4ef390d139597358ce3daadd3",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -1264,7 +1264,7 @@
       "initial_git_status": "",
       "report": "wrenyard/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "bdceae810224c2f378206daad8d6f2422f4c3a52106cd1904b540dc4f198d827",
+      "report_sha256": "8feed67d3c23671418ea01c6104b16a2e23c3da2a689ce66f14fa829feadfc2d",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -1302,7 +1302,7 @@
       "initial_git_status": "",
       "report": "cli-agent-orchestrator/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "1a9d1ca8848714ab4fb001d92f351f6bc9a21b90762aadbabeae9c29f4a680db",
+      "report_sha256": "38f0fbffd39648fe658b225a02a0b9321416966bdf06e4e1dfaa0bc0d53b9d68",
       "feature_verdicts": {
         "F01": "Exact",
         "F02": "Similar",
@@ -1340,7 +1340,7 @@
       "initial_git_status": "",
       "report": "multiclaude/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "cad2333e140dd25a82828f9464cd88fef20b4557734bc6cec0b3ca1f62fba5a6",
+      "report_sha256": "0befe9126893efd14368706a2289826b387fdb9d58844e35bdc436eff89f4cc2",
       "feature_verdicts": {
         "F01": "Exact",
         "F02": "Similar",
@@ -1378,7 +1378,7 @@
       "initial_git_status": "",
       "report": "kander/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "620ec56531d45ef71f1fcd65a71e180aaf0a81f85b8b730a87e136dabac8265f",
+      "report_sha256": "95aa8e9d7131e14d68fb05d9c64a6d08fc656ecfcc1d7ee2266429997e4f0a05",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Resembles",
@@ -1416,7 +1416,7 @@
       "initial_git_status": "",
       "report": "codex-autorunner/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "dea543d3468ac241210a230ad2b3d4575240681665830e031128ef69364cd4ea",
+      "report_sha256": "c4650694344d46cbc31ff55ce0bb5c5cc843dc5f162fec201931bf292d47513b",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -1454,7 +1454,7 @@
       "initial_git_status": "",
       "report": "gastown/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "7087ee2a381f3e5e8a7f3a5770ff58d4188e70e16cb27b55ae9f6b3bf46279a5",
+      "report_sha256": "82723e89696af2e2ed36d6629e348ba7eccc5ea64614895f9ac62223252a5b62",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -1492,7 +1492,7 @@
       "initial_git_status": "",
       "report": "stagewise/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "257e19dd6cf36548a93ba72935ac2bc93048e41c48a6bc9bae44203bc9a5f135",
+      "report_sha256": "401c969091c96761816c5ba574c79d4f40d1fc505b6a25a45a8bd41dc6734b8c",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Resembles",
@@ -1530,7 +1530,7 @@
       "initial_git_status": "",
       "report": "cmux/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "86bc3c975818bd1aadbf31f89910fba9bbc622cb0bb8dd9367a1f6c4717f9488",
+      "report_sha256": "5a075034f2b8dac2546c82be38e7f9996e929e59008c8c360705d3cd7259566c",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Resembles",
@@ -1568,7 +1568,7 @@
       "initial_git_status": "",
       "report": "open-swe/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "3e74e5eaf4b5cd21249178a378b949ebcb60b73799da7f6dbc7142a87420ec81",
+      "report_sha256": "fb79679adfea4b0ec26c49d784fc20f0ef79ba4ff28cf29baca815d47e8dafd3",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Resembles",
@@ -1606,7 +1606,7 @@
       "initial_git_status": "",
       "report": "warren/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "c9f98592a56c9540bb3445b33dfa33a2b1fc0466955b070640d31371e2534e98",
+      "report_sha256": "7a6753403958cc62827d05e7fa61b6223774574f12e9baed098e0ead81915b40",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -1644,7 +1644,7 @@
       "initial_git_status": "",
       "report": "agentrail/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "82b8e7c2715c8f26802ae611c5d4ef7081b9ac4cca04d6fc0382b0a7badbecee",
+      "report_sha256": "b144c909f73492acd9855ead80f0b03d2706df957d241971f80180f7f43762ba",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -1682,7 +1682,7 @@
       "initial_git_status": "",
       "report": "sortie/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "caa522c8b95e2bb0862a793053d130e21e0f0012f6eef58ccf51539003429db9",
+      "report_sha256": "8560687d415b4a9cae5abfb0aa18bcdb16f393007f472cc170a8a0f78ef94217",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -1720,7 +1720,7 @@
       "initial_git_status": "",
       "report": "symphony/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "0670268ddf3deca08a229285a7b03d8ca9173a19f1ab3d12379567a8573554c8",
+      "report_sha256": "e66aa4b9147400163222cc1f37119e4fa6bac4fee060a628ad079b7d98edf41e",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Resembles",
@@ -1758,7 +1758,7 @@
       "initial_git_status": "",
       "report": "openhands/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "e278b3dd9c86a232202aff6d15b09a3977b7dde2ada95c40ac93ac303047a413",
+      "report_sha256": "36835c83106f99bfbd0ddc15fd6cfcab31f0e29f03ce7ee495555a44d1df25b1",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -1796,7 +1796,7 @@
       "initial_git_status": "",
       "report": "swarmos/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "c3a64adfa9c8e28368d6f0f4e789693a8415035c01f68d9a257bf7d3832805fe",
+      "report_sha256": "ad992a3dc7b37a0e4b11eff6b881eefbfe21f102f549a14a844bbecf00b4a4a8",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Resembles",
@@ -1834,7 +1834,7 @@
       "initial_git_status": "",
       "report": "swe-agent/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "0b9f511c9aa1f49fe76d82e22844263b212c246b7ff22162f41e1133db7f9b40",
+      "report_sha256": "293d50bcb939121fd0d61d76efa1908ceca4342b3c9f87ff4d647e84b1daeacb",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Resembles",
@@ -1872,7 +1872,7 @@
       "initial_git_status": "",
       "report": "zeroshot/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "ef8ae3d0fba51066dda3385590afab953d4b8cc85c379809bfa7c9af293d6628",
+      "report_sha256": "b7f1d771a4e5b52b79a4dd492ad69d3d5b60d58180b5b6950da6d687fcf0042d",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -1910,7 +1910,7 @@
       "initial_git_status": "",
       "report": "agentopology/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "087bb0aa19abad372d5118f9f40a1762f242f06269649809154d3d81b98c8f5e",
+      "report_sha256": "f491d4fcd93e9df47ad44296ae93a22da59e86cb4d8177110accb180a0f3569e",
       "feature_verdicts": {
         "F01": "Resembles",
         "F02": "Similar",
@@ -1948,7 +1948,7 @@
       "initial_git_status": "",
       "report": "superplane/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "b33375f9c2b19c75de38d090441bc3777562d6af75a29cf3c758204681e38810",
+      "report_sha256": "061196253c21f974de0b5eab11f81aff8f9406906312870854ba2e56cb604363",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Resembles",
@@ -1986,7 +1986,7 @@
       "initial_git_status": "",
       "report": "gstack/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "4ba56db22b301be41cb53a9ed33ba577cc3bf403ff81b0b76ae339cfbc382bbd",
+      "report_sha256": "0da5de627cc8119ae3dec71fab693b2977121067083d99369ecf4b8035439249",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -2024,7 +2024,7 @@
       "initial_git_status": "",
       "report": "squad/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "d4523fea39f81c496af8d82b2c10e4afca9d45b13786d5f0c29bdd00b74025da",
+      "report_sha256": "0bafe159a0ad1e009db48b17af0a1f1a6f358c8772fceaa9f64793cc48f638ce",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Exact",
@@ -2062,7 +2062,7 @@
       "initial_git_status": "",
       "report": "deepcode/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "9fdb2aa29bab1ce217427f262f9996e718fa63b574a037be62db820e3fb2db2b",
+      "report_sha256": "3b7217d6f2f91c7dcf8779a23fb111beff2b4d9865bc6fed5768bf5bb55fb64c",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -2100,7 +2100,7 @@
       "initial_git_status": "",
       "report": "ralph-orchestrator/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "683177c62e614abf5324ae07237b40631d827c6559b8a90f68b3c953c82739a3",
+      "report_sha256": "6de3135ab2df8908c38ac33667c8a7b799a77a5766898852a769109739d57240",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -2138,7 +2138,7 @@
       "initial_git_status": "",
       "report": "continuous-claude-v3/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "798c7638885d81590675b5c8110e42755da8265c9fd0211406f82aff1df65ad3",
+      "report_sha256": "86bf5f90aba03f6d66d9942185aa216e5ecf70dc1952bf49aee4112897d2898f",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -2176,7 +2176,7 @@
       "initial_git_status": "",
       "report": "antfarm/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "1e3a27d247a6e947ae88d37fe4bdf0716896811ad695affb1cb449f18b7c4c86",
+      "report_sha256": "4195815663c98b95854e1c39bdf80746d94fa6b93eaa439973d0b53233e3d7f0",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -2214,7 +2214,7 @@
       "initial_git_status": "",
       "report": "oh-my-openagent/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "8b4efc7a094695c0b9de1b0d8bca4c8a07e85c954b23e436cf391e946657c17a",
+      "report_sha256": "b1feef4c1329e2a622066a4cf792af2b7f17c775fdc854b858fab54bceacd5b1",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -2252,7 +2252,7 @@
       "initial_git_status": "",
       "report": "myclaude/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "a1c9ed8a4f513160dbf158ea798647c0c4937cd043182cc8879adf4d1d349f65",
+      "report_sha256": "2232fafd373f01c8f75825800caa9f5e1badad7e0feb9fa84b9f21592cf2547f",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -2290,7 +2290,7 @@
       "initial_git_status": "",
       "report": "oh-my-codex/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "34ea673a4dd830754e151b3047f203237ba25eef46613d0b752a60ff17fab2f5",
+      "report_sha256": "091379f930d485871db8e6f2955be334f973f07f625eb3e26955deaed4510bd4",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -2328,7 +2328,7 @@
       "initial_git_status": "",
       "report": "oh-my-claudecode/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "6203cfe44fca067320b6828076ac9a57e6c92580a86324c9afa3fba83a1dbf77",
+      "report_sha256": "f673deb3b68d7c132c8d8b14891ee637c32edaa19b9d49fb6c77f588cf76fbbd",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -2366,7 +2366,7 @@
       "initial_git_status": "",
       "report": "ruflo/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "0e4bf0783f61f4504907dae3805e74ade1abb3ebc9700dc997ecdef80bce7426",
+      "report_sha256": "f1644c90abbb9dabbcb757718ae3ca769c892600dd935b83098c4b397a1510ce",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -2404,7 +2404,7 @@
       "initial_git_status": "",
       "report": "hcom/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "60719409c97bed7806065962ade397914ae9532336898ce5c1432e3046cfb25f",
+      "report_sha256": "f312c59e28f117e5a9e84dd74f334cf4480f7d40b866a0a33c833c2e738f0d6c",
       "feature_verdicts": {
         "F01": "Exact",
         "F02": "Resembles",
@@ -2442,7 +2442,7 @@
       "initial_git_status": "",
       "report": "mission-control/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "cb78ce0201ebf09e31063a887eb6c42b0a9858bb67e54c3d270b5b5c3d0fbd41",
+      "report_sha256": "2e64e2f4fad8ebd3581d2e29768467d9034d48d8d2fa146838ae42df51046537",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -2480,7 +2480,7 @@
       "initial_git_status": "",
       "report": "companyhelm/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "5bd4b39a51f061435d0cb06c5fcca628a1c0ab45be45cad970f4d1d22ffd1e02",
+      "report_sha256": "23337fbfc2b7a2ab3479aa2008ce82d75bdbcebbfa30602f9b2c2e7eee1e5564",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -2518,7 +2518,7 @@
       "initial_git_status": "",
       "report": "ax/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "f5dde0603240ce7954ad9763d682124d5119e4a0228f141b96a7d229c6188030",
+      "report_sha256": "aa73a0a903042393fb8caf263e4b5a21ac18bfe1eb181507b19deeee53e1b39c",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Resembles",
@@ -2556,7 +2556,7 @@
       "initial_git_status": "",
       "report": "open-multi-agent/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "3c16b2a2c69c6359d7c53f6c49f1df8803ae2cc0d3be669e2f321925393f0676",
+      "report_sha256": "d27bf3d8548009d7bce6932e524623da3522c92f4c66666330f1db1b6d904113",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -2594,7 +2594,7 @@
       "initial_git_status": "",
       "report": "plano/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "c96cc4f5a6612f3606f7e9ef8ec4f7943a2aa5e41aabb3bc3ac048a9728f1cb6",
+      "report_sha256": "245595bc651e80baa60bf3d637a014dcadd9c4a991e83c642d2fc01331d0e630",
       "feature_verdicts": {
         "F01": "Resembles",
         "F02": "Resembles",
@@ -2632,7 +2632,7 @@
       "initial_git_status": "",
       "report": "nasiko/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "3670438983a4d644de5bc420dca9fb3080d84987917825a62537a96799c7f90c",
+      "report_sha256": "db9abe22fbae1c678da07a6a6ba37a836016ba29ca52fda2bbbbf14689e9124f",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -2670,7 +2670,7 @@
       "initial_git_status": "",
       "report": "swarm/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "1f41462e49efaad652001257ded1bb72e6fb535bae24eef2f227aa415b3184f0",
+      "report_sha256": "c33b660fdfbbf04d2a91db61d6e388ee99b08535c64ae826a98d61ded2a554ac",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -2708,7 +2708,7 @@
       "initial_git_status": "",
       "report": "bernstein/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "fe88993cd021e303cdfefff23650af4aacbf4511823c99bf2dff84b87daa3c4d",
+      "report_sha256": "0158f5370a778252476be2f580d79b6bd41edcc3e6e4b444aa533d3e49211ba6",
       "feature_verdicts": {
         "F01": "Exact",
         "F02": "Exact",
@@ -2746,7 +2746,7 @@
       "initial_git_status": "",
       "report": "rocketride-server/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "4365767e0d45e1b7583264818855b682c88a63b401e12877ce70fdfb494546eb",
+      "report_sha256": "a20ec172ba3ef94caf48e1154c645662d80469f6d86c07bf4a1ddc01ce74d335",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -2784,7 +2784,7 @@
       "initial_git_status": "",
       "report": "babysitter/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "9c9ebe43e740b33a0d0561d4c8e7fb98265a3a5d55f0fdf008ac47727755a5a1",
+      "report_sha256": "98efd00ffd0ea8d58d56b8c06988de7669761c11567a55f4bbf5a989f3745792",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",
@@ -2822,7 +2822,7 @@
       "initial_git_status": "",
       "report": "openclaw/assessment/ASSESSMENT.md",
       "status": "complete",
-      "report_sha256": "d895f097adbe9bb495aee8d7cffb54e4b66e562cc00fec4008e3c6ea4ab78861",
+      "report_sha256": "054f3f9a69da80a3a48f5cc059cce1f21562bbec0661a2771d42e931c2198eef",
       "feature_verdicts": {
         "F01": "Similar",
         "F02": "Similar",

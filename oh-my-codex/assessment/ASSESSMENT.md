@@ -3,7 +3,7 @@
 ## Identity and verdict
 
 - **Repository:** https://github.com/Yeachan-Heo/oh-my-codex
-- **Local checkout:** `researchs/oh-my-codex/repo`
+- **Local checkout:** `research/oh-my-codex/repo`
 - **Revision inspected:** `509a299d586b48f145c2c7a7baac8ce08d01a015`
 - **Package version:** `0.21.46` ([package.json], lines 1–12).
 - **Assessment date:** 2026-11-05.

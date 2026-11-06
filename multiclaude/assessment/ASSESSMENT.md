@@ -1,6 +1,6 @@
 # multiclaude assessment
 
-Assessed **2026-11-05** against [Wingman's purpose](../../WINGMAN_PURPOSE.md). Upstream: https://github.com/dlorenc/multiclaude . Local checkout: `researchs/multiclaude/repo`. Actual checked-out commit: `dfad1a58343bceaf20017fe93cfad55af54550d1`.
+Assessed **2026-11-05** against [Wingman's purpose](../../WINGMAN_PURPOSE.md). Upstream: https://github.com/dlorenc/multiclaude . Local checkout: `research/multiclaude/repo`. Actual checked-out commit: `dfad1a58343bceaf20017fe93cfad55af54550d1`.
 
 **Fit verdict:** multiclaude is a useful reference for Wingman's local coding execution and supervision layer, with genuinely independent Claude Code processes, isolated worker branches, configurable roles, durable mailboxes, periodic nudges and GitHub delivery. It begins with repositories and coding assignments. It lacks discovery and product definition workflows. It also lacks Butler/Telegram, portfolio leadership, shared product tickets, collaboration rooms, executive timelines, web/mobile workspaces and distributed hosts. Adopting it as the whole product would leave most of Wingman's organizational and human-facing behavior to build. Its execution patterns are more reusable than its complete application because Wingman specifically requires Codex agents.
 

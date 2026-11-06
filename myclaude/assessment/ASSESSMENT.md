@@ -2,7 +2,7 @@
 
 Assessment date: 2026-11-05. Repository: https://github.com/stellarlinkco/myclaude
 
-Local checkout: `researchs/myclaude/repo`. Assessed commit: `f2e75c1263a2d5f09cdc4bb3dfe3635c635ff296`. Package metadata identifies version 6.7.0 and an AGPL-3.0 license ([package.json](../repo/package.json), lines 1–9). This is a local-revision assessment, not a claim about the upstream project's current release.
+Local checkout: `research/myclaude/repo`. Assessed commit: `f2e75c1263a2d5f09cdc4bb3dfe3635c635ff296`. Package metadata identifies version 6.7.0 and an AGPL-3.0 license ([package.json](../repo/package.json), lines 1–9). This is a local-revision assessment, not a claim about the upstream project's current release.
 
 **Verdict:** myclaude is a useful source of execution-adapter, development-workflow and local continuation-harness mechanisms for Wingman. It is not an implementation of Wingman's persistent development organization. It can launch real independent CLI coding processes, select named specialist presets, run dependency-ordered parallel batches, retain backend session identifiers, and supply product/architecture/QA workflows. Its product is principally installable Claude Code prompts, skills and hooks plus a Go CLI wrapper. There is no implemented Telegram representative, portfolio intake service, standing agent directory, collaboration-room application, executive dashboard or multi-host control plane in this checkout.
 
@@ -190,7 +190,7 @@ Go tests were inspected as source, not executed; no Go build or live backend com
 
 Runtime checks actually performed:
 
-- `PYTHONDONTWRITEBYTECODE=1 python3 -B researchs/myclaude/repo/skills/harness/tests/test_hooks.py`: **58 tests passed**, approximately 2.2 seconds. These are subprocess-based Python hook tests using temporary fixtures. This verifies their tested state decisions, not Claude Code's live hook integration or end-to-end autonomous completion.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -B research/myclaude/repo/skills/harness/tests/test_hooks.py`: **58 tests passed**, approximately 2.2 seconds. These are subprocess-based Python hook tests using temporary fixtures. This verifies their tested state decisions, not Claude Code's live hook integration or end-to-end autonomous completion.
 - Isolated temporary-directory reproduction using the checked-in `task.py create` followed by `stop-hook.py`: creation exited 0 and made one `task.md`, no `task.json`. The Stop hook exited 0 with empty stdout/stderr for the in-progress task. Temporary fixtures were removed automatically. This verifies the `/do` state-reader mismatch without touching the checkout.
 
 Absence findings were checked across implementation paths rather than README silence: entry points, agents/commands, skills/scripts/hooks, installer/module config, Go adapter/application/executor/backend/config/domain code, and repository file inventory. Text searches included Telegram/bot identifiers, Butler, project registry, portfolio, dashboard, rooms/message routing, SSH/remote-host execution, cron/scheduler and HTTP/server primitives. Matches for dashboard were example products/QA targets; WebSocket matches belonged to browser-debugging utilities, not Wingman chat/dashboard services. No corresponding organizational applications or remote-execution transport were found. Local `hostname` metadata, shared-path configuration and independent CLI processes are not evidence of implemented multi-host orchestration.

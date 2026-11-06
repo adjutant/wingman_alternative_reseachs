@@ -6,7 +6,7 @@
 |---|---|
 | Product | **Robin**, formerly Open SWE. An asynchronous coding agent and software factory from LangChain |
 | Repository | https://github.com/langchain-ai/open-swe |
-| Local checkout | `researchs/open-swe/repo` |
+| Local checkout | `research/open-swe/repo` |
 | Commit actually inspected | `b471e036907ce4e3cbd5d5d049f65adcdc4f76a8` |
 | Assessment date | 2026-11-05 |
 | Method | Read-only source and test inspection; no dependency installation, service startup, remote execution, or live integration calls |

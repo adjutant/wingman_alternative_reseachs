@@ -3,7 +3,7 @@
 Assessed 2026-11-05 against [WINGMAN_PURPOSE.md](../../WINGMAN_PURPOSE.md).
 
 - Repository: https://github.com/christag/agency
-- Local checkout: `researchs/agency/repo`
+- Local checkout: `research/agency/repo`
 - Verified revision: `b62e995aac7d4204166831b3f4c212181771ead9`
 - Evidence: independently revalidated from the local source on 2026-11-05, including entry points, all native execution adapters, templates, example agent instructions, setup templates and relevant tests. No dependencies installed, services started, model calls made or tests executed. Existing report text was treated as a draft rather than evidence.
 

@@ -4,7 +4,7 @@
 
 - **Product:** Builderz Labs Mission Control, package version 2.3.0; self-hosted agent operations control plane.
 - **Repository:** https://github.com/builderz-labs/mission-control
-- **Local checkout:** `researchs/mission-control/repo`.
+- **Local checkout:** `research/mission-control/repo`.
 - **Assessed commit:** `c1a846fe020567bb3ceb3b65db9f00db875618cd` (actual checkout HEAD).
 - **Assessment date:** 2026-11-05.
 - **Basis:** [Wingman purpose](../../WINGMAN_PURPOSE.md) and [assessment guide](../../generic/assessments/ASSESSMENT_GUIDE.md); static source and test inspection. No dependencies installed, services started, agent runs dispatched or external accounts contacted. Checkout sources remained unchanged.

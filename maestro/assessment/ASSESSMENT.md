@@ -4,7 +4,7 @@
 
 - **Product:** Maestro, package version 1.0.3. A multi-provider coding-agent workbench with desktop, browser/mobile, CLI and opt-in automation subsystems.
 - **Repository:** https://github.com/RunMaestro/Maestro
-- **Local checkout:** `researchs/maestro/repo/`.
+- **Local checkout:** `research/maestro/repo/`.
 - **Actual checked-out commit:** `5b4d5e4f190a1701024d0567fa85aad458c59104`.
 - **Assessment date:** 2026-11-05.
 - **Method:** read-only source and test inspection. No dependencies installed, application launched, services started, model calls made or SSH connections exercised. The checkout was not modified.

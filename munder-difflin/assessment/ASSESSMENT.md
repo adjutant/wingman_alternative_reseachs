@@ -2,7 +2,7 @@
 
 Assessment date: 2026-11-05. Repository: https://github.com/HarnessMD/munder-difflin
 
-Local checkout: `researchs/munder-difflin/repo`. Inspected commit: `83acdc1de9eacf23f42df7a5d31b36d023ae64ec`. Baseline: [WINGMAN_PURPOSE.md](../../WINGMAN_PURPOSE.md). This is a static assessment of this source snapshot, not a claim about the current hosted product. The README advertises 0.5.6 while this checkout's [package.json](../repo/package.json), lines 1–18, declares 0.4.6; revision evidence is therefore more useful than the marketing version.
+Local checkout: `research/munder-difflin/repo`. Inspected commit: `83acdc1de9eacf23f42df7a5d31b36d023ae64ec`. Baseline: [WINGMAN_PURPOSE.md](../../WINGMAN_PURPOSE.md). This is a static assessment of this source snapshot, not a claim about the current hosted product. The README advertises 0.5.6 while this checkout's [package.json](../repo/package.json), lines 1–18, declares 0.4.6; revision evidence is therefore more useful than the marketing version.
 
 **Fit verdict: a substantial local standing-agent organization and coding workbench, with unusually concrete continuity and supervision mechanisms. It could supply much of Wingman's local agent floor, mailbox, task board and detailed workspaces. It does not supply Wingman's distributed, Telegram-led product-development organization as described.** One local Electron main process owns the hive. The manager combines several responsibilities. Product discovery and acceptance remain instructions rather than a modeled workflow. No host scheduler connects Mac and Linux execution agents.
 

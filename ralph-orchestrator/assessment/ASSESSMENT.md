@@ -2,7 +2,7 @@
 
 Assessment date: 2026-11-05. Repository: https://github.com/mikeyobrien/ralph-orchestrator
 
-Local checkout: `researchs/ralph-orchestrator/repo`. Inspected commit: `b5789dfbb25bd4aa65ce565c756d95acc8c42f76`. Workspace package version: 2.10.1; MIT license ([manifest](../repo/Cargo.toml), lines 20–29). This report assesses the local revision, not current upstream behavior. Source files were read only; no dependencies, services, agents, or test suites were started.
+Local checkout: `research/ralph-orchestrator/repo`. Inspected commit: `b5789dfbb25bd4aa65ce565c756d95acc8c42f76`. Workspace package version: 2.10.1; MIT license ([manifest](../repo/Cargo.toml), lines 20–29). This report assesses the local revision, not current upstream behavior. Source files were read only; no dependencies, services, agents, or test suites were started.
 
 **Fit verdict:** a strong candidate for Wingman's bounded coding-workflow execution layer, particularly fresh-context handoffs, local parallel work, Telegram interaction, durable artifacts, and configurable verification gates. It is not a substitute for Wingman's persistent organization. Its normal hats are role instructions for successive invocations of a constant Ralph coordinator, not a directory of independently living ProductMasters, TechMasters, and workers. Waves and separate loops do launch real concurrent backend processes. Wingman would still need its organization, portfolio routing, durable agent identities/conversations, collaboration rooms, supervision, multi-host dispatch, and connected executive views.
 

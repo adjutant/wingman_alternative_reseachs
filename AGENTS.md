@@ -22,9 +22,8 @@ Read a checkout's own instructions before you operate inside that checkout.
 - `tools/` contains the report builder and validators.
 - `checkouts.json`, `coverage.json`, and `migration.json` record source provenance.
 
-`researchs/` is the physical folder. `../research/` is a relative alias to this folder.
-The alias supports the two folder names in the request. Do not create duplicate checkouts.
-`AGENTS.m` is an alias to this file. It preserves the requested filename.
+`research/` is the physical folder and Git repository root.
+Use `AGENTS.md` for these instructions. Do not create compatibility symlinks for misspelled names.
 
 ## Assessment method
 

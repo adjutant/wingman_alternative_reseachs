@@ -1,7 +1,7 @@
 # golutra assessment against Wingman
 
 - Repository: https://github.com/golutra/golutra
-- Local checkout: `researchs/golutra/repo`
+- Local checkout: `research/golutra/repo`
 - Revision assessed: `8b68a14183afa6ec26f9905f2a81cbd91ed1b35b` (actual local HEAD).
 - Assessment date: 2026-11-05.
 - Basis: [Wingman purpose](../../WINGMAN_PURPOSE.md), all F01–F24 requirements in [assessment guide](../../generic/assessments/ASSESSMENT_GUIDE.md), and fresh read-only source inspection. No checkout-local `AGENTS.md` was present. The supplied global instructions applied.

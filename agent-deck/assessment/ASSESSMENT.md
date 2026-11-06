@@ -1,7 +1,7 @@
 # Agent Deck assessment
 
 - Repository: https://github.com/asheshgoplani/agent-deck
-- Local checkout: `researchs/agent-deck/repo`
+- Local checkout: `research/agent-deck/repo`
 - Actual checked-out commit: `2e897f2a62f6dd570628d2021a0994a3a7db1f4f`
 - Assessment date: 2026-11-05
 - Basis: static inspection of this revision against [WINGMAN_PURPOSE.md](../../WINGMAN_PURPOSE.md) and the complete [assessment guide](../../generic/assessments/ASSESSMENT_GUIDE.md). Source was read only; no dependencies installed, services launched, or tests executed.

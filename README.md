@@ -7,11 +7,10 @@ Search and filters need JavaScript. The complete content does not.
 ## Structure
 
 ```text
-researchs/
+research/
 ├── index.html
 ├── WINGMAN_PURPOSE.md
 ├── AGENTS.md
-├── AGENTS.m -> AGENTS.md
 ├── <project>/
 │   ├── repo/
 │   ├── assessment/
@@ -30,7 +29,7 @@ researchs/
 └── migration.json
 ```
 
-`../research/` is an alias to `researchs/`. Both names open the same files.
+`research/` is the real folder and Git repository root.
 The original categories remain in `checkouts.json` as metadata.
 
 ## Reading paths
@@ -52,9 +51,6 @@ Each `<project>/repo/` checkout is independent and excluded through `.gitignore`
 Source checkouts are not submodules and are not included in a clone of this repository.
 `checkouts.json` records their upstream URLs. `coverage.json` records the assessed commits.
 Reports can be read without the checkouts. Local code links need the corresponding checkout.
-
-The `../research/` alias belongs to the original workspace and is outside this Git repository.
-It is not required to read the reports or build their HTML.
 
 ## Provenance
 
@@ -82,7 +78,7 @@ python3 tools/validate_research.py --write
 Run these commands from this repository's root.
 The builder does not install or start candidate products.
 The validator checks repository preservation, coverage, links, anchors, and assets.
-The full migration validation needs the original local checkouts and workspace aliases.
+The full migration validation needs the original local checkouts and workspace layout.
 It compares their directory inodes with the recorded pre-move state.
 It does not certify source semantics or formal ASD-STE100 compliance.
 

@@ -1,6 +1,6 @@
 # Plano assessment against Wingman
 
-Assessed on 2026-11-05. Repository: https://github.com/katanemo/plano . Local checkout: `researchs/plano/repo`. Actual checked-out commit: `b13ddd632bde1fea7678386c345665ea5fa671af`. This report assesses that local revision against [Wingman's purpose](../../WINGMAN_PURPOSE.md), using the [assessment guide](../../generic/assessments/ASSESSMENT_GUIDE.md). Sources were read only; no dependencies were installed and no services or tests were launched. Line references below refer to this commit.
+Assessed on 2026-11-05. Repository: https://github.com/katanemo/plano . Local checkout: `research/plano/repo`. Actual checked-out commit: `b13ddd632bde1fea7678386c345665ea5fa671af`. This report assesses that local revision against [Wingman's purpose](../../WINGMAN_PURPOSE.md), using the [assessment guide](../../generic/assessments/ASSESSMENT_GUIDE.md). Sources were read only; no dependencies were installed and no services or tests were launched. Line references below refer to this commit.
 
 ## Verdict
 

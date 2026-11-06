@@ -4,7 +4,7 @@
 
 - **Product:** Agent Swarm, Desplega Labs' self-hosted agent company/work orchestration platform. This is not the unrelated OpenAI Swarm library.
 - **Repository:** https://github.com/desplega-ai/agent-swarm
-- **Local checkout:** `researchs/agent-swarm/repo/`
+- **Local checkout:** `research/agent-swarm/repo/`
 - **Assessed commit:** `6aff700f53755cb71bd6a1aa2e2fa1da9586b892`.
 - **Assessment date:** 2026-11-05.
 - **Method:** static source assessment of this checkout; no installation, server, containers, model calls or external integrations were run. Implementation findings below are source-established, not observed deployment outcomes.

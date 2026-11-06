@@ -1,7 +1,7 @@
 # multi-agent-shogun assessment for Wingman
 
 Repository: https://github.com/yohey-w/multi-agent-shogun  
-Local checkout: `researchs/multi-agent-shogun/repo`  
+Local checkout: `research/multi-agent-shogun/repo`  
 Inspected commit: `aff8dc8495da26a2aad582257457655fa953b57e`  
 Assessment date: November 5, 2026  
 Baseline: [WINGMAN_PURPOSE.md](../../WINGMAN_PURPOSE.md)

@@ -2,7 +2,7 @@
 
 Assessed 2026-11-05 against [Wingman's purpose](../../WINGMAN_PURPOSE.md). Repository: https://github.com/agent-of-empires/agent-of-empires
 
-Local checkout: `researchs/agent-of-empires/repo`. Actual Git commit: `db073acb257e666264e0309c683d38bbbfe1c46a`. [Cargo.toml](../repo/Cargo.toml), lines 5–20, declares version `1.21.0`, a terminal session manager for AI coding agents, with MIT and Apache-2.0 licensing. This assessment describes that local revision, not a current hosted service or downloaded plugin.
+Local checkout: `research/agent-of-empires/repo`. Actual Git commit: `db073acb257e666264e0309c683d38bbbfe1c46a`. [Cargo.toml](../repo/Cargo.toml), lines 5–20, declares version `1.21.0`, a terminal session manager for AI coding agents, with MIT and Apache-2.0 licensing. This assessment describes that local revision, not a current hosted service or downloaded plugin.
 
 **Verdict:** Agent of Empires (AoE) provides a strong execution and individual-workspace foundation. It launches independent coding processes and retains development sessions. It supports terminal and structured conversations through desktop and mobile clients. Worktrees, containers, input queues, approvals, recovery, and plugin automation support those sessions.
 

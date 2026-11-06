@@ -2,7 +2,7 @@
 
 - **Product:** TeamMCP, an MCP/HTTP collaboration server with independently launched coding clients, shared messaging/tasks/state, and a Vue dashboard. Package version: 1.1.0.
 - **Repository:** https://github.com/cookjohn/teammcp
-- **Local checkout:** `researchs/teammcp/repo`
+- **Local checkout:** `research/teammcp/repo`
 - **Actual assessed commit:** `c82572da10c290429fa53b7d2706ee4687b3fe6f`
 - **Assessment date:** 2026-11-05.
 - **Method:** read-only inspection of this revision, compared with [WINGMAN_PURPOSE.md](../../WINGMAN_PURPOSE.md), following [ASSESSMENT_GUIDE.md](../../generic/assessments/ASSESSMENT_GUIDE.md). No checkout-specific `AGENTS.md` was found. The supplied global instructions apply. No dependencies installed, processes launched, external services contacted, or source files changed.

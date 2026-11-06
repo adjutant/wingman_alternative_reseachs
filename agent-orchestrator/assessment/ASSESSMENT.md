@@ -4,7 +4,7 @@
 
 - **Product:** Agent Orchestrator / Orchestrator.inc, a desktop supervisor for fleets of coding sessions.
 - **Repository:** https://github.com/OrchestratorInc/agent-orchestrator
-- **Checkout:** `researchs/agent-orchestrator/repo/`
+- **Checkout:** `research/agent-orchestrator/repo/`
 - **Assessed commit:** `fc92e7ec6f43fc06317cd47cdf8813956612fe50`.
 - **Assessment date:** 2026-11-05.
 - **Basis:** static inspection of this checkout, including implementation and selected test bodies. No dependencies installed, services launched, model calls made, or runtime tests executed. The checkout was not modified.

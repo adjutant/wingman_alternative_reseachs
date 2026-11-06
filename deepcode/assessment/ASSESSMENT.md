@@ -2,7 +2,7 @@
 
 - **Product:** DeepCode, an open agentic coding runtime with terminal, desktop and browser clients, plus research-to-code workflows.
 - **Repository:** https://github.com/HKUDS/DeepCode
-- **Local checkout:** `researchs/deepcode/repo`
+- **Local checkout:** `research/deepcode/repo`
 - **Assessed commit:** `aa6ed16148719101b994882c94608ae12e88f870`
 - **Assessment date:** 2026-11-05
 - **Method:** read-only source and test inspection. No dependency installation, service launch, provider request or live workflow execution.

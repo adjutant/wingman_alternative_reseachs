@@ -1,7 +1,7 @@
 # ClawTeam assessment against Wingman
 
 Repository: https://github.com/HKUDS/ClawTeam  
-Local checkout: `researchs/clawteam/repo`  
+Local checkout: `research/clawteam/repo`  
 Assessed commit: `01198332ef9270c32c5460b8a178f964fc0df451`  
 Assessment date: November 5, 2026  
 Package in this snapshot: `clawteam` 0.3.0, Python ≥3.10, MIT, Alpha classifier; [package metadata](../repo/pyproject.toml), lines 1–18.  

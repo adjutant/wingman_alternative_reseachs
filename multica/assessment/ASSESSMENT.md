@@ -4,7 +4,7 @@
 
 - **Product:** Multica, an issue and collaboration workspace for humans and externally installed coding agents.
 - **Repository:** https://github.com/multica-ai/multica
-- **Local checkout:** `researchs/multica/repo`
+- **Local checkout:** `research/multica/repo`
 - **Assessed commit:** `3c5c8b245359b9b8e913a47f97211f2a3426f149`
 - **Assessment date:** 2026-11-05.
 - **Method:** fresh static source assessment against [Wingman's purpose](../../WINGMAN_PURPOSE.md) and [the assessment guide](../../generic/assessments/ASSESSMENT_GUIDE.md). No dependency installation, services, real-agent execution, or source changes.

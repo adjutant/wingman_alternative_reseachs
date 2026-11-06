@@ -2,7 +2,7 @@
 
 Assessment date: 2026-11-05. Repository: https://github.com/voxell-tech/hamlet
 
-Local checkout: `researchs/hamlet/repo`. Inspected commit: `c944a2ff4081bf54cf3049e613c0833a7910e180`.
+Local checkout: `research/hamlet/repo`. Inspected commit: `c944a2ff4081bf54cf3049e613c0833a7910e180`.
 
 Baseline: [Wingman purpose](../../WINGMAN_PURPOSE.md). This is a fresh static assessment of the checked-out implementation. No dependencies were installed, services launched, model calls made or tests run. Source links below are relative to this report; line numbers refer to this commit.
 

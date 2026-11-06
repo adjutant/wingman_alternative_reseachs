@@ -8,9 +8,9 @@
       "html_sha256": "feec0701f40a782f5b3a082f22fb8d102d3edc4d17ab233f0b19f7b63f4c6366",
       "axe_version": "4.12.1",
       "counts": {
-        "inapplicable": 32,
+        "inapplicable": 33,
         "incomplete": 0,
-        "passes": 28,
+        "passes": 27,
         "violations": 0
       },
       "violations": []
@@ -18,7 +18,7 @@
     {
       "page": "gstack/index.html",
       "viewport": 1440,
-      "html_sha256": "d741056a143c31ef7f6fe9cb460fed3a028d33005f3c12c25d344dc7f3e9c880",
+      "html_sha256": "012d941d59f0b39af43535354b81bb24bf8b0067323cc892940827579342423b",
       "axe_version": "4.12.1",
       "counts": {
         "inapplicable": 35,
@@ -31,7 +31,7 @@
     {
       "page": "gstack/index.html",
       "viewport": 390,
-      "html_sha256": "d741056a143c31ef7f6fe9cb460fed3a028d33005f3c12c25d344dc7f3e9c880",
+      "html_sha256": "012d941d59f0b39af43535354b81bb24bf8b0067323cc892940827579342423b",
       "axe_version": "4.12.1",
       "counts": {
         "inapplicable": 32,
@@ -67,5 +67,6 @@
       },
       "violations": []
     }
-  ]
+  ],
+  "verified_date": "2026-11-07"
 }

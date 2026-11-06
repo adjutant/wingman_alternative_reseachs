@@ -2,7 +2,7 @@
 
 Repository: https://github.com/paperclipai/paperclip
 
-Checkout: `researchs/paperclip/repo`  
+Checkout: `research/paperclip/repo`  
 Commit: `46fb933b0155d183ce64a8bdc4950d1b58c926f6`  
 Assessed: November 5, 2026. Static implementation review; services and providers were not launched.
 

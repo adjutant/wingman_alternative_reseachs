@@ -4,7 +4,7 @@
 
 - **Product:** Wrenyard, a local-first desktop workbench for orchestrating AI engineering work; package version `1.0.172`.
 - **Repository:** https://github.com/wrenyard/wrenyard
-- **Local checkout:** `researchs/wrenyard/repo`.
+- **Local checkout:** `research/wrenyard/repo`.
 - **Assessed commit:** `cdaed14b3cfa0901d2feddc86d9b82060d6c3d5b`.
 - **Assessment date:** 2026-11-05.
 - **Basis:** [Wingman purpose](../../WINGMAN_PURPOSE.md), [assessment guide](../../generic/assessments/ASSESSMENT_GUIDE.md), and static inspection of the checked-out implementation. No checkout changes, dependency installation, service startup, model calls or browser operations were performed. No applicable checkout or ancestor `AGENTS.md` file was found. The supplied global instructions were followed.

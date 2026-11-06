@@ -2,7 +2,7 @@
 
 Assessment date: **2026-11-05**. Repository: https://github.com/slopus/happy
 
-Local checkout: `researchs/happy/repo`. Inspected commit: **`76ed3d0abaf5586b1929df77797af8783b38d21c`**. The checkout was clean when inspected. This report assesses that revision through static source and test review; no dependencies were installed, services started, providers invoked, or tests executed.
+Local checkout: `research/happy/repo`. Inspected commit: **`76ed3d0abaf5586b1929df77797af8783b38d21c`**. The checkout was clean when inspected. This report assesses that revision through static source and test review; no dependencies were installed, services started, providers invoked, or tests executed.
 
 ## Verdict and product boundary
 

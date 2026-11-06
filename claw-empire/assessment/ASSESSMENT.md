@@ -2,7 +2,7 @@
 
 Assessment date: 2026-11-05. Repository: https://github.com/GreenSheep01201/claw-empire
 
-Local checkout: `researchs/claw-empire/repo`. Inspected revision: `66a24ea7df2435ef897c48c147deb7ec572c01c2`. Package version: `2.0.4` (`climpire`). Baseline: [Wingman purpose](../../WINGMAN_PURPOSE.md).
+Local checkout: `research/claw-empire/repo`. Inspected revision: `66a24ea7df2435ef897c48c147deb7ec572c01c2`. Package version: `2.0.4` (`climpire`). Baseline: [Wingman purpose](../../WINGMAN_PURPOSE.md).
 
 **Fit verdict:** Claw-Empire is a substantial candidate for Wingman's organizational control plane. It implements real project records, configurable agent employees, departmental delegation, a task board, CEO messaging, Telegram ingress and replies, planning/review meetings, isolated coding runs and workflow recovery. Its central abstraction is a company of durable employee records executing task-scoped jobs. It does not establish Wingman's full model of persistent, independently conversational Codex colleagues, per-project ProductMaster/TechMaster pairs, arbitrary collaboration rooms, a research-led product discovery cycle, or execution shared across the Mac and Endeavour.
 

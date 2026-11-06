@@ -4,7 +4,7 @@
 
 - Product: **Routa.js**, a workspace-oriented multi-agent development workbench; package version `0.19.0`, MIT licensed ([package.json](../repo/package.json), lines 1–18; [LICENSE](../repo/LICENSE), lines 1–21).
 - Upstream: https://github.com/phodal/routa
-- Local checkout: `researchs/routa/repo`.
+- Local checkout: `research/routa/repo`.
 - Actual inspected commit: `9dc7b7be8fa92b760f6ebf0ac7f8b44db1b4dc34`.
 - Assessment date: **2026-11-05**.
 - Target: [Wingman purpose](../../WINGMAN_PURPOSE.md); method: [assessment guide](../../generic/assessments/ASSESSMENT_GUIDE.md).

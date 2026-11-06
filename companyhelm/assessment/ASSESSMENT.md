@@ -2,7 +2,7 @@
 
 - **Product:** CompanyHelm, a distributed coding-agent control plane and company workspace.
 - **Repository:** https://github.com/CompanyHelm/companyhelm
-- **Local checkout:** `researchs/companyhelm/repo`.
+- **Local checkout:** `research/companyhelm/repo`.
 - **Assessed commit:** `8651f20e14b3fa0daa4d11e56abca0981554532b`.
 - **Assessment date:** 2026-11-05.
 - **Method:** Read-only source and test inspection; no dependency installation, service startup, model calls, browser session, or execution of tests. Findings concern this checkout, not the hosted service.

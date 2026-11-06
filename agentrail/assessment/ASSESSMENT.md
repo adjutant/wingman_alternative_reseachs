@@ -3,7 +3,7 @@
 ## Identity and fit verdict
 
 - **Repository:** https://github.com/oxnw/agentrail
-- **Local checkout:** `researchs/agentrail/repo`
+- **Local checkout:** `research/agentrail/repo`
 - **Assessed commit:** `ac75225f090ac67fafbdf63b3fdcd5ad520d867d`
 - **Assessment date:** 2026-11-05
 - **Product at this revision:** `@agentrail-core/cli` 0.1.8, Node.js >=24, a self-managed, single-instance coding-task control plane; see [package.json](../repo/package.json), lines 1–25, and [README](../repo/README.md), lines 9–18.

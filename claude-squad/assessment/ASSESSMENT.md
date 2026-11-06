@@ -2,7 +2,7 @@
 
 Repository: https://github.com/smtg-ai/claude-squad
 
-Local snapshot: `researchs/claude-squad/repo`  
+Local snapshot: `research/claude-squad/repo`  
 Inspected commit: `ce1ffb4392b01f38e2c4599c7c84d2a93973b138`  
 Assessment date: November 5, 2026  
 Review basis: independently re-read implementation and relevant tests; earlier report text was treated as an unverified draft.  

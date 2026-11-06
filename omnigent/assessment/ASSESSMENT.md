@@ -1,7 +1,7 @@
 # Omnigent assessment
 
 - Repository: https://github.com/omnigent-ai/omnigent
-- Checkout: `researchs/omnigent/repo`
+- Checkout: `research/omnigent/repo`
 - Assessed commit: `539fe5da7769fde0f6d2ed48fca10ef93e174a23`
 - Assessment date: 2026-11-05
 - Basis: local implementation review against [Wingman purpose](../../WINGMAN_PURPOSE.md); no services, models, installations or tests executed.
@@ -199,4 +199,4 @@ Relevant tests were **inspected, not executed**:
 
 Negative findings used targeted searches for Telegram/Butler/ProjectMaster, product and technical leadership, rooms, tickets/kanban/dependencies, acceptance/definition-of-done, executive summaries and timelines across the implementation (`omnigent/entities`, `server/routes`, `tools/builtins`), shipped examples, integrations and web pages/shell. Related results were inspected and credited in the matrix: Slack thread routing, private session messaging, project session containers, harness todos, automation runs and Polly's file registry. Repository contributor automation under `dev/` is not treated as the end-user product's organizational feature. The absent findings mean no corresponding first-class implementation was established within those likely paths, not that a user could never script the missing behavior through arbitrary tools or role prompts.
 
-To review this assessment without starting the application, open the cited local files at the stated lines, confirm the revision with `git -C researchs/omnigent/repo rev-parse HEAD`, and compare the feature-flag defaults before evaluating the scheduler or orchestration claims. An eventual runtime trial should specifically check a two-worker Codex fanout, running-worker steering, approval propagation, runner restart with an undrained result, remote-host disconnection/reconnect, and completion versus accepted-delivery semantics. Those are proposed validation scenarios, not work performed here.
+To review this assessment without starting the application, open the cited local files at the stated lines, confirm the revision with `git -C research/omnigent/repo rev-parse HEAD`, and compare the feature-flag defaults before evaluating the scheduler or orchestration claims. An eventual runtime trial should specifically check a two-worker Codex fanout, running-worker steering, approval propagation, runner restart with an undrained result, remote-host disconnection/reconnect, and completion versus accepted-delivery semantics. Those are proposed validation scenarios, not work performed here.

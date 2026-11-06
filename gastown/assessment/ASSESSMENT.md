@@ -4,7 +4,7 @@
 
 - **Project:** Gas Town, the `gt` multi-agent workspace manager.
 - **Repository:** https://github.com/gastownhall/gastown
-- **Local checkout:** `researchs/gastown/repo`.
+- **Local checkout:** `research/gastown/repo`.
 - **Actual inspected commit:** `466aa41c83ee73b1fa0eb79eb9d172fb1eca9476` (read from checkout HEAD; module/import paths still use `steveyegge/gastown`).
 - **Assessment date:** 2026-11-05.
 - **Method:** static source and test inspection, against [WINGMAN_PURPOSE.md](../../WINGMAN_PURPOSE.md) and the complete [assessment guide](../../generic/assessments/ASSESSMENT_GUIDE.md). No dependencies installed, services launched, live agent work dispatched, or checkout files changed.

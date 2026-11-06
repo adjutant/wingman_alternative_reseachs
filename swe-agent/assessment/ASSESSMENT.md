@@ -1,6 +1,6 @@
 # SWE-agent assessment against Wingman
 
-Assessment date: 2026-11-05. GitHub: https://github.com/SWE-agent/SWE-agent. Local checkout: `researchs/swe-agent/repo`. Actual checked-out commit: `3ea751c087f32b16e039a2233dd6eefecef325d5`. Scope: this checkout, assessed against [WINGMAN_PURPOSE.md](../../WINGMAN_PURPOSE.md) and [ASSESSMENT_GUIDE.md](../../generic/assessments/ASSESSMENT_GUIDE.md); source review only.
+Assessment date: 2026-11-05. GitHub: https://github.com/SWE-agent/SWE-agent. Local checkout: `research/swe-agent/repo`. Actual checked-out commit: `3ea751c087f32b16e039a2233dd6eefecef325d5`. Scope: this checkout, assessed against [WINGMAN_PURPOSE.md](../../WINGMAN_PURPOSE.md) and [ASSESSMENT_GUIDE.md](../../generic/assessments/ASSESSMENT_GUIDE.md); source review only.
 
 **Verdict:** SWE-agent is a useful bounded coding-worker and experimentation reference, but a poor direct replacement for Wingman. Its implemented unit is a problem statement solved by a model/action/observation loop in a configurable execution environment, ending in a patch. It can run independent instances concurrently, retry an issue using different configurations, score/select candidate patches, preserve detailed trajectories, and optionally open a draft PR. It does not implement a persistent software-development organization, portfolio intake, product/technical leadership, agent rooms, shared tickets, Telegram routing, or connected management dashboards. Its strongest contribution would sit below Wingman's assignment and coordination layer.
 

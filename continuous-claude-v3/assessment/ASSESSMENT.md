@@ -1,6 +1,6 @@
 # Continuous Claude v3 assessment
 
-Assessment date: 2026-11-05. Product: Continuous Claude v3, a Claude Code workflow, hook, agent-profile and memory kit. Upstream: https://github.com/parcadei/Continuous-Claude-v3 . Local checkout: `researchs/continuous-claude-v3/repo`. Assessed commit: `d07ff4b06b62f43771bc0c927d0211b734d6149e`.
+Assessment date: 2026-11-05. Product: Continuous Claude v3, a Claude Code workflow, hook, agent-profile and memory kit. Upstream: https://github.com/parcadei/Continuous-Claude-v3 . Local checkout: `research/continuous-claude-v3/repo`. Assessed commit: `d07ff4b06b62f43771bc0c927d0211b734d6149e`.
 
 **Verdict:** useful material for Wingman's execution and continuity layer, with unusually substantial discovery instructions and context-management hooks. It does not implement Wingman's standing development organization. Its center of gravity is a human's Claude Code session, delegating bounded work and carrying context between sessions. Telegram intake, project leadership identities, a portfolio registry, organizational chat, the connected dashboards and multi-host agent placement would still need to be built. Several advanced coordination paths reference implementation absent from this checkout, so the architecture documentation substantially overstates what can be established locally.
 

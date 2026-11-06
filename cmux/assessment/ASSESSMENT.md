@@ -1,6 +1,6 @@
 # cmux assessment against Wingman
 
-Assessment date: 2026-11-05. Repository: https://github.com/manaflow-ai/cmux . Checkout: `researchs/cmux/repo`. Assessed commit: `7af8f3ce26c8e6e181cabe60ebef679ff25f55ca` (actual local HEAD). This is a fresh source assessment of that revision, not a claim about the current hosted product. The comparison target is [WINGMAN_PURPOSE.md](../../WINGMAN_PURPOSE.md).
+Assessment date: 2026-11-05. Repository: https://github.com/manaflow-ai/cmux . Checkout: `research/cmux/repo`. Assessed commit: `7af8f3ce26c8e6e181cabe60ebef679ff25f55ca` (actual local HEAD). This is a fresh source assessment of that revision, not a claim about the current hosted product. The comparison target is [WINGMAN_PURPOSE.md](../../WINGMAN_PURPOSE.md).
 
 **Verdict:** cmux provides a strong coding workbench and several useful control-plane mechanisms for Wingman. Chief is a Claude/Codex-backed human coordinator with durable conversations and memory. The checkout also implements worker dispatch, durable messages, attention/approval feeds, recovery, remote execution, mobile chat, Cloud VMs, and CodeRouter.
 

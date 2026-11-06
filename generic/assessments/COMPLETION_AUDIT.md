@@ -1,15 +1,15 @@
 # Reorganization and report audit
 
-Status: complete. Final verification date: November 6, 2026.
+Status: complete. Final verification date: November 7, 2026.
 
 ## Requirement review
 
 | Requested result | Delivered result | Evidence |
 |---|---|---|
-| Reorganize the research | `researchs/` contains all source snapshots, assessments and shared documents. `research/` is its relative alias. | `migration.json`, `checkouts.json` |
+| Reorganize the research | `research/` is the real folder. It contains all source snapshots, assessments and shared documents. | `migration.json`, `checkouts.json` |
 | Preserve each source checkout | All 75 checkouts retain their original commit, Git status and directory inode. | `validation.json` |
 | Keep project evidence together | Each project has `repo/`, `assessment/` and `index.html`. Supporting chapters remain with the project. | `coverage.json` |
-| Document structure and method | The purpose is at the research root. `AGENTS.md` describes structure, evidence and maintenance. `AGENTS.m` points to it. | `WINGMAN_PURPOSE.md`, `AGENTS.md` |
+| Document structure and method | The purpose is at the research root. `AGENTS.md` describes structure, evidence and maintenance. | `WINGMAN_PURPOSE.md`, `AGENTS.md` |
 | Remove the old folders | `alternatives/`, `alt_researchs/` and `other-research/` no longer exist. | Structural validation |
 | Select useful older research | Focused Orca, Agent Swarm and gstack records remain. CAR has a curated evidence note. Duplicate landscape and old deployment material was discarded. | Project `LEGACY_EVIDENCE.md` notes |
 | Create comprehensive HTML | 75 project reports include decision briefs, full technical assessments and supporting chapters. | 75 project `index.html` files |
@@ -23,7 +23,9 @@ Status: complete. Final verification date: November 6, 2026.
 
 The final structural check found no issues.
 It checked all 75 checkouts, 24 feature verdicts per project, 79 HTML files, local links, anchors and shared assets.
-The three old folders are absent. Both requested aliases resolve.
+The three original source folders are absent.
+The canonical folder and instruction file use their standard names. No compatibility symlinks remain.
+The November 7 cleanup updated current paths and rebuilt the reports. Historical source records retain their original paths.
 
 All 79 pages passed browser checks at 1440px and 390px widths.
 The 158 checks covered fonts, heading sizes, navigation, images, overflow, visible branding and keyboard access to code blocks.

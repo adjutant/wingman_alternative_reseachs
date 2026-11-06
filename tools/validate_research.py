@@ -40,11 +40,16 @@ def main():
     migration = json.loads((ROOT / 'migration.json').read_text())
     before = {x['slug']: x for x in migration['checkouts_before']}
     issues = []; repos = []; markdown_links = 0; html_links = 0
-    for old in ['alternatives', 'alt_researchs', 'other-research']:
-        if (WORKSPACE / old).exists(): issues.append(f'Old folder remains: {old}')
-    if not (WORKSPACE/'research').is_symlink() or (WORKSPACE/'research').resolve() != ROOT:
-        issues.append('research alias is missing or incorrect')
-    if not (ROOT/'AGENTS.m').exists(): issues.append('AGENTS.m is missing')
+    for old in ['alternatives', 'alt_researchs', 'other-research', 'researchs']:
+        if (WORKSPACE / old).exists() or (WORKSPACE / old).is_symlink():
+            issues.append(f'Old folder remains: {old}')
+    canonical = WORKSPACE/'research'
+    if canonical.is_symlink() or not canonical.is_dir() or canonical.resolve() != ROOT:
+        issues.append('research must be the real directory')
+    if not (ROOT/'AGENTS.md').is_file() or (ROOT/'AGENTS.md').is_symlink():
+        issues.append('AGENTS.md must be a regular file')
+    if (ROOT/'AGENTS.m').exists() or (ROOT/'AGENTS.m').is_symlink():
+        issues.append('Remove the misspelled AGENTS.m entry')
     expected = set()
     for item in coverage['repositories']:
         slug = Path(item['directory']).parts[0]; expected.add(slug)

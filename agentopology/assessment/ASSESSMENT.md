@@ -2,7 +2,7 @@
 
 Assessment date: 2026-11-05. Repository: https://github.com/agentopology/agentopology
 
-Local checkout: `researchs/agentopology/repo`. Inspected commit: `6aab63339a1bad43e87ff156dabf77d18208ee26`. Package version: `0.8.0` ([package.json](../repo/package.json), lines 1–8). This report assesses that local revision, not a separately installed package or the current behavior of the external platforms it targets.
+Local checkout: `research/agentopology/repo`. Inspected commit: `6aab63339a1bad43e87ff156dabf77d18208ee26`. Package version: `0.8.0` ([package.json](../repo/package.json), lines 1–8). This report assesses that local revision, not a separately installed package or the current behavior of the external platforms it targets.
 
 **Fit verdict:** AgenTopology can define teams, generate harness configuration, and prepare execution briefs for Wingman. Useful mechanisms include role/artifact contracts, topology validation, visualization, and scaffold reconciliation. It separates deterministic workflow phases from conversational orchestration.
 

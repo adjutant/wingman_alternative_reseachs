@@ -1,6 +1,6 @@
 # Swarm assessment against Wingman
 
-Assessment date: 2026-11-05. Repository: https://github.com/swarm-agent/swarm. Local checkout: `researchs/swarm/repo`. Assessed commit: `25699c00e8d56c51117589ccdd0bf2ab843a9a2b`. The checkout was clean when inspected. This is a source assessment, not a live product qualification. The repository's applicable [AGENTS.md](../repo/AGENTS.md), Wingman purpose and assessment guide were read; no dependencies were installed, services launched, tests executed or checkout files modified.
+Assessment date: 2026-11-05. Repository: https://github.com/swarm-agent/swarm. Local checkout: `research/swarm/repo`. Assessed commit: `25699c00e8d56c51117589ccdd0bf2ab843a9a2b`. The checkout was clean when inspected. This is a source assessment, not a live product qualification. The repository's applicable [AGENTS.md](../repo/AGENTS.md), Wingman purpose and assessment guide were read; no dependencies were installed, services launched, tests executed or checkout files modified.
 
 ## Fit verdict
 

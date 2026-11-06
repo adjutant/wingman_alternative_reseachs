@@ -1,6 +1,6 @@
 # gstack assessment against Wingman
 
-Assessment date: **2026-11-05**. Repository: https://github.com/garrytan/gstack . Local checkout: `researchs/gstack/repo`. Inspected commit: **`f8085aa0e499085c411f712d6d5c00a81d1b104a`**. The checked-in package identifies version `1.94.39` ([package.json](../repo/package.json), lines 1–9).
+Assessment date: **2026-11-05**. Repository: https://github.com/garrytan/gstack . Local checkout: `research/gstack/repo`. Inspected commit: **`f8085aa0e499085c411f712d6d5c00a81d1b104a`**. The checked-in package identifies version `1.94.39` ([package.json](../repo/package.json), lines 1–9).
 
 **Verdict:** gstack is a substantial engineering workflow and verification layer that Wingman could adopt selectively. It is not a self-contained replacement for Wingman's persistent, multi-product Codex organization. The distinction matters at this revision: gstack now includes a Captain/controller crew model, executable review dispatch, durable planning state machines, approval records and sophisticated merge trains. Calling it merely a collection of personas would miss real coordination machinery. Conversely, the workers, shared machines, messages, thread directory and scheduling in the Captain/Capy model are largely supplied by the external host, while gstack supplies instructions, artifacts and engineering gates. Its CEO and engineering-review skills do not instantiate standing ProductMaster and TechMaster agents.
 

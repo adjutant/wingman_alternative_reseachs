@@ -3,7 +3,7 @@
 ## Identity and fit verdict
 
 - Repository: https://github.com/stagewise-io/stagewise
-- Local checkout: `researchs/stagewise/repo/`
+- Local checkout: `research/stagewise/repo/`
 - Assessed commit: `17a0123a0e896885465df36169457199d5225eb5`
 - Assessment date: 2026-11-05.
 - Basis: static inspection of the checked-out implementation and selected tests, using [Wingman's purpose](../../WINGMAN_PURPOSE.md) and the [assessment guide](../../generic/assessments/ASSESSMENT_GUIDE.md). No dependencies installed, services launched, or source files changed.

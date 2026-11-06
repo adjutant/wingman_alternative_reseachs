@@ -2,7 +2,7 @@
 
 Repository: https://github.com/stablyai/orca
 
-Local checkout: `researchs/orca/repo`  
+Local checkout: `research/orca/repo`  
 Inspected commit: `0e25b0e22bf331fda82e470585df58eeef848d6b`  
 Package version: `1.4.214` ([package.json](../repo/package.json), lines 1–12)  
 Assessment date: November 5, 2026  

@@ -1,7 +1,7 @@
 # Edict assessment against Wingman
 
 Repository: https://github.com/cft0808/edict  
-Local checkout: `researchs/edict/repo`  
+Local checkout: `research/edict/repo`  
 Revision inspected: `14a207557719c046af0f993a7bff1cc5a5015b33`  
 Assessment date: 2026-11-05  
 Baseline: [WINGMAN_PURPOSE.md](../../WINGMAN_PURPOSE.md)

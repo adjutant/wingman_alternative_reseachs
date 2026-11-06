@@ -1,6 +1,6 @@
 # Ruflo assessment against Wingman
 
-Assessment date: **2026-11-05**. Repository: https://github.com/ruvnet/ruflo . Local checkout: `researchs/ruflo/repo`. Examined commit: **`bf5d71a1852071660b3489a0ff02d998676200e5`**. Root package identifies itself as `claude-flow` **3.71.4**; Ruflo and Claude Flow names coexist. This report assesses the checked-out source, not the health of a published package or hosted service.
+Assessment date: **2026-11-05**. Repository: https://github.com/ruvnet/ruflo . Local checkout: `research/ruflo/repo`. Examined commit: **`bf5d71a1852071660b3489a0ff02d998676200e5`**. Root package identifies itself as `claude-flow` **3.71.4**; Ruflo and Claude Flow names coexist. This report assesses the checked-out source, not the health of a published package or hosted service.
 
 ## Verdict
 

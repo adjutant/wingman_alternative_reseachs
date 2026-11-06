@@ -1,7 +1,7 @@
 # TinyAGI assessment against Wingman
 
 - Repository: https://github.com/TinyAGI/tinyagi
-- Local checkout: `researchs/tinyagi/repo`
+- Local checkout: `research/tinyagi/repo`
 - Assessed commit: `2db3a03a891b302c460f624d6c5a0523b8aa3528`
 - Assessment date: 2026-11-05
 - Product at this revision: TinyAGI, package version `0.0.20`, a local daemon for persistent, independently configured assistants, multiple teams, messaging channels and a TinyOffice web interface.

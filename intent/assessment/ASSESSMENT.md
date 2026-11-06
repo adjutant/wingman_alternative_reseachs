@@ -1,6 +1,6 @@
 # Intent assessment against Wingman
 
-Assessment date: 2026-11-05. Product: **Intent**, a desktop workbench for coordinating coding agents, with the `intentd` daemon and an early iOS companion. Repository: https://github.com/intent-hq/intent. Local checkout: `researchs/intent/repo/`. Actual checked-out monorepo commit: `33fcf9273d2f819897cdbc81f5f1f472813e809d`.
+Assessment date: 2026-11-05. Product: **Intent**, a desktop workbench for coordinating coding agents, with the `intentd` daemon and an early iOS companion. Repository: https://github.com/intent-hq/intent. Local checkout: `research/intent/repo/`. Actual checked-out monorepo commit: `33fcf9273d2f819897cdbc81f5f1f472813e809d`.
 
 **Fit verdict:** Intent is a promising execution, coordination, persistence and individual-agent workbench reference for Wingman. Its documented design goes substantially beyond a terminal launcher: separate provider sessions, task-linked delegation, durable message queues, completion watches, background hooks, cross-workspace Assistant tools and remotely executed agents are all specified. It does not establish Wingman's standing organization, Telegram Butler, product/technical leadership split, proportionate discovery process, or executive briefing/timeline product.
 

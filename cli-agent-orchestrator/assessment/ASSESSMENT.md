@@ -1,7 +1,7 @@
 # CLI Agent Orchestrator (CAO) assessment
 
 **Repository:** https://github.com/awslabs/cli-agent-orchestrator  
-**Local checkout:** `researchs/cli-agent-orchestrator/repo`  
+**Local checkout:** `research/cli-agent-orchestrator/repo`  
 **Revision inspected:** `8b962ee515caf9351838c1805f4cfef969e04dda`  
 **Package version:** 2.5.4 ([package metadata][package], lines 1–5).  
 **Assessment date:** 2026-11-05.  

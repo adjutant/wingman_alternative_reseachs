@@ -1,7 +1,7 @@
 # Squad assessment against Wingman
 
 - **Repository:** https://github.com/bradygaster/squad
-- **Checkout:** `researchs/squad/repo`
+- **Checkout:** `research/squad/repo`
 - **Revision inspected:** `7b731ec97f35346bdc4fa87c3edaf16b808fc0ae`
 - **Assessment date:** 2026-11-05
 - **Identity:** Squad, a project-local team layer and programmable runtime, principally using GitHub Copilot SDK/CLI; root package version `2.0.0-preview.3` ([package.json](../repo/package.json), lines 1–20).

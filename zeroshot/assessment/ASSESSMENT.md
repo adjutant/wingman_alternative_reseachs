@@ -1,6 +1,6 @@
 # Zeroshot assessment against Wingman
 
-Assessment date: **2026-11-05**. Repository: https://github.com/the-open-engine/zeroshot. Local checkout: `researchs/zeroshot/repo`. Examined commit: **`3aad736924cb631e0d13f7ed2ab7ef216055cc53`** (read from `git rev-parse HEAD`). Reference requirements: [Wingman purpose](../../WINGMAN_PURPOSE.md); method: [assessment guide](../../generic/assessments/ASSESSMENT_GUIDE.md).
+Assessment date: **2026-11-05**. Repository: https://github.com/the-open-engine/zeroshot. Local checkout: `research/zeroshot/repo`. Examined commit: **`3aad736924cb631e0d13f7ed2ab7ef216055cc53`** (read from `git rev-parse HEAD`). Reference requirements: [Wingman purpose](../../WINGMAN_PURPOSE.md); method: [assessment guide](../../generic/assessments/ASSESSMENT_GUIDE.md).
 
 ## Verdict and product boundary
 

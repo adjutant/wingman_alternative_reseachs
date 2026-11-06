@@ -6,7 +6,7 @@
 |---|---|
 | Product | AX, a declarative execution control plane for sandboxed agent tasks on Agent Substrate |
 | Upstream | https://github.com/google/ax |
-| Local checkout | `researchs/ax/repo` |
+| Local checkout | `research/ax/repo` |
 | Actual revision | `2187dd453d60952a4952eb1fc07c81b5721d5680` |
 | Assessment date | 2026-11-05 |
 | Method | Read-only source and test inspection; no dependencies installed, services launched, or tests executed |

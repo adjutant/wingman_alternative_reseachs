@@ -2,7 +2,7 @@
 
 Assessment date: 2026-11-05. Repository: https://github.com/generalaction/emdash
 
-Local source: `researchs/emdash/repo`. Inspected commit: `592281113a9d83a2987d8a1715d0fedf854d44c4`. Baseline: [Wingman purpose](../../WINGMAN_PURPOSE.md). License: [Apache-2.0](../repo/LICENSE.md), lines 1–6. This fresh source assessment follows the [assessment guide](../../generic/assessments/ASSESSMENT_GUIDE.md) and checkout [AGENTS.md](../repo/AGENTS.md). Selected test implementations were inspected; no dependencies were installed and no provider processes, desktop application or remote server were launched.
+Local source: `research/emdash/repo`. Inspected commit: `592281113a9d83a2987d8a1715d0fedf854d44c4`. Baseline: [Wingman purpose](../../WINGMAN_PURPOSE.md). License: [Apache-2.0](../repo/LICENSE.md), lines 1–6. This fresh source assessment follows the [assessment guide](../../generic/assessments/ASSESSMENT_GUIDE.md) and checkout [AGENTS.md](../repo/AGENTS.md). Selected test implementations were inspected; no dependencies were installed and no provider processes, desktop application or remote server were launched.
 
 ## Fit verdict
 

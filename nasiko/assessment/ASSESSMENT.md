@@ -3,7 +3,7 @@
 ## Identity and fit verdict
 
 - **Upstream:** https://github.com/Nasiko-Labs/nasiko
-- **Checkout:** `researchs/nasiko/repo`
+- **Checkout:** `research/nasiko/repo`
 - **Assessed commit:** `10a085818d585fcc487487df89d09c87f74bd577`
 - **Assessment date:** 2026-11-05.
 - **Scope:** the checked-out open-source edition, not the enterprise implementation referenced by extension interfaces and comments. Apache-2.0 license: [LICENSE](../repo/LICENSE).

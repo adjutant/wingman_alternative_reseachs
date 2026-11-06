@@ -2,7 +2,7 @@
 
 Assessment date: 2026-11-05. Repository: https://github.com/stevehuang0115/crewly
 
-Local checkout: `researchs/crewly/repo`. Inspected commit: `f05af05be4a8a76e22bfbaa26643e9c4d5ff0ab5`; package version `1.21.0` ([package.json](../repo/package.json), lines 1–8). This is a source assessment of that revision, not a claim about the current hosted service. Baseline: [Wingman purpose](../../WINGMAN_PURPOSE.md).
+Local checkout: `research/crewly/repo`. Inspected commit: `f05af05be4a8a76e22bfbaa26643e9c4d5ff0ab5`; package version `1.21.0` ([package.json](../repo/package.json), lines 1–8). This is a source assessment of that revision, not a claim about the current hosted service. Baseline: [Wingman purpose](../../WINGMAN_PURPOSE.md).
 
 **Verdict:** Crewly provides a strong organization and execution foundation for Wingman. Independent coding agents share durable teams, tasks, project tickets, and chat. Telegram routes messages to an orchestrator. Repair loops address stalled coordination. The source also implements owner decisions, acceptance records, evidence, project autopilot, Cloud messages, team migration, and an owner board.
 

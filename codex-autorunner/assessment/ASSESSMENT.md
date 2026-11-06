@@ -2,7 +2,7 @@
 
 GitHub: https://github.com/Git-on-my-level/codex-autorunner
 
-Checkout: `researchs/codex-autorunner/repo`  
+Checkout: `research/codex-autorunner/repo`  
 Commit: `3bedfe817e6fc70eb16650f216eca93cd37fa411`  
 Assessed: November 5, 2026 (static source review)  
 Baseline: [Wingman purpose](../../WINGMAN_PURPOSE.md)

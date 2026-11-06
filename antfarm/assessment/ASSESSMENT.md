@@ -2,7 +2,7 @@
 
 - **Product:** Antfarm, an OpenClaw workflow installer and task-run coordinator; package version 0.5.1.
 - **Repository:** https://github.com/snarktank/antfarm
-- **Checkout:** `researchs/antfarm/repo`.
+- **Checkout:** `research/antfarm/repo`.
 - **Actual revision:** `a442ad7dcb8cf8746175cc4a2e2dcafd501156cf`.
 - **Assessment date:** 2026-11-05.
 - **Reference:** [Wingman purpose](../../WINGMAN_PURPOSE.md) and [assessment guide](../../generic/assessments/ASSESSMENT_GUIDE.md).

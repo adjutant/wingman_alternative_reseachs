@@ -9,7 +9,7 @@ import subprocess
 import tempfile
 
 W = Path(__file__).resolve().parents[2]
-R = W / 'researchs'
+R = W / 'research'
 manifest = json.loads((W / 'alternatives/checkouts.json').read_text())
 coverage = json.loads((W / 'alt_researchs/coverage.json').read_text())
 generic = R / 'generic/assessments'
@@ -110,5 +110,4 @@ for slug, folder in [('orca','orca'), ('agent-swarm','agent-swarm'),
 shutil.rmtree(W / 'alternatives')
 shutil.rmtree(W / 'alt_researchs')
 shutil.rmtree(W / 'other-research')
-(W / 'research').symlink_to('researchs', target_is_directory=True)
 print(f'Moved {len(states)} repositories. Old research backup: {backup}')

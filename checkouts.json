@@ -19,7 +19,7 @@
       "previous_directory": "standing-teams/agent-swarm",
       "directory": "agent-swarm/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/agent-swarm",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/agent-swarm/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/agent-swarm/repo",
       "checkout": {
         "repository": "desplega-ai/agent-swarm",
         "url": "https://github.com/desplega-ai/agent-swarm",
@@ -85,7 +85,7 @@
       "previous_directory": "standing-teams/agency",
       "directory": "agency/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/agency",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/agency/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/agency/repo",
       "checkout": {
         "repository": "christag/agency",
         "url": "https://github.com/christag/agency",
@@ -144,7 +144,7 @@
       "previous_directory": "standing-teams/teammcp",
       "directory": "teammcp/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/teammcp",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/teammcp/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/teammcp/repo",
       "checkout": {
         "repository": "cookjohn/teammcp",
         "url": "https://github.com/cookjohn/teammcp",
@@ -203,7 +203,7 @@
       "previous_directory": "standing-teams/edict",
       "directory": "edict/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/edict",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/edict/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/edict/repo",
       "checkout": {
         "repository": "cft0808/edict",
         "url": "https://github.com/cft0808/edict",
@@ -262,7 +262,7 @@
       "previous_directory": "standing-teams/claw-empire",
       "directory": "claw-empire/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/claw-empire",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/claw-empire/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/claw-empire/repo",
       "checkout": {
         "repository": "GreenSheep01201/claw-empire",
         "url": "https://github.com/GreenSheep01201/claw-empire",
@@ -324,7 +324,7 @@
       "previous_directory": "standing-teams/clawteam",
       "directory": "clawteam/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/clawteam",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/clawteam/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/clawteam/repo",
       "checkout": {
         "repository": "HKUDS/ClawTeam",
         "url": "https://github.com/HKUDS/ClawTeam",
@@ -383,7 +383,7 @@
       "previous_directory": "standing-teams/multica",
       "directory": "multica/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/multica",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/multica/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/multica/repo",
       "checkout": {
         "repository": "multica-ai/multica",
         "url": "https://github.com/multica-ai/multica",
@@ -442,7 +442,7 @@
       "previous_directory": "standing-teams/scion",
       "directory": "scion/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/scion",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/scion/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/scion/repo",
       "checkout": {
         "repository": "GoogleCloudPlatform/scion",
         "url": "https://github.com/GoogleCloudPlatform/scion",
@@ -501,7 +501,7 @@
       "previous_directory": "standing-teams/paperclip",
       "directory": "paperclip/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/paperclip",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/paperclip/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/paperclip/repo",
       "checkout": {
         "repository": "paperclipai/paperclip",
         "url": "https://github.com/paperclipai/paperclip",
@@ -567,7 +567,7 @@
       "previous_directory": "standing-teams/openrig",
       "directory": "openrig/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/openrig",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/openrig/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/openrig/repo",
       "checkout": {
         "repository": "mvschwarz/openrig",
         "url": "https://github.com/mvschwarz/openrig",
@@ -626,7 +626,7 @@
       "previous_directory": "standing-teams/tinyagi",
       "directory": "tinyagi/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/tinyagi",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/tinyagi/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/tinyagi/repo",
       "checkout": {
         "repository": "TinyAGI/tinyagi",
         "url": "https://github.com/TinyAGI/tinyagi",
@@ -685,7 +685,7 @@
       "previous_directory": "standing-teams/hamlet",
       "directory": "hamlet/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/hamlet",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/hamlet/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/hamlet/repo",
       "checkout": {
         "repository": "voxell-tech/hamlet",
         "url": "https://github.com/voxell-tech/hamlet",
@@ -746,7 +746,7 @@
       "previous_directory": "standing-teams/multi-agent-shogun",
       "directory": "multi-agent-shogun/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/multi-agent-shogun",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/multi-agent-shogun/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/multi-agent-shogun/repo",
       "checkout": {
         "repository": "yohey-w/multi-agent-shogun",
         "url": "https://github.com/yohey-w/multi-agent-shogun",
@@ -808,7 +808,7 @@
       "previous_directory": "workbenches/agent-of-empires",
       "directory": "agent-of-empires/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/agent-of-empires",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/agent-of-empires/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/agent-of-empires/repo",
       "checkout": {
         "repository": "agent-of-empires/agent-of-empires",
         "url": "https://github.com/agent-of-empires/agent-of-empires",
@@ -867,7 +867,7 @@
       "previous_directory": "standing-teams/orkas",
       "directory": "orkas/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/orkas",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/orkas/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/orkas/repo",
       "checkout": {
         "repository": "Orkas-AI/Orkas",
         "url": "https://github.com/Orkas-AI/Orkas",
@@ -926,7 +926,7 @@
       "previous_directory": "workbenches/amux",
       "directory": "amux/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/amux",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/amux/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/amux/repo",
       "checkout": {
         "repository": "andyrewlee/amux",
         "url": "https://github.com/andyrewlee/amux",
@@ -985,7 +985,7 @@
       "previous_directory": "workbenches/automaker",
       "directory": "automaker/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/automaker",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/automaker/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/automaker/repo",
       "checkout": {
         "repository": "AutoMaker-Org/automaker",
         "url": "https://github.com/AutoMaker-Org/automaker",
@@ -1044,7 +1044,7 @@
       "previous_directory": "workbenches/emdash",
       "directory": "emdash/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/emdash",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/emdash/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/emdash/repo",
       "checkout": {
         "repository": "generalaction/emdash",
         "url": "https://github.com/generalaction/emdash",
@@ -1103,7 +1103,7 @@
       "previous_directory": "workbenches/paseo",
       "directory": "paseo/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/paseo",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/paseo/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/paseo/repo",
       "checkout": {
         "repository": "getpaseo/paseo",
         "url": "https://github.com/getpaseo/paseo",
@@ -1162,7 +1162,7 @@
       "previous_directory": "workbenches/golutra",
       "directory": "golutra/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/golutra",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/golutra/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/golutra/repo",
       "checkout": {
         "repository": "golutra/golutra",
         "url": "https://github.com/golutra/golutra",
@@ -1221,7 +1221,7 @@
       "previous_directory": "standing-teams/munder-difflin",
       "directory": "munder-difflin/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/munder-difflin",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/munder-difflin/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/munder-difflin/repo",
       "checkout": {
         "repository": "HarnessMD/munder-difflin",
         "url": "https://github.com/HarnessMD/munder-difflin",
@@ -1280,7 +1280,7 @@
       "previous_directory": "workbenches/herdr",
       "directory": "herdr/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/herdr",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/herdr/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/herdr/repo",
       "checkout": {
         "repository": "herdrdev/herdr",
         "url": "https://github.com/herdrdev/herdr",
@@ -1339,7 +1339,7 @@
       "previous_directory": "workbenches/agent-deck",
       "directory": "agent-deck/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/agent-deck",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/agent-deck/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/agent-deck/repo",
       "checkout": {
         "repository": "asheshgoplani/agent-deck",
         "url": "https://github.com/asheshgoplani/agent-deck",
@@ -1398,7 +1398,7 @@
       "previous_directory": "workbenches/intent",
       "directory": "intent/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/intent",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/intent/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/intent/repo",
       "checkout": {
         "repository": "intent-hq/intent",
         "url": "https://github.com/intent-hq/intent",
@@ -1461,7 +1461,7 @@
       "previous_directory": "workbenches/omnigent",
       "directory": "omnigent/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/omnigent",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/omnigent/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/omnigent/repo",
       "checkout": {
         "repository": "omnigent-ai/omnigent",
         "url": "https://github.com/omnigent-ai/omnigent",
@@ -1520,7 +1520,7 @@
       "previous_directory": "workbenches/agent-orchestrator",
       "directory": "agent-orchestrator/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/agent-orchestrator",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/agent-orchestrator/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/agent-orchestrator/repo",
       "checkout": {
         "repository": "OrchestratorInc/agent-orchestrator",
         "url": "https://github.com/OrchestratorInc/agent-orchestrator",
@@ -1581,7 +1581,7 @@
       "previous_directory": "workbenches/routa",
       "directory": "routa/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/routa",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/routa/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/routa/repo",
       "checkout": {
         "repository": "phodal/routa",
         "url": "https://github.com/phodal/routa",
@@ -1640,7 +1640,7 @@
       "previous_directory": "standing-teams/crewly",
       "directory": "crewly/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/crewly",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/crewly/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/crewly/repo",
       "checkout": {
         "repository": "stevehuang0115/crewly",
         "url": "https://github.com/stevehuang0115/crewly",
@@ -1699,7 +1699,7 @@
       "previous_directory": "workbenches/maestro",
       "directory": "maestro/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/maestro",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/maestro/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/maestro/repo",
       "checkout": {
         "repository": "RunMaestro/Maestro",
         "url": "https://github.com/RunMaestro/Maestro",
@@ -1758,7 +1758,7 @@
       "previous_directory": "workbenches/claude-squad",
       "directory": "claude-squad/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/claude-squad",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/claude-squad/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/claude-squad/repo",
       "checkout": {
         "repository": "smtg-ai/claude-squad",
         "url": "https://github.com/smtg-ai/claude-squad",
@@ -1817,7 +1817,7 @@
       "previous_directory": "workbenches/happy",
       "directory": "happy/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/happy",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/happy/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/happy/repo",
       "checkout": {
         "repository": "slopus/happy",
         "url": "https://github.com/slopus/happy",
@@ -1876,7 +1876,7 @@
       "previous_directory": "workbenches/orca",
       "directory": "orca/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/orca",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/orca/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/orca/repo",
       "checkout": {
         "repository": "stablyai/orca",
         "url": "https://github.com/stablyai/orca",
@@ -1942,7 +1942,7 @@
       "previous_directory": "workbenches/paradev",
       "directory": "paradev/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/paradev",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/paradev/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/paradev/repo",
       "checkout": {
         "repository": "ParadevAI/Paradev",
         "url": "https://github.com/ParadevAI/Paradev",
@@ -2001,7 +2001,7 @@
       "previous_directory": "workbenches/wrenyard",
       "directory": "wrenyard/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/wrenyard",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/wrenyard/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/wrenyard/repo",
       "checkout": {
         "repository": "wrenyard/wrenyard",
         "url": "https://github.com/wrenyard/wrenyard",
@@ -2060,7 +2060,7 @@
       "previous_directory": "delivery-engines/cli-agent-orchestrator",
       "directory": "cli-agent-orchestrator/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/cli-agent-orchestrator",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/cli-agent-orchestrator/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/cli-agent-orchestrator/repo",
       "checkout": {
         "repository": "awslabs/cli-agent-orchestrator",
         "url": "https://github.com/awslabs/cli-agent-orchestrator",
@@ -2119,7 +2119,7 @@
       "previous_directory": "delivery-engines/multiclaude",
       "directory": "multiclaude/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/multiclaude",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/multiclaude/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/multiclaude/repo",
       "checkout": {
         "repository": "dlorenc/multiclaude",
         "url": "https://github.com/dlorenc/multiclaude",
@@ -2178,7 +2178,7 @@
       "previous_directory": "delivery-engines/kander",
       "directory": "kander/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/kander",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/kander/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/kander/repo",
       "checkout": {
         "repository": "dualface/kander",
         "url": "https://github.com/dualface/kander",
@@ -2237,7 +2237,7 @@
       "previous_directory": "delivery-engines/codex-autorunner",
       "directory": "codex-autorunner/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/codex-autorunner",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/codex-autorunner/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/codex-autorunner/repo",
       "checkout": {
         "repository": "Git-on-my-level/codex-autorunner",
         "url": "https://github.com/Git-on-my-level/codex-autorunner",
@@ -2303,7 +2303,7 @@
       "previous_directory": "delivery-engines/gastown",
       "directory": "gastown/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/gastown",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/gastown/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/gastown/repo",
       "checkout": {
         "repository": "gastownhall/gastown",
         "url": "https://github.com/gastownhall/gastown",
@@ -2362,7 +2362,7 @@
       "previous_directory": "workbenches/stagewise",
       "directory": "stagewise/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/stagewise",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/stagewise/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/stagewise/repo",
       "checkout": {
         "repository": "stagewise-io/stagewise",
         "url": "https://github.com/stagewise-io/stagewise",
@@ -2421,7 +2421,7 @@
       "previous_directory": "workbenches/cmux",
       "directory": "cmux/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/cmux",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/cmux/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/cmux/repo",
       "checkout": {
         "repository": "manaflow-ai/cmux",
         "url": "https://github.com/manaflow-ai/cmux",
@@ -2484,7 +2484,7 @@
       "previous_directory": "delivery-engines/open-swe",
       "directory": "open-swe/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/open-swe",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/open-swe/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/open-swe/repo",
       "checkout": {
         "repository": "langchain-ai/open-swe",
         "url": "https://github.com/langchain-ai/open-swe",
@@ -2543,7 +2543,7 @@
       "previous_directory": "delivery-engines/warren",
       "directory": "warren/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/warren",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/warren/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/warren/repo",
       "checkout": {
         "repository": "jayminwest/warren",
         "url": "https://github.com/jayminwest/warren",
@@ -2602,7 +2602,7 @@
       "previous_directory": "delivery-engines/agentrail",
       "directory": "agentrail/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/agentrail",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/agentrail/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/agentrail/repo",
       "checkout": {
         "repository": "oxnw/agentrail",
         "url": "https://github.com/oxnw/agentrail",
@@ -2661,7 +2661,7 @@
       "previous_directory": "delivery-engines/sortie",
       "directory": "sortie/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/sortie",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/sortie/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/sortie/repo",
       "checkout": {
         "repository": "sortie-ai/sortie",
         "url": "https://github.com/sortie-ai/sortie",
@@ -2720,7 +2720,7 @@
       "previous_directory": "delivery-engines/symphony",
       "directory": "symphony/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/symphony",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/symphony/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/symphony/repo",
       "checkout": {
         "repository": "openai/symphony",
         "url": "https://github.com/openai/symphony",
@@ -2779,7 +2779,7 @@
       "previous_directory": "delivery-engines/openhands",
       "directory": "openhands/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/openhands",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/openhands/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/openhands/repo",
       "checkout": {
         "repository": "OpenHands/OpenHands",
         "url": "https://github.com/OpenHands/OpenHands",
@@ -2838,7 +2838,7 @@
       "previous_directory": "delivery-engines/swarmos",
       "directory": "swarmos/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/swarmos",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/swarmos/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/swarmos/repo",
       "checkout": {
         "repository": "supernovae/SwarmOS",
         "url": "https://github.com/supernovae/SwarmOS",
@@ -2897,7 +2897,7 @@
       "previous_directory": "delivery-engines/swe-agent",
       "directory": "swe-agent/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/swe-agent",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/swe-agent/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/swe-agent/repo",
       "checkout": {
         "repository": "SWE-agent/SWE-agent",
         "url": "https://github.com/SWE-agent/SWE-agent",
@@ -2956,7 +2956,7 @@
       "previous_directory": "delivery-engines/zeroshot",
       "directory": "zeroshot/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/zeroshot",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/zeroshot/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/zeroshot/repo",
       "checkout": {
         "repository": "the-open-engine/zeroshot",
         "url": "https://github.com/the-open-engine/zeroshot",
@@ -3015,7 +3015,7 @@
       "previous_directory": "workflow-layers/agentopology",
       "directory": "agentopology/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/agentopology",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/agentopology/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/agentopology/repo",
       "checkout": {
         "repository": "agentopology/agentopology",
         "url": "https://github.com/agentopology/agentopology",
@@ -3074,7 +3074,7 @@
       "previous_directory": "delivery-engines/superplane",
       "directory": "superplane/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/superplane",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/superplane/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/superplane/repo",
       "checkout": {
         "repository": "superplanehq/superplane",
         "url": "https://github.com/superplanehq/superplane",
@@ -3133,7 +3133,7 @@
       "previous_directory": "workflow-layers/gstack",
       "directory": "gstack/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/gstack",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/gstack/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/gstack/repo",
       "checkout": {
         "repository": "garrytan/gstack",
         "url": "https://github.com/garrytan/gstack",
@@ -3199,7 +3199,7 @@
       "previous_directory": "workflow-layers/squad",
       "directory": "squad/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/squad",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/squad/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/squad/repo",
       "checkout": {
         "repository": "bradygaster/squad",
         "url": "https://github.com/bradygaster/squad",
@@ -3258,7 +3258,7 @@
       "previous_directory": "workflow-layers/deepcode",
       "directory": "deepcode/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/deepcode",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/deepcode/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/deepcode/repo",
       "checkout": {
         "repository": "HKUDS/DeepCode",
         "url": "https://github.com/HKUDS/DeepCode",
@@ -3317,7 +3317,7 @@
       "previous_directory": "workflow-layers/ralph-orchestrator",
       "directory": "ralph-orchestrator/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/ralph-orchestrator",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/ralph-orchestrator/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/ralph-orchestrator/repo",
       "checkout": {
         "repository": "mikeyobrien/ralph-orchestrator",
         "url": "https://github.com/mikeyobrien/ralph-orchestrator",
@@ -3376,7 +3376,7 @@
       "previous_directory": "workflow-layers/continuous-claude-v3",
       "directory": "continuous-claude-v3/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/continuous-claude-v3",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/continuous-claude-v3/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/continuous-claude-v3/repo",
       "checkout": {
         "repository": "parcadei/Continuous-Claude-v3",
         "url": "https://github.com/parcadei/Continuous-Claude-v3",
@@ -3435,7 +3435,7 @@
       "previous_directory": "workflow-layers/antfarm",
       "directory": "antfarm/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/antfarm",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/antfarm/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/antfarm/repo",
       "checkout": {
         "repository": "snarktank/antfarm",
         "url": "https://github.com/snarktank/antfarm",
@@ -3494,7 +3494,7 @@
       "previous_directory": "workflow-layers/oh-my-openagent",
       "directory": "oh-my-openagent/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/oh-my-openagent",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/oh-my-openagent/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/oh-my-openagent/repo",
       "checkout": {
         "repository": "code-yeongyu/oh-my-openagent",
         "url": "https://github.com/code-yeongyu/oh-my-openagent",
@@ -3558,7 +3558,7 @@
       "previous_directory": "workflow-layers/myclaude",
       "directory": "myclaude/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/myclaude",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/myclaude/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/myclaude/repo",
       "checkout": {
         "repository": "stellarlinkco/myclaude",
         "url": "https://github.com/stellarlinkco/myclaude",
@@ -3617,7 +3617,7 @@
       "previous_directory": "workflow-layers/oh-my-codex",
       "directory": "oh-my-codex/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/oh-my-codex",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/oh-my-codex/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/oh-my-codex/repo",
       "checkout": {
         "repository": "Yeachan-Heo/oh-my-codex",
         "url": "https://github.com/Yeachan-Heo/oh-my-codex",
@@ -3676,7 +3676,7 @@
       "previous_directory": "workflow-layers/oh-my-claudecode",
       "directory": "oh-my-claudecode/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/oh-my-claudecode",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/oh-my-claudecode/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/oh-my-claudecode/repo",
       "checkout": {
         "repository": "Yeachan-Heo/oh-my-claudecode",
         "url": "https://github.com/Yeachan-Heo/oh-my-claudecode",
@@ -3735,7 +3735,7 @@
       "previous_directory": "workflow-layers/ruflo",
       "directory": "ruflo/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/ruflo",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/ruflo/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/ruflo/repo",
       "checkout": {
         "repository": "ruvnet/ruflo",
         "url": "https://github.com/ruvnet/ruflo",
@@ -3794,7 +3794,7 @@
       "previous_directory": "infrastructure/hcom",
       "directory": "hcom/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/hcom",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/hcom/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/hcom/repo",
       "checkout": {
         "repository": "aannoo/hcom",
         "url": "https://github.com/aannoo/hcom",
@@ -3853,7 +3853,7 @@
       "previous_directory": "infrastructure/mission-control",
       "directory": "mission-control/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/mission-control",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/mission-control/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/mission-control/repo",
       "checkout": {
         "repository": "builderz-labs/mission-control",
         "url": "https://github.com/builderz-labs/mission-control",
@@ -3912,7 +3912,7 @@
       "previous_directory": "infrastructure/companyhelm",
       "directory": "companyhelm/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/companyhelm",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/companyhelm/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/companyhelm/repo",
       "checkout": {
         "repository": "CompanyHelm/companyhelm",
         "url": "https://github.com/CompanyHelm/companyhelm",
@@ -3971,7 +3971,7 @@
       "previous_directory": "infrastructure/ax",
       "directory": "ax/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/ax",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/ax/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/ax/repo",
       "checkout": {
         "repository": "google/ax",
         "url": "https://github.com/google/ax",
@@ -4030,7 +4030,7 @@
       "previous_directory": "infrastructure/open-multi-agent",
       "directory": "open-multi-agent/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/open-multi-agent",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/open-multi-agent/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/open-multi-agent/repo",
       "checkout": {
         "repository": "open-multi-agent/open-multi-agent",
         "url": "https://github.com/open-multi-agent/open-multi-agent",
@@ -4089,7 +4089,7 @@
       "previous_directory": "infrastructure/plano",
       "directory": "plano/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/plano",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/plano/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/plano/repo",
       "checkout": {
         "repository": "katanemo/plano",
         "url": "https://github.com/katanemo/plano",
@@ -4148,7 +4148,7 @@
       "previous_directory": "infrastructure/nasiko",
       "directory": "nasiko/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/nasiko",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/nasiko/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/nasiko/repo",
       "checkout": {
         "repository": "Nasiko-Labs/nasiko",
         "url": "https://github.com/Nasiko-Labs/nasiko",
@@ -4207,7 +4207,7 @@
       "previous_directory": "infrastructure/swarm",
       "directory": "swarm/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/swarm",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/swarm/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/swarm/repo",
       "checkout": {
         "repository": "swarm-agent/swarm",
         "url": "https://github.com/swarm-agent/swarm",
@@ -4266,7 +4266,7 @@
       "previous_directory": "infrastructure/bernstein",
       "directory": "bernstein/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/bernstein",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/bernstein/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/bernstein/repo",
       "checkout": {
         "repository": "sipyourdrink-ltd/bernstein",
         "url": "https://github.com/sipyourdrink-ltd/bernstein",
@@ -4325,7 +4325,7 @@
       "previous_directory": "infrastructure/rocketride-server",
       "directory": "rocketride-server/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/rocketride-server",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/rocketride-server/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/rocketride-server/repo",
       "checkout": {
         "repository": "rocketride-org/rocketride-server",
         "url": "https://github.com/rocketride-org/rocketride-server",
@@ -4384,7 +4384,7 @@
       "previous_directory": "workflow-layers/babysitter",
       "directory": "babysitter/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/babysitter",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/babysitter/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/babysitter/repo",
       "checkout": {
         "repository": "a5c-ai/babysitter",
         "url": "https://github.com/a5c-ai/babysitter",
@@ -4443,7 +4443,7 @@
       "previous_directory": "agent-harnesses/openclaw",
       "directory": "openclaw/repo",
       "previous_absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/alternatives/openclaw",
-      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/researchs/openclaw/repo",
+      "absolute_path": "/Users/stk/workspace/engineering/adjutant/wingman/research/openclaw/repo",
       "checkout": {
         "repository": "openclaw/openclaw",
         "url": "https://github.com/openclaw/openclaw",

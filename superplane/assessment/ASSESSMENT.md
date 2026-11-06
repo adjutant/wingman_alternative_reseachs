@@ -4,7 +4,7 @@
 
 - Product: **SuperPlane**, an engineering automation engine with a substantial **Factory** task delivery layer.
 - Repository: https://github.com/superplanehq/superplane
-- Local checkout: `researchs/superplane/repo`.
+- Local checkout: `research/superplane/repo`.
 - Assessed commit: `7d755d16b8ae836ecebf61639efc6266d74a4b0b`.
 - Assessment date: **2026-11-05**.
 - Basis: the local revision, read-only source and test inspection. No dependency installation, build, test execution, service launch, browser session, or external service verification.

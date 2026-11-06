@@ -1,7 +1,7 @@
 # Scion assessment
 
 **Repository:** https://github.com/GoogleCloudPlatform/scion  
-**Checkout:** `researchs/scion/repo`  
+**Checkout:** `research/scion/repo`  
 **Revision inspected:** `fe4556ad66b7ce68cf0c2d6871544496dfdfd4c4`  
 **Assessment date:** 2026-11-05  
 **Basis:** local source and tests, read only; no dependency installation, running agents, services or browser sessions.

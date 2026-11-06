@@ -1,7 +1,7 @@
 # oh-my-claudecode assessment against Wingman
 
 **Repository:** https://github.com/Yeachan-Heo/oh-my-claudecode  
-**Local checkout:** `researchs/oh-my-claudecode/repo`  
+**Local checkout:** `research/oh-my-claudecode/repo`  
 **Assessed commit:** `0564555b63dfedd158669c6799d53743abd7d6bf`  
 **Package identity:** `oh-my-claude-sisyphus`, version `5.7.31`, MIT license ([package.json](../repo/package.json), lines 1–17, 129–138).  
 **Assessment date:** 2026-11-05.  

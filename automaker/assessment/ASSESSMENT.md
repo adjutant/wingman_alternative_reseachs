@@ -1,6 +1,6 @@
 # Automaker assessment against Wingman
 
-Assessed **2026-11-05**, from the local checkout `researchs/automaker/repo`, actual commit **`5888d2e6f3618e06762803687ea7b181c10edcbd`**. Upstream: https://github.com/AutoMaker-Org/automaker
+Assessed **2026-11-05**, from the local checkout `research/automaker/repo`, actual commit **`5888d2e6f3618e06762803687ea7b181c10edcbd`**. Upstream: https://github.com/AutoMaker-Org/automaker
 
 **Verdict: a substantial implementation workbench and useful reference for Wingman's execution and project views, but not a standing development organization.** Automaker runs actual coding SDK/CLI invocations, maintains feature boards and conversations, dispatches dependency-aware work across projects and branches, and exposes logs, diffs, plans and operational controls. Its primary organizational unit is a feature execution, with a separate interactive chat-session subsystem. It does not implement Butler, a portfolio-routing agent, persistent product/technical leaders, agent rooms or coordinated workers on multiple hosts. Adding those would require an organizational control plane, not merely new system prompts.
 

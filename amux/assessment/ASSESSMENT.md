@@ -2,7 +2,7 @@
 
 Assessment date: 2026-11-05. Repository: https://github.com/andyrewlee/amux
 
-Local source: `researchs/amux/repo`. Inspected commit: `ce8542b8a2764a14f6dbce2a3ce443f4ac0c5b21`. Baseline: [WINGMAN_PURPOSE.md](../../WINGMAN_PURPOSE.md).
+Local source: `research/amux/repo`. Inspected commit: `ce8542b8a2764a14f6dbce2a3ce443f4ac0c5b21`. Baseline: [WINGMAN_PURPOSE.md](../../WINGMAN_PURPOSE.md).
 
 **Fit verdict:** amux supplies a substantial local execution and inspection workbench for real coding-agent processes. Its strongest contribution to Wingman is the detailed agent workspace, durable worktree/session association, and a small agent-facing control protocol. It does not supply Wingman's standing organization, discovery process, shared ticket system, organizational chat, Telegram representative, or distributed execution control plane. Building the organization around amux would still require most of Wingman's coordination product.
 

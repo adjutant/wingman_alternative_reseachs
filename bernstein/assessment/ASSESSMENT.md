@@ -2,7 +2,7 @@
 
 Assessment date: 2026-11-05. Repository: https://github.com/sipyourdrink-ltd/bernstein
 
-Local checkout: `researchs/bernstein/repo`. Actual inspected revision: `1ad038ab7f2475e45afc008a614c17da83090966`. This is a source assessment of that revision, not a claim about a currently hosted service or a live deployment. Repository sources remained unchanged; no dependencies were installed and no agents or services were launched.
+Local checkout: `research/bernstein/repo`. Actual inspected revision: `1ad038ab7f2475e45afc008a614c17da83090966`. This is a source assessment of that revision, not a claim about a currently hosted service or a live deployment. Repository sources remained unchanged; no dependencies were installed and no agents or services were launched.
 
 **Fit verdict:** Bernstein is a substantial candidate for Wingman's execution, task coordination, governance and evidence substrate. It already runs real coding-agent instances, schedules a shared task graph, exposes operational web/TUI views, coordinates remote workers, and gates changes before merge. It is not a ready implementation of Wingman's standing personal development organization. The human-facing Butler, conversational portfolio intake, persistent project leadership, product discovery cycle, organizational rooms and executive agent narratives remain significant application work. Its source is unusually explicit about the difference between a recorded claim and verified evidence, but several apparently complete surfaces have incomplete wiring. The default Telegram `/run` path contains enum mismatches, the ordinary SPA fleet routes can be stubs, and some declared quality settings are not seed-configurable.
 
