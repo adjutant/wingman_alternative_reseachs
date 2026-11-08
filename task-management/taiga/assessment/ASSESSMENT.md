@@ -6,6 +6,7 @@ Reviewed commit: `8ab6a4e3b5f6fbbfcbf108a6449011f07b7308aa`.
 Assessment date: November 9, 2026.
 Baseline: [Shared task management for an agent organization](../../../AGENT_TASK_MANAGEMENT.md).
 Evidence ledger: [review.json](review.json).
+Companion: [Taiga frontend assessment](../../taiga-front/assessment/ASSESSMENT.md).
 
 ## Fit decision
 
@@ -15,7 +16,7 @@ The reviewed backend does not supply an autonomous-worker ownership protocol. A 
 
 Story completion has a meaningful child-status calculation. With tasks present, all task statuses must be closed for the calculated story completion flag to become true. Without tasks, the story's status decides. This is progress aggregation, not acceptance of versioned child results. Bulk board movement also follows a different persistence and recalculation path from normal record editing.
 
-Taiga fits as a planning and communication authority behind an added agent coordinator. Adopting it as the complete coordination runtime would require ownership, readiness, recovery and acceptance mechanisms. The backend declares MPL 2.0 in its [license and contribution statement](../repo/README.md), lines 42–46, and [license](../repo/LICENSE), lines 1–18. The separately checked-out frontend requires a separate assessment and license check; its implementation is not attributed to this server repository.
+Taiga fits as a planning and communication authority behind an added agent coordinator. Adopting it as the complete coordination runtime would require ownership, readiness, recovery and acceptance mechanisms. The backend declares MPL 2.0 in its [license and contribution statement](../repo/README.md), lines 42–46, and [license](../repo/LICENSE), lines 1–18. The frontend's implementation and AGPL declaration are covered in its separate companion assessment; they are not attributed to this server repository.
 
 ## Scope and evidence level
 

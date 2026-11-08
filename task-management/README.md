@@ -25,7 +25,7 @@ The source manifest records clean status, tracked-path counts and hashes, commit
 
 ## Completed source assessments
 
-Nineteen of 25 assessments are complete at this checkpoint.
+Twenty of 25 assessments are complete at this checkpoint.
 The [progress record](progress.json) lists all pending codebases.
 HTML publication and the cross-project comparison remain pending.
 
@@ -47,6 +47,7 @@ HTML publication and the cross-project comparison remain pending.
 | Planka | [Source assessment](planka/assessment/ASSESSMENT.md) | [Review ledger](planka/assessment/review.json) |
 | Rhizome MCP | [Source assessment](rhizome-mcp/assessment/ASSESSMENT.md) | [Review ledger](rhizome-mcp/assessment/review.json) |
 | Taiga backend | [Source assessment](taiga/assessment/ASSESSMENT.md) | [Review ledger](taiga/assessment/review.json) |
+| Taiga frontend | [Source assessment](taiga-front/assessment/ASSESSMENT.md) | [Review ledger](taiga-front/assessment/review.json) |
 | Task Master | [Source assessment](task-master/assessment/ASSESSMENT.md) | [Review ledger](task-master/assessment/review.json) |
 | Vibe Kanban | [Source assessment](vibe-kanban/assessment/ASSESSMENT.md) | [Review ledger](vibe-kanban/assessment/review.json) |
 | Vikunja | [Source assessment](vikunja/assessment/ASSESSMENT.md) | [Review ledger](vikunja/assessment/review.json) |

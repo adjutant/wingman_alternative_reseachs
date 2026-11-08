@@ -1,0 +1,733 @@
+{
+  "project": "taiga-front",
+  "commit": "da8afa50b2a59c3aaec78854c0ae8145a16e6cd8",
+  "baseline": "AGENT_TASK_MANAGEMENT.md",
+  "baseline_sha256": "4dcfe707e292330c65b66c9bbbf4999d90dcf54991adf76ffe82a5efd3eee8a3",
+  "reviewed_on": "2026-11-09",
+  "review_status": "source_review_complete",
+  "scope": "Targeted static frontend review of active app/build/resource registration and configured backend boundary; project context and task detail/related-task create-assignment-status-delete-block flow; versioned model/repository/HTTP and singleton transform queue, selected optimistic taskboard/Kanban/bulk writers; WIP config/display, WebSocket session/subscription/send/heartbeat/reconnect lifecycle, limited backlog/project refresh fallbacks, notification/history/search, bearer/refresh/localStorage/permission presentation, representative detail/backlog templates and deployment/build manifests. Selected mocked assertion bodies read. Relevant task/resource/event operation inventory searched for claims/leases/attempts/dependency alternatives. Server authority attributed to separate Taiga backend review, not frontend. Not every-line, all screens/importers/plugins/security/provider/performance/accessibility/mobile/gateway/build/browser/runtime certification.",
+  "candidate_executed": false,
+  "candidate_tests_run": false,
+  "requirement_verdicts": {
+    "T01": "Similar",
+    "T02": "Similar",
+    "T03": "Similar",
+    "T04": "Resembles",
+    "T05": "Resembles",
+    "T06": "Resembles",
+    "T07": "Resembles",
+    "T08": "Resembles",
+    "T09": "Resembles",
+    "T10": "Similar",
+    "T11": "Similar",
+    "T12": "Similar",
+    "T13": "Resembles",
+    "T14": "Absent",
+    "T15": "Resembles",
+    "T16": "Resembles",
+    "T17": "Resembles",
+    "T18": "Similar",
+    "T19": "Similar",
+    "T20": "Similar",
+    "T21": "Resembles",
+    "T22": "Similar",
+    "T23": "Similar",
+    "T24": "Resembles"
+  },
+  "companion_reviews": [
+    {
+      "project": "taiga",
+      "commit": "8ab6a4e3b5f6fbbfcbf108a6449011f07b7308aa",
+      "assessment": "task-management/taiga/assessment/ASSESSMENT.md",
+      "boundary": "Backend SQL persistence/identity/roles/normal OCC/bulk consistency/parent closure/notification access authority is reviewed there; not credited as native frontend enforcement."
+    }
+  ],
+  "lifecycle_review": {
+    "create": "Related-task form supplies project/story/default status/assignee and normal POST through repository; bulk task resource also exists. Creates server records, no child worker launch or reviewed request idempotency key.",
+    "select": "Project routing/context, persisted browser filter preferences, task/story lists and search plus backlog/Kanban/taskboard/detail views. Query/list display not prerequisite eligibility or work reservation.",
+    "claim": "Self-assign sets assigned_to=currentUserId through ordinary clone-on-success versioned detail save; editors may replace/unassign owner. No native exclusive expected-unowned acquisition, lease, worker attempt or automatic dispatcher.",
+    "progress": "Patch model includes version; repository merges responses; detail clone-on-success differs from optimistic board/inline mutation. Singleton transformation success uses mutable current scope/property, no view/task generation fence; late-response overwrite risk inferred, not reproduced. Board failure handlers lack local rollback/refetch in inspected paths.",
+    "review": "UI status/assignee/permission controls use server snapshot; no accepted result/version/test/reviewer envelope. Client WIP displays one-left/reached/exceeded and does not reject move; authority must be server-side.",
+    "complete": "Task status button performs ordinary versioned edit; story/taskboard consumes server completion state, whose child calculation is in companion review. Bulk Kanban request ID/destination only without per-record versions; no native accepted-child join.",
+    "cancel": "Related-task confirmed DELETE and manual status/reassignment are record operations, no external worker stop/resume/cancellation fanout; pending local queue is not persisted offline work authority.",
+    "recover": "Socket auth/ping-pong/jitter/max-errors reconnect but no client replay cursor, board resnapshot or iteration resending old project subscriptions in onOpen. Project refresh every10min and on active plus specific backlog postmove disconnected fallback, not universal board catchup; persistent notifications/history queryable. Backend controls data/permissions, localStorage carries credentials/preferences. Build Docker downloads separate dist version and mismatched plugin archive/extraction version globs; unbuilt/unverified."
+  },
+  "files": [
+    {
+      "path": "package.json",
+      "sha256": "0c53bc13d98fae4e3f8ac4054ef3e385d3f967e45e604666539d21b2aa0a8a7c",
+      "lines": 138,
+      "ranges": [
+        [
+          1,
+          138
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0",
+      "lines": 661,
+      "ranges": [
+        [
+          1,
+          15
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "README.md",
+      "sha256": "a388b17574c1d64e32256cdfc7f5a886a6f238e945a4d380037667046c5b2b20",
+      "lines": 109,
+      "ranges": [
+        [
+          1,
+          95
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "gulpfile.js",
+      "sha256": "4dff66a3597117518caf7678f6be5924b3c2e0e7df92a2cfd8c7826708277ca5",
+      "lines": 756,
+      "ranges": [
+        [
+          133,
+          165
+        ],
+        [
+          510,
+          531
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "docker/Dockerfile",
+      "sha256": "9e63bafd26d4d7767a504b56790cc4e01679f9f30407bf34d77234ac34a0fd7d",
+      "lines": 47,
+      "ranges": [
+        [
+          1,
+          47
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "docker/default.conf",
+      "sha256": "9803838385101484ffab2fa45a7abe524e6a9fac383508404e392a2e859a1fab",
+      "lines": 12,
+      "ranges": [
+        [
+          1,
+          12
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "docker/config_env_subst.sh",
+      "sha256": "6c5e163a39404a13727cb6a51c440ca266d0f525008b792e762e3ec3d4d14e21",
+      "lines": 67,
+      "ranges": [
+        [
+          1,
+          67
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "docker/conf.json.template",
+      "sha256": "82937d59c7ce298637caa6a27548ac061b0c5882221e57defe0ccb72e1dcc0b1",
+      "lines": 36,
+      "ranges": [
+        [
+          1,
+          36
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "conf/conf.example.json",
+      "sha256": "7ee80cb7166fe92f0693bd4bc8eef0ff2f2456e05eb657d93e981d9826f41f2b",
+      "lines": 37,
+      "ranges": [
+        [
+          1,
+          37
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/coffee/app.coffee",
+      "sha256": "38542ecfd7c2fa1f0690c3fd68985a7a0d1c9638eb3e30333ddaf8d1263387c5",
+      "lines": 1141,
+      "ranges": [
+        [
+          1,
+          115
+        ],
+        [
+          221,
+          288
+        ],
+        [
+          584,
+          707
+        ],
+        [
+          738,
+          756
+        ],
+        [
+          963,
+          985
+        ],
+        [
+          1045,
+          1141
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/index.jade",
+      "sha256": "37c3b813ebed8979dbcb23e20ff48d53b3be9170ac7804126f898e9fd9e54be0",
+      "lines": 97,
+      "ranges": [
+        [
+          15,
+          45
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/coffee/modules/base/model.coffee",
+      "sha256": "b3ba1ddeabb89c9f9b9531a3268a3badc11a3de1479137f46f0baa8b911d266b",
+      "lines": 156,
+      "ranges": [
+        [
+          1,
+          102
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/coffee/modules/base/repository.coffee",
+      "sha256": "19c77f3a82340c7cfc8fe052db8998530648663c5d32b821e4092c707c9d6209",
+      "lines": 224,
+      "ranges": [
+        [
+          1,
+          172
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/coffee/modules/base/http.coffee",
+      "sha256": "1b88e34b14bbfb409972807e684e5113f379b2c6047d7b452a77b5bb42ed6adb",
+      "lines": 76,
+      "ranges": [
+        [
+          1,
+          76
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/coffee/modules/base/storage.coffee",
+      "sha256": "e35b751d6a488b89585537ac5e874797a5aa4af76ed2285170e03f2c0950deb6",
+      "lines": 46,
+      "ranges": [
+        [
+          1,
+          46
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/coffee/modules/base/urls.coffee",
+      "sha256": "36ac8b535127aa707830ecc15e6ef5e71b402480765e7a6ef52357512cc999ca",
+      "lines": 49,
+      "ranges": [
+        [
+          1,
+          49
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/coffee/modules/common.coffee",
+      "sha256": "94b4f290192def522755f1eead2e6b89cebd0cefe6dc0772383ea1c3f578f637",
+      "lines": 427,
+      "ranges": [
+        [
+          232,
+          309
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/coffee/modules/common/lightboxes.coffee",
+      "sha256": "1afd1abf265cba836e34dbc5ecc199ff565855011300818c0c447ae8b45f5ddc",
+      "lines": 1038,
+      "ranges": [
+        [
+          209,
+          278
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/coffee/modules/auth.coffee",
+      "sha256": "da180bb145475ebc06dc1cc40bed7319b351a9d47563a526b7b9cba339184fca",
+      "lines": 742,
+      "ranges": [
+        [
+          10,
+          202
+        ],
+        [
+          278,
+          307
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/coffee/modules/events.coffee",
+      "sha256": "b8508e152c1866d9ff0491580ef876e22ee61553d72341736e535713bbad14cb",
+      "lines": 306,
+      "ranges": [
+        [
+          1,
+          306
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/coffee/modules/tasks/detail.coffee",
+      "sha256": "b043897d9130576b275d2e166c1e9a6170a54b586dd3832d4b3aec782b0026a5",
+      "lines": 402,
+      "ranges": [
+        [
+          9,
+          242
+        ],
+        [
+          254,
+          310
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/partials/task/task-detail.jade",
+      "sha256": "e83740f0e8c4978cf8609f23396bfd6a190ff70bc7c53c0305fb27a262204fb2",
+      "lines": 158,
+      "ranges": [
+        [
+          1,
+          158
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/partials/us/us-detail.jade",
+      "sha256": "777f9a5062ffec162904291a08d4c515ebebe18064f87bb8ecc85ae9cb987c91",
+      "lines": 218,
+      "ranges": [
+        [
+          115,
+          170
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/partials/backlog/backlog.jade",
+      "sha256": "9ddfa3c30192f9e311d59ceab23d55e133ff653e346a129ee4ae78d5bd95b69c",
+      "lines": 202,
+      "ranges": [
+        [
+          8,
+          80
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/coffee/modules/related-tasks.coffee",
+      "sha256": "c93cc1b5d34d77adf3880ff15d75db89bc9675f54fde7f7596c2f066c5d5c70c",
+      "lines": 340,
+      "ranges": [
+        [
+          10,
+          105
+        ],
+        [
+          115,
+          195
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/coffee/modules/resources/tasks.coffee",
+      "sha256": "789ceaaa3c5487a47747d6120583c9c77cafd30c46548936135b50af13b03a5a",
+      "lines": 140,
+      "ranges": [
+        [
+          10,
+          110
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/coffee/modules/resources/userstories.coffee",
+      "sha256": "4ada21d5c3bda8b88a39d5c9d999ce420ca8123edb0f9f1df657f28513d2cbfa",
+      "lines": 183,
+      "ranges": [
+        [
+          100,
+          183
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/coffee/modules/resources/modules.coffee",
+      "sha256": "1756140234c9fe7581e83b7f7870022bd5dae4e9a18b5965aeb5c2f574f4f134",
+      "lines": 20,
+      "ranges": [
+        [
+          1,
+          20
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/coffee/modules/resources.coffee",
+      "sha256": "a5844b9557f1642c371cc08c5eb97ae7be109592c64d62945f9c052e3a4d1120",
+      "lines": 290,
+      "ranges": [
+        [
+          250,
+          285
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/modules/resources/resources.coffee",
+      "sha256": "1fd1f51889966e32b51bb5bc00aa8f9320b85c0ab8d4c41b3c0d6b99b20c3f20",
+      "lines": 45,
+      "ranges": [
+        [
+          8,
+          45
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/modules/resources/tasks-resource.service.coffee",
+      "sha256": "5ec1d1a5067739459eb7c498881825313c39c5ddbb70fb018e9030067995a4b7",
+      "lines": 30,
+      "ranges": [
+        [
+          1,
+          30
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/coffee/modules/kanban/main.coffee",
+      "sha256": "fca9044b7ccbc089381b8dad83af2b4ed4f2f71dfd48873345c051fa41363c4c",
+      "lines": 1203,
+      "ranges": [
+        [
+          73,
+          122
+        ],
+        [
+          246,
+          289
+        ],
+        [
+          458,
+          495
+        ],
+        [
+          590,
+          615
+        ],
+        [
+          617,
+          715
+        ],
+        [
+          809,
+          847
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/coffee/modules/kanban/kanban-usertories.coffee",
+      "sha256": "41c23b87fed892859fe0e244ee5d4d7dd69d1faf657bc2f55a3fdc48d1c7e358",
+      "lines": 319,
+      "ranges": [
+        [
+          1,
+          88
+        ],
+        [
+          150,
+          219
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/coffee/modules/taskboard/main.coffee",
+      "sha256": "913226238e19cd34999202933c05352052f493269ed84168d0eb4f3aad1efac3",
+      "lines": 921,
+      "ranges": [
+        [
+          354,
+          402
+        ],
+        [
+          486,
+          508
+        ],
+        [
+          625,
+          675
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/coffee/modules/taskboard/taskboard-tasks.coffee",
+      "sha256": "cf10d0bdccf696bc81d922cc3177805354fa7f71e907db33c56a1321029b2b64",
+      "lines": 157,
+      "ranges": [
+        [
+          69,
+          157
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/coffee/modules/backlog/main.coffee",
+      "sha256": "26229111f547b53685ca0171a916942df035867f018e1cd3fc0886e9f087843b",
+      "lines": 1385,
+      "ranges": [
+        [
+          621,
+          647
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/modules/services/project.service.coffee",
+      "sha256": "e10bf61d2a70443e54a6d04c1fddf334f6a465bace75cae64587d65e7f24ab36",
+      "lines": 115,
+      "ranges": [
+        [
+          11,
+          109
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/modules/services/check-permissions.service.coffee",
+      "sha256": "884298b29074d1257471860b63e2438ef5ef1dedf25eb052aa48fa51eec4b246",
+      "lines": 23,
+      "ranges": [
+        [
+          1,
+          23
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/modules/components/ticket-assigned/assigned-to.directive.coffee",
+      "sha256": "5790e0f363173587bfd3bd344bff80e49bffb62bb8620d5b3c93854a031416cc",
+      "lines": 92,
+      "ranges": [
+        [
+          1,
+          92
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/modules/components/wip-limit-selector/wip-limit-selector.controller.coffee",
+      "sha256": "bda6818c86998d185b339ee3ba13cdf3ab9482ecc6fccc4e1c91fd050f0ae858",
+      "lines": 28,
+      "ranges": [
+        [
+          1,
+          28
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/modules/components/wip-limit-selector/wip-limit-selector.jade",
+      "sha256": "aefc82b5408b0970de5b5ec28a77d9ccbb4ffaa480299183cdda0c3f4477095d",
+      "lines": 42,
+      "ranges": [
+        [
+          1,
+          42
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/modules/notifications/notifications.service.coffee",
+      "sha256": "e6ec9ae59fcb1673eb0544b34898ca927f98e08725d194a2dfb09739cb59045f",
+      "lines": 188,
+      "ranges": [
+        [
+          1,
+          143
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/modules/resources/users-resource.service.coffee",
+      "sha256": "063c46e28b918754fdbe0c20c2a4eced2825c117cebe792ff77748dd76c61812",
+      "lines": 183,
+      "ranges": [
+        [
+          142,
+          178
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/modules/resources/history-resource.service.coffee",
+      "sha256": "32f92b8d3a4eb1c98f0e4553099d2b66006dbf1421962df6ae4cfd56addfe769",
+      "lines": 27,
+      "ranges": [
+        [
+          1,
+          27
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/modules/history/activity/activity.service.coffee",
+      "sha256": "0aeb0962ee92b8dc0549b45f61daadc5c93504a494bd04593a057419a0ea8b46",
+      "lines": 63,
+      "ranges": [
+        [
+          10,
+          63
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/coffee/modules/search.coffee",
+      "sha256": "1a1ae037c43ba418ecefffc2efdbc47092c2dea3d62df84597818f0b799e52e9",
+      "lines": 277,
+      "ranges": [
+        [
+          10,
+          105
+        ]
+      ],
+      "method": "Targeted static frontend registration, model/resource/HTTP writer, asynchronous lifecycle, view/template, permission/auth, notification/history or deployment/build body inspection; not every-line or runtime certification."
+    },
+    {
+      "path": "app/coffee/modules/kanban/main.spec.coffee",
+      "sha256": "e08090565818f272c78c32c211f33830c632d643314ac069e508acb613f9fe65",
+      "lines": 261,
+      "ranges": [
+        [
+          1,
+          115
+        ],
+        [
+          213,
+          250
+        ]
+      ],
+      "method": "Selected mocked unit/controller/service test assertion sources; not executed and not server/browser/integration evidence."
+    },
+    {
+      "path": "app/modules/services/project.service.spec.coffee",
+      "sha256": "cabf49fccba362d97b126b66c4843fd4eeb23a63f42e5171451d75d92c485a62",
+      "lines": 202,
+      "ranges": [
+        [
+          1,
+          106
+        ],
+        [
+          172,
+          202
+        ]
+      ],
+      "method": "Selected mocked unit/controller/service test assertion sources; not executed and not server/browser/integration evidence."
+    },
+    {
+      "path": "app/modules/services/check-permissions.service.spec.coffee",
+      "sha256": "7a442a09161e0bee9b4c70d1b4a038a08cf535ef2a2368be66de8b3bcb361e40",
+      "lines": 52,
+      "ranges": [
+        [
+          1,
+          52
+        ]
+      ],
+      "method": "Selected mocked unit/controller/service test assertion sources; not executed and not server/browser/integration evidence."
+    },
+    {
+      "path": "app/modules/history/activity/activity.service.spec.coffee",
+      "sha256": "d1cdc9b53a75855c80941d585f1fb4f58f78355a09260d24bcbdaf299c05ff59",
+      "lines": 84,
+      "ranges": [
+        [
+          1,
+          84
+        ]
+      ],
+      "method": "Selected mocked unit/controller/service test assertion sources; not executed and not server/browser/integration evidence."
+    }
+  ]
+}
