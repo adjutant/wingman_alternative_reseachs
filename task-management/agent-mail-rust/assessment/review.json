@@ -1,0 +1,537 @@
+{
+  "project": "agent-mail-rust",
+  "commit": "49866939b1f52af5741bd3c87145d01846b93a38",
+  "baseline": "AGENT_TASK_MANAGEMENT.md",
+  "baseline_sha256": "4dcfe707e292330c65b66c9bbbf4999d90dcf54991adf76ffe82a5efd3eee8a3",
+  "reviewed_on": "2026-11-09",
+  "review_status": "source_review_complete",
+  "scope": "Full tracked checkout; static catalogue/domain declaration inventory and targeted registration/session/lifecycle authorization, message transaction/archive dispatch, delivery cursor, reservation transaction/publication/replay, slot grant, release recovery boundary, HTTP role/browser guard, external Beads query, TUI registry and selected test assertion review. Not every-line audit, complete background reconciliation/intent replay, crypto proof, controller mathematics, search, repair framework, installer or live usability certification.",
+  "candidate_executed": false,
+  "candidate_tests_run": false,
+  "requirement_verdicts": {
+    "T01": "Similar",
+    "T02": "Resembles",
+    "T03": "Resembles",
+    "T04": "Resembles",
+    "T05": "Similar",
+    "T06": "Similar",
+    "T07": "Similar",
+    "T08": "Resembles",
+    "T09": "Resembles",
+    "T10": "Similar",
+    "T11": "Similar",
+    "T12": "Similar",
+    "T13": "Similar",
+    "T14": "Similar",
+    "T15": "Similar",
+    "T16": "Similar",
+    "T17": "Similar",
+    "T18": "Similar",
+    "T19": "Similar",
+    "T20": "Resembles",
+    "T21": "Absent",
+    "T22": "Similar",
+    "T23": "Similar",
+    "T24": "Similar"
+  },
+  "lifecycle_review": {
+    "create": "Mailbox project and self-asserted agent registration; optional proof gate, token rotation and opt-in session binding; no task creation in mailbox model or included Beads read dispatcher",
+    "select": "Ready/list/show/status readers delegate to external Beads issue authority; no atomic issue-plus-resource selection/claim transaction",
+    "claim": "Nonconflicting file paths selected, active-agent and overlap rechecked inside immediate transaction; keyed result committed with leases; foreground guard JSON required for successful admission; build slots remain report-and-grant advisory",
+    "progress": "Mail creation plus recipients/idempotency result in database transaction; post-commit notifications and best-effort archive publication; no execution checkpoints or attempt result authority",
+    "review": "Message receipts and registration identity proofs do not establish task acceptance or qualified reviewer approval",
+    "complete": "No mailbox task completion gate; external issue system must check delivered revision, criteria and children",
+    "cancel": "Reservation release and authenticated identity retirement/deregistration change coordination state; no worker process cancellation",
+    "recover": "Ordered retained delivery cursors with explicit loss/ahead errors, optional keyed mutation replay, guard publication errors/reconciliation boundaries, queued ACK/release intents, observed-expiry forced release and temporal release cutoffs; no task-attempt fencing"
+  },
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "1602f341164f7f9dce4ef43a5a15f844711e96667a6c9eff24c054ad1593e6ad",
+      "lines": 1406,
+      "ranges": [
+        [
+          1,
+          1406
+        ]
+      ],
+      "method": "Instructions, declared trust model, license or build metadata inspection; no candidate workflow/build executed"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "32a82e0a5754e72e51fae44b65a936c831c07376f21c90f5fb9e76897fcc3509",
+      "lines": 73,
+      "ranges": [
+        [
+          1,
+          73
+        ]
+      ],
+      "method": "Instructions, declared trust model, license or build metadata inspection; no candidate workflow/build executed"
+    },
+    {
+      "path": "SECURITY.md",
+      "sha256": "f17067f267ed8dfba823f46d690f73beef97d53e0b92013fe39a0721b7b007f3",
+      "lines": 122,
+      "ranges": [
+        [
+          1,
+          120
+        ]
+      ],
+      "method": "Instructions, declared trust model, license or build metadata inspection; no candidate workflow/build executed"
+    },
+    {
+      "path": "Cargo.toml",
+      "sha256": "c1222f49e7b0f4c7e448b9e9db08014bd0d3aa52c4733a7dd28b138d89a17099",
+      "lines": 266,
+      "ranges": [
+        [
+          1,
+          100
+        ]
+      ],
+      "method": "Instructions, declared trust model, license or build metadata inspection; no candidate workflow/build executed"
+    },
+    {
+      "path": "rust-toolchain.toml",
+      "sha256": "b19e45ae96538262d4d0e65bdfa8c8a9a7c8b7e1cc03e9f6b9739a8c2456171a",
+      "lines": 5,
+      "ranges": [
+        [
+          1,
+          5
+        ]
+      ],
+      "method": "Instructions, declared trust model, license or build metadata inspection; no candidate workflow/build executed"
+    },
+    {
+      "path": "crates/mcp-agent-mail-core/src/models.rs",
+      "sha256": "0e85f7faedbb7166f635318a73781947bf58785f63a4af468c5f6a7850389a59",
+      "lines": 2100,
+      "ranges": [
+        [
+          1,
+          245
+        ]
+      ],
+      "method": "Targeted model fields plus complete public type-name declaration inventory; model docs separated from runtime database rows"
+    },
+    {
+      "path": "crates/mcp-agent-mail-core/src/config.rs",
+      "sha256": "e411a5e2432425aca9c002866518e4186b74eec1936483633a119825574712ae",
+      "lines": 8767,
+      "ranges": [
+        [
+          1716,
+          1720
+        ],
+        [
+          1797,
+          1798
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "crates/mcp-agent-mail-db/src/models.rs",
+      "sha256": "673c9efaa6e49fa6cf2d24973013a26d3544f26c43f173d3ebdda975ea7d8447",
+      "lines": 868,
+      "ranges": [
+        [
+          122,
+          174
+        ],
+        [
+          269,
+          342
+        ],
+        [
+          377,
+          435
+        ]
+      ],
+      "method": "Targeted model fields plus complete public type-name declaration inventory; model docs separated from runtime database rows"
+    },
+    {
+      "path": "crates/mcp-agent-mail-db/src/schema.rs",
+      "sha256": "53f61d98223e305e09dc0c3667eb561c230cfdf458345d478872850c999c1c9b",
+      "lines": 10202,
+      "ranges": [
+        [
+          1,
+          165
+        ]
+      ],
+      "method": "Base table bodies at listed ranges plus static table-name/declaration inventory across schema file; not full migration audit"
+    },
+    {
+      "path": "crates/mcp-agent-mail-db/src/queries.rs",
+      "sha256": "0e5573e6966cdd7f8efd9bf4697043e2a8eec488a1a052fe2947765f3fc8c88a",
+      "lines": 43570,
+      "ranges": [
+        [
+          8926,
+          9045
+        ],
+        [
+          9630,
+          9758
+        ],
+        [
+          11307,
+          11453
+        ],
+        [
+          15506,
+          15772
+        ],
+        [
+          15770,
+          15831
+        ],
+        [
+          16215,
+          16275
+        ],
+        [
+          16535,
+          16605
+        ],
+        [
+          18682,
+          18746
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "crates/mcp-agent-mail-db/src/sync.rs",
+      "sha256": "9ecfc613cd791dca8af9ce6bcd5afb976f586edc523963d73004f3f5ca327ecb",
+      "lines": 4599,
+      "ranges": [
+        [
+          1014,
+          1245
+        ],
+        [
+          3002,
+          3087
+        ]
+      ],
+      "method": "Cursor implementation plus selected cursor test fixture/assertion bodies at 3002\u20133087; tests not run"
+    },
+    {
+      "path": "crates/mcp-agent-mail-tools/src/lib.rs",
+      "sha256": "f1d21a842dd69624a64ae14697d5a7aa4e164178b8010ac0beab8788e2a8588c",
+      "lines": 4270,
+      "ranges": [
+        [
+          1,
+          135
+        ],
+        [
+          3893,
+          4018
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "crates/mcp-agent-mail-tools/src/identity.rs",
+      "sha256": "3131a948b0cc012c73d6f3e21fd158dda11bf3892554965128a086c200be2c93",
+      "lines": 7679,
+      "ranges": [
+        [
+          2231,
+          2318
+        ],
+        [
+          2924,
+          2968
+        ],
+        [
+          3035,
+          3168
+        ],
+        [
+          3170,
+          3290
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "crates/mcp-agent-mail-tools/src/session_identity.rs",
+      "sha256": "e114dde7020905da53b15828360e64748e51ce1aab9c81c9417d263391edab5f",
+      "lines": 1109,
+      "ranges": [
+        [
+          1,
+          110
+        ],
+        [
+          317,
+          390
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "crates/mcp-agent-mail-tools/src/proof_gate.rs",
+      "sha256": "cb613598d4fdd71bcffe0a426559c8f08afdb2fe2bb025368077d4c8f993d48b",
+      "lines": 1111,
+      "ranges": [
+        [
+          1,
+          100
+        ]
+      ],
+      "method": "Registration proof interface/design and caller review; signature implementation not cryptographically audited"
+    },
+    {
+      "path": "crates/mcp-agent-mail-tools/src/idempotency.rs",
+      "sha256": "0fa2f8e332a17b6f5895608a1d58ec7727fc465cb461a7df0cfa7da4a68449d9",
+      "lines": 428,
+      "ranges": [
+        [
+          1,
+          90
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "crates/mcp-agent-mail-tools/src/reservations.rs",
+      "sha256": "0df1ec3b33c2a091346d20c6c9343302211cf20d514d0294d46aaf9c7f65dbb6",
+      "lines": 9844,
+      "ranges": [
+        [
+          329,
+          399
+        ],
+        [
+          1989,
+          2090
+        ],
+        [
+          2100,
+          2178
+        ],
+        [
+          2220,
+          2505
+        ],
+        [
+          2630,
+          2778
+        ],
+        [
+          2790,
+          2880
+        ],
+        [
+          3071,
+          3160
+        ],
+        [
+          3250,
+          3360
+        ],
+        [
+          3372,
+          3570
+        ],
+        [
+          4271,
+          4385
+        ],
+        [
+          5309,
+          5468
+        ]
+      ],
+      "method": "Targeted reservation entry, transaction callers, publication/replay/release bodies plus selected regression/conflict test assertions at 4271\u20134385 and 5309\u20135468; not full module audit; tests not run"
+    },
+    {
+      "path": "crates/mcp-agent-mail-tools/src/messaging.rs",
+      "sha256": "4984fcbe1ff8ae7d4a47a560875e3cec9014a5f430677d242c2215090bbdaa28",
+      "lines": 12586,
+      "ranges": [
+        [
+          1,
+          263
+        ],
+        [
+          2523,
+          2648
+        ],
+        [
+          3011,
+          3087
+        ],
+        [
+          3798,
+          3860
+        ],
+        [
+          3880,
+          4008
+        ],
+        [
+          4080,
+          4108
+        ],
+        [
+          5462,
+          5606
+        ],
+        [
+          6270,
+          6378
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "crates/mcp-agent-mail-tools/src/build_slots.rs",
+      "sha256": "fd22973954dba733e21af15ea5edabd8330517c2aa8e4b31798e4f81b96023bb",
+      "lines": 1988,
+      "ranges": [
+        [
+          240,
+          337
+        ],
+        [
+          405,
+          488
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "crates/mcp-agent-mail-tools/tests/lifecycle_auth_transport.rs",
+      "sha256": "b27e55e48da5848596f1988f3006bdbd94c9d3ec1a47088f580762667820bf33",
+      "lines": 530,
+      "ranges": [
+        [
+          151,
+          208
+        ]
+      ],
+      "method": "Selected lifecycle authorization fixture/assertion bodies only; tests not run"
+    },
+    {
+      "path": "crates/mcp-agent-mail-server/src/lib.rs",
+      "sha256": "23047fc10d55fe5973c641bc23f0e3f4a15b918a1c9f3b62ffc42b26425459e4",
+      "lines": 41232,
+      "ranges": [
+        [
+          632,
+          704
+        ],
+        [
+          740,
+          795
+        ],
+        [
+          850,
+          905
+        ],
+        [
+          965,
+          1048
+        ],
+        [
+          12524,
+          12565
+        ],
+        [
+          13333,
+          13408
+        ],
+        [
+          17460,
+          17535
+        ],
+        [
+          25880,
+          25945
+        ]
+      ],
+      "method": "Builder/filter, browser/MCP role checks, HTTP lifecycle stamping and selected browser test assertions at 25880\u201325945; tests not run"
+    },
+    {
+      "path": "crates/mcp-agent-mail-server/src/atc.rs",
+      "sha256": "a725c43dbca2b7e398e7a8c18b37e23ad27217ddf922220752a5c28bf01f6883",
+      "lines": 1263,
+      "ranges": [
+        [
+          1,
+          70
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "crates/mcp-agent-mail-server/src/atc_engine.rs",
+      "sha256": "e5eae058790ea126eb6605130fd3b63e7626e10d07f28da813579897018bf6c8",
+      "lines": 14610,
+      "ranges": [
+        [
+          388,
+          443
+        ],
+        [
+          4007,
+          4050
+        ],
+        [
+          12376,
+          12430
+        ]
+      ],
+      "method": "Targeted controller type/action/admission inventory; not complete engine, mathematics or runtime effect audit"
+    },
+    {
+      "path": "crates/mcp-agent-mail-server/src/atc_delivery.rs",
+      "sha256": "698de54c88d68f5f87d8355cbb743fccd48d01ce4ac90c74a7989b6c081d7c73",
+      "lines": 408,
+      "ranges": [
+        [
+          1,
+          100
+        ]
+      ],
+      "method": "Targeted controller type/action/admission inventory; not complete engine, mathematics or runtime effect audit"
+    },
+    {
+      "path": "crates/mcp-agent-mail-server/src/tui_screen_registry.rs",
+      "sha256": "4e5330a3890fdfefcf0b4cd592c41749c02d8945cdf403d24b920235e7de7d66",
+      "lines": 397,
+      "ranges": [
+        [
+          1,
+          170
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "crates/mcp-agent-mail-cli/src/lib.rs",
+      "sha256": "533539a914b6299cceb8ba9d90dd4492c8c150e041a1ed61eca50b55ad6a54fa",
+      "lines": 106517,
+      "ranges": [
+        [
+          1207,
+          1278
+        ],
+        [
+          22863,
+          22926
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    }
+  ]
+}

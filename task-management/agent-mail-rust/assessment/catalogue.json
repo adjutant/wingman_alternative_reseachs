@@ -1,0 +1,931 @@
+{
+  "method": "Static literal catalogue and builder-call inventory; not a Rust AST or executed registration check. Tool filtering and logical resource URI aliases remain runtime/declaration concerns.",
+  "sources": [
+    {
+      "path": "crates/mcp-agent-mail-tools/src/lib.rs",
+      "sha256": "f1d21a842dd69624a64ae14697d5a7aa4e164178b8010ac0beab8788e2a8588c"
+    },
+    {
+      "path": "crates/mcp-agent-mail-server/src/lib.rs",
+      "sha256": "23047fc10d55fe5973c641bc23f0e3f4a15b918a1c9f3b62ffc42b26425459e4"
+    }
+  ],
+  "tool_count": 45,
+  "resource_handler_registration_count": 33,
+  "tools": [
+    {
+      "name": "health_check",
+      "cluster": "INFRASTRUCTURE",
+      "line": 3908
+    },
+    {
+      "name": "ensure_project",
+      "cluster": "INFRASTRUCTURE",
+      "line": 3909
+    },
+    {
+      "name": "install_precommit_guard",
+      "cluster": "INFRASTRUCTURE",
+      "line": 3910
+    },
+    {
+      "name": "uninstall_precommit_guard",
+      "cluster": "INFRASTRUCTURE",
+      "line": 3911
+    },
+    {
+      "name": "register_agent",
+      "cluster": "IDENTITY",
+      "line": 3913
+    },
+    {
+      "name": "create_agent_identity",
+      "cluster": "IDENTITY",
+      "line": 3914
+    },
+    {
+      "name": "retire_agent",
+      "cluster": "IDENTITY",
+      "line": 3915
+    },
+    {
+      "name": "unretire_agent",
+      "cluster": "IDENTITY",
+      "line": 3916
+    },
+    {
+      "name": "deregister_agent",
+      "cluster": "IDENTITY",
+      "line": 3917
+    },
+    {
+      "name": "whois",
+      "cluster": "IDENTITY",
+      "line": 3918
+    },
+    {
+      "name": "resolve_pane_identity",
+      "cluster": "IDENTITY",
+      "line": 3919
+    },
+    {
+      "name": "cleanup_pane_identities",
+      "cluster": "IDENTITY",
+      "line": 3920
+    },
+    {
+      "name": "list_agents",
+      "cluster": "IDENTITY",
+      "line": 3921
+    },
+    {
+      "name": "send_message",
+      "cluster": "MESSAGING",
+      "line": 3923
+    },
+    {
+      "name": "reply_message",
+      "cluster": "MESSAGING",
+      "line": 3924
+    },
+    {
+      "name": "fetch_inbox",
+      "cluster": "MESSAGING",
+      "line": 3925
+    },
+    {
+      "name": "fetch_topic",
+      "cluster": "MESSAGING",
+      "line": 3926
+    },
+    {
+      "name": "fetch_inbox_events",
+      "cluster": "MESSAGING",
+      "line": 3927
+    },
+    {
+      "name": "mark_message_read",
+      "cluster": "MESSAGING",
+      "line": 3928
+    },
+    {
+      "name": "mark_all_read",
+      "cluster": "MESSAGING",
+      "line": 3929
+    },
+    {
+      "name": "acknowledge_message",
+      "cluster": "MESSAGING",
+      "line": 3930
+    },
+    {
+      "name": "get_message_delivery_receipt",
+      "cluster": "MESSAGING",
+      "line": 3931
+    },
+    {
+      "name": "request_contact",
+      "cluster": "CONTACT",
+      "line": 3933
+    },
+    {
+      "name": "respond_contact",
+      "cluster": "CONTACT",
+      "line": 3934
+    },
+    {
+      "name": "list_contacts",
+      "cluster": "CONTACT",
+      "line": 3935
+    },
+    {
+      "name": "set_contact_policy",
+      "cluster": "CONTACT",
+      "line": 3936
+    },
+    {
+      "name": "check_file_reservation_conflicts",
+      "cluster": "FILE_RESERVATIONS",
+      "line": 3938
+    },
+    {
+      "name": "file_reservation_paths",
+      "cluster": "FILE_RESERVATIONS",
+      "line": 3942
+    },
+    {
+      "name": "release_file_reservations",
+      "cluster": "FILE_RESERVATIONS",
+      "line": 3943
+    },
+    {
+      "name": "renew_file_reservations",
+      "cluster": "FILE_RESERVATIONS",
+      "line": 3944
+    },
+    {
+      "name": "force_release_file_reservation",
+      "cluster": "FILE_RESERVATIONS",
+      "line": 3945
+    },
+    {
+      "name": "search_messages",
+      "cluster": "SEARCH",
+      "line": 3950
+    },
+    {
+      "name": "summarize_thread",
+      "cluster": "SEARCH",
+      "line": 3951
+    },
+    {
+      "name": "macro_start_session",
+      "cluster": "WORKFLOW_MACROS",
+      "line": 3953
+    },
+    {
+      "name": "macro_prepare_thread",
+      "cluster": "WORKFLOW_MACROS",
+      "line": 3954
+    },
+    {
+      "name": "macro_file_reservation_cycle",
+      "cluster": "WORKFLOW_MACROS",
+      "line": 3955
+    },
+    {
+      "name": "macro_contact_handshake",
+      "cluster": "WORKFLOW_MACROS",
+      "line": 3956
+    },
+    {
+      "name": "ensure_product",
+      "cluster": "PRODUCT_BUS",
+      "line": 3958
+    },
+    {
+      "name": "products_link",
+      "cluster": "PRODUCT_BUS",
+      "line": 3959
+    },
+    {
+      "name": "search_messages_product",
+      "cluster": "PRODUCT_BUS",
+      "line": 3960
+    },
+    {
+      "name": "fetch_inbox_product",
+      "cluster": "PRODUCT_BUS",
+      "line": 3961
+    },
+    {
+      "name": "summarize_thread_product",
+      "cluster": "PRODUCT_BUS",
+      "line": 3962
+    },
+    {
+      "name": "acquire_build_slot",
+      "cluster": "BUILD_SLOTS",
+      "line": 3964
+    },
+    {
+      "name": "renew_build_slot",
+      "cluster": "BUILD_SLOTS",
+      "line": 3965
+    },
+    {
+      "name": "release_build_slot",
+      "cluster": "BUILD_SLOTS",
+      "line": 3966
+    }
+  ],
+  "resource_handlers": [
+    {
+      "handler": "ConfigEnvironmentResource",
+      "line": 1003
+    },
+    {
+      "handler": "ConfigEnvironmentQueryResource",
+      "line": 1004
+    },
+    {
+      "handler": "ToolingDirectoryResource",
+      "line": 1005
+    },
+    {
+      "handler": "ToolingDirectoryQueryResource",
+      "line": 1006
+    },
+    {
+      "handler": "ToolingSchemasResource",
+      "line": 1007
+    },
+    {
+      "handler": "ToolingSchemasQueryResource",
+      "line": 1008
+    },
+    {
+      "handler": "ToolingMetricsResource",
+      "line": 1009
+    },
+    {
+      "handler": "ToolingMetricsQueryResource",
+      "line": 1010
+    },
+    {
+      "handler": "ToolingMetricsCoreResource",
+      "line": 1011
+    },
+    {
+      "handler": "ToolingMetricsCoreQueryResource",
+      "line": 1012
+    },
+    {
+      "handler": "ToolingDiagnosticsResource",
+      "line": 1013
+    },
+    {
+      "handler": "ToolingDiagnosticsQueryResource",
+      "line": 1014
+    },
+    {
+      "handler": "ToolingLocksResource",
+      "line": 1015
+    },
+    {
+      "handler": "ToolingLocksQueryResource",
+      "line": 1016
+    },
+    {
+      "handler": "ToolingCapabilitiesResource",
+      "line": 1017
+    },
+    {
+      "handler": "ToolingRecentResource",
+      "line": 1018
+    },
+    {
+      "handler": "ProjectsListResource",
+      "line": 1019
+    },
+    {
+      "handler": "ProjectsListQueryResource",
+      "line": 1020
+    },
+    {
+      "handler": "ProjectDetailsResource",
+      "line": 1021
+    },
+    {
+      "handler": "AgentsListResource",
+      "line": 1022
+    },
+    {
+      "handler": "ProductDetailsResource",
+      "line": 1023
+    },
+    {
+      "handler": "IdentityProjectResource",
+      "line": 1024
+    },
+    {
+      "handler": "FileReservationsResource",
+      "line": 1025
+    },
+    {
+      "handler": "MessageDetailsResource",
+      "line": 1026
+    },
+    {
+      "handler": "ThreadDetailsResource",
+      "line": 1027
+    },
+    {
+      "handler": "InboxResource",
+      "line": 1028
+    },
+    {
+      "handler": "MailboxResource",
+      "line": 1029
+    },
+    {
+      "handler": "MailboxWithCommitsResource",
+      "line": 1030
+    },
+    {
+      "handler": "OutboxResource",
+      "line": 1031
+    },
+    {
+      "handler": "ViewsUrgentUnreadResource",
+      "line": 1032
+    },
+    {
+      "handler": "ViewsAckRequiredResource",
+      "line": 1033
+    },
+    {
+      "handler": "ViewsAcksStaleResource",
+      "line": 1034
+    },
+    {
+      "handler": "ViewsAckOverdueResource",
+      "line": 1035
+    }
+  ],
+  "domain_inventories": [
+    {
+      "source": "crates/mcp-agent-mail-core/src/models.rs",
+      "sha256": "0e85f7faedbb7166f635318a73781947bf58785f63a4af468c5f6a7850389a59",
+      "method": "Static declaration text inventory, including test/migration declarations where present; not an executed database schema",
+      "declarations": [
+        {
+          "name": "Project",
+          "line": 20
+        },
+        {
+          "name": "Product",
+          "line": 37
+        },
+        {
+          "name": "ProductProjectLink",
+          "line": 49
+        },
+        {
+          "name": "Agent",
+          "line": 73
+        },
+        {
+          "name": "Message",
+          "line": 119
+        },
+        {
+          "name": "MessageRecipient",
+          "line": 165
+        },
+        {
+          "name": "FileReservation",
+          "line": 199
+        },
+        {
+          "name": "AgentLink",
+          "line": 239
+        },
+        {
+          "name": "ProjectSiblingSuggestion",
+          "line": 282
+        },
+        {
+          "name": "ConsistencyMessageRef",
+          "line": 305
+        },
+        {
+          "name": "ConsistencyReport",
+          "line": 315
+        }
+      ]
+    },
+    {
+      "source": "crates/mcp-agent-mail-db/src/models.rs",
+      "sha256": "673c9efaa6e49fa6cf2d24973013a26d3544f26c43f173d3ebdda975ea7d8447",
+      "method": "Static declaration text inventory, including test/migration declarations where present; not an executed database schema",
+      "declarations": [
+        {
+          "name": "ProjectRow",
+          "line": 22
+        },
+        {
+          "name": "ProductRow",
+          "line": 72
+        },
+        {
+          "name": "ProductProjectLinkRow",
+          "line": 103
+        },
+        {
+          "name": "AgentRow",
+          "line": 122
+        },
+        {
+          "name": "AtcPopulationAgentRow",
+          "line": 174
+        },
+        {
+          "name": "MessageRow",
+          "line": 269
+        },
+        {
+          "name": "MessageRecipientRow",
+          "line": 342
+        },
+        {
+          "name": "FileReservationRow",
+          "line": 377
+        },
+        {
+          "name": "AgentLinkRow",
+          "line": 439
+        },
+        {
+          "name": "ProjectSiblingSuggestionRow",
+          "line": 487
+        },
+        {
+          "name": "InboxStatsRow",
+          "line": 540
+        }
+      ]
+    },
+    {
+      "source": "crates/mcp-agent-mail-db/src/schema.rs",
+      "sha256": "53f61d98223e305e09dc0c3667eb561c230cfdf458345d478872850c999c1c9b",
+      "method": "Static declaration text inventory, including test/migration declarations where present; not an executed database schema",
+      "declarations": [
+        {
+          "name": "projects",
+          "line": 17
+        },
+        {
+          "name": "products",
+          "line": 28
+        },
+        {
+          "name": "product_project_links",
+          "line": 38
+        },
+        {
+          "name": "agents",
+          "line": 47
+        },
+        {
+          "name": "agent_deregistrations",
+          "line": 68
+        },
+        {
+          "name": "messages",
+          "line": 75
+        },
+        {
+          "name": "message_recipients",
+          "line": 102
+        },
+        {
+          "name": "project_mailbox_deliveries",
+          "line": 121
+        },
+        {
+          "name": "project_mailbox_receipts",
+          "line": 133
+        },
+        {
+          "name": "file_reservations",
+          "line": 143
+        },
+        {
+          "name": "file_reservation_releases",
+          "line": 160
+        },
+        {
+          "name": "agent_links",
+          "line": 167
+        },
+        {
+          "name": "project_sibling_suggestions",
+          "line": 188
+        },
+        {
+          "name": "proof_gate_consumed_nonces",
+          "line": 209
+        },
+        {
+          "name": "idempotency_keys",
+          "line": 231
+        },
+        {
+          "name": "db_identity",
+          "line": 252
+        },
+        {
+          "name": "inbox_delivery_events_v33",
+          "line": 680
+        },
+        {
+          "name": "messages",
+          "line": 904
+        },
+        {
+          "name": "inbox_stats",
+          "line": 1238
+        },
+        {
+          "name": "tool_metrics_snapshots",
+          "line": 1464
+        },
+        {
+          "name": "file_reservation_releases",
+          "line": 1701
+        },
+        {
+          "name": "IF",
+          "line": 1757
+        },
+        {
+          "name": "atc_experiences",
+          "line": 1764
+        },
+        {
+          "name": "atc_experience_rollups",
+          "line": 2016
+        },
+        {
+          "name": "atc_leader_lease",
+          "line": 2121
+        },
+        {
+          "name": "atc_rollup_snapshots",
+          "line": 2154
+        },
+        {
+          "name": "inbox_delivery_events",
+          "line": 2594
+        },
+        {
+          "name": "message_delivery_signal_receipts",
+          "line": 2643
+        },
+        {
+          "name": "agent_deregistrations",
+          "line": 2693
+        },
+        {
+          "name": "lexical_change_clock",
+          "line": 2731
+        },
+        {
+          "name": "inbox_delivery_cursor_state",
+          "line": 2835
+        },
+        {
+          "name": "messages_v15_rebuild",
+          "line": 4385
+        },
+        {
+          "name": "projects_v3b_rebuild",
+          "line": 4489
+        },
+        {
+          "name": "IF",
+          "line": 5026
+        },
+        {
+          "name": "projects",
+          "line": 5359
+        },
+        {
+          "name": "agents",
+          "line": 5360
+        },
+        {
+          "name": "agent_deregistrations",
+          "line": 5361
+        },
+        {
+          "name": "messages",
+          "line": 5362
+        },
+        {
+          "name": "message_recipients",
+          "line": 5363
+        },
+        {
+          "name": "project_mailbox_deliveries",
+          "line": 5364
+        },
+        {
+          "name": "inbox_delivery_events",
+          "line": 5365
+        },
+        {
+          "name": "trg_inbox_delivery_cursor_delete",
+          "line": 5575
+        },
+        {
+          "name": "messages",
+          "line": 5590
+        },
+        {
+          "name": "custom_child",
+          "line": 6115
+        },
+        {
+          "name": "witness",
+          "line": 6221
+        },
+        {
+          "name": "witness",
+          "line": 6245
+        },
+        {
+          "name": "forbidden",
+          "line": 6255
+        },
+        {
+          "name": "projects",
+          "line": 6337
+        },
+        {
+          "name": "agents",
+          "line": 6347
+        },
+        {
+          "name": "projects",
+          "line": 6495
+        },
+        {
+          "name": "messages",
+          "line": 6658
+        },
+        {
+          "name": "projects",
+          "line": 6714
+        },
+        {
+          "name": "agents",
+          "line": 6715
+        },
+        {
+          "name": "messages",
+          "line": 6716
+        },
+        {
+          "name": "message_recipients",
+          "line": 6717
+        },
+        {
+          "name": "file_reservations",
+          "line": 6718
+        },
+        {
+          "name": "messages",
+          "line": 6836
+        },
+        {
+          "name": "v15_custom_audit",
+          "line": 6863
+        },
+        {
+          "name": "messages_v15_rebuild",
+          "line": 7170
+        },
+        {
+          "name": "messages",
+          "line": 7763
+        },
+        {
+          "name": "messages",
+          "line": 7829
+        },
+        {
+          "name": "projects",
+          "line": 7954
+        },
+        {
+          "name": "agents",
+          "line": 7956
+        },
+        {
+          "name": "messages",
+          "line": 7963
+        },
+        {
+          "name": "messages",
+          "line": 8027
+        },
+        {
+          "name": "text",
+          "line": 8043
+        },
+        {
+          "name": "messages",
+          "line": 8045
+        },
+        {
+          "name": "agents",
+          "line": 8058
+        },
+        {
+          "name": "agent_deregistrations",
+          "line": 8083
+        },
+        {
+          "name": "messages",
+          "line": 8085
+        },
+        {
+          "name": "message_recipients",
+          "line": 8087
+        },
+        {
+          "name": "agents",
+          "line": 8201
+        },
+        {
+          "name": "agent_deregistrations",
+          "line": 8204
+        },
+        {
+          "name": "forbidden_lifecycle_upgrade",
+          "line": 8273
+        },
+        {
+          "name": "agents",
+          "line": 8296
+        },
+        {
+          "name": "agent_deregistrations",
+          "line": 8300
+        },
+        {
+          "name": "messages",
+          "line": 8374
+        },
+        {
+          "name": "message_recipients",
+          "line": 8389
+        },
+        {
+          "name": "inbox_stats",
+          "line": 8400
+        },
+        {
+          "name": "messages",
+          "line": 8473
+        },
+        {
+          "name": "messages",
+          "line": 8970
+        },
+        {
+          "name": "metadata",
+          "line": 9010
+        },
+        {
+          "name": "messages",
+          "line": 9064
+        },
+        {
+          "name": "projects",
+          "line": 9280
+        },
+        {
+          "name": "agents",
+          "line": 9301
+        },
+        {
+          "name": "file_reservations",
+          "line": 9319
+        },
+        {
+          "name": "projects",
+          "line": 9420
+        },
+        {
+          "name": "agents",
+          "line": 9434
+        },
+        {
+          "name": "messages",
+          "line": 9450
+        },
+        {
+          "name": "file_reservations",
+          "line": 9465
+        },
+        {
+          "name": "products",
+          "line": 9482
+        },
+        {
+          "name": "product_project_links",
+          "line": 9497
+        },
+        {
+          "name": "projects",
+          "line": 9598
+        },
+        {
+          "name": "agents",
+          "line": 9605
+        },
+        {
+          "name": "messages",
+          "line": 9618
+        },
+        {
+          "name": "message_recipients",
+          "line": 9631
+        },
+        {
+          "name": "file_reservations",
+          "line": 9640
+        },
+        {
+          "name": "projects",
+          "line": 9808
+        },
+        {
+          "name": "projects",
+          "line": 9893
+        },
+        {
+          "name": "agents",
+          "line": 9907
+        },
+        {
+          "name": "messages",
+          "line": 9924
+        },
+        {
+          "name": "message_recipients",
+          "line": 9935
+        },
+        {
+          "name": "agent_links",
+          "line": 9949
+        },
+        {
+          "name": "foo",
+          "line": 10034
+        },
+        {
+          "name": "IF",
+          "line": 10083
+        },
+        {
+          "name": "spaced_table",
+          "line": 10101
+        },
+        {
+          "name": "_private_table",
+          "line": 10110
+        },
+        {
+          "name": "foo",
+          "line": 10142
+        },
+        {
+          "name": "foo",
+          "line": 10149
+        },
+        {
+          "name": "messages",
+          "line": 10160
+        },
+        {
+          "name": "tbl",
+          "line": 10196
+        }
+      ]
+    }
+  ]
+}
