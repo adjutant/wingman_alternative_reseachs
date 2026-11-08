@@ -1,0 +1,766 @@
+{
+  "project": "vikunja",
+  "commit": "d2c9aee4f8894edc02611a8b40becbd5dfc95e33",
+  "baseline": "AGENT_TASK_MANAGEMENT.md",
+  "baseline_sha256": "4dcfe707e292330c65b66c9bbbf4999d90dcf54991adf76ffe82a5efd3eee8a3",
+  "reviewed_on": "2026-11-09",
+  "review_status": "source_review_complete",
+  "scope": "Targeted static task model/CRUD, selected bulk/assignee/relation/bucket alternate writers, locks/permission rechecks, soft-delete/restore, bot identity/token issuance and validation, native MCP loopback/scopes, veans list/claim/update/prompt, comments/notifications/process event bus/webhook delivery, frontend task mutation and selected reconnect/cache paths; selected test assertion bodies. Not every-line, full imports/duplication/purge/attachments/OAuth/all permissions/all providers/all frontend/runtime/security/scaling certification. External Huma AutoPatch inspected separately at pinned version.",
+  "candidate_executed": false,
+  "candidate_tests_run": false,
+  "requirement_verdicts": {
+    "T01": "Similar",
+    "T02": "Similar",
+    "T03": "Similar",
+    "T04": "Similar",
+    "T05": "Similar",
+    "T06": "Similar",
+    "T07": "Resembles",
+    "T08": "Similar",
+    "T09": "Resembles",
+    "T10": "Similar",
+    "T11": "Similar",
+    "T12": "Similar",
+    "T13": "Resembles",
+    "T14": "Absent",
+    "T15": "Resembles",
+    "T16": "Similar",
+    "T17": "Similar",
+    "T18": "Similar",
+    "T19": "Similar",
+    "T20": "Similar",
+    "T21": "Resembles",
+    "T22": "Similar",
+    "T23": "Similar",
+    "T24": "Similar"
+  },
+  "lifecycle_review": {
+    "create": "Project write permission and shared commit wrapper; validated indexed SQL insert with view placement/assignees/reminders and deferred events. Response positions loaded after commit can fail after successful creation; no operation idempotency key established.",
+    "select": "CLI exhaustively pages task lists and filters Todo/not-done/visible incomplete blocked relations. Server related-task expansion filters inaccessible projects; ready is a visibility-limited snapshot, not authoritative readiness or capacity reservation.",
+    "claim": "CLI move bucket, add configured bot, branch label and final fetch are separate requests. Duplicate membership conflicts soft-skipped; multiple distinct assignees allowed. No exclusive owner/lease/attempt identity and no dependency-ready claim precondition.",
+    "progress": "Task fields, comments, branch labels and mutable descriptions provide progress/context; general updates id-only after locks/permission rechecks, no expected revision/attempt predicate. CLI timestamp check is read-before-write; partial update uses Huma GET/merge/PUT without established local storage precondition enforcement.",
+    "review": "Prompt asks for summary/In Review/human close but bot CLI accepts completed and scrapped; no qualified reviewer or accepted evidence/children check in inspected completion writers.",
+    "complete": "General done, bulk field and bucket transition writers; recurrence updates dates/reopens/checklist and done timestamps. Hierarchy cycles checked separately, but blocked/child readiness and review acceptance are not completion gates.",
+    "cancel": "Scrapped reason required by CLI only, multiple committed steps can partially fail. Soft delete removes positions/buckets and stops timers with task/view locks; restore checks current permissions and conditional deletion state. No native agent process stop/checkpoint/resume.",
+    "recover": "Committed SQL state can be reread across hosts; process-local pending events/bus/retries/poison and socket hub are not durable outbox/replay. Frontend reconnect invalidates selected caches; optimistic snapshots roll back only in current client context. No worker heartbeat, expiry reclaim or stale-attempt fencing; full purge/file/runtime recovery excluded."
+  },
+  "external_sources": [
+    {
+      "url": "https://raw.githubusercontent.com/danielgtaylor/huma/v2.40.0/autopatch/autopatch.go",
+      "version": "v2.40.0",
+      "reviewed_zero_based_web_ranges": [
+        [
+          264,
+          295
+        ],
+        [
+          343,
+          347
+        ],
+        [
+          386,
+          419
+        ]
+      ],
+      "method": "Read primary upstream source through web tool at the version in go.mod. GET/merge/internal PUT and generated conditional header inspected; no dependency installed or executed. Not a local candidate file hash."
+    }
+  ],
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "c25e26c3a908d7346bc3e1d6b287453c949937281a759432dc805d5aaac6a32c",
+      "lines": 41,
+      "ranges": [
+        [
+          1,
+          41
+        ]
+      ],
+      "method": "Applicable source instructions read; research-only no-runtime/no-source-change constraints retained."
+    },
+    {
+      "path": "veans/AGENTS.md",
+      "sha256": "e90d14f6c6b927091e62a12f192541dbb83bbe922380461c3747b917de0602d4",
+      "lines": 264,
+      "ranges": [
+        [
+          1,
+          264
+        ]
+      ],
+      "method": "Applicable source instructions read; research-only no-runtime/no-source-change constraints retained."
+    },
+    {
+      "path": "README.md",
+      "sha256": "28f13e45d1ff7c86f7c65fd7b542e8252aa5633fdcef791c9929e0cecbd2f46a",
+      "lines": 66,
+      "ranges": [
+        [
+          1,
+          65
+        ]
+      ],
+      "method": "Pinned project declaration, license metadata or dependency manifest read; no installation/build/runtime verified."
+    },
+    {
+      "path": "go.mod",
+      "sha256": "ecd74da99ac0fd40743ef7c528fef79b961ce18052557628860c8e95ac36b8ae",
+      "lines": 230,
+      "ranges": [
+        [
+          1,
+          75
+        ]
+      ],
+      "method": "Pinned project declaration, license metadata or dependency manifest read; no installation/build/runtime verified."
+    },
+    {
+      "path": "frontend/package.json",
+      "sha256": "83c4cde5f18e77319b42f06d7a1555552611e4642f190b1cf4a7558781f9b6a2",
+      "lines": 169,
+      "ranges": [
+        [
+          1,
+          80
+        ]
+      ],
+      "method": "Pinned project declaration, license metadata or dependency manifest read; no installation/build/runtime verified."
+    },
+    {
+      "path": "pkg/models/project.go",
+      "sha256": "872d40c0de6ff2465edd23061b8514eec24a06fd3f44787199f3c2bf6fa7535a",
+      "lines": 1555,
+      "ranges": [
+        [
+          40,
+          61
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "pkg/models/project_permissions.go",
+      "sha256": "6b6fa587502e93406bec568962ef57e3f1bd6b27f667add399d1b63a82cfcc7e",
+      "lines": 374,
+      "ranges": [
+        [
+          29,
+          76
+        ],
+        [
+          332,
+          340
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "pkg/models/tasks.go",
+      "sha256": "498050486c0b0b0b8fecddf8b36783e8bd00e9c6dcde37497341764e82f479c9",
+      "lines": 2511,
+      "ranges": [
+        [
+          93,
+          203
+        ],
+        [
+          409,
+          485
+        ],
+        [
+          685,
+          742
+        ],
+        [
+          909,
+          980
+        ],
+        [
+          1051,
+          1068
+        ],
+        [
+          1136,
+          1250
+        ],
+        [
+          1390,
+          1824
+        ],
+        [
+          2119,
+          2188
+        ],
+        [
+          2251,
+          2340
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification. Task field declaration inventory at lines 93\u2013193 was displayed without long documentation tags; remaining declaration and cited implementation bodies read directly."
+    },
+    {
+      "path": "pkg/routes/api/v2/tasks.go",
+      "sha256": "f1337d99767325b2ad65c8842fd1d39c395a0f290d79fdc08e9f84519c512f08",
+      "lines": 324,
+      "ranges": [
+        [
+          59,
+          124
+        ],
+        [
+          244,
+          315
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "pkg/web/handler/core.go",
+      "sha256": "70978c1e66ccc490d1372df102a3634d5ffa1ff5fdf7cf77aa9e853c67708689",
+      "lines": 211,
+      "ranges": [
+        [
+          30,
+          65
+        ],
+        [
+          80,
+          211
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "pkg/user/user_create.go",
+      "sha256": "3e719d51785f577e88f2772b75b9043f5570ea54532c005bc3ac593c6c61b26a",
+      "lines": 287,
+      "ranges": [
+        [
+          139,
+          195
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "pkg/models/bot_users_permissions.go",
+      "sha256": "a6d166873e002453472b8f229c789e0652613fdaeb9522da8540fad1da96eb50",
+      "lines": 62,
+      "ranges": [
+        [
+          1,
+          62
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "pkg/models/api_tokens.go",
+      "sha256": "eb8e8e0ae4d1545f3c2928b83b91ecbab092297376ecf8306b7ecd87eb89f5ec",
+      "lines": 380,
+      "ranges": [
+        [
+          1,
+          105
+        ],
+        [
+          126,
+          168
+        ],
+        [
+          300,
+          380
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "veans/internal/commands/list.go",
+      "sha256": "87e0afa7b3d7da720336149d30c9871d95e48e3da316af6342f863d881054534",
+      "lines": 191,
+      "ranges": [
+        [
+          79,
+          163
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "veans/internal/client/tasks.go",
+      "sha256": "39add1bf4af912e0d73a4a2622e8adfdaaa0177310e6186c9e13dcd3913440aa",
+      "lines": 140,
+      "ranges": [
+        [
+          40,
+          106
+        ],
+        [
+          124,
+          140
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "pkg/models/task_relation.go",
+      "sha256": "1ed2378c158abd1e1b0e567b98b4e3f3fac0a27692f52b18970e6cf2a3fa8cf5",
+      "lines": 509,
+      "ranges": [
+        [
+          146,
+          315
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "veans/internal/commands/claim.go",
+      "sha256": "ec18b1a958f9d135cc83059398c640e63734808099a672634b0436297e8c1960",
+      "lines": 89,
+      "ranges": [
+        [
+          1,
+          89
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "pkg/models/task_assignees.go",
+      "sha256": "b9527732e4ad1b5e259e10f58502ab364872f91a0c61c720b480594d75baf76f",
+      "lines": 398,
+      "ranges": [
+        [
+          64,
+          151
+        ],
+        [
+          211,
+          306
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "pkg/models/task_position.go",
+      "sha256": "006213c87feaa57debd89848d1e534ea05c0cf957ca0bbcbfae7ab3613c93883",
+      "lines": 1114,
+      "ranges": [
+        [
+          215,
+          305
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "pkg/models/kanban_task_bucket.go",
+      "sha256": "5bbebcab059d15207594d505cb9a1e29243be0637348be05dcd13ef8579e1755",
+      "lines": 285,
+      "ranges": [
+        [
+          1,
+          285
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "pkg/models/bulk_task.go",
+      "sha256": "3c0240300b9c3dee65cb619a8e0ee48b56312556fda31141801f03c2a9820327",
+      "lines": 98,
+      "ranges": [
+        [
+          1,
+          98
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "pkg/routes/api/v2/huma.go",
+      "sha256": "e249211d6eb59e20cc776296d723fd46f8c3f088c3f431dbcadab11be3d6e0bf",
+      "lines": 168,
+      "ranges": [
+        [
+          135,
+          158
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "veans/internal/commands/update.go",
+      "sha256": "669a0cf09fd709508e03c0ebe9c96fd61dde6dcd90cde8e4a628d3be47ff1df3",
+      "lines": 271,
+      "ranges": [
+        [
+          93,
+          255
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "veans/internal/commands/prompt.tmpl",
+      "sha256": "a3fc1005d0d5d3b2c15f173ea2d835403faef0e24b2cb963dd2820add52df823",
+      "lines": 205,
+      "ranges": [
+        [
+          1,
+          110
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "veans/internal/status/status.go",
+      "sha256": "50c1d829c41961c7f0ee1147f769b735837ab97ae357c1a15271b7992690c3bb",
+      "lines": 154,
+      "ranges": [
+        [
+          78,
+          113
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "pkg/models/task_trash.go",
+      "sha256": "73c7754c3b4e538a6272aec5e41ccbd47f5b5452b91e0276483988486d2448c8",
+      "lines": 308,
+      "ranges": [
+        [
+          112,
+          167
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "pkg/models/task_comments.go",
+      "sha256": "ecca12332c3095a3225cfb2d82064dde1afb131070c4f91ae23a099503774561",
+      "lines": 417,
+      "ranges": [
+        [
+          30,
+          160
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "pkg/notifications/database.go",
+      "sha256": "f0675647b90223fbbcd9d194dc0878cb2f19afc194ce3d501bc8b33a8966a76f",
+      "lines": 169,
+      "ranges": [
+        [
+          1,
+          155
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "pkg/events/events.go",
+      "sha256": "68ba0f65e84c590a013c5c6cf7910ea583b276d733ee4e859a2a410d60f0a1a2",
+      "lines": 339,
+      "ranges": [
+        [
+          1,
+          180
+        ],
+        [
+          240,
+          339
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "pkg/models/listeners.go",
+      "sha256": "b9c8d72194772a8f9fc8939bd6b9af3a0b9a07d318aaa69434079b32c8ace03e",
+      "lines": 1972,
+      "ranges": [
+        [
+          1260,
+          1301
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "pkg/models/webhooks.go",
+      "sha256": "b7d8b5f723784ca1b60d209bc6f69e8643cd63dcf29a778dd47d4bfeabda9117",
+      "lines": 402,
+      "ranges": [
+        [
+          342,
+          402
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "pkg/websocket/hub.go",
+      "sha256": "629034c7ffc63134c83ce05cd23897e8406957488ee1fdc61e85924cf07b4b75",
+      "lines": 103,
+      "ranges": [
+        [
+          24,
+          103
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "frontend/src/composables/useWebSocket.ts",
+      "sha256": "cd05390e0b3cce7b065b77c126850a3d06660458d7d8db3a2754e78df8c0f5b2",
+      "lines": 331,
+      "ranges": [
+        [
+          1,
+          255
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "frontend/src/composables/useServerCacheEvents.ts",
+      "sha256": "73990c83f3d0c34dddcc420c7e87e05d6a82005737e578ca0ec35176c5e23385",
+      "lines": 34,
+      "ranges": [
+        [
+          1,
+          34
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "frontend/src/client/queries/serverEvents.ts",
+      "sha256": "c6747858950f3f26f19ea8234808f3fbf34fe592385e1de7c7242aa942ce909c",
+      "lines": 148,
+      "ranges": [
+        [
+          101,
+          145
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "pkg/modules/mcp/exposure.go",
+      "sha256": "eb1d5fc83b3bff47a725f840811233b8eae18d2a2d252d30a6cdaa28573b2983",
+      "lines": 161,
+      "ranges": [
+        [
+          1,
+          155
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "pkg/modules/mcp/mcp.go",
+      "sha256": "772d641a50632e89c53203e316aa1d1f8ce44af9c7a236c1792b86659bfc5ab2",
+      "lines": 226,
+      "ranges": [
+        [
+          24,
+          226
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "pkg/modules/mcp/loopback.go",
+      "sha256": "47fc02b60aef003eb042ffe817d22fcc902541bff2c6e828fdad0ff6af54b9b8",
+      "lines": 313,
+      "ranges": [
+        [
+          45,
+          165
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "pkg/models/api_routes.go",
+      "sha256": "400f15f3b84506c460bf6da3c8015f42da25313d56b93d1d3805f595e5528139",
+      "lines": 698,
+      "ranges": [
+        [
+          526,
+          594
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "pkg/routes/api_tokens.go",
+      "sha256": "5f5bbbd2770a422995f8ace5611d4e90d6f1972281a7b136739695109e92ecd6",
+      "lines": 148,
+      "ranges": [
+        [
+          75,
+          145
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "veans/internal/trust/trust.go",
+      "sha256": "0caf580368f0e4662218b24ffbb8f0477348323f0561f458e3eb087d784cf71a",
+      "lines": 201,
+      "ranges": [
+        [
+          39,
+          69
+        ],
+        [
+          148,
+          179
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "veans/internal/credentials/file.go",
+      "sha256": "344b025d3cf42b3266a235375cccab868c7058992d38ecf50ac71665bc28f454",
+      "lines": 150,
+      "ranges": [
+        [
+          1,
+          150
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "frontend/src/views/project/ProjectView.vue",
+      "sha256": "3b54284bcf388dc68ff335ac42061a6ba06aedb3d5a84079fc941c76bf9ae51c",
+      "lines": 131,
+      "ranges": [
+        [
+          1,
+          131
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "frontend/src/client/queries/taskMutations.ts",
+      "sha256": "2e3541eae22dcf03e2a1e19958d10660750024108dd043fdcfb07b91a4a292b3",
+      "lines": 486,
+      "ranges": [
+        [
+          1,
+          190
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "frontend/src/client/queries/contextMutation.ts",
+      "sha256": "668a141f3f267e8016277831e95d66645045d2ab32d6080b6d9bcde13215240a",
+      "lines": 63,
+      "ranges": [
+        [
+          1,
+          63
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "pkg/audit/listener.go",
+      "sha256": "6afe0aafd8fad3204102010a2e0f885e1c68c2f3bc225b88e92ab6f91fd55f96",
+      "lines": 76,
+      "ranges": [
+        [
+          28,
+          75
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "pkg/audit/writer.go",
+      "sha256": "3d7d58c86789da4a6e2f19f4f3002927daefb89e447710852e8ad0462b2f16d4",
+      "lines": 223,
+      "ranges": [
+        [
+          106,
+          160
+        ]
+      ],
+      "method": "Targeted static model, control-flow, persistence, permission, CLI or frontend review; no runtime verification."
+    },
+    {
+      "path": "veans/e2e/claim_test.go",
+      "sha256": "3073ec2e6a0e9efdc1bb8a9f5cf0efcf55ffa74d790357a2d69439e4ff23c54e",
+      "lines": 77,
+      "ranges": [
+        [
+          1,
+          77
+        ]
+      ],
+      "method": "Selected test assertion bodies read as source; no tests executed."
+    },
+    {
+      "path": "pkg/models/kanban_task_bucket_test.go",
+      "sha256": "3ed39e0abd708e15e3296c04943c92158e968512942dcf29084591dbd3ced984",
+      "lines": 627,
+      "ranges": [
+        [
+          32,
+          64
+        ],
+        [
+          125,
+          159
+        ]
+      ],
+      "method": "Selected test assertion bodies read as source; no tests executed."
+    },
+    {
+      "path": "pkg/models/task_relation_test.go",
+      "sha256": "35f04c53cdffd031681fb7d8d73089d66fca88190a20d3a1c9f9d84502f00fea",
+      "lines": 621,
+      "ranges": [
+        [
+          129,
+          178
+        ]
+      ],
+      "method": "Selected test assertion bodies read as source; no tests executed."
+    },
+    {
+      "path": "pkg/modules/mcp/loopback_test.go",
+      "sha256": "6c5b5b03ee8654f72f9200bd22d06a78837a9a4ef717cc18610a4131f0e11bc5",
+      "lines": 208,
+      "ranges": [
+        [
+          121,
+          143
+        ]
+      ],
+      "method": "Selected test assertion bodies read as source; no tests executed."
+    },
+    {
+      "path": "frontend/src/client/queries/taskMutations.test.ts",
+      "sha256": "669bab2b2ca1e8839d7d8f75347e07f64ae7339b4f1c6a211ba5f4c73e3dc327",
+      "lines": 692,
+      "ranges": [
+        [
+          144,
+          181
+        ]
+      ],
+      "method": "Selected test assertion bodies read as source; no tests executed."
+    }
+  ]
+}
