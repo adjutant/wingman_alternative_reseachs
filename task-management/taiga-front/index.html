@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Human backlog, board, sprint and detail views"><title>Taiga frontend · task management · Wingman Research</title>
+<link rel="icon" href="../../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/report.css"><script defer src="../../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../../index.html"><img src="../../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../../index.html">Overview</a><a class="nav-link " href="../../generic/index.html">Architecture findings</a><a class="nav-link " href="../../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../../generic/method.html">Method and evidence</a><a class="nav-link active" href="../index.html" aria-current=page>Agent task management</a><a class="nav-link " href="../../generic/task-coordination.html">Initial task screening</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>Two source studies</strong><p>75 organization snapshots.<br>25 task coordination codebases.<br>Evidence at pinned revisions.</p><a href="../../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../../index.html">Wingman Research</a><span class="crumb">/</span><span>Taiga frontend · task management</span></div><span class="topbar-note">SOURCE REVIEW · 09 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Taiga frontend · task management</h1><p class="subtitle">Human backlog, board, sprint and detail views</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#task-taiga-front-taiga-frontend-a-human-planning-interface-over-a-separate-task-authority">Taiga frontend: a human planning interface over a separate task authority</a><a href="#task-taiga-front-fit-decision">Fit decision</a><a href="#task-taiga-front-scope-architecture-and-license">Scope, architecture and license</a><a href="#task-taiga-front-requirement-assessment">Requirement assessment</a><a href="#task-taiga-front-creation-context-and-ordinary-mutations">Creation, context and ordinary mutations</a><a href="#task-taiga-front-boards-failed-saves-and-wip-semantics">Boards, failed saves and WIP semantics</a><a href="#task-taiga-front-live-updates-and-missed-event-recovery">Live updates and missed-event recovery</a><a href="#task-taiga-front-discussion-blockers-acceptance-and-cancellation">Discussion, blockers, acceptance and cancellation</a><a href="#task-taiga-front-access-human-usability-and-operation">Access, human usability and operation</a><a href="#task-taiga-front-test-source-evidence-and-adoption-work">Test-source evidence and adoption work</a></div></nav><article class="technical"><h2 id="task-taiga-front-taiga-frontend-a-human-planning-interface-over-a-separate-task-authority">Taiga frontend: a human planning interface over a separate task authority</h2>
+<p class="url-text">Source: https://github.com/taigaio/taiga-front.git</p>
+<p>Reviewed commit: <code>da8afa50b2a59c3aaec78854c0ae8145a16e6cd8</code>.
+Assessment date: November 9, 2026.
+Baseline: <a href="../purpose.html">Shared task management for an agent organization</a>.
+Evidence ledger: <a href="assessment/review.json">review.json</a>.
+Companion: <a href="../taiga/index.html">Taiga backend assessment</a>.</p>
+<h2 id="task-taiga-front-fit-decision">Fit decision</h2>
+<p>This repository supplies the human-facing half of Taiga: project navigation, backlog, Kanban, sprint taskboard, story/task detail, search, assignment, blockers, attachments, custom fields, activity and notification views. It provides useful inspection and manual coordination over shared server records. It is not an independent task database, agent scheduler or execution runtime.</p>
+<p>The distinction is visible in ordinary actions. “Assign to me” changes the assignee through the normal save path. Changing task status sends a record edit. Board movement mutates local models and calls the backend. None acquires an execution lease or stops an earlier worker. The browser's generated session identifier and WebSocket heartbeat identify a client connection, not a task attempt or worker reservation.</p>
+<p>The client sends record versions and reports version conflicts. Some detail edits use a clone and replace the visible model only after success. Other paths, including board movement, update local state before the response and lack equivalent local failure reconciliation. The event service reconnects its transport, but the inspected reconnect path does not replay missed changes, refetch the board or explicitly resend existing project subscriptions.</p>
+<p>Use this frontend as the human inspection and planning interface for the backend, with an additional agent coordination layer. Its practical risks concern stale views, inconsistent failed-save handling, a substantial legacy build chain and the operation of separately configured API/event services. The backend report establishes server-side behavior; those mechanisms are not credited as native frontend enforcement.</p>
+<h2 id="task-taiga-front-scope-architecture-and-license">Scope, architecture and license</h2>
+<p>The full checkout contains 2,879 tracked files. This targeted static review covers application and resource registration; project loading; task detail/create/assign/status/delete/block flows; ordinary model/repository/HTTP saves; selected taskboard and Kanban writers; WIP display; socket lifecycle; notifications/history/search; authentication and client permission checks; container/build configuration; and selected mocked test assertions. Relevant task/resource/event operation inventories were also searched for lease, attempt, claim and dependency alternatives.</p>
+<p>No application, dependency installation, build, candidate test suite or browser session was run. Every-line coverage, all screens/importers/plugins, full HTTP/file security, performance, accessibility, mobile layout, real event-gateway behavior and production recovery are not certified. This is a source assessment; the report website's later browser checks will not count as testing Taiga.</p>
+<p>The <a href="repo/package.json">package manifest</a> identifies frontend version 6.10.3 and <code>AGPL-3.0-or-later</code>. It declares Angular 1.5.10, CoffeeScript, Gulp, Jade, Immutable, jQuery and supporting libraries. The <a href="repo/LICENSE">license</a>, lines 1–15, is AGPL version 3; the <a href="repo/README.md">README's contribution statement</a>, lines 46–50, states AGPL 3.0. This is separate from the backend's MPL declaration. This review does not establish obligations for a particular redistribution or deployment.</p>
+<p><a href="repo/app/coffee/app.coffee">Application module registration</a>, lines 1045–1141, loads both the older <code>taigaResources</code> and newer <code>taigaResources2</code> modules alongside the actual task, story, Kanban, taskboard, history and notification modules. <a href="repo/gulpfile.js">Build inputs and ordering</a>, lines 133–165, and <a href="repo/gulpfile.js">CoffeeScript compilation</a>, lines 510–525, include both directory families in the generated application. The old task mutation service is therefore not dismissed merely because a newer resource file exists.</p>
+<p><a href="repo/app/coffee/app.coffee">Route definitions</a>, lines 226–287, connect backlog, Kanban, sprint taskboard, story, task and wiki views. <a href="repo/app/partials/task/task-detail.jade">Task detail markup</a>, lines 10–158, binds the controller, related story, generated stories, description, custom fields, attachments, history, status, assignee, watchers, due date, blocker and delete controls. <a href="repo/app/coffee/modules/base/urls.coffee">URL resolution</a>, lines 15–49, targets the configured API. Browser storage is preferences/credentials, not the shared task authority.</p>
+<h2 id="task-taiga-front-requirement-assessment">Requirement assessment</h2>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Requirement</th>
+<th scope="col">Verdict</th>
+<th scope="col">Mechanism and boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr id="task-taiga-front-t01">
+<td>T01</td>
+<td>Similar</td>
+<td>Project routes, loaded project context, memberships and permission data support distinct workspaces. Durable project authority is supplied by the backend.</td>
+</tr>
+<tr id="task-taiga-front-t02">
+<td>T02</td>
+<td>Similar</td>
+<td>Views and model/resource services create and edit stable server records. Browser models/local storage alone are not durable task persistence or an offline conflict-resolution store.</td>
+</tr>
+<tr id="task-taiga-front-t03">
+<td>T03</td>
+<td>Similar</td>
+<td>Story detail includes related tasks; task detail links its story, epics and generated stories. Client decomposition does not establish arbitrary governed assignment trees.</td>
+</tr>
+<tr id="task-taiga-front-t04">
+<td>T04</td>
+<td>Resembles</td>
+<td>Blocker notes, links and filtering expose some planning constraints. No native prerequisite graph, runnable selection or cycle gate in the reviewed client paths.</td>
+</tr>
+<tr id="task-taiga-front-t05">
+<td>T05</td>
+<td>Resembles</td>
+<td>User identity, assignee and generated browser session ID are distinct client concepts. No task-execution identity, attempt registry or durable subagent profile.</td>
+</tr>
+<tr id="task-taiga-front-t06">
+<td>T06</td>
+<td>Resembles</td>
+<td>Resource services consume structured backend HTTP APIs. This UI repository does not expose a native task CLI/MCP or agent scheduler; automated clients should target the backend.</td>
+</tr>
+<tr id="task-taiga-front-t07">
+<td>T07</td>
+<td>Resembles</td>
+<td>Self-assignment is a normal versioned assignee edit. No exclusive reservation, expected-unowned claim or lease capability; server enforcement must come from the backend or an added coordinator.</td>
+</tr>
+<tr id="task-taiga-front-t08">
+<td>T08</td>
+<td>Resembles</td>
+<td>WIP selectors and markers display near/reached/exceeded limits; backlog/taskboard views organize work. The inspected move handler does not reject overflow or reserve worker capacity.</td>
+</tr>
+<tr id="task-taiga-front-t09">
+<td>T09</td>
+<td>Resembles</td>
+<td>Related tasks can be created and assigned in parallel. No native worker spawning, child-result collection or accepted-child completion barrier.</td>
+</tr>
+<tr id="task-taiga-front-t10">
+<td>T10</td>
+<td>Similar</td>
+<td>Detail views connect descriptions, files, custom fields, story/epic links and history. They do not bind an approval to an artifact version and execution attempt.</td>
+</tr>
+<tr id="task-taiga-front-t11">
+<td>T11</td>
+<td>Similar</td>
+<td>Task status, discussion, activity and related-task views expose progress retained by the server. Required result/handoff envelopes and execution checkpoints remain absent.</td>
+</tr>
+<tr id="task-taiga-front-t12">
+<td>T12</td>
+<td>Similar</td>
+<td>Paginated persistent notifications/history supplement live events and desktop notifications. Socket reconnection is not guaranteed missed-event recovery or recipient acknowledgement.</td>
+</tr>
+<tr id="task-taiga-front-t13">
+<td>T13</td>
+<td>Resembles</td>
+<td>Block/unblock dialogs and notes offer visible escalation context. No typed decision request with accountable resolution and guarded worker continuation.</td>
+</tr>
+<tr id="task-taiga-front-t14">
+<td>T14</td>
+<td>Absent</td>
+<td>Ping/pong checks socket liveness. Reviewed task/resource/event paths contain no worker lease renewal, stale-claim expiry or fenced reclaim.</td>
+</tr>
+<tr id="task-taiga-front-t15">
+<td>T15</td>
+<td>Resembles</td>
+<td>Ordinary patches include record versions and a global conflict notice. Bulk board requests omit per-record versions; local queues and session IDs are not attempt fences or idempotency keys.</td>
+</tr>
+<tr id="task-taiga-front-t16">
+<td>T16</td>
+<td>Resembles</td>
+<td>Server refetch, manual reassignment/reopen and record deletion support manual record recovery. No native agent stop/resume, offline mutation recovery or process reconciliation.</td>
+</tr>
+<tr id="task-taiga-front-t17">
+<td>T17</td>
+<td>Resembles</td>
+<td>Browsers on different hosts can point at the same backend. The client supplies no independent shared claim authority, disconnected coordination or host-side execution fencing.</td>
+</tr>
+<tr id="task-taiga-front-t18">
+<td>T18</td>
+<td>Similar</td>
+<td>Paginated activity and comments expose server-attributed history. They do not constitute a local immutable attempt journal or proof that an external worker performed an action.</td>
+</tr>
+<tr id="task-taiga-front-t19">
+<td>T19</td>
+<td>Similar</td>
+<td>Connected planning/detail/search/notification views provide substantial human inspection. Static templates reveal some keyboard support and labeling defects; responsive/accessibility/runtime acceptance remain untested.</td>
+</tr>
+<tr id="task-taiga-front-t20">
+<td>T20</td>
+<td>Similar</td>
+<td>Backlog, Kanban, sprint taskboard, filtering, counts, estimates and planning links support continuous or iteration workflows. Capacity enforcement is not established.</td>
+</tr>
+<tr id="task-taiga-front-t21">
+<td>T21</td>
+<td>Resembles</td>
+<td>Status controls display server state and submit ordinary edits. No native reviewer/artifact-version approval or required verification-result gate; parent calculation belongs to the backend.</td>
+</tr>
+<tr id="task-taiga-front-t22">
+<td>T22</td>
+<td>Similar</td>
+<td>Login, bearer headers, refresh/logout and permission-aware controls consume server identities/roles. Hidden controls are not authorization; backend access checks remain necessary.</td>
+</tr>
+<tr id="task-taiga-front-t23">
+<td>T23</td>
+<td>Similar</td>
+<td>Module/plugin registration, themes/locales and resource services support presentation extensions. Durable schema/workflow invariants require server changes or integration.</td>
+</tr>
+<tr id="task-taiga-front-t24">
+<td>T24</td>
+<td>Resembles</td>
+<td>Gulp development scripts and an Nginx container exist. The container downloads a separate compiled distribution; plugin archive/glob version mismatch and old toolchain inputs need verification.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="task-taiga-front-creation-context-and-ordinary-mutations">Creation, context and ordinary mutations</h2>
+<p><a href="repo/app/coffee/app.coffee">Project loading</a>, lines 41–69, resolves project context before a route. <a href="repo/app/modules/services/project.service.coffee">The project service</a>, lines 78–109, switches by slug, retains an immutable project snapshot and exposes permissions. <a href="repo/app/coffee/modules/tasks/detail.coffee">Task loading</a>, lines 105–161, resolves a task by project/ref, loads attachments, story and sprint and creates neighbor links. A replacement coordinator can inspect server context without recovering an old browser process.</p>
+<p><a href="repo/app/coffee/modules/related-tasks.coffee">Related-task creation</a>, lines 115–194, supplies project/story IDs, subject, default status and optional assignee, then calls ordinary task creation. It reports success or error and resets the form. This is decomposition into server records, not delegation to a subagent runtime. <a href="repo/app/coffee/modules/resources/tasks.coffee">Task resource operations</a>, lines 19–106, also provide lists, bulk creation, watcher operations, reorder and milestone moves. Filter preferences are stored with project-derived keys.</p>
+<p><a href="repo/app/coffee/modules/base/model.coffee">The browser model</a>, lines 18–101, tracks changed attributes and includes a record's version in patches. <a href="repo/app/coffee/modules/base/repository.coffee">Repository save</a>, lines 24–85, sends create/PATCH/PUT operations, merges the server response and clears dirty state on success. Failure rejects the caller's promise. <a href="repo/app/coffee/modules/base/repository.coffee">Refresh</a>, lines 118–148, can replace a model from the server. None supplies an execution-attempt precondition.</p>
+<p><a href="repo/app/coffee/modules/common.coffee">Detail transformation</a>, lines 232–308, queues saves in the browser, clones the target, applies edits and replaces the visible model on success. <a href="repo/app/coffee/modules/tasks/detail.coffee">Status editing</a>, lines 257–310, uses that service and reports success/error. <a href="repo/app/modules/components/ticket-assigned/assigned-to.directive.coffee">Assignee editing</a>, lines 14–82, sets <code>assigned_to</code>; self-assignment calls the same save with the current user ID. An authorized user can choose another assignee or remove the current one. No “one winner” ownership protocol is added by the UI.</p>
+<p>The queue has a narrower asynchronous boundary: it stores a mutable scope/property target on a singleton service. The success callback uses the service's current target, rather than a captured task ID or view generation. Source-level inference: a response that arrives after navigation and a new <code>setObject</code> can replace the newer target with an older clone. This was not reproduced in a running browser. A local serial promise chain also does not serialize edits from another tab, machine or API client.</p>
+<h2 id="task-taiga-front-boards-failed-saves-and-wip-semantics">Boards, failed saves and WIP semantics</h2>
+<p><a href="repo/app/coffee/modules/taskboard/main.coffee">Taskboard movement</a>, lines 628–659, updates its local task service, sends a versioned save with order headers, applies returned ordering and refreshes statistics. <a href="repo/app/coffee/modules/taskboard/taskboard-tasks.coffee">The local move</a>, lines 76–113, changes status, story and order before the request succeeds. <a href="repo/app/coffee/modules/taskboard/main.coffee">Inline assignment</a>, lines 362–378, likewise replaces a local model before saving. The inspected handlers have success callbacks but no corresponding error rollback/refetch; the moving-task flag is cleared only on success in that move path.</p>
+<p><a href="repo/app/coffee/modules/kanban/main.coffee">Kanban movement</a>, lines 617–655, calls <a href="repo/app/coffee/modules/kanban/kanban-usertories.coffee">the local story move</a>, lines 150–190, which changes status/swimlane/order before HTTP completion. <a href="repo/app/coffee/modules/resources/userstories.coffee">Its resource request</a>, lines 112–129, sends IDs, destination and positioning, without each story's expected version. The move handler has no error branch restoring that local move. A global error/conflict notice does not restore authoritative state. Server-side differences between normal edits and bulk movement are traced in the companion backend assessment.</p>
+<p><a href="repo/app/coffee/app.coffee">Version-conflict handling</a>, lines 738–756, detects a 400 response with a version field, shows a translated notice and rejects the response. It does not itself fetch the latest record or reconcile local changes. Detail clone-on-success and optimistic board movement therefore have different recovery behavior. The report does not claim every screen shares either approach.</p>
+<p><a href="repo/app/modules/components/wip-limit-selector/wip-limit-selector.controller.coffee">WIP configuration</a>, lines 16–28, edits the selected status/swimlane limit and reloads project-related data. <a href="repo/app/coffee/modules/kanban/main.coffee">WIP markers</a>, lines 809–847, count rendered cards and display <code>one-left</code>, <code>reached</code> or <code>exceeded</code>. The move path has no WIP admission condition. This is explicit advisory feedback; filtering/rendering also means a DOM card count should not be used as shared capacity authority.</p>
+<h2 id="task-taiga-front-live-updates-and-missed-event-recovery">Live updates and missed-event recovery</h2>
+<p><a href="repo/app/coffee/modules/events.coffee">Event configuration and connection setup</a>, lines 20–68, can disable events when no URL is configured, supports relative WebSocket URLs and replaces an old connection. <a href="repo/app/coffee/app.coffee">Application initialization</a>, lines 963–985, and <a href="repo/app/coffee/modules/auth.coffee">login success</a>, lines 280–301, start that connection. <a href="repo/app/coffee/modules/events.coffee">Transport authentication</a>, lines 235–250, sends a bearer token plus the generated session ID.</p>
+<p><a href="repo/app/coffee/app.coffee">Session generation and HTTP configuration</a>, lines 20–26 and 590–606, create a browser identifier and attach it to requests/events. <a href="repo/app/coffee/modules/events.coffee">Ping/pong</a>, lines 123–155, reconnects after missed socket heartbeats. These mechanisms can detect a lost browser connection. They cannot establish whether an agent is making progress, retain work ownership or reject a stale worker's completion.</p>
+<p><a href="repo/app/coffee/modules/events.coffee">Subscription/send behavior</a>, lines 165–230, queues unsent messages in memory, retains one callback per routing key and clears the pending message list before sending it. <a href="repo/app/coffee/modules/events.coffee">Connection handlers</a>, lines 235–284, reauthenticate and recreate notification subscriptions, with jittered retries and a maximum error count. They do not iterate existing project subscriptions to resend them, request a replay cursor or announce a board resnapshot. After transport interruption, this client does not itself establish recovery of those subscriptions or changes missed while disconnected. An external gateway might provide additional behavior; that gateway was not included in this frontend review.</p>
+<p><a href="repo/app/coffee/modules/kanban/main.coffee">Kanban subscriptions and event application</a>, lines 259–277 and 458–488, refetch a list and reconcile affected/new stories when a relevant event arrives. <a href="repo/app/coffee/modules/taskboard/main.coffee">Taskboard subscriptions</a>, lines 380–393, reload records/statistics on events. These are live invalidation paths, not a persisted event replay protocol.</p>
+<p><a href="repo/app/modules/services/project.service.coffee">Project refresh</a>, lines 60–68, runs every ten minutes while active, pauses on inactivity and refetches on return. It fetches the project, not a universal task/board snapshot. <a href="repo/app/coffee/modules/backlog/main.coffee">A backlog fallback</a>, lines 631–637, reloads sprint/statistic data after a move if events are disconnected. This useful local fallback should not be generalized into recovery for every screen.</p>
+<h2 id="task-taiga-front-discussion-blockers-acceptance-and-cancellation">Discussion, blockers, acceptance and cancellation</h2>
+<p><a href="repo/app/modules/notifications/notifications.service.coffee">Notifications</a>, lines 20–101 and 111–142, map assignment, mention, watcher, membership and comment events into links and paginated queries. <a href="repo/app/modules/resources/users-resource.service.coffee">The resource</a>, lines 142–175, requests unread items and sends individual/all read markers. This supplies later inspection of server records alongside ephemeral desktop notifications. Marking a notice read is not an agent result acknowledgement. The backend assessment separately records a permission defect in the individual read-marker route.</p>
+<p><a href="repo/app/modules/history/activity/activity.service.coffee">Activity retrieval</a>, lines 22–60, loads and appends paginated entries through <a href="repo/app/modules/resources/history-resource.service.coffee">the history resource</a>, lines 12–27. <a href="repo/app/partials/task/task-detail.jade">Task detail</a>, lines 77–107, combines rich description, custom fields, attachments and history. <a href="repo/app/partials/us/us-detail.jade">Story detail</a>, lines 116–163, adds related tasks, estimation and multiple assignees. This is useful durable context through the backend; no required handoff schema or accepted artifact/attempt tuple is introduced by these views.</p>
+<p><a href="repo/app/coffee/modules/common/lightboxes.coffee">Blocking</a>, lines 209–278, writes an <code>is_blocked</code> flag and note through the same detail transformation. It supplies neither a decision owner nor a typed answer/resume protocol. <a href="repo/app/coffee/modules/related-tasks.coffee">Related-task deletion</a>, lines 78–91, confirms and deletes a record. This cannot terminate an external agent. Ordinary status controls submit status changes without a native reviewer decision or verification-result envelope; the backend's task/story completion calculations remain a separate boundary.</p>
+<h2 id="task-taiga-front-access-human-usability-and-operation">Access, human usability and operation</h2>
+<p><a href="repo/app/coffee/modules/base/http.coffee">HTTP requests</a>, lines 17–72, add a bearer token and language; GET caching deduplicates concurrent requests and is cleared afterward. <a href="repo/app/coffee/modules/auth.coffee">Auth storage/login/logout</a>, lines 96–188, retains user/access/refresh data and removes credentials on logout. <a href="repo/app/coffee/modules/base/storage.coffee">Browser storage</a>, lines 17–42, uses localStorage. <a href="repo/app/coffee/app.coffee">The refresh interceptor</a>, lines 609–707, shares an in-progress refresh, replaces credentials and retries the original request, or redirects to login. These are client conveniences; the server must authenticate and authorize each replayed operation.</p>
+<p><a href="repo/app/modules/services/check-permissions.service.coffee">Permission-aware presentation</a>, lines 18–23, uses the loaded project's <code>my_permissions</code>; task editing controls also check archive state. Hiding an action is not an authorization boundary. Permission snapshots can age between project fetches, and a direct API caller can bypass every visual control. Host and project isolation must be evaluated in the backend and deployment.</p>
+<p><a href="repo/app/coffee/modules/search.coffee">Search</a>, lines 25–104, groups project resource results and aborts its previous request on a new query. <a href="repo/app/partials/backlog/backlog.jade">Backlog markup</a>, lines 10–80, includes counts, filters, search and a burndown area. Detail neighbor links, story/epic context, translation keys and keyboard handling for related-task entry help normal human navigation. A concrete labeling defect appears in <a href="repo/app/modules/components/wip-limit-selector/wip-limit-selector.jade">WIP selector markup</a>, lines 13–39: icon buttons use <code>arial-label</code> rather than <code>aria-label</code>. Static inspection does not establish keyboard, screen-reader, small-screen or visual acceptance of the complete product.</p>
+<p><a href="repo/conf/conf.example.json">Example configuration</a> requires an API and can leave events disabled. <a href="repo/docker/default.conf">The Nginx configuration</a> serves the built SPA and falls back to its index. <a href="repo/docker/config_env_subst.sh">Environment substitution</a> and <a href="repo/docker/conf.json.template">the template</a> configure API, event URL, subpath, registration and plugins. They do not start the backend, database, broker or event gateway.</p>
+<p><a href="repo/docker/Dockerfile">The Dockerfile</a>, lines 7–47, downloads frontend-dist 6.10.3 rather than building this source commit. It also downloads plugin archives named 6.10.0 while its extraction globs name 6.10.1. That mismatch is a source-level packaging risk; archive contents and a successful build were not verified. The package's Gulp/CoffeeScript/Jade/Karma/Babel/node-sass inputs add compatibility work when selecting a modern development environment. A built distribution must not be assumed identical to this reviewed Git tree merely because its version label matches.</p>
+<h2 id="task-taiga-front-test-source-evidence-and-adoption-work">Test-source evidence and adoption work</h2>
+<p><a href="repo/app/coffee/modules/kanban/main.spec.coffee">Kanban assertions</a>, lines 79–113 and 213–249, check archived filtering, removing a story hidden after an event, adding/replacing stories and refreshing counts using mocked resources. <a href="repo/app/modules/services/project.service.spec.coffee">Project tests</a>, lines 80–104 and 172–202, assert slug switching, periodic refresh and inactivity/return behavior. <a href="repo/app/modules/services/check-permissions.service.spec.coffee">Permission tests</a>, lines 36–52, check a supplied permission array. <a href="repo/app/modules/history/activity/activity.service.spec.coffee">Activity tests</a>, lines 65–84, check loading and clearing entries. These are selected source assertions, not executed integration evidence for a server, socket gateway, failed optimistic mutation or concurrent assignment.</p>
+<p>Retain the connected planning/detail/history experience. Add clear authoritative-save and connection status, consistent failed-save refetch/rollback, view-generation guards for late responses and an explicit reconnect reconciliation policy. Preserve advisory WIP labels unless the backend gains capacity enforcement. Agent claims, attempts, recovery and acceptance belong in a shared authority; the UI should display those records rather than infer them from assignees, columns or socket liveness. Verify a reproducible build/distribution path and representative desktop/mobile/keyboard behavior before adopting the combined product for daily operations.</p></article><nav class="report-switch" aria-label="Task study navigation"><a href="../index.html">Return to the task comparison</a><a href="../taiga/index.html">Previous: Taiga backend</a><a href="../task-master/index.html">Next: Task Master</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../../index.html">Return to overview <img src="../../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

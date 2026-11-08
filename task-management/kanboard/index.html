@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Shared board, subtasks, automation and JSON-RPC"><title>Kanboard · task management · Wingman Research</title>
+<link rel="icon" href="../../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/report.css"><script defer src="../../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../../index.html"><img src="../../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../../index.html">Overview</a><a class="nav-link " href="../../generic/index.html">Architecture findings</a><a class="nav-link " href="../../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../../generic/method.html">Method and evidence</a><a class="nav-link active" href="../index.html" aria-current=page>Agent task management</a><a class="nav-link " href="../../generic/task-coordination.html">Initial task screening</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>Two source studies</strong><p>75 organization snapshots.<br>25 task coordination codebases.<br>Evidence at pinned revisions.</p><a href="../../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../../index.html">Wingman Research</a><span class="crumb">/</span><span>Kanboard · task management</span></div><span class="topbar-note">SOURCE REVIEW · 09 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Kanboard · task management</h1><p class="subtitle">Shared board, subtasks, automation and JSON-RPC</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#task-kanboard-kanboard-a-shared-backlog-with-human-workflow-conventions">Kanboard: a shared backlog with human workflow conventions</a><a href="#task-kanboard-fit-decision">Fit decision</a><a href="#task-kanboard-scope-and-evidence-level">Scope and evidence level</a><a href="#task-kanboard-architecture-and-data-model">Architecture and data model</a><a href="#task-kanboard-requirement-assessment">Requirement assessment</a><a href="#task-kanboard-creation-assignment-and-concurrent-updates">Creation, assignment and concurrent updates</a><a href="#task-kanboard-relationships-and-decomposition">Relationships and decomposition</a><a href="#task-kanboard-capacity-automation-and-completion">Capacity, automation and completion</a><a href="#task-kanboard-progress-context-and-artifact-evidence">Progress, context and artifact evidence</a><a href="#task-kanboard-communication-audit-and-failure-recovery">Communication, audit and failure recovery</a><a href="#task-kanboard-access-deployment-and-human-interaction">Access, deployment and human interaction</a><a href="#task-kanboard-test-source-evidence-and-adoption-work">Test-source evidence and adoption work</a></div></nav><article class="technical"><h2 id="task-kanboard-kanboard-a-shared-backlog-with-human-workflow-conventions">Kanboard: a shared backlog with human workflow conventions</h2>
+<p class="url-text">Source: https://github.com/kanboard/kanboard</p>
+<p>Reviewed commit: <code>2ddb31bf72d355727d0639fc3423630f3bae1a9c</code>.
+Assessment date: November 9, 2026.
+Baseline: <a href="../purpose.html">Shared task management for an agent organization</a>.
+Evidence ledger: <a href="assessment/review.json">review.json</a>.</p>
+<h2 id="task-kanboard-fit-decision">Fit decision</h2>
+<p>Kanboard can provide the durable shared backlog and human board for an agent team. It has project permissions, task assignment, subtasks, task relationships, comments, attachments, notifications, automation and a substantial JSON-RPC API. Agents can use ordinary user accounts and API calls to participate in the same work records that people inspect.</p>
+<p>It does not implement the baseline's execution coordination protocol. Assignment is an unconditional task-field update. There is no native execution-attempt registry, renewable task lease, atomic claim-next operation or stale-attempt fencing in the reviewed core models and API surface. A separate coordinator must establish those guarantees. Adding a client that reads an unassigned task and then sets its owner does not make the two operations atomic.</p>
+<p>Completion also has different semantics from the baseline. Closing a task marks all its subtasks done; it does not wait for their results to be submitted and accepted. Dependency labels and review columns communicate workflow, but the inspected mutation paths do not turn them into universal execution or acceptance gates.</p>
+<p>The <a href="repo/LICENSE">license</a> is ordinary MIT. The pinned <a href="repo/README.md">README</a> declares maintenance mode, with small fixes and community contributions rather than active development of major features. That is the repository's statement at this revision, not a forecast of its future. Kanboard is a plausible conventional task authority to extend, with substantial additional work needed for reliable autonomous allocation.</p>
+<h2 id="task-kanboard-scope-and-evidence-level">Scope and evidence level</h2>
+<p>The checkout contains 2,792 tracked files. The review inspects selected source bodies for projects, tasks, assignment, status, position, relationships, subtasks, recurrence, metadata, files, API authentication and authorization, event jobs, activity and notification delivery, plugin loading and board interaction. It also reads selected test assertion bodies. No candidate application, dependency install, build, migration or test suite was executed.</p>
+<p>This is not an every-line audit or runtime usability certification. SQLite schema excerpts support the model findings. Full migration histories, other database backends, every import/duplication path, all authentication providers, third-party plugins and the complete attachment/HTTP security implementation are outside certification. The ledger separates inspected ranges, manifests and test-source evidence. Method inventories and searches are used to locate operations, not as substitutes for reading their bodies.</p>
+<h2 id="task-kanboard-architecture-and-data-model">Architecture and data model</h2>
+<p><a href="repo/composer.json">composer.json</a> requires PHP 8.1 or later and several PHP extensions. It combines Pimple services, Symfony components and vendored libraries for the database, validation, JSON-RPC and browser application. <a href="repo/app/ServiceProvider/DatabaseProvider.php">DatabaseProvider</a>, lines 1–115, chooses the configured driver and can run schema migrations at initialization. SQLite, MySQL and PostgreSQL are among the switch branches. Backend-specific isolation and deployment behavior were not tested.</p>
+<p>The current <a href="repo/app/Schema/Sqlite.php">SQLite task table rebuild</a>, lines 1–150, retains project, column, swimlane, owner, creator, description, priority, estimates, dates, recurrence and external-provider fields. <code>owner_id</code> is the task assignee. It is not an exclusive runtime reservation. The separate browser <code>sessions</code> table in this schema is not an agent execution-attempt table.</p>
+<p><a href="repo/app/Model/TaskModel.php">TaskModel</a>, lines 1–125, defines only open and closed as task activity states. Board columns supply the visible workflow. Thus a task in a column named Review or Done can still be open; moving to that column and closing the task are separate operations unless configured automation connects them.</p>
+<p><a href="repo/app/Model/ProjectModel.php">Project creation</a>, lines 365–425, groups project insertion, initial board and swimlane creation in a database transaction. It records an owner, normalizes an identifier and can add the creator as project manager. <a href="repo/app/Model/ProjectUserRoleModel.php">Project membership</a>, lines 1–97, combines direct and group-associated projects. These are real shared organizational records, but agent-specific leadership, capability and attempt identity remain conventions outside the model.</p>
+<p>The <a href="repo/app/ServiceProvider/ApiProvider.php">API provider</a> registers procedure objects for projects, boards, tasks, subtasks, comments, files, metadata, permissions and related entities. <a href="repo/jsonrpc.php">jsonrpc.php</a> delegates requests to that server. The inspected core provides JSON-RPC rather than a native MCP task server or an agent process launcher.</p>
+<h2 id="task-kanboard-requirement-assessment">Requirement assessment</h2>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Requirement</th>
+<th scope="col">Verdict</th>
+<th scope="col">Mechanism and boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr id="task-kanboard-t01">
+<td>T01</td>
+<td>Similar</td>
+<td>Durable projects, ownership, membership, identifiers and boards provide shared scope. Agent leadership and retained organizational context need additional conventions.</td>
+</tr>
+<tr id="task-kanboard-t02">
+<td>T02</td>
+<td>Similar</td>
+<td>Rich tasks persist in SQL and are available through UI and API. Task writes, tags, files and events are not one universal atomic operation.</td>
+</tr>
+<tr id="task-kanboard-t03">
+<td>T03</td>
+<td>Similar</td>
+<td>Assigned subtasks and reciprocal child/parent, milestone and follow-up links support decomposition. Links do not enforce a recursive execution hierarchy or accepted-child join.</td>
+</tr>
+<tr id="task-kanboard-t04">
+<td>T04</td>
+<td>Resembles</td>
+<td>Blocking labels and link searches expose relationships. The inspected assignment, move and close paths do not require dependency readiness or enforce graph acyclicity.</td>
+</tr>
+<tr id="task-kanboard-t05">
+<td>T05</td>
+<td>Resembles</td>
+<td>Persistent user accounts can represent agents. Browser sessions and time records do not distinguish logical agent, running worker and fenced execution attempt.</td>
+</tr>
+<tr id="task-kanboard-t06">
+<td>T06</td>
+<td>Similar</td>
+<td>JSON-RPC covers core task operations, searching, files and comments. Native agent task MCP, claim-next and execution control are absent from the reviewed registered core surface.</td>
+</tr>
+<tr id="task-kanboard-t07">
+<td>T07</td>
+<td>Resembles</td>
+<td>Task owner and assign-to-me operations record responsibility. Updates match by task ID without an expected owner/revision, so concurrent claim clients can overwrite each other.</td>
+</tr>
+<tr id="task-kanboard-t08">
+<td>T08</td>
+<td>Resembles</td>
+<td>Column, swimlane and project limits, assignment actions and subtask restriction UI assist planning. These do not establish atomic worker-capacity admission or automatic agent dispatch.</td>
+</tr>
+<tr id="task-kanboard-t09">
+<td>T09</td>
+<td>Resembles</td>
+<td>Subtasks can have different assignees and become full linked tasks. No child process launch, parallel result collection or controlled parent finish is implemented by these records.</td>
+</tr>
+<tr id="task-kanboard-t10">
+<td>T10</td>
+<td>Similar</td>
+<td>Description, metadata, comments, files and links preserve context. They do not pin an accepted artifact version to an execution attempt.</td>
+</tr>
+<tr id="task-kanboard-t11">
+<td>T11</td>
+<td>Similar</td>
+<td>Updates, comments, dates, estimates and time tracking expose progress. Structured handoff and result submission remain conventions rather than required lifecycle records.</td>
+</tr>
+<tr id="task-kanboard-t12">
+<td>T12</td>
+<td>Similar</td>
+<td>SQL-backed unread notifications, mentions, activity and webhooks help participants coordinate. Delivery is separate from mutation, and there is no inspected native agent inbox acknowledgement/replay protocol.</td>
+</tr>
+<tr id="task-kanboard-t13">
+<td>T13</td>
+<td>Resembles</td>
+<td>Comments, blocking links and overdue notifications can represent questions and escalation. No typed pending decision with a required responsible answer controls worker resumption.</td>
+</tr>
+<tr id="task-kanboard-t14">
+<td>T14</td>
+<td>Absent</td>
+<td>Due dates, inactivity and time tracking are not task leases. The reviewed task/subtask schema and API expose no authenticated heartbeat, renewal or guarded reclaim operation.</td>
+</tr>
+<tr id="task-kanboard-t15">
+<td>T15</td>
+<td>Absent</td>
+<td>General task/subtask writes have no attempt or expected-revision condition. JSON-RPC request IDs correlate responses rather than durably deduplicating effects.</td>
+</tr>
+<tr id="task-kanboard-t16">
+<td>T16</td>
+<td>Resembles</td>
+<td>Reopen, reassignment and persistent records support human recovery. There is no native agent resume/cancel, process reconciliation or compensation for external worker effects.</td>
+</tr>
+<tr id="task-kanboard-t17">
+<td>T17</td>
+<td>Similar</td>
+<td>Many clients can use one HTTP service and shared database. Local file storage and sessions need deployment planning; offline replicas are not a common exclusive-claim authority.</td>
+</tr>
+<tr id="task-kanboard-t18">
+<td>T18</td>
+<td>Similar</td>
+<td>Activity, event data, user attribution and metadata change fields aid investigation. Activity is conditional on a logged user and is not an immutable transactionally coupled audit log.</td>
+</tr>
+<tr id="task-kanboard-t19">
+<td>T19</td>
+<td>Similar</td>
+<td>Board, detail, search, subtasks and notifications provide a coherent human interface. Polling and drag failure boundaries remain; live accessibility and usability were not tested.</td>
+</tr>
+<tr id="task-kanboard-t20">
+<td>T20</td>
+<td>Similar</td>
+<td>Continuous-flow columns, priorities, swimlanes, estimates, recurrence and milestone links support planning. They do not supply a native agent capacity or iteration execution protocol.</td>
+</tr>
+<tr id="task-kanboard-t21">
+<td>T21</td>
+<td>Resembles</td>
+<td>Review columns, descriptions and role rules can express review policy. Core close marks subtasks done without requiring accepted results or a separate qualified reviewer.</td>
+</tr>
+<tr id="task-kanboard-t22">
+<td>T22</td>
+<td>Similar</td>
+<td>Per-user API credentials, application/project roles, membership checks, comment visibility and CSRF controls are implemented. Application-wide API credentials intentionally bypass user-scoped checks.</td>
+</tr>
+<tr id="task-kanboard-t23">
+<td>T23</td>
+<td>Similar</td>
+<td>PHP plugins, hooks, actions, metadata and procedures provide substantial extension points. Plugins run as application code; added fields alone do not enforce ownership invariants.</td>
+</tr>
+<tr id="task-kanboard-t24">
+<td>T24</td>
+<td>Similar</td>
+<td>PHP/SQL deployment and included container files are approachable for a conventional board. Cron, files, database backups, credentials and plugin compatibility remain operating responsibilities.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="task-kanboard-creation-assignment-and-concurrent-updates">Creation, assignment and concurrent updates</h2>
+<p><a href="repo/app/Api/Procedure/TaskProcedure.php">TaskProcedure</a>, lines 1–222, authorizes the project or task, verifies assignability for nonzero task owners, validates fields and calls the corresponding model. Updates omit null fields so a caller can make a partial edit. These are useful API semantics. They do not accept a current-owner condition, expected revision or attempt token.</p>
+<p><a href="repo/app/Model/TaskCreationModel.php">TaskCreationModel</a> prepares default column, swimlane, color and timestamps, computes a position and persists the row. Tags and queued events follow the row write. It does not use a single enclosing transaction for all these effects. It returns an integer, including zero when the persistence result is false. A client must validate the returned ID rather than treating any completed HTTP response as task creation.</p>
+<p><a href="repo/app/Model/TaskModificationModel.php">TaskModificationModel</a> reads the current row, updates tags, prepares values and executes an update constrained only by ID. The prior read is used for event differences, not a compare-and-swap predicate. Two workers can both read an unassigned task, each set its own owner and both receive successful writes. The last stored owner wins; earlier external work is not stopped or fenced.</p>
+<p>The browser <a href="repo/app/Controller/TaskModificationController.php">assign-to-me controller</a>, lines 1–106, applies CSRF and role-helper checks before calling the same model. Those checks do not close the race between observation and save. The automatic action <a href="repo/app/Action/TaskAssignCurrentUserColumnIfNoUserAlreadySet.php">assign current user if unassigned</a> tests the owner in event data and then also calls the unconditional model update. Its name describes an intention, not an atomic storage precondition.</p>
+<p><a href="repo/app/Model/TaskPositionModel.php">Task position changes</a>, lines 1–175 and 177–315, do use database transactions to renumber tasks and change column/swimlane. This protects a useful multi-row operation. They do not reserve agent work or compare the original task revision. The database wrapper's <a href="repo/libs/picodb/lib/PicoDb/Database.php">transaction methods</a>, lines 282–341, delegate to PDO begin/commit/rollback. No cross-backend concurrency guarantee is inferred from the mere presence of a transaction.</p>
+<p>The <a href="repo/app/Validator/TaskValidator.php">task validator</a>, lines 1–140 and 150–230, checks field types, dates and required inputs. It does not turn an acceptance description, board label or arbitrary metadata field into a completion gate.</p>
+<h2 id="task-kanboard-relationships-and-decomposition">Relationships and decomposition</h2>
+<p>The <a href="repo/app/Schema/Sqlite.php">link schema</a>, lines 943–968, includes labels such as blocks, is blocked by, child/parent and milestone targeting. A unique index prevents duplicate link triples. <a href="repo/app/Model/TaskLinkModel.php">TaskLinkModel</a>, lines 97–235 and 278–305, transactionally creates or updates the forward and opposite relationship records. This is useful consistency for the pair.</p>
+<p>There is no graph traversal or cycle check in that create/update body. The <a href="repo/app/Validator/TaskLinkValidator.php">link validator</a> rejects a self-link and missing opposite task in the form validation path, but the <a href="repo/app/Api/Procedure/TaskLinkProcedure.php">API link procedure</a> calls the model directly after permissions. Form validation therefore must not be credited to every writer. Database constraints still apply; exact invalid-link outcomes were not exercised.</p>
+<p><a href="repo/app/Filter/TaskLinkFilter.php">Link search</a> selects tasks with a matching link label. It does not determine whether all upstream work is accepted or reserve a ready task. Moving, assigning and closing tasks do not call a dependency scheduler in the inspected bodies. A coordinator needs its own readiness policy and must enforce it at the ownership boundary.</p>
+<p><a href="repo/app/Model/SubtaskModel.php">SubtaskModel</a>, lines 1–108 and 213–337, gives each subtask a parent task, assignee, estimate, elapsed time and todo/in-progress/done status. Subtask update saves by ID, without attempt fencing. The <a href="repo/app/Api/Procedure/SubtaskProcedure.php">API procedure</a> checks that an updated subtask belongs to the supplied parent, which prevents a simple parent-ID mismatch. It still permits direct status changes rather than requiring a delegated result envelope.</p>
+<p><a href="repo/app/Model/SubtaskTaskConversionModel.php">Subtask conversion</a> creates a full task, adds a child relationship if the label exists, copies tags and removes the old subtask. These steps are not one transaction. Its strict comparison against false also differs from TaskCreationModel's integer-zero failure return, so a failed creation can enter later conversion steps with an invalid ID. Subsequent database and helper failures determine the final outcome; no runtime data-loss result is claimed.</p>
+<h2 id="task-kanboard-capacity-automation-and-completion">Capacity, automation and completion</h2>
+<p>Task limits are visible in the <a href="repo/app/Template/board/table_tasks.php">board task template</a> and <a href="repo/app/Template/board/table_container.php">container template</a>. They add a limit-warning class when counts exceed configured values. The reviewed creation and position bodies do not reject a write because the limit is reached. This is advisory WIP visibility rather than a shared capacity reservation.</p>
+<p><a href="repo/app/Model/SubtaskStatusModel.php">SubtaskStatusModel</a> can detect another in-progress subtask for a user when restriction is enabled. The <a href="repo/app/Helper/SubtaskHelper.php">subtask helper</a>, lines 1–84, routes the UI to a restriction dialog. <a href="repo/app/Controller/SubtaskRestrictionController.php">That dialog's save</a> performs two separate status updates. Direct API status updates do not pass through that dialog, and toggle itself does not atomically test capacity. A one-at-a-time UI convention is not a general agent admission invariant.</p>
+<p><a href="repo/app/Model/TaskStatusModel.php">TaskStatusModel</a> closes all subtasks first, then changes the task's activity flag and completion timestamp. There is no prerequisite for submitted evidence, dependency completion or reviewer identity. The subtask update and task update are separate operations, and the close path does not condition the latter on the former succeeding. The <a href="repo/app/Template/task_status/close.php">confirmation template</a> explicitly tells the person that subtasks will also close.</p>
+<p>The <a href="repo/app/Controller/TaskStatusController.php">status controller</a> checks a confirmation and CSRF token and invokes this model. <a href="repo/app/Action/TaskCloseColumn.php">TaskCloseColumn</a> invokes the same operation automatically after a configured column event. A Review or Done column can therefore drive closure without implementing qualified acceptance.</p>
+<p><a href="repo/app/Model/TaskRecurrenceModel.php">Recurring-task creation</a>, lines 81–132, reads pending recurrence state, saves a new task, copies ancillary records and only afterward marks the parent processed. The parent check/update is not an atomic reservation in this body. Replayed or concurrent trigger processing can create a duplication risk. Recurrence is a planning convenience, not a retry-safe execution-attempt protocol.</p>
+<h2 id="task-kanboard-progress-context-and-artifact-evidence">Progress, context and artifact evidence</h2>
+<p>Task descriptions and comments provide durable context. <a href="repo/app/Model/CommentModel.php">CommentModel</a>, lines 148–222, persists text, timestamps and visibility, emits events and allows edits/deletion. <a href="repo/app/Api/Procedure/CommentProcedure.php">CommentProcedure</a> restricts per-user author impersonation and comment changes. These are useful communication records, but no required progress/result schema distinguishes implementation submitted, rejected and accepted.</p>
+<p><a href="repo/app/Api/Procedure/TaskMetadataProcedure.php">Metadata procedures</a> expose task key/value data. <a href="repo/app/Model/MetadataModel.php">MetadataModel</a>, lines 1–127, records change time and user and groups a save in a transaction. It checks existence then writes, without an expected old value. Storing <code>attempt_id</code> or <code>lease_until</code> as metadata would not make other task mutation paths honor them.</p>
+<p><a href="repo/app/Api/Procedure/TaskFileProcedure.php">Task file procedures</a> check that the task belongs to the supplied project and provide upload/download. The <a href="repo/app/Model/FileModel.php">file model</a>, lines 164–193, 278–288 and 350–390, writes an object before creating its SQL metadata row. A database failure can leave an orphan object. Generated keys hash filename plus wall-clock seconds, not content. Equal filenames uploaded for the same task within one second can target the same key in this path. The <a href="repo/app/Core/ObjectStorage/FileStorage.php">storage writer</a>, lines 16–73, uses a normal file write.</p>
+<p>This is attachment storage rather than an immutable reviewed artifact registry. The core does not bind a content digest, source revision, result, reviewer decision and current task attempt into one accepted record. Complete file-security and concurrent-upload behavior were not runtime tested.</p>
+<h2 id="task-kanboard-communication-audit-and-failure-recovery">Communication, audit and failure recovery</h2>
+<p><a href="repo/app/Job/TaskEventJob.php">TaskEventJob</a> builds current task details and dispatches event names. <a href="repo/app/EventBuilder/TaskEventBuilder.php">TaskEventBuilder</a>, lines 1–154, rereads the task when building the event. A delayed job can therefore observe task data newer than the originating write. Some paths carry explicit changes or an original task snapshot, but this is not a transactionally captured event stream for every mutation.</p>
+<p><a href="repo/app/Core/Queue/QueueManager.php">QueueManager</a> executes synchronously when no queue driver is configured. With a driver, it publishes a serialized job separately from the task write. <a href="repo/app/Core/Queue/JobHandler.php">JobHandler</a> preserves the initiating user ID, prepares a worker session and catches execution exceptions for logging. The queue loop marks the job completed after this handler returns. A caught job failure is therefore not itself proof of a retry or dead-letter record. Driver-specific recovery is outside this review.</p>
+<p>The <a href="repo/app/Subscriber/NotificationSubscriber.php">notification subscriber</a> feeds <a href="repo/app/Job/NotificationJob.php">NotificationJob</a>. <a href="repo/app/Notification/WebNotification.php">Web notifications</a> persist to the <a href="repo/app/Model/UserUnreadNotificationModel.php">unread-notification table</a>. Reads are user-scoped, and marking read removes the row. This supplies durable pending human notifications. It is not a complete addressed agent-message protocol with a delivery cursor, acknowledgement history and replay from the task transaction.</p>
+<p><a href="repo/app/Notification/WebhookNotification.php">WebhookNotification</a> makes one HTTP POST, with a token in the URL and private-network checks unless configured otherwise. It does not inspect an acknowledgement or maintain a delivery ledger in this body. The request uses the <a href="repo/app/Core/Http/Client.php">HTTP client</a>, lines 65–82 and 150–182, with error raising disabled by the caller. A receiver should not assume every task mutation produces exactly one retrievable webhook.</p>
+<p><a href="repo/app/Notification/ActivityStreamNotification.php">ActivityStreamNotification</a> records activity only when the session has a logged-in user. Application-wide <code>jsonrpc</code> credentials do not initialize such a user. Those writes can therefore lack this normal activity record. <a href="repo/app/Model/ProjectActivityModel.php">ProjectActivityModel</a> stores event JSON and supports cleanup; the <a href="repo/app/Console/ProjectActivityArchiveCommand.php">archive command</a> removes entries older than one year. This is useful operational history, not an immutable compliance or attempt audit.</p>
+<p>There is no native worker process for Kanboard to resume or stop. Reopen and reassignment change records; they do not cancel an old agent's external effects. <a href="repo/app/Model/TaskModel.php">Task removal</a>, lines 90–107, attempts attachment removal before deleting the row. Those file and database operations do not form one reversible cancellation transaction.</p>
+<p>The API's alternate <a href="repo/app/Model/TaskProjectMoveModel.php">move-to-project writer</a>, lines 20–65, directly updates the task and prepares it as open. It can therefore reopen a closed task as part of relocation. Its method returns true even when the row update returns false. This path must be included in any added transition policy and in client reconciliation; a success boolean alone is not proof that relocation persisted.</p>
+<p>The <a href="repo/libs/jsonrpc/src/JsonRPC/Request/RequestParser.php">JSON-RPC parser</a>, lines 92–181, executes the procedure and then echoes the request ID into the response. It does not cache a durable outcome keyed by that ID. After an uncertain response, repeating create, comment or other side-effecting calls can repeat effects. The reviewed core task/API/schema operation inventory has no task lease or attempt-fencing alternative to those ordinary mutations.</p>
+<h2 id="task-kanboard-access-deployment-and-human-interaction">Access, deployment and human interaction</h2>
+<p><a href="repo/app/Api/Middleware/AuthenticationMiddleware.php">API authentication</a> supports user authentication and a separate application credential named <code>jsonrpc</code>. The application credential is compared with the configured API token and does not initialize a user session. <a href="repo/app/Api/Authorization/ProcedureAuthorization.php">Procedure authorization</a> denies selected personal procedures to that mode. <a href="repo/app/Api/Authorization/UserAuthorization.php">User authorization</a>, <a href="repo/app/Api/Authorization/ProjectAuthorization.php">project authorization</a> and <a href="repo/app/Api/Authorization/TaskAuthorization.php">task authorization</a> apply user/role checks when a user is logged in.</p>
+<p>Consequently, the application token is a broad integration credential. Separate per-agent user credentials preserve more useful scope and attribution. <a href="repo/app/Auth/ApiAccessTokenAuth.php">ApiAccessTokenAuth</a>, lines 1–105, checks active users and API-scoped access tokens. The middleware switches two-factor-enabled users to this token provider. The <a href="repo/app/ServiceProvider/AuthenticationProvider.php">API access maps</a>, lines 180–239, distinguish application roles and project member/manager/viewer operations.</p>
+<p>Browser operations also use <a href="repo/app/Middleware/ProjectAuthorizationMiddleware.php">project authorization middleware</a>, which resolves the task's actual project. <a href="repo/app/Helper/ProjectRoleHelper.php">Role helpers</a>, lines 1–162 and 183–292, add configured column and assignment restrictions to applicable UI paths. These helpers are not a universal storage policy: the status controller and JSON-RPC procedures must be assessed through their own checks. This review does not claim a complete authorization security audit or identical custom-role behavior across every interface.</p>
+<p><a href="repo/assets/js/src/BoardDragAndDrop.js">Board dragging</a>, lines 1–116, sends a position mutation and refreshes returned markup on success. Its generic error path clears loading state without explicitly restoring the prior card position; a 403 reloads. <a href="repo/app/Controller/BoardAjaxController.php">BoardAjaxController</a>, lines 1–116, checks project association and movement permission but does not use the supplied source column as an expected current-state predicate in storage.</p>
+<p><a href="repo/assets/js/src/BoardPolling.js">Polling</a> refreshes while the page is visible and not saving. It uses the project's last-modified check rather than a durable event cursor. <a href="repo/app/Model/ProjectModel.php">Project timestamps</a>, lines 434–458, use integer seconds and a strict greater-than comparison. <a href="repo/app/Subscriber/ProjectModificationDateSubscriber.php">Event-driven timestamp updates</a> are separate from the task write. This can delay or miss a refresh around failed event processing or same-second changes. It is a presentation-freshness boundary, not ownership protection.</p>
+<p>The included <a href="repo/Dockerfile">Dockerfile</a> uses Alpine and PHP 8.5 packages; the <a href="repo/docker-compose.sqlite.yml">SQLite compose example</a> persists data, plugins and certificate volumes. <a href="repo/app/ServiceProvider/ObjectStorageProvider.php">ObjectStorageProvider</a> binds uploaded files to local storage. Multiple web hosts need consistent database, files, session and plugin configuration. No clustered setup was trialed.</p>
+<p><a href="repo/app/Core/Plugin/Loader.php">Plugin loading</a>, lines 1–137, checks declared version compatibility and initializes plugin PHP code, services and schema. <a href="repo/app/Core/Plugin/Hook.php">Reference hooks</a>, lines 94–116, can modify values in place. This gives useful extension power with application-level trust. Cron-driven <a href="repo/app/Console/TaskTriggerCommand.php">task triggers</a> and <a href="repo/app/Console/TaskOverdueNotificationCommand.php">overdue notifications</a>, lines 1–90, require operational scheduling; they do not supply agent heartbeats.</p>
+<h2 id="task-kanboard-test-source-evidence-and-adoption-work">Test-source evidence and adoption work</h2>
+<p>Selected assertions were read, not executed:</p>
+<ul>
+<li><a href="repo/tests/units/Model/TaskStatusModelTest.php">Task status tests</a>, lines 58–143, check close/reopen timestamps and explicitly expect all subtasks to become done after parent close.</li>
+<li><a href="repo/tests/units/Model/TaskModificationModelTest.php">Modification tests</a>, lines 46–109, check ordinary title/owner changes and event counts. They do not exercise competing claimers or expected-revision rejection.</li>
+<li><a href="repo/tests/units/Model/TaskLinkModelTest.php">Link tests</a>, lines 103–145, verify reciprocal labels and linked task data. They do not establish graph readiness or cycle prevention.</li>
+<li><a href="repo/tests/units/Model/UserUnreadNotificationTest.php">Unread notification tests</a>, lines 50–93, check user-scoped removal and stored notifications. They do not prove task-write/outbox atomicity.</li>
+<li><a href="repo/tests/units/Helper/ProjectRoleHelperTest.php">Role-helper tests</a>, lines 165–219, exercise custom assignee restrictions in the helper. That is not certification of every API and controller mutation.</li>
+<li><a href="repo/tests/units/Api/BatchRequestTest.php">JSON-RPC batch tests</a> verify per-request access-denial responses and whole-batch authentication failure using registered closures. They do not prove application authorization for every procedure or transactional batches.</li>
+</ul>
+<p>For adoption, retain Kanboard's project/task API and human board, but add a single authoritative claim and attempt service that every worker mutation must pass. It needs conditional ownership acquisition, renewal, expiry, fenced progress writes, retry-safe outcomes and restart reconciliation. Enforce capacity and readiness during acquisition rather than through a prior search or UI warning.</p>
+<p>Add explicit submitted results and qualified acceptance, with pinned artifacts and child integration. Prevent ordinary close, automation and alternate writers from bypassing that policy. A transactional outbox and durable delivery/acknowledgement records would strengthen communication. Keep pending questions separate from notification read state, and expose unresolved ownership or delivery failures to the human owner.</p>
+<p>Kanboard's strengths are conventional task records, familiar inspection and extension points. Its adoption cost for this baseline lies in the distributed coordination and acceptance invariants that the conventional board intentionally leaves to people and integrations.</p></article><nav class="report-switch" aria-label="Task study navigation"><a href="../index.html">Return to the task comparison</a><a href="../gitlab/index.html">Previous: GitLab</a><a href="../muster/index.html">Next: Muster</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../../index.html">Return to overview <img src="../../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

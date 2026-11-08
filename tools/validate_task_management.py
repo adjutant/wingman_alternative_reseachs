@@ -46,6 +46,8 @@ def main():
     complete = []
     remaining = []
     checkouts = []
+    evidence_by_report = {}
+    source_citation_ranges_checked = 0
     for record in manifest['repositories']:
         slug = record['slug']
         repo = ROOT / record['directory']
@@ -81,6 +83,9 @@ def main():
         if len(rows) != 24 or set(verdicts) != expected_requirements:
             issues.append(f'{slug}: assessment needs 24 unique requirement verdicts')
         ledger = json.loads(ledger_path.read_text())
+        evidence_by_report[report.resolve()] = (repo.resolve(), {
+            file['path']: file['ranges'] for file in ledger.get('files', [])
+        })
         if ledger.get('baseline_sha256') != baseline_hash:
             issues.append(f'{slug}: assessment baseline hash differs')
         if ledger.get('commit') != record.get('commit') or record.get('commit', '') not in body:
@@ -126,6 +131,25 @@ def main():
             cited = [int(value) for value in re.findall(r'\d+', line_text)]
             if any(not 1 <= value <= count for value in cited):
                 issues.append(f'Source citation outside file: {doc.relative_to(ROOT)} -> {target}, lines {line_text.strip()} ({count} available)')
+            evidence = evidence_by_report.get(doc.resolve())
+            if evidence:
+                repo, recorded = evidence
+                try:
+                    source_path = str(path.resolve().relative_to(repo))
+                except ValueError:
+                    continue
+                ranges = []
+                for start, end in sorted(recorded.get(source_path, [])):
+                    if ranges and start <= ranges[-1][1] + 1:
+                        ranges[-1][1] = max(ranges[-1][1], end)
+                    else:
+                        ranges.append([start, end])
+                for span in re.findall(r'\d+–\d+|\d+', line_text):
+                    values = [int(value) for value in span.split('–')]
+                    start, end = values[0], values[-1]
+                    source_citation_ranges_checked += 1
+                    if not any(left <= start <= end <= right for left, right in ranges):
+                        issues.append(f'Source citation exceeds inspected ledger ranges: {doc.relative_to(ROOT)} -> {target}, lines {span}')
     if args.require_complete and remaining:
         issues.append(f'Assessments remain: {", ".join(remaining)}')
     result = {
@@ -133,6 +157,7 @@ def main():
         'scope': 'Checkout preservation, materialization, baseline/requirement coverage, source evidence hashes and local links. Not a semantic or runtime audit.',
         'required_repository_count': len(expected), 'checkout_count': len(checkouts),
         'baseline_sha256': baseline_hash, 'assessments_complete': complete,
+        'source_citation_ranges_checked': source_citation_ranges_checked,
         'assessments_remaining': remaining, 'required_complete_gate': args.require_complete,
         'issues': issues, 'checkouts': checkouts,
     }

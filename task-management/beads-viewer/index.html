@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Graph planning, terminal inspection and static reports"><title>beads-viewer · task management · Wingman Research</title>
+<link rel="icon" href="../../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/report.css"><script defer src="../../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../../index.html"><img src="../../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../../index.html">Overview</a><a class="nav-link " href="../../generic/index.html">Architecture findings</a><a class="nav-link " href="../../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../../generic/method.html">Method and evidence</a><a class="nav-link active" href="../index.html" aria-current=page>Agent task management</a><a class="nav-link " href="../../generic/task-coordination.html">Initial task screening</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>Two source studies</strong><p>75 organization snapshots.<br>25 task coordination codebases.<br>Evidence at pinned revisions.</p><a href="../../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../../index.html">Wingman Research</a><span class="crumb">/</span><span>beads-viewer · task management</span></div><span class="topbar-note">SOURCE REVIEW · 09 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>beads-viewer · task management</h1><p class="subtitle">Graph planning, terminal inspection and static reports</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#task-beads-viewer-beads-viewer-planning-and-inspection-over-an-external-task-authority">beads-viewer: planning and inspection over an external task authority</a><a href="#task-beads-viewer-fit-decision">Fit decision</a><a href="#task-beads-viewer-scope-and-evidence-level">Scope and evidence level</a><a href="#task-beads-viewer-architecture-and-data-ownership">Architecture and data ownership</a><a href="#task-beads-viewer-requirement-assessment">Requirement assessment</a><a href="#task-beads-viewer-from-source-discovery-to-a-proposed-assignment">From source discovery to a proposed assignment</a><a href="#task-beads-viewer-planning-depth-and-its-limits">Planning depth and its limits</a><a href="#task-beads-viewer-editing-completion-and-recovery">Editing, completion and recovery</a><a href="#task-beads-viewer-human-inspection-provenance-and-operation">Human inspection, provenance and operation</a><a href="#task-beads-viewer-test-source-review-and-implementation-quality">Test-source review and implementation quality</a><a href="#task-beads-viewer-integration-work-for-the-baseline">Integration work for the baseline</a></div></nav><article class="technical"><h2 id="task-beads-viewer-beads-viewer-planning-and-inspection-over-an-external-task-authority">beads-viewer: planning and inspection over an external task authority</h2>
+<p class="url-text">Source: https://github.com/Dicklesworthstone/beads_viewer</p>
+<p>Reviewed commit: <code>516e96aa1ac78d6f634b0d394f5102bf430de016</code>.
+Assessment date: November 9, 2026.
+Baseline: <a href="../purpose.html">Shared task management for an agent organization</a>.
+Evidence ledger: <a href="assessment/review.json">review.json</a>.</p>
+<h2 id="task-beads-viewer-fit-decision">Fit decision</h2>
+<p>beads-viewer is a useful planning and inspection companion for a Beads task system. It supplies graph analysis, ranked recommendations, parallel work tracks, project aggregation, terminal board/detail views and static browser reports. It can help a project leader identify ready work, blocking work and stale assignments without asking every worker for a status report.</p>
+<p>It does not replace the authoritative task tracker or agent runtime. Creating, claiming and closing tasks remain operations of the selected <code>br</code> or <code>bd</code> installation. The viewer generates routed claim commands and can run tracker updates from its editor. It has no native worker roster, execution-attempt ownership, lease authority, agent inbox or process dispatcher. Its analytical track is a graph grouping, not a delegated worker assignment.</p>
+<p>The source has meaningful safeguards against confusing a display snapshot with a live mutation route. Incomplete sources can remain inspectable while action suggestions are withheld. The main coordination gap is still the time between observation and execution. Suggestions do not reserve work. The TUI checks an issue before saving but does not pass an atomic updated-at precondition to the tracker.</p>
+<p>The <a href="repo/LICENSE">license</a> is an MIT grant with an OpenAI/Anthropic rider. It restricts parties and activities. This is source available with restrictions, not an unqualified MIT open-source adoption option. Licensing is recorded separately from technical fit.</p>
+<h2 id="task-beads-viewer-scope-and-evidence-level">Scope and evidence level</h2>
+<p>The full pinned checkout contains 5,133 tracked files. This review inspects targeted source bodies and selected test assertions. It covers issue/readiness models, source-route binding, JSONL and SQLite ingestion boundaries, workspace aggregation, triage and track construction, metric status and cache admission, tracker editing, watcher/background recovery, sprint persistence helpers, estimates, static publication and preview controls. No candidate application, installer, build or test was run.</p>
+<p>The review is not an every-line audit. The main command and TUI model are large, and the vendored libraries, complete numerical algorithms, installers, deployment adapters, all search/correlation paths and browser rendering are outside certification. Source-based usability findings are distinguished from live interaction. The ledger records actual inspected ranges and separates test-source inspection from execution.</p>
+<h2 id="task-beads-viewer-architecture-and-data-ownership">Architecture and data ownership</h2>
+<p><a href="repo/go.mod">go.mod</a>, lines 1–70, requires Go 1.26.10 and identifies Bubble Tea/Lip Gloss for terminal UI, Gonum for graph work, modernc SQLite for database reading/export and fsnotify for refresh. The <a href="repo/cmd/bv/robot_registry.go">robot context and registry</a>, lines 1–100, carry issue data, source authority, readiness, candidate scope and command-specific handlers. This is a local CLI interface, not an MCP or authenticated remote task service.</p>
+<p>The <a href="repo/pkg/model/types.go">issue model</a>, lines 13–196, contains task descriptions, acceptance criteria, notes, assignee, dates, labels, dependencies, comments and source repository. Its <code>Origin</code> is transient and excluded from JSON. A separate live loader establishes the local tracker ID, executable, working directory, database and capabilities. This distinction prevents an imported issue from manufacturing a live action route merely by including similarly named JSON fields.</p>
+<p>Analysis owns copied issue snapshots. <a href="repo/pkg/analysis/graph.go">NewAnalyzer</a>, lines 1559–1676, assigns stable numeric graph nodes in sorted issue-ID order, adds blocking edges and indexes hierarchy separately. Related/informational relationships do not become hard execution dependencies. The analyzer separates the full readiness authority from selected output candidates and the graph used for scoped metrics. See <a href="repo/pkg/analysis/graph.go">readiness scope</a>, lines 1304–1405.</p>
+<p>The viewer also writes its own artifacts: analytical caches/feedback, static reports, instruction preferences and sprint helper output. It can refresh a Go Beads compatibility export during loading. Therefore, describe task analysis as a companion role rather than calling the entire executable side-effect free. A native task mutation still goes through a tracker subprocess in the inspected editor path.</p>
+<h2 id="task-beads-viewer-requirement-assessment">Requirement assessment</h2>
+<p>These verdicts measure fit to the common baseline. They do not rank numerical algorithm quality or grant the viewer credit for unreviewed behavior of an installed tracker.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Requirement</th>
+<th scope="col">Verdict</th>
+<th scope="col">Mechanism and boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr id="task-beads-viewer-t01">
+<td>T01</td>
+<td>Similar</td>
+<td>Workspace configuration aggregates repository sources, namespaces IDs and reports partial loads. It is not a leadership/project registry or common write authority.</td>
+</tr>
+<tr id="task-beads-viewer-t02">
+<td>T02</td>
+<td>Resembles</td>
+<td>Rich task records are loaded, analyzed and exported. The authoritative lifecycle and durable writes belong to <code>br</code>/<code>bd</code>.</td>
+</tr>
+<tr id="task-beads-viewer-t03">
+<td>T03</td>
+<td>Similar</td>
+<td>Hierarchy, dependency context, follow-up relationships and parent/child views support decomposition analysis. Creating and governing assignments remains external.</td>
+</tr>
+<tr id="task-beads-viewer-t04">
+<td>T04</td>
+<td>Similar</td>
+<td>Full-source readiness, missing-reference handling, hierarchy propagation, cycles and what-if plans. These are snapshot decisions; tracker eligibility can differ and must be checked at execution.</td>
+</tr>
+<tr id="task-beads-viewer-t05">
+<td>T05</td>
+<td>Absent</td>
+<td>The inspected task model, registry and <code>pkg/agents</code> implementation provide no agent/session/attempt registry. <code>pkg/agents</code> detects and maintains instruction files.</td>
+</tr>
+<tr id="task-beads-viewer-t06">
+<td>T06</td>
+<td>Similar</td>
+<td>Structured robot commands, common provenance envelopes, command argv and schemas serve agents. No native remote mutation API or task MCP server in the inspected surfaces.</td>
+</tr>
+<tr id="task-beads-viewer-t07">
+<td>T07</td>
+<td>Resembles</td>
+<td>Suggestions use a verified tracker route and its advertised <code>--claim</code>. The tracker supplies atomic ownership; the viewer does not reserve or enforce it.</td>
+</tr>
+<tr id="task-beads-viewer-t08">
+<td>T08</td>
+<td>Resembles</td>
+<td>Scored recommendations, parallel tracks and agent-count ETA inputs assist planning. No enforced WIP admission, capacity reservation or worker dispatch.</td>
+</tr>
+<tr id="task-beads-viewer-t09">
+<td>T09</td>
+<td>Resembles</td>
+<td>Related ready work is grouped into tracks, and hierarchy affects readiness. No worker child launch, join, result integration or enforced parent completion.</td>
+</tr>
+<tr id="task-beads-viewer-t10">
+<td>T10</td>
+<td>Similar</td>
+<td>Descriptions, design, notes, comments, references, history and provenance remain visible. No native immutable artifact/result authority or review-version contract.</td>
+</tr>
+<tr id="task-beads-viewer-t11">
+<td>T11</td>
+<td>Resembles</td>
+<td>Existing progress/comments can be inspected and selected fields edited through the tracker. Durable structured handoff and result submission are external.</td>
+</tr>
+<tr id="task-beads-viewer-t12">
+<td>T12</td>
+<td>Resembles</td>
+<td>Watchers and snapshots refresh shared views. They are coalesced invalidations, not recipient messages, acknowledgements or replayable task events.</td>
+</tr>
+<tr id="task-beads-viewer-t13">
+<td>T13</td>
+<td>Similar</td>
+<td>Blockers, stale issues, abandoned-claim advice and sprint risk expose coordination needs. Escalation delivery and human decision handling remain external.</td>
+</tr>
+<tr id="task-beads-viewer-t14">
+<td>T14</td>
+<td>Resembles</td>
+<td>Updated-at/assignee heuristics identify stale claims. No native task lease expiry, renewal, authenticated heartbeat or reclaim operation.</td>
+</tr>
+<tr id="task-beads-viewer-t15">
+<td>T15</td>
+<td>Resembles</td>
+<td>Snapshot hashes, editor source checks and internal worker generations reject some stale presentation work. They do not fence stale task attempts; editor writes omit atomic conditional-update flags.</td>
+</tr>
+<tr id="task-beads-viewer-t16">
+<td>T16</td>
+<td>Similar</td>
+<td>Last-good snapshots, load retries, watcher fallback, saved drafts and export retry support viewer recovery. They do not resume, cancel or compensate an agent task.</td>
+</tr>
+<tr id="task-beads-viewer-t17">
+<td>T17</td>
+<td>Resembles</td>
+<td>Local multi-repository aggregation and publishable reports support inspection across machines. They do not provide shared online claim authority between independent stores.</td>
+</tr>
+<tr id="task-beads-viewer-t18">
+<td>T18</td>
+<td>Similar</td>
+<td>Source/scope hashes, historical snapshots and confidence-bearing commit correlation aid traceability. They do not establish authenticated mutation attribution or acceptance.</td>
+</tr>
+<tr id="task-beads-viewer-t19">
+<td>T19</td>
+<td>Similar</td>
+<td>Terminal Kanban/detail/search/graph views and static browser reports provide substantial inspection. Custom workflow states are folded into fixed board columns; runtime accessibility was not tested.</td>
+</tr>
+<tr id="task-beads-viewer-t20">
+<td>T20</td>
+<td>Similar</td>
+<td>Backlog priority, labels, tracks, sprint records, risk, velocity and ETA help planning. Sprint writes lack shared concurrent-edit authority, and estimates are heuristics.</td>
+</tr>
+<tr id="task-beads-viewer-t21">
+<td>T21</td>
+<td>Resembles</td>
+<td>Acceptance text and review status can be displayed; tracker completion must apply its own gates. No viewer-owned qualified review or controlled acceptance workflow.</td>
+</tr>
+<tr id="task-beads-viewer-t22">
+<td>T22</td>
+<td>Resembles</td>
+<td>Native-route validation, literal arguments, read-only sources and loopback preview controls protect local operations. No authenticated per-agent/project role model.</td>
+</tr>
+<tr id="task-beads-viewer-t23">
+<td>T23</td>
+<td>Similar</td>
+<td>Custom states/types are retained, with configurable analysis, ranking, source selection and structured output. Unknown states do not automatically acquire tracker readiness semantics.</td>
+</tr>
+<tr id="task-beads-viewer-t24">
+<td>T24</td>
+<td>Similar</td>
+<td>Local Go binary and static bundles reduce service requirements. A compatible tracker, export freshness, data volume and substantial client assets remain operational concerns.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="task-beads-viewer-from-source-discovery-to-a-proposed-assignment">From source discovery to a proposed assignment</h2>
+<h3 id="task-beads-viewer-loading-a-source-is-not-acquiring-work">Loading a source is not acquiring work</h3>
+<p>The loader can read JSONL or SQLite. JSONL line handling records malformed/invalid issues as errors while preserving valid rows for inspection. Recognized non-issue records are skipped rather than misparsed as tasks. See <a href="repo/pkg/loader/loader.go">line processing</a>, lines 1437–1557. An output with rows is therefore not automatically a complete task graph.</p>
+<p>SQLite uses <code>mode=ro</code> and connection-local <code>query_only</code>, with a deferred transaction that reads the issue graph and related tables from one snapshot. It validates rows, records duplicates/errors and detaches the load report from mutable reader state. <code>LoadIssueAuthorityContext</code> rejects incomplete authority. See <a href="repo/internal/datasource/sqlite.go">SQLite reader</a>, lines 44–112 and 230–327. Read-only access still participates in SQLite WAL reader coordination; it is not a promise of zero filesystem-side effects.</p>
+<p>The live route binder accepts supported tracker metadata, resolves the declared source/database and verifies an installed executable's help flags under a bounded probe. Arbitrary file imports cannot borrow a nearby tracker merely because their IDs match. It records the original local ID before workspace namespacing. See <a href="repo/pkg/loader/loader.go">origin binding and revalidation</a>, lines 96–271. Help advertising <code>--claim</code> establishes a capability token, not proof of every semantic safeguard in that installed version.</p>
+<p>Go Beads loading may invoke <code>bd export</code> to refresh <code>issues.jsonl</code>. It stages the export, validates it and renames the staged file over the compatibility file. On failure, an existing export can remain available with a warning and stale-source diagnosis. See <a href="repo/pkg/loader/loader.go">compatibility export</a>, lines 553–700. This review did not certify the full validation helper or concurrent publication behavior. A compatibility export is still a snapshot and can become old immediately after publication.</p>
+<h3 id="task-beads-viewer-portfolio-aggregation-and-scope">Portfolio aggregation and scope</h3>
+<p><a href="repo/pkg/workspace/types.go">Workspace configuration</a>, lines 13–115, names repository paths, prefixes, optional discovery and enabled state. The aggregate loader continues after individual repository failures, but rejects an all-failed workspace and duplicate namespaced IDs. It preserves tombstone IDs as satisfied dependency references while removing their visible cards. Origins are attached before display IDs and dependency references are namespaced. See <a href="repo/pkg/workspace/loader.go">aggregation</a>, lines 94–180, 453–558 and 584–623.</p>
+<p>This gives a useful portfolio view without pretending every repository loaded successfully. It does not create a distributed transaction or let a namespaced display ID stand in for an actual tracker ID. Dependency suggestions across different trackers remain analytical because a single tracker cannot safely interpret another store's local IDs.</p>
+<p>The robot envelope carries data, source authority and scope hashes. Completeness is distinct from a live route: complete in-memory data can support analysis without any actionable tracker command. Failed/stale sources make readiness provisional; zero loaded sources are unknown. See <a href="repo/cmd/bv/main.go">authority construction</a>, lines 7172–7315, and <a href="repo/cmd/bv/robot_registry.go">envelope</a>, lines 234–309. These hashes describe inspected input. They are not authenticated identities, leases or mutation preconditions.</p>
+<h3 id="task-beads-viewer-ready-claimable-and-recommended-mean-different-things">Ready, claimable and recommended mean different things</h3>
+<p><a href="repo/pkg/model/readiness.go">ReadinessIndex</a>, lines 1–264, distinguishes satisfied, unsatisfied and unknown dependency state. Missing prerequisites withhold work. Parent dependency state propagates down the hierarchy; unresolved parent cycles remain unknown. Closed and tombstoned prerequisites satisfy that reference. Full-source readiness can survive display filtering that hides an external blocker.</p>
+<p><code>Ready</code> includes open and in-progress issues without future deferral and with satisfied dependencies. <code>Claimable</code> is narrower: open, exactly unassigned, non-epic and without open children. A worker reading a plan must therefore not claim every planned item. The model accepts custom statuses, but only the explicitly recognized statuses become ready. It does not load an arbitrary tracker's configured ready-status group. See <a href="repo/pkg/model/types.go">status semantics</a>, lines 286–325. An upstream custom ready state or different hierarchy policy can make tracker and viewer selection differ.</p>
+<p>Triage ranks the full scored set, then applies candidate/actionable filters. It computes claimability, constructs source-bound actions and separately limits visible recommendations. Quick wins come from the claimable subset. See <a href="repo/pkg/analysis/triage.go">triage assembly</a>, lines 592–745, and <a href="repo/pkg/analysis/triage.go">claimable top picks</a>, lines 1157–1210. Ranked recommendations can include useful blocked or assigned work when inactive work is requested. They are not all instructions to start execution.</p>
+<p>Robot handlers suppress claim suggestions when source authority is incomplete. <code>robot-next</code> additionally requires a safe candidate, acceptable PageRank/betweenness status and an available live route. Its metric gate does not require every metric or completed cycle analysis. It can return a diagnostic candidate without an actionable assignment. See <a href="repo/cmd/bv/robot_registry.go">handler checks</a>, lines 2184–2228 and 2459–2568, and <a href="repo/pkg/analysis/graph.go">metric gate</a>, lines 202–229. Suggestion mutation actions are also removed for historical contexts. See <a href="repo/cmd/bv/robot_registry.go">suggestion handler</a>, lines 1273–1328.</p>
+<h3 id="task-beads-viewer-a-suggested-command-is-still-only-a-suggestion">A suggested command is still only a suggestion</h3>
+<p><a href="repo/pkg/model/types.go">Issue actions</a>, lines 75–196, construct literal argv and a shell-quoted rendering using captured directories, database and local ID. Claim uses native <code>update --claim --json</code>. A missing/read-only route or unsupported claim capability prevents that command. Dependency/label hygiene suggestions have route checks; cross-tracker edges are withheld from executable suggestions.</p>
+<p>The viewer does not execute these robot claim suggestions or mint an ownership token. Two agents can receive the same suggestion. The later native claim must decide whether it still wins. All lease, attempt, review and completion behavior must be attributed to the installed tracker, not inferred from a viewer recommendation or its <code>claim_safe</code> source field.</p>
+<h2 id="task-beads-viewer-planning-depth-and-its-limits">Planning depth and its limits</h2>
+<p><a href="repo/pkg/analysis/plan.go">Execution plans</a>, lines 1–258, take ready items, calculate what they would unblock and group them by connected components of blocking/hierarchy relationships. Members are ordered by priority and ID. This is useful for identifying separate work streams. It is not resource scheduling: tracks do not account for shared files, tool slots, credentials, worker skills or external service limits. They contain issue IDs, not assigned agent identities or durable parent/child attempt records.</p>
+<p>Analysis runs a fast first phase and an asynchronous second phase. Size-based configuration can use approximate betweenness, shorter timeouts or skip cycles/HITS. The default XL branch disables cycle computation. Representative cycles can be capped. See <a href="repo/pkg/analysis/config.go">configuration</a>, lines 1–229, <a href="repo/pkg/analysis/graph.go">async analysis</a>, lines 1695–1804, and <a href="repo/pkg/analysis/graph.go">cycle/status publication</a>, lines 2193–2265 and 2321–2367. Empty cycle output after a skipped or timed-out computation cannot prove acyclicity.</p>
+<p>Metric status and worker completion are separate. Cache admission requires published phase-two readiness and acceptable per-metric states; cancellation closing a done channel does not itself certify metrics. See <a href="repo/pkg/analysis/graph.go">cache publication gate</a>, lines 149–190, and <a href="repo/pkg/analysis/graph.go">phase-two wrapper</a>, lines 2420–2466. These are useful design choices. This assessment did not mathematically verify every metric or reproduce timing behavior under load.</p>
+<p>Sprint records carry ID, name, dates, issue IDs and velocity target. Loading validates entries and can skip malformed rows with warnings. The helper writer replaces the complete sprint file through a temporary file and rename. It has no lock or expected-content precondition in that body. Concurrent load/edit/save callers can therefore lose one another's changes; this is a source-derived interleaving, not a reproduced race. The production call inventory found no caller beyond the helper's own delegation, so do not present it as a fully wired concurrent sprint editor. See <a href="repo/pkg/model/types.go">sprint model</a>, lines 498–535, and <a href="repo/pkg/loader/sprint.go">sprint persistence</a>, lines 1–155.</p>
+<p>ETA uses estimated/heuristic complexity and recent closure velocity, scales capacity by a supplied agent count and returns a confidence-derived range. It does not inspect actual agent processes or enforce dependencies as an execution schedule. See <a href="repo/pkg/analysis/eta.go">ETA</a>, lines 31–94 and 151–224. Sprint risk uses task and dependency timestamps as approximations of inactivity/block duration, rather than complete transition history. See <a href="repo/pkg/analysis/sprint.go">risk evaluation</a>, lines 73–100 and 131–246.</p>
+<h2 id="task-beads-viewer-editing-completion-and-recovery">Editing, completion and recovery</h2>
+<p>The terminal editor can change title, status, priority, assignee, type and description through the captured tracker. It validates the selected source/session, revalidates metadata, reloads source selection and fetches the current native issue. It compares fields and updated-at before saving. The subprocess uses literal arguments, explicit database routing, bounded output and a 30-second command context. See <a href="repo/pkg/ui/model.go">editor checks and command runner</a>, lines 375–655.</p>
+<p>The read and write are separate subprocesses. The generated update arguments omit <code>--if-unchanged</code>. A writer can change the task after <code>show</code> passes but before <code>update</code> executes, allowing the viewer to overwrite the changed fields. This source-derived gap remains even when the tracker offers conditional updates. The preflight check is useful conflict detection, but it is not an atomic comparison and write.</p>
+<p>The viewer passes status edits to the tracker. It does not introduce a viewer-owned acceptance decision, qualified reviewer, child completion barrier or cancellation action. The selected tracker may reject a requested closed status or require a separate close operation. Acceptance text in a displayed card is not proof of accepted implementation.</p>
+<p>After a successful tracker update, compatibility export can fail. The viewer keeps the saved draft, marks the source stale, records pending refresh and blocks another edit until refresh succeeds. Export retry does not rerun the field update. Source-version/session checks prevent an old completion from approving a newly selected source. See <a href="repo/pkg/ui/model.go">save/export outcomes</a>, lines 2781–2857, and <a href="repo/pkg/ui/model.go">retry export</a>, lines 353–374. Cancellation can race a committed tracker mutation; the source comments and error handling explicitly preserve recovery context instead of promising rollback.</p>
+<p>File watching coalesces changes into invalidations. Backend failure starts polling, schedules a rescan and retains prior fingerprints. Polling checks source file and WAL changes. Generation checks stop a notification from an old watcher run entering a replacement run. See <a href="repo/pkg/watcher/watcher.go">watcher recovery</a>, lines 397–495 and 526–606. This is refresh recovery, not a replayable task-event stream with consumer acknowledgements.</p>
+<p>The background snapshot worker has its own generation fence. A late calculation from an earlier worker generation is dropped, and stopped workers cannot publish a new snapshot. See <a href="repo/pkg/ui/background_worker.go">snapshot publication</a>, lines 1132–1194. This protects the UI's state. It must not be counted as stale execution-attempt rejection for tasks owned by agents elsewhere.</p>
+<p>Stale and abandoned-claim alerts derive from issue update/create time, status, assignee, label thresholds and multipliers. They recommend asking or releasing; they do not inspect authenticated worker heartbeats or revoke a lease. See <a href="repo/pkg/drift/drift.go">staleness and abandoned claims</a>, lines 571–652 and 959–1011. An old task can still have a live worker, while an abandoned worker can leave a recently edited task. Recovery requires the external coordinator and tracker.</p>
+<h2 id="task-beads-viewer-human-inspection-provenance-and-operation">Human inspection, provenance and operation</h2>
+<p>The terminal board supports search, detail and alternative status/priority/type groupings. Its status board has four columns. Custom, deferred and review states fall through into the first column rather than acquiring dedicated workflow columns. See <a href="repo/pkg/ui/board.go">board model and grouping</a>, lines 17–75 and 291–351. This makes the board compact but requires detail inspection when the tracker uses a richer workflow.</p>
+<p>Static export builds a separate SQLite snapshot, then publishes it and JSON/graph artifacts into a bundle. Each file uses a constrained root and temporary-file replacement; the full bundle is not one atomic multi-file transaction. A failure after publishing the database can leave older auxiliary files. See <a href="repo/pkg/export/sqlite_export.go">export ordering</a>, lines 84–245, and <a href="repo/pkg/export/viewer_embed.go">bundle writer</a>, lines 73–145. The export's SQLite is a reporting database, not the original mutable tracker.</p>
+<p>The browser client fetches exported data and runs local visualization/query code. The inspected markdown functions use DOMPurify. The page includes bundled dependencies and a CSP, but retains <code>unsafe-eval</code> for its Alpine build. These are source observations, not a browser-security certification. See <a href="repo/pkg/export/viewer_assets/index.html">page head</a>, lines 1–100, and <a href="repo/pkg/export/viewer_assets/viewer.js">viewer helpers</a>, lines 551–582 and 2236–2269.</p>
+<p>The local preview binds <code>127.0.0.1</code>, serves files/status/live-reload and admits only GET/HEAD requests with acceptable local Host/Origin. It is not a LAN agent API. Serving an exported bundle elsewhere is a separate hosting/access-control decision. See <a href="repo/pkg/export/preview.go">preview</a>, lines 213–244 and 447–519.</p>
+<p>Historical source loading pins Git repository context and strips ambient routing/configuration variables. Correlation report assembly combines co-commit, explicit-ID and temporal-author evidence with confidence and optional feedback. This helps investigation but does not authenticate a task mutation or prove that a commit satisfies acceptance criteria. See <a href="repo/pkg/loader/git.go">Git loader</a>, lines 1–112, <a href="repo/pkg/correlation/types.go">correlation model</a>, lines 70–122, and <a href="repo/pkg/correlation/correlator.go">report assembly</a>, lines 403–480.</p>
+<p>Search configuration exposes hybrid ranking and a deterministic hash embedder. Python sentence-transformer and OpenAI embedding provider branches return unimplemented errors at this revision. Do not interpret a selectable provider name as a working semantic-model integration. See <a href="repo/pkg/search/config.go">search configuration</a>, lines 1–118.</p>
+<h2 id="task-beads-viewer-test-source-review-and-implementation-quality">Test-source review and implementation quality</h2>
+<p>Selected assertions were read, not run:</p>
+<ul>
+<li><a href="repo/pkg/analysis/plan_test.go">Scoped planning</a>, lines 399–505, compares selected candidates against full-source readiness, including hidden blockers, missing references, hierarchy, assigned work and epics. Lines 89–118 verify two independent graph chains form two tracks, not two running workers.</li>
+<li><a href="repo/cmd/bv/robot_envelope_test.go">Robot authority</a>, lines 13–110, preserves diagnostic suggestions while removing executable actions for incomplete/historical contexts. Complete in-memory authority still does not manufacture a live tracker route.</li>
+<li><a href="repo/pkg/model/types_test.go">Action construction</a>, lines 38–108 and 156–168, checks literal shell arguments, original IDs, read-only route refusal and non-importable origins. This uses a recorder fixture, not a real tracker ownership race.</li>
+<li><a href="repo/pkg/ui/coverage_extra_test.go">Editor recovery</a>, lines 439–515 and 546–586, keeps failed-save drafts, bounds a hung fake tracker, retains the captured executable and retries export separately. These fixtures do not prove atomic protection between native show and update.</li>
+<li><a href="repo/pkg/ui/background_worker_authority_test.go">Partial SQLite recovery</a>, lines 21–152, damages a blocker/deferral, retains the prior complete snapshot and recovers after repair without enabling file notifications. Its local test database is not certification of every supported tracker engine or host.</li>
+</ul>
+<p>The implementation has substantive analysis and recovery logic. Its strongest architectural distinction is between source completeness, candidate selection, displayed IDs and live action routes. The weak point for the full baseline is not missing graph mathematics. It is the lack of one authenticated, attempt-aware task authority and complete execution lifecycle.</p>
+<p>Before adoption, verify real terminal/browser behavior, source-version compatibility, large-graph latency, cache behavior, cancellation timing, platform filesystem semantics and required export freshness. Review the complete deployment and installer paths separately. Keep diagnostic warnings visible; neither a source hash nor a computed score is proof that a later claim or completion is valid.</p>
+<h2 id="task-beads-viewer-integration-work-for-the-baseline">Integration work for the baseline</h2>
+<p>Use the viewer as a read/plan layer over an authoritative task service. Keep task creation, ownership, review and completion in that authority. Add persistent agent/attempt identities, mandatory conditional writes, authenticated review, durable communication, process dispatch/cancellation and parent result integration through the coordinator.</p>
+<p>For its own editor, pass the tracker's supported updated-at precondition with the mutation and report unsupported conditional-write capability clearly. Preserve the useful existing designs: full-source readiness under filtered views, explicit partial-source diagnosis, local-ID routing, literal argv, metric status, last-good snapshots and saved-draft/export recovery. Confirm the restricted license independently before adopting the component.</p></article><nav class="report-switch" aria-label="Task study navigation"><a href="../index.html">Return to the task comparison</a><a href="../beads-rust/index.html">Previous: beads_rust</a><a href="../devboard/index.html">Next: DevBoard</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../../index.html">Return to overview <img src="../../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

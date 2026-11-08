@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Governed work packages, workflow, journals and sprints"><title>OpenProject · task management · Wingman Research</title>
+<link rel="icon" href="../../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/report.css"><script defer src="../../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../../index.html"><img src="../../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../../index.html">Overview</a><a class="nav-link " href="../../generic/index.html">Architecture findings</a><a class="nav-link " href="../../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../../generic/method.html">Method and evidence</a><a class="nav-link active" href="../index.html" aria-current=page>Agent task management</a><a class="nav-link " href="../../generic/task-coordination.html">Initial task screening</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>Two source studies</strong><p>75 organization snapshots.<br>25 task coordination codebases.<br>Evidence at pinned revisions.</p><a href="../../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../../index.html">Wingman Research</a><span class="crumb">/</span><span>OpenProject · task management</span></div><span class="topbar-note">SOURCE REVIEW · 09 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>OpenProject · task management</h1><p class="subtitle">Governed work packages, workflow, journals and sprints</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#task-openproject-openproject-governed-project-work-without-an-agent-execution-lease">OpenProject: governed project work without an agent execution lease</a><a href="#task-openproject-fit-decision">Fit decision</a><a href="#task-openproject-scope-and-evidence-level">Scope and evidence level</a><a href="#task-openproject-architecture-and-domain-model">Architecture and domain model</a><a href="#task-openproject-requirement-assessment">Requirement assessment</a><a href="#task-openproject-create-select-edit-and-assign">Create, select, edit and assign</a><a href="#task-openproject-hierarchy-relation-rules-and-completion-boundaries">Hierarchy, relation rules and completion boundaries</a><a href="#task-openproject-planning-and-alternate-mutation-paths">Planning and alternate mutation paths</a><a href="#task-openproject-journals-communication-and-asynchronous-effects">Journals, communication and asynchronous effects</a><a href="#task-openproject-identity-human-inspection-and-operation">Identity, human inspection and operation</a><a href="#task-openproject-test-source-evidence-and-adoption-work">Test-source evidence and adoption work</a></div></nav><article class="technical"><h2 id="task-openproject-openproject-governed-project-work-without-an-agent-execution-lease">OpenProject: governed project work without an agent execution lease</h2>
+<p class="url-text">Source: https://github.com/opf/openproject</p>
+<p>Reviewed commit: <code>05d9afe72a3c9198e26c0284c213f733c4863ca2</code>.
+Assessment date: November 9, 2026.
+Baseline: <a href="../purpose.html">Shared task management for an agent organization</a>.
+Evidence ledger: <a href="assessment/review.json">review.json</a>.</p>
+<h2 id="task-openproject-fit-decision">Fit decision</h2>
+<p>OpenProject provides a substantial shared project authority. Projects, work packages, hierarchy, relations, role permissions, workflow transitions, journals, notifications, versions, boards and sprints have native implementations. Work-package editing combines contracts, optimistic lock versions and database transaction/advisory-lock context. This is useful infrastructure for a human manager and several agents sharing planning records.</p>
+<p>It does not make an assignee a leased agent execution owner. The inspected model and mutation interfaces have no current execution-attempt identity, worker capacity reservation or heartbeat-based task recovery. A worker can use the same governed records as a person, but a separate coordinator must decide who may execute, how interrupted execution resumes, and which child results the parent has accepted.</p>
+<p>The native MCP server is an important interface and an adoption constraint. <a href="repo/lib/api/mcp.rb">Its endpoint</a>, lines 31–72, returns unavailable unless the Enterprise <code>mcp_server</code> entitlement and server configuration are enabled. The HTTP API remains a separately reviewed agent interface. Accessible MCP implementation should not be described as an unconditionally available Community feature. <a href="repo/LICENSE">The top-level license</a>, lines 1–25, is GPL version 3; inherited components carry their own notices. This report covers the pinned source and the inspected feature gates, not every hosted or commercial offering.</p>
+<p>Adopt it as a governed planning and discussion layer if its operating footprint and edition boundaries fit. To adopt it as the complete agent coordination runtime, add an execution contract that uses the existing service/permission boundaries and governs alternate writers as well as the normal API.</p>
+<h2 id="task-openproject-scope-and-evidence-level">Scope and evidence level</h2>
+<p>The preserved checkout has 25,930 tracked files. This targeted static review follows work-package create, read/selection, update, hierarchy/relation mutation, progress calculation, closure, duplicate closure and deletion. It inspects shared service context, lock/version handling, contracts, MCP/API entry points, selected backlog batch and sprint lifecycle code, journal creation/aggregation, notification jobs and visibility, outgoing webhooks, token authentication, representative browser changesets/detail markup and deployment configuration. Selected contract, request and concurrency-test assertion bodies were read.</p>
+<p>No candidate application, dependency installation, build, migration or test was executed. This is not an every-line audit, production race test or certification of all plugins, automation actions, custom fields, integrations, importers, exporters, edition gates, hierarchy operations, attachment/file routes, mail/push delivery, OAuth/OIDC lifecycle, deployment, performance or browser/accessibility behavior. The ledger identifies the actual inspected ranges. Framework/gem configuration and source tests are evidence of implementation and intended contracts, not passing runtime results.</p>
+<h2 id="task-openproject-architecture-and-domain-model">Architecture and domain model</h2>
+<p><a href="repo/db/migrate/tables/work_packages.rb">The work-package table</a>, lines 31–68, stores project, type, subject, description, dates, status, assignee, author, responsible principal, effort/progress fields, parent and a nonnull lock version. <a href="repo/app/models/work_package.rb">The model</a>, lines 31–95, connects projects, principals, journals, storage links, repository changesets, pull requests and meeting context. Stable numeric records coexist with semantic identifier support. These are work records, rather than process/session records.</p>
+<p><a href="repo/app/models/project.rb">Project modeling</a>, lines 31–110, supports project/program/portfolio workspace types, members, groups, hierarchy, work packages, versions, phases, queries, forums, repository and wiki associations. Project/work-package permissions can differ; a human or technical account gains authority through roles and memberships. There is no need to invent a project out of a repository path, but agent-specific leadership continuity and supervision remain external responsibilities.</p>
+<p><a href="repo/app/services/shared/service_context.rb">Service context</a>, lines 31–72, runs updates within a user and notification context, using a model advisory-lock transaction when a model exists. <a href="repo/lib/open_project/mutex.rb">The mutex helper</a>, lines 31–94, names locks by model class and ID and passes transaction-scoped locking inside an ActiveRecord transaction. <a href="repo/app/services/base_services/base_contracted.rb">The base contracted writer</a>, lines 31–126, sequences validation, attribute setup, persistence and dependent effects. Failure results cause rollback through the context helper. This is a coherent place to enforce business transitions across entry points.</p>
+<p><a href="repo/app/services/work_packages/update_service.rb">The update service</a>, lines 31–203, also updates ancestors, reschedules related work, handles project/type changes and consolidates duplicate dependent updates. That depth has costs: completion and movement involve several domain objects and callbacks. A transaction boundary does not imply that every generated side effect, workflow override or plugin has the same policy as a direct user edit.</p>
+<h2 id="task-openproject-requirement-assessment">Requirement assessment</h2>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Requirement</th>
+<th scope="col">Verdict</th>
+<th scope="col">Mechanism and boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr id="task-openproject-t01">
+<td>T01</td>
+<td>Similar</td>
+<td>Projects, project/program/portfolio hierarchy, memberships, roles and project context provide native separation. Agent leadership continuity and supervision need integration.</td>
+</tr>
+<tr id="task-openproject-t02">
+<td>T02</td>
+<td>Similar</td>
+<td>Stable work-package IDs, SQL state, journals and context retain work. Closed status is a planning outcome, not a typed accepted execution result.</td>
+</tr>
+<tr id="task-openproject-t03">
+<td>T03</td>
+<td>Similar</td>
+<td>Parent hierarchy, subtask permissions, ancestor rollups and configurable cross-project links support decomposition. No accepted-child execution join is supplied.</td>
+</tr>
+<tr id="task-openproject-t04">
+<td>T04</td>
+<td>Similar</td>
+<td>Parent/cycle contracts, relation reachability, blocker-aware closure and scheduling rules are substantive. They do not reserve ready work, and type-changing paths have narrower checks.</td>
+</tr>
+<tr id="task-openproject-t05">
+<td>T05</td>
+<td>Resembles</td>
+<td>Users/principals, credentials and authorship are distinct from tasks. The reviewed task protocol has no native worker runtime/session/current-attempt model.</td>
+</tr>
+<tr id="task-openproject-t06">
+<td>T06</td>
+<td>Similar</td>
+<td>Structured HTTP API and native MCP tools support work operations. MCP requires an enabled Enterprise entitlement/configuration; tool annotations are not delivery guarantees.</td>
+</tr>
+<tr id="task-openproject-t07">
+<td>T07</td>
+<td>Resembles</td>
+<td>Optimistic versions and model locks protect edits. Assignment does not require an unowned task, an eligible execution worker or an exclusive lease.</td>
+</tr>
+<tr id="task-openproject-t08">
+<td>T08</td>
+<td>Resembles</td>
+<td>Sprints, effort, assignment and controlled batch planning support work allocation. They do not enforce agent execution capacity or WIP admission.</td>
+</tr>
+<tr id="task-openproject-t09">
+<td>T09</td>
+<td>Resembles</td>
+<td>Hierarchy and rollups represent delegated work. The reviewed source does not launch subagents, join their accepted results or keep a parent open until that join.</td>
+</tr>
+<tr id="task-openproject-t10">
+<td>T10</td>
+<td>Similar</td>
+<td>Descriptions, custom fields, journals, attachments, storage/revision/PR links and project context are native. Review is not bound to a required immutable result/attempt tuple.</td>
+</tr>
+<tr id="task-openproject-t11">
+<td>T11</td>
+<td>Similar</td>
+<td>Notes, progress, causes and journals retain updates and handoff context. A typed successor acknowledgement or execution result envelope requires added policy.</td>
+</tr>
+<tr id="task-openproject-t12">
+<td>T12</td>
+<td>Similar</td>
+<td>Mentions, watchers, persistent recipient notifications and delayed delivery jobs support communication. A notification read flag is not work acceptance or exactly-once event delivery.</td>
+</tr>
+<tr id="task-openproject-t13">
+<td>T13</td>
+<td>Resembles</td>
+<td>Blockers, comments, statuses, responsible principals and reminders can express escalation. The reviewed lifecycle has no typed question/decision-owner/answer/resume protocol.</td>
+</tr>
+<tr id="task-openproject-t14">
+<td>T14</td>
+<td>Absent</td>
+<td>Scheduling and notification jobs operate on dates and records. No worker heartbeat, expiring task ownership or stale execution discovery was found in the inspected task interfaces/model.</td>
+</tr>
+<tr id="task-openproject-t15">
+<td>T15</td>
+<td>Similar</td>
+<td>Missing/stale lock versions are rejected, and selected batch operations use ordered locks/revalidation. A current-attempt fence and universal create/comment idempotency remain absent from these paths.</td>
+</tr>
+<tr id="task-openproject-t16">
+<td>T16</td>
+<td>Resembles</td>
+<td>Transactions, durable records, deletion planning and sprint movement recover or reorganize planning state. They do not stop/resume external agents or reject every surviving old worker.</td>
+</tr>
+<tr id="task-openproject-t17">
+<td>T17</td>
+<td>Similar</td>
+<td>Shared PostgreSQL and transaction-scoped advisory locks support edits from multiple application hosts. Offline exclusive claims and control-plane availability were not established.</td>
+</tr>
+<tr id="task-openproject-t18">
+<td>T18</td>
+<td>Similar</td>
+<td>SQL-backed journals, associated snapshots, actors and causes support inspection. Configurable journal aggregation and system/empty-contract paths preclude treating every record as immutable acceptance evidence.</td>
+</tr>
+<tr id="task-openproject-t19">
+<td>T19</td>
+<td>Similar</td>
+<td>Detail, schema-driven fields, descriptions, project navigation, search, boards and activity support human inspection. Product desktop/mobile/keyboard/accessibility behavior was not executed.</td>
+</tr>
+<tr id="task-openproject-t20">
+<td>T20</td>
+<td>Similar</td>
+<td>Backlogs, sprints/goals, versions, milestones, dates, progress rollups and boards provide substantial planning depth. Sprint completion is distinct from completing all work.</td>
+</tr>
+<tr id="task-openproject-t21">
+<td>T21</td>
+<td>Similar</td>
+<td>Role/type workflow transitions, readonly statuses and blocker-aware closure provide real gates. Accepted children, verification evidence and result-version-bound reviewer approval require additions.</td>
+</tr>
+<tr id="task-openproject-t22">
+<td>T22</td>
+<td>Similar</td>
+<td>Authentication scopes, hashed expirable API tokens, membership/field permissions and visibility checks govern records. Credentials are user authority, not execution-attempt rights; system overrides remain explicit exceptions.</td>
+</tr>
+<tr id="task-openproject-t23">
+<td>T23</td>
+<td>Similar</td>
+<td>Contracts, custom fields/types/workflows, plugin hooks, MCP configuration and webhooks provide extension points. Enforced agent semantics must live in the authoritative writers.</td>
+</tr>
+<tr id="task-openproject-t24">
+<td>T24</td>
+<td>Similar</td>
+<td>Rails/PostgreSQL, GoodJob and container variants provide self-hosting paths. Build/runtime versions, migrations, assets, worker service, secrets, storage and edition settings add operating work.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="task-openproject-create-select-edit-and-assign">Create, select, edit and assign</h2>
+<p><a href="repo/lib/api/v3/work_packages/work_packages_api.rb">API routing</a>, lines 31–105, exposes collection reads/create, visible work-package detail, updates, deletion and related resources. <a href="repo/app/services/work_packages/create_service.rb">Creation</a>, lines 31–127, sets attributes through a contract, saves, updates ancestors, reschedules related packages and attempts to add the creating user as watcher. <a href="repo/app/contracts/work_packages/create_contract.rb">The create contract</a>, lines 30–74, requires project add rights and applies field permissions. A new default model is created for a normal call. The MCP create tool explicitly declares itself non-idempotent; retrying a request is not equivalent to retrieving its prior result.</p>
+<p><a href="repo/app/services/mcp_tools/search_work_packages.rb">MCP search</a>, lines 31–143, filters visible work packages by project, assignee, status, type, subject, labels and versions. <a href="repo/app/services/mcp_tools/search_tool.rb">The search machinery</a>, lines 95–138, applies filters and pagination; the base tool defines a page size of 40. Null assignee search is useful for finding unassigned work. It is a snapshot query, not acquisition of those records.</p>
+<p><a href="repo/app/services/mcp_tools/update_work_package.rb">MCP updating</a>, lines 31–90, requires <code>lockVersion</code>, loads a visible record and calls the common UpdateService. <a href="repo/lib/api/v3/work_packages/parse_params_service.rb">API parsing</a>, lines 31–58, converts missing lock version into nil. <a href="repo/app/contracts/work_packages/update_contract.rb">The update contract</a>, lines 30–125, rejects nil or changed lock versions and checks visibility and edit/move permissions. <a href="repo/app/services/base_services/write.rb">Persistence</a>, lines 31–84, saves the versioned model. These mechanisms protect against ordinary stale edits; the database lock version remains relevant if another edit committed after the model was loaded.</p>
+<p>This is a useful building block for an agent claim, but not that claim itself. <a href="repo/app/contracts/work_packages/base_contract.rb">Assignee fields</a>, lines 91–115, validate visible assignable principals. They do not require a previously unassigned task, a live worker runtime, remaining capacity or a current attempt token. The model permits one assigned principal and another responsible principal, each potentially representing a user/group. <a href="repo/app/models/work_package.rb">Default assignment</a>, lines 667–672, can come from the category. An authorized editor can reassign a task while an earlier external worker continues. Rejecting the worker's old lock version helps, but a worker that reloads the record can regain ordinary edit capability without proving it still owns execution.</p>
+<p><a href="repo/app/services/base_services/base_contracted.rb">Contracted updates</a>, lines 54–80, and the shared context combine the primary edit with dependent results. <a href="repo/app/contracts/work_packages/update_contract.rb">Project movement</a>, lines 92–125, checks source rights as well as target-side field rights. <a href="repo/app/services/work_packages/update_service.rb">Dependent updates</a>, lines 69–144 and 171–203, use dedicated contracts and consolidate related changes before saving. These are deliberate collaboration controls. They should be reused for a coordinator integration, rather than bypassed through raw database status/assignee writes.</p>
+<h2 id="task-openproject-hierarchy-relation-rules-and-completion-boundaries">Hierarchy, relation rules and completion boundaries</h2>
+<p><a href="repo/app/contracts/work_packages/base_contract.rb">Parent validation</a>, lines 300–359, checks existence, milestone suitability, self/descendant relationships, project policy and permission to manage the parent. <a href="repo/app/models/work_packages/scopes/relatable.rb">Relatability</a>, lines 179–226 and 256–285, excludes the work package itself, existing/incompatible links and transitive paths through a recursive query. <a href="repo/app/contracts/relations/base_contract.rb">Relation contracts</a>, lines 31–118, require visible/manageable endpoints and reject nonrelatable endpoint changes. Relations therefore have more semantics than decorative blocker labels.</p>
+<p>There is a precise coverage boundary. The relation contract's <code>relation_changed?</code> checks changes to the two endpoints, not <code>relation_type</code>. <a href="repo/app/contracts/relations/update_contract.rb">The update contract</a>, lines 31–57, keeps endpoints immutable except swaps. <a href="repo/app/services/mcp_tools/update_work_package_relation.rb">The MCP update tool</a>, lines 31–101, nevertheless permits changing type while retaining endpoints. A type-only change between canonical types does not run the same circular-dependency validation. <a href="repo/app/models/relation.rb">Model normalization</a>, lines 104–140 and 211–219, swaps endpoints only for reverse types. This is a source-level validation gap; concurrent graph edits and an actual cycle insertion were not exercised. Do not generalize the existence of a cycle check into proof that every relation mutation preserves an acyclic graph.</p>
+<p><a href="repo/app/models/work_package.rb">Blocking</a>, lines 231–247, finds still-open blocker packages. <a href="repo/app/contracts/work_packages/base_contract.rb">Normal allowed-status calculation</a>, lines 708–768, combines workflow transitions with the current state and removes closed statuses while blocked. This can prevent an ordinary closure while a blocker remains open. It does not prevent all open-state progress or assignment, so it is not a ready-queue admission rule for execution.</p>
+<p><a href="repo/app/contracts/work_packages/base_contract.rb">Workflow validation</a>, lines 188–204 and 361–373, uses the original persisted status to avoid skipping ordinary intermediate transitions. Roles, author/assignee conditions and type-variant workflow rows determine available states. There is a type-change exception: the transition validator bypasses its predecessor check when type changes. <a href="repo/app/services/work_packages/set_attributes_service.rb">Type reassignment</a>, lines 459–473, uses the destination type's available statuses and retains an already available target status. The report therefore attributes blocker/role transition enforcement to the normal path, not to every compound type/status update.</p>
+<p><a href="repo/app/contracts/work_packages/base_contract.rb">Readonly-state rules</a>, lines 654–674, limit writes in an already readonly status to status transitions. This is a real controlled-edit mechanism. It does not bind a review decision to an immutable execution result. Native workflow configuration can represent review, but a closed status alone proves neither test success nor acceptance of the exact artifacts produced by a particular worker attempt.</p>
+<p><a href="repo/app/services/work_packages/update_ancestors_service.rb">Ancestor updating</a>, lines 31–151, derives effort, remaining work and progress across the hierarchy, with weighted or simple-average modes. <a href="repo/app/services/work_packages/set_attributes_service/derive_progress_values_status_based.rb">Status-based progress</a>, lines 31–82, can derive percent complete from status and remaining work from that percentage. These are progress calculations. The inspected normal close contract does not require a parent to join accepted child results.</p>
+<p>Duplicate closure is another explicit exception. <a href="repo/app/models/work_package.rb">The model callback</a>, lines 139–145, runs duplicate closure before save. <a href="repo/app/models/work_package.rb">Its implementation</a>, lines 673–695, updates duplicates as <code>User.system</code> with <code>EmptyContract</code> and records a duplicate-closure cause, logging a failure rather than making it the initiating package's accepted result. Regular user workflow/readiness rules cannot be assumed to gate that secondary closure. This is a business automation path, not a reviewer decision for each duplicate's current execution.</p>
+<h2 id="task-openproject-planning-and-alternate-mutation-paths">Planning and alternate mutation paths</h2>
+<p><a href="repo/app/models/version.rb">Versions</a>, lines 31–110, have project sharing, open/locked/closed state, dates and targeted work packages. <a href="repo/modules/backlogs/app/models/sprint.rb">Sprints</a>, lines 31–122, have goals, planning/active/completed state, date requirements and configurable active-sprint limits. <a href="repo/modules/boards/app/models/boards/grid.rb">Boards</a>, lines 31–79, retain project, linked planning object, query-backed content and free/action board types. These are substantial planning capabilities; their limits concern planning structure, not the count of concurrent agent executions.</p>
+<p><a href="repo/modules/backlogs/app/services/backlogs/work_packages/update_service.rb">Backlog single-item movement</a>, lines 31–91, wraps common work-package updating and list reordering in a transaction, re-raising rollback when the nested result fails. <a href="repo/modules/backlogs/app/services/backlogs/work_packages/batch_update_service.rb">Batch movement</a>, lines 31–245, uses a separate savepoint, declares a 50-item limit, orders lifecycle/member locks, serializes placement and revalidates the cohort and destination. Members are reloaded before sequential movement, and final records are reloaded before callbacks observe them. This is stronger implementation evidence than assuming a board drag is merely a sequence of unrelated PATCHes. It still does not reserve agent capacity or join completed results.</p>
+<p><a href="repo/modules/backlogs/app/services/backlogs/sprints/finish_service.rb">Finishing a sprint</a>, lines 31–101, can move open work to another sprint or backlog and mark the sprint completed. The completion timestamp is prepared before moving work to preserve burndown meaning. This is an appropriate distinction between ending an iteration and completing its remaining tasks. An integration should retain that distinction when reporting project delivery.</p>
+<p><a href="repo/app/services/work_packages/delete_service.rb">Deletion</a>, lines 31–128, plans descendant deletion or detachment, validates deletability, updates related/ancestor scheduling and removes associated notifications. It also reloads and retries a stale descendant destruction. This manages shared records and hierarchy, not a worker process. Deleting or closing work cannot undo an external commit, network call or tool action already issued by an agent.</p>
+<h2 id="task-openproject-journals-communication-and-asynchronous-effects">Journals, communication and asynchronous effects</h2>
+<p><a href="repo/lib_static/plugins/acts_as_journalized/lib/acts/journalized/save_hooks.rb">Journal save hooks</a>, lines 50–107, run after model save, create journal data and send a journal-created event. <a href="repo/app/services/journals/create_service.rb">Journal creation</a>, lines 44–111 and 209–231, uses a journal transaction and a composed SQL statement for snapshot changes. Associated snapshot data include context beyond plain notes. This gives durable inspection integrated with the work record's save path, rather than only a transient activity stream.</p>
+<p>History is deliberately aggregatable. <a href="repo/app/services/journals/create_service.rb">Aggregation rules</a>, lines 592–641, require an enabled time window, same user and compatible note, restriction and cause. <a href="repo/app/services/journals/create_service/helpers.rb">Predecessor cleanup</a>, lines 41–62, can delete prior snapshot data for the aggregated record before replacement. The journal ID can remain useful for navigation while its content changes. It is therefore unsuitable as an immutable acceptance reference without an added revision/content binding.</p>
+<p><a href="repo/app/services/mcp_tools/create_work_package_comment.rb">MCP comments</a>, lines 31–75, add public/internal notes through <a href="repo/app/services/add_work_package_note_service.rb">the note service</a>, lines 31–91. That service validates permissions within model context, saves journals and handles attachment claims. Comments and actor/cause records make practical handoffs possible. They are not a typed question-answer protocol, successor acknowledgement or proof that a parent incorporated an agent result.</p>
+<p><a href="repo/config/initializers/subscribe_listeners.rb">Event subscription</a>, lines 31–72, schedules work-package follow-up logic, notification creation and journal-completion jobs. <a href="repo/lib_static/open_project/notifications.rb">The event facade</a>, lines 30–88, uses in-process ActiveSupport notifications; it is not itself a durable consumer queue. <a href="repo/config/application.rb">Application job configuration</a>, lines 201–219, uses external GoodJob workers, preserves job records and disables automatic retry of unhandled errors. Specific jobs can define narrower retry policies. This review does not certify every event-to-job crash boundary or adapter transaction behavior.</p>
+<p><a href="repo/app/workers/notifications/workflow_job.rb">Notification workflow</a>, lines 53–96, creates notifications before sending mail, sends eligible mentions promptly and schedules later alerts after aggregation. <a href="repo/app/workers/journals/completed_job.rb">Journal completion jobs</a>, lines 31–87, compare journal ID and update timestamp so an outdated aggregation job does not finalize a superseded snapshot. <a href="repo/app/services/notifications/create_from_model_service.rb">Recipient notification creation</a>, lines 65–140, creates or updates existing per-journal/recipient records and removes recipients no longer selected. These are substantive asynchronous lifecycle mechanisms, not worker heartbeat or task-attempt fences.</p>
+<p><a href="repo/app/models/notification.rb">Stored notifications</a>, lines 31–74, retain reason, actor, recipient, journal/resource and delivery state, with push scheduled after commit. <a href="repo/app/models/notifications/scopes/visible.rb">Visibility</a>, lines 31–46, requires both the recipient and current access to the work package. <a href="repo/lib/api/v3/notifications/notifications_api.rb">The notification API</a>, lines 31–112, scopes individual reads and read/unread changes, and offers filtered bulk actions. Later inspection can recover missed interface events. A read marker does not acknowledge accepted work or guarantee prior email/push delivery.</p>
+<p><a href="repo/modules/webhooks/app/workers/represented_webhook_job.rb">Outgoing represented webhooks</a>, lines 31–101, check configured project acceptance, serialize a system-user view and optionally sign the body. <a href="repo/modules/webhooks/app/services/webhooks/outgoing/request_webhook_service.rb">Sending</a>, lines 31–98, uses the SSRF-protection wrapper, records response/error details and re-raises selected network timeouts. <a href="repo/modules/webhooks/app/workers/webhook_job.rb">The job policy</a>, lines 31–46, retries selected timeout classes up to three attempts. Other logged outcomes are not proof that a receiver processed an event. A coordinator needs its own acknowledgement and reconciliation contract.</p>
+<h2 id="task-openproject-identity-human-inspection-and-operation">Identity, human inspection and operation</h2>
+<p><a href="repo/config/initializers/warden.rb">Authentication registration</a>, lines 31–62, distinguishes API and MCP scopes and their allowed strategies. <a href="repo/lib_static/open_project/authentication/strategies/warden/user_api_token.rb">The API-token strategy</a>, lines 31–82, requires token authentication to be enabled, resolves a token and rejects inactive users. <a href="repo/app/models/token/named.rb">Token inheritance</a>, lines 31–40, uses hashed tokens; <a href="repo/app/models/token/hashed_token.rb">hash lookup</a>, lines 49–110, supports peppered HMAC and legacy upgrade. <a href="repo/app/models/token/expirable.rb">Expiry</a>, lines 31–82, rejects expired tokens. These credentials identify user authority. They do not identify the task attempt currently allowed to execute or revoke every old worker when assignment changes.</p>
+<p><a href="repo/app/services/mcp_tools/base.rb">MCP tool handling</a>, lines 112–157, obtains current user from server context and formats plain/structured responses. Read-only/idempotent annotations are hints about an operation, rather than transaction identifiers or replay protection. The update tool's lock-version requirement is a useful agent-facing instruction: re-read conflicts and reason about the changed state. It is not authorization to overwrite a new owner's work after re-reading.</p>
+<p><a href="repo/frontend/src/app/shared/components/fields/changeset/resource-changeset.ts">The browser changeset</a>, lines 175–215 and 395–465, serializes form refreshes, carries lock version and applies schema-writable changes. <a href="repo/frontend/src/app/features/work-packages/components/wp-edit/work-package-changeset.ts">Work-package specialization</a>, lines 34–123, refreshes forms after project/type changes and avoids sending unedited descriptions/generated subjects. It also emits a work-package-updated event when a local value is set, with a source comment acknowledging that this can precede persistence. Interface refresh signals must not be treated as committed progress events.</p>
+<p><a href="repo/frontend/src/app/features/work-packages/components/wp-single-view/wp-single-view.component.html">Detail markup</a>, lines 1–115, connects state, author, last-update time, description, project navigation and schema-driven attribute groups. <a href="repo/frontend/src/app/features/work-packages/components/wp-single-view/wp-single-view.component.ts">Layout selection</a>, lines 309–331, changes column layout by available width. These are useful inspection provisions. Their presence does not establish successful keyboard, screen-reader, mobile or large-project browser operation; none was executed in this review.</p>
+<p><a href="repo/Gemfile.lock">Pinned dependency data</a>, lines 1248–1266 and 1558–1568, identifies Rails 8.1.4 and with_advisory_lock 7.6.0. <a href="repo/.ruby-version">Ruby selection</a> specifies 4.0.9; <a href="repo/package.json">the Node/npm manifest</a>, lines 1–25, declares project-specific engines. <a href="repo/docker/prod/Dockerfile">Production container variants</a>, lines 1–62 and 102–172, provide slim and all-in-one images, persisted assets and, for all-in-one, PostgreSQL data. Slim startup and external worker services remain deployment responsibilities; these files were inspected, not built.</p>
+<p>The root <a href="repo/docker-compose.yml">Compose file</a>, lines 1–100, is a development stack and explicitly redirects production Compose users elsewhere. It must not be presented as a verified production installation. PostgreSQL, migrations, persistent assets/attachments, configuration/secrets, cache, GoodJob workers, mail and optional collaboration services form the operating boundary. Back up and restore that boundary together, and verify matching application/worker versions. The database edit mutex supports several application hosts sharing PostgreSQL; it does not provide disconnected/offline ownership or prove high availability.</p>
+<h2 id="task-openproject-test-source-evidence-and-adoption-work">Test-source evidence and adoption work</h2>
+<p><a href="repo/spec/contracts/work_packages/update_contract_spec.rb">Lock-version contract tests</a>, lines 77–100, reject nil/changed versions and accept an unchanged version. <a href="repo/spec/requests/api/v3/work_packages/update_resource_spec.rb">API request examples</a>, lines 1128–1156, construct missing and stale version requests; <a href="repo/spec/requests/api/v3/support/response_examples.rb">their shared response</a>, lines 191–196, specifies HTTP 409 UpdateConflict. <a href="repo/spec/contracts/work_packages/base_contract_spec.rb">Blocker tests</a>, lines 1697–1711, assert removal of closed statuses using a mocked blocker predicate. <a href="repo/spec/contracts/work_packages/create_contract_parent_authorization_spec.rb">Parent authorization tests</a>, lines 31–88, check rights in the parent's project as well as the child's.</p>
+<p><a href="repo/modules/backlogs/spec/services/backlogs/work_packages/batch_update_service_concurrency_spec.rb">Batch concurrency test source</a>, lines 93–158, uses threads, database connections, barriers and a final order assertion for two disjoint batches entering one empty target. This is a meaningful intended concurrency scenario, rather than two merely sequential calls. It was not run. These selected tests do not certify all alternate type/relation mutations, graph races, plugin effects, job delivery or external agent execution.</p>
+<p>Retain the common contracts, transactional service context, optimistic conflict handling, hierarchy checks, journals and native planning views. Add atomic claim admission on eligible/unowned work, attempt-scoped mutation rights, capacity, heartbeats and recovery. Keep execution completion, parent result acceptance, iteration end and human delivery acceptance separate. Close relation/type-change policy gaps where acyclicity or blocker gating is required. Make system/empty-contract overrides visible and bind review to immutable result revisions. Verify edition availability, deployment/restore, concurrent agents, failed delivery, external cancellation and representative human workflows before making the combined system the sole agent work authority.</p></article><nav class="report-switch" aria-label="Task study navigation"><a href="../index.html">Return to the task comparison</a><a href="../muster/index.html">Previous: Muster</a><a href="../paperclip/index.html">Next: Paperclip</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../../index.html">Return to overview <img src="../../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

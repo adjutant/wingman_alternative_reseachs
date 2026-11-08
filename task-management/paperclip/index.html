@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Agent organization, native run authority and recovery"><title>Paperclip · task management · Wingman Research</title>
+<link rel="icon" href="../../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/report.css"><script defer src="../../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../../index.html"><img src="../../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../../index.html">Overview</a><a class="nav-link " href="../../generic/index.html">Architecture findings</a><a class="nav-link " href="../../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../../generic/method.html">Method and evidence</a><a class="nav-link active" href="../index.html" aria-current=page>Agent task management</a><a class="nav-link " href="../../generic/task-coordination.html">Initial task screening</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>Two source studies</strong><p>75 organization snapshots.<br>25 task coordination codebases.<br>Evidence at pinned revisions.</p><a href="../../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../../index.html">Wingman Research</a><span class="crumb">/</span><span>Paperclip · task management</span></div><span class="topbar-note">SOURCE REVIEW · 09 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Paperclip · task management</h1><p class="subtitle">Agent organization, native run authority and recovery</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#task-paperclip-paperclip-an-agent-work-authority-with-distinct-runtime-guarantees">Paperclip: an agent work authority with distinct runtime guarantees</a><a href="#task-paperclip-fit-decision">Fit decision</a><a href="#task-paperclip-scope-and-evidence-level">Scope and evidence level</a><a href="#task-paperclip-architecture-and-authority">Architecture and authority</a><a href="#task-paperclip-requirement-assessment">Requirement assessment</a><a href="#task-paperclip-create-select-and-claim">Create, select and claim</a><a href="#task-paperclip-ownership-capacity-and-alternate-writers">Ownership, capacity and alternate writers</a><a href="#task-paperclip-progress-review-and-completion">Progress, review and completion</a><a href="#task-paperclip-stop-recovery-and-communication">Stop, recovery and communication</a><a href="#task-paperclip-usability-implementation-depth-and-operation">Usability, implementation depth and operation</a></div></nav><article class="technical"><h2 id="task-paperclip-paperclip-an-agent-work-authority-with-distinct-runtime-guarantees">Paperclip: an agent work authority with distinct runtime guarantees</h2>
+<p class="url-text">Source: https://github.com/paperclipai/paperclip</p>
+<p>Reviewed commit: <code>46fb933b0155d183ce64a8bdc4950d1b58c926f6</code>.
+Assessment date: November 9, 2026.
+Baseline: <a href="../purpose.html">Shared task management for an agent organization</a>.
+Evidence ledger: <a href="assessment/review.json">review.json</a>.</p>
+<h2 id="task-paperclip-fit-decision">Fit decision</h2>
+<p>Paperclip implements much of the desired agent organization directly. Companies contain projects, goals, agents and issues. Tasks connect responsibility to execution runs, sessions, workspace context, discussion, dependencies and results. The native runner adds bound mutation authority, durable operation receipts, completion contracts, evidence assessment, status decisions and recovery records. These are substantive coordination mechanisms rather than a board that merely launches a coding session.</p>
+<p>The guarantees depend on the execution profile and entry point. Native runner tools have stronger current-run and replay checks than an ordinary legacy write. A durable parent relationship does not require every child result to be accepted before its parent finishes. Per-agent dispatch controls do not establish cluster-wide project capacity. Completion can use an agent-claim policy unless a stronger review policy is configured.</p>
+<p>Treat this as a serious integrated candidate for the shared authority. Adoption still requires selecting one execution policy, governing alternate writers, defining child acceptance and validating recovery across the intended hosts. Do not transfer native-runner guarantees to every adapter or API caller. The inspected <a href="../../paperclip/repo/LICENSE">license</a>, lines 1–21, grants MIT rights subject to its notice and disclaimer.</p>
+<h2 id="task-paperclip-scope-and-evidence-level">Scope and evidence level</h2>
+<p>The preserved checkout has 14,032 tracked files. This targeted static review follows issue creation, child creation, dependency checks, checkout, update, native tool mutations, completion policy, cancellation and selected recovery paths. It inspects agent/run/task schemas, authentication branches, per-agent dispatch, the project-admission boundary, documents, activity persistence, durable interaction/delivery records, representative CLI/browser source and server database startup. Selected test assertions were read.</p>
+<p>No candidate application, dependency installation, build, migration or test was executed. The ledger records the actual inspected ranges. This is not an every-line audit of providers, remote runners, plugins, chat transports, all bulk/import/admin routes, workspace finalization, all approval and budget paths, deployment, accessibility, performance or production races. The historical Wingman report remains separate from this task-management assessment.</p>
+<h2 id="task-paperclip-architecture-and-authority">Architecture and authority</h2>
+<p><a href="../../paperclip/repo/packages/db/src/schema/projects.ts">Projects</a>, lines 1–43, retain company, name, description, status and leadership context. <a href="../../paperclip/repo/packages/db/src/schema/agents.ts">Agents</a>, lines 1–60, have durable identity, reporting relationships, adapter/runtime configuration and budget-related fields. <a href="../../paperclip/repo/packages/db/src/schema/issues.ts">Issues</a>, lines 35–110, retain hierarchy, assignment, execution linkage, source context and policy. Project leadership, agent identity and task ownership are related records, rather than interchangeable names for a process.</p>
+<p><a href="../../paperclip/repo/packages/db/src/schema/heartbeat_runs.ts">Heartbeat runs</a>, lines 1–107, record the execution attempt, runtime/session/controller data, context and terminal information. <a href="../../paperclip/repo/packages/db/src/schema/completion_contracts.ts">Completion contracts</a>, lines 1–59, retain revisioned policy and content hashes. This gives the native path a durable foundation for reasoning about which attempt and which contract produced an outcome.</p>
+<p>Runtime selection is a material boundary. <a href="../../paperclip/repo/server/src/services/native-runtime/runtime-mode.ts">Profile resolution</a>, lines 1–175, selects native execution through the <code>paperclip_runner</code> adapter and checks rollout, provider, work mode and agent status. A direct adapter can remain on the legacy profile even when configuration contains older native settings. The report therefore separates native tools and finalization from shared issue services and legacy mutation guards.</p>
+<p>The design uses PostgreSQL transactions and explicit modules for authority, completion, evidence and recovery. Some central issue, route and runner-authority files are very large. This does not prove a defect, but it raises the cost of auditing alternate paths and keeping policy consistent. The code's own execution-admission boundary is a useful example of resisting a premature public guarantee: storage exists before enforcement is enabled.</p>
+<h2 id="task-paperclip-requirement-assessment">Requirement assessment</h2>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Requirement</th>
+<th scope="col">Verdict</th>
+<th scope="col">Mechanism and boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr id="task-paperclip-t01">
+<td>T01</td>
+<td>Similar</td>
+<td>Company/project records and responsible agents separate concurrent work. Full isolation across every plugin and import path was not audited.</td>
+</tr>
+<tr id="task-paperclip-t02">
+<td>T02</td>
+<td>Similar</td>
+<td>Durable issues, state, context and run/result records identify work across conversations. A done status is subject to the configured completion policy.</td>
+</tr>
+<tr id="task-paperclip-t03">
+<td>T03</td>
+<td>Similar</td>
+<td>Parent/child records, child creation and durable origin/idempotency references preserve decomposition. Lineage alone is not an accepted-child join.</td>
+</tr>
+<tr id="task-paperclip-t04">
+<td>T04</td>
+<td>Similar</td>
+<td>Blocker readiness, dependency edges and cycle traversal exist. Cancellation does not automatically resolve a blocker; workspace finalization can keep done work unready.</td>
+</tr>
+<tr id="task-paperclip-t05">
+<td>T05</td>
+<td>Similar</td>
+<td>Durable agent, issue, run, session, controller and contract identities are distinct. Legacy callers have a weaker attempt-binding contract.</td>
+</tr>
+<tr id="task-paperclip-t06">
+<td>T06</td>
+<td>Similar</td>
+<td>HTTP routes, CLI checkout/release and bound native tools expose structured operations. Interface availability does not make their enforcement identical.</td>
+</tr>
+<tr id="task-paperclip-t07">
+<td>T07</td>
+<td>Similar</td>
+<td>Conditional checkout has a single-winner database predicate. General edits and privileged/legacy paths need their own ownership policy.</td>
+</tr>
+<tr id="task-paperclip-t08">
+<td>T08</td>
+<td>Similar</td>
+<td>Queued dispatch checks per-agent concurrency and invocation budgets. The start lock is process-local; project-admission storage is not an enabled maximum-enforcement feature.</td>
+</tr>
+<tr id="task-paperclip-t09">
+<td>T09</td>
+<td>Similar</td>
+<td>Native child creation, optional dependency links and parent wake effects support delegation. Native creation explicitly leaves automatic parent blocking off.</td>
+</tr>
+<tr id="task-paperclip-t10">
+<td>T10</td>
+<td>Similar</td>
+<td>Workspace/run context, revisioned documents and work-product references retain evidence. Reference validity is not independent verification of artifact quality.</td>
+</tr>
+<tr id="task-paperclip-t11">
+<td>T11</td>
+<td>Similar</td>
+<td>Results, assessment records, comments and activity support durable handoff. A returned provider response and an accepted outcome remain distinct.</td>
+</tr>
+<tr id="task-paperclip-t12">
+<td>T12</td>
+<td>Similar</td>
+<td>Durable interactions, response-delivery records and a delivery coordinator support later processing. Every transport's acknowledgement and replay behavior was not audited.</td>
+</tr>
+<tr id="task-paperclip-t13">
+<td>T13</td>
+<td>Similar</td>
+<td>Blockers, human-input operations and retained thread interactions represent decisions without requiring completion. Complete end-to-end external channel delivery remains unverified.</td>
+</tr>
+<tr id="task-paperclip-t14">
+<td>T14</td>
+<td>Similar</td>
+<td>Controller/run ownership, leases and checkpoints support stale-work discovery. Recovery deliberately holds some ambiguous or still-owned executions.</td>
+</tr>
+<tr id="task-paperclip-t15">
+<td>T15</td>
+<td>Similar</td>
+<td>Native tools bind the current run and use transactional receipts; native status decisions use version checks. Cancellation guards and reusable-key headers are not universal current-attempt validation.</td>
+</tr>
+<tr id="task-paperclip-t16">
+<td>T16</td>
+<td>Similar</td>
+<td>Stop records write revocation before executor settlement; recovery checks identity and live ownership. Process stop, result acceptance and external side-effect reversal remain separate.</td>
+</tr>
+<tr id="task-paperclip-t17">
+<td>T17</td>
+<td>Similar</td>
+<td>A shared PostgreSQL authority and controller/runner identity support remote execution. Multi-server admission and live-owner recovery need deployment-specific validation.</td>
+</tr>
+<tr id="task-paperclip-t18">
+<td>T18</td>
+<td>Similar</td>
+<td>Attributed activity, decisions, assessments and receipt records retain evidence. Ordinary post-mutation audit calls do not all share the primary mutation transaction.</td>
+</tr>
+<tr id="task-paperclip-t19">
+<td>T19</td>
+<td>Similar</td>
+<td>Filtered issue lists and detail discussion/activity/related-work views support human inspection. Browser behavior and accessibility were not executed.</td>
+</tr>
+<tr id="task-paperclip-t20">
+<td>T20</td>
+<td>Resembles</td>
+<td>Backlog statuses, priorities, projects, goals and dependency planning support continuous work. The inspected task protocol does not establish a complete iteration/capacity planning workflow.</td>
+</tr>
+<tr id="task-paperclip-t21">
+<td>T21</td>
+<td>Similar</td>
+<td>Versioned contracts, evidence classification, status arbitration and optional exact-output human review exist. Default agent-claim completion is weaker than independently verified acceptance.</td>
+</tr>
+<tr id="task-paperclip-t22">
+<td>T22</td>
+<td>Similar</td>
+<td>Company/actor checks, signed run identity, bound native tools and explicit override paths provide authority controls. Not all legacy credentials have the same run binding.</td>
+</tr>
+<tr id="task-paperclip-t23">
+<td>T23</td>
+<td>Similar</td>
+<td>Adapter profiles, execution policies, tool interfaces and plugin events provide extension points. New writers must preserve the selected ownership and completion invariants.</td>
+</tr>
+<tr id="task-paperclip-t24">
+<td>T24</td>
+<td>Similar</td>
+<td>External or embedded PostgreSQL supports deployment choices. Node/pnpm requirements, database/assets/secrets/workspaces and runtime ownership add operating responsibilities. Installation and restore were not executed.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="task-paperclip-create-select-and-claim">Create, select and claim</h2>
+<p><a href="../../paperclip/repo/server/src/services/issues.ts">Child creation</a>, lines 9656–9729, can reuse a durable idempotency key, checks that it belongs to the same parent and validates reuse policy. <a href="../../paperclip/repo/server/src/services/issues.ts">The optional parent blocker</a>, lines 9770–9820, is a distinct operation. <a href="../../paperclip/repo/server/src/services/native-runtime/paperclip-runner-tool-authority.ts">Native task creation</a>, lines 1724–1825, constructs trust/review policy, assignment, origin identity and dependency context. It explicitly sets <code>blockParentUntilDone: false</code>.</p>
+<p>This distinction matters for delegation. An agent can create a child and continue coordinating other work. It cannot infer from that relationship that the server will hold the parent until all children have passed review. Use explicit blocking relationships where execution ordering is required, and define a separate result-acceptance rule when that is the desired parent contract.</p>
+<p><a href="../../paperclip/repo/server/src/services/issues.ts">Dependency readiness</a>, lines 2719–2803, treats unresolved blockers as an admission obstacle. A cancelled blocker is not equivalent to a done blocker. A nominally done prerequisite with pending workspace finalization can also remain unready. <a href="../../paperclip/repo/server/src/services/issues.ts">Cycle traversal</a>, lines 7598–7676, checks whether the proposed relation reaches its source. These are implemented graph rules; this static review does not certify every concurrent graph mutation or finalization race.</p>
+<p><a href="../../paperclip/repo/server/src/routes/issues.ts">The checkout route</a>, lines 16396–16519, checks issue access, project pause, agent self-checkout, assignment authority and run context, and handles workspace generation rules before calling the issue service. <a href="../../paperclip/repo/server/src/services/issues.ts">Checkout persistence</a>, lines 12168–12432, conditions the update on eligible state, assignment and execution ownership. It can adopt compatible existing checkout state and returns a conflict when another owner wins. This is materially stronger than an unassigned read followed by an unconditional assignee write.</p>
+<p><a href="../../paperclip/repo/cli/src/commands/client/issue.ts">The CLI commands</a>, lines 1294–1341, parse agent/expected-status input and call the same HTTP checkout endpoint; release calls the corresponding endpoint. The CLI does not create an independent local ownership store. This is useful for agents on different execution hosts that can reach the service.</p>
+<h2 id="task-paperclip-ownership-capacity-and-alternate-writers">Ownership, capacity and alternate writers</h2>
+<p><a href="../../paperclip/repo/server/src/routes/issues.ts">Route ownership checks</a>, lines 5645–5845, distinguish the actor's active checkout, unassigned work, allowed idle foreign work, watchdog scopes and override cases. The active own-checkout branch calls the ownership assertion. These branches must not be summarized as a requirement that every issue edit belongs to the current execution attempt. Human management and some service operations intentionally have different authority.</p>
+<p><a href="../../paperclip/repo/server/src/middleware/auth.ts">Signed run authentication</a>, lines 373–468, rejects a conflicting supplied run identifier and derives actor identity from the authenticated run context. <a href="../../paperclip/repo/server/src/middleware/auth.ts">The reusable agent-key branch</a>, lines 469–531, checks the agent/company/status and takes run attribution from a header. This is a different binding model. A header that records a run ID is not by itself proof that the credential belongs only to that run.</p>
+<p><a href="../../paperclip/repo/server/src/agent-run-cancellation.ts">The shared cancellation guard</a>, lines 1–38, locks the matching run for a share check and rejects revoked writes or yielded handoffs. It returns early when agent/run identity is absent, and a missing matching run is not itself a rejection. It also does not reject every non-cancelled terminal state. Treat it as a cancellation/handoff gate, rather than a universal validator of current execution authority.</p>
+<p>Native tools impose a stricter contract. <a href="../../paperclip/repo/server/src/services/native-runtime/paperclip-runner-tool-authority.ts">Locked mutation context and receipts</a>, lines 2650–2896, check company, agent, issue, execution run, running native state and actor eligibility. Operation replay checks input/operation consistency, and the mutation and result receipt share a transaction. These controls reduce duplicate business effects and stale native writes. They do not make an uncontrolled external tool action exactly once.</p>
+<p><a href="../../paperclip/repo/server/src/services/heartbeat/queue.ts">Queue dispatch</a>, lines 1898–1973, calculates available per-agent slots and selects queued work under a start lock. <a href="../../paperclip/repo/server/src/services/agent-start-lock.ts">That lock</a>, lines 1–48, is a process-local promise map, with a timeout while waiting. It is not a PostgreSQL lock that proves exclusive admission across server processes. <a href="../../paperclip/repo/server/src/services/heartbeat/queue.ts">Dispatch rechecks</a>, lines 868–909 and 2640–2672, include invokability and budget admission; blocked work can remain durably queued. <a href="../../paperclip/repo/server/src/services/budgets.ts">The budget wrapper</a>, lines 1359–1393, evaluates through a transaction. This review does not certify every cost settlement or budget hard-stop path.</p>
+<p><a href="../../paperclip/repo/server/src/modules/execution-admission/adapters/postgres.ts">Execution-admission persistence</a>, lines 1–112, locks project records in order and records admission charges. However, <a href="../../paperclip/repo/server/src/modules/execution-admission/application/policy.ts">its application policy</a>, lines 1–49, explicitly keeps commands internal and forbids route/tool/import updates until admission enforces the configured maximum. A table or policy field is therefore insufficient evidence of an available project-wide WIP limit.</p>
+<h2 id="task-paperclip-progress-review-and-completion">Progress, review and completion</h2>
+<p><a href="../../paperclip/repo/server/src/services/documents.ts">Document writes</a>, lines 350–405, require the base revision to match the current revision before creating the next one. <a href="../../paperclip/repo/packages/db/src/schema/issue_work_products.ts">Work-product records</a>, lines 1–55, connect task evidence to the shared authority. This supports precise handoffs without assuming the next worker still has the previous conversation in memory.</p>
+<p><a href="../../paperclip/repo/server/src/services/native-runtime/completion-contracts.ts">Completion-contract creation</a>, lines 148–236, uses a task-scoped transaction lock and revision/hash identity. <a href="../../paperclip/repo/server/src/services/native-runtime/completion-contracts.ts">Policy selection</a>, lines 80–114, is significant: policies other than <code>human_only</code> and <code>not_creator</code> can select the low-risk agent-claim path. The term low risk here is a policy classification, not proof that the server performed a semantic analysis of the task's consequences.</p>
+<p><a href="../../paperclip/repo/server/src/services/native-runtime/evidence-classifier.ts">Evidence classification</a>, lines 1–100 and 105–183, distinguishes proposed provider output from durable control-plane evidence. <a href="../../paperclip/repo/server/src/services/native-runtime/evidence-classifier.ts">Criterion/verification aggregation</a>, lines 261–407, supplies completion assessment inputs. This is stronger than trusting a successful provider exit. It still depends on which references and policies the workflow requires.</p>
+<p><a href="../../paperclip/repo/server/src/services/native-runtime/status-arbiter.ts">Status arbitration</a>, lines 343–422, checks unresolved dependencies, required quality review, assessment outcomes and pending child-completion delivery. Under agent-claim policy, claimed criteria can permit completion without every evidence/verification item independently passing, provided the other failure/attention/blocking conditions are clear. This is a deliberate lightweight policy and must not be presented as mandatory independent verification.</p>
+<p><a href="../../paperclip/repo/server/src/services/required-quality-review.ts">Required quality review</a>, lines 1–119, supplies a stronger opt-in gate. It protects the requirement from agent removal and binds approval to the current non-plan output document revision or attachment asset and hash. Missing, changed, removed or unapproved output does not inherit a prior approval. <a href="../../paperclip/repo/server/src/services/issues.ts">The common issue writer</a>, lines 11393–11604, applies this gate before the done transition and includes run-write checks. It is more robust than putting a review instruction only in a prompt.</p>
+<p><a href="../../paperclip/repo/server/src/services/native-runtime/status-decision-committer.ts">Native decision commit</a>, lines 1610–1818, validates replay and uses current issue/contract/decision state and version predicates before applying a decision. <a href="../../paperclip/repo/server/src/services/native-runtime/status-decision-committer.ts">Decision effects</a>, lines 2330–2410 and 2420–2475, retain parent/dependent wakes and keyed delivery effects. A stopped provider, a committed status decision and a delivered wake remain separate states with different recovery work.</p>
+<p><a href="../../paperclip/repo/server/src/services/native-runtime/native-child-completion-delivery.ts">Child-completion delivery checks</a>, lines 1–29, concern undelivered fresh parent wake information. Holding completion until that information is delivered is useful. It is not the same rule as waiting for all active children or human acceptance of each child's result. The integration must specify which children are required and what constitutes their accepted output.</p>
+<h2 id="task-paperclip-stop-recovery-and-communication">Stop, recovery and communication</h2>
+<p><a href="../../paperclip/repo/server/src/services/heartbeat/run-control.ts">Stop intent</a>, lines 1206–1278, locks the issue/run transaction and records write revocation before waiting for the executor. <a href="../../paperclip/repo/server/src/services/heartbeat/run-control.ts">Executor settlement</a>, lines 1468–1516, distinguishes a native stop still awaiting recovery from completed termination, and uses process termination handling for local adapters. It cannot undo a network request or code change already issued outside the service.</p>
+<p><a href="../../paperclip/repo/server/src/services/native-runtime/native-controller-recovery.ts">Controller recovery</a>, lines 158–220, checks checkpoint binding across company, agent, issue, run, session and runner. Exhausted or unknown history can cause a hold rather than an unsafe restart. <a href="../../paperclip/repo/server/src/services/native-runtime/native-runner-ownership.ts">Runner ownership</a>, lines 1–81, also retains ambiguous executions for reconciliation. <a href="../../paperclip/repo/server/src/services/heartbeat/recovery.ts">Heartbeat recovery</a>, lines 2374–2428, considers owner boot/process/start/lease data and declines takeover of a live owner. These are substantive safeguards, with an availability tradeoff: ambiguity can require operator action.</p>
+<p><a href="../../paperclip/repo/server/src/services/native-runtime/work-assessments.ts">Work assessments</a>, lines 1–78, persist assessment identity and digest. <a href="../../paperclip/repo/server/src/services/native-runtime/native-run-finalizer.ts">Finalization</a>, lines 1300–1332 and 1484–1524, loads retained result/contract state, validates the terminal envelope and builds policy inputs. <a href="../../paperclip/repo/server/src/services/native-runtime/native-finalization-reconciler.ts">The reconciler</a>, lines 432–490, has a separate pending-work entry point. This review does not certify all provider-resume or finalization retries; durable phase identity alone does not prove external side effects are replay-safe.</p>
+<p><a href="../../paperclip/repo/packages/db/src/schema/issue_thread_interactions.ts">Thread interactions</a>, lines 1–82, retain task conversation state. <a href="../../paperclip/repo/packages/db/src/schema/issue_question_response_deliveries.ts">Question-response delivery records</a>, lines 1–65, retain response-processing identity and errors. <a href="../../paperclip/repo/server/src/services/delivery-work-coordinator.ts">The delivery coordinator</a>, lines 1–80, combines database signals, non-overlapping drain work and retry deadlines. This supports recovery beyond a single transient notification. Transport-specific acknowledgement, channel credentials and every external chat replay path were outside the inspected scope.</p>
+<p><a href="../../paperclip/repo/server/src/services/activity-log.ts">Activity persistence</a>, lines 152–216, records actor/run/responsible-user details and schedules relevant delivery work. <a href="../../paperclip/repo/server/src/services/activity-log.ts">Publication</a>, lines 223–245, distinguishes immediate publication from collected post-commit handling. Native tool transactions can retain business mutation and evidence together; the ordinary checkout route calls activity logging after the primary checkout. Do not assume every activity event has the same atomic boundary as its business mutation.</p>
+<h2 id="task-paperclip-usability-implementation-depth-and-operation">Usability, implementation depth and operation</h2>
+<p><a href="../../paperclip/repo/ui/src/pages/Issues.tsx">Issue listing</a>, lines 263–328, connects company-scoped filters, workspace/participant/origin context, ordering and paginated queries. <a href="../../paperclip/repo/ui/src/pages/IssueDetail.tsx">Issue detail</a>, lines 8425–8462 and 8776–8818, connects chat, activity and related-work inspection. These views make the shared authority inspectable by a person. Their presence does not certify responsive layout, keyboard navigation or screen-reader behavior.</p>
+<p><a href="../../paperclip/repo/ui/src/hooks/useUpdateIssueMutation.ts">Optimistic update helpers</a>, lines 1–127, retain previous values and roll back a field only when the cached value still matches that mutation's optimistic value. This avoids blindly replacing a newer field update with an entire stale snapshot. <a href="../../paperclip/repo/ui/src/hooks/useUpdateIssueMutation.ts">The mutation entry</a>, lines 153–194, connects the common API and write-turn coordination; the rest of its connectivity/replay lifecycle was not fully audited.</p>
+<p><a href="../../paperclip/repo/server/src/index.ts">Server startup</a>, lines 408–431 and 498–532, chooses external PostgreSQL or embedded PostgreSQL and runs database preparation. Root development instructions mention PGlite, but the inspected executable path imports embedded PostgreSQL. Use current code and deployment-specific configuration when planning operations. <a href="../../paperclip/repo/package.json">Package requirements</a>, lines 110–116, specify Node 24.11.0 or newer and pnpm 9.15.4. The repository's version requirements take precedence over a user's general toolchain defaults.</p>
+<p>Operate and restore the database, stored assets, secrets, workspaces, runner/controller identities and pending work coherently. A database restore without the corresponding external artifact and ownership state can leave references or recovery decisions invalid. The source offers a lighter embedded-database option and an external database option; neither was installed or load-tested here. Shared PostgreSQL is not proof that several application processes enforce all the same local admission locks.</p>
+<p><a href="../../paperclip/repo/server/src/services/native-runtime/tool-receipt-recovery.integration.test.ts">Receipt recovery test assertions</a>, lines 83–110, model wake failure after a business mutation and recovery of the wake without repeating that mutation. <a href="../../paperclip/repo/server/src/__tests__/required-quality-review.test.ts">Quality-review test assertions</a>, lines 57–76 and 98–105, check removal protection and stale output targets. These are meaningful intended contracts. They were read, not run, and do not establish successful production concurrency or all alternate-route enforcement.</p>
+<p>Retain the task/run separation, conditional checkout, native authority binding, durable receipts, revisioned evidence, stop-before-settlement revocation and conservative recovery. Define one supported profile and credential policy for workers. Add explicit required-child acceptance where needed. Verify project-wide capacity across every application process before relying on it. Select stronger review policies for results that require independent or human acceptance, and validate claim races, stale credentials, partial finalization, remote ownership loss, restore and representative human workflows before making the system the sole authority.</p></article><nav class="report-switch" aria-label="Task study navigation"><a href="../index.html">Return to the task comparison</a><a href="../openproject/index.html">Previous: OpenProject</a><a href="../plane/index.html">Next: Plane</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../../index.html">Return to overview <img src="../../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

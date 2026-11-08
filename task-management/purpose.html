@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="The T01–T24 purpose used by all 25 task-management assessments."><title>Agent task management baseline · Wingman Research</title>
+<link rel="icon" href="../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/report.css"><script defer src="../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../index.html"><img src="../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../index.html">Overview</a><a class="nav-link " href="../generic/index.html">Architecture findings</a><a class="nav-link " href="../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../generic/method.html">Method and evidence</a><a class="nav-link active" href="index.html" aria-current=page>Agent task management</a><a class="nav-link " href="../generic/task-coordination.html">Initial task screening</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>Two source studies</strong><p>75 organization snapshots.<br>25 task coordination codebases.<br>Evidence at pinned revisions.</p><a href="../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../index.html">Wingman Research</a><span class="crumb">/</span><span>Agent task management baseline</span></div><span class="topbar-note">SOURCE REVIEW · 09 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Agent task management baseline</h1><p class="subtitle">The T01–T24 purpose used by all 25 task-management assessments.</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#task-purpose-shared-task-management-for-an-agent-organization">Shared task management for an agent organization</a><a href="#task-purpose-purpose">Purpose</a><a href="#task-purpose-1-participants-and-responsibility">1. Participants and responsibility</a><a href="#task-purpose-2-projects-and-retained-context">2. Projects and retained context</a><a href="#task-purpose-3-work-records-and-decomposition">3. Work records and decomposition</a><a href="#task-purpose-4-planning-and-available-work">4. Planning and available work</a><a href="#task-purpose-5-ownership-under-concurrency">5. Ownership under concurrency</a><a href="#task-purpose-6-delegation-and-handoff">6. Delegation and handoff</a><a href="#task-purpose-7-blockers-and-decisions">7. Blockers and decisions</a><a href="#task-purpose-8-failure-and-recovery">8. Failure and recovery</a><a href="#task-purpose-9-verification-and-completion">9. Verification and completion</a><a href="#task-purpose-10-human-inspection-and-control">10. Human inspection and control</a><a href="#task-purpose-11-machines-access-and-operation">11. Machines, access and operation</a><a href="#task-purpose-12-assessment-requirements">12. Assessment requirements</a><a href="#task-purpose-13-assessment-method-and-evidence">13. Assessment method and evidence</a><a href="#task-purpose-14-reference-work-journey">14. Reference work journey</a></div></nav><p><a href="index.html">Return to the task comparison →</a></p><article class="technical"><h2 id="task-purpose-shared-task-management-for-an-agent-organization">Shared task management for an agent organization</h2>
+<h2 id="task-purpose-purpose">Purpose</h2>
+<p>The system is the shared working record for a software team whose participants include autonomous agents, temporary subagents, project leaders and a human owner.
+It connects product goals to planned work, accountable owners, implementation results and acceptance.
+Several projects and several workers can progress at the same time.
+The record survives a conversation ending, an agent restarting or a worker moving to another machine.</p>
+<p>A person can inspect the same work that agents use to coordinate.
+Agents can discover available work, accept responsibility, delegate bounded parts, report progress, ask for decisions and submit results.
+The person should not have to relay routine messages between workers or repeatedly reconstruct their status.</p>
+<p>The system can be a dedicated service, a repository-backed tracker or a component integrated with an agent runtime.
+A browser board is one useful view.
+Structured commands and APIs are equally important because agents must operate the underlying records reliably.</p>
+<h2 id="task-purpose-1-participants-and-responsibility">1. Participants and responsibility</h2>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Participant</th>
+<th scope="col">Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Human owner</td>
+<td>Sets goals and priorities, resolves business decisions and accepts delivered outcomes.</td>
+</tr>
+<tr>
+<td>Project leader</td>
+<td>Maintains scope, organizes the backlog, coordinates contributors, follows blockers and communicates the project's condition.</td>
+</tr>
+<tr>
+<td>Technical coordinator</td>
+<td>Breaks a product outcome into implementable work, identifies dependencies, assigns suitable specialists and coordinates integration.</td>
+</tr>
+<tr>
+<td>Worker agent</td>
+<td>Takes a bounded assignment, reads its context, performs the work and records evidence and remaining issues.</td>
+</tr>
+<tr>
+<td>Subagent</td>
+<td>Performs delegated work with an explicit relationship to its parent assignment and a defined result.</td>
+</tr>
+<tr>
+<td>Reviewer or tester</td>
+<td>Checks a particular result against the agreed criteria and records an actionable decision.</td>
+</tr>
+</tbody>
+</table></div>
+<p>One person or agent can perform more than one role when the project is small.
+The underlying records must still distinguish responsibility, execution and review.
+New agent profiles should not require a new hardcoded task type or a separate tracking system.</p>
+<p>A durable agent identity is separate from its current process or conversation.
+A task is separate from an execution attempt.
+A coordinator can remain accountable while several workers make successive attempts at the same task.</p>
+<h2 id="task-purpose-2-projects-and-retained-context">2. Projects and retained context</h2>
+<p>Each project has a stable identifier, purpose, scope, priorities and responsible leadership.
+The system connects its backlog to specifications, decisions, discussions, source repositories and deliverables.
+An incoming request can create a project or continue one whose context already exists.</p>
+<p>The project view distinguishes completed outcomes, active work, ready work, future work and blockers.
+A portfolio view exposes these distinctions across projects without combining their unrelated instructions or ownership.</p>
+<p>Project knowledge belongs in durable records or linked artifacts.
+Workers should be able to retrieve the current context without reading an entire historical conversation.
+Old decisions remain inspectable, while superseded instructions are clearly identified.</p>
+<h2 id="task-purpose-3-work-records-and-decomposition">3. Work records and decomposition</h2>
+<p>A task states the expected outcome and the evidence required to finish it.
+It records project membership, priority, status, responsibility, dependencies, progress and relevant artifacts.
+Stable identifiers allow comments, code changes, tests and agent sessions to refer to the same work.</p>
+<p>Large outcomes can contain smaller assignments.
+The relationship preserves why a child exists, who coordinates it and what must be true before the parent can finish.
+An agent may create follow-up work discovered during implementation.
+That work remains linked to the finding and the affected project.</p>
+<p>Hierarchy and execution order are different relationships.
+A child does not automatically depend on every sibling.
+A parent should not close merely because one worker returned a successful response.</p>
+<h2 id="task-purpose-4-planning-and-available-work">4. Planning and available work</h2>
+<p>The backlog supports ordering, grouping and reassessment.
+Teams can use continuous flow or time-bounded planning where useful.
+Iterations, milestones, estimates and capacity controls should support decisions without forcing unnecessary ceremony on a small task.</p>
+<p>Dependencies identify work that cannot safely start yet.
+Ready-work selection and direct claims must apply compatible eligibility rules.
+The system detects or rejects dependency cycles where it promises a runnable graph.
+Changing or cancelling a prerequisite has an explicit effect on dependent work.</p>
+<p>The project leader can limit work in progress and see overloaded or idle participants.
+A configured limit must state whether it is enforced, advisory or bypassable by an explicit operator action.</p>
+<h2 id="task-purpose-5-ownership-under-concurrency">5. Ownership under concurrency</h2>
+<p>Independent agents can request the same work at the same time.
+The authoritative claim operation must have one winner.
+The losing agent receives a clear conflict and chooses other work.
+Reading an unassigned task and later writing an assignee is insufficient unless the complete transition is protected.</p>
+<p>Ownership can be assigned by a coordinator or acquired by an eligible worker.
+These operations must agree about the current owner and the permitted next action.
+Ordinary edits, bulk operations and alternate interfaces must not silently bypass the ownership contract.</p>
+<p>The system distinguishes long-lived accountability from a temporary execution reservation.
+Execution ownership identifies the worker, attempt and relevant session.
+Retries should not duplicate assignments, comments, completion events or downstream effects when an operation offers idempotency.</p>
+<h2 id="task-purpose-6-delegation-and-handoff">6. Delegation and handoff</h2>
+<p>A parent agent can create independent child assignments and continue coordinating them.
+Children can report directly to shared records rather than relying on a live parent process.
+Another coordinator can recover the relationship if the original parent disappears.</p>
+<p>Handoffs include the outcome achieved, changed artifacts, verification performed, unresolved questions and the next action.
+Progress reports distinguish observed results from intentions.
+Artifacts should identify the relevant version, branch, commit or output where that matters.</p>
+<p>Workers can discuss interfaces, ask for help and notify the responsible participant.
+Notifications should lead back to durable task or discussion records.
+Polling is acceptable when it is bounded and can recover missed events.
+A delivered notification is not proof that its recipient acted on it.</p>
+<h2 id="task-purpose-7-blockers-and-decisions">7. Blockers and decisions</h2>
+<p>A blocked task records the obstacle, its owner, what was tried and what would unblock it.
+The obstacle may be another task, a technical problem, missing information or a human decision.
+These cases should remain distinguishable.</p>
+<p>The project leader follows stalled work and coordinates a response.
+Workers can escalate a question without declaring the task complete.
+A human answer remains associated with the correct project, task and question.
+Resuming work uses the answer and the latest project context.</p>
+<h2 id="task-purpose-8-failure-and-recovery">8. Failure and recovery</h2>
+<p>A worker can stop unexpectedly after claiming a task or after producing part of a result.
+The system exposes stale work and provides a defined release, expiry or recovery operation.
+The replacement worker can read the previous checkpoint and identify which artifacts are usable.</p>
+<p>Heartbeat and lease mechanisms must explain renewal, expiry and ownership transfer.
+If a stale worker returns after a replacement has started, attempt-sensitive mutations must reject it where the system controls the action.
+A lease alone does not guarantee exactly-once execution or prevent an external side effect.</p>
+<p>Cancellation, interruption, failure, abandonment and successful completion have distinct consequences.
+The system explains how each affects children, dependencies, reservations, review and notifications.
+Restarting the service should preserve or explicitly reconcile partially completed transitions.</p>
+<h2 id="task-purpose-9-verification-and-completion">9. Verification and completion</h2>
+<p>Each assignment has acceptance criteria or an equivalent definition of a satisfactory result.
+Completion links implementation evidence, test results and review decisions.
+A reviewer can request changes with a clear route back to the responsible worker.</p>
+<p>An approval identifies the result it accepts.
+Later changes must not silently inherit approval for an older result.
+Task completion, code integration, project delivery and human acceptance are distinct events when the workflow requires them.</p>
+<p>The system should support a lightweight process for small work and stronger gates for consequential changes.
+Prompts that tell an agent to run tests are useful instructions.
+They are not equivalent to an enforced transition rule or a verified test result.</p>
+<h2 id="task-purpose-10-human-inspection-and-control">10. Human inspection and control</h2>
+<p>The human can inspect projects, the backlog, current owners, active attempts, recent progress and required decisions.
+Connected views link an overview to task detail, discussion, artifacts and execution evidence.
+The interface should make stale status and uncertainty visible.</p>
+<p>Common operations should be practical through a browser or terminal.
+Readable labels, useful search, filtering, keyboard access and small-screen behavior support inspection.
+An interface that only starts coding sessions does not by itself explain project progress or responsibility.</p>
+<p>The human can change priorities, stop work, release an abandoned assignment and correct a mistaken state.
+Privileged overrides are explicit and recorded.</p>
+<h2 id="task-purpose-11-machines-access-and-operation">11. Machines, access and operation</h2>
+<p>Workers on the Mac and Linux host can coordinate through the same authority.
+If the system uses replicated local stores, it must explain conflict resolution and the limits of offline ownership.
+Synchronization after the fact must not be presented as exclusive assignment across disconnected replicas.</p>
+<p>Agents receive the access needed for their role and project.
+The system distinguishes an actor label from authenticated identity.
+Credentials, project isolation and permission checks must remain consistent across browser, CLI, API, MCP, background jobs and bulk operations.</p>
+<p>The system can be installed, configured, backed up, restored and upgraded with understandable procedures.
+Its dependencies and required external services are explicit.
+Small deployments should not require disproportionate maintenance.
+Larger deployments need bounded queries, predictable contention behavior and a documented availability model.</p>
+<p>Data export and integration paths reduce dependence on one interface or runtime.
+Licenses and paid-edition boundaries are assessed separately from technical fit.
+Accessible source does not automatically establish unrestricted open-source adoption rights.</p>
+<h2 id="task-purpose-12-assessment-requirements">12. Assessment requirements</h2>
+<p>These requirements define the common comparison.
+An assessment explains the actual mechanism and its boundary for every requirement.
+They are not a numerical product score.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr id="task-purpose-t01">
+<td>T01</td>
+<td>Project registry and separation of concurrent projects</td>
+</tr>
+<tr id="task-purpose-t02">
+<td>T02</td>
+<td>Durable task model with stable identifiers and outcomes</td>
+</tr>
+<tr id="task-purpose-t03">
+<td>T03</td>
+<td>Hierarchy, decomposition and linked follow-up work</td>
+</tr>
+<tr id="task-purpose-t04">
+<td>T04</td>
+<td>Dependencies, readiness and cycle handling</td>
+</tr>
+<tr id="task-purpose-t05">
+<td>T05</td>
+<td>Agent identity separate from sessions and execution attempts</td>
+</tr>
+<tr id="task-purpose-t06">
+<td>T06</td>
+<td>Structured agent interfaces through CLI, API or MCP</td>
+</tr>
+<tr id="task-purpose-t07">
+<td>T07</td>
+<td>Atomic ownership and consistent claim authority</td>
+</tr>
+<tr id="task-purpose-t08">
+<td>T08</td>
+<td>Capacity, work-in-progress limits and dispatch policy</td>
+</tr>
+<tr id="task-purpose-t09">
+<td>T09</td>
+<td>Delegation, parallel children and parent completion</td>
+</tr>
+<tr id="task-purpose-t10">
+<td>T10</td>
+<td>Project context, artifacts and versioned references</td>
+</tr>
+<tr id="task-purpose-t11">
+<td>T11</td>
+<td>Durable progress, results and actionable handoffs</td>
+</tr>
+<tr id="task-purpose-t12">
+<td>T12</td>
+<td>Communication, notifications and missed-event recovery</td>
+</tr>
+<tr id="task-purpose-t13">
+<td>T13</td>
+<td>Blockers, questions and management or human escalation</td>
+</tr>
+<tr id="task-purpose-t14">
+<td>T14</td>
+<td>Heartbeats, expiring ownership and stale-work discovery</td>
+</tr>
+<tr id="task-purpose-t15">
+<td>T15</td>
+<td>Stale-attempt rejection and idempotent transitions</td>
+</tr>
+<tr id="task-purpose-t16">
+<td>T16</td>
+<td>Resume, cancellation, failure and service recovery</td>
+</tr>
+<tr id="task-purpose-t17">
+<td>T17</td>
+<td>Shared authority and coordination across execution hosts</td>
+</tr>
+<tr id="task-purpose-t18">
+<td>T18</td>
+<td>Audit history and attribution of changes</td>
+</tr>
+<tr id="task-purpose-t19">
+<td>T19</td>
+<td>Human overview, task detail, search and navigation</td>
+</tr>
+<tr id="task-purpose-t20">
+<td>T20</td>
+<td>Backlog planning, milestones and optional iteration workflows</td>
+</tr>
+<tr id="task-purpose-t21">
+<td>T21</td>
+<td>Acceptance criteria, review and controlled completion</td>
+</tr>
+<tr id="task-purpose-t22">
+<td>T22</td>
+<td>Authentication, permissions, project isolation and overrides</td>
+</tr>
+<tr id="task-purpose-t23">
+<td>T23</td>
+<td>Extensible roles, workflows, schemas and integrations</td>
+</tr>
+<tr id="task-purpose-t24">
+<td>T24</td>
+<td>Installation, maintenance, portability and operating usability</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="task-purpose-13-assessment-method-and-evidence">13. Assessment method and evidence</h2>
+<p>Assess a full local source checkout at an immutable commit.
+Read the entry points, domain model, storage, mutation paths, clients, background work and relevant tests.
+Trace an assignment from creation through selection, claim, execution, progress, review and termination.
+Follow alternate paths that can change the same state.</p>
+<p>Each report covers architectural coherence, feature completeness, implementation depth, operating costs and human and agent usability.
+It identifies useful components, adoption gaps and concrete failure conditions.
+For an absent mechanism, state which relevant interfaces and persistence paths were inspected.
+Do not infer absence from a missing README section or one unsuccessful text search.</p>
+<p>Use Exact, Similar, Resembles, Absent and Unclear with an explanation of the boundary.
+Distinguish native enforced behavior, configurable policy, conventions, adapters and proposed additions.
+Separate implementation evidence, test-source evidence, executed tests and observed product behavior.
+Preserve full commits, local source links and line references.</p>
+<p>Static review can establish code paths and expose defects.
+It cannot establish successful installation, race-free production operation, performance, accessibility or product acceptance by itself.
+Runtime tests, when performed, must state their commands, environment, scope and outcomes.</p>
+<h2 id="task-purpose-14-reference-work-journey">14. Reference work journey</h2>
+<ol>
+<li>A leader creates or selects the project and records the intended outcome.</li>
+<li>The coordinator creates bounded assignments with acceptance criteria and dependency relationships.</li>
+<li>Eligible workers claim independent ready tasks through the shared authority.</li>
+<li>A worker delegates a child assignment while retaining a durable relationship to its parent.</li>
+<li>Workers record checkpoints, discuss integration and raise blockers in the correct context.</li>
+<li>A leader or the human resolves a decision and the affected work resumes.</li>
+<li>A failed worker is recovered without giving its stale attempt authority over the replacement.</li>
+<li>A worker submits a particular result for review and addresses requested changes.</li>
+<li>Required children and acceptance evidence permit the parent outcome to finish.</li>
+<li>Project delivery is presented for human acceptance, with the history retained for later changes.</li>
+</ol></article>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../index.html">Return to overview <img src="../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

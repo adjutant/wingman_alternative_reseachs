@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Shared cards, checklists, notifications and live views"><title>Planka · task management · Wingman Research</title>
+<link rel="icon" href="../../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/report.css"><script defer src="../../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../../index.html"><img src="../../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../../index.html">Overview</a><a class="nav-link " href="../../generic/index.html">Architecture findings</a><a class="nav-link " href="../../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../../generic/method.html">Method and evidence</a><a class="nav-link active" href="../index.html" aria-current=page>Agent task management</a><a class="nav-link " href="../../generic/task-coordination.html">Initial task screening</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>Two source studies</strong><p>75 organization snapshots.<br>25 task coordination codebases.<br>Evidence at pinned revisions.</p><a href="../../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../../index.html">Wingman Research</a><span class="crumb">/</span><span>Planka · task management</span></div><span class="topbar-note">SOURCE REVIEW · 09 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Planka · task management</h1><p class="subtitle">Shared cards, checklists, notifications and live views</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#task-planka-planka-live-shared-cards-without-an-agent-ownership-protocol">Planka: live shared cards without an agent ownership protocol</a><a href="#task-planka-fit-decision">Fit decision</a><a href="#task-planka-scope-and-evidence-level">Scope and evidence level</a><a href="#task-planka-architecture-and-shared-records">Architecture and shared records</a><a href="#task-planka-requirement-assessment">Requirement assessment</a><a href="#task-planka-creating-selecting-and-assigning-work">Creating, selecting and assigning work</a><a href="#task-planka-decomposition-and-completion-semantics">Decomposition and completion semantics</a><a href="#task-planka-context-results-and-communication">Context, results and communication</a><a href="#task-planka-concurrency-failure-and-recovery">Concurrency, failure and recovery</a><a href="#task-planka-access-and-human-usability">Access and human usability</a><a href="#task-planka-test-source-evidence-and-adoption-work">Test-source evidence and adoption work</a></div></nav><article class="technical"><h2 id="task-planka-planka-live-shared-cards-without-an-agent-ownership-protocol">Planka: live shared cards without an agent ownership protocol</h2>
+<p class="url-text">Source: https://github.com/plankanban/planka</p>
+<p>Reviewed commit: <code>2cf423824a09f84df7dc3acf0ded9a700292d882</code>.
+Assessment date: November 9, 2026.
+Baseline: <a href="../purpose.html">Shared task management for an agent organization</a>.
+Evidence ledger: <a href="assessment/review.json">review.json</a>.</p>
+<h2 id="task-planka-fit-decision">Fit decision</h2>
+<p>Planka is a useful human board and shared work-record foundation. It has projects, boards, lists, cards, checklists, card members, checklist assignees, comments, attachments, custom fields, activity, notifications and structured HTTP operations. Its client receives live socket updates and fetches fresh data after reconnecting. Agents can use user API keys to work with the same records that people see.</p>
+<p>The reviewed Community code does not supply a native autonomous-work ownership protocol. Card membership permits multiple participants. Checklist assignment is a mutable user field. Neither is an atomic exclusive claim with a renewable lease or execution-attempt token. General card and task writes lack expected-revision conditions. Two workers can overwrite assignment or continue writing after a coordinator has reassigned the work.</p>
+<p>Planka implements meaningful consistency inside selected database operations. Closing a card can transactionally update checklist items linked to that card. Changing a list's type locks the list row and updates relevant cards and linked items in one transaction. These safeguards keep displayed state consistent. They do not require accepted child results, readiness or qualified review before closure.</p>
+<p>Licensing is a separate adoption constraint. The pinned <a href="repo/LICENSE.md">Community license</a>, lines 19–60, permits stated internal and other uses but restricts commercial hosting and shared use across organizations. This is source available under use restrictions, not an unqualified permissive open-source option. The <a href="repo/README.md">README</a>, lines 19–66, advertises separate Pro capabilities. Those marketing claims are not credited as implementation in this checkout. In particular, Pro recurrence, SSO, additional views and mobile features were not reviewed as Community features.</p>
+<h2 id="task-planka-scope-and-evidence-level">Scope and evidence level</h2>
+<p>The full checkout contains 1,648 tracked files. This review traces targeted source bodies for the card/task model, query-method layer, main mutation controllers and helpers, list-level alternate writers, authentication and board permissions, activity/notifications, webhooks, attachments, custom fields and client mutation/reconnect behavior. Selected test assertions and acceptance-step bodies were read. No candidate application, dependency install, build, migration or test was executed.</p>
+<p>This is not an every-line audit. Full imports and duplication, every user/permission mutation, all migrations, complete file and HTTP security, notification-provider internals, full deployment scaling and all browser screens are outside certification. Pro features and external integrations do not receive credit from documentation alone. The ledger identifies inspected source ranges and test-source evidence rather than implying a passing runtime experiment.</p>
+<h2 id="task-planka-architecture-and-shared-records">Architecture and shared records</h2>
+<p>The root <a href="repo/package.json">package manifest</a> identifies version 2.3.1. The <a href="repo/server/package.json">server manifest</a> requires Node 24 or later and uses Sails, Waterline/PostgreSQL, Knex, Socket.IO and supporting services. The <a href="repo/client/package.json">client manifest</a>, lines 133–175, uses React 18, Redux, Redux ORM and Redux Saga. <a href="repo/server/config/datastores.js">Datastore configuration</a> selects PostgreSQL through shared connection configuration.</p>
+<p>The <a href="repo/server/api/hooks/query-methods/index.js">query-method hook</a> attaches a <code>qm</code> implementation to each model. Controllers validate requests and access, helpers coordinate effects, and these query methods perform database operations. This separation is readable, but an invariant must cover all helper/query callers rather than only a browser action.</p>
+<p><a href="repo/server/api/models/Project.js">Project</a>, lines 123–186, has a name, description and manager/owner relationships. <a href="repo/server/api/models/Board.js">Board</a>, lines 113–196, belongs to a project and carries view and card-display settings. <a href="repo/server/api/hooks/query-methods/models/Project.js">Project creation</a> transactionally inserts the project and its first manager and sets the owner for a private project. Subsequent socket/webhook delivery happens in a separate <a href="repo/server/api/helpers/projects/create-one.js">project helper</a>.</p>
+<p>The <a href="repo/server/api/models/Card.js">card model</a>, lines 143–264, has project/story presentation types, board/list, description, due date, due-completion flag, stopwatch, closed state and associations. These card types are not agent roles. A <a href="repo/server/api/models/TaskList.js">task list</a>, lines 70–110, groups checklist tasks within a card. A <a href="repo/server/api/models/Task.js">task</a>, lines 75–117, has name, position, completion, optional linked card and optional assignee.</p>
+<p>The selected <a href="repo/server/db/migrations/20250228000022_version_2.js">schema</a>, lines 310–449, stores multiple card members with a unique card/user pair. That prevents duplicate membership for the same user; it does not limit a card to one worker. Task assignment has no attempt, lease or expected-owner field. <a href="repo/server/api/models/Session.js">Session</a> stores login tokens and browser/client metadata, not execution attempts.</p>
+<h2 id="task-planka-requirement-assessment">Requirement assessment</h2>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Requirement</th>
+<th scope="col">Verdict</th>
+<th scope="col">Mechanism and boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr id="task-planka-t01">
+<td>T01</td>
+<td>Similar</td>
+<td>Projects, descriptions, managers, boards and membership provide shared scope. Agent leadership, specification continuity and portfolio decisions need conventions or integration.</td>
+</tr>
+<tr id="task-planka-t02">
+<td>T02</td>
+<td>Similar</td>
+<td>SQL-backed cards and checklist tasks are accessible to clients. Main writes, history, notifications and files do not share one universal transaction.</td>
+</tr>
+<tr id="task-planka-t03">
+<td>T03</td>
+<td>Similar</td>
+<td>Card/checklist grouping and linked-card tasks support decomposition and progress display. They are not a governed recursive assignment hierarchy.</td>
+</tr>
+<tr id="task-planka-t04">
+<td>T04</td>
+<td>Resembles</td>
+<td>Linked cards and labels can express relationships. The reviewed core has no blocking dependency DAG, cycle gate or atomic ready-work acquisition.</td>
+</tr>
+<tr id="task-planka-t05">
+<td>T05</td>
+<td>Resembles</td>
+<td>Persistent users/API keys can represent agents. Login sessions, card membership and stopwatch fields do not distinguish a logical worker from its current attempt.</td>
+</tr>
+<tr id="task-planka-t06">
+<td>T06</td>
+<td>Similar</td>
+<td>Structured HTTP/socket CRUD and documented request shapes support agent clients. No native task MCP, claim-next or agent process-control surface was found in the reviewed core operation inventory.</td>
+</tr>
+<tr id="task-planka-t07">
+<td>T07</td>
+<td>Resembles</td>
+<td>Card members and task assignees record participation. Membership is many-to-many, while assignment writes lack expected-owner/revision conditions or leases.</td>
+</tr>
+<tr id="task-planka-t08">
+<td>T08</td>
+<td>Resembles</td>
+<td>Ordered lists, member filters, card counters and dates assist planning. The reviewed models and mutation paths have no enforced worker capacity, WIP reservation or automatic dispatch.</td>
+</tr>
+<tr id="task-planka-t09">
+<td>T09</td>
+<td>Resembles</td>
+<td>Checklist assignment and linked cards permit parallel human work organization. No child worker launch, result join or accepted-child parent-finish barrier.</td>
+</tr>
+<tr id="task-planka-t10">
+<td>T10</td>
+<td>Similar</td>
+<td>Descriptions, comments, attachments and custom fields retain context. Uploaded file identity is not an accepted-result digest or a pinned artifact/attempt/review tuple.</td>
+</tr>
+<tr id="task-planka-t11">
+<td>T11</td>
+<td>Similar</td>
+<td>Card moves, checklist completion, comments, timestamps and stopwatch expose progress. Structured result submission and durable handoff are conventions.</td>
+</tr>
+<tr id="task-planka-t12">
+<td>T12</td>
+<td>Similar</td>
+<td>Persistent user notifications, mentions, subscriptions, sockets and webhooks provide communication. Unread items are bounded, delivery is separate from mutation and no native agent acknowledgement/replay protocol is established.</td>
+</tr>
+<tr id="task-planka-t13">
+<td>T13</td>
+<td>Resembles</td>
+<td>Comments and mentions can request help, with labels or lists for blockers. No typed pending decision with accountable resolution and guarded worker continuation.</td>
+</tr>
+<tr id="task-planka-t14">
+<td>T14</td>
+<td>Absent</td>
+<td>Stopwatch, card age and authentication-session validity are not work leases. Reviewed task/card APIs and models expose no worker heartbeat, renewal or guarded stale-work reclaim.</td>
+</tr>
+<tr id="task-planka-t15">
+<td>T15</td>
+<td>Absent</td>
+<td>Main task/card writes have no expected revision or attempt fence. Local client IDs and attachment request IDs do not durably deduplicate server effects.</td>
+</tr>
+<tr id="task-planka-t16">
+<td>T16</td>
+<td>Similar</td>
+<td>SQL persistence, archive/trash movement, reopening and reconnect snapshots support board recovery. No native worker resume/cancel or compensation for external agent effects.</td>
+</tr>
+<tr id="task-planka-t17">
+<td>T17</td>
+<td>Similar</td>
+<td>A central HTTP service, PostgreSQL and optional S3 can serve multiple machines. Cross-process socket delivery and deployment consistency require configuration; exclusive agent claims remain absent.</td>
+</tr>
+<tr id="task-planka-t18">
+<td>T18</td>
+<td>Similar</td>
+<td>User-attributed actions and comments support investigation. Action types cover selected events, and deletes/history publication are not an immutable complete mutation audit.</td>
+</tr>
+<tr id="task-planka-t19">
+<td>T19</td>
+<td>Similar</td>
+<td>Live board/card views, filters, checklists and reconnect refresh provide useful inspection. Optimistic update failure and multi-request snapshot boundaries remain; live usability was not tested.</td>
+</tr>
+<tr id="task-planka-t20">
+<td>T20</td>
+<td>Similar</td>
+<td>Continuous-flow lists, dates, labels, custom fields and checklist/card types support planning. No reviewed native iteration, capacity or autonomous scheduling protocol; Pro recurrence is outside this checkout's assessed scope.</td>
+</tr>
+<tr id="task-planka-t21">
+<td>T21</td>
+<td>Resembles</td>
+<td>Closed lists and linked-card completion reflect outcomes. Closure does not require checklist result acceptance, pinned evidence or a separate qualified reviewer.</td>
+</tr>
+<tr id="task-planka-t22">
+<td>T22</td>
+<td>Similar</td>
+<td>Active-user keys, session validation, board editor/viewer rules and private-data filtering are implemented. They authorize account operations rather than fenced agent attempts or execution sandboxes.</td>
+</tr>
+<tr id="task-planka-t23">
+<td>T23</td>
+<td>Similar</td>
+<td>Clear model/query/helper boundaries, HTTP API, webhooks and custom fields support integration. No sandboxed agent plugin contract or automatic enforcement for added policy fields.</td>
+</tr>
+<tr id="task-planka-t24">
+<td>T24</td>
+<td>Similar</td>
+<td>Included Node/container builds, database scripts and storage backends provide a conventional service package. Python notifications, backups, origins, scaling and restricted licensing add operating/adoption work.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="task-planka-creating-selecting-and-assigning-work">Creating, selecting and assigning work</h2>
+<p>The <a href="repo/server/api/controllers/cards/create.js">card creation controller</a>, lines 110–221, checks board membership and editor role, validates fields and calls the creation helper. <a href="repo/server/api/helpers/cards/create-one.js">The helper</a> computes ordering, may reposition siblings, persists a card, broadcasts, sends webhooks, adds an optional creator subscription and appends a creation action. These steps are sequential effects, not one atomic create-plus-history operation. A later failure can leave a committed card behind an error response.</p>
+<p>The <a href="repo/server/api/hooks/query-methods/models/Card.js">card query methods</a>, lines 1–179, support list search, user filters, included/excluded labels and cursor-based ordering for archive/trash-style lists. Queries use a list-changed timestamp and ID as a cursor. This is useful discovery and pagination. No query reserves a returned task for an agent or checks a dependency-ready work graph.</p>
+<p><a href="repo/server/api/controllers/card-memberships/create.js">Card membership creation</a>, lines 100–154, requires an editor and validates the target user's board membership. <a href="repo/server/api/helpers/card-memberships/create-one.js">Its helper</a>, lines 1–129, inserts a unique card/user membership, adds an optional subscription and records an action. Several different users can join the same card. The <a href="repo/server/api/hooks/query-methods/models/CardMembership.js">query model</a> has no exclusive-card claim operation.</p>
+<p><a href="repo/server/api/controllers/tasks/update.js">Task update</a>, lines 94–210, verifies board editor access and target-assignee membership. <a href="repo/server/api/helpers/tasks/update-one.js">The task helper</a> then calls <code>Task.qm.updateOne(record.id, values)</code>. <a href="repo/server/api/hooks/query-methods/models/Task.js">The query method</a> matches ordinary criteria and sets values without an expected assignee, revision or attempt condition. Two workers can both write their own assignee successfully. No operation here stops the earlier worker when ownership changes.</p>
+<p>The <a href="repo/server/api/controllers/cards/update.js">card update controller</a>, lines 130–353, restricts viewers to subscription changes and requires editor membership in a destination board. It validates destination list and cover-attachment scope. These are substantive permission and relationship checks. They occur before the helper's later writes and do not make the displayed snapshot a revision-protected edit.</p>
+<h2 id="task-planka-decomposition-and-completion-semantics">Decomposition and completion semantics</h2>
+<p><a href="repo/server/api/controllers/tasks/create.js">Linked-task creation</a>, lines 88–202, checks access to the linked card. <a href="repo/server/api/helpers/tasks/create-one.js">Its helper</a> copies that card's name and marks the task completed when the card is closed. The <a href="repo/server/db/migrations/20250709160208_add_ability_to_link_tasks_to_cards.js">link migration</a> adds an indexed card reference. The inspected path has no DAG traversal or cycle check. A link represents a checklist reference, not a prerequisite reservation.</p>
+<p>For an existing linked task, the update controller permits only reordering or moving it within the parent card's task lists. It prevents direct edits of the mirrored completion through that route. This is a useful consistency rule. It does not require either card to wait for accepted child results.</p>
+<p>The create helper forces completion to true for a closed linked card, but does not force it to false for an open linked card. The creation API also accepts an explicit completion flag. That combination can start a linked item with a completion value that differs from its target. The stricter update route does not establish a universal initial-state invariant.</p>
+<p><a href="repo/server/api/helpers/cards/update-one.js">Card mutation</a>, lines 1–240, sets <code>isClosed</code> when moving between opened and closed list types. Archive and trash preserve closure unless another explicit opened/closed transition applies. Its <a href="repo/server/api/hooks/query-methods/models/Card.js">query method</a>, lines 199–269, transactionally updates a card and the completion flags of tasks pointing to that card when closed state is supplied.</p>
+<p>This direction matters: it updates references to the closing card. It does not check that the closing card's own checklist is finished or accepted. No evidence, reviewer or result-version check precedes that update. Ordinary unlinked checklist tasks can be completed directly by an editor.</p>
+<p>An alternate <a href="repo/server/api/hooks/query-methods/models/List.js">list query writer</a>, lines 55–136, uses <code>SELECT ... FOR UPDATE</code> on the list for board/type changes. In that transaction it can update contained card board IDs, propagate opened/closed state to cards and synchronize tasks linked to those cards. This is stronger than a series of unrelated writes, but the locked entity is a list, not an agent attempt or accepted-result set.</p>
+<p>The wider <a href="repo/server/api/helpers/lists/update-one.js">list helper</a>, lines 1–264, performs membership/subscription cleanup, assignment clearing and label/custom-field work outside that central transaction. Card transfer has similar surrounding effects. <a href="repo/server/api/helpers/lists/move-cards.js">Bulk move</a> separately updates cards, creates movement actions and publishes sockets/webhooks; its notification creation remains a TODO. A new coordination rule must cover these alternate writers too.</p>
+<h2 id="task-planka-context-results-and-communication">Context, results and communication</h2>
+<p><a href="repo/server/api/helpers/comments/create-one.js">Comment creation</a>, lines 65–188, persists text, broadcasts and calculates mention/subscriber recipients. Mention IDs are intersected with board members and exclude the author. <a href="repo/server/api/controllers/comments/update.js">Comment update</a>, lines 80–138, requires the author and comment-capable membership. This supports retained discussion. A comment saying blocked or approved is not a typed decision record that gates execution.</p>
+<p><a href="repo/server/api/helpers/custom-field-values/create-or-update-one.js">Custom-field writes</a> persist content, broadcast and send a webhook. The <a href="repo/server/api/hooks/query-methods/models/CustomFieldValue.js">query implementation</a>, lines 1–75, uses an SQL upsert on the card/group/field tuple. It gives one value per field, without a comparison against the old content. Adding an attempt or lease field here would not make other mutation paths enforce it.</p>
+<p><a href="repo/server/api/controllers/attachments/create.js">Attachment upload</a>, lines 140–230, requires editor access. The <a href="repo/server/api/helpers/attachments/process-uploaded-file.js">file processor</a> creates an uploaded-file record, moves bytes to a generated per-upload location, optionally generates thumbnails and returns metadata. <a href="repo/server/api/helpers/attachments/create-one.js">Attachment creation</a> persists a separate attachment and may set the card cover afterward. These steps span storage and database writes, with no single result-acceptance transaction.</p>
+<p>The attachment <code>requestId</code> is echoed in a socket event; this path does not use it as a durable uniqueness key. A generated upload ID identifies storage, not a content digest reviewed at a particular task revision. No inspected completion operation requires an attachment or source reference at all.</p>
+<p><a href="repo/server/api/models/Action.js">Actions</a>, lines 70–90, cover creation, movement, membership and task completion/reopening. <a href="repo/server/api/helpers/actions/create-one.js">Action creation</a>, lines 117–220, persists an attributed event and then triggers sockets, webhooks and selected notification types. General card name/description edits do not become complete before/after audit records merely because the action model exists. Card transfer also contains an explicit missing-transfer-action note in the <a href="repo/server/api/helpers/cards/update-one.js">card helper</a>, lines 241–428.</p>
+<p>The <a href="repo/server/api/models/Notification.js">notification model</a>, lines 99–159, has a recipient, creator, card, action/comment reference and read flag. <a href="repo/server/api/hooks/query-methods/models/Notification.js">Notification query methods</a> transactionally insert notifications and mark older unread items read beyond a limit of 100 per user. They do not wait for the user to acknowledge the older items. <a href="repo/server/api/controllers/notifications/index.js">The index endpoint</a> lists unread items only.</p>
+<p>This is a bounded attention queue. It cannot serve as the authoritative pending-decision backlog for agents. The <a href="repo/server/api/helpers/notifications/create-many.js">creation helper</a>, lines 236–300, persists notification rows before broadcasting and invoking webhooks, separately from the originating card/task write. <a href="repo/server/api/controllers/notifications/update.js">Update</a>, lines 65–107, scopes read-state changes to the recipient, but read state is not proof that a question was answered or a result accepted.</p>
+<p><a href="repo/server/api/helpers/utils/send-webhooks.js">Webhook delivery</a>, lines 1–212, filters events and user/project/board scope, includes current/previous data where supplied, and starts asynchronous POSTs. Failed responses and network exceptions are logged. There is no durable delivery record, acknowledgement cursor, retry schedule or dead-letter queue in this implementation. Several derived changes, including linked-task synchronization and sibling reordering, carry explicit missing-webhook notes. Receivers cannot reconstruct an exactly-once task event stream from this transport.</p>
+<h2 id="task-planka-concurrency-failure-and-recovery">Concurrency, failure and recovery</h2>
+<p>The main <a href="repo/server/api/helpers/cards/update-one.js">card helper</a> does sibling reordering and cross-board cleanup before the card update. It can remove membership, subscriptions, labels and checklist assignees before a later operation fails. Label copying, actions, notifications and transport occur afterward. No overall transaction or compensating operation joins all these effects.</p>
+<p>The card and task query writers accept criteria, but normal controller/helper calls pass the ID alone. Timestamp fields are maintained by <a href="repo/server/config/models.js">model hooks</a>, lines 65–93; they are not read as conditional-update requirements. A stale worker is not rejected for writing from an old task attempt.</p>
+<p><a href="repo/server/api/helpers/cards/delete-one.js">Delete-card</a> removes related data before deleting the card. <a href="repo/server/api/helpers/cards/delete-related.js">Related cleanup</a> separately removes memberships, checklist records, comments and actions, and unlinks other tasks. <a href="repo/server/api/helpers/lists/delete-related.js">List cleanup</a> deletes cards before their related data. Failures between these steps can leave partial cleanup; exact deployed database outcomes were not exercised.</p>
+<p><a href="repo/server/api/controllers/lists/clear.js">List clear</a>, lines 75–114, restricts the operation to a trash list and a project manager or board editor. Its <a href="repo/server/api/helpers/lists/clear-one.js">helper</a> performs that cleanup and then publishes. <a href="repo/server/api/helpers/utils/remove-unreferenced-uploaded-files.js">Unreferenced-file cleanup</a> starts asynchronous removals from a synchronous helper without awaiting all of them. A returned deletion response is not proof that every file removal completed.</p>
+<p>There is no native agent process to resume, terminate or reconcile. Moving a card back to an active list or reassigning a task repairs the record, while any external worker can continue running. Safe retry after an uncertain create/update response requires a protocol beyond these CRUD methods. A unique membership pair prevents one duplicate relation, but does not make the whole membership-plus-subscription-plus-history operation retry-atomic.</p>
+<h2 id="task-planka-access-and-human-usability">Access and human usability</h2>
+<p><a href="repo/server/api/hooks/current-user/index.js">Current-user resolution</a> accepts bearer sessions or hashed user API keys. <a href="repo/server/api/helpers/utils/resolve-access-token.js">Token validation</a> verifies JWT data, an undeleted session, a paired cookie when required, an active user and password-change time. <a href="repo/server/api/hooks/query-methods/models/Session.js">Session queries</a> retain revocation state. These are real account controls, separate from work ownership.</p>
+<p><a href="repo/server/config/policies.js">Policies</a> require authentication and reject the special internal principal from ordinary external operations. API-key creation is admin-gated, and <a href="repo/server/api/controllers/users/create-api-key.js">the key controller</a>, lines 65–103, stores a hash and returns the generated key once. <a href="repo/server/api/models/BoardMembership.js">Board membership</a>, lines 70–136, distinguishes editors from viewers and viewer comment permission. Main mutation controllers enforce those permissions. They do not enforce specialist capability, current assignment or qualified reviewer separation.</p>
+<p>The <a href="repo/client/src/api/socket.js">socket client</a> enables reconnection. <a href="repo/client/src/sagas/core/services/socket.js">Reconnect handling</a> fetches bootstrap and <a href="repo/client/src/sagas/core/requests/core.js">core records</a>, including the current board/card and notifications. The <a href="repo/client/src/models/Card.js">card reducer</a>, lines 95–137, replaces its card snapshot on this action. This is useful missed-event recovery for the current view. It is a collection of API reads, not a transactionally consistent snapshot or durable event replay.</p>
+<p><a href="repo/client/src/sagas/core/services/cards.js">Card creation/update sagas</a>, lines 127–189 and 248–299, optimistically change local state. A failed create removes the temporary card, but the <a href="repo/client/src/models/Card.js">card reducer</a>, lines 280–365, has no update-failure rollback branch; the client source inventory finds the failure constant, action and dispatch without a corresponding rollback handler. An unsuccessful edit can therefore leave optimistic state until refresh/reconnect or a later event. This is a source-based usability concern, not an observed live failure.</p>
+<p><a href="repo/client/src/sagas/core/request.js">Request sequencing</a> queues requests within one browser's saga layer and logs out on unauthorized responses. It is not a server lock between different clients. <a href="repo/client/src/sagas/core/requests/core.js">Core fetching</a>, lines 80–140, also marks notifications for an opened card read. Opening context is not acknowledgement of an unresolved decision.</p>
+<p>The <a href="repo/Dockerfile">Dockerfile</a> builds with Node 24 and includes Python. The <a href="repo/server/setup-python.js">setup script</a> creates a virtual environment and installs <a href="repo/server/requirements.txt">notification dependencies</a>. No installer was run. <a href="repo/server/api/hooks/file-manager/index.js">File-manager selection</a> chooses local or S3 storage. <a href="repo/server/config/env/production.js">Production sockets</a>, lines 254–294, configure accepted origins and leave the shared Redis adapter as an optional commented configuration. Multiple application processes need deliberate broadcast/storage/session planning; the presence of PostgreSQL alone does not certify clustered live updates.</p>
+<h2 id="task-planka-test-source-evidence-and-adoption-work">Test-source evidence and adoption work</h2>
+<p>Selected assertions were inspected, not run:</p>
+<ul>
+<li><a href="repo/server/test/integration/models/CardLabelFilters.test.js">Card label query tests</a> stub native SQL responses and inspect included/excluded label predicates. They do not execute those queries against production PostgreSQL or prove ready-work allocation.</li>
+<li><a href="repo/server/test/integration/controllers/notifications/show.test.js">Notification endpoint tests</a>, lines 1–100 and 150–206, check recipient isolation, unauthenticated rejection and removal of private/credential fields. The <a href="repo/server/config/env/test.js">test environment</a> uses an in-memory Sails disk adapter, not production PostgreSQL transaction semantics.</li>
+<li><a href="repo/server/test/utils/static-routes.test.js">Static-route tests</a> check path resolution and narrower local-file roots. This does not certify the complete upload or HTTP security surface.</li>
+<li><a href="repo/client/src/utils/filter-card-labels.test.js">Client label-filter tests</a> and <a href="repo/client/src/utils/local-id.test.js">local-ID tests</a> check presentation helpers. They do not establish server idempotency.</li>
+<li>The <a href="repo/client/tests/acceptance/features/ime-composition.feature">IME scenario</a> and <a href="repo/client/tests/acceptance/steps/ime-composition.step.js">step implementation</a> assert that composing text with Enter does not accidentally submit a task. These are meaningful usability intentions, but no browser acceptance run was performed. The checked-in <a href="repo/server/test/integration/models/User.test.js">User model test</a> is commented out.</li>
+</ul>
+<p>The inspected test inventory does not establish exclusive claims, stale-attempt rejection, review gates, cross-process allocation, complete deletion recovery or webhook replay. Application test coverage and source implementation are separate forms of evidence.</p>
+<p>Adoption should add one durable ownership/attempt authority shared by every mutation surface. Acquire a task conditionally before execution, enforce capacity and readiness at acquisition, renew leases and reject progress from obsolete attempts. Persist outcomes under idempotency keys so uncertain responses can be resolved without repeating effects.</p>
+<p>Introduce explicit submitted results, pinned artifacts, qualified review and accepted-child integration. Cover list retyping, bulk movement, transfer, direct task edits and deletion as well as normal card changes. Keep pending questions in durable decision records independent of the bounded unread queue. A transactional outbox, replay cursor and delivery acknowledgements would make communication suitable for unattended agents.</p>
+<p>Planka's useful components are the shared board, permission-aware API, linked completion consistency and reconnect refresh. Its main gap for this baseline is the authoritative coordination protocol around those records, with licensing limits assessed separately from implementation quality.</p></article><nav class="report-switch" aria-label="Task study navigation"><a href="../index.html">Return to the task comparison</a><a href="../plane-mcp/index.html">Previous: Plane MCP</a><a href="../rhizome-mcp/index.html">Next: Rhizome MCP</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../../index.html">Return to overview <img src="../../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

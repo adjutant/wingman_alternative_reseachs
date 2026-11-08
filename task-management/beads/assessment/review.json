@@ -256,10 +256,6 @@
       "ranges": [
         [
           1,
-          110
-        ],
-        [
-          132,
           213
         ],
         [
@@ -669,5 +665,6 @@
       ],
       "method": "Selected test fixture/assertion bodies only; mapping/SQL predicate tests distinguished from real storage execution; tests not run"
     }
-  ]
+  ],
+  "citation_range_audit": "November 9, 2026: inspected small gaps bridged by broad source citations and reconciled the ledger. No candidate execution or changed conclusions."
 }

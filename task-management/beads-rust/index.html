@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Conditional claims, handoff and local workflow gates"><title>beads_rust · task management · Wingman Research</title>
+<link rel="icon" href="../../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/report.css"><script defer src="../../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../../index.html"><img src="../../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../../index.html">Overview</a><a class="nav-link " href="../../generic/index.html">Architecture findings</a><a class="nav-link " href="../../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../../generic/method.html">Method and evidence</a><a class="nav-link active" href="../index.html" aria-current=page>Agent task management</a><a class="nav-link " href="../../generic/task-coordination.html">Initial task screening</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>Two source studies</strong><p>75 organization snapshots.<br>25 task coordination codebases.<br>Evidence at pinned revisions.</p><a href="../../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../../index.html">Wingman Research</a><span class="crumb">/</span><span>beads_rust · task management</span></div><span class="topbar-note">SOURCE REVIEW · 09 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>beads_rust · task management</h1><p class="subtitle">Conditional claims, handoff and local workflow gates</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#task-beads-rust-beads_rust-local-issue-authority-with-guarded-handoff-and-configurable-workflow">beads_rust: local issue authority with guarded handoff and configurable workflow</a><a href="#task-beads-rust-fit-decision">Fit decision</a><a href="#task-beads-rust-review-scope-and-evidence-level">Review scope and evidence level</a><a href="#task-beads-rust-architecture-and-data-authority">Architecture and data authority</a><a href="#task-beads-rust-requirement-assessment">Requirement assessment</a><a href="#task-beads-rust-work-lifecycle-and-alternate-mutations">Work lifecycle and alternate mutations</a><a href="#task-beads-rust-concurrency-failure-and-recovery">Concurrency, failure and recovery</a><a href="#task-beads-rust-usability-operating-costs-and-implementation-quality">Usability, operating costs and implementation quality</a><a href="#task-beads-rust-test-source-review-and-remaining-uncertainty">Test-source review and remaining uncertainty</a><a href="#task-beads-rust-adoption-work-and-useful-components">Adoption work and useful components</a></div></nav><article class="technical"><h2 id="task-beads-rust-beads_rust-local-issue-authority-with-guarded-handoff-and-configurable-workflow">beads_rust: local issue authority with guarded handoff and configurable workflow</h2>
+<p class="url-text">Source: https://github.com/Dicklesworthstone/beads_rust</p>
+<p>Reviewed commit: <code>117f81de0d5dae007d972a9ff7f1d73c392d8822</code>.
+Assessment date: November 9, 2026.
+Baseline: <a href="../purpose.html">Shared task management for an agent organization</a>.
+Evidence ledger: <a href="assessment/review.json">review.json</a>.</p>
+<h2 id="task-beads-rust-fit-decision">Fit decision</h2>
+<p>beads_rust is a substantial task-record component for agents that cooperate through one local workspace. It has persistent issues, hierarchy, dependency-aware selection, conditional claims, explicit stale-owner handoff, workflow gates, capacity admission and machine-readable interfaces. It can retain the work graph after a conversation ends. Its scheduler recommends work; it does not launch or supervise workers.</p>
+<p>The important boundary is authority. A guarded claim protects one assignment operation. Ordinary updates can still edit another actor's issue or replace its assignee. Actor names, reviewer provider names and harness attribution are supplied by callers. There is no required execution-attempt credential on later progress or completion. The system therefore suits a trusted local team with an external execution coordinator. It does not supply the baseline's complete organization, authenticated review authority or shared online ownership across separate Mac and Linux stores.</p>
+<p>This revision also has a restricted license. <a href="repo/LICENSE">LICENSE</a>, lines 1–73, contains an MIT grant with an OpenAI/Anthropic rider that restricts parties and activities. Describe it as source available with restrictions, rather than unqualified MIT open source. This is a recorded adoption constraint, separate from the technical findings.</p>
+<h2 id="task-beads-rust-review-scope-and-evidence-level">Review scope and evidence level</h2>
+<p>The full tracked checkout contains 4,288 files. This is a targeted static source review, not an every-line audit. It follows the issue model, command inventory, create/update/claim/reclaim paths, workflow and capacity transaction admission, close and epic callers, optional MCP writes, selected JSONL publication/import boundaries, local lock authority, inherited context, audit lookup and reopen. Selected test assertion bodies were read. No candidate executable, dependency installation, build or test suite was run.</p>
+<p>The largest modules require care: <code>storage/sqlite.rs</code> has 47,264 lines, <code>sync/mod.rs</code> has 37,368 and <code>storage/schema.rs</code> has 11,597. The ledger records inspected ranges, not whole-file body coverage for those modules. The storage engine, full migration/repair system, every merge policy, operating-system lock primitive, installer and terminal rendering remain outside certification. Product documentation and instruction files describe intent; source bodies support the findings below.</p>
+<h2 id="task-beads-rust-architecture-and-data-authority">Architecture and data authority</h2>
+<p>The package builds the <code>br</code> command and a WAL recovery utility. <a href="repo/Cargo.toml">Cargo.toml</a>, lines 1–145, identifies version 0.7.6, edition 2024, a declared Rust minimum of 1.89, the FrankenSQLite family and optional FastMCP dependency. <a href="repo/rust-toolchain.toml">rust-toolchain.toml</a> selects <code>nightly-2026-08-31</code>. The checkout's build configuration takes precedence over a generic stable-Rust assumption.</p>
+<p>The executable owns startup and dispatch. The library's <code>run()</code> is a no-op placeholder, not the CLI implementation. See <a href="repo/src/lib.rs">lib.rs</a>, lines 29–78. A tool embedding the crate must call the actual storage or command surfaces rather than assume <code>run()</code> processes work. The <a href="repo/src/cli/mod.rs">command enum</a>, lines 748–1004, exposes task, graph, policy, diagnostics, synchronization, scheduler and optional stdio MCP operations. Its <code>Agents</code> command manages instruction files; that name does not establish a persistent agent roster.</p>
+<p><a href="repo/src/model/mod.rs">Issue</a>, lines 462–678, holds stable IDs, descriptions, design, acceptance text, prerequisites, notes, owner, assignee, status, priority, effort, dates, source repository, inherited agent context and closure attribution. Dependencies, labels and comments are related records. Session data at close and self-reported agent metadata improve attribution. They are not an execution-attempt state machine. The schema's table inventory covers issues, relations, events, dirty/export metadata, close metadata, gate history and capacity state; it does not introduce authenticated accounts or worker process records. See <a href="repo/src/storage/schema.rs">schema declarations</a>, with the declaration inventory distinguished in the ledger from the small schema body read.</p>
+<p>One FrankenSQLite database is the immediate mutation authority. JSONL is the repository exchange and recovery representation. These are separate persistence steps. Normal writes use database-family locks and transactions; synchronization publishes a file afterward. The instruction document's recommended Agent Mail and beads-viewer workflow adds other products, not hidden native messaging or a browser board.</p>
+<h2 id="task-beads-rust-requirement-assessment">Requirement assessment</h2>
+<p>Verdicts describe fit to this baseline. They are not reliability scores. The sections after the table explain the implementation boundaries and evidence.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Requirement</th>
+<th scope="col">Verdict</th>
+<th scope="col">Mechanism and boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr id="task-beads-rust-t01">
+<td>T01</td>
+<td>Similar</td>
+<td>Repository workspaces, source fields and prefix-to-path routing separate task stores. There is no complete leadership/project registry or portfolio authority.</td>
+</tr>
+<tr id="task-beads-rust-t02">
+<td>T02</td>
+<td>Similar</td>
+<td>Rich durable issue records, stable IDs, comments and close outcomes. The result remains task data, with no distinct accepted execution result object.</td>
+</tr>
+<tr id="task-beads-rust-t03">
+<td>T03</td>
+<td>Similar</td>
+<td>Parent-child edges, hierarchical IDs, epics and linked issues support decomposition. Runtime parent/child delegation relationships remain external.</td>
+</tr>
+<tr id="task-beads-rust-t04">
+<td>T04</td>
+<td>Similar</td>
+<td>Ready queries, dependency blockers and transactional edge-cycle checks exist. Start and close deliberately use different hierarchy rollups; direct storage updates do not universally enforce CLI start checks.</td>
+</tr>
+<tr id="task-beads-rust-t05">
+<td>T05</td>
+<td>Resembles</td>
+<td>Owner/assignee, actor, session and harness fields distinguish some attribution. There is no native agent/session/attempt registry with enforced attempt ownership.</td>
+</tr>
+<tr id="task-beads-rust-t06">
+<td>T06</td>
+<td>Similar</td>
+<td>CLI JSON/robot/TOON interfaces, schemas and optional seven-tool stdio MCP surface. Some contracts and output envelopes require version pinning.</td>
+</tr>
+<tr id="task-beads-rust-t07">
+<td>T07</td>
+<td>Similar</td>
+<td>Conditional claims and guarded reclaim compare ownership state in a write transaction. Ordinary assignment edits and MCP field updates do not require those claim guards.</td>
+</tr>
+<tr id="task-beads-rust-t08">
+<td>T08</td>
+<td>Similar</td>
+<td>Configurable status/group/scoped capacity admission and atomic batch checks; ranked scheduler output. It does not dispatch workers or prove their actual process capacity.</td>
+</tr>
+<tr id="task-beads-rust-t09">
+<td>T09</td>
+<td>Similar</td>
+<td>Shared child records, epic eligibility and child/blocker close checks support coordination. No child worker launch, join, cancellation or parent execution supervision.</td>
+</tr>
+<tr id="task-beads-rust-t10">
+<td>T10</td>
+<td>Similar</td>
+<td>Design/notes/references and opt-in inherited ancestor context. References are supplied data, not immutable artifact storage or complete content-bound review evidence.</td>
+</tr>
+<tr id="task-beads-rust-t11">
+<td>T11</td>
+<td>Similar</td>
+<td>Durable notes, comments, transition comments, audit and closure reason. A structured handoff/result protocol must be imposed by the coordinator.</td>
+</tr>
+<tr id="task-beads-rust-t12">
+<td>T12</td>
+<td>Resembles</td>
+<td>Shared comments and audit queries permit polling. No native recipient inbox, delivery acknowledgement or bounded loss-recoverable event cursor was found in the inspected model and interfaces.</td>
+</tr>
+<tr id="task-beads-rust-t13">
+<td>T13</td>
+<td>Similar</td>
+<td>Blocked/question records, dependency-only provenance and explicit stale-owner advice. Human escalation and answer routing are conventions and external communication.</td>
+</tr>
+<tr id="task-beads-rust-t14">
+<td>T14</td>
+<td>Similar</td>
+<td>Stale-work classification and guarded handoff use issue time plus supplied agent/reservation snapshots. These are not expiring task leases or a native heartbeat service.</td>
+</tr>
+<tr id="task-beads-rust-t15">
+<td>T15</td>
+<td>Similar</td>
+<td>Optional updated-at preconditions, claim tuple checks, status-scoped gate history and replay refusal on old reclaim evidence. No mandatory stale-worker token or general request-idempotency ledger.</td>
+</tr>
+<tr id="task-beads-rust-t16">
+<td>T16</td>
+<td>Similar</td>
+<td>Reopen, explicit requeue/edit, retained task history, import/export and recovery controls. Task-state repair does not resume or cancel an agent process or undo its external effects.</td>
+</tr>
+<tr id="task-beads-rust-t17">
+<td>T17</td>
+<td>Resembles</td>
+<td>JSONL exchange and routed local databases connect work across repositories. Separate cloned stores can independently assign the same task before exchanging changes.</td>
+</tr>
+<tr id="task-beads-rust-t18">
+<td>T18</td>
+<td>Similar</td>
+<td>Transactional mutation events and durable close attribution, plus workflow gate history. Some policy metadata is best effort after close; actor strings are not verified identities.</td>
+</tr>
+<tr id="task-beads-rust-t19">
+<td>T19</td>
+<td>Similar</td>
+<td>Terminal list/detail/search/graph/stats, ready selection, coordination diagnosis and structured views. No native browser portfolio was found in the inspected command/module inventory.</td>
+</tr>
+<tr id="task-beads-rust-t20">
+<td>T20</td>
+<td>Similar</td>
+<td>Priorities, labels, epics, estimates, due/defer dates and custom workflows support backlog management. Native sprint and milestone entities are absent from the inspected issue/schema model.</td>
+</tr>
+<tr id="task-beads-rust-t21">
+<td>T21</td>
+<td>Similar</td>
+<td>Opt-in checklist, close-reason, self-close and transition gates; review-cycle scoping. Providers are caller asserted and content edits do not necessarily invalidate a status-revision pass.</td>
+</tr>
+<tr id="task-beads-rust-t22">
+<td>T22</td>
+<td>Resembles</td>
+<td>Local file authority checks, explicit force/bypass surfaces and policy audit. No authenticated per-agent/project roles; local writers can change policy and actor labels.</td>
+</tr>
+<tr id="task-beads-rust-t23">
+<td>T23</td>
+<td>Similar</td>
+<td>Custom statuses/types, transition rules, required fields, typed references, capacity scopes and structured integration. Role authorization and execution adapters still need external implementation.</td>
+</tr>
+<tr id="task-beads-rust-t24">
+<td>T24</td>
+<td>Similar</td>
+<td>Single CLI, portable exchange, diagnostics and optional MCP keep deployment compact. Engine-specific recovery and lock/namespace machinery add material operational complexity. Runtime portability was not tested.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="task-beads-rust-work-lifecycle-and-alternate-mutations">Work lifecycle and alternate mutations</h2>
+<h3 id="task-beads-rust-create-decompose-and-select">Create, decompose and select</h3>
+<p>The CLI prepares the issue and populates requested relations before calling storage. The storage create body validates the issue, checks ID/external-reference collisions, validates initial workflow admission and capacity, and inserts the issue, labels, dependencies, comments and events in the mutation transaction. Dependency targets and cycles are checked before committing the new record. See <a href="repo/src/cli/commands/create.rs">create preparation</a>, lines 612–669, and <a href="repo/src/storage/sqlite.rs">storage create</a>, lines 7503–7738. Do not generalize this single-issue atomicity to every bulk-import or cross-project operation.</p>
+<p>The edge writer also checks endpoints, parent rules, existing edges and cycle creation inside <code>mutate()</code>. It marks affected state dirty and defers blocked-cache repair. See <a href="repo/src/storage/sqlite.rs">add dependency</a>, lines 13845–14002. Readiness can compute blocked state in memory when the cache is stale. That avoids declaring all stale-cache tasks ready or silently rewriting cache state during that query. See <a href="repo/src/storage/sqlite.rs">ready query</a>, lines 11335–11406.</p>
+<p>Starting and closing intentionally interpret hierarchy differently. A parent's open children can prevent closing the parent without preventing work on it. A propagated blocked-parent marker should not prevent an otherwise actionable child from starting. <code>get_start_blockers()</code> strips both rollup markers; <code>get_close_blockers()</code> retains open-child constraints while stripping the parent marker. See <a href="repo/src/storage/sqlite.rs">blocker views</a>, lines 12100–12172. These distinctions are useful, but a consumer must use the appropriate operation rather than equate every blocked marker with a prerequisite.</p>
+<p>The scheduler builds a ready candidate set, resolves external dependency statuses, scores candidates, preserves fallback order on ties and returns recommendations with evidence. It does not claim, spawn or monitor them. Its candidate cap is applied before ranking; a bounded recommendation is not necessarily the global best choice across all tasks. See <a href="repo/src/cli/commands/scheduler.rs">scheduler</a>, lines 205–313. Cross-project <a href="repo/src/config/routing.rs">routing</a>, lines 1–150, maps prefixes to local paths, not remote service credentials or a common distributed transaction.</p>
+<h3 id="task-beads-rust-claim-and-reassign">Claim and reassign</h3>
+<p>CLI <code>--claim</code> sets status to <code>in_progress</code>, assignee to the resolved actor and <code>expect_unassigned</code> to true. Ordinary <code>--assignee</code> edits leave that guard false. See <a href="repo/src/cli/commands/update.rs">update construction</a>, lines 1914–2002. The command checks start blockers before mutation; <code>--force</code> bypasses that advisory start check, but not the claim's terminal/deferred-state rejection. See <a href="repo/src/cli/commands/update.rs">start validation</a>, lines 1350–1403.</p>
+<p>Inside storage, a claim rejects closed, tombstone and deferred work. It checks current ownership and then includes the observed assignee, status, deferral and updated-at tuple in its SQL update predicate. A zero-row conditional write returns a claim conflict. Same-actor claims are allowed unless exclusive mode is configured. They still use the ordinary update machinery; this is eligibility idempotence, not a guaranteed no-write or cached-response contract. See <a href="repo/src/storage/sqlite.rs">claim eligibility and transfer</a>, lines 8270–8517, and <a href="repo/src/storage/sqlite.rs">conditional SQL</a>, lines 8888–8950.</p>
+<p>The ownership contract is narrower than the full mutation API. A non-claim edit can change another actor's task. MCP <code>update_issue</code> parses ordinary assignee/status fields and an optional <code>if_unchanged</code>; it does not manufacture the CLI claim predicate. Its start-blocker check does not turn an assignment replacement into an exclusive claim. See <a href="repo/src/mcp/tools.rs">MCP field parser</a>, lines 850–984, and <a href="repo/src/mcp/tools.rs">MCP update body</a>, lines 2150–2267. Serializing two unconditional replacements still permits the later replacement.</p>
+<p>The storage claim eligibility body checks state and assignment, not the CLI's start-blocker query. Normal CLI and MCP writers retain workspace authority across their preparation and mutation, which reduces races between cooperating commands. Direct library writers must not assume that calling <code>update_issue()</code> imports every CLI guard. This review does not certify behavior when other tools bypass the shared lock protocol.</p>
+<h3 id="task-beads-rust-progress-context-and-escalation">Progress, context and escalation</h3>
+<p>Scalar fields and labels can update in one storage batch. <code>expect_updated_at</code> is checked in that transaction when supplied. It is optional, so an unconditional stale whole-field rewrite can still replace newer text. The timestamp identifies issue state, not a worker incarnation. The issue update type exposes both guarded and unguarded operations. See <a href="repo/src/storage/sqlite.rs">IssueUpdate</a>, lines 20543–20630, and <a href="repo/src/storage/sqlite.rs">update guards</a>, lines 8428–8454.</p>
+<p>MCP field/label changes precede a separately persisted optional comment. A comment failure can therefore follow a committed field update. The MCP wrapper detects changed dirty metadata, attempts export even after a late error and marks committed/unknown outcomes. It does not make the whole tool call a single transaction. See <a href="repo/src/mcp/tools.rs">MCP update</a>, lines 2214–2267, and <a href="repo/src/mcp/mod.rs">mutation wrapper</a>, lines 486–650.</p>
+<p>Inherited context is opt-in. The inspected collector emits the immediate parent and selected root ancestor's nonempty <code>agent_context</code>, deduplicated. It does not emit every intermediate layer or pin a content revision for later acceptance. See <a href="repo/src/inheritance.rs">inheritance</a>, lines 1–246. This helps cold-start task context, but does not prove an agent read or followed it.</p>
+<p>Dependency-only blocked status can have explicit provenance. Storage rejects invalid combinations, ownership overrides, pinned/ephemeral/template exclusions and blocker-free attestations before recording the proof. See <a href="repo/src/storage/dependency_repair.rs">dependency block proof</a>, lines 750–845. This is more precise than treating every blocked task as waiting on a graph edge. Human questions still need someone to monitor and answer them; no native recipient delivery service appears in the inspected domain and operation inventory.</p>
+<h3 id="task-beads-rust-review-and-finish">Review and finish</h3>
+<p>Policy defaults are permissive. Close policy can require a reason, satisfied acceptance checklist, different closer from the last in-progress actor, attribution or typed references. Workflow policy adds permitted statuses/transitions, prospective required fields and per-transition gates. See <a href="repo/src/close_policy.rs">policy model</a>, lines 51–115 and 157–350.</p>
+<p>Storage rechecks workflow transitions, required fields and scoped gate results before the atomic batch. Capacity is evaluated against the batch's prospective state. This supports a drain/admit swap without incorrectly rejecting the admission solely because it appears first. See <a href="repo/src/storage/sqlite.rs">workflow preflight</a>, lines 7857–8050, and <a href="repo/src/storage/sqlite.rs">batch admission</a>, lines 8053–8235. This is shared task-state policy, not a worker process scheduler.</p>
+<p>Gate history is scoped to issue, from-status, target-status and the latest status-change event ID. A return to review after rework requires fresh reports. But changing description or acceptance text while remaining in the same status does not itself change that status revision. A prior pass can therefore remain eligible after content changes; this is a source-derived limitation, not a reproduced exploit. See <a href="repo/src/storage/sqlite.rs">gate recording and status revision</a>, lines 4803–4952.</p>
+<p>Minimum reviewers counts distinct lowercased provider strings with recognized reviewer prefixes. Named gates accept reported passes. There is no identity proof in that count, and a syntactically typed commit or PR reference does not verify the referenced artifact. See <a href="repo/src/close_policy.rs">gate satisfaction</a>, lines 1478–1507, and <a href="repo/src/close_policy.rs">close evaluation/reference parsing</a>, lines 2532–2658. Add authenticated evidence producers and content/version binding before using these gates as organizational approval authority.</p>
+<p>The CLI refuses <code>update --status closed</code> and routes completion through <code>close</code>. MCP similarly redirects closing to its close tool. CLI close checks open children and blockers, evaluates close policy, prepares updates and commits a batch. <code>--force</code> waives graph/child checks; policy bypass is a separate flag with a reason, and <code>allow_bypass: false</code> can reject it. See <a href="repo/src/cli/commands/update.rs">terminal-status refusal</a>, lines 1865–1895, and <a href="repo/src/cli/commands/close.rs">close path</a>, lines 974–1405.</p>
+<p>These are caller-layer close controls. The generic public storage update still accepts <code>Status::Closed</code> subject to its shared workflow checks; it does not call the CLI-specific close-reason/self-close/blocker evaluator. MCP close does call that evaluator and its blocker checks before updating. See <a href="repo/src/mcp/tools.rs">MCP close</a>, lines 2533–2711. An embedding must choose the checked completion interface or explicitly implement the missing policy.</p>
+<p>Close attribution is stored with the close event. Additional policy metadata is enriched afterward; failure logs a warning and does not undo the close. Epic close-eligible applies policy and then shares atomic storage mutation for the selected epics. See <a href="repo/src/cli/commands/epic.rs">epic close</a>, lines 121–218 and 369–400. No inspected path waits for an external child process or verifies its output merely because a child issue is closed.</p>
+<h2 id="task-beads-rust-concurrency-failure-and-recovery">Concurrency, failure and recovery</h2>
+<p>Database mutation uses <code>BEGIN IMMEDIATE</code>, bounded retries with jitter and rollback before replaying transient body/commit errors. Rollback failure stops retry with transaction state unknown. Authority is verified before the transaction and after commit. A post-commit authority error is not evidence that data rolled back. See <a href="repo/src/storage/sqlite.rs">transaction wrapper</a>, lines 4002–4148. The mutation layer groups issue writes, events and dirty markers, then can perform cache maintenance after the primary commit. See <a href="repo/src/storage/sqlite.rs">mutate</a>, lines 7245–7502.</p>
+<p>Local write authority combines workspace lock, canonical database-family lock and database inode identity. It rejects routing or inode changes observed while authority is held. MCP reacquires this authority per mutation, refuses incomplete merge state, acquires the sync lock before writing and reloads policy under that authority. See <a href="repo/src/sync/mod.rs">lock acquisition</a>, lines 1830–1915, <a href="repo/src/sync/mod.rs">identity checks</a>, lines 649–715, and the MCP wrapper. These are valuable filesystem defenses. They neither authenticate an actor nor coordinate two independently cloned databases over a network.</p>
+<p>Stale work uses evidence-based classification rather than task TTL expiry. Swarm thresholds are two quiet hours for stale-candidate and eight for likely abandonment. Human/unknown thresholds are 24 and 72 elapsed hours; the source constants do not implement a business-day calendar. Activity uses the newer issue update or supplied owner heartbeat. Active reservations, absent snapshots and invalid snapshots alter the advice. See <a href="repo/src/coordination.rs">coordination assessment</a>, lines 15–45 and 482–602.</p>
+<p>Reclaim requires an explicit new actor, observed previous assignee, issue updated-at and snapshot evidence. It reloads snapshots, examines comments, rechecks eligibility and uses the normal update route. Inside the transaction it validates the old tuple and policy evidence, inserts the audit comment and changes ownership together. Replaying the old handoff conflicts. See <a href="repo/src/cli/commands/coordination.rs">reclaim command</a>, lines 36–208, and storage claim ranges above. Empty snapshot files are rejected; explicit <code>[]</code> can represent a verified empty export. See <a href="repo/src/cli/commands/coordination.rs">snapshot loading</a>, lines 593–626.</p>
+<p>The external evidence is still a file snapshot. Reloading it is not an atomic read of Agent Mail's current authority, nor proof that a worker cannot start immediately afterward. Returning old workers can make ordinary unguarded edits. Reclaim protects the handoff itself; it does not revoke process capabilities or fence every later write.</p>
+<p>JSONL export captures previous-source authority, rejects stale replacement evidence, guards against losing existing IDs, stages output, flushes and syncs it, verifies staged content and calls conditional publication. See <a href="repo/src/sync/mod.rs">export</a>, lines 11763–12165. Import scans conflicts, validates records, plans collisions and applies streamed actions plus witness metadata in a database transaction; foreign-key restoration/verification follows. See <a href="repo/src/sync/mod.rs">import boundary</a>, lines 17004–17187. This review did not certify every merge/collision decision or publication primitive.</p>
+<p>The database write and JSONL publication are not one atomic commit. CLI export failure can be a warning after a successful mutation. MCP returns structured committed/sync-pending information, retains request output and says not to retry the mutation. The test source explicitly retains a committed dirty issue when conflict-marked JSONL prevents export. A coordinator must repair and flush, then publish repository changes. It must not blindly repeat create/comment calls after a transport error.</p>
+<p>Reopen clears close/deferral fields and uses the shared atomic update path. See <a href="repo/src/cli/commands/reopen.rs">reopen</a>, lines 197–315. It repairs record state rather than resuming a process. Similarly, deleting or deferring work does not stop a worker already performing external actions.</p>
+<h2 id="task-beads-rust-usability-operating-costs-and-implementation-quality">Usability, operating costs and implementation quality</h2>
+<p>The terminal and machine interfaces are well aligned with repository agents: list/detail/search, concise selection, schema discovery, explainable recommendation and actionable conflicts. Optional MCP avoids shell parsing, but requires a build with that feature and uses stdio, not a LAN endpoint. A central host wrapper or separate service is still needed for remote workers to share one authoritative store.</p>
+<p>Audit queries expose durable facts but are not a bounded delivery queue. <code>get_all_events()</code> fetches all rows, then sorts and truncates in Rust. The CLI since-query asks for all events and filters inclusively by time. This can support external deduplicating polling, but scales with accumulated history and has no per-recipient acknowledgement or truncation recovery contract in that path. See <a href="repo/src/storage/events.rs">event lookup</a>, lines 457–481, and <a href="repo/src/cli/commands/audit.rs">audit since</a>, lines 241–291.</p>
+<p>The code contains real policy and recovery depth, not just prompts describing a workflow. Shared transaction admission is a strong design choice. The main maintenance concern is how many guarantees remain distributed between startup, commands, storage, MCP, export and recovery. The large storage/sync modules and engine-specific workarounds increase the cost of checking equivalent behavior across interfaces.</p>
+<p><a href="repo/docs/reliability/ENGINE_OPERATING_MODEL.md">ENGINE_OPERATING_MODEL.md</a>, lines 1–130, records historical engine incidents and containment. Its opening version description differs from the current Cargo pins; use the manifest for the pinned dependency family, and treat historical test receipts as their recorded evidence. The inspected <code>admit_checkpoint()</code> and full-checkpoint caller require sole-opener admission when an opener lease exists and refuse a full checkpoint when peers are present. See <a href="repo/src/storage/sqlite.rs">checkpoint admission</a>, lines 4452–4528. The engine itself was not audited or executed here, so neither universal corruption claims nor broad engine-safety guarantees follow from this review.</p>
+<h2 id="task-beads-rust-test-source-review-and-remaining-uncertainty">Test-source review and remaining uncertainty</h2>
+<p>The following assertions were read, not run:</p>
+<ul>
+<li><a href="repo/tests/e2e_claim_atomic.rs">Claim test</a>, lines 305–356: one of two contenders succeeds, but the fixture serializes storage access with an explicit Rust mutex. This does not independently demonstrate unsynchronized multi-process engine safety. Lines 421–435 explicitly permit a non-claim edit by another actor.</li>
+<li><a href="repo/src/storage/sqlite.rs">Reclaim assertions</a>, lines 31669–31754: one audit and transfer, old-evidence replay refusal, rollback on later invalid field and recent-heartbeat rejection. These are selected in-memory storage cases.</li>
+<li><a href="repo/tests/e2e_coordination.rs">Queued reclaim processes</a>, lines 2167–2228: two child CLI processes wait behind workspace authority, then one wins and the loser appends no handoff audit. The selected body is stronger process-path coverage than the mutex claim fixture, but was not executed in this assessment.</li>
+<li><a href="repo/src/storage/sqlite.rs">Gate cycle assertions</a>, lines 26423–26538: returning through rework invalidates prior status-scoped passes, preserves history and rejects an old-scope report. It does not test all content-edit invalidation cases.</li>
+<li><a href="repo/src/storage/sqlite.rs">Capacity batch assertions</a>, lines 26883–26978: excess prospective occupancy rejects both tasks and field changes; a matching drain permits admission. This is policy atomicity coverage, not worker capacity measurement.</li>
+<li><a href="repo/src/mcp/mod.rs">MCP export failure</a>, lines 1607–1647: export refusal leaves the created task committed and dirty. The inspected assertions do not prove exactly-once request behavior.</li>
+</ul>
+<p>Unverified areas include real terminal usability, cross-platform locks, host failure during publication, engine behavior under contention, complete migration/doctor/merge semantics, installer safety and integration with external agent runtime or mail services. Source completeness is not product acceptance.</p>
+<h2 id="task-beads-rust-adoption-work-and-useful-components">Adoption work and useful components</h2>
+<p>For the full baseline, add a shared authenticated authority or keep all mutations on one designated host. Introduce persistent agent and attempt identities, mandatory attempt fences for controlled writes, request-idempotency records and a reconciler for committed-but-unpublished outcomes. Make assignment, CLI, MCP and library completion use the same declared ownership and acceptance contract.</p>
+<p>Add authenticated reviewers, artifact/content revisions, durable recipient communication and a coordinator that owns dispatch, process cancellation, child result integration and human decisions. Preserve the useful existing primitives: transactional graph edits, guarded ownership transfer, explicit dependency-block provenance, configurable workflow admission, capacity checks, inherited context and structured recovery outcomes. Confirm license suitability independently before adoption.</p></article><nav class="report-switch" aria-label="Task study navigation"><a href="../index.html">Return to the task comparison</a><a href="../beads/index.html">Previous: Beads</a><a href="../beads-viewer/index.html">Next: beads-viewer</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../../index.html">Return to overview <img src="../../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

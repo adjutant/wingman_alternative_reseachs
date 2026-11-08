@@ -10,7 +10,15 @@ Search and filters need JavaScript. The complete content does not.
 research/
 ├── index.html
 ├── WINGMAN_PURPOSE.md
+├── AGENT_TASK_MANAGEMENT.md
 ├── AGENTS.md
+├── task-management/
+│   ├── index.html
+│   ├── purpose.html
+│   ├── COMPARISON.md
+│   ├── REQUIREMENT_MATRIX.md
+│   ├── checkouts.json
+│   └── <codebase>/...assessment, report and optional source checkout...
 ├── <project>/
 │   ├── repo/
 │   ├── assessment/
@@ -39,7 +47,8 @@ The original categories remain in `checkouts.json` as metadata.
 - [Method and evidence](generic/method.html) define verdicts and verification limits.
 - [Agent task coordination](generic/task-coordination.html) compares shared trackers, boards, claims and handoffs for agents and subagents.
 - [Agent task management baseline](AGENT_TASK_MANAGEMENT.md) defines the dedicated coordination requirements.
-- [Full task-management source study](task-management/README.md) tracks the deeper codebase assessments. This study is in progress.
+- [Agent task management](task-management/index.html) compares all 25 codebase assessments against T01–T24.
+- [Task-study source guide](task-management/README.md) links Markdown reports, source ledgers and verification evidence.
 - [Source index](generic/assessments/CHECKOUT_INDEX.md) lists all checkouts and commits.
 - [Feature matrix](generic/assessments/FEATURE_MATRIX.md) provides the complete Markdown comparison.
 
@@ -48,8 +57,9 @@ Their technical sections cover architecture, 24 features, lifecycle, coordinatio
 Code links refer to the pinned local checkout.
 
 Focused studies can add new upstream source evidence without adding projects to the original 75-checkout comparison.
-The task coordination study records 17 open-source systems and five restricted alternatives or companions.
+The earlier task coordination screening records 17 open-source systems and five restricted alternatives or companions.
 Its revisions, licenses, file hashes and review scopes are in [the evidence index](generic/assessments/agent-task-coordination/EVIDENCE.md).
+The deeper task-management study has 25 complete checkouts and reports, including the adapter, communication companions and Taiga frontend. It preserves license and implementation boundaries.
 
 ## Serve on your LAN
 
@@ -105,6 +115,9 @@ Use the user's uv installation. The builder declares its dependencies.
 ```sh
 uv run --script tools/build_reports.py
 python3 tools/validate_research.py --write
+python3 tools/validate_task_management.py --write --require-complete
+uv run --script tools/validate_task_publication.py --write
+python3 tools/test_serve_reports.py
 ```
 
 Run these commands from this repository's root.
@@ -115,3 +128,4 @@ It compares their directory inodes with the recorded pre-move state.
 It does not certify source semantics or formal ASD-STE100 compliance.
 
 Read [the completion audit](generic/assessments/COMPLETION_AUDIT.md) for the current review state.
+Read [the task-study completion audit](task-management/COMPLETION_AUDIT.md) for its separate source and publication evidence.

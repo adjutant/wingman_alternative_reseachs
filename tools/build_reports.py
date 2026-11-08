@@ -28,6 +28,13 @@ features = [(m[1], m[2].strip()) for m in re.finditer(
     (ROOT / 'generic/assessments/ASSESSMENT_GUIDE.md').read_text(), re.M)]
 assert len(features) == 24
 assert len(briefs) == len(coverage['repositories']) == 75
+task_checkouts = json.loads((ROOT / 'task-management/checkouts.json').read_text())
+task_catalog = json.loads((ROOT / 'task-management/catalog.json').read_text())
+task_briefs = {item['slug']: item for item in task_catalog['projects']}
+task_features = [(m[1], m[2].strip()) for m in re.finditer(
+    r'^\| (T\d{2}) \| ([^|]+)\|', (ROOT / 'AGENT_TASK_MANAGEMENT.md').read_text(), re.M)]
+assert len(task_features) == 24
+assert set(task_briefs) == {item['slug'] for item in task_checkouts['repositories']}
 
 GROUPS = {
     'standing-teams': 'Standing teams', 'workbenches': 'Coding workspaces',
@@ -61,6 +68,10 @@ report_map[ROOT / 'WINGMAN_PURPOSE.md'] = ROOT / 'generic/purpose.html'
 report_map[ROOT / 'generic/assessments/ARCHITECTURE.md'] = ROOT / 'generic/index.html'
 report_map[ROOT / 'generic/assessments/METHOD.md'] = ROOT / 'generic/method.html'
 report_map[ROOT / 'generic/assessments/AGENT_TASK_COORDINATION.md'] = ROOT / 'generic/task-coordination.html'
+report_map[ROOT / 'AGENT_TASK_MANAGEMENT.md'] = ROOT / 'task-management/purpose.html'
+report_map[ROOT / 'task-management/COMPARISON.md'] = ROOT / 'task-management/index.html'
+for item in task_checkouts['repositories']:
+    report_map[ROOT / item['assessment']] = ROOT / 'task-management' / item['slug'] / 'index.html'
 for x in coverage['repositories']:
     folder = (ROOT / x['report']).parent
     for chapter in folder.glob('*.md'):
@@ -97,6 +108,10 @@ def render(path, page, prefix):
         table.wrap(wrap)
         for th in table.select('thead th'):
             th['scope'] = 'col'
+        for row in table.select('tbody tr'):
+            first = row.find(['td', 'th'])
+            if first and re.fullmatch(r'T\d{2}', first.get_text(strip=True)):
+                row['id'] = prefix + '-' + first.get_text(strip=True).lower()
     for block in doc.select('pre'):
         block['tabindex'] = '0'
         block['role'] = 'region'
@@ -113,7 +128,8 @@ def shell(page, title, subtitle, body, section, toc='', review_date='05 NOV 2026
     base = lambda p: E(rel(ROOT / p, page))
     links = [('index.html', 'Overview', 'overview'), ('generic/index.html', 'Architecture findings', 'architecture'),
              ('generic/purpose.html', 'Wingman purpose', 'purpose'), ('generic/method.html', 'Method and evidence', 'method'),
-             ('generic/task-coordination.html', 'Agent task coordination', 'coordination')]
+             ('task-management/index.html', 'Agent task management', 'tasks'),
+             ('generic/task-coordination.html', 'Initial task screening', 'coordination')]
     nav = ''.join(f'<a class="nav-link {"active" if key == section else ""}" href="{base(path)}"'
                   f'{" aria-current=page" if key == section else ""}>{label}</a>' for path, label, key in links)
     groupnav = ''.join(f'<a class="nav-link" href="{base("index.html")}#group-{slug}">{label}</a>' for slug, label in GROUPS.items())
@@ -128,7 +144,7 @@ def shell(page, title, subtitle, body, section, toc='', review_date='05 NOV 2026
 <a class="brand" href="{base('index.html')}"><img src="{base('assets/icons/signal-dash.svg')}" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
 <p class="nav-label">Research collection</p><nav>{nav}</nav>
 <p class="nav-label">Source groups</p><nav>{groupnav}</nav>
-<div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="{base('README.md')}">Open the file guide →</a></div></aside>
+<div class="sidebar-bottom"><strong>Two source studies</strong><p>75 organization snapshots.<br>25 task coordination codebases.<br>Evidence at pinned revisions.</p><a href="{base('README.md')}">Open the file guide →</a></div></aside>
 <div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="{base('index.html')}">Wingman Research</a><span class="crumb">/</span><span>{E(title)}</span></div><span class="topbar-note">SOURCE REVIEW · {E(review_date)}</span></header>
 <main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>{E(title)}</h1><p class="subtitle">{E(subtitle)}</p></div>
 {toc}{body}
@@ -191,7 +207,7 @@ def build_master():
 <p><a href="generic/purpose.html">Read the full Wingman purpose →</a></p></section>'''
     stats = '<div class="summary"><div><strong>75</strong><span>Source checkouts</span></div><div><strong>24</strong><span>Common requirements</span></div><div><strong>6</strong><span>Source groups</span></div><div><strong>25</strong><span>Historical source audits</span></div></div>'
     reading = '''<section><h2>Choose a reading path</h2><div class="table-scroll"><table><thead><tr><th>Question</th><th>Start here</th><th>Main decision</th></tr></thead><tbody>
-<tr><td>How can agents share tasks and hand off work?</td><td><a href="generic/task-coordination.html">Agent task coordination</a></td><td>Compare 17 open-source task systems, ownership, dependencies, recovery and agent interfaces.</td></tr>
+<tr><td>How can agents share tasks and hand off work?</td><td><a href="task-management/index.html">Agent task management</a></td><td>Read 25 codebase assessments against T01–T24: ownership, dependencies, recovery, review and agent interfaces.</td></tr>
 <tr><td>How can a standing team work?</td><td><a href="paperclip/index.html">Paperclip</a>, <a href="openrig/index.html">OpenRig</a>, <a href="multica/index.html">Multica</a>, <a href="crewly/index.html">Crewly</a>, <a href="agent-swarm/index.html">Agent Swarm</a></td><td>Choose the agent, project, task, and authority model.</td></tr>
 <tr><td>How can workers execute and recover?</td><td><a href="orca/index.html">Orca</a>, <a href="codex-autorunner/index.html">CAR</a>, <a href="agent-deck/index.html">Agent Deck</a>, <a href="scion/index.html">Scion</a></td><td>Choose session, attempt, delivery, and host contracts.</td></tr>
 <tr><td>How can work reach accepted delivery?</td><td><a href="gstack/index.html">gstack</a>, <a href="gastown/index.html">Gas Town</a>, <a href="superplane/index.html">SuperPlane</a>, <a href="babysitter/index.html">Babysitter</a></td><td>Connect product definition to versioned verification evidence.</td></tr>
@@ -247,13 +263,76 @@ def build_generic():
     shell(page, 'Wingman purpose', 'The product baseline used for all 75 assessments.',
           '<article class="technical">' + body + '</article>', 'purpose', generic_contents(body))
 
+
+def build_task_management():
+    folder = ROOT / 'task-management'
+    records = sorted(task_checkouts['repositories'], key=lambda item: item['slug'])
+    reviews = {item['slug']: json.loads((ROOT / item['assessment']).with_name('review.json').read_text())
+               for item in records}
+    matrix_md = ['# Task-management requirement matrix', '',
+                 'Derived from the 25 source-review ledgers at their pinned commits. Read each report for verdict boundaries. No candidate application or test suite was run. Verdict counts are not product scores.', '',
+                 '| Codebase | ' + ' | '.join(key for key, _ in task_features) + ' |',
+                 '|---|' + '---|' * len(task_features)]
+    page = folder / 'index.html'
+    options = ''.join(f'<option value="{E(key)}">{E(label)}</option>'
+                      for key, label in task_catalog['families'].items())
+    body = '''<div class="summary"><div><strong>25</strong><span>Codebase assessments</span></div><div><strong>24</strong><span>Task requirements</span></div><div><strong>600</strong><span>Explained verdicts</span></div><div><strong>0</strong><span>Candidate test suites run</span></div></div>
+<p class="lead">Shared work that survives agent sessions.</p><p>Compare project records, ready work, ownership, delegation, recovery and acceptance. Each report traces a pinned source revision and states its evidence limits.</p>
+<p><a href="purpose.html">Read the task-management baseline →</a> · <a href="REQUIREMENT_MATRIX.md">Open the Markdown matrix</a> · <a href="README.md">Source study guide</a></p>
+<section id="comparison"><h2>Compare coordination mechanisms</h2>
+<form class="filters" role="search"><label class="search">Find a codebase or mechanism<input type="search" id="project-search" placeholder="Name, lease, review, dependency…" autocomplete="off"></label>
+<label>Source family<select id="group-filter"><option value="">All families</option>''' + options + '''</select></label>
+<label>Requirements<select id="lens-filter"><option value="priority">Ownership and acceptance</option><option value="organization">Project organization</option><option value="work">Work and communication</option><option value="runtime">Failure and continuity</option><option value="visibility">Inspection and governance</option><option value="all">All 24 requirements</option></select></label></form>
+<p class="legend"><strong>Verdicts:</strong> Exact · Similar · Resembles · Absent · Unclear. Open any verdict for its explanation. These are fit categories, not a reliability ranking.</p>
+<p id="result-count" class="result-count" role="status">25 codebases</p>
+<div class="table-scroll matrix-scroll" tabindex="0" role="region" aria-label="Task management requirement comparison"><table id="comparison-table" data-study="tasks"><thead><tr><th scope="col">Codebase / useful mechanism</th>'''
+    for key, label in task_features:
+        body += f'<th scope="col" data-feature="{key}"><a href="purpose.html#task-purpose-{key.lower()}" title="{E(label)}">{key}</a><span>{E(label)}</span></th>'
+    body += '</tr></thead><tbody>'
+    for index, item in enumerate(records):
+        slug = item['slug']; brief = task_briefs[slug]; review = reviews[slug]
+        search = E(' '.join([slug, brief['name'], brief['use'], brief['boundary']]).lower(), quote=True)
+        body += f'<tr data-group="{E(brief["family"])}" data-search="{search}"><th scope="row"><a href="{slug}/index.html">{E(brief["name"])}</a><small>{E(brief["use"])}</small></th>'
+        verdicts = review['requirement_verdicts']
+        for key, _ in task_features:
+            verdict = verdicts[key]
+            body += f'<td data-feature="{key}" class="verdict {verdict.lower()}"><a href="{slug}/index.html#task-{slug}-{key.lower()}">{E(verdict)}</a></td>'
+        body += '</tr>'
+        matrix_md.append(f'| [{brief["name"]}]({slug}/assessment/ASSESSMENT.md) | ' + ' | '.join(verdicts[key] for key, _ in task_features) + ' |')
+        project_page = folder / slug / 'index.html'
+        project_body = render(ROOT / item['assessment'], project_page, 'task-' + slug)
+        adjacent = '<nav class="report-switch" aria-label="Task study navigation">'
+        adjacent += '<a href="../index.html">Return to the task comparison</a>'
+        if index:
+            previous = records[index - 1]['slug']
+            adjacent += f'<a href="../{previous}/index.html">Previous: {E(task_briefs[previous]["name"])}</a>'
+        if index + 1 < len(records):
+            following = records[index + 1]['slug']
+            adjacent += f'<a href="../{following}/index.html">Next: {E(task_briefs[following]["name"])}</a>'
+        adjacent += '</nav>'
+        shell(project_page, brief['name'] + ' · task management', brief['use'],
+              '<article class="technical">' + project_body + '</article>' + adjacent,
+              'tasks', generic_contents(project_body), review_date='09 NOV 2026')
+    body += '</tbody></table></div><p id="empty-result" hidden>No codebase matches these filters. Change the search or source family.</p></section>'
+    comparison = render(folder / 'COMPARISON.md', page, 'task-findings')
+    body += '<article class="technical">' + comparison + '</article>'
+    shell(page, 'Agent task management', '25 codebases assessed against shared project and task coordination requirements.',
+          body, 'tasks', '<p><a href="#comparison">Requirement matrix</a></p>' + generic_contents(comparison),
+          review_date='09 NOV 2026')
+    (folder / 'REQUIREMENT_MATRIX.md').write_text('\n'.join(matrix_md) + '\n')
+    purpose_page = folder / 'purpose.html'
+    purpose = render(ROOT / 'AGENT_TASK_MANAGEMENT.md', purpose_page, 'task-purpose')
+    shell(purpose_page, 'Agent task management baseline', 'The T01–T24 purpose used by all 25 task-management assessments.',
+          '<p><a href="index.html">Return to the task comparison →</a></p><article class="technical">' + purpose + '</article>',
+          'tasks', generic_contents(purpose), review_date='09 NOV 2026')
+
 def main():
     for item in coverage['repositories']:
         item['report_sha256'] = hashlib.sha256((ROOT / item['report']).read_bytes()).hexdigest()
         build_project(item)
     (ROOT / 'coverage.json').write_text(json.dumps(coverage, indent=2) + '\n')
-    build_master(); build_generic()
-    print('Built 80 HTML reports: 75 projects, 4 generic reports, and 1 overview.')
+    build_master(); build_generic(); build_task_management()
+    print('Built 107 HTML reports: the original 80 plus 25 task assessments, task baseline and task comparison.')
 
 if __name__ == '__main__':
     main()

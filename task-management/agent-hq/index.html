@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Compact board, messages and expiring claims"><title>Agent HQ · task management · Wingman Research</title>
+<link rel="icon" href="../../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/report.css"><script defer src="../../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../../index.html"><img src="../../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../../index.html">Overview</a><a class="nav-link " href="../../generic/index.html">Architecture findings</a><a class="nav-link " href="../../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../../generic/method.html">Method and evidence</a><a class="nav-link active" href="../index.html" aria-current=page>Agent task management</a><a class="nav-link " href="../../generic/task-coordination.html">Initial task screening</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>Two source studies</strong><p>75 organization snapshots.<br>25 task coordination codebases.<br>Evidence at pinned revisions.</p><a href="../../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../../index.html">Wingman Research</a><span class="crumb">/</span><span>Agent HQ · task management</span></div><span class="topbar-note">SOURCE REVIEW · 09 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Agent HQ · task management</h1><p class="subtitle">Compact board, messages and expiring claims</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#task-agent-hq-agent-hq-task-management-assessment">Agent HQ task management assessment</a><a href="#task-agent-hq-fit-decision">Fit decision</a><a href="#task-agent-hq-architecture-and-domain-model">Architecture and domain model</a><a href="#task-agent-hq-requirement-assessment">Requirement assessment</a><a href="#task-agent-hq-work-lifecycle-and-alternate-paths">Work lifecycle and alternate paths</a><a href="#task-agent-hq-concurrency-and-recovery-findings">Concurrency and recovery findings</a><a href="#task-agent-hq-usability-completeness-and-design-quality">Usability, completeness and design quality</a><a href="#task-agent-hq-test-source-review-and-uncertainty">Test-source review and uncertainty</a><a href="#task-agent-hq-adoption-work">Adoption work</a><a href="#task-agent-hq-source-review-record">Source review record</a></div></nav><article class="technical"><h2 id="task-agent-hq-agent-hq-task-management-assessment">Agent HQ task management assessment</h2>
+<p class="url-text">Repository: https://github.com/tools-for-agents/agent-hq</p>
+<p>Commit: <code>785cd8c9a55b2b517eb8eb8f680cd65985992282</code>.
+Baseline: <a href="../purpose.html">Shared task management for an agent organization</a>.
+Review: November 8, 2026. Full local checkout, static implementation review. Candidate code and tests were not executed.</p>
+<h2 id="task-agent-hq-fit-decision">Fit decision</h2>
+<p>Agent HQ is a small, understandable shared board with useful agent interfaces, messaging, memory and operator views.
+It provides a real conditional task claim and real expiring reservations.
+It is suitable as a reference implementation or a trusted team's cooperative tracker.</p>
+<p>It is not a complete authority for independent workers against this baseline.
+General task updates bypass the claim guard, direct claims bypass readiness, and the HTTP service does not authenticate the actor.
+There is no parent/subagent model, attempt token, review gate or stale-worker rejection on completion.
+These gaps affect the central coordination contract rather than peripheral presentation.</p>
+<p>For adoption, keep the small API and board design but establish one enforced mutation policy before adding autonomous workers.
+The source is MIT licensed. Its installation is small, but that does not remove the required coordination work.</p>
+<h2 id="task-agent-hq-architecture-and-domain-model">Architecture and domain model</h2>
+<p>The application is a Node HTTP service, a synchronous SQLite store, a browser dashboard and a separate stdio MCP proxy.
+The <a href="repo/src/server.js">HTTP server</a>, lines 49–102 and 130–194, exposes the domain operations directly and starts a stale-agent timer.
+The <a href="repo/mcp/mcp-server.js">MCP process</a>, lines 17–35 and 469–546, forwards requests to the HTTP service through <code>HQ_URL</code>.
+It does not maintain a second database or execute the coding worker.</p>
+<p>The <a href="repo/src/db.js">schema</a>, lines 14–135, stores agents, boards, columns, tasks, task dependencies, comments, memory, messages, activity and a run/cost ledger.
+An agent has a durable identifier, name, role, status and last-seen time.
+A task belongs to a board and column and has description, assignee, priority and labels.
+The task schema has no parent, acceptance policy, execution-attempt identifier or versioned review target.
+The later schema additions provide claim time and lease expiry, not an attempt token.</p>
+<p>SQLite opens with foreign keys, WAL, a busy timeout and retry handling around initial schema creation: <a href="repo/src/db.js">database initialization</a>, lines 137–173.
+That is a useful local persistence foundation.
+Most domain operations then issue separate statements through small synchronous helpers.
+The schema transaction is not a transaction around each task transition and its activity event.</p>
+<h2 id="task-agent-hq-requirement-assessment">Requirement assessment</h2>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Verdict</th>
+<th scope="col">Implementation and boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr id="task-agent-hq-t01">
+<td>T01</td>
+<td>Resembles</td>
+<td>Boards partition task records, but there is no project/leadership registry. The dashboard reads the default board, while agents, memory and messages are global. <a href="repo/src/db.js">Schema</a>, lines 15–102; <a href="repo/src/services.js">board service</a>, lines 231–319; <a href="repo/public/app.js">browser board</a>, lines 223–248.</td>
+</tr>
+<tr id="task-agent-hq-t02">
+<td>T02</td>
+<td>Similar</td>
+<td>Stable task IDs, outcomes in descriptions, priority, labels and timestamps persist in SQLite. Status is column membership; required acceptance information is not structured. <a href="repo/src/db.js">Task schema</a>, lines 42–55; <a href="repo/src/services.js">create/get</a>, lines 455–537.</td>
+</tr>
+<tr id="task-agent-hq-t03">
+<td>T03</td>
+<td>Absent</td>
+<td>The complete task/dependency schema and task creation/update operations contain no parent relationship or child lifecycle. Dependencies are ordering edges, not decomposition. <a href="repo/src/db.js">Schema</a>, lines 42–61; <a href="repo/src/services.js">task mutations</a>, lines 508–627.</td>
+</tr>
+<tr id="task-agent-hq-t04">
+<td>T04</td>
+<td>Similar</td>
+<td>Dependency insertion checks reachability; next-task selection filters unfinished blockers. Direct claim and task moves do not apply that eligibility rule. Cross-board blockers are also displayed incorrectly by the board projection. <a href="repo/src/services.js">Dependencies/selection</a>, lines 596–697; <a href="repo/src/services.js">projection</a>, lines 252–288.</td>
+</tr>
+<tr id="task-agent-hq-t05">
+<td>T05</td>
+<td>Resembles</td>
+<td>Agents and accounting runs are separate durable rows. Runs do not authorize task mutations, and there is no parent-agent/session/attempt relationship. <a href="repo/src/db.js">Agent and run schemas</a>, lines 15–25 and 104–119; <a href="repo/src/services.js">ledger</a>, lines 889–942.</td>
+</tr>
+<tr id="task-agent-hq-t06">
+<td>T06</td>
+<td>Similar</td>
+<td>HTTP and MCP return structured records and explicit errors. MCP checks required fields, primitive types and enums. Detail bodies have token budgets, but whole-board and task-list cardinality is unbounded. <a href="repo/mcp/mcp-server.js">MCP dispatcher</a>, lines 483–532; <a href="repo/src/services.js">reads</a>, lines 455–505.</td>
+</tr>
+<tr id="task-agent-hq-t07">
+<td>T07</td>
+<td>Resembles</td>
+<td>Claim uses a conditional SQL update and refuses another live holder. Generic update can overwrite the assignee without a claim check; release with an empty actor can clear ownership. <a href="repo/src/services.js">Claim/release</a>, lines 633–675; <a href="repo/src/services.js">update</a>, lines 539–581.</td>
+</tr>
+<tr id="task-agent-hq-t08">
+<td>T08</td>
+<td>Similar</td>
+<td>Column limits are checked during creation and moves, and an explicit <code>force</code> option bypasses them. They are not limits on claimed execution, and the count/write sequence is not a shared transaction across multiple server processes. <a href="repo/src/services.js">Capacity</a>, lines 407–418, 508–566.</td>
+</tr>
+<tr id="task-agent-hq-t09">
+<td>T09</td>
+<td>Absent</td>
+<td>Neither task mutations nor MCP tools create a durable delegated parent/child relationship or aggregate children for parent completion. <a href="repo/src/services.js">Task service</a>, lines 455–709; <a href="repo/mcp/mcp-server.js">tool definitions</a>, lines 39–418.</td>
+</tr>
+<tr id="task-agent-hq-t10">
+<td>T10</td>
+<td>Similar</td>
+<td>Descriptions, comments, labels and searchable namespaced memory retain useful context. Artifact revision and project-document relationships remain conventions in text. <a href="repo/src/services.js">Comments/memory</a>, lines 584–593 and 712–784.</td>
+</tr>
+<tr id="task-agent-hq-t11">
+<td>T11</td>
+<td>Similar</td>
+<td>Persistent task comments and activity support progress and handoff. There is no structured result/checkpoint or required handoff record. <a href="repo/src/services.js">Task detail/comments</a>, lines 455–469 and 584–593.</td>
+</tr>
+<tr id="task-agent-hq-t12">
+<td>T12</td>
+<td>Similar</td>
+<td>Directed messages, broadcasts and per-agent read receipts are durable. SSE gives live refresh hints but has no replay cursor; reconnect marks the UI live without reloading the board. <a href="repo/src/services.js">Messaging</a>, lines 797–883; <a href="repo/src/events.js">events</a>, lines 1–16; <a href="repo/public/app.js">client connection</a>, lines 830–877.</td>
+</tr>
+<tr id="task-agent-hq-t13">
+<td>T13</td>
+<td>Resembles</td>
+<td>The board shows dependency blockers, and agents can message others. There is no question/decision state, leadership escalation or human-answer workflow. <a href="repo/src/services.js">Board projection</a>, lines 252–288; <a href="repo/src/services.js">messages</a>, lines 797–844.</td>
+</tr>
+<tr id="task-agent-hq-t14">
+<td>T14</td>
+<td>Similar</td>
+<td>Claims expire and a later claim can replace an expired holder. Agent heartbeats and offline detection are separate; a heartbeat does not renew the task lease. No task-expiry event or checkpoint recovery occurs. <a href="repo/src/services.js">Heartbeat/reaper</a>, lines 210–226; <a href="repo/src/services.js">claim</a>, lines 633–661.</td>
+</tr>
+<tr id="task-agent-hq-t15">
+<td>T15</td>
+<td>Absent</td>
+<td>Task updates require no attempt token, row version or idempotency key. A stale worker can move a replacement's task to Done. MCP idempotency annotations do not enforce that invariant. <a href="repo/src/services.js">Update</a>, lines 539–581; <a href="repo/mcp/mcp-server.js">annotations</a>, lines 431–460.</td>
+</tr>
+<tr id="task-agent-hq-t16">
+<td>T16</td>
+<td>Resembles</td>
+<td>SQLite retains work and comments, and claims can be manually released or reacquired. There is no supervised worker cancellation, interrupted-attempt state or atomic transition/event recovery. <a href="repo/src/db.js">Database</a>, lines 137–194; <a href="repo/src/services.js">release</a>, lines 664–675.</td>
+</tr>
+<tr id="task-agent-hq-t17">
+<td>T17</td>
+<td>Similar</td>
+<td>Remote MCP clients can target one HTTP authority with <code>HQ_URL</code>. Workers need not share the SQLite file. This is one service, without authenticated cross-host identities, consensus or failover. <a href="repo/mcp/mcp-server.js">Proxy</a>, lines 7–35; <a href="repo/src/server.js">listener</a>, lines 181–194.</td>
+</tr>
+<tr id="task-agent-hq-t18">
+<td>T18</td>
+<td>Similar</td>
+<td>Activity records include actor, timestamp, type and entity. Task writes and activity inserts are separate; an event is not an immutable, transactionally complete journal. <a href="repo/src/db.js">Activity insertion</a>, lines 183–194; <a href="repo/src/services.js">task update</a>, lines 566–580.</td>
+</tr>
+<tr id="task-agent-hq-t19">
+<td>T19</td>
+<td>Similar</td>
+<td>Source implements a board, assignee/label filters, task and agent details, activity, memory, messaging, flow and cost views. Task cards support keyboard activation and API failures get an alert. No candidate render or accessibility test was run. <a href="repo/public/app.js">Browser</a>, lines 20–46, 223–278 and 394–487.</td>
+</tr>
+<tr id="task-agent-hq-t20">
+<td>T20</td>
+<td>Resembles</td>
+<td>Backlog columns, priorities, labels and flow metrics support continuous work. There are no sprint, milestone, estimate or planning-period records in the schema. <a href="repo/src/services.js">Board defaults</a>, lines 239–249; <a href="repo/src/services.js">flow</a>, lines 326–404; <a href="repo/src/db.js">schema</a>, lines 14–135.</td>
+</tr>
+<tr id="task-agent-hq-t21">
+<td>T21</td>
+<td>Resembles</td>
+<td>Review and Done are configurable column names. Any updater can move a task there without acceptance criteria, reviewer identity or a version-bound approval. <a href="repo/src/services.js">Task update</a>, lines 539–581.</td>
+</tr>
+<tr id="task-agent-hq-t22">
+<td>T22</td>
+<td>Absent</td>
+<td>HTTP routes dispatch without authentication or project permissions. Actor and agent identifiers are supplied by the caller; force/release are not privileged actions. <a href="repo/src/server.js">HTTP dispatch</a>, lines 130–178; <a href="repo/src/services.js">mutations</a>, lines 539–675.</td>
+</tr>
+<tr id="task-agent-hq-t23">
+<td>T23</td>
+<td>Similar</td>
+<td>Agent roles, board columns, labels and memory namespaces are configurable data. New authorization rules, task fields and lifecycle behavior require source changes. <a href="repo/src/db.js">Schemas</a>, lines 15–80; <a href="repo/src/services.js">board/agent creation</a>, lines 179–249.</td>
+</tr>
+<tr id="task-agent-hq-t24">
+<td>T24</td>
+<td>Similar</td>
+<td>Node standard-library runtime, SQLite, Docker volume and health check keep installation small. Schema changes are ad hoc, large views are unpaginated and backup/restore is not implemented as a product workflow. <a href="repo/package.json">Package</a>, lines 1–28; <a href="repo/Dockerfile">Dockerfile</a>, lines 1–19; <a href="repo/src/db.js">database</a>, lines 167–173.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="task-agent-hq-work-lifecycle-and-alternate-paths">Work lifecycle and alternate paths</h2>
+<ol>
+<li>A client registers an agent or uses an existing actor string. Registration is not required for every claim.</li>
+<li>A board supplies columns. Task creation stores the initial assignee and column after basic validation and a capacity check.</li>
+<li>The coordinator adds dependency edges. Reachability is checked before insertion.</li>
+<li>Next-task selection finds the highest-priority non-Done task with no unfinished blockers and an available reservation.</li>
+<li>Claim separately updates assignee and lease through a conditional SQL statement. It does not move the card into In Progress.</li>
+<li>The worker can write comments, messages and accounting runs. These are separate operations, not one execution transaction.</li>
+<li>Generic update changes status or assignee. Moving to Done is the entire completion path; no result or approval is required.</li>
+<li>Release clears ownership. Expired ownership is replaced lazily by a new claim; agent offlining does not itself release a task.</li>
+</ol>
+<p>This path is concrete, but the interfaces do not share one complete state machine.
+An agent can skip next-task selection and claim blocked or Done work directly.
+Another client can bypass claim by editing the assignee.
+A worker whose lease expired can still update the task because the update operation never checks lease ownership.</p>
+<h2 id="task-agent-hq-concurrency-and-recovery-findings">Concurrency and recovery findings</h2>
+<h3 id="task-agent-hq-claim-exclusivity-is-narrower-than-work-authority">Claim exclusivity is narrower than work authority</h3>
+<p>The <a href="repo/src/services.js">claim statement</a>, lines 652–655, is an actual conditional database mutation.
+The competing claimant must satisfy the ownership/expiry predicate.
+That is useful implementation depth, not a README-only feature.</p>
+<p>However, <a href="repo/src/services.js">generic update</a>, lines 539–574, copies the current fields and applies an arbitrary assignee patch.
+It does not require the caller to hold the reservation.
+Release also permits an empty agent to clear a claim, lines 664–672.
+These alternate routes prevent the lease from serving as an enforced work authority.</p>
+<h3 id="task-agent-hq-readiness-capacity-and-cycles-have-different-concurrency-scopes">Readiness, capacity and cycles have different concurrency scopes</h3>
+<p>Next-task selection and direct claim have different eligibility predicates.
+The direct path checks neither dependencies nor column state.
+Next selection and claim are separate statements, so another database writer can change readiness between them.
+The source does not recheck blockers in the claim update.</p>
+<p>Capacity checks and graph-cycle checks are also read/check/write sequences outside a common transaction.
+One Node server executes these synchronous handlers without an interleaving <code>await</code> inside the relevant sequence.
+That local event-loop property does not serialize another process using the database.
+Do not describe these checks as global transactional invariants.</p>
+<h3 id="task-agent-hq-cross-board-blocker-visibility-disagrees-with-selection">Cross-board blocker visibility disagrees with selection</h3>
+<p>Dependency insertion accepts any existing task; it does not require the blocker to share the board.
+The <a href="repo/src/services.js">board projection</a>, lines 260–279, builds its task map only from the current board.
+Its <code>isDone</code> helper treats a missing mapped task as finished.
+A blocker on another board therefore disappears from the blocked indicator, while next-task selection joins the actual blocker and can still refuse the task.
+This finding follows the code path; it was not reproduced in a running candidate.</p>
+<h3 id="task-agent-hq-event-and-task-state-can-diverge">Event and task state can diverge</h3>
+<p>Task changes and activity insertion are separate writes.
+A failure after a mutation can leave the task changed without its corresponding event, even if the request returns an error.
+Flow metrics read activity rather than a transactional transition journal.</p>
+<p>SSE messages are kept only in an in-memory client set.
+The browser reconnect handler marks the connection live but does not fetch a fresh board.
+Missed refresh events can leave the board stale until another refresh-producing mutation or a page reload.
+The periodic timer refreshes stats only: <a href="repo/public/app.js">browser refresh logic</a>, lines 830–877.</p>
+<h2 id="task-agent-hq-usability-completeness-and-design-quality">Usability, completeness and design quality</h2>
+<p>The small layering is easy to understand: transport, domain operations, SQLite and browser projection are distinct files.
+The MCP proxy has actionable connection failures, required-argument checks and explicit tool errors.
+Task detail and memory reads budget long text and announce truncation.
+These decisions help agents recover from mistakes without guessing.</p>
+<p>The browser source provides meaningful task detail, blocked indicators, filters and error presentation.
+It also exposes ordinary task creation and a capacity override.
+The default-board design is much narrower than a multi-project manager's workspace.
+Board membership does not scope memory, messaging, permissions or agent responsibility.</p>
+<p>The main design weakness is that several partial policies coexist without one authority boundary.
+Claims, column state, activity and accounting runs can each report a different aspect of work.
+No execution-attempt record binds them together.
+Adding another dashboard would not resolve that gap.</p>
+<p>The cost ledger records caller-supplied token counts and configured model prices.
+It does not observe a coding process or enforce a work budget.
+The run record therefore remains accounting evidence rather than proof that a task was executed or accepted.</p>
+<h2 id="task-agent-hq-test-source-review-and-uncertainty">Test-source review and uncertainty</h2>
+<p>The <a href="repo/test/concurrency.test.js">contention test</a>, lines 15–67, uses a worker-thread barrier and independent database imports to race claims.
+It checks one winner and no lock errors across repeated tasks.
+That exercises a meaningful storage invariant.
+The <a href="repo/test/services.test.js">capacity tests</a>, lines 415–457, check creation, movement, refusal and force override sequentially.</p>
+<p>Other inspected test sections cover dependency selection, cycles, filter validation, message recipients and receipts, stale agents, expired reservations, output budgets and name/ID compatibility.
+These are substantive tests in source.
+They do not establish that alternate mutations enforce leases, that capacity is safe across processes, or that a stale worker cannot finish a replacement's work.
+No test was executed for this assessment.</p>
+<p>Installation, actual browser behavior, accessibility, recovery after process failure and cross-host operation remain unobserved.
+The report distinguishes these limits from the specific implementation defects identified above.</p>
+<h2 id="task-agent-hq-adoption-work">Adoption work</h2>
+<ol>
+<li>Introduce project membership and durable accountable roles.</li>
+<li>Define a task/attempt model and enforce it in every mutation, including reassignment, release, move and completion.</li>
+<li>Apply readiness and capacity rules within the authoritative claim transaction.</li>
+<li>Add parent/child relationships and explicit parent acceptance.</li>
+<li>Add authentication, project permissions and recorded privileged overrides.</li>
+<li>Persist transitions and notifications together, and resynchronize views after reconnect.</li>
+<li>Add revision-bound results and review, with stale-attempt rejection.</li>
+<li>Define backup, restore, schema upgrades and limits for growing boards.</li>
+</ol>
+<p>The useful components are the compact HTTP/MCP surface, readable SQLite model, agent-friendly validation, message receipts and connected operator views.
+Adopting the product as-is would leave the central ownership and verification requirements to cooperative agent behavior.</p>
+<h2 id="task-agent-hq-source-review-record">Source review record</h2>
+<p>The <a href="assessment/review.json">review ledger</a> records the revision, inspected source ranges, file hashes and review status.
+It is an inventory of evidence, not proof that every line of the repository was audited.</p></article><nav class="report-switch" aria-label="Task study navigation"><a href="../index.html">Return to the task comparison</a><a href="../agent-kanban-rs/index.html">Next: agent-kanban-rs</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../../index.html">Return to overview <img src="../../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

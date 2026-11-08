@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Workspace/project backlog, cycles, modules and pages"><title>Plane · task management · Wingman Research</title>
+<link rel="icon" href="../../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/report.css"><script defer src="../../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../../index.html"><img src="../../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../../index.html">Overview</a><a class="nav-link " href="../../generic/index.html">Architecture findings</a><a class="nav-link " href="../../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../../generic/method.html">Method and evidence</a><a class="nav-link active" href="../index.html" aria-current=page>Agent task management</a><a class="nav-link " href="../../generic/task-coordination.html">Initial task screening</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>Two source studies</strong><p>75 organization snapshots.<br>25 task coordination codebases.<br>Evidence at pinned revisions.</p><a href="../../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../../index.html">Wingman Research</a><span class="crumb">/</span><span>Plane · task management</span></div><span class="topbar-note">SOURCE REVIEW · 09 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Plane · task management</h1><p class="subtitle">Workspace/project backlog, cycles, modules and pages</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#task-plane-plane-shared-planning-and-discussion-with-external-agent-execution">Plane: shared planning and discussion with external agent execution</a><a href="#task-plane-fit-decision">Fit decision</a><a href="#task-plane-scope-and-evidence-level">Scope and evidence level</a><a href="#task-plane-architecture-and-shared-records">Architecture and shared records</a><a href="#task-plane-requirement-assessment">Requirement assessment</a><a href="#task-plane-creation-assignment-and-concurrent-editing">Creation, assignment and concurrent editing</a><a href="#task-plane-hierarchy-dependencies-and-completion">Hierarchy, dependencies and completion</a><a href="#task-plane-context-communication-and-audit-limits">Context, communication and audit limits</a><a href="#task-plane-access-cancellation-and-human-usability">Access, cancellation and human usability</a><a href="#task-plane-planning-operation-and-implementation-completeness">Planning, operation and implementation completeness</a></div></nav><article class="technical"><h2 id="task-plane-plane-shared-planning-and-discussion-with-external-agent-execution">Plane: shared planning and discussion with external agent execution</h2>
+<p class="url-text">Source: https://github.com/makeplane/plane</p>
+<p>Reviewed commit: <code>618d0eb74658329a6f6e92434ac54231422c5b96</code>.
+Assessment date: November 9, 2026.
+Baseline: <a href="../purpose.html">Shared task management for an agent organization</a>.
+Evidence ledger: <a href="assessment/review.json">review.json</a>.
+Companion: <a href="../plane-mcp/index.html">Plane MCP adapter assessment</a>.</p>
+<h2 id="task-plane-fit-decision">Fit decision</h2>
+<p>Plane provides a substantial shared planning authority. Workspaces contain projects, members, work items, cycles, modules, pages and notifications. Projects have leads and default assignees. Work items have stable identifiers, hierarchy, relations, descriptions, discussion and retained history. Agents can operate on these records through an authenticated external API. The browser supplies a connected human planning and inspection surface.</p>
+<p>The reviewed source does not make a work item an exclusive agent execution reservation. Multiple assignees are ordinary project users. A member can replace an assignee list or change state without acquiring an unowned task, proving capacity or identifying the current execution attempt. Dependency relations describe work, but the normal state/assignment writer does not use them as dispatch readiness rules. A parent can reach a completed state without accepted child results or a reviewer decision.</p>
+<p>Plane fits as a project, backlog and discussion layer behind an agent coordinator. It would require substantial additions to serve as the entire runtime for the baseline. Keep its project structure and human inspection experience. Put ownership, attempts, leases, dispatch and result acceptance in one authority that also controls alternate and background mutations. The reviewed files declare AGPL-3.0-only in their headers; <a href="repo/LICENSE.txt">the license</a>, lines 1–45, contains AGPL version 3. This assessment covers the checked-out source, not uninspected commercial editions or hosted features.</p>
+<h2 id="task-plane-scope-and-evidence-level">Scope and evidence level</h2>
+<p>The full preserved worktree has 5,166 tracked files. This is a targeted static review of work item, project, workspace, user/token, state, relation, cycle, module, page and notification models; browser and external API create/update/delete paths; serializers and association replacement; selected bulk and maintenance writers; permissions and authentication; asynchronous history, notifications and webhooks; representative browser detail/board/store code; deployment configuration; and selected test assertion bodies.</p>
+<p>No candidate application, dependency installation, build, migration or test was executed. Source and test assertions are implementation evidence, not passing runtime results. This is not an every-line audit or verification of every importer, export format, extension, file route, integration, migration, live collaboration service, authorization rule, token-management route, deployment, performance characteristic or browser interaction. The source ledger records actual inspected ranges and hashes. The separate MCP adapter does not supply upstream ownership or recovery guarantees merely by exposing API operations.</p>
+<h2 id="task-plane-architecture-and-shared-records">Architecture and shared records</h2>
+<p><a href="repo/apps/api/pyproject.toml">Backend dependencies</a>, lines 1–70, specify Python 3.12, Django, Django REST Framework, PostgreSQL, Redis, Celery and storage/integration clients. <a href="repo/apps/api/plane/settings/common.py">Database configuration</a>, lines 214–248, configures PostgreSQL and an optional read replica. <a href="repo/apps/api/plane/settings/common.py">Worker configuration</a>, lines 350–395, uses RabbitMQ/AMQP and JSON task serialization. These background workers process application effects; they are not the baseline's autonomous task workers.</p>
+<p><a href="repo/apps/api/plane/db/models/base.py">Base records</a>, lines 17–47, use UUIDs and assign audit users from request context. <a href="repo/apps/api/plane/db/models/project.py">Project-bound saving</a>, lines 230–241, derives the workspace from the project. <a href="repo/apps/api/plane/db/models/workspace.py">Workspaces and memberships</a>, lines 119–150 and 198–232, retain owners, slugs, roles and active membership. <a href="repo/apps/api/plane/db/models/project.py">Projects</a>, lines 68–112, retain description, network visibility, identifier, lead, default assignee and feature settings. This is a native project registry, although agent-specific leadership continuity remains external.</p>
+<p><a href="repo/apps/api/plane/db/models/issue.py">The work item</a>, lines 109–178, includes parent, state, description formats, dates, priority, estimates, multiple assignees, labels, sequence number, completion/archive markers and external references. <a href="repo/apps/api/plane/db/models/state.py">State groups</a>, lines 15–62, distinguish backlog, unstarted, started, completed, cancelled and triage. These are planning states. Neither a started state nor an assignee row identifies a process or grants it a fenced execution attempt.</p>
+<p><a href="repo/apps/api/plane/db/models/issue.py">Creation saving</a>, lines 180–255, takes a PostgreSQL transaction-level advisory lock per project before allocating its sequence and inserting an IssueSequence. This is meaningful concurrency control for identifiers. It must not be attributed to normal task assignment or editing: the existing-record branch saves without that allocation lock. The item model has no ordinary edit revision counter or expected-version predicate.</p>
+<h2 id="task-plane-requirement-assessment">Requirement assessment</h2>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Requirement</th>
+<th scope="col">Verdict</th>
+<th scope="col">Mechanism and boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr id="task-plane-t01">
+<td>T01</td>
+<td>Similar</td>
+<td>Workspaces, projects, project leads, visibility and memberships provide native project separation. Agent leadership and organization-wide supervision require integration.</td>
+</tr>
+<tr id="task-plane-t02">
+<td>T02</td>
+<td>Similar</td>
+<td>SQL UUIDs, project sequences, descriptions, state and dates retain work. A completed planning state is not a typed, verified execution outcome.</td>
+</tr>
+<tr id="task-plane-t03">
+<td>T03</td>
+<td>Similar</td>
+<td>Parent links, sub-item operations, modules and relations support decomposition. Reparenting has no inspected ancestor-cycle check or accepted-child join.</td>
+</tr>
+<tr id="task-plane-t04">
+<td>T04</td>
+<td>Resembles</td>
+<td>Blocking and ordering relations are persisted and displayed. Normal assignment/state edits do not enforce readiness or dependency cycle rejection.</td>
+</tr>
+<tr id="task-plane-t05">
+<td>T05</td>
+<td>Resembles</td>
+<td>User and API-token models distinguish bots from humans. Agent runtime, session and current execution attempt are not part of the reviewed work item protocol.</td>
+</tr>
+<tr id="task-plane-t06">
+<td>T06</td>
+<td>Similar</td>
+<td>An external HTTP API supports structured work item operations. The separately assessed MCP adapter remains an interface to this authority.</td>
+</tr>
+<tr id="task-plane-t07">
+<td>T07</td>
+<td>Resembles</td>
+<td>Assignee rows represent responsibility and have per-pair uniqueness. They do not enforce one winner for exclusive work acquisition or require claim before progress.</td>
+</tr>
+<tr id="task-plane-t08">
+<td>T08</td>
+<td>Absent</td>
+<td>Reviewed assignment/state writers have no worker capacity reservation, WIP admission or automated dispatch contract. Estimates and board columns do not supply those controls.</td>
+</tr>
+<tr id="task-plane-t09">
+<td>T09</td>
+<td>Resembles</td>
+<td>Parents and children can be created and reparented. There is no native subagent launch, parallel execution join or accepted-child completion gate in the inspected lifecycle.</td>
+</tr>
+<tr id="task-plane-t10">
+<td>T10</td>
+<td>Similar</td>
+<td>Rich descriptions, pages, attachments, links and version records retain context. Ordinary completion is not bound to immutable reviewed artifact versions.</td>
+</tr>
+<tr id="task-plane-t11">
+<td>T11</td>
+<td>Similar</td>
+<td>Descriptions, comments, states and activity provide durable updates. There is no required structured execution handoff/result envelope, and activity is asynchronous.</td>
+</tr>
+<tr id="task-plane-t12">
+<td>T12</td>
+<td>Similar</td>
+<td>Mentions, subscribers and database notifications support communication and later inspection. Record writes and notification delivery do not commit as one unit.</td>
+</tr>
+<tr id="task-plane-t13">
+<td>T13</td>
+<td>Resembles</td>
+<td>Relations, comments, mentions and notifications can express blockers and questions. No typed decision-owner/answer/resume protocol was found in the reviewed work item lifecycle.</td>
+</tr>
+<tr id="task-plane-t14">
+<td>T14</td>
+<td>Absent</td>
+<td>Dates, last activity and old-item maintenance exist. They do not implement worker heartbeats, ownership expiration or stale execution discovery.</td>
+</tr>
+<tr id="task-plane-t15">
+<td>T15</td>
+<td>Resembles</td>
+<td>Read-only system fields, relation uniqueness and history constrain some edits. There is no universal expected-revision, current-attempt or request-idempotency guard on work item updates.</td>
+</tr>
+<tr id="task-plane-t16">
+<td>T16</td>
+<td>Resembles</td>
+<td>Cancelled state, archive and soft deletion manage records. They cannot stop an external agent, resume its execution or reject its late side effects.</td>
+</tr>
+<tr id="task-plane-t17">
+<td>T17</td>
+<td>Similar</td>
+<td>Agents on several hosts can use one server/database authority. Optional replicas and asynchronous effects add freshness boundaries; offline exclusive ownership is not supplied.</td>
+</tr>
+<tr id="task-plane-t18">
+<td>T18</td>
+<td>Similar</td>
+<td>Actor-attributed activity, snapshots and notification records support inspection. Activity is queued separately, and a browser migration flag can suppress this writer's history effects.</td>
+</tr>
+<tr id="task-plane-t19">
+<td>T19</td>
+<td>Similar</td>
+<td>Detail, parent context, boards, grouping, counts, comments and notifications support human inspection. Browser, keyboard, accessibility and small-screen acceptance were not executed.</td>
+</tr>
+<tr id="task-plane-t20">
+<td>T20</td>
+<td>Similar</td>
+<td>Native backlog states, priority, dated cycles, modules, estimates and grouped views support planning. They do not govern autonomous worker scheduling.</td>
+</tr>
+<tr id="task-plane-t21">
+<td>T21</td>
+<td>Resembles</td>
+<td>Configurable planning states and discussion can represent review. Completion checks neither accepted children nor required verification/reviewer decisions in the reviewed writers.</td>
+</tr>
+<tr id="task-plane-t22">
+<td>T22</td>
+<td>Similar</td>
+<td>Active user tokens, sessions, memberships, roles and scoped lookups protect shared records. Credentials are user authority, not attempt-scoped rights; selected background/relationship boundaries remain broader.</td>
+</tr>
+<tr id="task-plane-t23">
+<td>T23</td>
+<td>Similar</td>
+<td>External IDs, HTTP interfaces, project states, pages and signed webhooks enable integration. Reliable agent semantics require added authoritative behavior, rather than only an adapter.</td>
+</tr>
+<tr id="task-plane-t24">
+<td>T24</td>
+<td>Similar</td>
+<td>Locked backend dependencies, container builds and persistent services support self-hosting. The multi-service stack and asynchronous effects impose operational and backup/restore work.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="task-plane-creation-assignment-and-concurrent-editing">Creation, assignment and concurrent editing</h2>
+<p><a href="repo/apps/api/plane/app/views/issue/base.py">Browser creation</a>, lines 406–503, validates a serializer, saves the item and queues activity, webhook-related model activity and description-version work. <a href="repo/apps/api/plane/app/serializers/issue.py">Its serializer</a>, lines 82–285, checks project-related fields, creates the item and then creates assignee/label associations. When no usable explicit assignee list is supplied, it can use the project's valid default assignee. The row and all later effects are not expressed as one transaction in this path.</p>
+<p><a href="repo/apps/api/plane/api/views/issue.py">External API creation</a>, lines 534–605, checks an existing external-source/ID pair before saving. This can detect a prior item, but the check precedes the create transaction. The inspected item model has no matching uniqueness constraint. The per-project sequence lock does not repeat this duplicate lookup. Concurrent create requests can therefore both pass that pre-check; it is not a durable request-idempotency contract. This is a static concurrency inference, not an executed race.</p>
+<p><a href="repo/apps/api/plane/api/serializers/issue.py">External serializer validation</a>, lines 46–184, rejects nonmember assignees and foreign labels, and binds state, parent and estimates to the project. The browser serializer instead filters invalid assignee/label IDs to those accepted in the project. This difference matters to an agent: one interface returns an error for a partially invalid list, while the other can silently reduce it. Both treat responsibility as a set of users, not an exclusive execution owner.</p>
+<p><a href="repo/apps/api/plane/app/serializers/issue.py">Browser updating</a>, lines 286–342, soft-deletes existing assignee/label associations and bulk-inserts replacements, then saves the item. <a href="repo/apps/api/plane/api/serializers/issue.py">The external serializer</a>, lines 267–355, follows the same pattern. <a href="repo/apps/api/plane/db/models/issue.py">Assignee constraints</a>, lines 349–375, prevent duplicate live pairs for one issue/user, rather than multiple distinct assignees. There is no inspected unowned-state condition, capacity check or execution token on replacement. Concurrent replacements can interleave, and failure between association replacement and item saving can leave a partially applied edit.</p>
+<p><a href="repo/apps/api/plane/app/views/issue/base.py">The browser PATCH</a>, lines 628–719, reads a current instance, validates and saves, then queues effects. <a href="repo/apps/api/plane/api/views/issue.py">The external PATCH</a>, lines 840–900, similarly loads a record and saves without an expected-version condition or row-lock acquisition. <a href="repo/apps/api/plane/db/mixins.py">Change tracking</a>, lines 92–211, compares in-memory fields with their load-time values; it does not compare them against the latest database row or reject a stale writer. A later save of a loaded item can overwrite another edit. Request serialization, deployment timing or a successful single-user edit would not establish safe concurrent assignment.</p>
+<p>Read-only fields are a useful narrower protection. The serializers prevent direct PATCH changes to system-controlled completion/archive/deletion/sequence fields and draft status after creation. A normal editable state change can still set completion through the model. That is different from allowing the caller to forge every timestamp, but it is also different from controlled worker acquisition and acceptance.</p>
+<h2 id="task-plane-hierarchy-dependencies-and-completion">Hierarchy, dependencies and completion</h2>
+<p><a href="repo/apps/api/plane/app/views/issue/sub_issue.py">Sub-item assignment</a>, lines 210–275, binds the parent and candidate children to the URL project, bulk-updates their parent pointers and returns state distribution. It does not reject selecting the parent itself or an ancestor in that method. <a href="repo/apps/api/plane/app/serializers/issue.py">Normal serializer parent validation</a>, lines 178–197, checks project membership of the referenced item, rather than traversing ancestry. A project-valid pointer is not proof of a valid decomposition tree.</p>
+<p><a href="repo/apps/api/plane/db/models/issue.py">Relation records</a>, lines 258–317, support blocked-by, ordering, duplicate and related-work semantics, with reverse mappings. <a href="repo/apps/api/plane/app/views/issue/relation.py">Browser relation creation</a>, lines 247–315, binds the URL item to its project and related items to its workspace, then inserts relations. <a href="repo/apps/api/plane/api/views/issue.py">The external route</a>, lines 2715–2795, validates relation choices and follows the same cross-project workspace boundary. Neither path traverses the graph for cycles. The uniqueness constraint is on the live issue pair, not a scheduler invariant. Cross-project relation creation is broader than separate authorization of both endpoint projects in these methods.</p>
+<p>An agent can read these links and choose ready work externally. The ordinary update serializers do not load blockers, children or reviewer decisions before accepting a state change. <a href="repo/apps/api/plane/db/models/issue.py">Completion synchronization</a>, lines 240–255, sets <code>completed_at</code> when a newly created or changed state belongs to the completed group, and clears it for other groups. Completion therefore reflects state classification. It does not prove that a parent incorporated child results, tests passed, a result matches acceptance criteria or a human approved that result revision.</p>
+<p>Maintenance is a distinct mutation path. <a href="repo/apps/api/plane/bgtasks/issue_automation_task.py">Automatic closing</a>, lines 92–155, selects old open items, chooses a configured default state or the first cancelled state, and bulk-updates only the state field. The fallback state query has no project filter. Thus a project without a configured default can receive a state from another project. The bulk writer also bypasses the normal save-based completion timestamp synchronization; a completed default state need not receive the timestamp that a normal state edit would create. These are source-level findings, not reproduced runtime failures. This maintenance policy is inactivity-based record cleanup, not stalled-agent recovery or verification of finished work.</p>
+<p><a href="repo/apps/api/plane/app/views/issue/base.py">Bulk date updating</a>, lines 1129–1186, provides another important ordering boundary: it queues per-item activity while collecting changes, before the final bulk write. A later invalid date can return early after earlier activity was queued. A write failure can likewise leave effects describing an unapplied update. Alternate writers need the same transition/effect contract if agent decisions will depend on history.</p>
+<h2 id="task-plane-context-communication-and-audit-limits">Context, communication and audit limits</h2>
+<p><a href="repo/apps/api/plane/db/models/page.py">Pages</a>, lines 23–62, retain rich content, ownership, access mode, hierarchy and project associations. <a href="repo/apps/api/plane/db/models/issue.py">Work item links and attachments</a>, lines 377–405, retain URLs, metadata and file references. <a href="repo/apps/api/plane/app/views/issue/comment.py">Comment creation</a>, lines 95–145, scopes the issue, filters writable fields, attributes the actor and queues discussion effects. These are useful handoff materials. They do not require a successor to acknowledge a typed result, nor bind acceptance to a content hash and attempt.</p>
+<p><a href="repo/apps/api/plane/bgtasks/issue_activities_task.py">The activity task</a>, lines 1548–1650, maps event types into activity records, bulk-inserts them and then queues notifications. It catches general exceptions and returns. It can also update the issue's modification time while processing activity, so a recent item timestamp can reflect background processing rather than fresh worker progress. The primary work item save and this record creation have no shared outbox transaction in the inspected paths. A queued event is not proof of a recorded event.</p>
+<p>The browser PATCH accepts <code>skip_activity</code> from the request and treats it together with a present description update as a migration update. <a href="repo/apps/api/plane/app/views/issue/base.py">That branch</a>, lines 629–716, suppresses the route's activity, model-activity and description-version effects. It does not restrict the request to changing only the description. A mixed state/description edit with that flag can therefore bypass these ordinary history effects while still saving the state. This is a specific writer boundary, not a claim that no other deployment logging exists.</p>
+<p><a href="repo/apps/api/plane/db/models/issue.py">Version snapshots</a>, lines 677–782, retain prior work item data and an owner. <a href="repo/apps/api/plane/bgtasks/issue_description_version_task.py">Description-version processing</a>, lines 15–78, can update the latest same-author snapshot within a ten-minute interval instead of appending a new immutable revision. <a href="repo/apps/api/plane/bgtasks/issue_version_sync.py">Issue-version processing</a>, lines 34–65, also coalesces nearby same-owner changes and catches failures. These histories help inspection. They are not optimistic concurrency versions, append-only acceptance evidence or current-attempt fences.</p>
+<p><a href="repo/apps/api/plane/bgtasks/notification_task.py">Notification generation</a>, lines 190–260 and 610–674, handles active project members, mentions and database notifications/email logs. General exceptions are caught. <a href="repo/apps/api/plane/db/models/notification.py">Notification records</a>, lines 13–76, retain receiver, read, snooze and archive state. <a href="repo/apps/api/plane/app/views/notification/base.py">Listing</a>, lines 33–72, scopes records to the receiver and workspace; <a href="repo/apps/api/plane/app/views/notification/base.py">individual actions</a>, lines 157–204, also bind the receiver. This supplies later inspection after a missed browser interaction. It does not guarantee that every primary update generated a notification, or that marking one read means an agent accepted a handoff.</p>
+<p><a href="repo/apps/api/plane/bgtasks/webhook_task.py">Webhook delivery</a>, lines 235–389, adds a delivery UUID, optional HMAC signature, logs and up to five retries for transport exceptions. <a href="repo/apps/api/plane/utils/url_security.py">Pinned fetching</a>, lines 106–224, validates/resolves the target, pins the request to the selected IP and disables redirects, with a timeout. The returned HTTP response is logged as successfully sent without a success-status check in this chain. An HTTP 500 response therefore does not itself enter the transport retry path. The delivery UUID is regenerated on each task invocation, so consumers must not assume it identifies a stable retry series. Initial queue publication and receiver-side idempotency remain separate concerns.</p>
+<h2 id="task-plane-access-cancellation-and-human-usability">Access, cancellation and human usability</h2>
+<p><a href="repo/apps/api/plane/api/middleware/api_authentication.py">API authentication</a>, lines 17–52, requires an active unexpired token and active user, and updates last use. <a href="repo/apps/api/plane/db/models/api.py">Token storage</a>, lines 15–48, retains token strings, a user/bot type and optional workspace association. This authentication method resolves user authority; it does not bind each mutation to an execution attempt or check the token's workspace field against the URL. <a href="repo/apps/api/plane/api/views/base.py">External endpoint defaults</a>, lines 51–70, use API-key authentication and throttling. <a href="repo/apps/api/plane/app/permissions/project.py">Project entity permissions</a>, lines 135–167, require active project membership and member/admin rights for writes. That user membership remains an important boundary even without attempt-scoped credentials.</p>
+<p><a href="repo/apps/api/plane/authentication/session.py">Browser session authentication</a>, lines 25–63, checks allowed origins for unsafe requests, while allowing absent Origin for nonbrowser clients. <a href="repo/apps/api/plane/app/permissions/base.py">Role decorators</a>, lines 19–105, include membership and creator rules. <a href="repo/apps/api/plane/app/views/base.py">The base viewset guard</a>, lines 90–199, rejects a generic mixin action left under only nonauthorizing default permissions. These mechanisms show active authorization work in this revision; they are not evidence that every subresource, integration or edition has been audited.</p>
+<p><a href="repo/apps/api/plane/db/models/user.py">User identity</a>, lines 56–120, supports bot identity and activity/login metadata. That activity is not a worker heartbeat. <a href="repo/apps/api/plane/api/views/issue.py">Deleting an item</a>, lines 914–946, checks administrator/creator rights and invokes deletion. <a href="repo/apps/api/plane/db/mixins.py">Soft deletion</a>, lines 48–91, normally marks the record and queues related-object deletion. Cancelling, archiving or deleting a work item changes shared records; it cannot stop an external coding session or revoke its filesystem/network effects. There is no native execution resume or late-attempt rejection to attribute to these record operations.</p>
+<p><a href="repo/apps/web/store/issue/issue-details/issue.store.ts">Browser detail fetching</a>, lines 87–121, expands parent, reactions, links and attachments. <a href="repo/apps/web/components/issues/issue-detail/root.tsx">Detail composition</a>, lines 228–271, connects main content and a responsive sidebar and provides a route back when the item is missing. <a href="repo/apps/web/components/issues/issue-layouts/kanban/default.tsx">Board rendering</a>, lines 180–279, provides group counts, expandable collapsed columns, lazy rendering and more-item loading. This is a useful human overview, though a partially loaded board must not be interpreted as a complete ready queue.</p>
+<p><a href="repo/apps/web/store/issue/helpers/base-issues.store.ts">The shared update store</a>, lines 548–590, saves an optimistic snapshot, updates lists, sends PATCH and rolls back on failure. <a href="repo/apps/web/services/issue/issue.service.ts">The service</a>, lines 226–241, sends ordinary field data without an expected revision. Rollback can restore an older local snapshot if another edit occurred meanwhile. <a href="repo/apps/web/store/issue/issue-details/issue.store.ts">Detail updating</a>, lines 181–192, fetches activity in parallel with mutation; it need not wait for the newly queued activity to exist. These are reconciliation limits, not proof of a failed browser session. <a href="repo/apps/web/components/workflow/use-workflow-drag-n-drop.ts">The workflow drag helper</a>, lines 10–23, returns no workflow restriction in this source tree. Its name is not evidence of enforced transition approval.</p>
+<h2 id="task-plane-planning-operation-and-implementation-completeness">Planning, operation and implementation completeness</h2>
+<p><a href="repo/apps/api/plane/db/models/cycle.py">Cycles</a>, lines 62–112, have an owner, dates, progress snapshot, timezone and issue linkage. <a href="repo/apps/api/plane/db/models/module.py">Modules</a>, lines 61–114, have status, dates, lead, members and external references. Together with work item priority, estimates and state-based views, these provide native planning depth beyond a task/session launcher. They do not automatically supervise an autonomous organization or allocate its execution capacity.</p>
+<p><a href="repo/package.json">The package manifest</a>, lines 1–43, supplies a pnpm/Turbo workspace and a Node minimum. <a href="repo/apps/api/Dockerfile.api">The API container</a>, lines 1–83, pins Python 3.12 and uv, installs locked production dependencies and starts its entrypoint. <a href="repo/apps/api/bin/docker-entrypoint-api.sh">Startup</a>, lines 1–38, waits for database/migrations, configures the instance, creates storage, clears cache and starts Gunicorn/Uvicorn. These are source procedures, not a successful build or deployment observation.</p>
+<p><a href="repo/docker-compose.yml">The example stack</a>, lines 1–107 and 108–155, separates web, administration, public space, API, application worker, scheduler, migrator, live service, PostgreSQL, Redis-compatible cache, RabbitMQ and object storage. Persistent volumes help preserve server state, but restoring only PostgreSQL would not restore all files, credentials and operational configuration. Version-compatible workers, completed migrations, broker health, email/file configuration and backup/restore verification add maintenance cost. Optional read replicas improve deployment choices without establishing strongly fresh inspection or a verified highly available authority.</p>
+<p><a href="repo/apps/api/plane/tests/contract/api/test_issue_assignee_label_validation.py">API membership tests</a>, lines 77–138, assert rejection of invalid assignees/labels and acceptance of a valid member. <a href="repo/apps/api/plane/tests/contract/app/test_sub_issue_cross_project_scope_app.py">Sub-item tests</a>, lines 141–196, assert project scoping and no foreign-item activity dispatch. <a href="repo/apps/api/plane/tests/contract/api/test_issue_read_only_fields.py">Read-only-field tests</a>, lines 21–68, assert that ignored fields are neither saved nor reported as changes. These are selected contract assertions, with effects mocked in some paths. They were not run and do not establish concurrent claim safety, reliable queue delivery or accepted task completion.</p>
+<p>Adoption should retain the planning models, human detail and discussion surface, while defining a separate execution contract. Add atomic eligible claims, capacity reservations, current attempts, heartbeats, recovery and accepted-child joins. Make state transitions consistent across browser, API, bulk edits and maintenance. Use transactionally recorded effects and a recoverable delivery process where handoff reliability matters. Scope fallback states and relationship authorization deliberately. Make history suppression explicit and restricted, and bind review to an immutable result revision. Verify real multi-host agent work, concurrent edits, failed delivery, cancellation, restore and representative desktop/mobile operation before relying on the combined system.</p></article><nav class="report-switch" aria-label="Task study navigation"><a href="../index.html">Return to the task comparison</a><a href="../paperclip/index.html">Previous: Paperclip</a><a href="../plane-mcp/index.html">Next: Plane MCP</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../../index.html">Return to overview <img src="../../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

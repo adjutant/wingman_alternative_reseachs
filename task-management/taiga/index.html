@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Stories, tasks, iterations, history and discussion"><title>Taiga backend · task management · Wingman Research</title>
+<link rel="icon" href="../../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/report.css"><script defer src="../../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../../index.html"><img src="../../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../../index.html">Overview</a><a class="nav-link " href="../../generic/index.html">Architecture findings</a><a class="nav-link " href="../../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../../generic/method.html">Method and evidence</a><a class="nav-link active" href="../index.html" aria-current=page>Agent task management</a><a class="nav-link " href="../../generic/task-coordination.html">Initial task screening</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>Two source studies</strong><p>75 organization snapshots.<br>25 task coordination codebases.<br>Evidence at pinned revisions.</p><a href="../../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../../index.html">Wingman Research</a><span class="crumb">/</span><span>Taiga backend · task management</span></div><span class="topbar-note">SOURCE REVIEW · 09 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Taiga backend · task management</h1><p class="subtitle">Stories, tasks, iterations, history and discussion</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#task-taiga-taiga-backend-shared-planning-records-without-an-agent-execution-contract">Taiga backend: shared planning records without an agent execution contract</a><a href="#task-taiga-fit-decision">Fit decision</a><a href="#task-taiga-scope-and-evidence-level">Scope and evidence level</a><a href="#task-taiga-architecture-and-domain-model">Architecture and domain model</a><a href="#task-taiga-requirement-assessment">Requirement assessment</a><a href="#task-taiga-creation-discovery-and-assignment">Creation, discovery and assignment</a><a href="#task-taiga-concurrent-editing-and-ownership-limits">Concurrent editing and ownership limits</a><a href="#task-taiga-alternate-writers-wip-and-planning-consistency">Alternate writers, WIP and planning consistency</a><a href="#task-taiga-decomposition-progress-and-completion">Decomposition, progress and completion</a><a href="#task-taiga-context-audit-and-communication">Context, audit and communication</a><a href="#task-taiga-permissions-and-cross-host-operation">Permissions and cross-host operation</a><a href="#task-taiga-usability-operation-and-implementation-quality">Usability, operation and implementation quality</a><a href="#task-taiga-test-source-evidence-and-adoption-work">Test-source evidence and adoption work</a></div></nav><article class="technical"><h2 id="task-taiga-taiga-backend-shared-planning-records-without-an-agent-execution-contract">Taiga backend: shared planning records without an agent execution contract</h2>
+<p class="url-text">Source: https://github.com/taigaio/taiga-back</p>
+<p>Reviewed commit: <code>8ab6a4e3b5f6fbbfcbf108a6449011f07b7308aa</code>.
+Assessment date: November 9, 2026.
+Baseline: <a href="../purpose.html">Shared task management for an agent organization</a>.
+Evidence ledger: <a href="assessment/review.json">review.json</a>.
+Companion: <a href="../taiga-front/index.html">Taiga frontend assessment</a>.</p>
+<h2 id="task-taiga-fit-decision">Fit decision</h2>
+<p>Taiga supplies a substantial shared planning and discussion service. Projects contain stories, tasks, milestones, roles, statuses and retained context. Agents can use the same HTTP records as a human-facing client. Database-backed history, comments, watchers, notifications, attachments and exports make it more than a board that only launches coding sessions.</p>
+<p>The reviewed backend does not supply an autonomous-worker ownership protocol. A task assignee is a project member, not an execution reservation. The normal edit path has version checks, transactions and database advisory locks. These are useful collaboration safeguards. They do not require an eligible worker, an unowned task, a live lease or a current execution-attempt token. An authorized editor can reassign work or finish its record while the previous worker continues elsewhere.</p>
+<p>Story completion has a meaningful child-status calculation. With tasks present, all task statuses must be closed for the calculated story completion flag to become true. Without tasks, the story's status decides. This is progress aggregation, not acceptance of versioned child results. Bulk board movement also follows a different persistence and recalculation path from normal record editing.</p>
+<p>Taiga fits as a planning and communication authority behind an added agent coordinator. Adopting it as the complete coordination runtime would require ownership, readiness, recovery and acceptance mechanisms. The backend declares MPL 2.0 in its <a href="repo/README.md">license and contribution statement</a>, lines 42–46, and <a href="repo/LICENSE">license</a>, lines 1–18. The frontend's implementation and AGPL declaration are covered in its separate companion assessment; they are not attributed to this server repository.</p>
+<h2 id="task-taiga-scope-and-evidence-level">Scope and evidence level</h2>
+<p>The full worktree contains 2,015 tracked files. This is a targeted static review of task and story records; project membership, role and status models; CRUD hooks and serializers; advisory locking and optimistic conflict checks; selected bulk writers; completion signals; history; notifications; event backends; webhooks; authentication and project permissions; context models, search, export and deployment entry points. Selected integration-test assertion bodies were read. No candidate application, dependency installation, build, migration or test was executed.</p>
+<p>The ledger records source ranges and hashes. It also identifies the separately inspected source archive of the pinned locking dependency. This is not an every-line audit or a certification of all imports, plugins, migrations, file serving, token lifecycle, HTTP security, scaling, browser behavior or production races. The browser client is a separate codebase. Test names and source assertions do not establish passing runtime tests.</p>
+<h2 id="task-taiga-architecture-and-domain-model">Architecture and domain model</h2>
+<p><a href="repo/taiga/urls.py">API routing</a>, lines 8–23, mounts the custom REST router under <code>api/v1/</code>. <a href="repo/taiga/routers.py">Task and story registrations</a>, lines 179–206, expose records, watchers and related planning resources. The server uses its own serializer/viewset machinery with model-specific permissions, validation and chained pre/post hooks. This is not simply current upstream Django REST Framework behavior.</p>
+<p><a href="repo/requirements.in">Dependency inputs</a>, lines 1–32, constrain Django below version 4. The <a href="repo/requirements.txt">resolved dependencies</a>, lines 25–82, include Django 3.2.25, Celery 5.5.3 and django-pglocks 1.0.4. PostgreSQL is explicit in <a href="repo/settings/common.py">database configuration</a>, lines 25–33, and in model ArrayFields. The <a href="repo/docker/Dockerfile">container definition</a>, lines 7–41, starts from Python 3.11 and installs the resolved requirements. These describe the pinned deployment, not a successful compatibility or security test.</p>
+<p>The <a href="repo/taiga/projects/models.py">project and membership model</a>, lines 53–105 and 164–231, has a stable project row, unique slug, description, owner, members, optional backlog/Kanban/wiki/issue panels and public/anonymous permission arrays. Membership links users to project roles and distinguishes administrators. <a href="repo/taiga/users/models.py">Roles</a>, lines 300–332, carry project-specific permission arrays. Custom role labels can represent coordinators, specialists and reviewers, but the schema does not turn those labels into separate worker execution identities.</p>
+<p>The <a href="repo/taiga/projects/tasks/models.py">task model</a>, lines 23–120, stores a subject, description, project, optional story and milestone, status, owner, assignee, ordering, dates, attachments and external references. Owner is the creator set by the API; assignee is mutable responsibility. <a href="repo/taiga/projects/userstories/models.py">Stories</a>, lines 65–167, add estimates, several planning orders, generated-from links, a swimlane and multiple assigned users. The inspected models have no execution attempt, lease expiry, heartbeat or fencing generation.</p>
+<p><a href="repo/taiga/projects/references/models.py">Reference allocation</a>, lines 22–62 and 93–132, uses a project sequence and a project/ref uniqueness constraint. <a href="repo/taiga/projects/references/sequences.py">Sequence operations</a>, lines 13–56, use PostgreSQL <code>nextval</code>. Database IDs identify rows; display references are project-local and are regenerated when records move between projects. They should not be treated as immutable global artifact identifiers.</p>
+<h2 id="task-taiga-requirement-assessment">Requirement assessment</h2>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Requirement</th>
+<th scope="col">Verdict</th>
+<th scope="col">Mechanism and boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr id="task-taiga-t01">
+<td>T01</td>
+<td>Similar</td>
+<td>Projects, descriptions, owners, memberships and roles separate shared work. Agent leadership continuity and portfolio decisions require conventions or integration.</td>
+</tr>
+<tr id="task-taiga-t02">
+<td>T02</td>
+<td>Similar</td>
+<td>SQL records, IDs and project references retain work and outcomes. Different normal, bulk and post-commit effects do not form one universal atomic transition.</td>
+</tr>
+<tr id="task-taiga-t03">
+<td>T03</td>
+<td>Similar</td>
+<td>Stories contain tasks; epics relate stories; generated-from links preserve some follow-up provenance. This is not a recursive governed agent-assignment tree.</td>
+</tr>
+<tr id="task-taiga-t04">
+<td>T04</td>
+<td>Resembles</td>
+<td>Blocked flags, notes and relationships can describe obstacles. Reviewed task/story models, selection filters and writers provide no prerequisite DAG, cycle gate or dependency-ready claim.</td>
+</tr>
+<tr id="task-taiga-t05">
+<td>T05</td>
+<td>Resembles</td>
+<td>User accounts and project roles can represent durable agents. Authentication tokens, assignees and creator fields do not model current processes, sessions and successive execution attempts.</td>
+</tr>
+<tr id="task-taiga-t06">
+<td>T06</td>
+<td>Similar</td>
+<td>REST CRUD, filters, comments, bulk planning, notifications and exports support structured clients. The reviewed task surface has no native worker claim-next, task MCP or process-control protocol.</td>
+</tr>
+<tr id="task-taiga-t07">
+<td>T07</td>
+<td>Resembles</td>
+<td>Normal edits use history-based version conflicts and a model/id advisory lock. Assignment remains an editor operation with no exclusive execution reservation or lease authority.</td>
+</tr>
+<tr id="task-taiga-t08">
+<td>T08</td>
+<td>Resembles</td>
+<td>Status/swimlane WIP limits, estimates, milestone availability and ordering support planning. The reviewed server writers do not enforce WIP occupancy, worker capacity or automatic dispatch.</td>
+</tr>
+<tr id="task-taiga-t09">
+<td>T09</td>
+<td>Resembles</td>
+<td>Story/task structure supports parallel assignments and aggregates closed child statuses. No native child-worker launch, accepted-result join or recoverable parent execution protocol.</td>
+</tr>
+<tr id="task-taiga-t10">
+<td>T10</td>
+<td>Similar</td>
+<td>Descriptions, wiki, comments, attachments, external references and custom fields retain context. Attachment hashes are not an approval bound to a task attempt and accepted result version.</td>
+</tr>
+<tr id="task-taiga-t11">
+<td>T11</td>
+<td>Similar</td>
+<td>Status, timestamps, comments, history and task-level finished dates expose progress. A required result/handoff envelope and verified execution checkpoints need an adapter.</td>
+</tr>
+<tr id="task-taiga-t12">
+<td>T12</td>
+<td>Similar</td>
+<td>Durable web notifications, pending email records, watchers, mentions, live events and signed webhooks exist. Event delivery has no transactional outbox/replay contract; SMTP failure can still consume pending email.</td>
+</tr>
+<tr id="task-taiga-t13">
+<td>T13</td>
+<td>Resembles</td>
+<td>Blocked notes, comments, mentions and configurable status can request help. No typed pending question with accountable resolution and guarded worker continuation.</td>
+</tr>
+<tr id="task-taiga-t14">
+<td>T14</td>
+<td>Absent</td>
+<td>No work heartbeat, renewable lease, expiry or fenced stale-work reclaim in the reviewed task/story storage and operation paths. Dates and milestone availability are not leases.</td>
+</tr>
+<tr id="task-taiga-t15">
+<td>T15</td>
+<td>Resembles</td>
+<td>Normal edits reject selected stale field conflicts. Bulk writes bypass that check; versions are not execution-attempt fences and creation/comments lack a reviewed idempotency-key contract.</td>
+</tr>
+<tr id="task-taiga-t16">
+<td>T16</td>
+<td>Resembles</td>
+<td>SQL records, history and editable statuses allow manual continuation, reassignment and reopening. Record deletion is not worker cancellation; the server does not recover agent processes or attempts.</td>
+</tr>
+<tr id="task-taiga-t17">
+<td>T17</td>
+<td>Similar</td>
+<td>Mac and Linux clients can use one PostgreSQL-backed service. No disconnected claim authority or source/worker-side fencing is established.</td>
+</tr>
+<tr id="task-taiga-t18">
+<td>T18</td>
+<td>Similar</td>
+<td>Attributed snapshots/diffs and comments retain changes and deletion history. Bulk and derived writes have different timing; this is not an immutable, universal execution journal.</td>
+</tr>
+<tr id="task-taiga-t19">
+<td>T19</td>
+<td>Resembles</td>
+<td>Search, filters, neighbors, extra display data and history APIs support human inspection. The actual browser interface belongs to the companion frontend, not this backend alone.</td>
+</tr>
+<tr id="task-taiga-t20">
+<td>T20</td>
+<td>Similar</td>
+<td>Ordered backlog/Kanban/sprint records, milestones, dates, estimates and optional panels support continuous or iteration planning. Worker capacity and readiness remain separate gaps.</td>
+</tr>
+<tr id="task-taiga-t21">
+<td>T21</td>
+<td>Resembles</td>
+<td>Closed task statuses determine story progress; milestones aggregate constituent progress. No qualified review, accepted artifact version or required verification result controls normal completion.</td>
+</tr>
+<tr id="task-taiga-t22">
+<td>T22</td>
+<td>Similar</td>
+<td>JWT/application identities, project roles, scoped lists and related-record checks provide substantial access control. An inspected notification read-marker route has an unchecked permission result; full access isolation is not certified.</td>
+</tr>
+<tr id="task-taiga-t23">
+<td>T23</td>
+<td>Similar</td>
+<td>Project roles, statuses, custom attributes, HTTP operations and signed webhooks permit integration. New fields or labels alone cannot enforce an agent lifecycle.</td>
+</tr>
+<tr id="task-taiga-t24">
+<td>T24</td>
+<td>Similar</td>
+<td>Container, migrations, API/async entry points, configuration and project export exist. PostgreSQL, worker/broker, media and separate frontend/event delivery increase operating cost; restore/upgrade/runtime acceptance remain untested.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="task-taiga-creation-discovery-and-assignment">Creation, discovery and assignment</h2>
+<p><a href="repo/taiga/base/api/mixins.py">Task creation and list handling</a>, lines 81–115, validate input, check permissions, run hooks, save the record and run post-save hooks before serialization. <a href="repo/taiga/projects/tasks/api.py">Task-specific checks</a>, lines 98–134, enforce common project membership for story, milestone and status, align a task's milestone with its story and set the creator. <a href="repo/taiga/projects/mixins/validators.py">Assignee validation</a>, lines 16–31, requires the target user to be a project member. That is meaningful relationship validation, not a rule that only the assignee may edit or finish the task.</p>
+<p><a href="repo/taiga/projects/tasks/api.py">Task discovery</a>, lines 40–96, supports project, story, milestone, status, assignee, owner, watchers, tags, text and dates. <a href="repo/taiga/projects/userstories/api.py">Story discovery</a>, lines 49–92, adds dashboard, epic, swimlane and planning orders. These are query snapshots. Neither surface reserves a returned item or verifies an executable prerequisite graph. <a href="repo/taiga/projects/tasks/api.py">Bulk task creation</a>, lines 246–268, creates several ordinary task records with callbacks; it does not launch workers.</p>
+<p><a href="repo/taiga/projects/mixins/blocked.py">Blocked data</a>, lines 17–29, is a boolean and free-text note. Clearing the flag clears the note. The similarly named <a href="repo/taiga/base/api/mixins.py">BlockedByProjectMixin</a>, lines 264–315, rejects writes to a project with a blocking code; it is not dependency readiness for an individual task. This distinction matters when an agent interprets a displayed blocked state.</p>
+<h2 id="task-taiga-concurrent-editing-and-ownership-limits">Concurrent editing and ownership limits</h2>
+<p>The <a href="repo/taiga/base/api/mixins.py">base update path</a>, lines 156–193, wraps the normal edit in an explicit transaction and model/id advisory-lock decorator. The <a href="repo/taiga/base/decorators.py">decorator</a>, lines 37–51, obtains a PostgreSQL advisory lock for the model and primary key. <a href="repo/taiga/projects/occ/mixins.py">OCC validation</a>, lines 21–87, requires a valid supplied version, compares it with the current database version, checks fields changed in intervening history and increments the stored version. A stale edit to an overlapping field is rejected; stale edits to disjoint fields can be accepted.</p>
+<p>The <a href="repo/taiga/projects/history/services.py">history lookup</a>, lines 347–364, derives intervening field names from the latest history diffs. This is not a compare-and-swap predicate on an unassigned task or a current attempt. A worker with ordinary modify permission can read a fresh version and replace an existing assignee. An old worker can likewise fetch a fresh version and continue writing. The authorization contract is project editing, not ownership of execution.</p>
+<p>There are also narrower concurrency concerns. <a href="repo/taiga/projects/tasks/api.py">Task update</a>, lines 177–207, loads <code>self.object</code> before delegating into the decorated base method. <a href="repo/taiga/projects/userstories/api.py">Story update</a>, lines 310–340, does the same. The base method retains a previously loaded object. <a href="repo/taiga/base/api/serializers.py">Serializer restoration</a>, lines 1063–1087, applies supplied fields to that object, and <a href="repo/taiga/base/api/serializers.py">saving</a>, lines 1097–1127, calls its ordinary model save without a dirty-field restriction. Source-level inference: two requests can preload the same row, then a permitted disjoint edit can save stale values for fields absent from its request. The lock does not itself refresh that snapshot. This scenario was not reproduced at runtime.</p>
+<p class="url-text">The pinned dependency archive confirms that <code>advisory_lock</code> acquires a session lock and releases it when its context exits. The server nests that context inside the outer transaction decorator. Unlock therefore precedes the outer transaction's exit; do not infer commit-spanning serialization from the decorator name alone. Primary dependency source: https://files.pythonhosted.org/packages/59/76/2c7d104151316077dcaa103e1d5652ded6c32798c8d706570fb7b48385cb/django-pglocks-1.0.4.tar.gz. The ledger records its verified archive hash and inspected member. These observations qualify the lock's boundary; they are not a production race test.</p>
+<h2 id="task-taiga-alternate-writers-wip-and-planning-consistency">Alternate writers, WIP and planning consistency</h2>
+<p><a href="repo/taiga/projects/tasks/validators.py">Bulk task validators</a>, lines 81–177, validate project and selected related scopes. They accept task IDs and order values, not expected record versions. <a href="repo/taiga/projects/tasks/services.py">Task order and milestone services</a>, lines 75–148, calculate several writes and emit change events. <a href="repo/taiga/base/utils/db.py">The low-level bulk helper</a>, lines 115–155, schedules its ID-based SQL update in <code>transaction.on_commit</code>, retries database errors up to its limit and does not re-raise after exhausting that path. Its transaction decorator does not make the eventual callback part of the already committed transaction.</p>
+<p>The task services request events before scheduling these bulk SQL writes. With autocommit, an event can be sent before the write. Under an outer transaction, its callback can also precede the SQL callback. A client that refetches immediately on that event can observe old ordering. A post-commit failure cannot roll back the original operation. This is a source-level ordering and failure boundary, not a measured delivery failure.</p>
+<p><a href="repo/taiga/projects/userstories/api.py">Bulk Kanban movement</a>, lines 468–512, checks project permissions, blocked/archive state and destination scope. <a href="repo/taiga/projects/userstories/validators.py">Its validator</a>, lines 169–199 and 244–253, verifies relevant project relationships. <a href="repo/taiga/projects/userstories/services.py">The service</a>, lines 284–398, separately updates ordering, then status/swimlane, then invokes or queues closure recalculation and history. It does not call normal OCC validation or increment each story's version. An ordinary editor operation therefore cannot be assumed to have the same concurrency semantics as a board move.</p>
+<p><a href="repo/taiga/projects/models.py">Status WIP limits</a>, lines 603–631 and 946–969, are stored integers. Neither the reviewed normal story preconditions nor this bulk movement service counts occupancy and rejects overflow. They are planning configuration, not an authoritative worker-capacity reservation. The separate frontend determines their presentation.</p>
+<h2 id="task-taiga-decomposition-progress-and-completion">Decomposition, progress and completion</h2>
+<p><a href="repo/taiga/projects/epics/models.py">Epic relationships</a>, lines 60–85 and 105–116, associate stories with epics and prevent duplicate story/epic pairs. Stories have tasks and generated-from issue/task links. These support decomposition and follow-up provenance, but not arbitrary nested agent executions or dependency ordering.</p>
+<p><a href="repo/taiga/projects/tasks/apps.py">Task signal registration</a>, lines 14–53 and 83–89, connects finished-date handling and story/milestone recalculation. <a href="repo/taiga/projects/tasks/signals.py">Signal bodies</a>, lines 27–100, update parent progress when tasks are saved, deleted or moved and set/reset the task's finished date from its status. <a href="repo/taiga/projects/userstories/signals.py">Story signals</a>, lines 49–98, propagate milestones and recalculate closure.</p>
+<p><a href="repo/taiga/projects/userstories/services.py">The story calculation</a>, lines 455–488, requires a non-null story status. Without tasks, its status must be closed. With tasks, all task statuses must be closed, regardless of whether the story's own status is open. <code>is_closed</code> and <code>finish_date</code> are then updated. A visually closed story status with open tasks does not establish calculated completion; conversely, all closed tasks can complete a story still assigned an open status. Deleting the last task changes which rule applies.</p>
+<p><a href="repo/taiga/projects/milestones/services.py">Milestone closure</a>, lines 17–43, aggregates closed stories, unparented tasks and issues, and requires at least one constituent. These are useful consistency calculations. They do not check test reports, reviewer qualification, unresolved decisions or accepted result versions. A review column can be configured as a status, but normal editing still lacks the baseline's acceptance contract. The server also does not cancel a real worker when a record is closed or deleted.</p>
+<h2 id="task-taiga-context-audit-and-communication">Context, audit and communication</h2>
+<p><a href="repo/taiga/projects/wiki/models.py">Wiki pages</a>, lines 21–71, retain project content and owner/modifier metadata. <a href="repo/taiga/projects/custom_attributes/models.py">Custom attributes</a>, lines 24–102 and 139–150, supply project-scoped schema and JSON values. <a href="repo/taiga/projects/attachments/models.py">Attachments</a>, lines 25–101, retain metadata, a SHA-1 content digest and a deprecation flag. <a href="repo/taiga/projects/attachments/api.py">Attachment API checks</a>, lines 54–76, verify that the target exists and shares the attachment's project. These are useful context primitives. They do not bind a review decision to an immutable accepted task result, and database rollback does not prove rollback of external file storage.</p>
+<p><a href="repo/taiga/projects/history/mixins.py">History hooks</a>, lines 44–73, take snapshots and comments on normal save/delete. <a href="repo/taiga/projects/history/services.py">Snapshot creation</a>, lines 367–436, uses its own transaction/advisory lock, stores actor identity, diffs, values and optional snapshots, and skips empty changes. This records human and API changes. Derived closure writes and bulk recalculation have different history/version paths; it is not a uniform attempt journal.</p>
+<p><a href="repo/taiga/projects/notifications/mixins.py">Notification hooks</a>, lines 64–137 and 373–387, process comments, mentions, watchers and assignment. <a href="repo/taiga/projects/notifications/models.py">Notification storage</a>, lines 47–83 and 114–123, persists pending history notifications and web notifications. <a href="repo/taiga/projects/notifications/services.py">Recipient selection and email queuing</a>, lines 136–206 and 243–269, apply view permissions/preferences and retain associated histories and recipients. <a href="repo/taiga/projects/notifications/api.py">Web notification listing</a>, lines 48–77, filters to the current user's records and can return unread items. These durable records permit later inspection; receiving one does not prove a worker acted.</p>
+<p>Pending email is not guaranteed delivery. <a href="repo/taiga/projects/notifications/services.py">Email processing</a>, lines 272–389, locks the pending record, attempts recipient sends, catches/logs send exceptions and then deletes the notification. <a href="repo/taiga/celery.py">Periodic scheduling</a>, lines 34–39, and <a href="repo/taiga/projects/notifications/services.py">bulk processing</a>, lines 577–585, provide a processing route, not an acknowledgement-based retry contract for each failed recipient.</p>
+<p><a href="repo/taiga/events/events.py">Live events</a>, lines 23–94, normally defer publication until database commit. That prevents a normal rolled-back write from intentionally publishing its event, but there is no SQL outbox linking commit to reliable publication. <a href="repo/taiga/events/backends/rabbitmq.py">RabbitMQ publication</a>, lines 40–67, uses a topic exchange and logs connection/publish failures; the <a href="repo/taiga/events/backends/postgresql.py">PostgreSQL backend</a>, lines 14–23, uses <code>NOTIFY</code>. Neither inspected publisher supplies a persisted consumer replay cursor. Durable history and refetching remain distinct recovery mechanisms.</p>
+<p><a href="repo/taiga/webhooks/signal_handlers.py">Webhook dispatch</a>, lines 29–73, follows visible history and schedules work after commit. <a href="repo/taiga/webhooks/tasks.py">Sending</a>, lines 53–129, signs payloads, checks private addresses when configured, controls redirects and logs responses/errors. Its <code>session.send</code> call has no explicit timeout. The task wrappers, lines 132–182, do not add an automatic retry policy. Only ten logs are retained per webhook. <a href="repo/taiga/webhooks/api.py">Manual resend</a>, lines 47–67, exists, but consumers must handle duplicate effects; this is not an exactly-once delivery or agent handoff protocol.</p>
+<h2 id="task-taiga-permissions-and-cross-host-operation">Permissions and cross-host operation</h2>
+<p><a href="repo/taiga/projects/tasks/permissions.py">Task permissions</a>, lines 14–46, distinguish view, add, modify, comment, delete and bulk operations, with administrator/superuser alternatives. <a href="repo/taiga/permissions/permissions.py">Comment-versus-edit checks</a>, lines 49–71, permit comment-only requests under a separate permission. <a href="repo/taiga/permissions/services.py">Permission calculation</a>, lines 63–129, combines roles and public/anonymous permissions. <a href="repo/taiga/base/filters.py">List filtering</a>, lines 136–172 and 207–208, limits task results by relevant project access. The task list's <code>AllowAny</code> declaration does not mean every task is public.</p>
+<p><a href="repo/taiga/auth/authentication.py">JWT authentication</a>, lines 61–73 and 93–152, validates tokens and loads an active non-system user. <a href="repo/taiga/auth/backends.py">Token decoding</a>, lines 113–130, uses the configured algorithm and signature verification. <a href="repo/settings/common.py">Default authentication configuration</a>, lines 473–483, also includes a debug session backend and application-token authentication. <a href="repo/taiga/external_apps/auth_backends.py">Application authentication</a>, lines 14–31, and <a href="repo/taiga/external_apps/services.py">token lookup</a>, lines 15–22, resolve a stored token to its user. They do not create per-task execution capability tokens. Complete issuance, revocation and inactive-user behavior across every mechanism were not audited.</p>
+<p>One inspected permission boundary needs correction before relying on notification isolation. <a href="repo/taiga/projects/notifications/api.py">Read-marker handling</a>, lines 52–95, defines a boolean ownership check, calls it without a target and ignores its false return, then loads a notification by ID without a user filter and sets its read timestamp. <a href="repo/taiga/base/api/utils/__init__.py">The lookup helper</a>, lines 51–63, supplies lookup/error conversion, not ownership enforcement. <a href="repo/taiga/base/api/views.py">API initialization</a>, lines 361–369, authenticates and throttles but does not supply the missing ownership check. <a href="repo/taiga/routers.py">Routes</a>, lines 35–42, register the marker paths. <a href="repo/taiga/base/routers.py">Router construction</a>, lines 227–254, and <a href="repo/taiga/base/api/viewsets.py">viewset binding</a>, lines 77–95, retain the class's raw <code>patch</code> handler on the registered list views. Source-level implication: a caller who can reach the marker route and knows another notification ID can alter its read state. This was not exercised against a running service and is not a claim that notification contents can be read through that route.</p>
+<p>Several execution hosts can share one server/database. This avoids independent local board replicas, but a disconnected worker can continue external work after reassignment. Project edit permissions, JWT expiry and database advisory locks cannot fence that worker's filesystem, Git or external side effects.</p>
+<h2 id="task-taiga-usability-operation-and-implementation-quality">Usability, operation and implementation quality</h2>
+<p><a href="repo/taiga/searches/api.py">Search</a>, lines 22–92, combines permitted project resource categories, with bounded parallel query workers and separate result groups. Task serializers expose <a href="repo/taiga/projects/tasks/serializers.py">versions, blocker information, dates, descriptions and extra display data</a>, lines 25–83. These help agents and a human client inspect the same state. They do not reveal running agent attempts because those records do not exist in the reviewed domain.</p>
+<p><a href="repo/taiga/projects/milestones/models.py">Milestone records</a>, lines 24–77, include dates, ordering and availability; date validation rejects an inverted interval. This and optional project panels support a small team's choice of workflow. An agent adapter still needs to resolve several related IDs, provide versions, understand calculated versus configured closed state and distinguish ordinary edits from bulk planning.</p>
+<p><a href="repo/docker/entrypoint.sh">The API entry point</a>, lines 9–32, runs migrations and loads initial templates before starting three Gunicorn workers. <a href="repo/docker/async_entrypoint.sh">The async entry point</a>, lines 9–20, starts Celery with its scheduler. <a href="repo/settings/config.py.prod.example">Production configuration</a>, lines 16–99, includes PostgreSQL, protected media storage, email, RabbitMQ events and Celery. <a href="repo/docker/config.py">Container configuration</a>, lines 18–48, takes database/site/secret values from the environment and controls webhook policy. These are explicit operating components, not evidence of a tested production topology. Coordinated database/media backups, broker/worker supervision and compatibility of the separately deployed frontend/event service remain deployment work.</p>
+<p><a href="repo/taiga/export_import/api.py">Project export</a>, lines 48–81, checks permissions and supports immediate JSON/gzip files or an asynchronous export with expiry. This is an interoperability path; it does not establish full-instance backup, restore fidelity or recovery of missing execution-attempt state.</p>
+<p>The architecture has substantive implementation behind its planning abstractions: scoped validation, database references, conflict checking, durable history and aggregate progress. Its complexity is concentrated in inherited hooks, model signals, direct SQL and post-commit/background side effects. Those mechanisms do not enforce identical rules across every mutation. Adding a claim endpoint alone would leave ordinary edits, bulk changes and completion paths outside the new contract.</p>
+<h2 id="task-taiga-test-source-evidence-and-adoption-work">Test-source evidence and adoption work</h2>
+<p>Selected <a href="repo/tests/integration/test_occ.py">OCC assertions</a>, lines 251–349, expect sequential same-field stale edits to fail, current versions to succeed, disjoint stale edits to succeed and missing versions to fail. They patch task preconditions and use sequential client requests. They do not test the overlapping preload/commit windows described above or exclusive agent acquisition.</p>
+<p><a href="repo/tests/integration/test_us_autoclosing.py">Story autoclosing assertions</a>, lines 17–124, cover open tasks blocking calculated completion, status-based closure without tasks and the effect of deleting/moving tasks. <a href="repo/tests/integration/test_userstories_update_kanban_order.py">Bulk Kanban assertions</a>, lines 36–92, check resulting ordering, status and swimlane without supplied versions. <a href="repo/tests/integration/test_tasks.py">Task permission/assignee assertions</a>, lines 971–1044, cover private/public filter access and project-member assignment; assignment cases mock OCC validation. <a href="repo/tests/integration/test_notifications.py">Notification assertions</a>, lines 1198–1246 and 1452–1514, inspect assignment/watcher/mention records and mocked SMTP error logging. None was run in this assessment.</p>
+<p>For the target organization, retain Taiga's shared records, project roles, discussion, history, filters, exports and planning views. Add an authoritative assignment/attempt model, an atomic readiness-and-claim transition, renewal/reclaim and stale-attempt checks, and explicit stop/recovery semantics. Enforce those rules in ordinary, bulk and background writers. Bind acceptance to an artifact version and required child results. Add durable delivery/reconciliation where downstream actions need reliability, and repair the notification marker permission path. Evaluate the separate frontend before choosing the combined product for daily human use.</p></article><nav class="report-switch" aria-label="Task study navigation"><a href="../index.html">Return to the task comparison</a><a href="../rhizome-mcp/index.html">Previous: Rhizome MCP</a><a href="../taiga-front/index.html">Next: Taiga frontend</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../../index.html">Return to overview <img src="../../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

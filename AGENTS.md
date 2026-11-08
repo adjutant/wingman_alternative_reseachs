@@ -12,6 +12,8 @@ Read a checkout's own instructions before you operate inside that checkout.
 - `WINGMAN_PURPOSE.md` defines the assessment baseline.
 - `AGENT_TASK_MANAGEMENT.md` defines the dedicated baseline for project and task coordination among agents.
 - `task-management/` holds the full source study against its T01–T24 requirements. Its checkout and assessment progress are separate from the original 75-project comparison.
+- `task-management/index.html` contains the 25-codebase comparison and searchable requirement matrix.
+- `task-management/purpose.html` presents `AGENT_TASK_MANAGEMENT.md`; each `<codebase>/index.html` presents its complete task assessment.
 - `<project>/repo/` contains one independent Git checkout.
 - `<project>/assessment/ASSESSMENT.md` contains the technical assessment.
 - `<project>/assessment/` also holds supporting chapters and retained experiment evidence.
@@ -45,7 +47,7 @@ State the boundary of each verdict. Do not convert verdict counts into a product
 Focused studies outside the original 75-project comparison can use topic-specific criteria.
 For the full task-management study, use `task-management/checkouts.json`, each project's `assessment/ASSESSMENT.md` and `assessment/review.json`.
 Run `tools/validate_task_management.py --write` for progress integrity and add `--require-complete` for its final source-assessment coverage gate.
-State their review scope and evidence level. Do not imply that they received the full 24-feature assessment.
+State their review scope and evidence level. T01–T24 task requirements are distinct from the original F01–F24 Wingman features.
 Preserve code links and line references. Keep the complete commit ID.
 Use bare complete external URLs. Use relative links for local evidence.
 
@@ -74,5 +76,6 @@ Support keyboard navigation, small screens, print, and reduced motion.
 
 Use `tools/build_reports.py` to generate HTML from the curated research and project assessments.
 Use `tools/validate_research.py` to check repository preservation, coverage, links, assets, and report structure.
+Use `tools/validate_task_publication.py --write` to check complete task-report prose, all 600 matrix verdicts and their explanation links against the source artifacts.
 Inspect representative desktop and mobile renders. Check search, filters, and return navigation.
 Keep a completion audit that states unresolved work. Do not treat a structural check as a semantic review.

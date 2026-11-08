@@ -26,6 +26,15 @@ class ReportServerTests(unittest.TestCase):
             'assets/report.js': 'console.log("report");',
             'generic/purpose.html': '<h1>Purpose</h1>',
             'generic/task-coordination.html': '<h1>Agent task coordination</h1>',
+            'AGENT_TASK_MANAGEMENT.md': '# Task baseline',
+            'task-management/index.html': '<h1>Task management</h1>',
+            'task-management/purpose.html': '<h1>Task baseline</h1>',
+            'task-management/checkouts.json': json.dumps({'repositories': [{'slug': 'candidate'}]}),
+            'task-management/candidate/index.html': '<h1>Candidate assessment</h1>',
+            'task-management/candidate/assessment/review.json': '{}',
+            'task-management/candidate/repo/source.txt': 'candidate source',
+            'task-management/candidate/repo/.git/config': 'private candidate Git config',
+            'task-management/unlisted/index.html': 'not a report',
             '.git/config': 'private Git config',
             '.env': 'private configuration',
             'private.txt': 'unpublished file',
@@ -83,6 +92,19 @@ class ReportServerTests(unittest.TestCase):
         with self.serving(include_source=True) as port:
             self.assertEqual(self.request(port, '/project/repo/source.txt')[2], b'source checkout')
             self.assertEqual(self.request(port, '/project/repo/.git/config')[0], 403)
+
+    def test_task_study_routes_and_source_boundary(self):
+        for include_source in [False, True]:
+            with self.subTest(include_source=include_source), self.serving(include_source) as port:
+                for path in ['/AGENT_TASK_MANAGEMENT.md', '/task-management/',
+                             '/task-management/purpose.html', '/task-management/checkouts.json',
+                             '/task-management/candidate/', '/task-management/candidate/assessment/review.json']:
+                    self.assertEqual(self.request(port, path)[0], 200, path)
+                self.assertEqual(self.request(port, '/task-management/candidate/repo/source.txt')[0],
+                                 200 if include_source else 403)
+                for path in ['/task-management/candidate/repo/.git/config',
+                             '/task-management/unlisted/index.html', '/task-management/private.txt']:
+                    self.assertEqual(self.request(port, path)[0], 403, path)
 
 
 if __name__ == '__main__':

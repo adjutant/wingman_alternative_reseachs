@@ -1,0 +1,838 @@
+{
+  "checked_at": "2026-11-08T21:14:45.241756+00:00",
+  "scope": "Report HTTP routing at the existing LAN listener; source access remains disabled by default. Same-host LAN-address requests, not a second-device connectivity test.",
+  "origin": "http://10.10.1.14:8765/",
+  "checks": [
+    {
+      "path": "/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/generic/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/generic/purpose.html",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/generic/method.html",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/generic/task-coordination.html",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/agent-swarm/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/agency/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/teammcp/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/edict/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/claw-empire/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/clawteam/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/multica/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/scion/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/paperclip/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/openrig/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/tinyagi/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/hamlet/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/multi-agent-shogun/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/agent-of-empires/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/orkas/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/amux/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/automaker/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/emdash/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/paseo/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/golutra/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/munder-difflin/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/herdr/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/agent-deck/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/intent/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/omnigent/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/agent-orchestrator/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/routa/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/crewly/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/maestro/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/claude-squad/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/happy/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/orca/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/paradev/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/wrenyard/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/cli-agent-orchestrator/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/multiclaude/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/kander/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/codex-autorunner/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/gastown/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/stagewise/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/cmux/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/open-swe/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/warren/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/agentrail/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/sortie/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/symphony/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/openhands/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/swarmos/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/swe-agent/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/zeroshot/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/agentopology/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/superplane/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/gstack/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/squad/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/deepcode/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/ralph-orchestrator/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/continuous-claude-v3/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/antfarm/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/oh-my-openagent/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/myclaude/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/oh-my-codex/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/oh-my-claudecode/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/ruflo/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/hcom/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/mission-control/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/companyhelm/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/ax/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/open-multi-agent/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/plano/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/nasiko/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/swarm/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/bernstein/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/rocketride-server/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/babysitter/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/openclaw/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/purpose.html",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/agent-hq/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/agent-kanban-rs/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/agent-mail-python/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/agent-mail-rust/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/agent-swarm/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/backlog-md/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/beads/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/beads-rust/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/beads-viewer/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/devboard/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/gemba/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/gitlab/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/kanboard/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/muster/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/openproject/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/paperclip/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/plane/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/plane-mcp/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/planka/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/rhizome-mcp/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/taiga/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/taiga-front/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/task-master/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/vibe-kanban/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/vikunja/",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/agent-hq/assessment/ASSESSMENT.md",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/agent-kanban-rs/assessment/ASSESSMENT.md",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/agent-mail-python/assessment/ASSESSMENT.md",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/agent-mail-rust/assessment/ASSESSMENT.md",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/agent-swarm/assessment/ASSESSMENT.md",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/backlog-md/assessment/ASSESSMENT.md",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/beads/assessment/ASSESSMENT.md",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/beads-rust/assessment/ASSESSMENT.md",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/beads-viewer/assessment/ASSESSMENT.md",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/devboard/assessment/ASSESSMENT.md",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/gemba/assessment/ASSESSMENT.md",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/gitlab/assessment/ASSESSMENT.md",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/kanboard/assessment/ASSESSMENT.md",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/muster/assessment/ASSESSMENT.md",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/openproject/assessment/ASSESSMENT.md",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/paperclip/assessment/ASSESSMENT.md",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/plane/assessment/ASSESSMENT.md",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/plane-mcp/assessment/ASSESSMENT.md",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/planka/assessment/ASSESSMENT.md",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/rhizome-mcp/assessment/ASSESSMENT.md",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/taiga/assessment/ASSESSMENT.md",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/taiga-front/assessment/ASSESSMENT.md",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/task-master/assessment/ASSESSMENT.md",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/vibe-kanban/assessment/ASSESSMENT.md",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/vikunja/assessment/ASSESSMENT.md",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/agent-hq/assessment/review.json",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/agent-kanban-rs/assessment/review.json",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/agent-mail-python/assessment/review.json",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/agent-mail-rust/assessment/review.json",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/agent-swarm/assessment/review.json",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/backlog-md/assessment/review.json",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/beads/assessment/review.json",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/beads-rust/assessment/review.json",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/beads-viewer/assessment/review.json",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/devboard/assessment/review.json",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/gemba/assessment/review.json",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/gitlab/assessment/review.json",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/kanboard/assessment/review.json",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/muster/assessment/review.json",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/openproject/assessment/review.json",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/paperclip/assessment/review.json",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/plane/assessment/review.json",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/plane-mcp/assessment/review.json",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/planka/assessment/review.json",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/rhizome-mcp/assessment/review.json",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/taiga/assessment/review.json",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/taiga-front/assessment/review.json",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/task-master/assessment/review.json",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/vibe-kanban/assessment/review.json",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/vikunja/assessment/review.json",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/AGENT_TASK_MANAGEMENT.md",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/checkouts.json",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/progress.json",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/REQUIREMENT_MATRIX.md",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/task-management/COMPARISON.md",
+      "expected": 200,
+      "status": 200
+    },
+    {
+      "path": "/.git/config",
+      "expected": 403,
+      "status": 403
+    },
+    {
+      "path": "/task-management/gitlab/repo/AGENTS.md",
+      "expected": 403,
+      "status": 403
+    },
+    {
+      "path": "/paperclip/repo/AGENTS.md",
+      "expected": 403,
+      "status": 403
+    },
+    {
+      "path": "/task-management/gitlab/repo/.git/config",
+      "expected": 403,
+      "status": 403
+    }
+  ],
+  "failures": []
+}

@@ -105,10 +105,6 @@
       "ranges": [
         [
           25,
-          33
-        ],
-        [
-          65,
           82
         ],
         [
@@ -1142,5 +1138,6 @@
       ],
       "method": "Static router route/method filtering and registration body review; traced raw class PATCH handler preservation with viewset binding/dispatch, not executed."
     }
-  ]
+  ],
+  "citation_range_audit": "November 9, 2026: inspected small gaps bridged by broad source citations and reconciled the ledger. No candidate execution or changed conclusions."
 }

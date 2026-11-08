@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Threaded messages, receipts and resource reservations"><title>Python Agent Mail · task management · Wingman Research</title>
+<link rel="icon" href="../../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/report.css"><script defer src="../../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../../index.html"><img src="../../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../../index.html">Overview</a><a class="nav-link " href="../../generic/index.html">Architecture findings</a><a class="nav-link " href="../../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../../generic/method.html">Method and evidence</a><a class="nav-link active" href="../index.html" aria-current=page>Agent task management</a><a class="nav-link " href="../../generic/task-coordination.html">Initial task screening</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>Two source studies</strong><p>75 organization snapshots.<br>25 task coordination codebases.<br>Evidence at pinned revisions.</p><a href="../../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../../index.html">Wingman Research</a><span class="crumb">/</span><span>Python Agent Mail · task management</span></div><span class="topbar-note">SOURCE REVIEW · 09 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Python Agent Mail · task management</h1><p class="subtitle">Threaded messages, receipts and resource reservations</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#task-agent-mail-python-python-agent-mail-task-management-assessment">Python Agent Mail task management assessment</a><a href="#task-agent-mail-python-fit-decision-and-assessment-boundary">Fit decision and assessment boundary</a><a href="#task-agent-mail-python-architecture-and-data-authority">Architecture and data authority</a><a href="#task-agent-mail-python-requirement-verdicts">Requirement verdicts</a><a href="#task-agent-mail-python-lifecycle-and-authority-boundaries">Lifecycle and authority boundaries</a><a href="#task-agent-mail-python-concurrency-failure-and-recovery-findings">Concurrency, failure and recovery findings</a><a href="#task-agent-mail-python-permissions-and-alternate-interfaces">Permissions and alternate interfaces</a><a href="#task-agent-mail-python-completeness-design-and-usability">Completeness, design and usability</a><a href="#task-agent-mail-python-test-source-evidence-and-limits">Test-source evidence and limits</a><a href="#task-agent-mail-python-adoption-decision-and-useful-components">Adoption decision and useful components</a></div></nav><article class="technical"><h2 id="task-agent-mail-python-python-agent-mail-task-management-assessment">Python Agent Mail task management assessment</h2>
+<p class="url-text">Repository: https://github.com/Dicklesworthstone/mcp_agent_mail</p>
+<p>Commit: <code>9138f34b1ed220235dbfeaa3f1fc9fe4444f4e72</code>.
+Baseline: <a href="../purpose.html">Shared task management for an agent organization</a>.
+Review: November 9, 2026. Full local checkout; targeted static implementation and test-source review.
+Candidate applications, dependencies and test suites were not installed or run.</p>
+<h2 id="task-agent-mail-python-fit-decision-and-assessment-boundary">Fit decision and assessment boundary</h2>
+<p>Python Agent Mail is a communication and shared-resource coordination companion.
+It gives agents persistent project identities, authenticated mailbox operations, threaded messages, attachments, recipient read/acknowledgement receipts, search and an auditable Git archive.
+It also records expiring file reservations and optional build-slot leases.
+These are useful building blocks for agents that already share a task system.</p>
+<p>It is not an independent task-management authority.
+There is no task entity with status, dependencies, acceptance criteria, child assignments or execution attempts in the complete model declaration.
+A thread ID or reservation reason can contain an external ticket key, but that convention does not enforce ticket ownership or completion.
+The candidate's instructions explicitly use Beads as the task authority; that architectural separation is consistent with the inspected implementation.
+See <a href="repo/src/mcp_agent_mail/models.py">models</a>, lines 1–219, and <a href="repo/AGENTS.md">integration instructions</a>, lines 224–260.</p>
+<p>Reservations are advisory even when marked exclusive.
+The reserve function serializes its database read/check/write, reports conflicting holders and still grants the requested reservation.
+Build-slot acquisition uses the same report-and-grant approach.
+Neither mechanism should be presented as a single-winner task claim.
+Optional Git hooks can block conflicting commits, but do not stop competing file edits or authenticate a worker's execution attempt.</p>
+<p>The license file adds an explicit OpenAI/Anthropic restriction to an MIT-form text, while package metadata says MIT.
+This report therefore does not classify the pinned repository as unqualified MIT or unrestricted open source.
+The restriction is an adoption constraint separate from the technical findings.
+See <a href="repo/LICENSE">license</a> and <a href="repo/pyproject.toml">package metadata</a>, lines 1–70.</p>
+<p>The review traces identity/session binding, message persistence and delivery, receipts, reservations and renewal/release, stale cleanup, HTTP role checks, an alternate browser write, archive sequencing and selected tests.
+It includes a static MCP declaration inventory, not an every-line audit of the 306 tracked files.
+No live MCP client, HTTP service or browser was used for this assessment.</p>
+<h2 id="task-agent-mail-python-architecture-and-data-authority">Architecture and data authority</h2>
+<p>FastMCP tools call application helpers backed by SQLModel and asynchronous SQLAlchemy sessions.
+A FastAPI wrapper supplies HTTP transport, authentication, rate limiting, background workers and server-rendered mailbox pages.
+The package also includes a Typer CLI, Git hooks and export/viewer assets; those complete surfaces were not audited here.
+The central application module is roughly 14,670 lines, with additional large HTTP, CLI and storage modules.
+This concentration makes it especially important to trace alternate callers rather than infer one universal lifecycle from a tool description.</p>
+<p>The model contains projects, products and project links, agents, messages, per-recipient state, file reservations, contact links, window identities and summaries.
+An agent name is unique within a project, with program/model, focus, last activity, registration token and retired state.
+A message has its own ID, project, sender, thread, direct reply edge, importance, acknowledgement flag and attachments.
+A reservation has an owner, path pattern, expiry and optional release timestamp.
+There is no durable task execution attempt or independently verified work result.
+See <a href="repo/src/mcp_agent_mail/models.py">complete model declaration</a>, lines 1–219.</p>
+<p>The <a href="assessment/catalogue.json">catalogue inventory</a> records 49 <code>mcp.tool</code> and 29 <code>mcp.resource</code> decorators in <code>app.py</code>.
+It was generated by parsing syntax without importing candidate modules.
+Some declarations are conditional, including build slots and product features.
+The counts establish the declared surface at this commit, not the set advertised by every runtime configuration or the correctness of every operation.</p>
+<p>Database rows serve mailbox reads and recipient state, while Git contains message copies, agent profiles, reservation JSON and thread digests.
+A message database commit and its archive writes are separate operations.
+The commit queue waits for completion and can fall back to a direct commit, but is an in-memory batching mechanism rather than a durable transaction outbox.
+See <a href="repo/src/mcp_agent_mail/app.py">message creation</a>, lines 3935–3977; <a href="repo/src/mcp_agent_mail/storage.py">archive bundle</a>, lines 1551–1687; and <a href="repo/src/mcp_agent_mail/storage.py">queue</a>, lines 109–216.</p>
+<h2 id="task-agent-mail-python-requirement-verdicts">Requirement verdicts</h2>
+<p>The same baseline applies to this companion, with its narrower responsibility stated explicitly.
+Communication support is not credited as an enforced task workflow.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Requirement</th>
+<th scope="col">Verdict</th>
+<th scope="col">Mechanism and boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr id="task-agent-mail-python-t01">
+<td>T01</td>
+<td>Similar</td>
+<td>Persistent projects, products and project links support scoped communication and grouped repositories. Path/Git identity modes help resolve a common project. They do not provide the baseline's project outcome, manager and permission registry. <a href="repo/src/mcp_agent_mail/models.py">Models</a>, lines 23–56; <a href="repo/src/mcp_agent_mail/app.py">identity</a>, lines 2000–2056 and 2152–2210.</td>
+</tr>
+<tr id="task-agent-mail-python-t02">
+<td>T02</td>
+<td>Absent</td>
+<td>Durable messages and reservations have IDs, but no task entity, status/outcome schema or task lifecycle exists in the complete model or MCP declarations. External ticket keys are strings. <a href="repo/src/mcp_agent_mail/models.py">Models</a>; <a href="assessment/catalogue.json">catalogue</a>.</td>
+</tr>
+<tr id="task-agent-mail-python-t03">
+<td>T03</td>
+<td>Resembles</td>
+<td>Threads and direct message reply edges retain conversation structure. They do not represent parent tasks, decomposed deliverables or typed follow-up assignments. <a href="repo/src/mcp_agent_mail/models.py">Message model</a>, lines 97–120.</td>
+</tr>
+<tr id="task-agent-mail-python-t04">
+<td>T04</td>
+<td>Absent</td>
+<td>No task dependency graph, readiness query or cycle invariant appears in the complete schema or declared tools. Reservation path overlap is a different relationship. <a href="repo/src/mcp_agent_mail/models.py">Models</a>; <a href="assessment/catalogue.json">catalogue</a>.</td>
+</tr>
+<tr id="task-agent-mail-python-t05">
+<td>T05</td>
+<td>Similar</td>
+<td>Durable agent records, registration tokens, window identity and expiring in-memory session bindings separate an identity from a connection. They do not distinguish several execution attempts by that same identity. <a href="repo/src/mcp_agent_mail/models.py">Model</a>, lines 58–76 and 159–182; <a href="repo/src/mcp_agent_mail/app.py">session/authentication</a>, lines 5240–5466.</td>
+</tr>
+<tr id="task-agent-mail-python-t06">
+<td>T06</td>
+<td>Similar</td>
+<td>Structured MCP tools/resources cover setup, identity, messages, search, contacts, reservations and macros. HTTP adds role/rate controls. There is no task or worker execution API. <a href="assessment/catalogue.json">Catalogue</a>; <a href="repo/src/mcp_agent_mail/http.py">HTTP controls</a>, lines 1009–1091.</td>
+</tr>
+<tr id="task-agent-mail-python-t07">
+<td>T07</td>
+<td>Resembles</td>
+<td>Reservation changes use an immediate database transaction and an archive lock, but conflicting exclusive requests are still granted. This is serialized conflict reporting, not exclusive execution authority. <a href="repo/src/mcp_agent_mail/app.py">Reserve</a>, lines 11445–11612; <a href="repo/src/mcp_agent_mail/db.py">transaction helper</a>, lines 643–698.</td>
+</tr>
+<tr id="task-agent-mail-python-t08">
+<td>T08</td>
+<td>Resembles</td>
+<td>Optional named build slots report holders and expiry. Acquisition still grants on conflict and suppresses lease-file write errors. There is no capacity-aware scheduler, task WIP policy or dispatch queue. <a href="repo/src/mcp_agent_mail/app.py">Build slot</a>, lines 12189–12248.</td>
+</tr>
+<tr id="task-agent-mail-python-t09">
+<td>T09</td>
+<td>Resembles</td>
+<td>Agents can request work by mail; session/thread/contact macros bundle coordination steps. They do not create supervised child executions or gate parent completion. <a href="repo/src/mcp_agent_mail/app.py">Session macro</a>, lines 9873–9948; <a href="assessment/catalogue.json">catalogue</a>.</td>
+</tr>
+<tr id="task-agent-mail-python-t10">
+<td>T10</td>
+<td>Similar</td>
+<td>Threaded Markdown, attachments, project archives and Git commits retain useful context. References are not a frozen task input snapshot or artifact acceptance contract. <a href="repo/src/mcp_agent_mail/models.py">Message model</a>, lines 97–120; <a href="repo/src/mcp_agent_mail/storage.py">archive bundle</a>, lines 1551–1687.</td>
+</tr>
+<tr id="task-agent-mail-python-t11">
+<td>T11</td>
+<td>Similar</td>
+<td>Durable progress messages, replies and explicit recipient receipts support handoff communication. An acknowledgement confirms receipt, not successful delivery of an assignment or transfer of exclusive responsibility. <a href="repo/src/mcp_agent_mail/app.py">Message creation</a>, lines 3935–3977; <a href="repo/src/mcp_agent_mail/app.py">receipts</a>, lines 9706–9863.</td>
+</tr>
+<tr id="task-agent-mail-python-t12">
+<td>T12</td>
+<td>Similar</td>
+<td>Non-consuming inbox reads, unread filtering, read/ack timestamps, search and best-effort notification signals provide substantial communication support. The bounded newest-first timestamp interface is not a lossless replay cursor. <a href="repo/src/mcp_agent_mail/app.py">Inbox</a>, lines 4592–4666 and 9454–9558; <a href="repo/src/mcp_agent_mail/app.py">signals</a>, lines 5810–5856.</td>
+</tr>
+<tr id="task-agent-mail-python-t13">
+<td>T13</td>
+<td>Similar</td>
+<td>Urgent mail, acknowledgement requirements, overdue views and an optional worker that logs or creates reservation signals can surface unanswered communication. There is no structured task blocker/decision state machine or required manager resolution. <a href="repo/src/mcp_agent_mail/http.py">ACK worker</a>, lines 1195–1340; <a href="assessment/catalogue.json">catalogue</a>.</td>
+</tr>
+<tr id="task-agent-mail-python-t14">
+<td>T14</td>
+<td>Similar</td>
+<td>Activity timestamps, expiring reservations, renewal, stale heuristics, orphan cleanup and stale-agent retirement discover abandoned coordination state. They do not monitor a specific execution attempt or fence a running worker when a lease expires. <a href="repo/src/mcp_agent_mail/app.py">Stale analysis</a>, lines 4093–4261; <a href="repo/src/mcp_agent_mail/app.py">expiry</a>, lines 4347–4438; <a href="repo/src/mcp_agent_mail/app.py">renewal</a>, lines 11985–12118.</td>
+</tr>
+<tr id="task-agent-mail-python-t15">
+<td>T15</td>
+<td>Resembles</td>
+<td>Conditional NULL-only receipt updates preserve the first read/ack timestamp, and reservation renewal can reuse an existing record. Sending has no idempotency key or attempt token; an old authenticated worker can send again. <a href="repo/src/mcp_agent_mail/app.py">Receipt update</a>, lines 5129–5179; <a href="repo/src/mcp_agent_mail/app.py">message creation</a>, lines 3935–3977.</td>
+</tr>
+<tr id="task-agent-mail-python-t16">
+<td>T16</td>
+<td>Resembles</td>
+<td>Persistence, release/retirement, lock cleanup and selected compensation paths aid recovery. No worker cancellation/resume protocol exists. Database and Git phases can diverge, and different interfaces compensate differently. <a href="repo/src/mcp_agent_mail/app.py">MCP compensation</a>, lines 5770–5815; <a href="repo/src/mcp_agent_mail/http.py">browser sequence</a>, lines 3980–4038.</td>
+</tr>
+<tr id="task-agent-mail-python-t17">
+<td>T17</td>
+<td>Similar</td>
+<td>Several clients can use one HTTP service and shared database/archive. Identity modes help group worktrees/clones. This is a central communication authority, not coordinated independent replicas or distributed task ownership; sessions and the commit queue are process-local. <a href="repo/src/mcp_agent_mail/app.py">Identity</a>, lines 2000–2056; <a href="repo/src/mcp_agent_mail/app.py">session maps</a>, lines 5240–5355; <a href="repo/src/mcp_agent_mail/storage.py">queue</a>, lines 109–216.</td>
+</tr>
+<tr id="task-agent-mail-python-t18">
+<td>T18</td>
+<td>Similar</td>
+<td>Authenticated senders, database recipient records and Git message/profile/reservation history provide attributable communication. Git uses configured author identity; browser messages use a generic HumanOverseer identity. This is not an immutable task-attempt audit. <a href="repo/src/mcp_agent_mail/storage.py">Bundle</a>, lines 1551–1687; <a href="repo/src/mcp_agent_mail/storage.py">Git actor</a>, lines 2115–2147; <a href="repo/src/mcp_agent_mail/http.py">browser sender</a>, lines 3860–3914.</td>
+</tr>
+<tr id="task-agent-mail-python-t19">
+<td>T19</td>
+<td>Similar</td>
+<td>Project/mailbox/thread/search/reservation/attachment pages support human inspection and a human message composer. They do not show a task board, execution attempts or acceptance status. The reviewed template includes labeled links and project state; live accessibility and rendering were not tested. <a href="repo/src/mcp_agent_mail/templates/mail_project.html">Project page</a>, lines 1–125; <a href="repo/src/mcp_agent_mail/http.py">browser routes</a>, lines 3741–3782.</td>
+</tr>
+<tr id="task-agent-mail-python-t20">
+<td>T20</td>
+<td>Absent</td>
+<td>No backlog ordering, milestone, iteration or task planning model appears in the complete schema or MCP catalogue. Message importance and topics do not supply those semantics. <a href="repo/src/mcp_agent_mail/models.py">Models</a>; <a href="assessment/catalogue.json">catalogue</a>.</td>
+</tr>
+<tr id="task-agent-mail-python-t21">
+<td>T21</td>
+<td>Absent</td>
+<td>There is no acceptance-criteria submission, evidence-bound review or controlled task completion operation. Message acknowledgement is a receipt and can be set without evaluating a deliverable. <a href="repo/src/mcp_agent_mail/app.py">Acknowledgement</a>, lines 9784–9863; <a href="repo/src/mcp_agent_mail/models.py">models</a>.</td>
+</tr>
+<tr id="task-agent-mail-python-t22">
+<td>T22</td>
+<td>Similar</td>
+<td>Registration tokens, session binding, per-agent mailbox visibility, contact policy and configurable HTTP bearer/JWT/RBAC establish real boundaries. Project administration accepts any authenticated project agent, and ordinary browser writes are outside the MCP tool-role classification. <a href="repo/src/mcp_agent_mail/app.py">Agent/admin auth</a>, lines 5357–5519; <a href="repo/src/mcp_agent_mail/http.py">classification</a>, lines 888–908; <a href="repo/src/mcp_agent_mail/http.py">role checks</a>, lines 1056–1073; <a href="repo/src/mcp_agent_mail/http.py">browser write</a>, lines 3773–3782.</td>
+</tr>
+<tr id="task-agent-mail-python-t23">
+<td>T23</td>
+<td>Similar</td>
+<td>Environment configuration, contact policies, conditional product/build tools, macros and notification/ACK workers offer extension points. They are communication policy, rather than a configurable organizational role or task-workflow engine. <a href="repo/pyproject.toml">Metadata</a>; <a href="assessment/catalogue.json">catalogue</a>; <a href="repo/src/mcp_agent_mail/http.py">ACK worker</a>, lines 1195–1340.</td>
+</tr>
+<tr id="task-agent-mail-python-t24">
+<td>T24</td>
+<td>Similar</td>
+<td>The service combines Python, asynchronous database access, Git, file locks and optional Redis/LLM features. Loopback defaults help local setup, but database/archive consistency, credentials and hooks add operating work. License metadata and the source rider differ. Installation, dependencies and services were not tested. <a href="repo/pyproject.toml">Package</a>, lines 1–70; <a href="repo/src/mcp_agent_mail/config.py">HTTP defaults</a>, lines 394–430; <a href="repo/LICENSE">license</a>.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="task-agent-mail-python-lifecycle-and-authority-boundaries">Lifecycle and authority boundaries</h2>
+<p>A coordinator ensures a project and registers an agent.
+Agent uniqueness is scoped to a project.
+Registering an existing named identity first authenticates that identity; successful registration obtains its token and binds the current MCP session.
+Authentication later accepts a session binding or verifies the token with a constant-time comparison.
+A configured window identity can also rebind after reconnect.
+The bindings are TTL-pruned process memory, so durable identity survives a server restart while a session's authorization state does not.
+See <a href="repo/src/mcp_agent_mail/app.py">registration</a>, lines 6210–6253, and <a href="repo/src/mcp_agent_mail/app.py">authentication</a>, lines 5240–5466.</p>
+<p>Project setup is idempotent by its unique slug and retries selected lock failures.
+Default identity uses path-derived information; gated alternatives can use normalized Git remotes or common directories.
+Consistent identity configuration remains necessary across different client paths and hosts.
+A shared remote name does not itself synchronize two independently deployed mail databases.
+See <a href="repo/src/mcp_agent_mail/app.py">slug selection</a>, lines 2000–2056, <a href="repo/src/mcp_agent_mail/app.py">identity defaults</a>, lines 2152–2210, and <a href="repo/src/mcp_agent_mail/app.py">project creation</a>, lines 2420–2457.</p>
+<p>Work selection happens outside this product.
+An agent may put the external task key in a message thread and reservation reason, reserve its anticipated edit paths, then announce its start.
+The database reservation update is serialized, but a conflict does not reject the request.
+The response includes both grants and conflicts and warns that code-repository enforcement is advisory.
+A consumer must inspect those fields and apply its own decision to wait, narrow scope or ask the holder.
+See <a href="repo/src/mcp_agent_mail/app.py">reservation mutation</a>, lines 11365–11612.</p>
+<p>Progress and questions are messages.
+The send path authenticates the sender, resolves recipients and applies contact policy before delivery.
+Delivery creates one message and its recipient rows in a database transaction, then writes canonical, outbox, inbox and thread archive files under an archive lock.
+Cross-project deliveries are separate operations and may partially succeed; the result reports per-project delivery errors.
+An agent that retries the whole request can duplicate deliveries already committed to successful projects.
+See <a href="repo/src/mcp_agent_mail/app.py">sender authentication</a>, lines 7598–7622, <a href="repo/src/mcp_agent_mail/app.py">message transaction</a>, lines 3935–3977, <a href="repo/src/mcp_agent_mail/app.py">delivery</a>, lines 5575–5856, and <a href="repo/src/mcp_agent_mail/app.py">multi-project result</a>, lines 8355–8423.</p>
+<p>Inbox fetch does not consume messages.
+Mark-read and acknowledge are explicit authenticated operations and preserve their original timestamps through conditional updates.
+Acknowledgement sets read and ack in separate calls, so an interruption can leave a read receipt without an ack; retry can complete the missing step.
+This is useful delivery state, not a proof that an agent performed the requested work.
+See <a href="repo/src/mcp_agent_mail/app.py">inbox</a>, lines 9454–9558, <a href="repo/src/mcp_agent_mail/app.py">receipt helper</a>, lines 5129–5179, and <a href="repo/src/mcp_agent_mail/app.py">acknowledgement</a>, lines 9784–9863.</p>
+<p>There is no task review or completion transition to enforce.
+An agent releases its own reservations and posts a result; the external task system must decide whether the deliverable is accepted and the assignment is complete.
+Release filters by authenticated agent and project and uses a database transaction, then rewrites archive artifacts.
+It neither cancels a process nor makes a prior message an immutable final result.
+See <a href="repo/src/mcp_agent_mail/app.py">release</a>, lines 11665–11759, and <a href="repo/src/mcp_agent_mail/models.py">domain model</a>.</p>
+<h2 id="task-agent-mail-python-concurrency-failure-and-recovery-findings">Concurrency, failure and recovery findings</h2>
+<h3 id="task-agent-mail-python-advisory-exclusivity-remains-advisory-after-serialization">Advisory exclusivity remains advisory after serialization</h3>
+<p><code>BEGIN IMMEDIATE</code> gives reservation checks and updates one serialized SQLite transaction.
+The conflicting-holder branch nevertheless appends to <code>conflicts</code> and continues to create or renew the reservation.
+This behavior is deliberate and is asserted by a selected test that expects a second overlapping exclusive request to receive both <code>granted</code> and <code>conflicts</code>.
+Database serialization improves the accuracy of the report, not the strength of work ownership.
+See <a href="repo/src/mcp_agent_mail/app.py">reserve branch</a>, lines 11445–11576; <a href="repo/src/mcp_agent_mail/db.py">transaction helper</a>, lines 643–698; and <a href="repo/tests/test_claim_overlap_and_macro_failures.py">test</a>, lines 1–21.</p>
+<p>Build slots also return a grant despite active incompatible holders.
+Their file writes are wrapped in exception suppression, so a returned grant or successful renewal need not establish that its lease was persisted.
+Slot keys use agent and branch, without a new generation token per execution.
+This is a convenience signal for cooperating build wrappers, not a durable capacity reservation service.
+See <a href="repo/src/mcp_agent_mail/app.py">acquire</a>, lines 12189–12248, and <a href="repo/src/mcp_agent_mail/app.py">renew/release</a>, lines 12252–12332.</p>
+<h3 id="task-agent-mail-python-git-hooks-enforce-a-narrower-boundary">Git hooks enforce a narrower boundary</h3>
+<p>The generated pre-commit hook inspects staged paths and active reservation artifacts.
+It defaults to blocking conflicts when its feature gate is enabled, but supports advisory mode and an explicit bypass.
+It takes the acting agent name from an environment variable.
+The hook reads locally available archive JSON, rather than asking a central service for a fenced task claim at each write.
+A path-listing failure or absent detected paths can also end the hook successfully.
+See <a href="repo/src/mcp_agent_mail/guard.py">hook gates and path collection</a>, lines 268–354, and <a href="repo/src/mcp_agent_mail/guard.py">conflict result</a>, lines 437–473.</p>
+<p>A commit hook cannot prevent two processes editing the same file before commit.
+It also does not make reservations in another host's independent archive immediately visible.
+Its value depends on installation, configuration, current artifacts and cooperation by the caller.
+It should not be treated as the baseline's authenticated task-owner invariant.</p>
+<h3 id="task-agent-mail-python-expiry-uses-activity-heuristics-without-stale-attempt-fencing">Expiry uses activity heuristics, without stale-attempt fencing</h3>
+<p>Stale analysis combines agent activity, sent/read/acknowledged mail, filesystem touches and Git activity.
+It reports the reasons behind its result and can release orphaned reservations whose agent has disappeared.
+TTL expiration and heuristic stale release are real recovery mechanisms, but do not establish that a worker has stopped or that its output must be rejected.
+Quiet computation and a disconnected worker require a separate execution heartbeat policy.
+See <a href="repo/src/mcp_agent_mail/app.py">stale analysis</a>, lines 4093–4261, and <a href="repo/src/mcp_agent_mail/app.py">expiry</a>, lines 4347–4438.</p>
+<p>The stale heuristic is evaluated before the subsequent release transaction.
+That update checks reservation ID and unreleased state, without rechecking the activity/expiry state used for the heuristic decision.
+A renewal or activity update between evaluation and mutation can therefore be overtaken by the older release decision.
+The force-release path has a similar check-then-update boundary for non-expired stale records.
+These are source-derived interleavings; they were not reproduced here.
+See <a href="repo/src/mcp_agent_mail/app.py">automatic stale update</a>, lines 4385–4410, and <a href="repo/src/mcp_agent_mail/app.py">forced release</a>, lines 11850–11905.</p>
+<h3 id="task-agent-mail-python-database-and-git-recovery-is-compensation-not-one-transaction">Database and Git recovery is compensation, not one transaction</h3>
+<p>Normal delivery commits the database message before writing the archive bundle.
+On an archive exception it attempts to delete message and recipient rows in a separate transaction, suppressing cleanup errors so the original archive failure is returned.
+Files already written by a partial bundle are not removed by that compensation.
+A process crash between commit and cleanup can also leave a database/archive mismatch.
+The archive lock serializes cooperating writers but cannot make these storage systems one transaction.
+See <a href="repo/src/mcp_agent_mail/app.py">delivery compensation</a>, lines 5736–5856, and <a href="repo/src/mcp_agent_mail/storage.py">bundle write order</a>, lines 1551–1687.</p>
+<p>Reservation creation likewise removes only rows newly created by the failed call on archive error.
+Previously existing reservations whose expiry or exclusivity changed are left changed.
+Renewal and release commit database changes before updating Git artifacts.
+Consumers of database state and local guard JSON can therefore temporarily disagree after a failure.
+See <a href="repo/src/mcp_agent_mail/app.py">reservation compensation</a>, lines 11570–11612; <a href="repo/src/mcp_agent_mail/app.py">renewal</a>, lines 12070–12118; and <a href="repo/src/mcp_agent_mail/app.py">release</a>, lines 11700–11759.</p>
+<p>The browser human-message route follows a different recovery path.
+It commits message and recipient rows, then writes Git artifacts; an archive error returns HTTP 500 without deleting those rows.
+The message may therefore be visible even though the sender saw a failed request.
+A blind retry can create another message.
+See <a href="repo/src/mcp_agent_mail/http.py">browser database/archive sequence</a>, lines 3914–4038.</p>
+<h3 id="task-agent-mail-python-polling-needs-a-deliberate-catch-up-strategy">Polling needs a deliberate catch-up strategy</h3>
+<p>Inbox queries order newest first, apply a fixed limit and optionally require <code>created_ts</code> strictly greater than <code>since_ts</code>.
+There is no returned continuation cursor or message-ID tie-break condition in that helper.
+If a client receives only the newest page after a burst, advancing its timestamp can skip older unread messages.
+Unread-only polling with explicit receipts helps drain pending mail, but callers must actually use it and handle limits rather than assume timestamp polling is a complete event replay protocol.
+See <a href="repo/src/mcp_agent_mail/app.py">inbox query</a>, lines 4592–4666, and <a href="repo/src/mcp_agent_mail/app.py">tool interface</a>, lines 9454–9558.</p>
+<p>Notification signals are emitted after the archive lock and exceptions are suppressed.
+Fetching can clear the signal independently of whether every pending message fit in the response.
+The durable mailbox, rather than a signal file, must remain the recovery source.
+See <a href="repo/src/mcp_agent_mail/app.py">signals</a>, lines 5810–5856 and 9525–9558.</p>
+<h2 id="task-agent-mail-python-permissions-and-alternate-interfaces">Permissions and alternate interfaces</h2>
+<p>Per-agent token checks and visibility filters are meaningful safeguards.
+Registration cannot freely take over an existing named identity through the normal path, and mailbox receipt operations require the addressed agent's authentication and visible message.
+Search fallback queries restrict results to messages sent by or addressed to the authenticated viewer.
+See <a href="repo/src/mcp_agent_mail/app.py">registration</a>, lines 6210–6253; <a href="repo/src/mcp_agent_mail/app.py">receipt callers</a>, lines 9706–9863; and <a href="repo/src/mcp_agent_mail/app.py">search fallback</a>, lines 10600–10698.</p>
+<p>Project administration is broader than a manager role.
+The helper accepts an existing authenticated project agent or any matching token belonging to a project agent.
+It does not consult a distinct owner/admin assignment.
+The baseline's project leader, worker, reviewer and human override roles therefore need a separate policy layer.
+See <a href="repo/src/mcp_agent_mail/app.py">admin authentication</a>, lines 5468–5519.</p>
+<p>HTTP can enforce a shared bearer token, JWT roles and rate limits.
+Default configuration binds to loopback and permits unauthenticated localhost access; the bypass rejects requests bearing forwarded headers.
+A valid static bearer can be used alongside JWT when both are enabled, with the configured default role.
+These deployment choices need to match the intended trust boundary.
+See <a href="repo/src/mcp_agent_mail/http.py">bearer/local check</a>, lines 722–790, <a href="repo/src/mcp_agent_mail/http.py">role selection</a>, lines 1009–1073, and <a href="repo/src/mcp_agent_mail/config.py">defaults</a>, lines 394–430.</p>
+<p>The role classifier recognizes MCP <code>tools/call</code> and resource requests by their JSON body.
+An ordinary POST to the browser human-message route is classified as <code>other</code>, while writer-role enforcement applies only to classified tools/resources.
+That handler does not call the per-agent authentication or contact-policy path.
+It creates a generic HumanOverseer identity and sends high-importance messages directly.
+Source inspection therefore indicates that a principal admitted by transport authentication can use that browser write even when the same principal's role cannot call a write tool.
+This was not tested with a live server.
+See <a href="repo/src/mcp_agent_mail/http.py">classification</a>, lines 888–908; <a href="repo/src/mcp_agent_mail/http.py">role boundary</a>, lines 1056–1073; <a href="repo/src/mcp_agent_mail/http.py">middleware installation</a>, lines 1608–1628; and <a href="repo/src/mcp_agent_mail/http.py">browser writer</a>, lines 3773–4038.</p>
+<p>The UI's generic human identity and priority preamble are conventions, not evidence of a separately authenticated human owner.
+The same route also bypasses normal message reservation checks and their compensation behavior.
+A protected network deployment should unify authorization and storage semantics across those entry points before treating this as an organizational control plane.</p>
+<h2 id="task-agent-mail-python-completeness-design-and-usability">Completeness, design and usability</h2>
+<p>The strongest implemented area is communication.
+Persistent identities, direct reply edges, per-recipient state, sender authentication, search, cross-project delivery results and archive inspection are concrete capabilities.
+The task-management gap is architectural: the product expects a different system to own task state.
+Adding a board alone would not supply dependencies, claims, attempt fencing, review and worker supervision.</p>
+<p>Several design choices show attention to concurrent operation: immediate reservation transactions, conditional timestamp updates, archive locks with cancellation cleanup and an awaited commit queue.
+Other state spans remain split across database, Git, session memory, JSON leases and generated hooks.
+The different human-message write path illustrates the maintenance risk of implementing one lifecycle more than once.
+See <a href="repo/src/mcp_agent_mail/db.py">transaction helper</a>, lines 643–698; <a href="repo/src/mcp_agent_mail/app.py">receipt helper</a>, lines 5129–5179; <a href="repo/src/mcp_agent_mail/storage.py">archive lock</a>, lines 1239–1270; and <a href="repo/src/mcp_agent_mail/http.py">browser sequence</a>, lines 3914–4038.</p>
+<p>The browser project page provides clear links to threads, reservations, attachments and human messaging.
+It displays project state and has labeled navigation controls.
+Its purpose is inspection and communication, with no task progress or review dashboard.
+Only representative template source was inspected; no desktop/mobile render, keyboard walkthrough or assistive-technology acceptance test was performed.
+See <a href="repo/src/mcp_agent_mail/templates/mail_project.html">project template</a>, lines 1–125.</p>
+<p>Operation requires managing a database, Git archive, credentials, expiry settings and any installed hooks.
+The package declares Python <code>&gt;=3.12</code>, while contributor instructions target 3.14.
+That metadata difference is recorded without asserting a runtime compatibility defect.
+Dependencies include FastMCP, FastAPI, SQLModel/SQLAlchemy, GitPython, Redis and LLM/image libraries; the optional Postgres driver does not establish compatibility of every operation, especially the literal SQLite <code>BEGIN IMMEDIATE</code> helper used by reservations.
+No alternate database backend was validated.
+See <a href="repo/pyproject.toml">package</a>, lines 1–70; <a href="repo/AGENTS.md">contributor instructions</a>, lines 41–51; and <a href="repo/src/mcp_agent_mail/db.py">transaction helper</a>, lines 643–698.</p>
+<h2 id="task-agent-mail-python-test-source-evidence-and-limits">Test-source evidence and limits</h2>
+<p>The overlapping-reservation test explicitly expects both a grant and a conflict for a second exclusive holder.
+The same test file checks a contact macro returning a nonfatal welcome-message conflict rather than claiming successful delivery.
+The renewal test checks a later expiry and a corresponding JSON artifact.
+These assertion bodies support the intended advisory and archive behavior, but were not executed here.
+See <a href="repo/tests/test_claim_overlap_and_macro_failures.py">conflict/macro tests</a>, lines 1–49, and <a href="repo/tests/test_outbox_and_claims.py">renewal test</a>, lines 32–76.</p>
+<p>The mailbox regression tests check that repeated fetches leave read state unchanged and that explicit mark-read makes the receipt visible.
+Another test verifies that repeated read/ack calls preserve their first timestamps.
+The HTTP test checks missing-bearer rejection, read-tool success, write-tool refusal for a reader and rate limiting.
+Despite its name, that selected test body configures static bearer/RBAC rather than enabling JWT validation.
+It does not cover the ordinary browser writer's role classification.
+See <a href="repo/tests/test_agent_activity_touch.py">fetch test</a>, lines 191–244; <a href="repo/tests/test_message_delivery_regression.py">receipt test</a>, lines 825–879; and <a href="repo/tests/test_http_auth_rate_limit.py">HTTP test</a>, lines 1–65.</p>
+<p>Archive setup tests inspect directory creation, Git initialization, idempotent setup and lock paths.
+They do not prove cross-store crash recovery or successful installation of this revision.
+The larger disaster-recovery, guard, identity and UI suites were inventoried, but not all assertion bodies were reviewed.
+No suite result or production reliability claim is inferred from test filenames.
+See <a href="repo/tests/test_git_archive_failures.py">archive setup tests</a>, lines 1–135, and the <a href="assessment/review.json">evidence ledger</a>.</p>
+<h2 id="task-agent-mail-python-adoption-decision-and-useful-components">Adoption decision and useful components</h2>
+<p>Use this architecture as a communication companion to a task authority that owns project outcomes, task dependencies, atomic claims, execution attempts and acceptance.
+The useful components are the per-recipient mailbox state, token/session identity separation, threaded context, explicit partial-delivery results and inspectable archive.
+Reservation signals and hooks can reduce accidental overlap among cooperating agents, with their advisory and deployment limits made explicit.</p>
+<p>For the baseline, the remaining work includes a task/attempt schema, conditional worker claims, capacity policy, parent-child execution supervision, result-bound review, replayable operation identifiers and a consistent failure journal across storage phases.
+Authorization must also cover browser and maintenance paths with the same role and project rules as agent calls.
+The pinned license restriction must be resolved for the intended adoption context before selecting it as an unrestricted reusable dependency.</p>
+<p>This source review establishes a substantial communication layer and several precise coordination limits.
+It does not establish a complete task system, executed acceptance evidence or a reliability ranking against the Rust implementation.
+That implementation requires its own source assessment.</p></article><nav class="report-switch" aria-label="Task study navigation"><a href="../index.html">Return to the task comparison</a><a href="../agent-kanban-rs/index.html">Previous: agent-kanban-rs</a><a href="../agent-mail-rust/index.html">Next: Rust Agent Mail</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../../index.html">Return to overview <img src="../../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

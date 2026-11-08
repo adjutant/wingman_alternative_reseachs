@@ -252,10 +252,6 @@
         ],
         [
           3035,
-          3168
-        ],
-        [
-          3170,
           3290
         ]
       ],
@@ -312,10 +308,6 @@
         ],
         [
           1989,
-          2090
-        ],
-        [
-          2100,
           2178
         ],
         [
@@ -336,10 +328,6 @@
         ],
         [
           3250,
-          3360
-        ],
-        [
-          3372,
           3570
         ],
         [
@@ -372,10 +360,6 @@
         ],
         [
           3798,
-          3860
-        ],
-        [
-          3880,
           4008
         ],
         [
@@ -533,5 +517,6 @@
       ],
       "method": "Targeted source/body inspection at listed ranges; candidate not executed"
     }
-  ]
+  ],
+  "citation_range_audit": "November 9, 2026: inspected small gaps bridged by broad source citations and reconciled the ledger. No candidate execution or changed conclusions."
 }

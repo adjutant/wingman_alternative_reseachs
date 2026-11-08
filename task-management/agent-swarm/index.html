@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Lead/worker tasks, dispatch, workflow and recovery"><title>Agent Swarm · task management · Wingman Research</title>
+<link rel="icon" href="../../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/report.css"><script defer src="../../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../../index.html"><img src="../../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../../index.html">Overview</a><a class="nav-link " href="../../generic/index.html">Architecture findings</a><a class="nav-link " href="../../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../../generic/method.html">Method and evidence</a><a class="nav-link active" href="../index.html" aria-current=page>Agent task management</a><a class="nav-link " href="../../generic/task-coordination.html">Initial task screening</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>Two source studies</strong><p>75 organization snapshots.<br>25 task coordination codebases.<br>Evidence at pinned revisions.</p><a href="../../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../../index.html">Wingman Research</a><span class="crumb">/</span><span>Agent Swarm · task management</span></div><span class="topbar-note">SOURCE REVIEW · 09 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Agent Swarm · task management</h1><p class="subtitle">Lead/worker tasks, dispatch, workflow and recovery</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#task-agent-swarm-agent-swarm-a-coordination-runtime-with-uneven-task-transition-rules">Agent Swarm: a coordination runtime with uneven task transition rules</a><a href="#task-agent-swarm-fit-decision">Fit decision</a><a href="#task-agent-swarm-scope-and-evidence-level">Scope and evidence level</a><a href="#task-agent-swarm-architecture-and-domain-boundaries">Architecture and domain boundaries</a><a href="#task-agent-swarm-requirement-assessment">Requirement assessment</a><a href="#task-agent-swarm-creation-selection-and-ownership">Creation, selection and ownership</a><a href="#task-agent-swarm-delegation-context-and-acceptance">Delegation, context and acceptance</a><a href="#task-agent-swarm-communication-escalation-and-recovery">Communication, escalation and recovery</a><a href="#task-agent-swarm-access-human-inspection-and-operation">Access, human inspection and operation</a><a href="#task-agent-swarm-test-source-evidence-and-adoption-work">Test-source evidence and adoption work</a></div></nav><article class="technical"><h2 id="task-agent-swarm-agent-swarm-a-coordination-runtime-with-uneven-task-transition-rules">Agent Swarm: a coordination runtime with uneven task transition rules</h2>
+<p class="url-text">Source: https://github.com/desplega-ai/agent-swarm</p>
+<p>Reviewed commit: <code>6aff700f53755cb71bd6a1aa2e2fa1da9586b892</code>.
+Assessment date: November 9, 2026.
+Baseline: <a href="../purpose.html">Shared task management for an agent organization</a>.
+Evidence ledger: <a href="assessment/review.json">review.json</a>.</p>
+<h2 id="task-agent-swarm-fit-decision">Fit decision</h2>
+<p>Agent Swarm implements much of the desired agent organization. A lead can create durable assignments, route work to specialized workers, receive follow-ups and request human decisions. Workers use one server authority. Task lineage, dependencies, capacity, progress, session records, recovery and a human dashboard have substantive implementations. This is a candidate coordination runtime, rather than only a human board with an agent adapter.</p>
+<p>Its most important limitation is inconsistent enforcement across paths. Manual task claims check dependencies. Automatic pool claims select by routing and model compatibility without that readiness check. The normal MCP completion path validates structured output, while fresh HTTP completion does not perform the same server validation. Ordinary task completion does not join accepted child results. The workflow engine supplies stronger execution fences and explicit validation or human approval nodes, but those guarantees do not automatically govern every task.</p>
+<p>The source is useful for a shared execution organization if adoption includes a transition-policy consolidation. Retain the server authority, explicit worker identity, lifecycle inspection, continuation records and workflow machinery. Add consistent readiness and ownership admission, current-attempt credentials and result-bound acceptance before treating an ordinary task's completed status as a verified organizational outcome. The repository declares MIT in <a href="../../agent-swarm/repo/package.json">the package</a>, lines 1–34, and <a href="../../agent-swarm/repo/LICENSE">the license</a>, lines 1–17.</p>
+<h2 id="task-agent-swarm-scope-and-evidence-level">Scope and evidence level</h2>
+<p>The preserved worktree has 6,392 tracked files. This review follows task creation, routing, claim, progress, delegation, completion, cancellation and recovery. It inspects the task/agent/repository/session model, database transaction implementation, selected MCP and HTTP mutations, output validation, workflow checkpoints and approvals, channels and read cursors, heartbeat recovery, provider launch configuration, representative dashboard query/view/mutation code and deployment manifests. Selected test assertion bodies were read.</p>
+<p>No candidate application, installation, build, migration or test was executed. The ledger identifies the actual inspected ranges, including partial large files. This is not an every-line audit, security certification or verification of all providers, integrations, migrations, extension handlers, script sandboxes, storage services, browser behavior or production races. Earlier Wingman experiments remain historical evidence under their original scope; they are not new executions for this assessment.</p>
+<h2 id="task-agent-swarm-architecture-and-domain-boundaries">Architecture and domain boundaries</h2>
+<p>The server combines TypeScript/Bun interfaces with SQLite persistence. <a href="../../agent-swarm/repo/src/be/db/runtime.ts">Database initialization</a>, lines 73–139, enables WAL, foreign keys, a busy timeout and NORMAL synchronization. <a href="../../agent-swarm/repo/src/be/db-client.ts">The transaction implementation</a>, lines 404–481, serializes a transaction, starts <code>BEGIN IMMEDIATE</code>, commits or rolls back and schedules after-commit hooks. This gives a meaningful place to combine selection and acquisition. After-commit callbacks are not themselves a durable delivery queue.</p>
+<p><a href="../../agent-swarm/repo/src/types.ts">Task fields</a>, lines 667–855, include stable IDs, assignee, creator, status, priority, dependencies, parent, result/progress/failure text, repository and source context, routing affinity, output schema and workflow links. The lifecycle distinguishes unassigned, offered, pending, in-progress, paused and terminal work, with draft/backlog and superseded states as well. An offered task can reserve a worker through a separate offered-to field.</p>
+<p><a href="../../agent-swarm/repo/src/types.ts">Agents</a>, lines 1307–1346, have durable IDs, lead status, roles, capabilities, instructions and capacity. <a href="../../agent-swarm/repo/src/types.ts">Active sessions</a>, lines 2133–2150, separately identify runner/provider sessions, runtime identity and heartbeat time. These are stronger domain boundaries than equating a task assignee with a terminal session. They do not introduce a required task-attempt generation on every mutation.</p>
+<p><a href="../../agent-swarm/repo/src/types.ts">Repository records</a>, lines 2036–2085, hold URL, clone path, branch and repository guidelines. Tasks also have context keys and source references. These help organize several repositories and work streams, but the inspected model does not provide the baseline's complete project registry, project-level leadership and isolated project authority. A swarm-wide lead role and repository association need additional governance to represent several concurrent managed projects.</p>
+<h2 id="task-agent-swarm-requirement-assessment">Requirement assessment</h2>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Requirement</th>
+<th scope="col">Verdict</th>
+<th scope="col">Mechanism and boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr id="task-agent-swarm-t01">
+<td>T01</td>
+<td>Resembles</td>
+<td>Repository records, context keys and task source fields distinguish work streams. The reviewed model has no complete project registry with separate project leaders and project authority.</td>
+</tr>
+<tr id="task-agent-swarm-t02">
+<td>T02</td>
+<td>Similar</td>
+<td>SQL tasks retain IDs, status, ownership, timestamps, progress, outcomes and links. Alternate transitions enforce different admission and completion rules.</td>
+</tr>
+<tr id="task-agent-swarm-t03">
+<td>T03</td>
+<td>Similar</td>
+<td>Parent links, inherited context and explicit follow-ups support decomposition and continuity. Lineage does not enforce accepted-child aggregation.</td>
+</tr>
+<tr id="task-agent-swarm-t04">
+<td>T04</td>
+<td>Resembles</td>
+<td>Dependency checks gate manual claims and assigned pending selection. Automatic pool selection omits them; bounded failure traversal is not cycle admission control.</td>
+</tr>
+<tr id="task-agent-swarm-t05">
+<td>T05</td>
+<td>Similar</td>
+<td>Durable agents, runtimes, active sessions and task IDs are distinct. A required current-attempt identity is missing from ordinary task writes.</td>
+</tr>
+<tr id="task-agent-swarm-t06">
+<td>T06</td>
+<td>Similar</td>
+<td>Structured MCP tools and HTTP routes support creation, claims, progress, questions and inspection. Their policies are not fully equivalent.</td>
+</tr>
+<tr id="task-agent-swarm-t07">
+<td>T07</td>
+<td>Similar</td>
+<td>Atomic unassigned-to-owned SQL and transactional public claim checks provide one winner. Progress/completion on an unassigned record can avoid that acquisition path under the reviewed legacy policy.</td>
+</tr>
+<tr id="task-agent-swarm-t08">
+<td>T08</td>
+<td>Similar</td>
+<td>Active-work counts, maxTasks, capacity checks, routing affinity, model compatibility and selected budget gates govern dispatch. Policy coverage differs by interface.</td>
+</tr>
+<tr id="task-agent-swarm-t09">
+<td>T09</td>
+<td>Similar</td>
+<td>Workers can create children, defer and arrange continuations; leads receive completion follow-ups. Ordinary parent completion does not require accepted children.</td>
+</tr>
+<tr id="task-agent-swarm-t10">
+<td>T10</td>
+<td>Similar</td>
+<td>Repository guidelines, inherited VCS/context fields, attachments, citations and bounded ancestor preambles preserve context. These do not establish immutable result-bound review.</td>
+</tr>
+<tr id="task-agent-swarm-t11">
+<td>T11</td>
+<td>Similar</td>
+<td>Progress, outcomes, failure text, history and generated follow-ups are durable. Some follow-up and notification effects occur after the primary transition and can fail separately.</td>
+</tr>
+<tr id="task-agent-swarm-t12">
+<td>T12</td>
+<td>Similar</td>
+<td>Durable channels, replies, mentions and read state permit later inspection. Time-based read advancement can mark omitted messages read; nudges are best effort.</td>
+</tr>
+<tr id="task-agent-swarm-t13">
+<td>T13</td>
+<td>Similar</td>
+<td>Typed human questions, approval records, follow-up tasks and lead checklists support escalation. A standalone question does not automatically suspend the requesting execution.</td>
+</tr>
+<tr id="task-agent-swarm-t14">
+<td>T14</td>
+<td>Similar</td>
+<td>Session/task heartbeat classification, stale-work sweeps and bounded resume generations provide active discovery. This is recovery policy rather than a mandatory expiring ownership lease.</td>
+</tr>
+<tr id="task-agent-swarm-t15">
+<td>T15</td>
+<td>Similar</td>
+<td>Terminal first-call-wins, guarded recovery writes and workflow attempt fences are substantive. Ordinary progress/result writes lack a universal current-attempt fence.</td>
+</tr>
+<tr id="task-agent-swarm-t16">
+<td>T16</td>
+<td>Similar</td>
+<td>Cancel, supersede, resume tasks, dependency repointing and recovery scans preserve interrupted work. Cancellation state and process termination remain separate, and resumed sessions reconstruct bounded context.</td>
+</tr>
+<tr id="task-agent-swarm-t17">
+<td>T17</td>
+<td>Similar</td>
+<td>Workers contact one API/database authority across hosts. This is not evidence of replicated/offline claims or a verified highly available multi-server control plane.</td>
+</tr>
+<tr id="task-agent-swarm-t18">
+<td>T18</td>
+<td>Similar</td>
+<td>Task/agent logs and routing/session metadata support attribution. Selected log writes are best effort and are not an immutable audit trail for every effect.</td>
+</tr>
+<tr id="task-agent-swarm-t19">
+<td>T19</td>
+<td>Similar</td>
+<td>Filtered task lists, a board, lineage, detail, transcripts and raw logs support inspection. The board covers its fetched page; product browser/accessibility behavior was not exercised.</td>
+</tr>
+<tr id="task-agent-swarm-t20">
+<td>T20</td>
+<td>Resembles</td>
+<td>Backlog/draft states, priority and scheduled or deferred work support lightweight planning. The reviewed task path does not supply a complete project milestone/iteration process.</td>
+</tr>
+<tr id="task-agent-swarm-t21">
+<td>T21</td>
+<td>Similar</td>
+<td>Output schemas, citations and authored workflow validation/approval nodes supply real gates. Ordinary completion can bypass some of them and is not result-version-bound human acceptance.</td>
+</tr>
+<tr id="task-agent-swarm-t22">
+<td>T22</td>
+<td>Similar</td>
+<td>Operator/user/session tokens, bound identity, RBAC and human approver checks are implemented. Shared-key worker configurations and broad legacy task rights require careful deployment policy; project isolation is incomplete.</td>
+</tr>
+<tr id="task-agent-swarm-t23">
+<td>T23</td>
+<td>Similar</td>
+<td>Roles/capabilities, output schemas, provider adapters, workflows and pre/post extension hooks provide extension points. A configured hook's policy is not a native invariant of all task paths.</td>
+</tr>
+<tr id="task-agent-swarm-t24">
+<td>T24</td>
+<td>Similar</td>
+<td>Bun/container packaging, persistent server data, worker identities and a dashboard support operation. Provider credentials, workspaces, file services, forward migration and single-authority recovery still impose maintenance work.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="task-agent-swarm-creation-selection-and-ownership">Creation, selection and ownership</h2>
+<p><a href="../../agent-swarm/repo/src/be/db.ts">Task creation</a>, lines 2505–2599, chooses initial state and begins inheritance from a parent. <a href="../../agent-swarm/repo/src/be/db.ts">The insertion transaction</a>, lines 2890–3044, combines workflow actionability checks, task insertion and routing decision capture. Dependencies are stored as task IDs. The transaction addresses particular duplicate tracker work; it is not proof that all arbitrary create requests have one universal idempotency key.</p>
+<p><a href="../../agent-swarm/repo/src/tools/send-task.ts">The send-task tool</a>, lines 396–430 and 482–554, resolves parent context, checks attachment/routing constraints and constructs creation options. <a href="../../agent-swarm/repo/src/tools/send-task.ts">Later handling</a>, lines 581–628 and 656–705, checks recent or tracker-related duplicates and creates work transactionally. Agent instructions can request research, planning and implementation children. The parent pointer itself is not a dependency edge or a completion join.</p>
+<p><a href="../../agent-swarm/repo/src/tools/task-action.ts">Manual claim</a>, lines 340–451, performs a transaction containing task state, capacity, dependency, affinity and runtime checks. <a href="../../agent-swarm/repo/src/be/db.ts">The low-level claim</a>, lines 3107–3161, updates only an unassigned task and assigns the winning worker. <a href="../../agent-swarm/repo/src/be/db/agents.ts">Capacity counting</a>, lines 538–560, includes in-progress work and reviewing offers. This provides a real atomic ownership transition when callers use this path; selecting a task in a list is not that transition.</p>
+<p>There is a specific readiness inconsistency. <a href="../../agent-swarm/repo/src/be/db/tasks/write.ts">Assigned pending selection</a>, lines 161–204, checks dependencies. <a href="../../agent-swarm/repo/src/http/poll.ts">Automatic pool selection</a>, lines 548–662, obtains eligible IDs, applies admission and claims a candidate. <a href="../../agent-swarm/repo/src/be/db.ts">Its candidate helper</a>, lines 3610–3642, filters unassigned tasks through routing eligibility and a supplied callback. <a href="../../agent-swarm/repo/src/be/db/agents.ts">Routing eligibility</a>, lines 642–679, checks affinity/role/capability constraints. <a href="../../agent-swarm/repo/src/be/model-validation.ts">The pool callback</a>, lines 107–122, checks harness compatibility. None of those checks dependency completion. The separate <a href="../../agent-swarm/repo/src/be/db.ts">dependency function</a>, lines 3648–3667, is therefore not applied to this pool claim chain. A blocked pool task can be acquired through this path. This is a static path finding, not a reproduced runtime test.</p>
+<p>Admission also varies by path. <a href="../../agent-swarm/repo/src/be/budget-admission.ts">Budget admission</a>, lines 64–133, considers global, agent and requester spend thresholds. Poll applies budget admission, and <a href="../../agent-swarm/repo/src/tools/task-action.ts">offer acceptance</a>, lines 455–533, starts a budget check. The inspected manual claim branch has capacity/readiness checks without that same budget call. Cost policy should not be inferred from the presence of one admission helper.</p>
+<p>Progress introduces another boundary. <a href="../../agent-swarm/repo/src/rbac/legacy-policy.ts">Legacy progress rights</a>, lines 238–251, allow an assignee, lead, user or operator, and allow an ordinary agent when the task has no assignee. <a href="../../agent-swarm/repo/src/tools/store-progress.ts">Explicit task selection</a>, lines 231–267, avoids the omitted-task lookup restrictions. <a href="../../agent-swarm/repo/src/tools/store-progress.ts">The transaction</a>, lines 377–415, reloads the agent/task and applies those rights. <a href="../../agent-swarm/repo/src/be/db/tasks/write.ts">Progress persistence</a>, lines 1188–1211, can move a nonterminal record to in-progress by ID without assigning it. <a href="../../agent-swarm/repo/src/be/db/tasks/write.ts">Completion persistence</a>, lines 416–479, can finish a nonterminal record without requiring prior claim. Thus the reviewed registered-worker/legacy tool path does not make claim acquisition a universal prerequisite for writing an unassigned task. Token posture or a configured extension can impose additional restrictions; this finding is not a claim that every credential can access every task.</p>
+<h2 id="task-agent-swarm-delegation-context-and-acceptance">Delegation, context and acceptance</h2>
+<p><a href="../../agent-swarm/repo/src/tools/defer-task.ts">Deferral</a>, lines 287–452, validates watched tasks, creates a scheduled continuation and completes the current task in a transaction. This releases an execution slot while waiting. It is a useful alternative to leaving an idle worker in progress. It also shows why completed can mean that a segment deferred its work, rather than that the original goal has been accepted.</p>
+<p><a href="../../agent-swarm/repo/src/tasks/task-terminal-effects.ts">Terminal effects</a>, lines 27–174, arrange memory/rating work and lead follow-ups, with a separate workflow boundary and caught failures. <a href="../../agent-swarm/repo/src/tasks/worker-follow-up.ts">Resume follow-ups</a>, lines 474–662, retain parent linkage, model/routing intent and resume-generation tags. These are durable continuation records once created. A successful primary task write does not certify that every later memory, rating or lead-notification effect succeeded.</p>
+<p><a href="../../agent-swarm/repo/src/commands/context-preamble.ts">The context preamble</a>, lines 31–49 and 112–198, walks a bounded ancestor chain and selects prior description, output, artifacts and recent logs within a token budget. <a href="../../agent-swarm/repo/src/commands/resume-session.ts">Provider resumption</a>, lines 1–75, deliberately produces a fresh session rather than a native provider resume. This preserves inspectable continuity while bounding prompt cost. It cannot restore all former conversation or external process state.</p>
+<p><a href="../../agent-swarm/repo/src/tools/store-progress.ts">MCP completion</a>, lines 503–620, short-circuits repeated terminal writes, validates a configured output schema and performs citation checks. Citation problems refuse completion at most once per task. Later completion can proceed with unresolved references dropped or reclassified. <a href="../../agent-swarm/repo/src/workflows/json-schema-validator.ts">The schema validator</a>, lines 1–100, implements a subset of JSON Schema; supplying arbitrary schema keywords does not make them enforced acceptance criteria.</p>
+<p>Fresh HTTP completion follows a weaker path. <a href="../../agent-swarm/repo/src/http/tasks.ts">The finish route</a>, lines 1673–1815, checks identity/state and calls the terminal guard, then completes an in-progress task. It does not apply the MCP path's fresh output-schema validation. <a href="../../agent-swarm/repo/src/tasks/terminal-result-guard.ts">The terminal guard</a>, lines 25–130, handles an already terminal result, including explicit text corrections; it leaves fresh completion to its caller. <a href="../../agent-swarm/repo/src/commands/runner.ts">Runner completion</a>, lines 1853–1985, attempts client-side output validation/extraction before posting. That client behavior does not protect a direct HTTP caller. Neither ordinary completion path requires accepted children or a reviewer decision tied to an immutable result revision.</p>
+<p>Authored workflows provide a different contract. <a href="../../agent-swarm/repo/src/workflows/executors/agent-task.ts">Agent-task execution</a>, lines 56–89 and 109–159, correlates a task with a workflow step and waits asynchronously. <a href="../../agent-swarm/repo/src/workflows/engine.ts">The engine</a>, lines 843–902 and 1120–1228, creates step identities, carries retry fences and applies output/validation rules before checkpointing. <a href="../../agent-swarm/repo/src/workflows/checkpoint.ts">Checkpoint writes</a>, lines 1–102, verify the current running step, retry count, live run and uncancelled lineage inside the transaction. An outdated step execution cannot commit through that fenced call. This is a substantive stale-attempt mechanism within workflows, rather than a universal fence on arbitrary task progress.</p>
+<p><a href="../../agent-swarm/repo/src/workflows/executors/human-in-the-loop.ts">Human approval nodes</a>, lines 35–143 and 237–335, support approver policies, waiting and separate resolution ports. <a href="../../agent-swarm/repo/src/http/approval-requests.ts">Approval responses</a>, lines 493–552, check the responder, pending state, deadline, workflow actionability and listed approvers. <a href="../../agent-swarm/repo/src/be/db.ts">Resolution persistence</a>, lines 9951–10009, changes only pending requests, with an optional actionable-workflow condition. These mechanisms can enforce a designed approval flow. They should be used explicitly where acceptance matters; lead prompt instructions about review and merge are not equivalent enforced rules for ordinary task completion.</p>
+<h2 id="task-agent-swarm-communication-escalation-and-recovery">Communication, escalation and recovery</h2>
+<p><a href="../../agent-swarm/repo/src/be/db.ts">Message posting</a>, lines 4068–4136, persists channel messages, replies and mentions, records an event and schedules a worker nudge. <a href="../../agent-swarm/repo/src/tools/post-message.ts">The tool</a>, lines 17–75, exposes posting and then marks the channel read. <a href="../../agent-swarm/repo/src/tools/read-messages.ts">Message reading</a>, lines 74–178, can load unread messages, select the most recent limited batch and advance the channel read state. <a href="../../agent-swarm/repo/src/be/db.ts">The stored cursor</a>, lines 4222–4293, uses the current timestamp, while unread retrieval filters by creation time. Consequently, older unread entries omitted by a limit—and potentially messages arriving between fetch and cursor update—can be marked read without being returned. Posting also advances this cursor without first reading the other messages. Records remain in history, but unread state is not a reliable per-message acknowledgement protocol.</p>
+<p><a href="../../agent-swarm/repo/src/be/worker-nudges.ts">Worker nudges</a>, lines 1–22, are best-effort realtime signals. Durable task/message queries provide later inspection, but do not turn each nudge into replayable event delivery. <a href="../../agent-swarm/repo/src/tools/request-human-input.ts">Human input</a>, lines 85–134, creates typed questions with source-task linkage or a detached mode. <a href="../../agent-swarm/repo/src/http/approval-requests.ts">The response path</a>, lines 722–741, emits a resolution and requests a standalone follow-up. Asking a question returns promptly; use a deferral or workflow wait when the execution must actually yield.</p>
+<p><a href="../../agent-swarm/repo/src/heartbeat/heartbeat.ts">Lead checklists</a>, lines 1796–1862, create management work when the lead has nonempty heartbeat instructions and no active checklist task. A configured gate can suppress quiet ticks. This is a useful supervisor loop, but the decisions in its prompt still need a working lead execution and usable organizational instructions.</p>
+<p><a href="../../agent-swarm/repo/src/heartbeat/heartbeat.ts">Heartbeat thresholds</a>, lines 125–164, distinguish fresh claims, quiet tasks, missing sessions and stale session heartbeats, with a default maximum of three resume generations. <a href="../../agent-swarm/repo/src/heartbeat/heartbeat.ts">Classification</a>, lines 513–595, examines task/session state rather than only whether an HTTP endpoint responds. <a href="../../agent-swarm/repo/src/heartbeat/heartbeat.ts">Recovery</a>, lines 764–830, compares the task's last-update value before superseding or failing it. New progress can defeat the stale decision. <a href="../../agent-swarm/repo/src/heartbeat/heartbeat.ts">Boot recovery</a>, lines 894–1006, includes fresh-claim and heartbeat guards. <a href="../../agent-swarm/repo/src/heartbeat/heartbeat.ts">Gap repair</a>, lines 658–700, revisits superseded work whose resume record or dependency settlement was interrupted.</p>
+<p><a href="../../agent-swarm/repo/src/be/db/tasks/write.ts">Dependent settlement</a>, lines 908–956, repoints never-started dependencies to a resume task or propagates terminal failure. <a href="../../agent-swarm/repo/src/be/db.ts">Failure cascading</a>, lines 3704–3733, uses a visited set. This bounds traversal of an existing cycle; it does not demonstrate that creation rejects dependency cycles. Recovery can requeue useful work, but ordinary writes still lack a required generation token to reject every surviving old session.</p>
+<p><a href="../../agent-swarm/repo/src/be/db/tasks/write.ts">Cancellation</a>, lines 689–813, records a guarded terminal state, schedules notification effects, promotes pending steering and can fail dependents. <a href="../../agent-swarm/repo/src/commands/runner.ts">The runner</a>, lines 5350–5415, observes terminal/cancelled tasks, aborts the local session and eventually releases its slot after a grace period. Releasing a slot is not proof that an operating-system process stopped. Database cancellation cannot reverse a pushed commit or an external request already issued. <a href="../../agent-swarm/repo/src/be/db/tasks/write.ts">Pause/resume persistence</a>, lines 1003–1076, changes task state; it should not be interpreted as a universal process-freeze primitive.</p>
+<h2 id="task-agent-swarm-access-human-inspection-and-operation">Access, human inspection and operation</h2>
+<p><a href="../../agent-swarm/repo/src/http/auth.ts">Authentication</a>, lines 1–72, distinguishes the shared operator key, active user tokens and ephemeral session credentials. <a href="../../agent-swarm/repo/src/be/users.ts">Session token resolution</a>, lines 887–973, checks hashed credentials, revocation and expiry and returns bound agent/task/runtime identity. <a href="../../agent-swarm/repo/src/http/core.ts">HTTP admission</a>, lines 458–641, binds credential identity and applies session posture/access checks. <a href="../../agent-swarm/repo/src/tools/utils.ts">Tool hooks</a>, lines 976–1055 and 1069–1159, can block or modify an MCP call before its handler. That extension point does not by itself impose ownership or readiness. These are meaningful protections. A common shared key plus caller-supplied agent identity is a broader deployment trust boundary than individually constrained credentials. The example worker configuration should not be mistaken for project-isolated authentication.</p>
+<p><a href="../../agent-swarm/repo/src/commands/runner.ts">The runner launch</a>, lines 7620–7665, registers an active session before spawning the provider with task/runtime context. <a href="../../agent-swarm/repo/src/providers/codex-adapter.ts">Codex configuration</a>, lines 593–613, requests no approval prompts and danger-full-access execution. <a href="../../agent-swarm/repo/src/providers/codex-adapter.ts">Adapter selection</a>, lines 2510–2529, defaults to subprocess sessions and disables native resume. Container/workspace/credential isolation therefore matters; the task database alone is not a sandbox for the worker's side effects.</p>
+<p><a href="../../agent-swarm/repo/apps/ui/src/api/hooks/use-tasks.ts">Dashboard task queries</a>, lines 1–123, support filtering and lineage. <a href="../../agent-swarm/repo/apps/ui/src/app/providers.tsx">Global query defaults</a>, lines 1–71, use ten-second polling and a persisted cache configuration. <a href="../../agent-swarm/repo/apps/ui/src/pages/tasks/page.tsx">The task page</a>, lines 107–154 and 370–489, offers search, filters, page sizes, board/table modes and a small-screen list. <a href="../../agent-swarm/repo/apps/ui/src/components/shared/tasks-kanban.tsx">The board</a>, lines 1–118, disables drag sensors and displays the supplied task page. Its columns and counts are not an all-project snapshot when only one page was fetched.</p>
+<p><a href="../../agent-swarm/repo/apps/ui/src/pages/tasks/[id]/page.tsx">Detail loading</a>, lines 379–402, stops repeated log/context reads for terminal tasks. <a href="../../agent-swarm/repo/apps/ui/src/pages/tasks/[id]/page.tsx">Detail rendering</a>, lines 775–843, offers a transcript, raw session log and citations. <a href="../../agent-swarm/repo/apps/ui/src/api/hooks/use-tasks.ts">Pause mutation</a>, lines 463–496, snapshots affected queries, rolls back on error, applies the authoritative response and invalidates afterward. That is a useful failed-save pattern, though it does not prove that every mutation and view reconciles identically. No browser, keyboard, mobile or accessibility acceptance was performed on the candidate.</p>
+<p><a href="../../agent-swarm/repo/Dockerfile">The API container</a>, lines 1–100 and 150–191, builds with pinned Bun, bundles script runtimes and persists database data separately from code. <a href="../../agent-swarm/repo/docker-compose.example.yml">Example API configuration</a>, lines 250–283, mounts only the data directory and an encryption secret. <a href="../../agent-swarm/repo/docker-compose.example.yml">Worker configuration</a>, lines 290–338, connects a lead to the API and file service and supplies provider credentials. <a href="../../agent-swarm/repo/docker-compose.example.yml">Identity initialization</a>, lines 54–72, persists an agent ID on its personal workspace. Multiple hosts can share the API authority, but file paths, repository clones and credentials must be made appropriate for each host.</p>
+<p><a href="../../agent-swarm/repo/docker-compose.example.yml">Version guidance in the example</a>, lines 28–48, warns that an unpinned image follows latest and migrations are forward-only. Database backups, encryption keys, workspace state, file-service storage and compatible API/worker versions are operating concerns. The inspected SQLite and container paths do not establish replicated control-plane availability or validated upgrade/restore procedures. The combined system has more operational surface than a file-backed task list, in exchange for substantially deeper execution and recovery support.</p>
+<h2 id="task-agent-swarm-test-source-evidence-and-adoption-work">Test-source evidence and adoption work</h2>
+<p><a href="../../agent-swarm/repo/src/tests/db-capacity.test.ts">Capacity assertions</a>, lines 36–82, count active tasks and check remaining room. <a href="../../agent-swarm/repo/src/tests/budget-claim-gate.test.ts">Budget assertions</a>, lines 244–316, expect refused work to remain unassigned and one winner for two sequential polls. The test named a race uses back-to-back awaited polls; it is not a concurrent stress experiment. <a href="../../agent-swarm/repo/src/tests/trigger-claiming.test.ts">Trigger claiming assertions</a>, lines 303–350, likewise check repeated sequential acquisition.</p>
+<p><a href="../../agent-swarm/repo/src/tests/heartbeat-stall-cas.test.ts">Stall-CAS assertions</a>, lines 25–80, inject fresh progress before remediation and expect the task to remain active without a resume child. <a href="../../agent-swarm/repo/src/tests/task-completion-idempotency.test.ts">Completion assertions</a>, lines 1–105, check first-result preservation and duplicate history behavior. <a href="../../agent-swarm/repo/src/tests/task-cascade-fail.test.ts">Cascade assertions</a>, lines 156–189 and 234–263, exercise a manually injected cycle and dependency repointing. These are useful, specific intended contracts. They were read, not run, and do not establish that the alternate interface gaps above are covered.</p>
+<p>Before adoption, route manual claims, poll claims, progress and completion through shared transition functions. Apply the same dependency/cycle policy and admission checks, and require ownership acquisition before worker writes. Bind worker mutations to a current attempt and revoke that authority when recovery replaces an execution. Preserve the workflow fence design and expose its guarantees clearly in ordinary task operation.</p>
+<p>Add an explicit accepted-child join and result-version-bound review where required. Make fresh output validation server-side across all completion interfaces. Replace time-of-read cursor advancement with acknowledgement of the actual returned message boundary. Make pending post-commit handoffs visible and recoverable. Add project records and authority boundaries if one swarm must manage several projects. Verify installation, credentials, process cancellation, multi-host files, backup/restore and representative human workflows before relying on this as the organization's sole work authority.</p></article><nav class="report-switch" aria-label="Task study navigation"><a href="../index.html">Return to the task comparison</a><a href="../agent-mail-rust/index.html">Previous: Rust Agent Mail</a><a href="../backlog-md/index.html">Next: Backlog.md</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../../index.html">Return to overview <img src="../../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Task graph, conditional claims and durable claim leases"><title>Beads · task management · Wingman Research</title>
+<link rel="icon" href="../../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/report.css"><script defer src="../../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../../index.html"><img src="../../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../../index.html">Overview</a><a class="nav-link " href="../../generic/index.html">Architecture findings</a><a class="nav-link " href="../../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../../generic/method.html">Method and evidence</a><a class="nav-link active" href="../index.html" aria-current=page>Agent task management</a><a class="nav-link " href="../../generic/task-coordination.html">Initial task screening</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>Two source studies</strong><p>75 organization snapshots.<br>25 task coordination codebases.<br>Evidence at pinned revisions.</p><a href="../../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../../index.html">Wingman Research</a><span class="crumb">/</span><span>Beads · task management</span></div><span class="topbar-note">SOURCE REVIEW · 09 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Beads · task management</h1><p class="subtitle">Task graph, conditional claims and durable claim leases</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#task-beads-beads-task-management-assessment">Beads task management assessment</a><a href="#task-beads-fit-decision-and-assessment-boundary">Fit decision and assessment boundary</a><a href="#task-beads-architecture-and-data-model">Architecture and data model</a><a href="#task-beads-requirement-verdicts">Requirement verdicts</a><a href="#task-beads-lifecycle-and-alternate-mutation-paths">Lifecycle and alternate mutation paths</a><a href="#task-beads-recovery-replicas-and-stale-writers">Recovery, replicas and stale writers</a><a href="#task-beads-storage-completion-retry-and-audit">Storage completion, retry and audit</a><a href="#task-beads-human-and-agent-usability-permissions-and-design">Human and agent usability, permissions and design</a><a href="#task-beads-test-source-evidence-and-implementation-limits">Test-source evidence and implementation limits</a><a href="#task-beads-adoption-gaps-and-useful-components">Adoption gaps and useful components</a></div></nav><article class="technical"><h2 id="task-beads-beads-task-management-assessment">Beads task management assessment</h2>
+<p class="url-text">Repository: https://github.com/gastownhall/beads</p>
+<p>Commit: <code>2edea9ced8c6f6124b6c157896ae53a0e09ff7be</code>.
+Baseline: <a href="../purpose.html">Shared task management for an agent organization</a>.
+Review: November 9, 2026. Full local checkout; targeted static implementation and selected test-source review.
+Candidate applications, databases, dependencies, builds and tests were not installed or run.</p>
+<h2 id="task-beads-fit-decision-and-assessment-boundary">Fit decision and assessment boundary</h2>
+<p>Beads is a substantial native task authority for agents, rather than a board-shaped interface over uncoordinated files.
+It implements durable issues, dependency-aware ready work, atomic claims, claim-next selection, hierarchical work, comments, change journals, revisions and claim leases with heartbeat/reclamation.
+CLI, Go role interfaces, HTTP and an included MCP adapter make those records accessible to agents.
+It is a strong candidate for the task-record component of the baseline.</p>
+<p>It does not implement a complete agent organization.
+Actors are caller-asserted provenance, not authenticated worker identities.
+Revision guards are optional and do not establish a mandatory execution-attempt token.
+The service does not launch or supervise child workers, enforce worker capacity or bind qualified reviewer approval to a delivered revision.
+Its charter deliberately leaves orchestration policy above the issue primitives.
+See <a href="repo/issueops/claimer.go">claim contract</a>, lines 35–67, and <a href="repo/engdocs/PROJECT_CHARTER.md">project charter</a>, lines 1–60.</p>
+<p>Several distinctions materially affect adoption.
+A named claim and claim-next do different work: the latter selects from a ready set, while the former checks status/assignment eligibility without querying readiness.
+Durable claims have local leases; ephemeral work can be claimed without a lease or durable claim history.
+Close verbs have holder and pin guards that a generic status patch into a done state does not apply.
+These are source-level boundaries, not failures reproduced by running the product.</p>
+<p>The repository is MIT licensed.
+The preserved checkout contains 5,315 tracked files.
+This review traces the shared task mutation bodies, Dolt wrappers/retries, ready/dependency predicates, leases and replicas, close/update alternates, HTTP authorization/events, molecule advancement and representative MCP forwarding.
+It is not an every-line audit of every command, tracker integration, migration, backup/repair path or storage driver.
+Source/test inspection does not establish successful installation, runtime concurrency, database durability, performance or live usability.
+See <a href="repo/LICENSE">license</a> and <a href="assessment/review.json">review ledger</a>.</p>
+<h2 id="task-beads-architecture-and-data-model">Architecture and data model</h2>
+<p>The task model includes title, description, design, acceptance text, notes, status, priority, type, assignee, human owner, dates, external references, metadata, labels, dependencies and comments.
+It also carries template/pin, async gate, formula/molecule and persistence-plane fields.
+A detail projection can expose an opaque lifecycle revision while generic issue JSON deliberately omits the internal row token.
+Lease fields are hydrated from a separate node-local table.
+This is richer than a minimal ticket/status schema, but it is not a separate task-versus-execution-attempt model.
+See <a href="repo/internal/types/types.go">issue model</a>, lines 20–208.</p>
+<p>Public roles separate lifecycle, reads, claims, ready claims, heartbeat, reclaim, graph operations and other capabilities.
+Common transaction bodies sit below storage adapters.
+A <a href="assessment/catalogue.json">static public role inventory</a> is retained separately from implementation-body coverage.
+The reviewed Dolt claim/ready-claim wrappers and embedded lifecycle wrapper delegate to those bodies rather than each implementing a different business rule.
+HTTP reaches role accessors, while the Python MCP client invokes the CLI for its claim operation.
+See <a href="repo/issueops/claimer.go">claim role</a>, <a href="repo/issueops/readyclaimer.go">ready-claim role</a>, <a href="repo/internal/storage/dolt/issue_claimer.go">Dolt wrapper</a>, <a href="repo/internal/storage/embeddeddolt/issue_operations.go">embedded wrapper</a>, lines 1–82, and <a href="repo/integrations/beads-mcp/src/beads_mcp/bd_client.py">MCP forwarding</a>, lines 609–628.</p>
+<p>Dolt provides the versioned store, in server and embedded configurations, with further unit-of-work/proxy layers.
+The workspace declares Go 1.27.3 and specific Dolt/driver dependencies.
+Contributor builds and test lanes use Bazel.
+The public issueops package also marks its compatibility contract experimental and asks embedders to pin an exact version.
+These are the pinned repository's requirements; no local build or database-mode compatibility result is claimed.
+See <a href="repo/issueops/issueops.go">API stability</a>, lines 1–6.
+See <a href="repo/go.mod">module metadata</a>, lines 1–55, and <a href="repo/AGENTS.md">contributor instructions</a>, lines 121–180.</p>
+<p>The source distinguishes an SQL transaction's durable branch working set from a later Dolt history commit.
+The operation funnel commits SQL first and then attempts the history commit.
+Failure of that trailing history step is logged rather than returned as though the task mutation failed.
+Concurrent sessions may also have one writer's history commit absorb another writer's rows under its message.
+Task events and version records therefore matter separately from grepping Dolt commit messages.
+See <a href="repo/internal/storage/dolt/issue_operations_tx.go">operation funnel</a>, lines 11–103.</p>
+<h2 id="task-beads-requirement-verdicts">Requirement verdicts</h2>
+<p>The verdicts describe native mechanisms and their limits against the baseline.
+They do not turn feature counts into a ranking or certify Dolt's implementation.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Requirement</th>
+<th scope="col">Verdict</th>
+<th scope="col">Mechanism and boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr id="task-beads-t01">
+<td>T01</td>
+<td>Similar</td>
+<td>Workspace stores, issue prefixes, source-repository routing and external references separate project data. This is not an organizational project registry with project managers, portfolio outcomes and tenant policies. <a href="repo/internal/types/types.go">Model/routing</a>, lines 110–155; <a href="repo/engdocs/PROJECT_CHARTER.md">scope charter</a>, lines 1–60.</td>
+</tr>
+<tr id="task-beads-t02">
+<td>T02</td>
+<td>Similar</td>
+<td>Durable issues have stable IDs, outcome/acceptance text, metadata, dates, relationships and versioned changes. Ephemeral/no-history planes deliberately have different retention and audit semantics. No separate immutable execution result is required. <a href="repo/internal/types/types.go">Model</a>, lines 20–208; <a href="repo/internal/storage/issueops/execution.go">creation</a>, lines 37–137.</td>
+</tr>
+<tr id="task-beads-t03">
+<td>T03</td>
+<td>Similar</td>
+<td>Parent-child dependencies, child IDs, labels, molecules and typed relationship records support decomposition. Creation writes its requested relationships atomically or refuses missing edges. Child work does not imply a launched/supervised child agent. <a href="repo/internal/storage/issueops/execution.go">Creation</a>, lines 37–137; <a href="repo/internal/storage/issueops/dependency_editor.go">dependency editor</a>, lines 119–170.</td>
+</tr>
+<tr id="task-beads-t04">
+<td>T04</td>
+<td>Similar</td>
+<td>Shared readiness predicates, dependency type/hierarchy checks, recursive cycle checks and claim-next selection support ready work. Named claims do not recheck readiness; graph checks in a transaction do not by themselves prove every cross-replica/concurrent-graph invariant. <a href="repo/internal/storage/issueops/ready_work.go">Readiness</a>, lines 45–155; <a href="repo/internal/storage/issueops/dependencies.go">edge checks</a>, lines 246–355; <a href="repo/internal/storage/issueops/claim.go">claim paths</a>, lines 48–145 and 266–325.</td>
+</tr>
+<tr id="task-beads-t05">
+<td>T05</td>
+<td>Resembles</td>
+<td>Assignee/actor, created-by, closed-by-session and metadata retain provenance. Claim and heartbeat use actor strings; there is no mandatory registered worker/session/attempt hierarchy or proof of the calling process's identity. <a href="repo/internal/types/types.go">Model</a>, lines 20–102; <a href="repo/issueops/claimer.go">claim contract</a>, lines 35–67.</td>
+</tr>
+<tr id="task-beads-t06">
+<td>T06</td>
+<td>Similar</td>
+<td>Structured CLI JSON, Go roles, typed HTTP requests/errors and the included MCP adapter expose substantial task operations. Caller guards and interface-specific policies still need explicit use; the adapter forwards claim to the CLI rather than adding execution semantics. <a href="repo/issueops/readyclaimer.go">Roles</a>; <a href="repo/internal/httpapi/update.go">HTTP update</a>, lines 35–100; <a href="repo/integrations/beads-mcp/src/beads_mcp/bd_client.py">MCP claim</a>, lines 609–628.</td>
+</tr>
+<tr id="task-beads-t07">
+<td>T07</td>
+<td>Similar</td>
+<td>Claims use a row-token CAS; ready selection, winning claim and hydration share a transaction. Whole-attempt retry handles known serialization losses. Actors and override requests are self-asserted, and ordinary updates have different authority rules. <a href="repo/internal/storage/issueops/claim.go">Claim CAS</a>, lines 48–145; <a href="repo/internal/storage/issueops/claim_next.go">ready claim</a>, lines 47–118; <a href="repo/internal/storage/issueops/aggregate.go">update authority</a>, lines 200–240.</td>
+</tr>
+<tr id="task-beads-t08">
+<td>T08</td>
+<td>Resembles</td>
+<td>Priority/age ordering, ready filters, claim-next and named claim pools support dispatch primitives. They do not enforce per-agent capacity, WIP limits, fairness across agents or a supervisor's routing policy. <a href="repo/internal/storage/issueops/ready_work.go">Ready order/filter</a>, lines 40–155; <a href="repo/internal/storage/issueops/claim.go">claim selection</a>, lines 266–328; <a href="repo/engdocs/PROJECT_CHARTER.md">charter</a>, lines 29–43.</td>
+</tr>
+<tr id="task-beads-t09">
+<td>T09</td>
+<td>Similar</td>
+<td>Molecule advancement can inspect ready steps and optionally claim one; close checks can refuse open children and optionally close a completed molecule. These are work-graph primitives, without child worker launch, result collection or supervised cancellation. <a href="repo/issueops/moleculestepper.go">Stepper</a>, lines 115–209; <a href="repo/internal/storage/issueops/close.go">close policy</a>, lines 132–213; <a href="repo/internal/storage/issueops/execution.go">auto-close caller</a>, lines 328–368.</td>
+</tr>
+<tr id="task-beads-t10">
+<td>T10</td>
+<td>Similar</td>
+<td>Description/design/acceptance/notes, spec IDs, external refs, arbitrary metadata, formula origins and version snapshots retain context. There is no enforced immutable input/artifact bundle or proof that a delivery matches a referenced revision. <a href="repo/internal/types/types.go">Model</a>, lines 20–208; <a href="repo/internal/storage/issueops/claim.go">mutation/version path</a>, lines 210–245.</td>
+</tr>
+<tr id="task-beads-t11">
+<td>T11</td>
+<td>Similar</td>
+<td>Notes, append/merge operations, comments, close reasons, sessions and event/version records support durable progress and handoffs. They do not require acknowledged responsibility transfer or an attempt-bound result. <a href="repo/internal/types/types.go">Model</a>, lines 20–208; <a href="repo/internal/storage/issueops/update.go">merge/update</a>, lines 355–490.</td>
+</tr>
+<tr id="task-beads-t12">
+<td>T12</td>
+<td>Similar</td>
+<td>The durable change journal has bounded checkpoint paging, a published head and explicit truncation errors; a sibling watch route is separate. This supports change-consumer recovery, not recipient mail delivery/acknowledgement or a management notification guarantee. <a href="repo/internal/httpapi/events.go">HTTP events</a>, lines 12–184.</td>
+</tr>
+<tr id="task-beads-t13">
+<td>T13</td>
+<td>Similar</td>
+<td>Blockers, comments and gate fields represent waits, timeout and waiter metadata. CLI close evaluates selected machine-checkable gate types. There is no universal manager/human decision contract across every mutation interface. <a href="repo/internal/types/types.go">Gate fields</a>, lines 178–198; <a href="repo/cmd/bd/close.go">CLI gate check</a>, lines 683–755; <a href="repo/internal/httpapi/close.go">HTTP close</a>, lines 20–95.</td>
+</tr>
+<tr id="task-beads-t14">
+<td>T14</td>
+<td>Similar</td>
+<td>Durable claims create node-local leases; heartbeat refreshes them and reclaim conditionally clears expired ownership. Generic assignment/status writes can remain unleased until heartbeat re-arms them; wisps are never leased. Expiry is recoverable state, not immediate process revocation. <a href="repo/internal/storage/issueops/claim.go">Lease grant</a>, lines 210–245; <a href="repo/internal/storage/issueops/lease.go">heartbeat</a>, lines 400–675; <a href="repo/internal/storage/issueops/lease.go">reclaim</a>, lines 937–1066.</td>
+</tr>
+<tr id="task-beads-t15">
+<td>T15</td>
+<td>Similar</td>
+<td>Optional revision/status/assignee guards reject stale expected state, and repeated same-holder claims or closes can be no-ops. The lifecycle token covers only part of the record and is not required on every progress/result write. No mandatory execution generation or general request idempotency key is established by these interfaces. <a href="repo/issueops/issueops.go">Guard contract</a>, lines 254–365; <a href="repo/internal/storage/issueops/execution.go">guard execution</a>, lines 138–253; <a href="repo/internal/types/types.go">revision limits</a>, lines 75–102.</td>
+</tr>
+<tr id="task-beads-t16">
+<td>T16</td>
+<td>Similar</td>
+<td>Reopen/release/reclaim, heartbeat re-arm, typed indeterminate commit outcomes and versioned records support task-state recovery. They do not resume/cancel an agent process or compensate its external effects. Ephemeral claims need separate recovery. <a href="repo/internal/storage/issueops/lease.go">Reclaim</a>, lines 937–1066; <a href="repo/internal/storage/dolt/store.go">retry boundary</a>, lines 1283–1400; <a href="repo/issueops/readyclaimer.go">ephemeral contract</a>, lines 65–98.</td>
+</tr>
+<tr id="task-beads-t17">
+<td>T17</td>
+<td>Similar</td>
+<td>A shared Dolt/server authority supports transactional concurrent clients; replicas/versioning support exchange and merge. Node-local leases are not global ownership, and foreign-lease reclaim protection needs node provenance. Independent replicas can make independent decisions before exchange. <a href="repo/internal/storage/issueops/lease.go">Replica policy</a>, lines 864–920; <a href="repo/internal/storage/dolt/issue_operations_tx.go">transaction wrapper</a>, lines 11–103.</td>
+</tr>
+<tr id="task-beads-t18">
+<td>T18</td>
+<td>Similar</td>
+<td>Events, full version records, journal sequences and Dolt history retain changes and provenance. Actor strings are asserted, heartbeat refresh is intentionally not journaled, and a Dolt history message need not correspond one-to-one to one task mutation. <a href="repo/internal/storage/issueops/claim.go">Claim events</a>, lines 210–245; <a href="repo/internal/storage/issueops/lease.go">heartbeat policy</a>, lines 646–675; <a href="repo/internal/storage/dolt/issue_operations_tx.go">history ordering</a>, lines 11–103.</td>
+</tr>
+<tr id="task-beads-t19">
+<td>T19</td>
+<td>Similar</td>
+<td>Ready/list/show, graph-oriented records and structured HTTP reads provide inspectable task detail and machine-friendly views. The reviewed surface is CLI/API oriented; no human board or live accessibility/usability result is established here. <a href="repo/cmd/bd/ready.go">Ready command</a>, lines 24–70; <a href="repo/internal/httpapi/close.go">detail/response</a>, lines 45–95; <a href="repo/internal/types/types.go">model</a>.</td>
+</tr>
+<tr id="task-beads-t20">
+<td>T20</td>
+<td>Similar</td>
+<td>Epics/parent work, priority, due/defer dates, labels, custom statuses/types and molecules support backlog and workflow planning. Native agent-capacity/sprint control is not supplied by these primitives. <a href="repo/internal/types/types.go">Model</a>, lines 20–208; <a href="repo/internal/storage/sqlbuild/ready.go">ready filters</a>, lines 207–285; <a href="repo/engdocs/PROJECT_CHARTER.md">charter</a>, lines 29–43.</td>
+</tr>
+<tr id="task-beads-t21">
+<td>T21</td>
+<td>Similar</td>
+<td>Acceptance text, child/blocker close checks, template/pin/holder guards and selected CLI gate evaluation constrain completion. There is no required qualified reviewer/evidence revision approval; alternate status updates omit some close guards, and some gate-evaluation errors warn and allow. <a href="repo/internal/storage/issueops/close.go">Checked close</a>, lines 42–110; <a href="repo/internal/storage/issueops/update.go">alternate update</a>, lines 400–442; <a href="repo/cmd/bd/close.go">gate error branch</a>, lines 706–755.</td>
+</tr>
+<tr id="task-beads-t22">
+<td>T22</td>
+<td>Similar</td>
+<td>HTTP bind validation and reloadable bearer-token files can protect remote access. Tokens grant coarse service access; <code>actor</code>, force and expected-owner claims are caller-provided rather than authenticated role membership. <a href="repo/internal/httpapi/server.go">Bind/auth posture</a>, lines 598–626; <a href="repo/internal/httpapi/auth.go">token validation</a>, lines 115–145 and 251–262; <a href="repo/internal/httpapi/update.go">HTTP actor contract</a>, lines 63–100.</td>
+</tr>
+<tr id="task-beads-t23">
+<td>T23</td>
+<td>Similar</td>
+<td>Custom statuses/types, labels/metadata, typed roles, dependency kinds, formulas/molecules and adapters support composition. The charter deliberately leaves agent routing, scheduling and cross-system policy outside core. <a href="repo/internal/storage/issueops/execution.go">Creation config</a>, lines 37–90; <a href="repo/internal/types/types.go">model</a>, lines 110–208; <a href="repo/engdocs/PROJECT_CHARTER.md">charter</a>, lines 29–60.</td>
+</tr>
+<tr id="task-beads-t24">
+<td>T24</td>
+<td>Similar</td>
+<td>A substantial CLI/API/library and shared behavior contracts aid integration. Dolt mode/configuration, node identity, journal retention and history publication add operating requirements; Bazel/Go/Dolt compatibility and runtime recovery were not exercised. <a href="repo/go.mod">Metadata</a>, lines 1–55; <a href="repo/AGENTS.md">build instructions</a>, lines 121–180; <a href="repo/internal/storage/dolt/issue_operations_tx.go">operation funnel</a>, lines 11–103.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="task-beads-lifecycle-and-alternate-mutation-paths">Lifecycle and alternate mutation paths</h2>
+<p>Creation validates an attempt-local request, loads prefix/status/type configuration, assigns an ID and wires parent/dependency records in one transaction.
+A guarded create refuses if its requested dependency edges were skipped; it does not report success with the relationship silently missing.
+Results are hydrated before the transaction returns.
+Configured infrastructure types and typed wisps can deliberately route to the ephemeral plane.
+A supervisor must choose that persistence class knowingly because it changes history and recovery.
+See <a href="repo/internal/storage/issueops/execution.go">create body</a>, lines 37–137.</p>
+<p>The ordinary ready reader derives filters through shared SQL builders and maintains a projection of blocked state.
+It excludes pinned and, by default, ephemeral work; it supports priority, type, assignment and deferred/hierarchy-related filtering.
+Dependency writes validate endpoints, type/hierarchy constraints and scheduling cycles, with a final batch cycle check.
+Those are implemented graph rules, not just instructions for agents.
+This review does not certify every concurrent graph interleaving or a merge of separately edited replicas.
+See <a href="repo/internal/storage/issueops/ready_work.go">readiness</a>, lines 45–155; <a href="repo/internal/storage/sqlbuild/ready.go">SQL predicate</a>, lines 207–285; and <a href="repo/internal/storage/issueops/dependencies.go">edge checks</a>, lines 246–483, plus <a href="repo/internal/storage/issueops/dependency_editor.go">final batch check</a>, lines 226–254.</p>
+<p>A direct named claim checks whether the issue's status and assignee are claimable and applies a row-token CAS.
+It does not ask whether dependencies are satisfied.
+A caller that wants select-and-claim uses claim-next, which reads candidate ready work, attempts claims and hydrates the winner in the same transaction.
+The scan can continue past a row a competing actor took, and an empty front is a normal result.
+It deliberately clears pagination/cap fields for its scan, so returning one issue does not imply the selection query did bounded work.
+See <a href="repo/internal/storage/issueops/claim.go">named claim</a>, lines 48–145, and <a href="repo/internal/storage/issueops/claim.go">claim-next</a>, lines 266–328; <a href="repo/internal/storage/issueops/claim_next.go">hydration</a>, lines 47–118.</p>
+<p>A successful durable claim grants one local lease and records claim/event/version state.
+Repeated same-actor in-progress claims return without refreshing that lease.
+Heartbeat is the explicit keepalive operation.
+A heartbeat refresh changes the lease row without reminting the task revision or writing noisy history; a rare missing-lease re-arm does remint and record a mutation so it conflicts with an ending claim.
+See <a href="repo/internal/storage/issueops/claim.go">claim post-state</a>, lines 155–245, and <a href="repo/internal/storage/issueops/lease.go">heartbeat</a>, lines 400–675.</p>
+<p>Progress is a typed patch, notes merge/append, label/metadata change or comment.
+Expected revision/status/assignee checks are available and run inside the writing transaction.
+They are optional, and actor identity is not authenticated by them.
+An expected assignee can authorize a transfer based on known current state; force fields provide further explicit policy bypasses.
+These controls are suitable for a trusted coordinator but do not constitute hostile-worker authorization.
+See <a href="repo/issueops/issueops.go">request contract</a>, lines 254–365; <a href="repo/internal/storage/issueops/execution.go">guard execution</a>, lines 138–253; and <a href="repo/internal/storage/issueops/aggregate.go">transfer predicate</a>, lines 200–240.</p>
+<p>The close role checks an optional revision, then template, pin and holder guards, followed by children and live direct blockers.
+Child-count policy writes coordination cells so a concurrent parent-child insertion cannot silently merge beside the stale close count without a conflict.
+The close deletes its lease, records a close event/version and recomputes affected blocked state.
+An optional flag can also close a completed molecule.
+This is meaningful controlled task state, even though it does not verify acceptance evidence or run a worker's tests.
+See <a href="repo/internal/storage/issueops/close.go">checked close</a>, lines 42–213 and 333–417; <a href="repo/internal/storage/issueops/dependency_coordination.go">coordination cells</a>, lines 1–60; and <a href="repo/internal/storage/issueops/execution.go">molecule caller</a>, lines 328–368.</p>
+<p>Generic update into a done category also checks child/blocker policy.
+It deliberately does not apply the close verb's pin or foreign-holder guard when only status changes.
+A client can therefore reach a done state for another actor's or pinned issue by using a status patch that the close verb would refuse.
+This is a traced public alternate path: HTTP accepts status in a patch and delegates to Lifecycle.Update, whose common body reaches the generic update.
+It is not inferred from an unused internal helper.
+See <a href="repo/internal/httpapi/update.go">HTTP patch</a>, lines 35–100; <a href="repo/internal/storage/issueops/execution.go">update execution</a>, lines 138–253; and <a href="repo/internal/storage/issueops/update.go">done crossing</a>, lines 400–442.</p>
+<p>CLI close adds a selected gate-satisfaction check before the role call.
+It checks GitHub run/PR, timer and bead conditions; a non-bead evaluation error emits a warning and permits close, while an unreadable bead condition refuses.
+The reviewed HTTP close calls the role directly and has no equivalent external-condition check.
+Gate issue state, parent completion and acceptance of a delivered artifact therefore remain distinct policies with different interface coverage.
+See <a href="repo/cmd/bd/close.go">CLI gate check</a>, lines 683–755, and <a href="repo/internal/httpapi/close.go">HTTP close</a>, lines 20–95.</p>
+<h2 id="task-beads-recovery-replicas-and-stale-writers">Recovery, replicas and stale writers</h2>
+<p>A lease's clock expiring does not itself change issue ownership or revoke the process.
+Reclaim selects sufficiently expired durable claims, repeats expiry/provenance predicates in its delete and resets the issue to open/unassigned with a fresh lifecycle token.
+A racing heartbeat can rescue the lease, while row-token rewrites make competing close/update/reclaim mutations conflict rather than silently cell-merge.
+The caller still needs to invoke recovery and reject stale writes through the available guards.
+See <a href="repo/internal/storage/issueops/lease.go">reclaim</a>, lines 937–1066.</p>
+<p>A generic update can set in-progress/assignee without arming a lease.
+The first legitimate heartbeat can re-arm that claim; until then, expiry-based recovery has no lease row to discover.
+Wisps remain a sharper boundary: claim-next can admit them explicitly, but they receive no lease and heartbeat refuses them.
+A vanished worker's ephemeral issue needs another release/finish or an external supervisor's recovery policy.
+See <a href="repo/internal/storage/issueops/lease.go">re-arm branch</a>, lines 550–675; <a href="repo/internal/storage/issueops/heartbeat_role.go">heartbeat refusal</a>, lines 42–80; and <a href="repo/issueops/readyclaimer.go">ready-claim contract</a>, lines 65–98.</p>
+<p>Leases are node-local and excluded from Dolt history/replication.
+Imported snapshots can nevertheless materialize a lease with granting-node provenance.
+On a named node, reclamation protects positively foreign grants unless explicitly overridden.
+An unnamed node or unknown provenance uses the permissive default.
+Heartbeat refresh preserves an existing foreign node label, so renaming a node or importing a lease can require deliberate operator recovery rather than silently moving its enforcement authority.
+See <a href="repo/internal/storage/issueops/lease.go">replica rule</a>, lines 864–920, and <a href="repo/internal/storage/issueops/lease.go">refresh provenance</a>, lines 400–477.</p>
+<p>One shared database/server can serialize competing claims.
+Two independent replicas do not share that live decision point, and node-local lease clocks are not a distributed fencing service.
+A supervisor that needs one task owner across hosts should define which authority grants work and how replicas exchange changes, rather than assume versioned data automatically gives globally exclusive execution.
+The storage driver's full merge/replication implementation was not audited here.</p>
+<p>The lifecycle revision is equality-only and only partly covers record change.
+The source explicitly excludes some direct text, label, relationship and other changes from its complete coverage.
+It also exposes a generic issue JSON shape that omits the token, with detail/write responses carrying a separate revision where needed.
+Clients must use the right projection and send their expected value; an unguarded write has no stale-attempt rejection promise.
+See <a href="repo/internal/types/types.go">revision model</a>, lines 75–102, and <a href="repo/internal/httpapi/close.go">HTTP close response</a>, lines 69–91.</p>
+<h2 id="task-beads-storage-completion-retry-and-audit">Storage completion, retry and audit</h2>
+<p>The Dolt retry loop recreates the entire transaction on recognized serialization losses and selected pre-commit connection failures.
+It explicitly refuses to replay an indeterminate commit that may already have landed.
+That avoids converting an uncertain create/comment/claim into an automatic duplicate mutation.
+The caller may still need to reread state after the error; a new external claim-next request has no operation key in its request type that pins it to the prior winner.
+See <a href="repo/internal/storage/dolt/store.go">retry boundary</a>, lines 1283–1400, and <a href="repo/issueops/readyclaimer.go">claim-next request</a>, lines 1–48.</p>
+<p>The SQL task mutation and trailing Dolt history publication are separate stages.
+The funnel treats a failed trailing history commit as an audit-publication problem and returns the already-durable mutation as successful.
+It logs a metric/warning, and the changed rows can ride a later commit.
+A concurrent writer's history commit can also absorb this write under another message.
+This preserves the distinction between applied task data and one expected log line; it does not establish one immutable history commit per request.
+See <a href="repo/internal/storage/dolt/issue_operations_tx.go">funnel</a>, lines 11–103.</p>
+<p>The events API offers checkpointed change recovery with a configured journal, bounded pages, a published head and explicit retention-loss errors.
+It refuses a disabled journal instead of returning a misleading empty feed.
+Clients can checkpoint processed sequence records and reconcile after a truncation response.
+Heartbeat refresh intentionally does not produce a task-change journal record, while re-arm/reclaim do.
+This is a change feed rather than a recipient inbox or proof of work completion.
+See <a href="repo/internal/httpapi/events.go">event handler</a>, lines 12–184, and <a href="repo/internal/storage/issueops/lease.go">heartbeat recording boundary</a>, lines 646–675.</p>
+<h2 id="task-beads-human-and-agent-usability-permissions-and-design">Human and agent usability, permissions and design</h2>
+<p>The CLI's ready command explicitly distinguishes ready listing from atomic selection with <code>--claim</code> and supplies structured JSON for agents.
+Go roles and HTTP let clients avoid scraping terminal output.
+The included MCP claim client delegates to <code>bd update --claim</code>; it does not add a separate lock or ownership interpretation.
+The operating workflow is well suited to agents that can read issues and use precise mutation contracts.
+Live installation, terminal interaction and a human visual board were not evaluated.
+See <a href="repo/cmd/bd/ready.go">ready command</a>, lines 24–70, and <a href="repo/integrations/beads-mcp/src/beads_mcp/bd_client.py">MCP forwarding</a>, lines 609–628.</p>
+<p>HTTP defaults and validation favor a local automation service.
+Binding beyond loopback requires explicit opt-in and a token file, with a separately named insecure override.
+Accepted tokens are compared against cached SHA-256 digests and can be reloaded without restarting.
+This is service-access authentication: the request still supplies the actor and policy override fields.
+It does not enforce project-scoped leader/worker/reviewer roles or bind a worker identity to one bearer credential.
+See <a href="repo/internal/httpapi/server.go">bind validation</a>, lines 598–626; <a href="repo/internal/httpapi/auth.go">auth posture</a>, lines 251–262; <a href="repo/internal/httpapi/auth.go">token check</a>, lines 115–145; and <a href="repo/internal/httpapi/update.go">actor contract</a>, lines 63–100.</p>
+<p>Shared mutation bodies, typed request/result contracts, copy-before-mutation and explicit refusal types are strengths.
+The close/update distinction and separate CLI gate checks also show the integration cost: callers cannot assume that every path to one final status applies every policy.
+A large command/storage surface, multiple persistence planes, proxy configurations, revisions, journal retention and driver publication semantics make operational expertise necessary.
+The HTTP update/close contracts also omit per-command hooks and auto-commit machinery; an automation that relies on CLI hooks must account for that interface difference.
+See <a href="repo/internal/httpapi/update.go">HTTP update contract</a>, lines 63–75, and <a href="repo/internal/httpapi/close.go">HTTP close contract</a>, lines 20–42.
+The project deliberately provides primitives that an orchestrator must compose into one organizational contract.</p>
+<h2 id="task-beads-test-source-evidence-and-implementation-limits">Test-source evidence and implementation limits</h2>
+<p>The selected ready-claim conformance body seeds durable and ephemeral work and asserts exactly one lease for the durable winner and none for the ephemeral winner.
+The heartbeat conformance body asserts that two refreshes do not invalidate a guarded write using the claim's revision.
+That heartbeat test explicitly skips when its fixture supplies no Lifecycle role; reading the test does not prove that a particular test lane ran it.
+See <a href="repo/backend/conformance/ready_claimer_contract.go">ready lease contract</a>, lines 405–448, and <a href="repo/backend/conformance/heartbeater_contract.go">heartbeat guard contract</a>, lines 213–235.</p>
+<p>The replica predicate test checks a named local node, an explicit any-replica override and the unnamed-node permissive case.
+It establishes intended SQL-fragment selection, not a multi-host recovery experiment.
+The HTTP close tests use fake role refusals and verify typed conflict mapping; they do not independently execute the database guards.
+The event test likewise verifies a typed truncation error maps to HTTP 410 with checkpoint-window fields.
+See <a href="repo/internal/storage/issueops/lease_replica_test.go">replica predicate test</a>, lines 16–82; <a href="repo/internal/httpapi/close_guards_test.go">HTTP close mapping</a>, lines 1–125; and <a href="repo/internal/httpapi/events_test.go">event error mapping</a>, lines 201–239.</p>
+<p>No candidate test, build or database service was run.
+The shared conformance framework is useful source evidence, while actual backend/runtime equivalence, graph races, crash durability, performance and platform support remain unverified here.
+The complete checkout and source ledger preserve the evidence needed for later experiments without presenting those experiments as already performed.</p>
+<h2 id="task-beads-adoption-gaps-and-useful-components">Adoption gaps and useful components</h2>
+<p>Beads can supply the central issue graph and coordinated local/shared-server task transitions for the baseline.
+Useful components include its atomic claim/ready-claim roles, explicit lease recovery, typed preconditions, parent-close coordination, change journal and common mutation bodies.
+Those are substantial implementation assets.</p>
+<p>The layer above it must establish authenticated agent and execution-attempt identities, mandatory stale-result fencing, capacity and dispatch policy, child-worker supervision, immutable context/artifact references and revision-bound reviewer approval.
+It must also choose consistent close rules across status patches, close verbs, CLI gate checks and remote callers, and define explicit recovery for unleased/ephemeral work and replica authority.
+The issue tracker is a capable foundation; the full organization lifecycle remains composition and policy work above it.</p></article><nav class="report-switch" aria-label="Task study navigation"><a href="../index.html">Return to the task comparison</a><a href="../backlog-md/index.html">Previous: Backlog.md</a><a href="../beads-rust/index.html">Next: beads_rust</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../../index.html">Return to overview <img src="../../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

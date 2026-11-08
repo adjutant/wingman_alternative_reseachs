@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Structured agent access to upstream Plane operations"><title>Plane MCP · task management · Wingman Research</title>
+<link rel="icon" href="../../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/report.css"><script defer src="../../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../../index.html"><img src="../../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../../index.html">Overview</a><a class="nav-link " href="../../generic/index.html">Architecture findings</a><a class="nav-link " href="../../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../../generic/method.html">Method and evidence</a><a class="nav-link active" href="../index.html" aria-current=page>Agent task management</a><a class="nav-link " href="../../generic/task-coordination.html">Initial task screening</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>Two source studies</strong><p>75 organization snapshots.<br>25 task coordination codebases.<br>Evidence at pinned revisions.</p><a href="../../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../../index.html">Wingman Research</a><span class="crumb">/</span><span>Plane MCP · task management</span></div><span class="topbar-note">SOURCE REVIEW · 09 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Plane MCP · task management</h1><p class="subtitle">Structured agent access to upstream Plane operations</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#task-plane-mcp-plane-mcp-adapter-task-management-assessment">Plane MCP adapter task management assessment</a><a href="#task-plane-mcp-fit-decision-and-assessment-boundary">Fit decision and assessment boundary</a><a href="#task-plane-mcp-architecture-and-source-scope">Architecture and source scope</a><a href="#task-plane-mcp-requirement-verdicts">Requirement verdicts</a><a href="#task-plane-mcp-lifecycle-and-alternate-mutation-paths">Lifecycle and alternate mutation paths</a><a href="#task-plane-mcp-concurrency-retry-and-recovery-conditions">Concurrency, retry and recovery conditions</a><a href="#task-plane-mcp-identity-access-and-artifact-boundaries">Identity, access and artifact boundaries</a><a href="#task-plane-mcp-agent-and-human-usability">Agent and human usability</a><a href="#task-plane-mcp-completeness-design-quality-and-test-source-evidence">Completeness, design quality and test-source evidence</a><a href="#task-plane-mcp-adoption-work-and-useful-components">Adoption work and useful components</a></div></nav><article class="technical"><h2 id="task-plane-mcp-plane-mcp-adapter-task-management-assessment">Plane MCP adapter task management assessment</h2>
+<p class="url-text">Repository: https://github.com/makeplane/plane-mcp-server</p>
+<p>Commit: <code>5c3467adb36fe15a2ef8f9df6fb9f5dc24b6d881</code>.
+Baseline: <a href="../purpose.html">Shared task management for an agent organization</a>.
+Review: November 9, 2026. Full local checkout; static implementation and selected test-source review.
+Candidate code, dependencies, tests and services were not installed or run.</p>
+<h2 id="task-plane-mcp-fit-decision-and-assessment-boundary">Fit decision and assessment boundary</h2>
+<p>This repository is an agent interface to Plane, not an independent task-management authority.
+It makes substantial project-management operations available through MCP: projects, work items, relations, cycles, milestones, comments, pages, attachments and other resources.
+It is useful when Plane is already the shared record and agents need structured access to it.</p>
+<p>It does not add exclusive task claims, execution attempts, worker leases, delegation supervision, task acceptance or recovery scheduling.
+Its normal assignment helper is a retrieve-then-update operation, without a conditional version or transaction spanning both API calls.
+Installing this adapter therefore does not establish safe concurrent allocation among independent workers.</p>
+<p>The adapter is MIT licensed.
+That license does not establish the availability or licensing of every resource in a particular Plane deployment.
+The code explicitly handles plan restrictions and workspace/project governance differences.
+The separate Plane codebase assessment remains necessary for persistence, permissions, lifecycle enforcement and human usability supplied by the product.</p>
+<p>Verdicts below distinguish an exposed API operation from behavior implemented here.
+An adapter verdict does not assert that the upstream product lacks a feature.
+No live Plane service, MCP client or browser was used to validate these findings.</p>
+<h2 id="task-plane-mcp-architecture-and-source-scope">Architecture and source scope</h2>
+<p>The package declares Python <code>&gt;=3.10</code> and pins FastMCP 3.2.0, MCP 1.28.1 and <code>plane-sdk</code> 0.3.1.
+Server factories configure authentication, common middleware and tool registration.
+The middleware logs calls, repairs string-encoded arguments and checks arguments against the selected action.
+Resource functions build SDK request models and call a credential-bound Plane client.
+See <a href="repo/pyproject.toml">package metadata</a>, <a href="repo/plane_mcp/server.py">server factories</a> and <a href="repo/plane_mcp/middleware.py">middleware</a>.</p>
+<p>There are 30 declared resource tools and 207 action declarations at this commit.
+The <a href="assessment/catalogue.json">static catalogue inventory</a> records their names, source hashes and declaration ranges.
+It was produced by parsing Python syntax, without importing candidate modules.
+It establishes the declared surface, not successful runtime registration or correct implementation of every action.</p>
+<p>The explicit registry fixes catalogue order and builds action and legacy-name maps.
+Resource modules describe their actions through a shared declaration type; descriptions and conservative annotations are generated from it.
+Registration also strips output schemas and installs optional retired-name transforms.
+This reduces advertised tool count while retaining a broad API surface.
+See <a href="repo/plane_mcp/tools/registry.py">registry</a>, <a href="repo/plane_mcp/tools/__init__.py">registration</a> and <a href="repo/plane_mcp/toolkit/spec.py">specification helpers</a>.</p>
+<p>Task data is not stored by this process.
+Its persistence is an OAuth token store: configured Redis variants or an in-memory fallback.
+Projects, work items, comments, relations and history remain in Plane.
+The MCP process does not execute a worker, own the backlog database or keep a durable task-operation journal.
+See <a href="repo/plane_mcp/client.py">client construction</a>, lines 47–99, and <a href="repo/plane_mcp/storage.py">token storage</a>, lines 146–263.</p>
+<p>The review traces the core work-item lifecycle, assignments, dependencies, comments/mentions, activity, project operations, planning helpers, selected attachment paths, authentication/context and server configuration.
+Other resources received declaration inventory and targeted interface review.
+The SDK and upstream Plane implementation were not audited as part of this adapter report.</p>
+<h2 id="task-plane-mcp-requirement-verdicts">Requirement verdicts</h2>
+<p>These verdicts assess the adapter in its stated role.
+They do not convert advertised SDK operations into proof of upstream invariants.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Requirement</th>
+<th scope="col">Verdict</th>
+<th scope="col">Mechanism and boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr id="task-plane-mcp-t01">
+<td>T01</td>
+<td>Similar</td>
+<td>Project operations expose identifier, description, project lead, default assignee, features and workspace-scoped listing. Stable records and access are delegated to Plane; this process adds no project registry or portfolio authority. <a href="repo/plane_mcp/tools/project.py">Project surface</a>, lines 29–107 and 194–300.</td>
+</tr>
+<tr id="task-plane-mcp-t02">
+<td>T02</td>
+<td>Similar</td>
+<td>Work-item requests expose name, description, parent, state, priority, dates, estimate, assignees, labels and external IDs. Records are stored and validated upstream; no local task or execution schema exists. <a href="repo/plane_mcp/tools/workitem.py">Fields/actions</a>, lines 53–125; <a href="repo/plane_mcp/tools/workitem.py">writes</a>, lines 254–283 and 351–383.</td>
+</tr>
+<tr id="task-plane-mcp-t03">
+<td>T03</td>
+<td>Similar</td>
+<td>The adapter passes a parent ID and supplies an epic/child query recipe. It does not validate parent aggregation, hierarchy cycles or child acceptance before closure. <a href="repo/plane_mcp/instructions.py">Instructions</a>; <a href="repo/plane_mcp/tools/workitem.py">parent payload</a>, lines 254–283.</td>
+</tr>
+<tr id="task-plane-mcp-t04">
+<td>T04</td>
+<td>Resembles</td>
+<td>Built-in dependencies and custom relation definitions have list/create/remove operations. The adapter has no ready-work predicate, claim-time blocker guard or dependency-cycle validator; upstream enforcement is outside this report. <a href="repo/plane_mcp/tools/workitem_relation.py">Relations</a>, lines 47–85 and 177–239.</td>
+</tr>
+<tr id="task-plane-mcp-t05">
+<td>T05</td>
+<td>Resembles</td>
+<td>Credentials identify Plane users, and member reads can filter bots and inspect roles. The adapter creates no permanent agent roster, agent-session record or task-attempt identity. Shared credentials make workers appear under the same upstream account. <a href="repo/plane_mcp/client.py">Client context</a>; <a href="repo/plane_mcp/tools/member.py">member surface</a>, lines 15–78.</td>
+</tr>
+<tr id="task-plane-mcp-t06">
+<td>T06</td>
+<td>Similar</td>
+<td>A broad structured MCP surface, literal action sets, parameter declarations, coercion, corrected PQL errors and pagination aid agents. Errors can be returned as strings/dictionaries, and one resource schema contains fields for several actions. No task CLI is supplied beyond launching transports. <a href="repo/plane_mcp/middleware.py">Middleware</a>, lines 19–109; <a href="repo/plane_mcp/toolkit/paging.py">paging</a>, lines 44–135.</td>
+</tr>
+<tr id="task-plane-mcp-t07">
+<td>T07</td>
+<td>Absent</td>
+<td>There is no exclusive claim action or local ownership authority. <code>manage_assignee</code> retrieves a set and replaces it; competing changes can overwrite each other. Generic update also accepts complete assignee/state values. <a href="repo/plane_mcp/tools/workitem.py">Assignment path</a>, lines 385–410; <a href="repo/plane_mcp/tools/workitem.py">update</a>, lines 367–374.</td>
+</tr>
+<tr id="task-plane-mcp-t08">
+<td>T08</td>
+<td>Resembles</td>
+<td>Counts/grouping, cycles and estimates expose planning information. The declared catalogue has no worker queue, WIP admission, capability dispatch or per-agent capacity enforcement. <a href="repo/plane_mcp/tools/workitem.py">Work-item count</a>, lines 311–327; <a href="assessment/catalogue.json">catalogue</a>.</td>
+</tr>
+<tr id="task-plane-mcp-t09">
+<td>T09</td>
+<td>Resembles</td>
+<td>An agent can create children, assign members and link records through Plane. There is no parent-agent execution relationship, delegation acknowledgement, child-result join or coordinator recovery protocol. <a href="repo/plane_mcp/tools/workitem.py">Work-item create/parent</a>, lines 254–283 and 351–360; <a href="assessment/catalogue.json">catalogue</a>.</td>
+</tr>
+<tr id="task-plane-mcp-t10">
+<td>T10</td>
+<td>Similar</td>
+<td>Comments, external links, linked pages and attachment reads/uploads carry context. Immutable revision selection is the caller's responsibility, and the adapter provides no task-context snapshot or verified artifact bundle. <a href="repo/plane_mcp/tools/workitem_link.py">Links</a>; <a href="repo/plane_mcp/tools/page.py">pages</a>, lines 24–69; <a href="repo/plane_mcp/tools/workitem_attachment.py">attachment helpers</a>, lines 65–162.</td>
+</tr>
+<tr id="task-plane-mcp-t11">
+<td>T11</td>
+<td>Resembles</td>
+<td>Agents can post/edit comments and work logs, and attach results. No structured attempt checkpoint, handoff, verification or terminal result is required. <a href="repo/plane_mcp/tools/workitem_comment.py">Comment writes</a>, lines 106–158; <a href="assessment/catalogue.json">catalogue</a>.</td>
+</tr>
+<tr id="task-plane-mcp-t12">
+<td>T12</td>
+<td>Resembles</td>
+<td>Mention tokens are validated against active project members and rendered into Plane mention elements. Activity/comments support polling. Notification delivery, acknowledgement and missed-message recovery are not implemented here; transport SSE is not a task event subscription. <a href="repo/plane_mcp/toolkit/mentions.py">Mention check</a>, lines 158–180; <a href="repo/plane_mcp/tools/workitem_activity.py">activity</a>.</td>
+</tr>
+<tr id="task-plane-mcp-t13">
+<td>T13</td>
+<td>Resembles</td>
+<td>Relations, comments, pages and states can represent obstacles and decisions. There is no structured open-question, escalation recipient, response lifecycle or blocker owner in this adapter's operation set. <a href="repo/plane_mcp/tools/workitem_relation.py">Relations</a>; <a href="assessment/catalogue.json">catalogue</a>.</td>
+</tr>
+<tr id="task-plane-mcp-t14">
+<td>T14</td>
+<td>Absent</td>
+<td>The adapter has no worker heartbeat, execution lease, stale-task sweep or allocation expiry. OAuth access-token expiration is an access mechanism, not task recovery. <a href="assessment/catalogue.json">Catalogue</a>; <a href="repo/plane_mcp/auth/plane_oauth_provider.py">OAuth verifier</a>, lines 135–215.</td>
+</tr>
+<tr id="task-plane-mcp-t15">
+<td>T15</td>
+<td>Absent</td>
+<td>Task writes carry no attempt credential, expected task version or idempotency key. External IDs are forwarded metadata; this code does not establish deduplication or reject stale workers. <a href="repo/plane_mcp/tools/workitem.py">Write payload/update</a>, lines 254–283 and 367–410; <a href="repo/plane_mcp/toolkit/spec.py">annotations</a>, lines 49–70.</td>
+</tr>
+<tr id="task-plane-mcp-t16">
+<td>T16</td>
+<td>Resembles</td>
+<td>CRUD/archive calls and retained upstream comments permit manual reconciliation. Multi-call helpers have no rollback journal; there is no failed/interrupted execution model or worker cancellation. OAuth state can be durable in Redis, but that does not recover work attempts. <a href="repo/plane_mcp/tools/cycle.py">Cycle helper</a>, lines 235–293; <a href="repo/plane_mcp/storage.py">token fallback</a>, lines 250–263.</td>
+</tr>
+<tr id="task-plane-mcp-t17">
+<td>T17</td>
+<td>Similar</td>
+<td>Remote streamable HTTP and local stdio can access one Plane authority from different hosts. HTTP binds all interfaces on port 8211. TLS, proxy operation, upstream availability and cross-process token configuration still need deployment work; no distributed task authority is added. <a href="repo/plane_mcp/__main__.py">HTTP host</a>, lines 145–200; <a href="repo/plane_mcp/client.py">client</a>, lines 66–99.</td>
+</tr>
+<tr id="task-plane-mcp-t18">
+<td>T18</td>
+<td>Resembles</td>
+<td>Work-item activity reads expose upstream history, and structured logs label tool/resource/action plus available identity context. Logs are not an atomic task audit ledger and credential identity does not distinguish workers sharing a key. <a href="repo/plane_mcp/tools/workitem_activity.py">Activity</a>; <a href="repo/plane_mcp/middleware.py">logging</a>, lines 112–155; <a href="repo/plane_mcp/__main__.py">log identity</a>, lines 22–51.</td>
+</tr>
+<tr id="task-plane-mcp-t19">
+<td>T19</td>
+<td>Resembles</td>
+<td>List/retrieve/search/count and preserved cursors support inspection through an MCP client. This repository has no human board UI or independent project dashboard; Plane's browser usability requires its own assessment. <a href="repo/plane_mcp/tools/workitem.py">Work-item reads</a>, lines 284–349; <a href="repo/plane_mcp/tools/registry.py">registry</a>.</td>
+</tr>
+<tr id="task-plane-mcp-t20">
+<td>T20</td>
+<td>Similar</td>
+<td>The interface exposes cycles, milestones, modules, releases, estimates and due dates. Those planning records and their business rules belong to Plane; local cycle completion merely updates an end date. <a href="repo/plane_mcp/tools/cycle.py">Cycle operations</a>, lines 38–81 and 265–293; <a href="repo/plane_mcp/tools/milestone.py">milestones</a>, lines 29–56; <a href="assessment/catalogue.json">catalogue</a>.</td>
+</tr>
+<tr id="task-plane-mcp-t21">
+<td>T21</td>
+<td>Absent</td>
+<td>There is no task submission/acceptance operation that binds criteria, evidence, reviewer and delivered revision. Completion can be requested by updating a state ID. Upstream workflows may add rules, but this adapter establishes none. <a href="repo/plane_mcp/tools/workitem.py">Update</a>, lines 367–374; <a href="assessment/catalogue.json">catalogue</a>.</td>
+</tr>
+<tr id="task-plane-mcp-t22">
+<td>T22</td>
+<td>Similar</td>
+<td>PAT/OAuth validation and credential-bound workspace context are real interface boundaries; Plane remains responsible for resource permissions. Providers construct read/write scope claims, and all tools are registered. There is no per-agent local policy or review-only catalogue. OAuth selects the first returned installation. <a href="repo/plane_mcp/auth/plane_header_auth_provider.py">Header validation</a>; <a href="repo/plane_mcp/auth/plane_oauth_provider.py">OAuth selection</a>, lines 167–209; <a href="repo/plane_mcp/server.py">factories</a>, lines 58–104.</td>
+</tr>
+<tr id="task-plane-mcp-t23">
+<td>T23</td>
+<td>Similar</td>
+<td>Explicit resource modules, action declarations, custom relation definitions and custom-property/type operations provide extension points. There is no configurable agent-role or execution-workflow engine; new adapter behavior needs code and compatible API support. <a href="repo/plane_mcp/toolkit/spec.py">Spec</a>; <a href="repo/plane_mcp/tools/workitem_relation.py">relation definitions</a>, lines 109–175; <a href="assessment/catalogue.json">catalogue</a>.</td>
+</tr>
+<tr id="task-plane-mcp-t24">
+<td>T24</td>
+<td>Similar</td>
+<td>Small Python adapter, pinned core dependencies, shared factories, optional durable OAuth storage and substantial contract-test source reduce integration work. It still requires Plane and credentials; HTTP also builds OAuth configuration. The standalone SSE mode has no startup branch at this revision. No install/runtime compatibility was tested. <a href="repo/pyproject.toml">Package</a>; <a href="repo/plane_mcp/__main__.py">entry point</a>, lines 116–204; <a href="repo/plane_mcp/storage.py">storage</a>, lines 146–263.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="task-plane-mcp-lifecycle-and-alternate-mutation-paths">Lifecycle and alternate mutation paths</h2>
+<p>A connection resolves a Plane client and workspace slug from its authenticated token, or from environment variables in stdio mode.
+Projects and work items can then be listed, retrieved and created through SDK calls.
+There is no independent local task copy to reconcile with the service.
+The successful result and durable record are supplied by Plane, rather than by a local database transaction.
+See <a href="repo/plane_mcp/client.py">client binding</a>, lines 20–99, and <a href="repo/plane_mcp/tools/workitem.py">work-item dispatch</a>, lines 284–383.</p>
+<p>A worker can search by PQL, resolve members/types/states and update an item's assignees or parent.
+That operation is not a claim.
+<code>manage_assignee</code> reads the current IDs, removes requested IDs, adds requested IDs and writes a whole list.
+Two callers reading the same old list can lose one another's additions.
+No lock, expected revision or conditional API parameter is passed by this helper.
+The same issue applies to its label-set merge.
+The adapter does not establish whether upstream facilities could provide a stronger alternative.
+See <a href="repo/plane_mcp/tools/workitem.py">set merge</a>, lines 385–410.</p>
+<p>Progress can be posted as comments or linked pages/files.
+The mention helper checks project membership before writing a mention, then the comment function sends generated HTML through the SDK.
+This improves addressing, but a rendered chip is not proof of notification delivery or recipient action.
+Comments and links can be edited or deleted; none is an immutable execution checkpoint.
+See <a href="repo/plane_mcp/tools/workitem_comment.py">comment dispatch</a>, lines 83–158, and <a href="repo/plane_mcp/toolkit/mentions.py">mention validation</a>, lines 158–180.</p>
+<p>Completion is an ordinary state update.
+The adapter does not fetch criteria, require verification, check child results or bind approval to a commit before making that request.
+Deleting or archiving records is also an ordinary API operation, without an adapter-level worker stop/acknowledgement protocol.
+The baseline needs this lifecycle implemented by another authority or a coordination service above the adapter.
+See <a href="repo/plane_mcp/tools/workitem.py">state/delete/archive</a>, lines 367–383.</p>
+<h2 id="task-plane-mcp-concurrency-retry-and-recovery-conditions">Concurrency, retry and recovery conditions</h2>
+<h3 id="task-plane-mcp-one-tool-call-can-contain-several-writes">One tool call can contain several writes</h3>
+<p>Cycle membership management can add several items and then remove others one by one.
+A later failure does not undo successful earlier requests.
+Archive retrieves the cycle, may first set its end date, then calls archive.
+An archive failure can leave the changed end date behind.
+There is no adapter transaction, compensation log or restartable operation ID for either sequence.
+See <a href="repo/plane_mcp/tools/cycle.py">cycle helpers</a>, lines 235–293.</p>
+<p>The same caution applies to composing a task workflow across several tools.
+Creating a child, assigning it, posting a comment and changing the parent state are separate service requests.
+An interrupted agent must inspect upstream state before continuing.
+The adapter has no durable record of which steps its prior conversation intended or completed.</p>
+<h3 id="task-plane-mcp-payload-omission-is-deliberate-but-not-universal-patch-expressiveness">Payload omission is deliberate but not universal patch expressiveness</h3>
+<p>Work-item writes omit sentinel empty strings and zero values.
+Explicit empty assignee/label lists are retained, and explicit null dates clear dates.
+Other fields such as description and parent are normalized through <code>opt</code>, so the same interface does not expose every conceivable clearing operation.
+A request that omitted a field is different from one that successfully cleared it.
+See <a href="repo/plane_mcp/tools/workitem.py">payload construction</a>, lines 254–283, and <a href="repo/plane_mcp/toolkit/runtime.py">sentinel helper</a>, lines 64–66.</p>
+<p><code>external_id</code> and <code>external_source</code> are sent to the API but do not become idempotency keys in adapter code.
+The annotations conservatively mark consolidated tools non-idempotent.
+When a response is lost, the caller cannot infer that a create/comment/upload failed merely because the MCP call did not return.
+It needs a read-back/reconciliation strategy and upstream guarantees appropriate to that operation.
+See <a href="repo/plane_mcp/tools/workitem.py">work-item writes</a>, lines 254–283 and 351–360, and <a href="repo/plane_mcp/toolkit/spec.py">annotations</a>, lines 49–70.</p>
+<h3 id="task-plane-mcp-credential-durability-is-separate-from-work-durability">Credential durability is separate from work durability</h3>
+<p>HTTP token storage supports Redis, including URL, password and optional AWS credential-provider paths.
+Configured Redis is checked at startup.
+If no backing store is configured, the fallback is process memory and its tokens are lost on restart.
+Task records remain in Plane, but clients may need to authenticate again.
+There is no task lease or abandoned-work reaper associated with this token cache.
+See <a href="repo/plane_mcp/storage.py">storage construction</a>, lines 146–263.</p>
+<p>HTTP mode creates OAuth and API-key applications and also mounts legacy SSE.
+It creates the OAuth factory even if an operator only intends to use the API-key endpoint.
+The OAuth provider validates its required client settings at construction.
+Remote deployment therefore needs the actual factory/configuration graph, not just a PAT endpoint copied into a client.
+See <a href="repo/plane_mcp/__main__.py">HTTP construction</a>, lines 145–173, and <a href="repo/plane_mcp/auth/plane_oauth_provider.py">OAuth required settings</a>, lines 326–332.</p>
+<p>The entry-point enum includes <code>sse</code>, but <code>main</code> has startup branches only for stdio and HTTP.
+Selecting standalone SSE reaches the end without starting a server.
+Legacy SSE remains available through the HTTP assembly.
+This is a static control-flow finding; no candidate command was executed.
+See <a href="repo/plane_mcp/__main__.py">entry point</a>, lines 116–204.</p>
+<h2 id="task-plane-mcp-identity-access-and-artifact-boundaries">Identity, access and artifact boundaries</h2>
+<p>Header/PAT validation calls Plane's current-user endpoint and requires a workspace header.
+That verifies the key, not membership of the supplied workspace inside the adapter; resource authorization remains with Plane's API.
+The returned access token carries read/write scopes set by the provider.
+The adapter does not derive an independent least-privilege agent policy from those scope labels.
+See <a href="repo/plane_mcp/auth/plane_header_auth_provider.py">PAT verifier</a>, lines 19–73.</p>
+<p>OAuth verification reads the user and application installations, selects the first installation and records its workspace in token claims.
+This creates a connection binding rather than a per-tool arbitrary workspace argument.
+The client context uses those claims even when the slug is empty, avoiding silent fallback to a different environment workspace.
+Several projects can be addressed within that bound workspace.
+A multi-workspace operator needs to verify which installation was selected.
+See <a href="repo/plane_mcp/auth/plane_oauth_provider.py">OAuth binding</a>, lines 167–209, and <a href="repo/plane_mcp/client.py">context</a>, lines 20–99.</p>
+<p>All server factories register the common catalogue.
+Read/destructive/idempotency annotations are hints derived across every action of a resource, not permission enforcement for individual operations.
+The shared governance helpers explain upstream plan/scope refusals; they are not an agent authorization system.
+See <a href="repo/plane_mcp/server.py">configuration</a>, lines 58–104; <a href="repo/plane_mcp/toolkit/spec.py">annotations</a>, lines 49–70; and <a href="repo/plane_mcp/toolkit/governance.py">governance</a>, lines 48–132.</p>
+<p>Attachment handling adds actual outbound I/O beyond basic API wrapping.
+URL upload uses bounded fetching, redirect checks and direct-connection DNS pinning.
+In proxy mode, hostname network safety is delegated to the proxy; private literal IPs are still rejected locally.
+This is an explicit deployment boundary, not proof that every supplied URL is safe in every proxy configuration.
+See <a href="repo/plane_mcp/tools/workitem_attachment.py">upload</a>, lines 128–162, and <a href="repo/plane_mcp/attachments.py">fetch path</a>, lines 211–274 and 308–320.</p>
+<p>The attachment read helper fetches a returned download URL with <code>requests.get</code>, then checks the buffered payload against image/text limits.
+Those limits bound what is returned to the model, but do not bound the network read before buffering.
+It also uses a different path from the DNS-pinned URL-upload helper.
+This review did not certify all attachment, OAuth, proxy or SDK internals.
+See <a href="repo/plane_mcp/tools/workitem_attachment.py">read helper</a>, lines 91–125.</p>
+<h2 id="task-plane-mcp-agent-and-human-usability">Agent and human usability</h2>
+<p>The adapter makes several deliberate agent-facing improvements.
+Its generated action descriptions name required/optional fields.
+Middleware can repair JSON values encoded as strings and reject valued arguments that the selected action does not accept.
+PQL errors include the failed query and reference material.
+Paged work-item reads preserve counts and cursor fields, avoiding a first page that looks like a complete result.
+See <a href="repo/plane_mcp/middleware.py">middleware</a>, lines 19–109, and <a href="repo/plane_mcp/toolkit/paging.py">paging</a>, lines 44–135.</p>
+<p>These improvements do not eliminate interface cost.
+An agent must discover UUIDs for states, types and members, choose an action from a large shared schema, and perform multi-step work through separate calls.
+Several validation refusals are strings or error dictionaries rather than an explicitly marked MCP execution error in adapter code.
+A consuming agent should inspect returned content as well as protocol failure status.
+See <a href="repo/plane_mcp/middleware.py">validation return</a>, lines 36–45; <a href="repo/plane_mcp/toolkit/runtime.py">required-field helper</a>, lines 19–35; and <a href="repo/plane_mcp/toolkit/paging.py">PQL failure</a>, lines 107–124.</p>
+<p>One documentation inconsistency is visible at the pinned revision.
+The README uses <code>state__group</code> in list-filter examples, while the work-item footer explicitly says that it is a grouping key and filtering on it is rejected.
+Agents copying the example can spend a round trip repairing a query the tool description already warns against.
+See <a href="repo/README.md">README examples</a>, lines 106–130, and <a href="repo/plane_mcp/tools/workitem.py">work-item guidance</a>, lines 143–157.</p>
+<p>For the human owner, this repository supplies no board, task-detail browser, review interface or portfolio view.
+Those experiences belong to Plane or the MCP client.
+The ability to query a count is useful for reporting but does not establish that the complete project is understandable or manageable in a particular UI.
+No candidate user interface was rendered or tested.</p>
+<h2 id="task-plane-mcp-completeness-design-quality-and-test-source-evidence">Completeness, design quality and test-source evidence</h2>
+<p>As an API adapter, the design is cohesive.
+The registry, declarations, common factories, typed SDK models and response helpers reduce repeated plumbing.
+Conservative annotations avoid advertising destructive resources as read-only.
+Credential-bound workspace selection is separated from resource arguments.
+The scope is broad, but breadth must not be mistaken for an implemented autonomous-work lifecycle.</p>
+<p>The source includes useful contract tests:</p>
+<ul>
+<li>Catalogue tests pin resource order, require matching declarations/signatures and check action/parameter consistency. <a href="repo/tests/tools/test_conformance.py">Conformance source</a>, lines 34–143.</li>
+<li>Dispatch tests parameterize declared actions against a spy that binds the genuine SDK signature and validates argument types. They also require missing-argument calls to return before hitting the SDK. The spy's default response is deliberately permissive and does not model real backend constraints. <a href="repo/tests/tools/test_dispatch.py">Dispatch assertions</a>, lines 119–153; <a href="repo/tests/tools/_spyclient.py">spy</a>, lines 24–55 and 106–207.</li>
+<li>Pagination tests check cursor preservation and refuse a response that lacks the promised pagination fields. <a href="repo/tests/toolkit/test_paging.py">Paging source</a>, lines 50–78.</li>
+<li>Argument tests check wrong-action parameters, accepted count scope, absent actions and literal-action behavior. <a href="repo/tests/test_argument_validation.py">Validation source</a>, lines 50–125.</li>
+<li>Client tests check that OAuth/header/stdio report the same workspace they use and that a missing token slug does not borrow the environment's slug. <a href="repo/tests/test_client.py">Context source</a>, lines 45–92.</li>
+</ul>
+<p>These are inspected source assertions, not test results from this assessment.
+The live integration test explicitly requires credentials and writes/deletes real project data; it was not run.
+Its existence does not establish success against the user's Plane edition or configured server.
+No backend concurrency, stale-worker, task-acceptance or recovery guarantees were demonstrated by this review.
+See <a href="repo/tests/test_integration.py">integration scope</a>, lines 1–95.</p>
+<h2 id="task-plane-mcp-adoption-work-and-useful-components">Adoption work and useful components</h2>
+<p>Use this adapter when Plane is the chosen management system and agents need a coherent MCP bridge.
+Keep the explicit catalogue, typed payloads, pagination envelopes, parameter correction and mention handling.
+Verify the target Plane version/edition and required API resources before relying on the full advertised surface.</p>
+<p>For autonomous task coordination, put authoritative claim/attempt state, ownership transfer, stale-worker fencing, recovery and acceptance in Plane extensions or a separate service.
+Do not implement exclusive allocation by reading assignees and writing a replacement list.
+Add explicit retry/reconciliation contracts for multi-step operations and distinguish the Plane user's identity from each worker and execution attempt.
+Provide a typed handoff/result operation if completion must include evidence and reviewer approval.</p>
+<p>The <a href="assessment/review.json">review ledger</a> records the inspected ranges, source hashes and all 24 verdicts.
+The catalogue inventory covers declarations across all resources; the detailed lifecycle findings cover the named paths, not an every-line or every-endpoint audit.</p></article><nav class="report-switch" aria-label="Task study navigation"><a href="../index.html">Return to the task comparison</a><a href="../plane/index.html">Previous: Plane</a><a href="../planka/index.html">Next: Planka</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../../index.html">Return to overview <img src="../../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

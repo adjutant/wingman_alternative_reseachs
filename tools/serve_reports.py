@@ -11,15 +11,16 @@ from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 ROOT_FILES = {
-    'index.html', 'README.md', 'AGENTS.md', 'WINGMAN_PURPOSE.md',
+    'index.html', 'README.md', 'AGENTS.md', 'WINGMAN_PURPOSE.md', 'AGENT_TASK_MANAGEMENT.md',
     'coverage.json', 'checkouts.json', 'migration.json', 'validation.json',
 }
 
 
 class ReportHandler(SimpleHTTPRequestHandler):
-    def __init__(self, *args, directory=ROOT, projects=(), include_source=False, **kwargs):
+    def __init__(self, *args, directory=ROOT, projects=(), task_projects=(), include_source=False, **kwargs):
         self.root = Path(directory).resolve()
         self.projects = frozenset(projects)
+        self.task_projects = frozenset(task_projects)
         self.include_source = include_source
         super().__init__(*args, directory=str(self.root), **kwargs)
 
@@ -36,6 +37,17 @@ class ReportHandler(SimpleHTTPRequestHandler):
             return len(parts) == 1 or parts[1] in {
                 'index.html', 'purpose.html', 'method.html', 'task-coordination.html', 'assessments',
             }
+        if parts[0] == 'task-management':
+            if len(parts) == 2 and parts[1] in {
+                'index.html', 'purpose.html', 'README.md', 'COMPARISON.md', 'REQUIREMENT_MATRIX.md',
+                'COMPLETION_AUDIT.md', 'checkouts.json', 'progress.json', 'catalog.json', 'publication.json',
+            }:
+                return True
+            if len(parts) >= 2 and parts[1] in self.task_projects:
+                return len(parts) == 2 or parts[2] in {
+                    'index.html', 'assessment', *({'repo'} if self.include_source else set()),
+                }
+            return len(parts) == 1
         if parts[0] in self.projects:
             return len(parts) == 1 or parts[1] in {
                 'index.html', 'assessment', *({'repo'} if self.include_source else set()),
@@ -69,7 +81,10 @@ def make_server(host, port, directory=ROOT, include_source=False):
     root = Path(directory).resolve()
     manifest = json.loads((root / 'coverage.json').read_text())
     projects = {Path(item['directory']).parts[0] for item in manifest['repositories']}
-    handler = partial(ReportHandler, directory=root, projects=projects, include_source=include_source)
+    task_manifest = root / 'task-management/checkouts.json'
+    task_projects = {item['slug'] for item in json.loads(task_manifest.read_text())['repositories']} if task_manifest.exists() else set()
+    handler = partial(ReportHandler, directory=root, projects=projects, task_projects=task_projects,
+                      include_source=include_source)
     return ThreadingHTTPServer((host, port), handler)
 
 

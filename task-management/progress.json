@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-08T20:59:30.226958+00:00",
+  "checked_at": "2026-11-08T21:19:20.503361+00:00",
   "scope": "Checkout preservation, materialization, baseline/requirement coverage, source evidence hashes and local links. Not a semantic or runtime audit.",
   "required_repository_count": 25,
   "checkout_count": 25,
@@ -31,6 +31,7 @@
     "vibe-kanban",
     "vikunja"
   ],
+  "source_citation_ranges_checked": 2089,
   "assessments_remaining": [],
   "required_complete_gate": true,
   "issues": [],

@@ -88,26 +88,10 @@
       "ranges": [
         [
           1,
-          174
-        ],
-        [
-          175,
-          325
-        ],
-        [
-          326,
-          406
-        ],
-        [
-          407,
           709
         ],
         [
           712,
-          844
-        ],
-        [
-          847,
           947
         ],
         [
@@ -237,5 +221,6 @@
       ],
       "method": "Implementation, interface or test-source inspection; tests not executed"
     }
-  ]
+  ],
+  "citation_range_audit": "November 9, 2026: inspected small gaps bridged by broad source citations and reconciled the ledger. No candidate execution or changed conclusions."
 }

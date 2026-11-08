@@ -2,6 +2,8 @@
 
 Status: complete. Final verification date: November 7, 2026.
 
+November 9 addendum: the figures below describe the original reorganization checkpoint. The collection now contains 107 HTML pages, including the later task screening and the 27-page full task-management study. All 107 pages passed checks at 1440px and 390px widths. The separate [task-study audit](../../task-management/COMPLETION_AUDIT.md) and [browser record](_audits/task-management-browser.json) document the new work. The original 75-project source baseline is unchanged.
+
 ## Requirement review
 
 | Requested result | Delivered result | Evidence |

@@ -1,6 +1,8 @@
 # Agent task management source assessments
 
-Status: in progress.
+Status: complete for the recorded static source assessments and report publication.
+
+Open [the comparison](index.html), [the task baseline](purpose.html) or [the full Markdown matrix](REQUIREMENT_MATRIX.md).
 
 The baseline is [AGENT_TASK_MANAGEMENT.md](../AGENT_TASK_MANAGEMENT.md).
 It defines the desired shared work system for leaders, agents, subagents, reviewers and the human owner.
@@ -27,7 +29,9 @@ The source manifest records clean status, tracked-path counts and hashes, commit
 
 All 25 source assessments are complete at this checkpoint.
 The [progress record](progress.json) records source coverage and checkout integrity.
-HTML publication and the cross-project comparison remain pending.
+The [cross-project findings](COMPARISON.md) synthesize their fit and lifecycle boundaries.
+All reports are published in the HTML collection. The matrix contains all 600 recorded verdicts, with links to their explanations.
+The [publication check](publication.json), [browser evidence](../generic/assessments/_audits/task-management-browser.json) and [HTTP evidence](../generic/assessments/_audits/task-management-http.json) record verification of the research presentation.
 
 | Codebase | Assessment | Evidence ledger |
 |---|---|---|
@@ -89,5 +93,6 @@ Report-site tests verify the research presentation only.
 
 ## Completion
 
-The study remains in progress until every checkout is verified, every required assessment is complete, cross-project findings and reports are published, and a requirement-by-requirement completion audit passes.
+The [completion audit](COMPLETION_AUDIT.md) records source coverage, comparison, publication and verification.
+Run `tools/validate_task_management.py --write --require-complete` from the research root for source integrity, and `uv run --script tools/validate_task_publication.py --write` for publication fidelity.
 The original 75-project Wingman matrix retains its separate baseline and source-preservation checks.

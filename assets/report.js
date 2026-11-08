@@ -16,11 +16,18 @@
   const search = document.querySelector('#project-search');
   const group = document.querySelector('#group-filter');
   const lens = document.querySelector('#lens-filter');
-  const ranges = {
+  const ranges = table.dataset.study === 'tasks' ? {
+    priority: [4,5,7,8,14,15,21,22], organization: [1,2,3,9,10,20],
+    work: [4,6,7,8,9,11,12,13], runtime: [5,14,15,16,17],
+    visibility: [10,18,19,20,21,22,23,24],
+    all: Array.from({length:24}, (_,i) => i+1)
+  } : {
     priority: [4,5,7,14,17,22], organization: [1,2,3,4,5,6,7,8],
     work: [9,10,11,12,13], runtime: [14,15,16,17], visibility: [18,19,20,21,22,23,24],
     all: Array.from({length:24}, (_,i) => i+1)
   };
+  const total = table.querySelectorAll('tbody tr').length;
+  const unit = table.dataset.study === 'tasks' ? 'codebases' : 'projects';
   const apply = () => {
     const query = search.value.trim().toLocaleLowerCase();
     let count = 0;
@@ -32,7 +39,7 @@
     table.querySelectorAll('[data-feature]').forEach(cell => {
       cell.hidden = !ranges[lens.value].includes(Number(cell.dataset.feature.slice(1)));
     });
-    document.querySelector('#result-count').textContent = `${count} of 75 projects`;
+    document.querySelector('#result-count').textContent = `${count} of ${total} ${unit}`;
     document.querySelector('#empty-result').hidden = count !== 0;
   };
   search.addEventListener('input', apply);

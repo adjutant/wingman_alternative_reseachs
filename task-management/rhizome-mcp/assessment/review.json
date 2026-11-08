@@ -432,7 +432,7 @@
       "ranges": [
         [
           1,
-          105
+          112
         ],
         [
           141,
@@ -677,5 +677,6 @@
       ],
       "method": "Selected test assertion bodies inspected; tests not run; other declarations inventoried separately"
     }
-  ]
+  ],
+  "citation_range_audit": "November 9, 2026: inspected small gaps bridged by broad source citations and reconciled the ledger. No candidate execution or changed conclusions."
 }

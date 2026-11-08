@@ -1,0 +1,1154 @@
+{
+  "checked": [
+    {
+      "issues": [],
+      "path": "index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "generic/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "generic/purpose.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "generic/method.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "generic/task-coordination.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "agent-swarm/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "agency/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "teammcp/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "edict/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "claw-empire/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "clawteam/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "multica/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "scion/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "paperclip/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "openrig/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "tinyagi/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "hamlet/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "multi-agent-shogun/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "agent-of-empires/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "orkas/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "amux/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "automaker/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "emdash/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "paseo/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "golutra/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "munder-difflin/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "herdr/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "agent-deck/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "intent/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "omnigent/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "agent-orchestrator/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "routa/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "crewly/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "maestro/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "claude-squad/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "happy/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "orca/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "paradev/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "wrenyard/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "cli-agent-orchestrator/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "multiclaude/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "kander/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "codex-autorunner/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "gastown/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "stagewise/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "cmux/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "open-swe/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "warren/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "agentrail/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "sortie/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "symphony/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "openhands/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "swarmos/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "swe-agent/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "zeroshot/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "agentopology/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "superplane/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "gstack/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "squad/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "deepcode/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "ralph-orchestrator/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "continuous-claude-v3/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "antfarm/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "oh-my-openagent/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "myclaude/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "oh-my-codex/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "oh-my-claudecode/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "ruflo/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "hcom/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "mission-control/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "companyhelm/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "ax/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "open-multi-agent/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "plano/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "nasiko/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "swarm/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "bernstein/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "rocketride-server/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "babysitter/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "openclaw/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "task-management/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "task-management/purpose.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "task-management/agent-hq/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "task-management/agent-kanban-rs/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "task-management/agent-mail-python/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "task-management/agent-mail-rust/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "task-management/agent-swarm/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "task-management/backlog-md/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "task-management/beads/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "task-management/beads-rust/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "task-management/beads-viewer/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "task-management/devboard/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "task-management/gemba/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "task-management/gitlab/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "task-management/kanboard/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "task-management/muster/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "task-management/openproject/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "task-management/paperclip/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "task-management/plane/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "task-management/plane-mcp/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "task-management/planka/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "task-management/rhizome-mcp/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "task-management/taiga/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "task-management/taiga-front/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "task-management/task-master/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "task-management/vibe-kanban/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "task-management/vikunja/index.html",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "path": "index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "generic/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "generic/purpose.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "generic/method.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "generic/task-coordination.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "agent-swarm/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "agency/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "teammcp/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "edict/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "claw-empire/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "clawteam/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "multica/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "scion/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "paperclip/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "openrig/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "tinyagi/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "hamlet/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "multi-agent-shogun/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "agent-of-empires/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "orkas/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "amux/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "automaker/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "emdash/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "paseo/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "golutra/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "munder-difflin/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "herdr/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "agent-deck/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "intent/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "omnigent/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "agent-orchestrator/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "routa/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "crewly/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "maestro/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "claude-squad/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "happy/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "orca/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "paradev/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "wrenyard/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "cli-agent-orchestrator/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "multiclaude/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "kander/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "codex-autorunner/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "gastown/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "stagewise/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "cmux/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "open-swe/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "warren/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "agentrail/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "sortie/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "symphony/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "openhands/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "swarmos/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "swe-agent/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "zeroshot/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "agentopology/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "superplane/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "gstack/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "squad/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "deepcode/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "ralph-orchestrator/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "continuous-claude-v3/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "antfarm/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "oh-my-openagent/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "myclaude/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "oh-my-codex/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "oh-my-claudecode/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "ruflo/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "hcom/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "mission-control/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "companyhelm/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "ax/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "open-multi-agent/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "plano/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "nasiko/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "swarm/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "bernstein/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "rocketride-server/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "babysitter/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "openclaw/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "task-management/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "task-management/purpose.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "task-management/agent-hq/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "task-management/agent-kanban-rs/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "task-management/agent-mail-python/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "task-management/agent-mail-rust/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "task-management/agent-swarm/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "task-management/backlog-md/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "task-management/beads/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "task-management/beads-rust/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "task-management/beads-viewer/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "task-management/devboard/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "task-management/gemba/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "task-management/gitlab/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "task-management/kanboard/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "task-management/muster/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "task-management/openproject/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "task-management/paperclip/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "task-management/plane/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "task-management/plane-mcp/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "task-management/planka/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "task-management/rhizome-mcp/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "task-management/taiga/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "task-management/taiga-front/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "task-management/task-master/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "task-management/vibe-kanban/index.html",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "path": "task-management/vikunja/index.html",
+      "width": 390
+    }
+  ],
+  "failures": [],
+  "pages": 107,
+  "renderChecks": 214,
+  "viewports": [
+    1440,
+    390
+  ],
+  "functional_checks": [
+    {
+      "check": "Task search selects Paperclip",
+      "passed": true
+    },
+    {
+      "check": "Task family selects four local authorities",
+      "passed": true
+    },
+    {
+      "check": "All requirement lens shows 24 columns",
+      "passed": true
+    },
+    {
+      "check": "Continuity lens shows T05 and T14 through T17",
+      "passed": true
+    },
+    {
+      "check": "Empty search reports no results",
+      "passed": true
+    },
+    {
+      "check": "Verdict opens its requirement explanation",
+      "passed": true
+    },
+    {
+      "check": "Report returns to task comparison",
+      "passed": true
+    },
+    {
+      "check": "Mobile menu opens accessibly",
+      "passed": true
+    },
+    {
+      "check": "Escape closes menu and returns focus",
+      "passed": true
+    },
+    {
+      "check": "Mobile detail has no page overflow",
+      "passed": true
+    },
+    {
+      "check": "Original study search retains 75-project scope",
+      "passed": true
+    },
+    {
+      "check": "Baseline requirement anchor resolves",
+      "passed": true
+    },
+    {
+      "check": "Comparison region scrolls horizontally by keyboard after animation settles",
+      "passed": true
+    },
+    {
+      "check": "Local-file report content and search work without an HTTP server",
+      "passed": true,
+      "observed": {
+        "count": "1 of 25 codebases",
+        "font": true,
+        "overflow": false,
+        "rows": 25
+      }
+    }
+  ],
+  "scope": "Research report presentation only. Browser render checks and named interactions, not candidate-product execution or accessibility certification.",
+  "checked_at": "2026-11-08T21:17:22.369164+00:00",
+  "audit_script_sha256": "d39362cdfa8c35a66350791104735cbd07055165ed0748d11ab2735625b57cc0",
+  "screenshots": [
+    "task-management-screens/comparison-desktop.png",
+    "task-management-screens/comparison-mobile.png",
+    "task-management-screens/gitlab-mobile.png",
+    "task-management-screens/matrix-mobile.png"
+  ]
+}

@@ -75,8 +75,13 @@ def main():
         repos.append(result)
     actual = {p.parent.parent.name for p in ROOT.glob('*/repo/.git')}
     if expected != actual: issues.append(f'Checkout set differs: {sorted(expected ^ actual)}')
-    pages = sorted([ROOT/'index.html', *ROOT.glob('*/index.html'), ROOT/'generic/method.html', ROOT/'generic/purpose.html', ROOT/'generic/task-coordination.html'])
-    if len(pages) != 80: issues.append(f'Expected 80 HTML pages, found {len(pages)}')
+    pages = [ROOT/'index.html', *[ROOT / slug / 'index.html' for slug in sorted(expected)],
+             ROOT/'generic/index.html', ROOT/'generic/method.html', ROOT/'generic/purpose.html', ROOT/'generic/task-coordination.html']
+    task_manifest = json.loads((ROOT / 'task-management/checkouts.json').read_text())
+    task_pages = [ROOT / 'task-management/index.html', ROOT / 'task-management/purpose.html',
+                  *[ROOT / 'task-management' / item['slug'] / 'index.html' for item in task_manifest['repositories']]]
+    pages = sorted(pages + task_pages)
+    if len(pages) != 107: issues.append(f'Expected 107 HTML pages, found {len(pages)}')
     parsed = {p: Document(p.read_text()) for p in pages}
     for page, doc in parsed.items():
         if doc.h1 != 1: issues.append(f'Expected one h1: {page.relative_to(ROOT)}')
@@ -99,7 +104,9 @@ def main():
                 if ids and unquote(u.fragment) not in ids.ids:
                     issues.append(f'Broken HTML anchor: {page.relative_to(ROOT)} -> {target}')
     # Historical audits retain their findings and report hashes. Their current links still need validation.
-    docs = [ROOT/'WINGMAN_PURPOSE.md', ROOT/'AGENTS.md', ROOT/'README.md']
+    docs = [ROOT/'WINGMAN_PURPOSE.md', ROOT/'AGENT_TASK_MANAGEMENT.md', ROOT/'AGENTS.md', ROOT/'README.md']
+    docs += list(ROOT.glob('task-management/*.md'))
+    docs += list(ROOT.glob('task-management/*/assessment/*.md'))
     docs += list(ROOT.glob('*/assessment/*.md'))
     docs += list(ROOT.glob('generic/assessments/*.md'))
     docs += list(ROOT.glob('generic/assessments/agent-task-coordination/*.md'))

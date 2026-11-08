@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Markdown task context, dependencies, CLI and browser"><title>Backlog.md · task management · Wingman Research</title>
+<link rel="icon" href="../../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/report.css"><script defer src="../../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../../index.html"><img src="../../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../../index.html">Overview</a><a class="nav-link " href="../../generic/index.html">Architecture findings</a><a class="nav-link " href="../../generic/purpose.html">Wingman purpose</a><a class="nav-link " href="../../generic/method.html">Method and evidence</a><a class="nav-link active" href="../index.html" aria-current=page>Agent task management</a><a class="nav-link " href="../../generic/task-coordination.html">Initial task screening</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>Two source studies</strong><p>75 organization snapshots.<br>25 task coordination codebases.<br>Evidence at pinned revisions.</p><a href="../../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../../index.html">Wingman Research</a><span class="crumb">/</span><span>Backlog.md · task management</span></div><span class="topbar-note">SOURCE REVIEW · 09 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Backlog.md · task management</h1><p class="subtitle">Markdown task context, dependencies, CLI and browser</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#task-backlog-md-backlogmd-task-management-assessment">Backlog.md task management assessment</a><a href="#task-backlog-md-fit-decision-and-assessment-boundary">Fit decision and assessment boundary</a><a href="#task-backlog-md-architecture-and-source-scope">Architecture and source scope</a><a href="#task-backlog-md-requirement-verdicts">Requirement verdicts</a><a href="#task-backlog-md-lifecycle-and-alternate-mutation-paths">Lifecycle and alternate mutation paths</a><a href="#task-backlog-md-concurrency-and-consistency-findings">Concurrency and consistency findings</a><a href="#task-backlog-md-design-quality-usability-and-operation">Design quality, usability and operation</a><a href="#task-backlog-md-test-source-evidence-and-implementation-limits">Test-source evidence and implementation limits</a><a href="#task-backlog-md-adoption-gaps-and-useful-components">Adoption gaps and useful components</a></div></nav><article class="technical"><h2 id="task-backlog-md-backlogmd-task-management-assessment">Backlog.md task management assessment</h2>
+<p class="url-text">Repository: https://github.com/MrLesk/Backlog.md</p>
+<p>Commit: <code>3a296c0f6f949b31e458b849b9617702c56c1023</code>.
+Baseline: <a href="../purpose.html">Shared task management for an agent organization</a>.
+Review: November 9, 2026. Full local checkout; targeted static implementation and test-source review.
+Candidate dependencies, applications and tests were not installed or run.</p>
+<h2 id="task-backlog-md-fit-decision-and-assessment-boundary">Fit decision and assessment boundary</h2>
+<p>Backlog.md is a substantial local task workspace for a human and coding agents working through repository files.
+It provides durable Markdown tasks, parent links, dependencies, readiness, acceptance checklists, implementation notes, milestones, search, a terminal interface and a browser board.
+The CLI, MCP adapter and browser API share a central task implementation.
+This is a useful foundation for planning and recording work close to its source code.</p>
+<p>It does not provide the execution authority required by the baseline.
+Assignees are editable strings, rather than authenticated workers with exclusive claims.
+There are no execution attempts, worker heartbeats, ownership leases, stale-attempt fences or supervised delegation.
+A short lock around a file edit does not reserve the work until an agent finishes it.</p>
+<p>The best fit is a trusted local workspace with agents coordinated by a separate supervisor.
+Using several Git clones as independent task authorities would require conflict resolution and an ownership service above the files.
+Completion also needs additional policy: a valid status change does not require completed children, satisfied dependencies, checked criteria or independent approval.</p>
+<p>The package is MIT licensed.
+This review covers the task lifecycle, storage and locking, dependency reads and writes, worktree boundaries, browser mutations and refresh, MCP task operations and selected test assertions.
+It is not an every-line audit of all 1,533 tracked files.
+It does not establish installation success, race reproduction, live usability, performance or accessibility conformance.
+See <a href="repo/LICENSE">license</a>, <a href="repo/package.json">package metadata</a> and the <a href="assessment/review.json">review ledger</a>.</p>
+<h2 id="task-backlog-md-architecture-and-source-scope">Architecture and source scope</h2>
+<p>The central <code>Core</code> coordinates a filesystem abstraction, Git operations, content indexing and search.
+Tasks have a Markdown body plus structured metadata.
+The model includes status, assignees, reporter, dates, labels, milestone, dependency IDs, parent identity, priority, type, project label, references, documentation, modified files, plans, notes, comments, final summary and two checklists.
+A task record is distinct from its derived readiness and dependency graph.
+Neither the model nor the MCP task catalogue introduces an execution-attempt entity.
+See <a href="repo/src/types/index.ts">task model</a>, lines 1–118, and <a href="repo/src/mcp/tools/tasks/index.ts">task tools</a>, lines 1–110.</p>
+<p>The content store maintains in-process maps, versions, filesystem watchers and publication state.
+Search uses Fuse over tasks, documents and decisions, with task filters applied to the results.
+These are derived local views; the Markdown files remain the durable work records.
+A store version is not a conditional write version supplied by the caller.
+See <a href="repo/src/core/content-store.ts">content store</a>, lines 1–170, and <a href="repo/src/core/search-service.ts">search service</a>, lines 1–115.</p>
+<p>The browser server binds to <code>127.0.0.1</code> and defaults to port 6420.
+It serves both the React application and task APIs.
+MCP startup supports stdio and resolves a workspace root from command options, environment or the client workspace.
+These interfaces are designed around a trusted local process and filesystem, rather than a remotely authenticated organization service.
+See <a href="repo/src/server/index.ts">browser startup</a>, lines 391–438, and <a href="repo/src/commands/mcp.ts">MCP startup</a>, lines 1–85.</p>
+<p>The source agreement identifies the CLI and shared model as public product contracts and treats internal TypeScript exports differently.
+This assessment therefore traces actual HTTP and MCP callers before treating an internal mutation as an exposed behavior.
+Candidate instructions to operate its workflow or architecture tooling were not executed: this is static assessment work outside the candidate, under the research repository's no-runtime rule.
+See <a href="repo/AGENTS.md">candidate instructions</a> and <a href="repo/MANIFESTO.md">manifesto</a>.</p>
+<h2 id="task-backlog-md-requirement-verdicts">Requirement verdicts</h2>
+<p>The verdicts describe fit to the baseline, not product reliability scores.
+A useful file-based planning feature can receive Similar while the stronger organizational execution requirement remains unmet.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Requirement</th>
+<th scope="col">Verdict</th>
+<th scope="col">Mechanism and boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr id="task-backlog-md-t01">
+<td>T01</td>
+<td>Similar</td>
+<td>Workspace roots and configuration separate repositories. A task's configured <code>project</code> field also labels monorepo components. It is not an organizational project registry with independent access, ownership and service authority. <a href="repo/src/types/index.ts">Model</a>, lines 1–118; <a href="repo/src/commands/mcp.ts">MCP root</a>, lines 1–85.</td>
+</tr>
+<tr id="task-backlog-md-t02">
+<td>T02</td>
+<td>Similar</td>
+<td>Markdown records retain stable IDs, outcomes, metadata, plans and summaries. Creation checks occupied identities across configured sources. Permanent deletion can release an ID, so identity is not an irreversible historical key. <a href="repo/src/types/index.ts">Model</a>, lines 1–118; <a href="repo/src/core/backlog.ts">allocation</a>, lines 1978–2095; <a href="repo/src/core/backlog.ts">deletion</a>, lines 3866–3926.</td>
+</tr>
+<tr id="task-backlog-md-t03">
+<td>T03</td>
+<td>Similar</td>
+<td>Parent resolution and hierarchical IDs support decomposition, while dependencies and references link related work. There is no separate typed follow-up or delegation contract. <a href="repo/src/core/backlog.ts">Parent creation</a>, lines 2360–2377; <a href="repo/src/types/index.ts">model</a>, lines 1–118.</td>
+</tr>
+<tr id="task-backlog-md-t04">
+<td>T04</td>
+<td>Similar</td>
+<td>Shared readiness resolves the full corpus, fails closed for missing or ambiguous dependencies, and uses the final configured status as completion. Proposed edges reject reachable cycles. These are advisory reads and per-edit checks, not an atomic start gate or globally serialized graph constraint. <a href="repo/src/utils/readiness.ts">Readiness</a>; <a href="repo/src/utils/task-builders.ts">validation</a>, lines 63–170.</td>
+</tr>
+<tr id="task-backlog-md-t05">
+<td>T05</td>
+<td>Absent</td>
+<td>Assignee and reporter strings do not identify an authenticated agent separately from a session or execution attempt. No such entities appear in the task model or task operation catalogue. <a href="repo/src/types/index.ts">Model</a>, lines 1–118; <a href="repo/src/mcp/tools/tasks/index.ts">catalogue</a>, lines 1–110.</td>
+</tr>
+<tr id="task-backlog-md-t06">
+<td>T06</td>
+<td>Similar</td>
+<td>CLI-oriented Core methods, validated MCP task tools and HTTP endpoints support structured agent access. Mutation errors are surfaced, including HTTP 409 for edit contention. There is no durable execution-operation or claim protocol. <a href="repo/src/mcp/tools/tasks/index.ts">MCP tools</a>; <a href="repo/src/server/index.ts">edit response</a>, lines 1200–1237.</td>
+</tr>
+<tr id="task-backlog-md-t07">
+<td>T07</td>
+<td>Absent</td>
+<td>Edit locks serialize cooperating writers for a short mutation, but assignees can be replaced without an owner condition. No exclusive work reservation survives the edit. Board snapshots also have a different locking boundary. <a href="repo/src/core/backlog.ts">Assignees</a>, lines 2540–2575; <a href="repo/src/core/backlog.ts">patch lock</a>, lines 3053–3097; <a href="repo/src/core/backlog.ts">bulk writes</a>, lines 3386–3410.</td>
+</tr>
+<tr id="task-backlog-md-t08">
+<td>T08</td>
+<td>Resembles</td>
+<td>Status columns, priority, ordinal ordering, ready filters and assignee filters help a leader choose work. They do not enforce worker capacity, WIP limits, fairness or dispatch. <a href="repo/src/core/task-detail.ts">Read projection</a>, lines 72–138; <a href="repo/src/core/backlog.ts">board movement</a>, lines 3505–3579; <a href="repo/src/web/components/BoardPage.tsx">board controls</a>, lines 1–130.</td>
+</tr>
+<tr id="task-backlog-md-t09">
+<td>T09</td>
+<td>Resembles</td>
+<td>Parents and subtasks record decomposition and parallel work. Creation resolves a real local parent. No supervisor launches children, waits for their results or prevents parent completion while children remain unfinished. <a href="repo/src/core/backlog.ts">Parent resolution</a>, lines 2360–2377; <a href="repo/src/core/backlog.ts">status edit</a>, lines 2480–2520.</td>
+</tr>
+<tr id="task-backlog-md-t10">
+<td>T10</td>
+<td>Similar</td>
+<td>References, documentation, modified-file paths, plans and repository-local documents support context. Git can version files. These fields do not pin an immutable execution input or verify that an artifact still matches its recorded revision. <a href="repo/src/types/index.ts">Task model</a>, lines 1–118; <a href="repo/src/core/search-service.ts">search</a>, lines 1–115.</td>
+</tr>
+<tr id="task-backlog-md-t11">
+<td>T11</td>
+<td>Similar</td>
+<td>Notes, comments and final summaries preserve progress and handoff content in the task. They are editable record content, without acknowledged transfer of ownership or an immutable result tied to an attempt. <a href="repo/src/types/index.ts">Model</a>, lines 1–118; <a href="repo/src/mcp/tools/tasks/index.ts">MCP edit surface</a>, lines 56–69.</td>
+</tr>
+<tr id="task-backlog-md-t12">
+<td>T12</td>
+<td>Resembles</td>
+<td>Filesystem-derived updates notify browser clients; a health connection triggers full reload after reconnect. There is no durable agent inbox, recipient acknowledgement or replayable communication log. The data subscription itself has no reconnect loop in the inspected effect. <a href="repo/src/web/App.tsx">Data subscription</a>, lines 803–849; <a href="repo/src/web/App.tsx">reconnect refresh</a>, lines 470–482; <a href="repo/src/web/hooks/useHealthCheck.tsx">health hook</a>.</td>
+</tr>
+<tr id="task-backlog-md-t13">
+<td>T13</td>
+<td>Resembles</td>
+<td>Readiness explains unfinished and unresolved predecessors; comments and configurable statuses can record questions or blockers. There is no structured escalation recipient, decision request, timeout or manager response lifecycle. <a href="repo/src/utils/readiness.ts">Blocker projection</a>; <a href="repo/src/types/index.ts">model</a>, lines 1–118.</td>
+</tr>
+<tr id="task-backlog-md-t14">
+<td>T14</td>
+<td>Absent</td>
+<td><code>proper-lockfile</code> stale handling concerns abandoned edit locks. It is not an execution heartbeat or stale-worker detector. Task ownership has no expiry or lease renewal. <a href="repo/src/file-system/operations.ts">Lock implementation</a>, lines 700–881; <a href="repo/src/types/index.ts">model</a>, lines 1–118.</td>
+</tr>
+<tr id="task-backlog-md-t15">
+<td>T15</td>
+<td>Absent</td>
+<td>No worker generation, attempt token or expected task revision is required to mutate progress or completion. An old agent with workspace access can write again. Exclusive file creation prevents one filename collision, not duplicate logical requests after a retry. <a href="repo/src/file-system/operations.ts">Writes</a>, lines 909–997; <a href="repo/src/core/backlog.ts">patch entry</a>, lines 3053–3097.</td>
+</tr>
+<tr id="task-backlog-md-t16">
+<td>T16</td>
+<td>Resembles</td>
+<td>Durable files, archive/restore and explicit moved-but-not-committed errors aid manual recovery. There is no running-worker cancellation, resumable attempt or failure scheduler. Several filesystem changes and the Git commit remain separate steps. <a href="repo/src/core/backlog.ts">Archive</a>, lines 3813–3855; <a href="repo/src/core/backlog.ts">delete/restore</a>, lines 3866–3948.</td>
+</tr>
+<tr id="task-backlog-md-t17">
+<td>T17</td>
+<td>Resembles</td>
+<td>Git branches and sibling worktrees contribute visibility and occupied IDs. The local create lock uses Git's common directory. Task edits use each worktree's own lock directory; independent clones do not share a claim authority. <a href="repo/src/file-system/operations.ts">Create/task locks</a>, lines 700–760; <a href="repo/src/core/backlog.ts">worktree scan</a>, lines 1978–2095; <a href="repo/src/core/cross-branch-tasks.ts">branch reader</a>, lines 1–100.</td>
+</tr>
+<tr id="task-backlog-md-t18">
+<td>T18</td>
+<td>Resembles</td>
+<td>Reporter, comment author, timestamps and optional Git commits provide useful history. Local strings and Git identity do not authenticate an individual agent, and uncommitted edits have no append-only audit stream. <a href="repo/src/types/index.ts">Model</a>, lines 1–118; <a href="repo/src/core/backlog.ts">write/commit order</a>, lines 2413–2443.</td>
+</tr>
+<tr id="task-backlog-md-t19">
+<td>T19</td>
+<td>Similar</td>
+<td>Browser board, milestones, task detail, fuzzy search, filters and a terminal interface provide broad inspection. Modal code handles keyboard trapping, Escape and focus restoration. No live interaction, screen-reader or small-screen acceptance test was performed. <a href="repo/src/web/components/BoardPage.tsx">Board</a>, lines 1–130; <a href="repo/src/core/search-service.ts">search</a>, lines 1–115; <a href="repo/src/web/components/Modal.tsx">modal</a>, lines 1–145.</td>
+</tr>
+<tr id="task-backlog-md-t20">
+<td>T20</td>
+<td>Similar</td>
+<td>Drafts, priorities, types, milestones, dates and ordinal board ordering support backlog planning. Milestone lanes and filters are explicit. No capacity-aware iteration or autonomous dispatch policy appears in the reviewed model and movement paths. <a href="repo/src/types/index.ts">Model</a>, lines 1–118; <a href="repo/src/web/components/BoardPage.tsx">board controls</a>, lines 1–130; <a href="repo/src/server/index.ts">move endpoint</a>, lines 1870–1908.</td>
+</tr>
+<tr id="task-backlog-md-t21">
+<td>T21</td>
+<td>Resembles</td>
+<td>Acceptance criteria and Definition of Done are structured checklists. A status edit or board move does not require their completion, a qualified reviewer, a delivered revision or a result-bound approval. <a href="repo/src/core/backlog.ts">Checklist validation/status edit</a>, lines 2445–2520; <a href="repo/src/core/backlog.ts">board status write</a>, lines 3505–3579.</td>
+</tr>
+<tr id="task-backlog-md-t22">
+<td>T22</td>
+<td>Resembles</td>
+<td>Workspace selection, filesystem access, loopback binding and read-only treatment of cross-branch cards establish local boundaries. There is no authenticated per-agent role or project permission system in these paths. Configured status callbacks run with the process environment and local shell authority. <a href="repo/src/server/index.ts">Server</a>, lines 391–438; <a href="repo/src/core/backlog.ts">cross-branch write filter</a>, lines 3778–3792; <a href="repo/src/utils/status-callback.ts">callback</a>.</td>
+</tr>
+<tr id="task-backlog-md-t23">
+<td>T23</td>
+<td>Similar</td>
+<td>Configurable labels, types, projects, statuses and DoD defaults plus post-status shell callbacks support adaptation. There is no role schema, policy workflow or transactional plugin gate. Callback failure does not undo the saved transition. <a href="repo/src/core/backlog.ts">Create configuration</a>, lines 2202–2295; <a href="repo/src/core/backlog.ts">callback dispatch</a>, lines 3344–3374.</td>
+</tr>
+<tr id="task-backlog-md-t24">
+<td>T24</td>
+<td>Similar</td>
+<td>Plain files and optional Git avoid a mandatory database service. npm distributes platform-specific binaries through a Node launcher; source development uses Bun. The launcher includes architecture diagnostics and signal forwarding. Installation and platform behavior were not exercised. <a href="repo/package.json">Metadata</a>, lines 1–75; <a href="repo/scripts/cli.cjs">launcher</a>, lines 1–125.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="task-backlog-md-lifecycle-and-alternate-mutation-paths">Lifecycle and alternate mutation paths</h2>
+<h3 id="task-backlog-md-create-and-decompose">Create and decompose</h3>
+<p>Creation validates title, status, priority, type, project, dates and structured sections.
+It applies default assignees and DoD items, resolves an optional parent and acquires the allocator lock before generating the new ID and validating dependencies.
+The occupied-ID scan includes active and archived records, filename-reserved IDs and sibling worktree files; configured branch scanning adds further visibility.
+This is more deliberate than selecting the next number from only the current active folder.
+See <a href="repo/src/core/backlog.ts">creation</a>, lines 2202–2379, and <a href="repo/src/core/backlog.ts">allocation</a>, lines 1978–2095.</p>
+<p>The allocator lock uses Git's common directory where available.
+This lets sibling worktrees in the same local repository serialize creation.
+An environment option can disable that lock.
+This mechanism does not synchronize independent remote clones or reserve work execution.
+A selected test pauses one worktree at save, starts a second create and asserts only one save has entered until release, followed by distinct IDs.
+That test source was read; it was not run.
+See <a href="repo/src/file-system/operations.ts">lock target</a>, lines 700–737, and <a href="repo/src/test/worktree-task-id-allocation.test.ts">worktree test</a>, lines 124–163.</p>
+<p>Creation and optional Git finalization are separate stages.
+Its failure path avoids deleting a file or staged entry it no longer owns and reports when manual Git review is required.
+This is useful defensive recovery, but it does not give creation a durable idempotency key.
+After an uncertain response, the agent must inspect existing records before creating the same logical work again.
+See <a href="repo/src/core/backlog.ts">create rollback</a>, lines 2295–2360.</p>
+<h3 id="task-backlog-md-select-and-assign">Select and assign</h3>
+<p>Readiness is derived from a shared corpus rather than from only the displayed rows.
+A list filtered to one assignee still sees dependencies hidden by that filter.
+Missing and ambiguous identities fail closed, with a separate explanation for unresolved dependencies.
+Archived dependencies count as satisfied only if their status is terminal.
+The terminal status is the last configured status, so a workflow configuration change can change readiness without editing tasks.
+See <a href="repo/src/core/task-detail.ts">corpus and projections</a>, lines 1–138, <a href="repo/src/utils/readiness.ts">readiness</a> and <a href="repo/src/utils/terminal-status.ts">terminal rule</a>.</p>
+<p>A ready task can be assigned by replacing its assignee list and changing status.
+Neither operation checks an authenticated current owner or issues a reservation token.
+Two agents can therefore agree on the same readiness view and both begin work, even when their metadata edits serialize correctly.
+The execution race lies outside the file-lock mechanism.
+See <a href="repo/src/core/backlog.ts">assignment update</a>, lines 2540–2575, and <a href="repo/src/core/backlog.ts">patch entry</a>, lines 3053–3097.</p>
+<h3 id="task-backlog-md-progress-review-and-completion">Progress, review and completion</h3>
+<p>Agents can edit plans, notes, checklists and summaries through shared Core paths.
+The MCP edit handler delegates to <code>editTaskOrDraft</code>; the HTTP update path delegates to the corresponding Core update method.
+Normal task patches acquire a per-task lock, reload the current record inside it and apply the requested changes before saving.
+This protects cooperating incremental editors from applying a patch to an old pre-lock copy.
+See <a href="repo/src/mcp/tools/tasks/handlers.ts">MCP handler</a>, lines 492–507, <a href="repo/src/server/index.ts">HTTP update</a>, lines 1200–1237, and <a href="repo/src/core/backlog.ts">patch implementation</a>, lines 3053–3097.</p>
+<p>Completing work is still an ordinary canonical status change.
+Checklist syntax checks protect structured content; they do not require every item to be checked before status changes.
+The status branch does not inspect dependency readiness, child completion or review evidence.
+The browser reorder path also directly constructs a task with its target status.
+A team's completion instructions can require more, but those instructions are not application-enforced acceptance.
+See <a href="repo/src/core/backlog.ts">status edit</a>, lines 2445–2520, and <a href="repo/src/core/backlog.ts">board write</a>, lines 3505–3579.</p>
+<h3 id="task-backlog-md-archive-delete-and-recover">Archive, delete and recover</h3>
+<p>Archive moves a task off the board while retaining identity, status and links.
+Restore returns that file without rewriting its identity or status.
+Neither action stops an agent process that may still be working.
+Permanent deletion requires an archived task and refuses a parent with remaining direct children, including drafts.
+It cleans related references before unlinking the archived file.
+See <a href="repo/src/core/backlog.ts">archive</a>, lines 3813–3855, and <a href="repo/src/core/backlog.ts">delete/restore</a>, lines 3866–3948.</p>
+<p>The cleanup path repeatedly widens its locked set and rescans under the allocator lock.
+This reduces stale-snapshot damage during deletion.
+The implementation also documents a remaining boundary: a relationship edit outside that set can add a reference after the final scan.
+That reference can survive as unknown and later refer to a reused number.
+This is especially relevant when interpreting IDs as permanent organizational history.
+See <a href="repo/src/core/backlog.ts">cleanup locking</a>, lines 1254–1317.</p>
+<p>Deletion records whether unlink already happened and distinguishes a later commit failure from a refusal before deletion.
+However, reference rewrites, unlink and Git commit are not one database transaction.
+An interruption between them needs file and Git inspection.
+Durable Markdown makes the state inspectable; it does not supply a resumable execution state machine.
+See <a href="repo/src/core/backlog.ts">delete ordering</a>, lines 3866–3926.</p>
+<h2 id="task-backlog-md-concurrency-and-consistency-findings">Concurrency and consistency findings</h2>
+<h3 id="task-backlog-md-mutation-locks-and-execution-ownership-have-different-lifetimes">Mutation locks and execution ownership have different lifetimes</h3>
+<p>The file layer uses <code>proper-lockfile</code>, sorted multi-record acquisition and short fail-fast task locks.
+Create locks have retry and stale-lock handling.
+These mechanisms protect cooperating local edits.
+They do not represent an agent's exclusive right to execute or renew ownership, and direct file edits need not honor them.
+The same task in separate worktrees has separate per-task lock paths, even though creation shares an allocator lock.
+See <a href="repo/src/file-system/operations.ts">lock implementation</a>, lines 700–881.</p>
+<h3 id="task-backlog-md-public-board-writes-can-use-snapshots-taken-before-their-locks">Public board writes can use snapshots taken before their locks</h3>
+<p>Board resolution refreshes the content store and selects task objects before acquiring bulk write locks.
+Reorder and multi-move construct whole-task snapshots from those objects.
+<code>updateTasksBulk</code> then locks the selected tasks and passes those snapshots to a sequential writer; it does not reload and merge only status, ordinal and milestone under the locks.
+<code>updateTask</code> reads a stored task for timestamp and status-callback purposes, but saves the supplied task object.
+See <a href="repo/src/core/backlog.ts">resolution and bulk writer</a>, lines 3386–3462, <a href="repo/src/core/backlog.ts">reorder</a>, lines 3505–3579, and <a href="repo/src/core/backlog.ts">save path</a>, lines 2413–2443.</p>
+<p>The public reorder and move endpoints call these methods directly.
+If another edit completes between snapshot preparation and lock acquisition, a later board write can replace that edit with older fields.
+This is a source-derived interleaving, not a reproduced race.
+Fail-fast locks prevent overlap while held; they do not detect that a prepared object became stale before acquisition.
+See <a href="repo/src/server/index.ts">public callers</a>, lines 1826–1908.</p>
+<p>Acquiring every lock before a bulk operation avoids writing when lock acquisition itself fails.
+Once writes begin, however, they occur one by one.
+A later filesystem or callback failure can leave earlier files changed without the final Git commit.
+Batching store notifications does not make the disk sequence transactional.
+See <a href="repo/src/core/backlog.ts">bulk sequence</a>, lines 3386–3410.</p>
+<h3 id="task-backlog-md-cycle-checks-do-not-serialize-the-whole-dependency-graph">Cycle checks do not serialize the whole dependency graph</h3>
+<p>Dependency validation loads local tasks, drafts and archives, rejects missing or self references and checks the proposed graph for a path back to the edited task.
+This correctly rejects a cycle visible to that edit's snapshot.
+The edit holds only its task lock, rather than a common graph lock spanning validation and write.
+As a result, concurrent edits adding A-to-B and B-to-A edges can each validate against the old graph before either writes.
+That is an inferred concurrency gap, not a test result.
+See <a href="repo/src/utils/task-builders.ts">validator</a>, lines 63–170, and <a href="repo/src/core/backlog.ts">per-task scope</a>, lines 3053–3097.</p>
+<p>The read graph and readiness index handle ambiguous and unresolved identities explicitly.
+That protects inspection from falsely declaring missing work satisfied, but it does not prevent every concurrent graph mutation.
+See <a href="repo/src/utils/task-record-index.ts">record index</a>, lines 1–92, and <a href="repo/src/utils/dependency-graph.ts">dependency graph</a>, lines 1–165.</p>
+<h3 id="task-backlog-md-a-saved-markdown-rewrite-is-not-a-crash-atomic-transaction">A saved Markdown rewrite is not a crash-atomic transaction</h3>
+<p>New files use exclusive <code>writeFile</code> creation.
+Existing records are rewritten with <code>Bun.write</code> after any path rename; this path does not stage a temporary complete file and atomically replace the old contents.
+The reviewed code therefore does not establish crash-atomic replacement or transactional consistency across files and Git.
+An editor lock alone cannot establish those properties.
+See <a href="repo/src/file-system/operations.ts">save/write implementation</a>, lines 909–997.</p>
+<h3 id="task-backlog-md-notifications-recover-a-snapshot-but-not-a-durable-stream">Notifications recover a snapshot, but not a durable stream</h3>
+<p>The application subscribes to task, milestone and configuration change messages.
+A separate health WebSocket reconnects after a delay, and a restored connection triggers a full data load.
+This helps recover the current snapshot after a disconnection.
+The inspected data-message effect has no reconnect timer of its own, while the health connection does not consume task messages.
+It therefore does not establish reliable resubscription of incremental data events after a broken socket.
+A future manual refresh or reload may be needed for subsequent changes.
+See <a href="repo/src/web/hooks/useHealthCheck.tsx">health hook</a>, <a href="repo/src/web/App.tsx">restored connection</a>, lines 470–482, and <a href="repo/src/web/App.tsx">data effect</a>, lines 803–849.</p>
+<p>There are no persistent recipient cursors or task-event acknowledgement records in these paths.
+Browser freshness is separate from a dependable agent handoff or management notification channel.</p>
+<h2 id="task-backlog-md-design-quality-usability-and-operation">Design quality, usability and operation</h2>
+<p>Shared Core methods and derived task-detail projections reduce semantic drift between interfaces.
+Canonical identity, ambiguous-record refusals, archived dependency handling, sorted locks and explicit post-mutation errors show attention to difficult repository workflows.
+The main architectural cost is a large Core combining planning rules, Git staging, file transactions, archive transitions and publication coordination.
+The board snapshot path demonstrates how a second mutation abstraction can weaken invariants provided by the canonical patch path.</p>
+<p>Human inspection is broad for a local tool.
+The board preserves filters in URL parameters and milestone lane preference in local storage.
+Search covers tasks, documents and decisions.
+The shared modal implements focus capture, Tab wrapping, Escape handling, body scroll control and focus restoration.
+These are concrete usability mechanisms, not proof of a complete accessibility review.
+No candidate UI was launched or rendered during this study.
+See <a href="repo/src/web/components/BoardPage.tsx">board controls</a>, lines 1–130, <a href="repo/src/core/search-service.ts">search</a>, lines 1–115, and <a href="repo/src/web/components/Modal.tsx">modal</a>, lines 1–145.</p>
+<p>The operating model is lightweight: files and optionally Git replace a required hosted database.
+The npm package launches a separately distributed binary for the host architecture.
+The launcher diagnoses missing or incompatible binaries and forwards termination signals on non-Windows systems.
+The source build and tests use Bun.
+Published artifact availability and OS compatibility were not checked by running an install.
+See <a href="repo/package.json">package</a>, lines 1–75, and <a href="repo/scripts/cli.cjs">launcher</a>, lines 1–125.</p>
+<p>Status callbacks are an integration mechanism with full local process authority.
+They run <code>sh -c</code> in the project directory with inherited environment and task fields passed as environment variables.
+They are post-save effects, not acceptance hooks; failures are logged without reversing the status change.
+The callback path has no explicit timeout in the inspected executor.
+A long-running command can delay the caller, and when called within the patch path it also extends that edit's lock span.
+Treating task/configuration content as trusted executable configuration is part of this operating boundary.
+See <a href="repo/src/utils/status-callback.ts">executor</a>, lines 1–69, <a href="repo/src/core/backlog.ts">dispatch</a>, lines 3344–3374, and <a href="repo/src/core/backlog.ts">update ordering</a>, lines 2413–2443.</p>
+<h2 id="task-backlog-md-test-source-evidence-and-implementation-limits">Test-source evidence and implementation limits</h2>
+<p>The inspected atomic-edit tests assert that concurrent successful label patches survive, while contending operations return actionable lock errors.
+Separate CLI processes are exercised in the test source, and the HTTP edit test expects 409 while another process holds the task lock.
+These assertions target the canonical patch path, not execution ownership or the pre-lock board snapshot interleaving.
+See <a href="repo/src/test/atomic-task-edit.test.ts">edit tests</a>, lines 1–130 and 221–356.</p>
+<p>Atomic-create tests pause saves, overlap creators and assert distinct IDs.
+The worktree test additionally verifies use of one common creation lock across sibling worktrees.
+Readiness tests explicitly assert blocked, unresolved, ambiguous and archived dependency behavior, including terminal-status configuration changes.
+See <a href="repo/src/test/atomic-task-create.test.ts">creation tests</a>, lines 1–185, <a href="repo/src/test/worktree-task-id-allocation.test.ts">worktree test</a>, lines 124–163, and <a href="repo/src/test/readiness.test.tsx">readiness tests</a>, lines 1–180.</p>
+<p>Sequential dependency tests assert rejection of two-node and longer cycles without writing the rejected edge.
+The reorder publication test asserts returned changed ordinals, one browser notification and refusal of an ambiguous target without file changes.
+It does not test a second writer between snapshot preparation and bulk lock acquisition.
+See <a href="repo/src/test/dependency.test.ts">cycle tests</a>, lines 448–490, and <a href="repo/src/test/server-reorder-publication.test.ts">reorder test</a>, lines 1–126.</p>
+<p>These are meaningful assertion bodies, but none was executed here.
+Their presence does not certify the pinned package, distributed binaries, browser session, crash durability or every concurrency condition.
+The full checkout is preserved for further review; unrelated feature implementations and the complete watcher reconciliation machinery were not audited line by line.</p>
+<h2 id="task-backlog-md-adoption-gaps-and-useful-components">Adoption gaps and useful components</h2>
+<p>Backlog.md can provide the repository-local planning and reporting layer for this use case.
+Its useful components are the Markdown task schema, shared detail/readiness projection, dependency diagnostics, local creation locking and human board/search interfaces.
+They reduce the work needed to make planned and completed activity inspectable.</p>
+<p>A system built on it still needs a durable agent registry and separate execution-attempt model; authenticated, conditional claims; capacity and dispatch policy; heartbeat expiry; stale-attempt rejection; supervised child completion; and result-bound review.
+Shared hosts need one authoritative write service rather than an assumption that Git copies coordinate live work.
+The service should also serialize graph invariants and apply board field patches under a fresh read or expected revision.</p>
+<p>Recovery should distinguish task-record edits, running worker state and external side effects.
+It needs durable operation IDs, an event or handoff channel with replay, and a defined response to partial multi-file changes.
+For this baseline, Backlog.md is a capable local work record and interface layer, with a substantial coordination authority still to build above it.</p></article><nav class="report-switch" aria-label="Task study navigation"><a href="../index.html">Return to the task comparison</a><a href="../agent-swarm/index.html">Previous: Agent Swarm</a><a href="../beads/index.html">Next: Beads</a></nav>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../../index.html">Return to overview <img src="../../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>
