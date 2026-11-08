@@ -25,8 +25,8 @@ The source manifest records clean status, tracked-path counts and hashes, commit
 
 ## Completed source assessments
 
-Twenty-four of 25 assessments are complete at this checkpoint.
-The [progress record](progress.json) lists all pending codebases.
+All 25 source assessments are complete at this checkpoint.
+The [progress record](progress.json) records source coverage and checkout integrity.
 HTML publication and the cross-project comparison remain pending.
 
 | Codebase | Assessment | Evidence ledger |
@@ -42,6 +42,7 @@ HTML publication and the cross-project comparison remain pending.
 | beads-viewer | [Source assessment](beads-viewer/assessment/ASSESSMENT.md) | [Review ledger](beads-viewer/assessment/review.json) |
 | DevBoard | [Source assessment](devboard/assessment/ASSESSMENT.md) | [Review ledger](devboard/assessment/review.json) |
 | Gemba | [Source assessment](gemba/assessment/ASSESSMENT.md) | [Review ledger](gemba/assessment/review.json) |
+| GitLab | [Source assessment](gitlab/assessment/ASSESSMENT.md) | [Review ledger](gitlab/assessment/review.json) |
 | Kanboard | [Source assessment](kanboard/assessment/ASSESSMENT.md) | [Review ledger](kanboard/assessment/review.json) |
 | Muster | [Source assessment](muster/assessment/ASSESSMENT.md) | [Review ledger](muster/assessment/review.json) |
 | OpenProject | [Source assessment](openproject/assessment/ASSESSMENT.md) | [Review ledger](openproject/assessment/review.json) |
