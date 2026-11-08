@@ -25,7 +25,7 @@ The source manifest records clean status, tracked-path counts and hashes, commit
 
 ## Completed source assessments
 
-Thirteen of 25 assessments are complete at this checkpoint.
+Fourteen of 25 assessments are complete at this checkpoint.
 The [progress record](progress.json) lists all pending codebases.
 HTML publication and the cross-project comparison remain pending.
 
@@ -41,6 +41,7 @@ HTML publication and the cross-project comparison remain pending.
 | beads-viewer | [Source assessment](beads-viewer/assessment/ASSESSMENT.md) | [Review ledger](beads-viewer/assessment/review.json) |
 | DevBoard | [Source assessment](devboard/assessment/ASSESSMENT.md) | [Review ledger](devboard/assessment/review.json) |
 | Gemba | [Source assessment](gemba/assessment/ASSESSMENT.md) | [Review ledger](gemba/assessment/review.json) |
+| Kanboard | [Source assessment](kanboard/assessment/ASSESSMENT.md) | [Review ledger](kanboard/assessment/review.json) |
 | Muster | [Source assessment](muster/assessment/ASSESSMENT.md) | [Review ledger](muster/assessment/review.json) |
 | Plane MCP adapter | [Source assessment](plane-mcp/assessment/ASSESSMENT.md) | [Review ledger](plane-mcp/assessment/review.json) |
 | Rhizome MCP | [Source assessment](rhizome-mcp/assessment/ASSESSMENT.md) | [Review ledger](rhizome-mcp/assessment/review.json) |
