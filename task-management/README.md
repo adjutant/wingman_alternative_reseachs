@@ -25,7 +25,7 @@ The source manifest records clean status, tracked-path counts and hashes, commit
 
 ## Completed source assessments
 
-Ten of 25 assessments are complete at this checkpoint.
+Eleven of 25 assessments are complete at this checkpoint.
 The [progress record](progress.json) lists all pending codebases.
 HTML publication and the cross-project comparison remain pending.
 
@@ -37,6 +37,7 @@ HTML publication and the cross-project comparison remain pending.
 | Rust Agent Mail | [Source assessment](agent-mail-rust/assessment/ASSESSMENT.md) | [Review ledger](agent-mail-rust/assessment/review.json) |
 | Backlog.md | [Source assessment](backlog-md/assessment/ASSESSMENT.md) | [Review ledger](backlog-md/assessment/review.json) |
 | Beads | [Source assessment](beads/assessment/ASSESSMENT.md) | [Review ledger](beads/assessment/review.json) |
+| beads_rust | [Source assessment](beads-rust/assessment/ASSESSMENT.md) | [Review ledger](beads-rust/assessment/review.json) |
 | DevBoard | [Source assessment](devboard/assessment/ASSESSMENT.md) | [Review ledger](devboard/assessment/review.json) |
 | Muster | [Source assessment](muster/assessment/ASSESSMENT.md) | [Review ledger](muster/assessment/review.json) |
 | Plane MCP adapter | [Source assessment](plane-mcp/assessment/ASSESSMENT.md) | [Review ledger](plane-mcp/assessment/review.json) |

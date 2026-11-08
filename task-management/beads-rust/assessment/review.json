@@ -1,0 +1,693 @@
+{
+  "project": "beads-rust",
+  "commit": "117f81de0d5dae007d972a9ff7f1d73c392d8822",
+  "baseline": "AGENT_TASK_MANAGEMENT.md",
+  "baseline_sha256": "4dcfe707e292330c65b66c9bbbf4999d90dcf54991adf76ffe82a5efd3eee8a3",
+  "reviewed_on": "2026-11-09",
+  "review_status": "source_review_complete",
+  "scope": "Full tracked checkout; targeted static source and selected assertion-body review of issue model, CLI inventory, create/ready/claim/reclaim/update/close/epic paths, shared workflow and capacity transaction admission, optional MCP mutations, local database authority, selected JSONL export/import boundaries, inherited context, audit and reopen. Not every-line, full engine/migration/repair/merge/publication-primitive/installer/runtime certification.",
+  "candidate_executed": false,
+  "candidate_tests_run": false,
+  "requirement_verdicts": {
+    "T01": "Similar",
+    "T02": "Similar",
+    "T03": "Similar",
+    "T04": "Similar",
+    "T05": "Resembles",
+    "T06": "Similar",
+    "T07": "Similar",
+    "T08": "Similar",
+    "T09": "Similar",
+    "T10": "Similar",
+    "T11": "Similar",
+    "T12": "Resembles",
+    "T13": "Similar",
+    "T14": "Similar",
+    "T15": "Similar",
+    "T16": "Similar",
+    "T17": "Resembles",
+    "T18": "Similar",
+    "T19": "Similar",
+    "T20": "Similar",
+    "T21": "Similar",
+    "T22": "Resembles",
+    "T23": "Similar",
+    "T24": "Similar"
+  },
+  "lifecycle_review": {
+    "create": "Validated issue and initial workflow/capacity admission; related records, graph checks and mutation audit inside storage transaction; selected CLI relation preparation traced",
+    "select": "Readiness handles stale cache by in-memory graph query; start/close hierarchy rollups differ intentionally; scheduler ranks ready candidates and returns advice without worker dispatch",
+    "claim": "CLI --claim populates expected-unassigned/actor, storage checks state and observed tuple CAS; same-actor allowed unless exclusive; ordinary assignment and MCP fields do not require claim guard",
+    "progress": "Scalar/label atomic batches with optional issue timestamp precondition; notes/context/comments retained; MCP optional comment is separate mutation; no required worker-attempt credential",
+    "review": "Opt-in policy, required fields and scoped gate history; providers caller asserted, status-event revision distinct from content/artifact revision; typed references syntactic",
+    "complete": "CLI and MCP close check blockers/children and close policy before common workflow/capacity transaction; generic storage close update omits CLI-specific evaluator; force versus audited policy bypass distinct; policy metadata enrichment can follow commit",
+    "cancel": "Reopen and explicit task-state changes preserve shared record; no inspected worker launcher/canceller or external effect compensation",
+    "recover": "Stale heuristics from issue time and external mail/agent snapshots; explicit owner/revision guarded transfer and audit in same transaction; local lock/transaction retry and conditional JSONL publication; DB versus file commit gap and MCP committed-error reporting; separate clones lack shared exclusive claims"
+  },
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "7f1c374909400fe1e7c6d17c37172ca3ad16d9a1138221c3d81f7251cde75b10",
+      "lines": 1168,
+      "ranges": [
+        [
+          1,
+          1168
+        ]
+      ],
+      "method": "Contributor instructions, manifest/license or historical operating-model inspection; candidate workflow not executed; documentation is intent/history rather than runtime proof."
+    },
+    {
+      "path": "Cargo.toml",
+      "sha256": "84bb3bb535f237c9280f0eb47619742a82ac754ac8a3f42d13f2d29d8449b94e",
+      "lines": 276,
+      "ranges": [
+        [
+          1,
+          145
+        ]
+      ],
+      "method": "Contributor instructions, manifest/license or historical operating-model inspection; candidate workflow not executed; documentation is intent/history rather than runtime proof."
+    },
+    {
+      "path": "rust-toolchain.toml",
+      "sha256": "6b42b786db58642d173380292dc24d3600d24ed1fc651a3d4a50cec9dc1b17bf",
+      "lines": 3,
+      "ranges": [
+        [
+          1,
+          3
+        ]
+      ],
+      "method": "Contributor instructions, manifest/license or historical operating-model inspection; candidate workflow not executed; documentation is intent/history rather than runtime proof."
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "32a82e0a5754e72e51fae44b65a936c831c07376f21c90f5fb9e76897fcc3509",
+      "lines": 73,
+      "ranges": [
+        [
+          1,
+          73
+        ]
+      ],
+      "method": "Contributor instructions, manifest/license or historical operating-model inspection; candidate workflow not executed; documentation is intent/history rather than runtime proof."
+    },
+    {
+      "path": "src/lib.rs",
+      "sha256": "504c7b4ac39c8398ad64fd84dbd20463af3a544d5a078a2736691be86a171e20",
+      "lines": 98,
+      "ranges": [
+        [
+          1,
+          98
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed. Selected inline test assertion bodies in sqlite.rs and mcp/mod.rs read, not run."
+    },
+    {
+      "path": "src/model/mod.rs",
+      "sha256": "90a83088f539ef5ee4315d93028345afb735cb936945787c603f799c561861bd",
+      "lines": 2247,
+      "ranges": [
+        [
+          60,
+          115
+        ],
+        [
+          462,
+          680
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed. Selected inline test assertion bodies in sqlite.rs and mcp/mod.rs read, not run."
+    },
+    {
+      "path": "src/cli/mod.rs",
+      "sha256": "e2ef5eaf88153c8efba232d1aa4347d997e1223f8f54e7a0eac595600416cc68",
+      "lines": 4375,
+      "ranges": [
+        [
+          748,
+          1004
+        ]
+      ],
+      "method": "Static command enum and help/feature declaration inventory, not execution or full command implementation coverage."
+    },
+    {
+      "path": "src/storage/schema.rs",
+      "sha256": "fa3b854d9f2f28a088777891220b549e01e86371e3f8aa22acc9bda7021d1cee",
+      "lines": 11597,
+      "ranges": [
+        [
+          1,
+          125
+        ],
+        [
+          276,
+          276
+        ],
+        [
+          384,
+          384
+        ],
+        [
+          407,
+          407
+        ],
+        [
+          417,
+          417
+        ],
+        [
+          429,
+          429
+        ],
+        [
+          458,
+          458
+        ],
+        [
+          468,
+          468
+        ],
+        [
+          475,
+          475
+        ],
+        [
+          483,
+          483
+        ],
+        [
+          493,
+          493
+        ],
+        [
+          502,
+          502
+        ],
+        [
+          516,
+          516
+        ],
+        [
+          537,
+          537
+        ],
+        [
+          554,
+          554
+        ],
+        [
+          578,
+          578
+        ],
+        [
+          598,
+          598
+        ],
+        [
+          621,
+          621
+        ]
+      ],
+      "method": "Schema preamble body 1-125 and individual CREATE TABLE declaration inventory lines only; table bodies and complete migrations not audited."
+    },
+    {
+      "path": "src/storage/sqlite.rs",
+      "sha256": "c5ea970e41e9d2c6a3432c19be32d4031d4f3752aa6202e3de6728081bb93120",
+      "lines": 47264,
+      "ranges": [
+        [
+          4002,
+          4148
+        ],
+        [
+          4452,
+          4528
+        ],
+        [
+          4620,
+          4685
+        ],
+        [
+          4803,
+          4952
+        ],
+        [
+          6127,
+          6225
+        ],
+        [
+          7245,
+          7502
+        ],
+        [
+          7503,
+          7775
+        ],
+        [
+          7857,
+          8050
+        ],
+        [
+          8050,
+          8235
+        ],
+        [
+          8270,
+          8625
+        ],
+        [
+          8865,
+          8980
+        ],
+        [
+          11335,
+          11414
+        ],
+        [
+          12100,
+          12225
+        ],
+        [
+          13845,
+          14025
+        ],
+        [
+          20543,
+          20630
+        ],
+        [
+          26423,
+          26538
+        ],
+        [
+          26883,
+          26978
+        ],
+        [
+          31620,
+          31754
+        ],
+        [
+          32127,
+          32211
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed. Selected inline test assertion bodies in sqlite.rs and mcp/mod.rs read, not run."
+    },
+    {
+      "path": "src/cli/commands/create.rs",
+      "sha256": "55995978eacc2cbfc09d158325ce332d754b87e2b8f74697b03342cb19d44113",
+      "lines": 2388,
+      "ranges": [
+        [
+          1,
+          120
+        ],
+        [
+          612,
+          669
+        ],
+        [
+          670,
+          684
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed. Selected inline test assertion bodies in sqlite.rs and mcp/mod.rs read, not run."
+    },
+    {
+      "path": "src/cli/commands/update.rs",
+      "sha256": "5c36e080feebf73432203da0b631a2038ee49ddb4a7a09a1a1a0c947112b7a27",
+      "lines": 4182,
+      "ranges": [
+        [
+          691,
+          842
+        ],
+        [
+          853,
+          1020
+        ],
+        [
+          1296,
+          1403
+        ],
+        [
+          1865,
+          1895
+        ],
+        [
+          1914,
+          2002
+        ],
+        [
+          393,
+          452
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed. Selected inline test assertion bodies in sqlite.rs and mcp/mod.rs read, not run."
+    },
+    {
+      "path": "src/cli/commands/coordination.rs",
+      "sha256": "5c04f23ddd626afbdfd34045846d00c2b5b2da5f005a62cae0bc5cc490a23d8c",
+      "lines": 1042,
+      "ranges": [
+        [
+          1,
+          208
+        ],
+        [
+          593,
+          626
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed. Selected inline test assertion bodies in sqlite.rs and mcp/mod.rs read, not run."
+    },
+    {
+      "path": "src/coordination.rs",
+      "sha256": "198fa4045f833b019d44c5d473e8d66a24f06a8098e90bd7d6eb713d16a581bf",
+      "lines": 1669,
+      "ranges": [
+        [
+          15,
+          45
+        ],
+        [
+          482,
+          602
+        ],
+        [
+          300,
+          360
+        ],
+        [
+          624,
+          662
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed. Selected inline test assertion bodies in sqlite.rs and mcp/mod.rs read, not run."
+    },
+    {
+      "path": "src/close_policy.rs",
+      "sha256": "9f196e2379f078efb7333bb3168af43ce57739ac80a50d14d2f231800ae63953",
+      "lines": 6427,
+      "ranges": [
+        [
+          51,
+          115
+        ],
+        [
+          157,
+          350
+        ],
+        [
+          978,
+          1009
+        ],
+        [
+          1478,
+          1512
+        ],
+        [
+          2532,
+          2658
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed. Selected inline test assertion bodies in sqlite.rs and mcp/mod.rs read, not run."
+    },
+    {
+      "path": "src/mcp/tools.rs",
+      "sha256": "77f7265688de54766ee4bacd2354d94fe707a5296bf05808f0ea1e58c14dd89f",
+      "lines": 6410,
+      "ranges": [
+        [
+          800,
+          1005
+        ],
+        [
+          2150,
+          2267
+        ],
+        [
+          2533,
+          2711
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed. Selected inline test assertion bodies in sqlite.rs and mcp/mod.rs read, not run."
+    },
+    {
+      "path": "src/mcp/mod.rs",
+      "sha256": "86baacf319fa261fd540c7d6a757f09b0b06337c4c2af8b0a3b4e3a356b20621",
+      "lines": 1958,
+      "ranges": [
+        [
+          486,
+          650
+        ],
+        [
+          1607,
+          1647
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed. Selected inline test assertion bodies in sqlite.rs and mcp/mod.rs read, not run."
+    },
+    {
+      "path": "src/cli/commands/close.rs",
+      "sha256": "c066df44faffe228ff8b45ac104241ae8151302228a80d921ed99d7d57d05502",
+      "lines": 3255,
+      "ranges": [
+        [
+          974,
+          1405
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed. Selected inline test assertion bodies in sqlite.rs and mcp/mod.rs read, not run."
+    },
+    {
+      "path": "src/cli/commands/mod.rs",
+      "sha256": "e772e6a4f90bcdd612ca283c9f9fbf06b00f38353f6d31207ec1692fa0c5eecf",
+      "lines": 1604,
+      "ranges": [
+        [
+          87,
+          125
+        ],
+        [
+          600,
+          638
+        ],
+        [
+          126,
+          145
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed. Selected inline test assertion bodies in sqlite.rs and mcp/mod.rs read, not run."
+    },
+    {
+      "path": "src/sync/mod.rs",
+      "sha256": "0109004cd075e6dcccf7142a6c5ff5c288f8ed76b4211ca328634ed7b02e89f7",
+      "lines": 37368,
+      "ranges": [
+        [
+          500,
+          548
+        ],
+        [
+          649,
+          715
+        ],
+        [
+          1784,
+          1799
+        ],
+        [
+          1830,
+          1915
+        ],
+        [
+          11763,
+          12165
+        ],
+        [
+          17004,
+          17187
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed. Selected inline test assertion bodies in sqlite.rs and mcp/mod.rs read, not run."
+    },
+    {
+      "path": "src/storage/dependency_repair.rs",
+      "sha256": "a9c6d23c531dc595e3d96d5fc4649432826cce90e2dbda797bd6b09380090c2c",
+      "lines": 1918,
+      "ranges": [
+        [
+          328,
+          375
+        ],
+        [
+          750,
+          845
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed. Selected inline test assertion bodies in sqlite.rs and mcp/mod.rs read, not run."
+    },
+    {
+      "path": "src/cli/commands/scheduler.rs",
+      "sha256": "93153eff0e4522ec186c97f82c6c51eab5753110e0725c81661812fe3ae71d5d",
+      "lines": 800,
+      "ranges": [
+        [
+          30,
+          175
+        ],
+        [
+          205,
+          313
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed. Selected inline test assertion bodies in sqlite.rs and mcp/mod.rs read, not run."
+    },
+    {
+      "path": "src/cli/commands/epic.rs",
+      "sha256": "294b78d82510f74503c0369b4399b8e464206f01b5fd3a863c385c95aeba46b0",
+      "lines": 979,
+      "ranges": [
+        [
+          121,
+          218
+        ],
+        [
+          369,
+          400
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed. Selected inline test assertion bodies in sqlite.rs and mcp/mod.rs read, not run."
+    },
+    {
+      "path": "src/config/routing.rs",
+      "sha256": "c22ff960463ebdf43a909a686e9b5e3f0d7ebfefec44f885c82f155e3cb476de",
+      "lines": 883,
+      "ranges": [
+        [
+          1,
+          150
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed. Selected inline test assertion bodies in sqlite.rs and mcp/mod.rs read, not run."
+    },
+    {
+      "path": "src/config/mod.rs",
+      "sha256": "3f5d2e2142ddf06039551893be19beddf3373bd2d3cb4782ee1384a4bfc52b40",
+      "lines": 15204,
+      "ranges": [
+        [
+          7362,
+          7393
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed. Selected inline test assertion bodies in sqlite.rs and mcp/mod.rs read, not run."
+    },
+    {
+      "path": "src/inheritance.rs",
+      "sha256": "9a064c2e94441c14375380ed1f66a844cb6ab2876b5b7a2d8274b855a60b54e9",
+      "lines": 401,
+      "ranges": [
+        [
+          1,
+          246
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed. Selected inline test assertion bodies in sqlite.rs and mcp/mod.rs read, not run."
+    },
+    {
+      "path": "src/storage/events.rs",
+      "sha256": "1ba4171839c2cc725a541beaf5d261badf44e582560e7d696e6bc2ff90602f65",
+      "lines": 973,
+      "ranges": [
+        [
+          457,
+          481
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed. Selected inline test assertion bodies in sqlite.rs and mcp/mod.rs read, not run."
+    },
+    {
+      "path": "src/cli/commands/audit.rs",
+      "sha256": "84a0fd22aa2a365d2fc614b977a5c77efa5f98d36de13c10ef7e1934de0d871d",
+      "lines": 1419,
+      "ranges": [
+        [
+          241,
+          291
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed. Selected inline test assertion bodies in sqlite.rs and mcp/mod.rs read, not run."
+    },
+    {
+      "path": "src/cli/commands/reopen.rs",
+      "sha256": "c1aa9f341696ecc8cd691131c79505f39768506c37717498fa5bd9445b6214ec",
+      "lines": 912,
+      "ranges": [
+        [
+          197,
+          315
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed. Selected inline test assertion bodies in sqlite.rs and mcp/mod.rs read, not run."
+    },
+    {
+      "path": "docs/reliability/ENGINE_OPERATING_MODEL.md",
+      "sha256": "9e45e2fa0e2188aa92d8c4ff52c4d1d26d360e4be98f1eec3dacc5c27d440b76",
+      "lines": 547,
+      "ranges": [
+        [
+          1,
+          130
+        ]
+      ],
+      "method": "Contributor instructions, manifest/license or historical operating-model inspection; candidate workflow not executed; documentation is intent/history rather than runtime proof."
+    },
+    {
+      "path": "tests/e2e_claim_atomic.rs",
+      "sha256": "7a854ffe86f77c4c374e5c065969cba53ac7823ba024a1eca31cd156f5ec5fdd",
+      "lines": 434,
+      "ranges": [
+        [
+          305,
+          356
+        ],
+        [
+          421,
+          434
+        ]
+      ],
+      "method": "Selected fixture and test assertion bodies read, not run; e2e_claim_atomic includes explicit fixture mutex."
+    },
+    {
+      "path": "tests/e2e_coordination.rs",
+      "sha256": "ccdf962fa4ed56726629de7a3e7901f73a7961cab39d41f94b73eaeece9be49c",
+      "lines": 2288,
+      "ranges": [
+        [
+          2167,
+          2230
+        ]
+      ],
+      "method": "Selected fixture and test assertion bodies read, not run; e2e_claim_atomic includes explicit fixture mutex."
+    },
+    {
+      "path": "src/main.rs",
+      "sha256": "38f74d9937e30e91b08a74611403f8171877c5931dcf0c38a06e1a7bdfc8778c",
+      "lines": 5118,
+      "ranges": [
+        [
+          330,
+          380
+        ]
+      ],
+      "method": "Selected startup write-authority acquisition body only; not full startup/dispatch classification audit."
+    }
+  ]
+}

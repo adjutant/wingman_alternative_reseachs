@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-08T17:53:19.529365+00:00",
+  "checked_at": "2026-11-08T18:05:20.891392+00:00",
   "scope": "Checkout preservation, materialization, baseline/requirement coverage, source evidence hashes and local links. Not a semantic or runtime audit.",
   "required_repository_count": 25,
   "checkout_count": 25,
@@ -11,6 +11,7 @@
     "agent-mail-rust",
     "backlog-md",
     "beads",
+    "beads-rust",
     "devboard",
     "muster",
     "plane-mcp",
@@ -18,7 +19,6 @@
   ],
   "assessments_remaining": [
     "agent-swarm",
-    "beads-rust",
     "beads-viewer",
     "gemba",
     "gitlab",
