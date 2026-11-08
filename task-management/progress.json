@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-08T17:03:03.377005+00:00",
+  "checked_at": "2026-11-08T17:11:33.922014+00:00",
   "scope": "Checkout preservation, materialization, baseline/requirement coverage, source evidence hashes and local links. Not a semantic or runtime audit.",
   "required_repository_count": 25,
   "checkout_count": 25,
@@ -9,6 +9,7 @@
     "agent-kanban-rs",
     "devboard",
     "muster",
+    "plane-mcp",
     "rhizome-mcp"
   ],
   "assessments_remaining": [
@@ -25,7 +26,6 @@
     "openproject",
     "paperclip",
     "plane",
-    "plane-mcp",
     "planka",
     "taiga",
     "taiga-front",

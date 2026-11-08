@@ -1,0 +1,770 @@
+{
+  "project": "plane-mcp",
+  "commit": "5c3467adb36fe15a2ef8f9df6fb9f5dc24b6d881",
+  "baseline": "AGENT_TASK_MANAGEMENT.md",
+  "baseline_sha256": "4dcfe707e292330c65b66c9bbbf4999d90dcf54991adf76ffe82a5efd3eee8a3",
+  "reviewed_on": "2026-11-09",
+  "review_status": "source_review_complete",
+  "scope": "Full local adapter checkout; all resource action declarations inventoried with static AST parsing. Deep source paths cover core work-item/assignment lifecycle, relations, comments/mentions, planning helpers, activity, selected attachments, authentication/context, token storage and interface/server construction. Not every-action audit, SDK/backend audit, security certification or runtime verification. Upstream Plane behavior remains separately assessed.",
+  "candidate_executed": false,
+  "candidate_tests_run": false,
+  "requirement_verdicts": {
+    "T01": "Similar",
+    "T02": "Similar",
+    "T03": "Similar",
+    "T04": "Resembles",
+    "T05": "Resembles",
+    "T06": "Similar",
+    "T07": "Absent",
+    "T08": "Resembles",
+    "T09": "Resembles",
+    "T10": "Similar",
+    "T11": "Resembles",
+    "T12": "Resembles",
+    "T13": "Resembles",
+    "T14": "Absent",
+    "T15": "Absent",
+    "T16": "Resembles",
+    "T17": "Similar",
+    "T18": "Resembles",
+    "T19": "Resembles",
+    "T20": "Similar",
+    "T21": "Absent",
+    "T22": "Similar",
+    "T23": "Similar",
+    "T24": "Similar"
+  },
+  "lifecycle_review": {
+    "create": "Typed SDK project/work-item creation with no local task persistence or idempotency journal",
+    "select": "PQL list/search/count with upstream query execution and preserved pagination",
+    "claim": "No claim action; assignee helper uses an unguarded retrieve/replace list sequence",
+    "progress": "Upstream comments, mentions, links, pages and files; no attempt/checkpoint contract",
+    "review": "No adapter task submission/review decision or evidence gate; state updates forwarded to Plane",
+    "complete": "Generic state update, or date-based cycle completion; acceptance semantics delegated upstream",
+    "cancel": "Delete/archive API calls; no execution cancellation, lease or child coordination",
+    "recover": "Client must reconcile upstream partial effects after failure; multi-call helpers lack rollback and OAuth token-store recovery is separate from work"
+  },
+  "catalogue_inventory": "catalogue.json",
+  "files": [
+    {
+      "path": "CLAUDE.md",
+      "sha256": "b2135f4267cbfd8dd2262fae517c84fcefb3717690aebef2f41f8638f77934e1",
+      "lines": 138,
+      "ranges": [
+        [
+          1,
+          138
+        ]
+      ],
+      "method": "Targeted static source inspection; candidate not imported or executed"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "cb4963dc39462423c85aac9f4d945e7a85a03d2bd17ea79d157fc1592bc54ca7",
+      "lines": 22,
+      "ranges": [
+        [
+          1,
+          12
+        ]
+      ],
+      "method": "Targeted static source inspection; candidate not imported or executed"
+    },
+    {
+      "path": "README.md",
+      "sha256": "5df368be927f9dfe94a04a4f9233c701893f3defbed1e62566088543af4e9645",
+      "lines": 271,
+      "ranges": [
+        [
+          1,
+          130
+        ]
+      ],
+      "method": "Targeted static source inspection; candidate not imported or executed"
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "d3e0dd30eaea369d36f50337526e98d93411c1a4b043d9fc32817a4da6f4cfd8",
+      "lines": 64,
+      "ranges": [
+        [
+          1,
+          64
+        ]
+      ],
+      "method": "Targeted static source inspection; candidate not imported or executed"
+    },
+    {
+      "path": "plane_mcp/server.py",
+      "sha256": "2798936477436697d3e65acca8a9d7a189aaafe0e0e0677c61d60b88d95829ad",
+      "lines": 104,
+      "ranges": [
+        [
+          1,
+          104
+        ]
+      ],
+      "method": "Targeted static source inspection; candidate not imported or executed"
+    },
+    {
+      "path": "plane_mcp/__main__.py",
+      "sha256": "f4102a90fcb5490628fe3dcf9766ba4d9145a845e4d87533bb44efa9061b0211",
+      "lines": 204,
+      "ranges": [
+        [
+          22,
+          51
+        ],
+        [
+          116,
+          204
+        ]
+      ],
+      "method": "Targeted static source inspection; candidate not imported or executed"
+    },
+    {
+      "path": "plane_mcp/client.py",
+      "sha256": "ee8542fbc48b51cc159b4570a74fec6152fa568c338825920192a6f6bdf19dd3",
+      "lines": 99,
+      "ranges": [
+        [
+          1,
+          99
+        ]
+      ],
+      "method": "Targeted static source inspection; candidate not imported or executed"
+    },
+    {
+      "path": "plane_mcp/storage.py",
+      "sha256": "e375d449eef6171040cafaf0b6fa1192d7ce82aeda8ce200437115da191d0ddd",
+      "lines": 263,
+      "ranges": [
+        [
+          146,
+          263
+        ]
+      ],
+      "method": "Targeted static source inspection; candidate not imported or executed"
+    },
+    {
+      "path": "plane_mcp/middleware.py",
+      "sha256": "36e2427dd918a7f14e5e463c25945db502768c3247cd82b3cc26a6698164a055",
+      "lines": 155,
+      "ranges": [
+        [
+          1,
+          155
+        ]
+      ],
+      "method": "Targeted static source inspection; candidate not imported or executed"
+    },
+    {
+      "path": "plane_mcp/instructions.py",
+      "sha256": "6eed73c8c935a93d4929be5a8b61ee0c65ba1e60c2114a8ec06777b3e796bdf3",
+      "lines": 21,
+      "ranges": [
+        [
+          1,
+          21
+        ]
+      ],
+      "method": "Targeted static source inspection; candidate not imported or executed"
+    },
+    {
+      "path": "plane_mcp/auth/plane_header_auth_provider.py",
+      "sha256": "8671f702b78265e3b033640425cffe4941fe5300648d2c019facfeec3fa5d459",
+      "lines": 73,
+      "ranges": [
+        [
+          1,
+          73
+        ]
+      ],
+      "method": "Targeted static source inspection; candidate not imported or executed"
+    },
+    {
+      "path": "plane_mcp/auth/plane_oauth_provider.py",
+      "sha256": "32578ada5d33149006e9620d0d7d04d64e572b14034e91712871b24620519fe0",
+      "lines": 384,
+      "ranges": [
+        [
+          110,
+          218
+        ],
+        [
+          320,
+          381
+        ]
+      ],
+      "method": "Targeted static source inspection; candidate not imported or executed"
+    },
+    {
+      "path": "plane_mcp/tools/registry.py",
+      "sha256": "3b16218eb6eb3072cbaa0c8fa2efe2c8b11ba61940e0b510d925afa778c9b113",
+      "lines": 123,
+      "ranges": [
+        [
+          1,
+          123
+        ]
+      ],
+      "method": "Targeted static source inspection; candidate not imported or executed"
+    },
+    {
+      "path": "plane_mcp/tools/__init__.py",
+      "sha256": "222b3b8b4e8dcb5421b186dad93fc227ef3542f3e1cfaa88acfa99a94af5c89c",
+      "lines": 31,
+      "ranges": [
+        [
+          1,
+          31
+        ]
+      ],
+      "method": "Targeted static source inspection; candidate not imported or executed"
+    },
+    {
+      "path": "plane_mcp/tools/workitem.py",
+      "sha256": "b8fee878b9ab81fdb534d00d32995633913e5f31a310e237f9eb8b21111aadad",
+      "lines": 410,
+      "ranges": [
+        [
+          1,
+          410
+        ]
+      ],
+      "method": "Targeted static source inspection; candidate not imported or executed; ACTIONS declaration also statically inventoried"
+    },
+    {
+      "path": "plane_mcp/tools/project.py",
+      "sha256": "c243d5eddaf7b9f4f2181f519ec94adefeeb6fc43ed98d14f7ac621b9d5a5a1f",
+      "lines": 300,
+      "ranges": [
+        [
+          1,
+          300
+        ]
+      ],
+      "method": "Targeted static source inspection; candidate not imported or executed; ACTIONS declaration also statically inventoried"
+    },
+    {
+      "path": "plane_mcp/tools/workitem_relation.py",
+      "sha256": "08286005e1a9142135699059838271a2c8580189b499254b5b2a334f5d0abaa1",
+      "lines": 239,
+      "ranges": [
+        [
+          1,
+          239
+        ]
+      ],
+      "method": "Targeted static source inspection; candidate not imported or executed; ACTIONS declaration also statically inventoried"
+    },
+    {
+      "path": "plane_mcp/tools/workitem_comment.py",
+      "sha256": "272de585697bb3b4c32e72173d059912a8a4b7755735526d60616e2d0e6935fb",
+      "lines": 158,
+      "ranges": [
+        [
+          1,
+          158
+        ]
+      ],
+      "method": "Targeted static source inspection; candidate not imported or executed; ACTIONS declaration also statically inventoried"
+    },
+    {
+      "path": "plane_mcp/tools/workitem_link.py",
+      "sha256": "38a248d5c08004c6d4e07488385842e1c27bc8a332710ad76fd79db903bbb69c",
+      "lines": 110,
+      "ranges": [
+        [
+          1,
+          110
+        ]
+      ],
+      "method": "Targeted static source inspection; candidate not imported or executed; ACTIONS declaration also statically inventoried"
+    },
+    {
+      "path": "plane_mcp/tools/workitem_activity.py",
+      "sha256": "6341c0bb62e66c2bf3bf4a6737e823071ddd543d4eed00db9810b9855de6aeae",
+      "lines": 62,
+      "ranges": [
+        [
+          1,
+          62
+        ]
+      ],
+      "method": "Targeted static source inspection; candidate not imported or executed; ACTIONS declaration also statically inventoried"
+    },
+    {
+      "path": "plane_mcp/tools/cycle.py",
+      "sha256": "a47a52764c72c877399740acd287a8a458aab84cd0984abf8c502278c5a875fa",
+      "lines": 293,
+      "ranges": [
+        [
+          1,
+          140
+        ],
+        [
+          180,
+          293
+        ]
+      ],
+      "method": "Targeted static source inspection; candidate not imported or executed; ACTIONS declaration also statically inventoried"
+    },
+    {
+      "path": "plane_mcp/tools/milestone.py",
+      "sha256": "2d812812bb340d0cbb20d0f7d3c94ac807fa1f15cd51dc063ca287ce4a514461",
+      "lines": 170,
+      "ranges": [
+        [
+          1,
+          125
+        ]
+      ],
+      "method": "Targeted static source inspection; candidate not imported or executed; ACTIONS declaration also statically inventoried"
+    },
+    {
+      "path": "plane_mcp/tools/member.py",
+      "sha256": "5b4a4a816a6676630842a1f4f114f6603dd97f678a460ebed2ccb583a0a08f30",
+      "lines": 115,
+      "ranges": [
+        [
+          1,
+          90
+        ]
+      ],
+      "method": "Targeted static source inspection; candidate not imported or executed; ACTIONS declaration also statically inventoried"
+    },
+    {
+      "path": "plane_mcp/tools/page.py",
+      "sha256": "f2a6c60ba82f68efb11175a90ee4e4e252fbf4dbf7105a8eedd22c07299bbe66",
+      "lines": 271,
+      "ranges": [
+        [
+          1,
+          70
+        ]
+      ],
+      "method": "Targeted static source inspection; candidate not imported or executed; ACTIONS declaration also statically inventoried"
+    },
+    {
+      "path": "plane_mcp/tools/workitem_attachment.py",
+      "sha256": "af161122338c00c0130b48f041102e8f29997b4be425bba6fbe1213999200679",
+      "lines": 215,
+      "ranges": [
+        [
+          1,
+          164
+        ]
+      ],
+      "method": "Targeted static source inspection; candidate not imported or executed; ACTIONS declaration also statically inventoried"
+    },
+    {
+      "path": "plane_mcp/attachments.py",
+      "sha256": "a1cee404353100efa3e7464f1a649d25ea5e73d770715c0370b5a6a38da3bf0c",
+      "lines": 329,
+      "ranges": [
+        [
+          19,
+          40
+        ],
+        [
+          136,
+          160
+        ],
+        [
+          211,
+          274
+        ],
+        [
+          308,
+          321
+        ]
+      ],
+      "method": "Targeted static source inspection; candidate not imported or executed"
+    },
+    {
+      "path": "plane_mcp/toolkit/runtime.py",
+      "sha256": "7d5480c5bca7f56edb8161afa966d64baa8ec7d1281a12380013c1f39fb66284",
+      "lines": 138,
+      "ranges": [
+        [
+          1,
+          138
+        ]
+      ],
+      "method": "Targeted static source inspection; candidate not imported or executed"
+    },
+    {
+      "path": "plane_mcp/toolkit/paging.py",
+      "sha256": "86d8e9c2be68524121d7cd86547371982eb3ab7f326f4dbc7e629537e14b0fc9",
+      "lines": 135,
+      "ranges": [
+        [
+          1,
+          135
+        ]
+      ],
+      "method": "Targeted static source inspection; candidate not imported or executed"
+    },
+    {
+      "path": "plane_mcp/toolkit/spec.py",
+      "sha256": "3a333f1137f2b02a660f5476d7d15abd9dfb889aced2ca767a427d8fb613f395",
+      "lines": 70,
+      "ranges": [
+        [
+          1,
+          70
+        ]
+      ],
+      "method": "Targeted static source inspection; candidate not imported or executed"
+    },
+    {
+      "path": "plane_mcp/toolkit/governance.py",
+      "sha256": "bea6ecde9397fba2f74e41f9c07257f73ffe7762ee896e043b52c9c7c8ae0e85",
+      "lines": 132,
+      "ranges": [
+        [
+          1,
+          132
+        ]
+      ],
+      "method": "Targeted static source inspection; candidate not imported or executed"
+    },
+    {
+      "path": "plane_mcp/toolkit/mentions.py",
+      "sha256": "c53d9d3bc1db7bd48e1a709f4e96b28c2587d7990116897a96a0abb61ae683e2",
+      "lines": 180,
+      "ranges": [
+        [
+          1,
+          180
+        ]
+      ],
+      "method": "Targeted static source inspection; candidate not imported or executed"
+    },
+    {
+      "path": "tests/tools/_spyclient.py",
+      "sha256": "9d83fbaa76bc9251e171492f7e4ef5cbc599fc0bd3bf59c25d2915a5f6ee7889",
+      "lines": 207,
+      "ranges": [
+        [
+          1,
+          207
+        ]
+      ],
+      "method": "Selected test assertion and fixture-source inspection; candidate tests not run"
+    },
+    {
+      "path": "tests/tools/test_dispatch.py",
+      "sha256": "d9ddee3d3a55ada35fbe855abb9f25c33c0ae68bf3c320d3c5872dd627404473",
+      "lines": 516,
+      "ranges": [
+        [
+          1,
+          180
+        ]
+      ],
+      "method": "Selected test assertion and fixture-source inspection; candidate tests not run"
+    },
+    {
+      "path": "tests/tools/test_conformance.py",
+      "sha256": "b2e63e236d7b52aca11045c1b9dc447dd580927b2321ceeff9dd377d64d3fbcc",
+      "lines": 307,
+      "ranges": [
+        [
+          1,
+          150
+        ]
+      ],
+      "method": "Selected test assertion and fixture-source inspection; candidate tests not run"
+    },
+    {
+      "path": "tests/toolkit/test_paging.py",
+      "sha256": "c2b6f704c84a370a6bb0327f48a966a59f52c080644524eaca0d3e58345ff8b8",
+      "lines": 145,
+      "ranges": [
+        [
+          1,
+          78
+        ]
+      ],
+      "method": "Selected test assertion and fixture-source inspection; candidate tests not run"
+    },
+    {
+      "path": "tests/test_argument_validation.py",
+      "sha256": "bbaf8d87a76e6fdc2ecffb14b0f2e4139500ebcf50d289007af7cc1f879d16f2",
+      "lines": 233,
+      "ranges": [
+        [
+          1,
+          125
+        ]
+      ],
+      "method": "Selected test assertion and fixture-source inspection; candidate tests not run"
+    },
+    {
+      "path": "tests/test_client.py",
+      "sha256": "50af9c51280f2fdd4b383b9985133584c52588adc5f0d088cf6e6361ef2b4fe1",
+      "lines": 92,
+      "ranges": [
+        [
+          1,
+          92
+        ]
+      ],
+      "method": "Selected test assertion and fixture-source inspection; candidate tests not run"
+    },
+    {
+      "path": "tests/test_stateless_http.py",
+      "sha256": "362d9c3e478fa8ad7a0900826072225ce64d5e23441611120fb735d798b66ba6",
+      "lines": 95,
+      "ranges": [
+        [
+          1,
+          95
+        ]
+      ],
+      "method": "Selected test assertion and fixture-source inspection; candidate tests not run"
+    },
+    {
+      "path": "tests/test_integration.py",
+      "sha256": "903ee79359e21f854bba232f82ffb9bac4dd95250fe17ac08d4cc68678e8a114",
+      "lines": 470,
+      "ranges": [
+        [
+          1,
+          95
+        ]
+      ],
+      "method": "Live-test setup, credential gating and intended scenario inspected only; no live test run"
+    },
+    {
+      "path": "plane_mcp/tools/customer.py",
+      "sha256": "2a1c2ba6aacb9e386afc8a23063740a85069e08ec44ace12c60cd5c31f6badc4",
+      "lines": 230,
+      "ranges": [
+        [
+          26,
+          78
+        ]
+      ],
+      "method": "Static AST inventory of the ACTIONS declaration only; action implementation not deeply audited in this report"
+    },
+    {
+      "path": "plane_mcp/tools/customer_property.py",
+      "sha256": "78752c971741df1a07d0ed5f16120969ac008a47b5751a8ab111adb496ea184f",
+      "lines": 231,
+      "ranges": [
+        [
+          41,
+          84
+        ]
+      ],
+      "method": "Static AST inventory of the ACTIONS declaration only; action implementation not deeply audited in this report"
+    },
+    {
+      "path": "plane_mcp/tools/customer_request.py",
+      "sha256": "69202b797e578494b8b7d4b46105bff8dd4cf45a6d10a6b7f6662a680c536f63",
+      "lines": 114,
+      "ranges": [
+        [
+          21,
+          37
+        ]
+      ],
+      "method": "Static AST inventory of the ACTIONS declaration only; action implementation not deeply audited in this report"
+    },
+    {
+      "path": "plane_mcp/tools/get_pql_reference.py",
+      "sha256": "3d6378cad2a20ca01af6de9950eda0983b76b325059cb3948b52362a2afba1de",
+      "lines": 50,
+      "ranges": [
+        [
+          20,
+          20
+        ]
+      ],
+      "method": "Static AST inventory of the ACTIONS declaration only; action implementation not deeply audited in this report"
+    },
+    {
+      "path": "plane_mcp/tools/initiative.py",
+      "sha256": "7b6ea5ef3a301cb66aa107e34498fed1ccb8bd70887a00cfb9fc8f6cda4c5bfe",
+      "lines": 241,
+      "ranges": [
+        [
+          58,
+          85
+        ]
+      ],
+      "method": "Static AST inventory of the ACTIONS declaration only; action implementation not deeply audited in this report"
+    },
+    {
+      "path": "plane_mcp/tools/intake.py",
+      "sha256": "b1312c3a5ec9d90cc18cf641ed64a641aac14ecd78aa266c6d71257366b4f69a",
+      "lines": 147,
+      "ranges": [
+        [
+          24,
+          35
+        ]
+      ],
+      "method": "Static AST inventory of the ACTIONS declaration only; action implementation not deeply audited in this report"
+    },
+    {
+      "path": "plane_mcp/tools/label.py",
+      "sha256": "2d1bba558f30e0af42366e897baa97d2d47228baf9c42c01908c7f28503cc55e",
+      "lines": 118,
+      "ranges": [
+        [
+          16,
+          31
+        ]
+      ],
+      "method": "Static AST inventory of the ACTIONS declaration only; action implementation not deeply audited in this report"
+    },
+    {
+      "path": "plane_mcp/tools/module.py",
+      "sha256": "a61964f95464b598ec5ac45610c1801ec3c12caa7298cf1453bfc7695758657f",
+      "lines": 240,
+      "ranges": [
+        [
+          36,
+          75
+        ]
+      ],
+      "method": "Static AST inventory of the ACTIONS declaration only; action implementation not deeply audited in this report"
+    },
+    {
+      "path": "plane_mcp/tools/project_estimate.py",
+      "sha256": "31b4d5a3ba0b866c0636848cbdab88fdc8acabe1042dc3ba04d44c1508be5644",
+      "lines": 198,
+      "ranges": [
+        [
+          32,
+          51
+        ]
+      ],
+      "method": "Static AST inventory of the ACTIONS declaration only; action implementation not deeply audited in this report"
+    },
+    {
+      "path": "plane_mcp/tools/release.py",
+      "sha256": "096d5d9242c6fb0309b2246966e11139ba896c67b6f735eaaf5be0ecdd60c0b1",
+      "lines": 251,
+      "ranges": [
+        [
+          38,
+          81
+        ]
+      ],
+      "method": "Static AST inventory of the ACTIONS declaration only; action implementation not deeply audited in this report"
+    },
+    {
+      "path": "plane_mcp/tools/release_label.py",
+      "sha256": "1ffb23f38bf4fab881e236c66a21b926977b19875831351342c2d01371d7ab77",
+      "lines": 133,
+      "ranges": [
+        [
+          36,
+          49
+        ]
+      ],
+      "method": "Static AST inventory of the ACTIONS declaration only; action implementation not deeply audited in this report"
+    },
+    {
+      "path": "plane_mcp/tools/release_tag.py",
+      "sha256": "9daec1e49adae13323c5abd1245ff697f0c8368e58d46df76fa9fa584cf67f7e",
+      "lines": 99,
+      "ranges": [
+        [
+          21,
+          32
+        ]
+      ],
+      "method": "Static AST inventory of the ACTIONS declaration only; action implementation not deeply audited in this report"
+    },
+    {
+      "path": "plane_mcp/tools/state.py",
+      "sha256": "a732151675dce7f6bfe3e6e8ef373281adb7e3bd98152d8b64915d8be98acefe",
+      "lines": 178,
+      "ranges": [
+        [
+          40,
+          58
+        ]
+      ],
+      "method": "Static AST inventory of the ACTIONS declaration only; action implementation not deeply audited in this report"
+    },
+    {
+      "path": "plane_mcp/tools/work_log.py",
+      "sha256": "ce45f126e8e9191a389c048bcf5ad8c6332cf5a7bf7c222130eacefab42a09dc",
+      "lines": 97,
+      "ranges": [
+        [
+          16,
+          21
+        ]
+      ],
+      "method": "Static AST inventory of the ACTIONS declaration only; action implementation not deeply audited in this report"
+    },
+    {
+      "path": "plane_mcp/tools/workitem_property.py",
+      "sha256": "fb20101b3492b773d53cdc11b94754c3391dc6a9f52d2b80fe95504f20546dd6",
+      "lines": 607,
+      "ranges": [
+        [
+          63,
+          140
+        ]
+      ],
+      "method": "Static AST inventory of the ACTIONS declaration only; action implementation not deeply audited in this report"
+    },
+    {
+      "path": "plane_mcp/tools/workitem_type.py",
+      "sha256": "ce40504c5257a77a0d5bf6a205b970eac94da611bc9adbb31acfa573fae6e817",
+      "lines": 223,
+      "ranges": [
+        [
+          37,
+          60
+        ]
+      ],
+      "method": "Static AST inventory of the ACTIONS declaration only; action implementation not deeply audited in this report"
+    },
+    {
+      "path": "plane_mcp/tools/workspace.py",
+      "sha256": "c9534c97406b5432241671e08911dbc5d71a9d570710ab8aad28bf6d187cc1e8",
+      "lines": 72,
+      "ranges": [
+        [
+          16,
+          29
+        ]
+      ],
+      "method": "Static AST inventory of the ACTIONS declaration only; action implementation not deeply audited in this report"
+    },
+    {
+      "path": "plane_mcp/tools/template.py",
+      "sha256": "2635c2faff5eb8c4fe47a0c68787b70403f3d798b446dd4bdf3409454ec5a3b4",
+      "lines": 212,
+      "ranges": [
+        [
+          42,
+          52
+        ]
+      ],
+      "method": "Static AST inventory of the ACTIONS declaration only; action implementation not deeply audited in this report"
+    },
+    {
+      "path": "plane_mcp/tools/collection.py",
+      "sha256": "5be69c5cc30da8830ca6c351283630fde54d1e896b33243dbc37714363d9cc54",
+      "lines": 247,
+      "ranges": [
+        [
+          43,
+          79
+        ]
+      ],
+      "method": "Static AST inventory of the ACTIONS declaration only; action implementation not deeply audited in this report"
+    }
+  ]
+}
