@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-08T16:37:55.981924+00:00",
+  "checked_at": "2026-11-08T16:52:07.124477+00:00",
   "scope": "Checkout preservation, materialization, baseline/requirement coverage, source evidence hashes and local links. Not a semantic or runtime audit.",
   "required_repository_count": 25,
   "checkout_count": 25,
@@ -7,7 +7,8 @@
   "assessments_complete": [
     "agent-hq",
     "agent-kanban-rs",
-    "devboard"
+    "devboard",
+    "rhizome-mcp"
   ],
   "assessments_remaining": [
     "agent-mail-python",
@@ -26,7 +27,6 @@
     "plane",
     "plane-mcp",
     "planka",
-    "rhizome-mcp",
     "taiga",
     "taiga-front",
     "task-master",

@@ -1,0 +1,681 @@
+{
+  "project": "rhizome-mcp",
+  "commit": "03fffd7d1410ddccadf7c199f5d6e796a497b1f0",
+  "baseline": "AGENT_TASK_MANAGEMENT.md",
+  "baseline_sha256": "4dcfe707e292330c65b66c9bbbf4999d90dcf54991adf76ffe82a5efd3eee8a3",
+  "reviewed_on": "2026-11-08",
+  "review_status": "source_review_complete",
+  "scope": "Full local checkout; targeted source review of project routing, model, local transactions, lifecycle, alternate mutations, recovery, reviews, interface and operating boundaries. Not every-line audit or runtime certification.",
+  "candidate_executed": false,
+  "candidate_tests_run": false,
+  "requirement_verdicts": {
+    "T01": "Similar",
+    "T02": "Similar",
+    "T03": "Similar",
+    "T04": "Similar",
+    "T05": "Similar",
+    "T06": "Similar",
+    "T07": "Similar",
+    "T08": "Resembles",
+    "T09": "Resembles",
+    "T10": "Similar",
+    "T11": "Similar",
+    "T12": "Similar",
+    "T13": "Resembles",
+    "T14": "Similar",
+    "T15": "Similar",
+    "T16": "Similar",
+    "T17": "Resembles",
+    "T18": "Similar",
+    "T19": "Similar",
+    "T20": "Resembles",
+    "T21": "Similar",
+    "T22": "Resembles",
+    "T23": "Similar",
+    "T24": "Similar"
+  },
+  "lifecycle_review": {
+    "create": "Versioned issue and sequence creation with event, optional idempotency and create-state gate checks in the writer transaction",
+    "select": "Claimable projection and planning graph; direct claims recheck blocker/state/attempt authority",
+    "claim": "BEGIN IMMEDIATE with one-active-attempt unique index, random hashed lease and optional atomic resource reservation",
+    "progress": "Lease-authenticated notes/checkpoints and linked artifacts; bounded recovery context",
+    "review": "Pinned issue/event/artifact target, frozen requirements, staleness rejection and immutable purpose approvals; reviewer identity not independent authentication",
+    "complete": "Lease-authenticated finish plus changed-context acknowledgement and frozen gate evaluation; outcome/state/artifacts/event written together",
+    "cancel": "Cancellation and archive reject active claims; local maintenance force release records interruption without process cancellation",
+    "recover": "Lazy and periodic expiry, reservation/review release, persisted checkpoints and keyed replay; blocker additions can prevent failed/interrupted finish"
+  },
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "909d4b0175be50a996c2d64a4b1e4fabc0c78914bedd78626b4e06781f99db11",
+      "lines": 15,
+      "ranges": [
+        [
+          1,
+          15
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "lines": 201,
+      "ranges": [
+        [
+          1,
+          8
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "go.mod",
+      "sha256": "dba8bab7cb830c3672d52e6483a11200b91ff2bd9451a395db0b6cd8b2f421b2",
+      "lines": 28,
+      "ranges": [
+        [
+          1,
+          12
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/projectconfig/projectconfig.go",
+      "sha256": "0f5c874e4d71e2fd5e83ff0eb9938a32e1d6deeb26fe691bc01fc19c256cfabd",
+      "lines": 669,
+      "ranges": [
+        [
+          1,
+          100
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/domain/project.go",
+      "sha256": "510db22c2d9a29591a624e9463cc634cdd946b602fba19b6387d634f03ca0945",
+      "lines": 19,
+      "ranges": [
+        [
+          1,
+          19
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/domain/issue.go",
+      "sha256": "d50f3847f893afc2c8eb27ef899a59923f238170b392c7d3ec6d7963490fa5db",
+      "lines": 247,
+      "ranges": [
+        [
+          1,
+          223
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/domain/issue_projection.go",
+      "sha256": "df305177ff53b8fb809956c8652a297a1b56bd3f52a5a37202ec9d74fd25fb9d",
+      "lines": 26,
+      "ranges": [
+        [
+          1,
+          26
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/domain/session.go",
+      "sha256": "65cc0244f06c8648f07a1d779023f196abb3f8c0d9c8922e74396f0a3c839a2e",
+      "lines": 93,
+      "ranges": [
+        [
+          1,
+          65
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/domain/attempt.go",
+      "sha256": "bbaf07c1e92fab00affa04f0424c401d6107f21d76df712d3653fbb951db406d",
+      "lines": 924,
+      "ranges": [
+        [
+          1,
+          160
+        ],
+        [
+          375,
+          446
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/domain/attempt_policy.go",
+      "sha256": "ee947bd1dcb7c2075f7a87d3e80621189600afdcb023db061776bef31c8a3a7d",
+      "lines": 178,
+      "ranges": [
+        [
+          1,
+          178
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/domain/issue_patch.go",
+      "sha256": "df29f7722d22a2c2a6b38f605111a21953206f3efb40be67ae8544e3e65e87cd",
+      "lines": 329,
+      "ranges": [
+        [
+          195,
+          270
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/domain/workflow_gate.go",
+      "sha256": "c62646f77214f70af716ff2f85f4e50bc7d9f116a131380e5f7cf4f4cf4d6e75",
+      "lines": 208,
+      "ranges": [
+        [
+          1,
+          155
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/application/attempt_service.go",
+      "sha256": "f3e147160ee2d7c46855aa6db06550b13a4d6aa7242ff72fb80e64df5901d1c4",
+      "lines": 427,
+      "ranges": [
+        [
+          1,
+          115
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/application/session_service.go",
+      "sha256": "6dfbcf7591cb70358dbae882b9e43fa8c4e4a7fe24279caff38666f058ec9584",
+      "lines": 199,
+      "ranges": [
+        [
+          1,
+          140
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/application/maintenance_service.go",
+      "sha256": "5cbb6cb19ba519cf50595c2e83be6646fa68f68016b835657ae5185dd9ea5327",
+      "lines": 47,
+      "ranges": [
+        [
+          1,
+          47
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/adapters/cli/commands.go",
+      "sha256": "60f7c93626ce2d07eaebddbffcf7fc43a401c119a66999f604cbfb51bb4e878a",
+      "lines": 147,
+      "ranges": [
+        [
+          1,
+          135
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/adapters/cli/board_http.go",
+      "sha256": "c2e7ecf3cc4fcfa4ba5a57dbd73a0f36c8f6f0bad24261193c6d253d7c64bdb4",
+      "lines": 521,
+      "ranges": [
+        [
+          1,
+          120
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/adapters/cli/board_assets/board_live.js",
+      "sha256": "0e442711d206874364489e657bf3e79024f7ecb5965761eecf955500d64816f7",
+      "lines": 195,
+      "ranges": [
+        [
+          1,
+          187
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/adapters/cli/board_assets/board_served_page.tmpl",
+      "sha256": "bab3ada88d201b17d61589da3ecc5068af8a2480aaf9200c0acf4fe5b2c6fb5a",
+      "lines": 111,
+      "ranges": [
+        [
+          1,
+          111
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/adapters/cli/board_assets/issue_detail_page.tmpl",
+      "sha256": "0bdd2d575f84bee182b8c2a223e5976ae7e31ba185bb0745162efb635d116a49",
+      "lines": 94,
+      "ranges": [
+        [
+          1,
+          94
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/adapters/mcp/adapter.go",
+      "sha256": "8f26290391da111f15e1e2ccc42b4261eabd69f944a9b7d8650af8b177f54be7",
+      "lines": 1441,
+      "ranges": [
+        [
+          205,
+          400
+        ]
+      ],
+      "method": "Tool registration, routing declarations and capability inventory inspected; handler internals not comprehensively audited"
+    },
+    {
+      "path": "internal/adapters/mcp/profile.go",
+      "sha256": "b56a12ba930860157b82bc970a9cf055e5a58ddda674e12590e8a61303971ece",
+      "lines": 163,
+      "ranges": [
+        [
+          1,
+          163
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/adapters/mcp/routing.go",
+      "sha256": "524edaab7816c69f8f19eed0efbb67b2deca37e8bd01b91e5ac938235d637e70",
+      "lines": 134,
+      "ranges": [
+        [
+          1,
+          134
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/adapters/sqlite/sqlite.go",
+      "sha256": "c70734e17c21f883ef1e246f2dc68dead40532fb0edfe20cf1eec46350c708f8",
+      "lines": 324,
+      "ranges": [
+        [
+          1,
+          140
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/adapters/sqlite/transaction.go",
+      "sha256": "6c06dd5bb909b201c0d4ae372afb53f7b6fa6e53beba226cdcdabbf2d2451248",
+      "lines": 187,
+      "ranges": [
+        [
+          1,
+          187
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/adapters/sqlite/issues.go",
+      "sha256": "ecb3f666d4582d6703a5acc67b37f6c197685bd005f92d35379b27de5304613e",
+      "lines": 1077,
+      "ranges": [
+        [
+          68,
+          200
+        ],
+        [
+          274,
+          430
+        ],
+        [
+          459,
+          578
+        ],
+        [
+          989,
+          1045
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/adapters/sqlite/attempts.go",
+      "sha256": "35507e738bfa6cc0ad82bb25604ccba88b31caf2ac3182f9dc830955ecf4482f",
+      "lines": 2023,
+      "ranges": [
+        [
+          1,
+          545
+        ],
+        [
+          641,
+          770
+        ],
+        [
+          1191,
+          1630
+        ],
+        [
+          1709,
+          1761
+        ],
+        [
+          1928,
+          2005
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/adapters/sqlite/issue_list.go",
+      "sha256": "e86c1d23035400bb344708a953c70a57bee62d05e7a33a427ef7cfb0d3883764",
+      "lines": 431,
+      "ranges": [
+        [
+          20,
+          62
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/adapters/sqlite/relations.go",
+      "sha256": "c5c0065b424ff2064db6c0af8832aa3d9962c15d881f950f070f9080ea9910ae",
+      "lines": 331,
+      "ranges": [
+        [
+          69,
+          215
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/adapters/sqlite/planning.go",
+      "sha256": "6b1886e5064f1817bfc3b5938706379a7223c9b2c42e32b2f194aa886971b6af",
+      "lines": 421,
+      "ranges": [
+        [
+          1,
+          105
+        ],
+        [
+          141,
+          275
+        ],
+        [
+          298,
+          352
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/adapters/sqlite/reservations.go",
+      "sha256": "c13153cd061f61ada2a16dea4ddf1ddc2090c2bbfa690799858f9d8676af5600",
+      "lines": 945,
+      "ranges": [
+        [
+          208,
+          288
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/adapters/sqlite/work_context.go",
+      "sha256": "ca84699a1e2ee130a937f54bb6c0b840f751e8d0cf44eaf92a0bb10cfce3e961",
+      "lines": 861,
+      "ranges": [
+        [
+          1,
+          243
+        ],
+        [
+          796,
+          827
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/adapters/sqlite/search.go",
+      "sha256": "edb87c77c3a13726c4a93ee2b2d902abdbdf5cb32f26f84e67b31f7a37942ab8",
+      "lines": 362,
+      "ranges": [
+        [
+          162,
+          255
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/adapters/sqlite/reviews.go",
+      "sha256": "e25b06daf1d377a128b77618432b1e7ec06bd0162a7f46a5eff2a278fe77503f",
+      "lines": 1424,
+      "ranges": [
+        [
+          1,
+          222
+        ],
+        [
+          650,
+          748
+        ],
+        [
+          767,
+          832
+        ],
+        [
+          890,
+          954
+        ],
+        [
+          1118,
+          1225
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/adapters/sqlite/gate_enforcement.go",
+      "sha256": "576f114edb9ebd1cf2f276e5a82b238c1807da14713fa24fef64919c40666ac1",
+      "lines": 243,
+      "ranges": [
+        [
+          1,
+          175
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/adapters/sqlite/projects.go",
+      "sha256": "04cc6e8e613fad93bd519a651e45fecc1911c6b6afdc88ac7a084ce93aa5ea5f",
+      "lines": 2471,
+      "ranges": [
+        [
+          260,
+          480
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/compose/router.go",
+      "sha256": "21b350dc1beed16b661cce05a5f4f4b91abfa0f899d52ef2aa9e9a098daa3709",
+      "lines": 525,
+      "ranges": [
+        [
+          1,
+          160
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/inventory/list.go",
+      "sha256": "5a96ac9b057ff8a81906fcf55ed69a1dca5a5980465f919f767d3e06bf9763d8",
+      "lines": 399,
+      "ranges": [
+        [
+          1,
+          150
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/runtime/runtime.go",
+      "sha256": "8205f7efe76d1679fb944ceab08cd9da944dbf739303d169280d633a613b16fb",
+      "lines": 544,
+      "ranges": [
+        [
+          141,
+          195
+        ],
+        [
+          407,
+          483
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/runtime/http_lifecycle.go",
+      "sha256": "942a7e051ca11b69a61d84d47c93a1df32e6a7ba64723468ba4ff8b446893dfb",
+      "lines": 403,
+      "ranges": [
+        [
+          192,
+          240
+        ],
+        [
+          298,
+          325
+        ],
+        [
+          365,
+          403
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/migrations/sql/001_initial_schema.sql",
+      "sha256": "2a072c9af462f54b08026d68108b5c0f2c17e7a0eec1ff9366b9824a63ef80ef",
+      "lines": 243,
+      "ranges": [
+        [
+          1,
+          243
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "internal/migrations/sql/012_review_purpose_approvals.sql",
+      "sha256": "7babb65d28af851c17b4c791c301b2acf0ed5300ce8154eccd433a892997b126",
+      "lines": 111,
+      "ranges": [
+        [
+          53,
+          95
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "main.go",
+      "sha256": "89faeadd593da12c6b60d3cfe82a00fa0770378b5bb2d6d88e9407279109156f",
+      "lines": 959,
+      "ranges": [
+        [
+          47,
+          82
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "docs/06-deferred-and-open.md",
+      "sha256": "5fb590a8e7b695621d0421306270a2d465d13c3194b4942630ed8c6b445f9e7d",
+      "lines": 221,
+      "ranges": [
+        [
+          1,
+          65
+        ]
+      ],
+      "method": "Declared product limits inspected and compared with domain and interface inventory; not treated as implementation proof"
+    },
+    {
+      "path": "internal/adapters/sqlite/attempts_test.go",
+      "sha256": "8c895770342b5c6b9de0200ca7fc03d319e1178952a3616dec3a8983db12d955",
+      "lines": 3776,
+      "ranges": [
+        [
+          28,
+          118
+        ],
+        [
+          589,
+          674
+        ]
+      ],
+      "method": "Selected test assertion bodies inspected; tests not run; other declarations inventoried separately"
+    },
+    {
+      "path": "integration/claim_race_test.go",
+      "sha256": "a255a63c4f5cdd2d78dad322f90dcbd104305b04af88dc22d3e6ad893e2c8bb9",
+      "lines": 276,
+      "ranges": [
+        [
+          1,
+          178
+        ],
+        [
+          220,
+          276
+        ]
+      ],
+      "method": "Selected test assertion bodies inspected; tests not run; other declarations inventoried separately"
+    }
+  ]
+}

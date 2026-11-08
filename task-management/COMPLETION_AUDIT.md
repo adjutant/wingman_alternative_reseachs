@@ -6,7 +6,7 @@ Status: in progress. Checkpoint: November 8, 2026.
 |---|---|---|
 | Check out every codebase in scope | `checkouts.json` and `progress.json` verify 25 clean pinned worktrees with all tracked paths present and no sparse paths. Two existing checkouts are preserved; 23 are new. No nested submodules are present. | Complete for source checkout. External LFS payloads are outside the source materialization claim. |
 | Create the dedicated task-management purpose | `../AGENT_TASK_MANAGEMENT.md` defines the product journey, participants and T01–T24 requirements. | Complete |
-| Assess every codebase against that purpose | Three reports have all 24 verdicts and source ledgers: Agent HQ, DevBoard and agent-kanban-rs. `progress.json` lists the remaining 22 repositories. | In progress |
+| Assess every codebase against that purpose | Four reports have all 24 verdicts and source ledgers: Agent HQ, DevBoard, agent-kanban-rs and Rhizome MCP. `progress.json` lists the remaining 21 repositories. | In progress |
 | Review architecture, completeness, design and usability | Completed reports trace model, storage, entry points, normal lifecycle, alternate mutations, failure conditions, interfaces, tests and adoption work. The same review remains required for every other repository. | In progress |
 | Distinguish systems, adapters and companions | Checkout roles retain the Plane adapter, Taiga frontend and both communication implementations. Restricted licenses remain separate from technical fit. | Scope recorded; all technical reports still required |
 | Publish cross-project findings and a common matrix | The earlier screening remains separate. It has not been relabeled as this deeper assessment. | Pending |

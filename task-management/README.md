@@ -23,6 +23,19 @@ It does not use sparse checkout.
 Git LFS payloads and nested submodules are recorded separately when present; a pointer file is not described as its external payload.
 The source manifest records clean status, tracked-path counts and hashes, commits and checkout completion state.
 
+## Completed source assessments
+
+Four of 25 assessments are complete at this checkpoint.
+The [progress record](progress.json) lists all pending codebases.
+HTML publication and the cross-project comparison remain pending.
+
+| Codebase | Assessment | Evidence ledger |
+|---|---|---|
+| Agent HQ | [Source assessment](agent-hq/assessment/ASSESSMENT.md) | [Review ledger](agent-hq/assessment/review.json) |
+| agent-kanban-rs | [Source assessment](agent-kanban-rs/assessment/ASSESSMENT.md) | [Review ledger](agent-kanban-rs/assessment/review.json) |
+| DevBoard | [Source assessment](devboard/assessment/ASSESSMENT.md) | [Review ledger](devboard/assessment/review.json) |
+| Rhizome MCP | [Source assessment](rhizome-mcp/assessment/ASSESSMENT.md) | [Review ledger](rhizome-mcp/assessment/review.json) |
+
 ## Assessment method
 
 Read a candidate's applicable source instructions before reviewing it.
