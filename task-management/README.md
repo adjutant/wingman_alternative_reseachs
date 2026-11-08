@@ -25,7 +25,7 @@ The source manifest records clean status, tracked-path counts and hashes, commit
 
 ## Completed source assessments
 
-Twenty-three of 25 assessments are complete at this checkpoint.
+Twenty-four of 25 assessments are complete at this checkpoint.
 The [progress record](progress.json) lists all pending codebases.
 HTML publication and the cross-project comparison remain pending.
 
@@ -45,6 +45,7 @@ HTML publication and the cross-project comparison remain pending.
 | Kanboard | [Source assessment](kanboard/assessment/ASSESSMENT.md) | [Review ledger](kanboard/assessment/review.json) |
 | Muster | [Source assessment](muster/assessment/ASSESSMENT.md) | [Review ledger](muster/assessment/review.json) |
 | OpenProject | [Source assessment](openproject/assessment/ASSESSMENT.md) | [Review ledger](openproject/assessment/review.json) |
+| Paperclip | [Source assessment](paperclip/assessment/ASSESSMENT.md) | [Review ledger](paperclip/assessment/review.json) |
 | Plane | [Source assessment](plane/assessment/ASSESSMENT.md) | [Review ledger](plane/assessment/review.json) |
 | Plane MCP adapter | [Source assessment](plane-mcp/assessment/ASSESSMENT.md) | [Review ledger](plane-mcp/assessment/review.json) |
 | Planka | [Source assessment](planka/assessment/ASSESSMENT.md) | [Review ledger](planka/assessment/review.json) |

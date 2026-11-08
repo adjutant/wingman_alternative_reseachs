@@ -1,0 +1,857 @@
+{
+  "project": "paperclip",
+  "commit": "46fb933b0155d183ce64a8bdc4950d1b58c926f6",
+  "baseline": "AGENT_TASK_MANAGEMENT.md",
+  "baseline_sha256": "4dcfe707e292330c65b66c9bbbf4999d90dcf54991adf76ffe82a5efd3eee8a3",
+  "reviewed_on": "2026-11-09",
+  "review_status": "source_review_complete",
+  "scope": "Targeted static review of company/project/agent/issue/run/contract/interaction/admission/work-product schemas; native versus legacy runtime selection; issue create/child/idempotency/dependency/cycle/checkout/update and route authority; signed-run versus reusable-key actor attribution; cancellation/handoff gate versus locked native authority; transactional tool receipts; per-agent queue/budget admission and process-local start locking versus deliberately internal project admission; completion-contract revision/hash and agent-claim policy, durable evidence, required exact-target quality review and status CAS/effects; stop write revocation, selected executor settlement, live owner/checkpoint/ambiguous native recovery and finalization; activity/delivery records and coordinator; versioned document writes; representative CLI/UI issue list/detail/optimistic helpers and database startup. Selected recovery and quality-review test assertion bodies read, not executed. Not every-line, all providers/plugins/transports/imports/admin/budget settlement/workspace finalization/deployment/accessibility/performance/production concurrency certification.",
+  "candidate_executed": false,
+  "candidate_tests_run": false,
+  "requirement_verdicts": {
+    "T01": "Similar",
+    "T02": "Similar",
+    "T03": "Similar",
+    "T04": "Similar",
+    "T05": "Similar",
+    "T06": "Similar",
+    "T07": "Similar",
+    "T08": "Similar",
+    "T09": "Similar",
+    "T10": "Similar",
+    "T11": "Similar",
+    "T12": "Similar",
+    "T13": "Similar",
+    "T14": "Similar",
+    "T15": "Similar",
+    "T16": "Similar",
+    "T17": "Similar",
+    "T18": "Similar",
+    "T19": "Similar",
+    "T20": "Resembles",
+    "T21": "Similar",
+    "T22": "Similar",
+    "T23": "Similar",
+    "T24": "Similar"
+  },
+  "lifecycle_review": {
+    "create": "Durable company/project/issue hierarchy and child origin fingerprint/idempotency key; parent and reuse-policy validation. Native create_task explicitly blockParentUntilDone false; helper supports optional child-to-parent blocker.",
+    "select": "Dependency readiness distinguishes done from cancelled and pending workspace finalization; cycle traversal. Route checks project pause/access/self checkout/assignment/run and workspace generation before issue service.",
+    "claim": "Conditional SQL checkout on state/assignee/execution owner and compatible adoption yields conflict for other owner. Native tool context locks and validates current running native run, company, agent, issue and assignment. Ordinary route ownership has unassigned/idle/watchdog/override branches; cancellation gate is not universal run validator.",
+    "progress": "Revisioned documents with base revision checks, work products, results, work assessments, activity and interaction/delivery records; native business mutation and replay receipt in same transaction. Ordinary checkout audit follows primary mutation; transaction boundaries differ.",
+    "review": "Revision/hash contract; server evidence classifier distinguishes provider proposal and durable evidence. Default non-human_only/non-not_creator policy can use agent_claim_policy. Optional required quality review binds approval to exact current non-plan output revision/asset hash and disallows agent removal.",
+    "complete": "Native arbiter checks blockers, required quality review, failure/attention/remaining policy and pending undelivered child wake. Agent-claim can finish without all independent evidence/verification pass. Status decision replay/current-state/version fencing and keyed parent/dependent wake effects. Child lineage/pending wake guard is not accepted join for all children.",
+    "cancel": "Stop transaction locks issue/run and records executionCancellation write revocation before waiting for executor. Native pending recovery can report honest pending conflict; local adapter termination differs. Cannot reverse external side effects. Shared gate permits missing agent/run and does not reject every terminal/missing matching run.",
+    "recover": "Checkpoint identity binds company/agent/issue/run/session/runner; live owner prevents takeover and exhausted unknown history holds. Finalization uses retained result/contract and reconciler. Native receipt recovery assertions model missing wake replay without repeat business mutation. Per-agent start lock is process-local, project admission remains internal until maximum enforcement; no cluster-wide capacity guarantee or all provider retries certification."
+  },
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "8c3ef830f8f0c13f9c47a5bc4c2e867f3b49cbffba56cefffb994b29e1096d4c",
+      "lines": 274,
+      "ranges": [
+        [
+          1,
+          274
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "package.json",
+      "sha256": "f0e1ec1fa4ad8c5f120586013e638ecd1b259e361f806fed0a017f7bff287ccb",
+      "lines": 140,
+      "ranges": [
+        [
+          1,
+          50
+        ],
+        [
+          110,
+          116
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "7f8a27f0979bded50e240caa8c8c29f3088ddf87032cb83e5a9732bff91d18b4",
+      "lines": 21,
+      "ranges": [
+        [
+          1,
+          21
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "packages/db/src/schema/projects.ts",
+      "sha256": "093b6bcd810daadc5d84b4bf6ff5323a12a266989c0877ac63818cddd8dcbf37",
+      "lines": 43,
+      "ranges": [
+        [
+          1,
+          43
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "packages/db/src/schema/agents.ts",
+      "sha256": "286c988f2cf3d30b20087c64631ff6964204a6be55ef89d743b3129b7085fb46",
+      "lines": 60,
+      "ranges": [
+        [
+          1,
+          60
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "packages/db/src/schema/issues.ts",
+      "sha256": "93292cb682ea5da639444f4b612f40c8681389272dae2b51272313856f0d2602",
+      "lines": 214,
+      "ranges": [
+        [
+          35,
+          110
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "packages/db/src/schema/heartbeat_runs.ts",
+      "sha256": "8b4bfa006d999d4e27c8dc3678431544fb77d167e623b8421370571ab15b0f2d",
+      "lines": 229,
+      "ranges": [
+        [
+          1,
+          107
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "packages/db/src/schema/completion_contracts.ts",
+      "sha256": "b319c03d903caf16ee866e8bd27b56ccedcfa06cd5381a7f23c2aa31e68345a7",
+      "lines": 59,
+      "ranges": [
+        [
+          1,
+          59
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "packages/db/src/schema/issue_relations.ts",
+      "sha256": "6ac8966ad3870151805f08a34b81f52d5a8d6be55a078049ae728abe04cb26a6",
+      "lines": 30,
+      "ranges": [
+        [
+          1,
+          30
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "packages/db/src/schema/execution_admissions.ts",
+      "sha256": "576012a662eedef92f1411888493cae4faf971fd61277657269c491d9d915c26",
+      "lines": 65,
+      "ranges": [
+        [
+          1,
+          65
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "packages/db/src/schema/issue_thread_interactions.ts",
+      "sha256": "32e3ac9f0a4fb5e89b3ea6678a99c4c59ebd155e6d92c5a596e983727d3fd73a",
+      "lines": 82,
+      "ranges": [
+        [
+          1,
+          82
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "packages/db/src/schema/issue_question_response_deliveries.ts",
+      "sha256": "4d2d642f130057696e8f2785607d9e59437dc539709fc634d718c9a28dee8762",
+      "lines": 65,
+      "ranges": [
+        [
+          1,
+          65
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "packages/db/src/schema/issue_work_products.ts",
+      "sha256": "b4c1229b2575fad437989a2cd74d2e0954dab17eaff59db25f19f8e272425601",
+      "lines": 66,
+      "ranges": [
+        [
+          1,
+          55
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "server/src/services/issues.ts",
+      "sha256": "698ba14799d769f89b34df7b000cc728b16b55354914b596d530a4422067ea67",
+      "lines": 14312,
+      "ranges": [
+        [
+          1189,
+          1238
+        ],
+        [
+          2719,
+          2803
+        ],
+        [
+          7598,
+          7676
+        ],
+        [
+          9656,
+          9729
+        ],
+        [
+          9770,
+          9820
+        ],
+        [
+          11127,
+          11235
+        ],
+        [
+          11393,
+          11604
+        ],
+        [
+          12168,
+          12432
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "server/src/routes/issues.ts",
+      "sha256": "4e4e8e83d842001dd579cc5412cc4cc58a7c3469f04cf652f0f833ae443ba780",
+      "lines": 20292,
+      "ranges": [
+        [
+          5645,
+          5845
+        ],
+        [
+          16396,
+          16519
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "server/src/agent-run-cancellation.ts",
+      "sha256": "28298a7776318bde6a31763e4cde7ae39af7c35aa0e993ca362be38e6bdcbab2",
+      "lines": 39,
+      "ranges": [
+        [
+          1,
+          39
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "server/src/legacy-run-task-ownership.ts",
+      "sha256": "3c56302e5330d9d9041d8ec8b7656c38323306c90e4f1c0d92b4092e0ba04393",
+      "lines": 24,
+      "ranges": [
+        [
+          1,
+          24
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "server/src/middleware/auth.ts",
+      "sha256": "f323f241fe2c67277e4ad9497ae9200f87898be4e19ba31ab9a11e9ddbd8b851",
+      "lines": 1012,
+      "ranges": [
+        [
+          73,
+          111
+        ],
+        [
+          234,
+          345
+        ],
+        [
+          373,
+          531
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "server/src/services/native-runtime/runtime-mode.ts",
+      "sha256": "302f2a45bb2ff4bcc3325c7623ae241f0d336d04bfc8e739f3bc7c9576ddb3de",
+      "lines": 573,
+      "ranges": [
+        [
+          1,
+          175
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "server/src/services/heartbeat/runtime-selection.ts",
+      "sha256": "3e9aa731e71ec75836ed58d7754e901ef4e9091f27bc8a9611a2bc0871a17ac9",
+      "lines": 1120,
+      "ranges": [
+        [
+          412,
+          474
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "server/src/services/native-runtime/native-runner-ownership.ts",
+      "sha256": "207c6a633da7c00d78d82641d7bea163c527446c7ff2dbee9f51278a4b49d794",
+      "lines": 81,
+      "ranges": [
+        [
+          1,
+          81
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "server/src/services/native-runtime/completion-contracts.ts",
+      "sha256": "6773344b2d650c725f38a3b749dc6a8aa07548470a033430defea4a924e78187",
+      "lines": 268,
+      "ranges": [
+        [
+          80,
+          114
+        ],
+        [
+          148,
+          236
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "server/src/services/required-quality-review.ts",
+      "sha256": "b8dc4078013a9eb34d7335dc7e1e6a723b63e8aa96d87bf5937cf6b2cbc14d29",
+      "lines": 120,
+      "ranges": [
+        [
+          1,
+          119
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "server/src/services/native-runtime/status-arbiter.ts",
+      "sha256": "4961dc2567143c6da13eba667ca98091823b876697cc80c9a215acc04ed844b6",
+      "lines": 678,
+      "ranges": [
+        [
+          343,
+          422
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "server/src/services/native-runtime/status-decision-committer.ts",
+      "sha256": "826acc5177eb2eda140823c5b9e7c27b68a2ebf395554d16d042497b240d341f",
+      "lines": 2528,
+      "ranges": [
+        [
+          1,
+          158
+        ],
+        [
+          1610,
+          1818
+        ],
+        [
+          2250,
+          2315
+        ],
+        [
+          2330,
+          2410
+        ],
+        [
+          2420,
+          2475
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "server/src/services/native-runtime/native-run-finalizer.ts",
+      "sha256": "e6c52c58d266ea31afa2e219f9a44a9f850dc74939f7800cf7f1a16c0f0d5275",
+      "lines": 1852,
+      "ranges": [
+        [
+          1300,
+          1332
+        ],
+        [
+          1484,
+          1524
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "server/src/services/native-runtime/native-child-completion-delivery.ts",
+      "sha256": "98a9c22ba92a68bf7aeb7cbaec0a1a5c32cba0b4754458c267f9991c20b33ae2",
+      "lines": 30,
+      "ranges": [
+        [
+          1,
+          29
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "server/src/services/native-runtime/work-assessments.ts",
+      "sha256": "6ab94b9935537d8b91d8c6cfc2431c8a18821fface0ae9c6edf700eee6229cde",
+      "lines": 176,
+      "ranges": [
+        [
+          1,
+          78
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "server/src/services/native-runtime/evidence-classifier.ts",
+      "sha256": "8396b301d78c0e59f5513aa1cb63ef4d9a8b25d4c0c445606a90ce3af003eff9",
+      "lines": 438,
+      "ranges": [
+        [
+          1,
+          100
+        ],
+        [
+          105,
+          183
+        ],
+        [
+          261,
+          407
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "server/src/services/native-runtime/paperclip-runner-tool-authority.ts",
+      "sha256": "5f6b4179eb3dfc58233ae2f42988c33f8b85ebc3cfbaf949616e12441fee7a1d",
+      "lines": 3041,
+      "ranges": [
+        [
+          1724,
+          1825
+        ],
+        [
+          2650,
+          2896
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "server/src/services/native-runtime/native-controller-recovery.ts",
+      "sha256": "c0bbc1eb036ba2ddbc2d6819bdd114451a01ca067df860fb7220cd6ce3f2e168",
+      "lines": 305,
+      "ranges": [
+        [
+          158,
+          220
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "server/src/services/native-runtime/native-finalization-reconciler.ts",
+      "sha256": "bc2b9c46fe5a481b6d39246f52b9fd1e7422dd73fd76d7109ea8cb263dfcc806",
+      "lines": 766,
+      "ranges": [
+        [
+          432,
+          490
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "server/src/services/heartbeat/recovery.ts",
+      "sha256": "3f9238e4aef397ab5d9a0a8b5629ee24a84063f8c44f6fb83b4c4aa2262a063a",
+      "lines": 2836,
+      "ranges": [
+        [
+          2374,
+          2428
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "server/src/services/heartbeat/run-control.ts",
+      "sha256": "186638726ca4f68e20962562076e25b43885461dfb6f7df2d9a5463ffc3226c3",
+      "lines": 1842,
+      "ranges": [
+        [
+          219,
+          249
+        ],
+        [
+          1206,
+          1278
+        ],
+        [
+          1468,
+          1516
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "server/src/services/agent-start-lock.ts",
+      "sha256": "7e9aaf1ca3ccdd6a6f2839a97b5723cc926e8f2bf14bd326fe233ef5b16e643b",
+      "lines": 48,
+      "ranges": [
+        [
+          1,
+          48
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "server/src/services/heartbeat/queue.ts",
+      "sha256": "cdff39bb306dbe9c95ee18414b84c7322c106f0ab3c555b3f24bf6520e9d42e1",
+      "lines": 4977,
+      "ranges": [
+        [
+          868,
+          909
+        ],
+        [
+          1898,
+          1973
+        ],
+        [
+          2640,
+          2672
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "server/src/services/heartbeat/timer-policy.ts",
+      "sha256": "b9dd550e99263bacde02f605c19fe6ed39f2d79341360e0f9676bfea06955fe3",
+      "lines": 252,
+      "ranges": [
+        [
+          56,
+          77
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "server/src/modules/execution-admission/adapters/postgres.ts",
+      "sha256": "ee934c5118526dc028b063fb033abb6fa7ef68a1a25385811da1e80536cc0df5",
+      "lines": 179,
+      "ranges": [
+        [
+          1,
+          112
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "server/src/modules/execution-admission/application/policy.ts",
+      "sha256": "8bb7b66944a7c3ba35000b24cf847c849845e593be0cde96de20d7f14bc3b08f",
+      "lines": 50,
+      "ranges": [
+        [
+          1,
+          49
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "server/src/services/budgets.ts",
+      "sha256": "a56672b49591f6eb2ffa2795001a502f2fc954b5216b4ce3f1b81d2d999d8aa8",
+      "lines": 1394,
+      "ranges": [
+        [
+          1359,
+          1393
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "server/src/services/delivery-work-coordinator.ts",
+      "sha256": "99aad39801cc86e50b525225b8874291ea6b8f17fd43aa375a95395225549dc0",
+      "lines": 147,
+      "ranges": [
+        [
+          1,
+          80
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "server/src/services/activity-log.ts",
+      "sha256": "5aa5cd89d2fa83b01bf5a373dfa02b37c8daba90e43daa71564cf6000cc7558e",
+      "lines": 245,
+      "ranges": [
+        [
+          1,
+          98
+        ],
+        [
+          152,
+          216
+        ],
+        [
+          223,
+          245
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "server/src/services/documents.ts",
+      "sha256": "8e0f89bf3d3f89d98797ad8a2b3c6d54b51db9ad9b39052baaeb23726ebb12f5",
+      "lines": 847,
+      "ranges": [
+        [
+          350,
+          405
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "cli/src/commands/client/issue.ts",
+      "sha256": "11abe615eeb04171b79d4fce91ec6391e7bd6cd90b8d7d0346d8ab0e2e9e15e8",
+      "lines": 1464,
+      "ranges": [
+        [
+          1,
+          90
+        ],
+        [
+          1294,
+          1341
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "ui/src/hooks/useUpdateIssueMutation.ts",
+      "sha256": "251d679dabdfdb19d175a305cca9e0371cbae787d45ccff44634568e49cb727c",
+      "lines": 264,
+      "ranges": [
+        [
+          1,
+          127
+        ],
+        [
+          153,
+          194
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "ui/src/pages/Issues.tsx",
+      "sha256": "7e981fa5702939798fdd4d93a37c62d76588433b5bd771f26dbb94d47755b6f3",
+      "lines": 383,
+      "ranges": [
+        [
+          263,
+          328
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "ui/src/pages/IssueDetail.tsx",
+      "sha256": "05ba1f5345007fac942dd28d718fe03e3efd1f3d510d5ba5f416a9baee8a3804",
+      "lines": 9111,
+      "ranges": [
+        [
+          8425,
+          8462
+        ],
+        [
+          8776,
+          8818
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "server/src/index.ts",
+      "sha256": "d46246d073cbd5ead5f8cb4c78d78061c7fbbb19b53dbd9f11adbd66870c2500",
+      "lines": 2142,
+      "ranges": [
+        [
+          408,
+          431
+        ],
+        [
+          498,
+          532
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "server/src/services/native-runtime/tool-receipt-recovery.integration.test.ts",
+      "sha256": "ba5c7ba1e5b4cd0935f60d7479f3465da32318b6ad437ec2e4144b859a1a66a4",
+      "lines": 110,
+      "ranges": [
+        [
+          83,
+          110
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "server/src/__tests__/required-quality-review.test.ts",
+      "sha256": "8c0100c4b1c982b0fbe0eaec4edb6a2ab3f3c6445cbf2b2a3aa6ecc3076a2af5",
+      "lines": 312,
+      "ranges": [
+        [
+          57,
+          76
+        ],
+        [
+          98,
+          118
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "rules/module-boundaries.mdc",
+      "sha256": "c81d7c31d6cc298dca38c4880a98ee0b57cf72fe2b875c9a20f5a6ffc0b40de6",
+      "lines": 46,
+      "ranges": [
+        [
+          1,
+          46
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "rules/product-harness-responsibility.mdc",
+      "sha256": "40001ce3a13c96aaa961f814699d361ad6a490358bc5893399f687e8183d398e",
+      "lines": 26,
+      "ranges": [
+        [
+          1,
+          26
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "rules/pull-request-review.mdc",
+      "sha256": "07aa890b4c07b30e57da9952d7f8d2d1f2d6bf0a12a74476cdeacec921ff4b7b",
+      "lines": 25,
+      "ranges": [
+        [
+          1,
+          25
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "rules/database-migration-snapshots.mdc",
+      "sha256": "6198e92a559b06b9d11e3dae21fffff6d8fb377df72f49bcad711ab1b243fb76",
+      "lines": 59,
+      "ranges": [
+        [
+          1,
+          59
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "rules/runtime-dependency-boundaries.mdc",
+      "sha256": "24202e5d416620bba95ae7d416f898bbd6ce4f1f193ccfc0173289912a741ca0",
+      "lines": 54,
+      "ranges": [
+        [
+          1,
+          54
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "rules/sleep-aware-background-work.mdc",
+      "sha256": "7d9500845bccba587df42f0675a6df5edf87e3c791933c6dcddadb8578e2b14f",
+      "lines": 119,
+      "ranges": [
+        [
+          1,
+          119
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    },
+    {
+      "path": "rules/heartbeat-execution-boundaries.mdc",
+      "sha256": "7f5065f8cc5fd447639df41ccf5f3445e7bd527449e600e8e2b502c3fdcebf9b",
+      "lines": 129,
+      "ranges": [
+        [
+          1,
+          129
+        ]
+      ],
+      "method": "Targeted static instruction/schema/service/route/tool/recovery/client/test assertion inspection of recorded ranges. Partial large files; tests not run."
+    }
+  ]
+}

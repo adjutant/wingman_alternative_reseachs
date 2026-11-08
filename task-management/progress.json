@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-08T20:33:32.122111+00:00",
+  "checked_at": "2026-11-08T20:49:08.979792+00:00",
   "scope": "Checkout preservation, materialization, baseline/requirement coverage, source evidence hashes and local links. Not a semantic or runtime audit.",
   "required_repository_count": 25,
   "checkout_count": 25,
@@ -19,6 +19,7 @@
     "kanboard",
     "muster",
     "openproject",
+    "paperclip",
     "plane",
     "plane-mcp",
     "planka",
@@ -30,8 +31,7 @@
     "vikunja"
   ],
   "assessments_remaining": [
-    "gitlab",
-    "paperclip"
+    "gitlab"
   ],
   "required_complete_gate": false,
   "issues": [],
