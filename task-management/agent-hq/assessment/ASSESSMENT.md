@@ -23,7 +23,7 @@ The source is MIT licensed. Its installation is small, but that does not remove 
 ## Architecture and domain model
 
 The application is a Node HTTP service, a synchronous SQLite store, a browser dashboard and a separate stdio MCP proxy.
-The [HTTP server](../repo/src/server.js), lines 49–102 and 130–195, exposes the domain operations directly and starts a stale-agent timer.
+The [HTTP server](../repo/src/server.js), lines 49–102 and 130–194, exposes the domain operations directly and starts a stale-agent timer.
 The [MCP process](../repo/mcp/mcp-server.js), lines 17–35 and 469–546, forwards requests to the HTTP service through `HQ_URL`.
 It does not maintain a second database or execute the coding worker.
 
@@ -58,7 +58,7 @@ The schema transaction is not a transaction around each task transition and its 
 | T14 | Similar | Claims expire and a later claim can replace an expired holder. Agent heartbeats and offline detection are separate; a heartbeat does not renew the task lease. No task-expiry event or checkpoint recovery occurs. [Heartbeat/reaper](../repo/src/services.js), lines 210–226; [claim](../repo/src/services.js), lines 633–661. |
 | T15 | Absent | Task updates require no attempt token, row version or idempotency key. A stale worker can move a replacement's task to Done. MCP idempotency annotations do not enforce that invariant. [Update](../repo/src/services.js), lines 539–581; [annotations](../repo/mcp/mcp-server.js), lines 431–460. |
 | T16 | Resembles | SQLite retains work and comments, and claims can be manually released or reacquired. There is no supervised worker cancellation, interrupted-attempt state or atomic transition/event recovery. [Database](../repo/src/db.js), lines 137–194; [release](../repo/src/services.js), lines 664–675. |
-| T17 | Similar | Remote MCP clients can target one HTTP authority with `HQ_URL`. Workers need not share the SQLite file. This is one service, without authenticated cross-host identities, consensus or failover. [Proxy](../repo/mcp/mcp-server.js), lines 7–35; [listener](../repo/src/server.js), lines 181–195. |
+| T17 | Similar | Remote MCP clients can target one HTTP authority with `HQ_URL`. Workers need not share the SQLite file. This is one service, without authenticated cross-host identities, consensus or failover. [Proxy](../repo/mcp/mcp-server.js), lines 7–35; [listener](../repo/src/server.js), lines 181–194. |
 | T18 | Similar | Activity records include actor, timestamp, type and entity. Task writes and activity inserts are separate; an event is not an immutable, transactionally complete journal. [Activity insertion](../repo/src/db.js), lines 183–194; [task update](../repo/src/services.js), lines 566–580. |
 | T19 | Similar | Source implements a board, assignee/label filters, task and agent details, activity, memory, messaging, flow and cost views. Task cards support keyboard activation and API failures get an alert. No candidate render or accessibility test was run. [Browser](../repo/public/app.js), lines 20–46, 223–278 and 394–487. |
 | T20 | Resembles | Backlog columns, priorities, labels and flow metrics support continuous work. There are no sprint, milestone, estimate or planning-period records in the schema. [Board defaults](../repo/src/services.js), lines 239–249; [flow](../repo/src/services.js), lines 326–404; [schema](../repo/src/db.js), lines 14–135. |

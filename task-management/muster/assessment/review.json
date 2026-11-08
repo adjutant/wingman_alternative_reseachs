@@ -1,0 +1,781 @@
+{
+  "project": "muster",
+  "commit": "bb98b21a6ac0ed4cb095f948e55ae8a644e10c40",
+  "baseline": "AGENT_TASK_MANAGEMENT.md",
+  "baseline_sha256": "4dcfe707e292330c65b66c9bbbf4999d90dcf54991adf76ffe82a5efd3eee8a3",
+  "reviewed_on": "2026-11-09",
+  "review_status": "source_review_complete",
+  "scope": "Full local checkout; targeted source review of application composition, card lifecycle and alternate mutations, identity/permission boundaries, storage/concurrency, document approval, event delivery, browser flows and operating configuration. Not every-line audit or runtime certification; authentication protocols and all KB mutations not comprehensively audited.",
+  "candidate_executed": false,
+  "candidate_tests_run": false,
+  "requirement_verdicts": {
+    "T01": "Similar",
+    "T02": "Similar",
+    "T03": "Similar",
+    "T04": "Resembles",
+    "T05": "Similar",
+    "T06": "Similar",
+    "T07": "Similar",
+    "T08": "Similar",
+    "T09": "Resembles",
+    "T10": "Similar",
+    "T11": "Similar",
+    "T12": "Similar",
+    "T13": "Resembles",
+    "T14": "Similar",
+    "T15": "Resembles",
+    "T16": "Similar",
+    "T17": "Similar",
+    "T18": "Similar",
+    "T19": "Similar",
+    "T20": "Resembles",
+    "T21": "Resembles",
+    "T22": "Similar",
+    "T23": "Similar",
+    "T24": "Similar"
+  },
+  "lifecycle_review": {
+    "create": "Project/board bootstrap and WIP-checked card/association/rank/event write under a scoped transaction",
+    "select": "Board/list reads and role-classified lanes; no authoritative claim-next dispatcher or dependency cycle validation",
+    "claim": "Transactional card lock/check/write with one current claimed_by and durable assignee; claim and active-lane move are separate requests",
+    "progress": "Attributed mutable comments, linked document versions, knowledge and external work references; no typed attempt/checkpoint",
+    "review": "Cards use optional review lane and agent instructions; documents separately enforce role/version-checked forward approval and approved-content immutability",
+    "complete": "Permitted lane move records completed event when entering terminal; no task acceptance gate, current-lease check or claim cleanup",
+    "cancel": "Archive visibility or destructive delete; no distinct cancelled/failed/interrupted attempt outcome",
+    "recover": "Agent heartbeat renews all its claims, minute sweeper clears expired lease fields with an event, offboarding revokes credentials; assignees/lane persist and stale sessions are not fenced"
+  },
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "e14bcc9a3b4068a6021e681d91e1ef9015807e5d1715a72e23eaa59626b9ac2e",
+      "lines": 399,
+      "ranges": [
+        [
+          1,
+          399
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "f498c1e498aa6855ab056e84b01cdc801a3ae9ba465f88605fa28f4ef2cb4196",
+      "lines": 20,
+      "ranges": [
+        [
+          1,
+          12
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "package.json",
+      "sha256": "d3b9a9c4053d5434648340b86d3864e1e083238b0702ee0787ad0c038bf9f055",
+      "lines": 94,
+      "ranges": [
+        [
+          1,
+          94
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/application/composition.ts",
+      "sha256": "ca3150f73fa8fb06d789e50ca3e345864a796888e2cc7ae9d1e9808e529ee6ff",
+      "lines": 126,
+      "ranges": [
+        [
+          1,
+          85
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/application/transport-runtime.ts",
+      "sha256": "7263bb134f5972deb0cba73b12c251fce8fb395e79dc70f008f23aa9c3431a69",
+      "lines": 56,
+      "ranges": [
+        [
+          1,
+          56
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/config/index.ts",
+      "sha256": "f2a927e9e925526b18be562e672343b90f5430cb5cf48093605a416cf38333dc",
+      "lines": 357,
+      "ranges": [
+        [
+          82,
+          125
+        ],
+        [
+          188,
+          242
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/db/sqlite-adapter.ts",
+      "sha256": "7d41e1e46fd5be79401b54b8bc827b9a4c2a1f5c98975206489d7cbabc184606",
+      "lines": 205,
+      "ranges": [
+        [
+          1,
+          205
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/db/postgres-adapter.ts",
+      "sha256": "126d2c5697edf6ac052022ac6442877bf901c03bbf6c29cfbb2d765947a7edf9",
+      "lines": 212,
+      "ranges": [
+        [
+          1,
+          212
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/db/migrator.ts",
+      "sha256": "16baa04bafc8ae9920aa08ee66ef53090fbe9d69785e8ca08479cb3ee777cc18",
+      "lines": 666,
+      "ranges": [
+        [
+          1,
+          100
+        ],
+        [
+          156,
+          215
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/db/migrations/001-initial.sql",
+      "sha256": "b1de7cbaec698733bc20113049e7718288b2a8e924c4784ac51c5ebf302e501d",
+      "lines": 396,
+      "ranges": [
+        [
+          94,
+          298
+        ],
+        [
+          323,
+          396
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/db/migrations/011-workflow-lane-roles.sql",
+      "sha256": "b9d33e61c6b99f495ea3ffa1329efa617ba756cd09a755fc464af0896c58b3be",
+      "lines": 9,
+      "ranges": [
+        [
+          1,
+          9
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/services/card.service.ts",
+      "sha256": "ad9a1c33567709757b482e58597d4d23357508f3790ec6c1186dde7697774e5b",
+      "lines": 886,
+      "ranges": [
+        [
+          111,
+          232
+        ],
+        [
+          260,
+          339
+        ],
+        [
+          349,
+          368
+        ],
+        [
+          530,
+          790
+        ],
+        [
+          825,
+          886
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/services/card-assignment.operations.ts",
+      "sha256": "a8640b1ec2a47fcdc9d951b44612a1577d4bfa1aa1fefe504205d9313ba10234",
+      "lines": 252,
+      "ranges": [
+        [
+          1,
+          252
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/services/card-move.operations.ts",
+      "sha256": "49b7a8326f8aed555cfec5a8e9845b626e3466890ebb3a47fb679e7ce6d1d6c6",
+      "lines": 273,
+      "ranges": [
+        [
+          1,
+          273
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/services/card-access.policy.ts",
+      "sha256": "71775257eea7b5be630622bfd96945c9a70bc70aca0caa8f04331769d2ce26cb",
+      "lines": 95,
+      "ranges": [
+        [
+          1,
+          95
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/services/card-lane.policy.ts",
+      "sha256": "267ae8f26b0f78ebd9573e076f71c2d3fa34d36569c6a14363e5dbe546da10d4",
+      "lines": 150,
+      "ranges": [
+        [
+          1,
+          150
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/services/card-record.queries.ts",
+      "sha256": "a6e247ebcb4d3e04e2ef310c11a9c3b5eaf92b6111dc8c6e3c2b582868712eed",
+      "lines": 35,
+      "ranges": [
+        [
+          1,
+          35
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/services/card-relation.operations.ts",
+      "sha256": "9f7d2e260bd0b2c4ec2e6cd00f28f81484239a4604c10be5aca948ebda81d69a",
+      "lines": 261,
+      "ranges": [
+        [
+          1,
+          174
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/services/helpers/card-links.helper.ts",
+      "sha256": "85629fe06c48844ec04daf4475b14e40fd00676f1906a732dd84a1af2af32939",
+      "lines": 63,
+      "ranges": [
+        [
+          1,
+          63
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/services/helpers/workspace-scope.helper.ts",
+      "sha256": "e81a3a04a845a788b1ba6cd0964e9b62b717a5e1761e07214ac24ef20d505367",
+      "lines": 117,
+      "ranges": [
+        [
+          1,
+          90
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/services/project.service.ts",
+      "sha256": "ff8463beec096e82c4b3c61746c82bd7e5da63072703d26a1a0a439bb3db7ee8",
+      "lines": 256,
+      "ranges": [
+        [
+          1,
+          165
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/services/board.service.ts",
+      "sha256": "9ba2f617a84cbec12a3e58b90f6410d0210215ccfc8869b46dd7384dd631338c",
+      "lines": 236,
+      "ranges": [
+        [
+          1,
+          150
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/services/agent.service.ts",
+      "sha256": "0d2f1ad02d137f4d07dd0a7e1150cf1fec8af4aeeff38bc68759e2ff6a80036f",
+      "lines": 477,
+      "ranges": [
+        [
+          145,
+          169
+        ],
+        [
+          204,
+          233
+        ],
+        [
+          295,
+          435
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/services/agent-scope.authorization.ts",
+      "sha256": "b3cdddd99184ae458c3b24fbe5d7154b8638885c25f71aa6a4ef44148905221b",
+      "lines": 71,
+      "ranges": [
+        [
+          1,
+          71
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/services/role.service.ts",
+      "sha256": "524619fafc876529cc0d3e2be0c5d98d527ae70b6fd0fe351e334fc53db351c6",
+      "lines": 249,
+      "ranges": [
+        [
+          62,
+          90
+        ],
+        [
+          195,
+          245
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/services/comment.service.ts",
+      "sha256": "86c3825942d4a3151b7ab94664ca39d7ae680b7755f814cea7280778c9e664dd",
+      "lines": 131,
+      "ranges": [
+        [
+          1,
+          100
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/services/document.service.ts",
+      "sha256": "6ce50c5c8c90409a5b022cdaab9e8811e2ed98cc933615bea383c838dce8438f",
+      "lines": 402,
+      "ranges": [
+        [
+          1,
+          45
+        ],
+        [
+          120,
+          327
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/services/kb-read-scope.ts",
+      "sha256": "ac65184b22d947c08c957ff6d7ce540f30ad3414aee61e97c3f782afcb80f8ca",
+      "lines": 117,
+      "ranges": [
+        [
+          1,
+          95
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/services/event.service.ts",
+      "sha256": "fb47ab21554c9ec08060bd525d9b75bdaa1f5479c6efbbc95e231b6f1bfaa4a7",
+      "lines": 215,
+      "ranges": [
+        [
+          1,
+          138
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/services/audit.service.ts",
+      "sha256": "b854c6faf6dc8a3478932288baaeb1a877a0a3519b53fb31acb59aaa29d29b3c",
+      "lines": 128,
+      "ranges": [
+        [
+          1,
+          75
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/shared/card-input-schema.ts",
+      "sha256": "11eb1293b8326069c6bb462b9cad1bad107a79c8ff232b83d370cf4f83ddb58f",
+      "lines": 56,
+      "ranges": [
+        [
+          1,
+          56
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/shared/permission-enforcer.ts",
+      "sha256": "8fe634c4e8d58286ffc65a3ede049cfeba428e5c4e4e9ef11d10940ed97d3c42",
+      "lines": 523,
+      "ranges": [
+        [
+          1,
+          145
+        ],
+        [
+          323,
+          396
+        ],
+        [
+          405,
+          481
+        ]
+      ],
+      "method": "Targeted permission boundary, mapping and registration inspection; not a comprehensive audit of all handlers or routes"
+    },
+    {
+      "path": "src/mcp/server.ts",
+      "sha256": "5b12871fb9e9b62f9e6755805d90b098f58afc21164064d3333cf823d654f340",
+      "lines": 496,
+      "ranges": [
+        [
+          217,
+          244
+        ]
+      ],
+      "method": "Targeted permission boundary, mapping and registration inspection; not a comprehensive audit of all handlers or routes"
+    },
+    {
+      "path": "src/mcp/tool-context.ts",
+      "sha256": "c828ab98e0f05078a46d585b8440fca52953bc1dc72a4f65ca4fa1ccb5b6e31d",
+      "lines": 87,
+      "ranges": [
+        [
+          1,
+          87
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/mcp/tools/card.tools.ts",
+      "sha256": "d887766244c571b7ba44c81b1d87663ccaca1407b3f53f793c92c7e09b0f5b6b",
+      "lines": 193,
+      "ranges": [
+        [
+          73,
+          101
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/mcp/tools/agent.tools.ts",
+      "sha256": "1fb36f5d793b464288c14658ed3fddfac0ff95c3e7f92d791b6af507b3148f64",
+      "lines": 91,
+      "ranges": [
+        [
+          73,
+          86
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/api/schemas.ts",
+      "sha256": "3fea436e3f66d238876f3935ecc90ff725fdc1b54dbc3f9c102f0e7d94ba3abd",
+      "lines": 492,
+      "ranges": [
+        [
+          198,
+          204
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/api/middleware/auth.ts",
+      "sha256": "8831a692080bce4346fca01237d875dd05b8dfc7519db19d4621735d10bde080",
+      "lines": 278,
+      "ranges": [
+        [
+          110,
+          220
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/api/middleware/permission-guard.ts",
+      "sha256": "52c98e4bad61d5b5495aaee8ad11a6de825dccc24f0ccc84c1309965a9201184",
+      "lines": 57,
+      "ranges": [
+        [
+          1,
+          57
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/api/routes/card.routes.ts",
+      "sha256": "e2baef34eeec13a79b9c5186016f0116067a3f5e99cc2dc15c56948eac19e5fd",
+      "lines": 376,
+      "ranges": [
+        [
+          1,
+          250
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/api/routes/event.routes.ts",
+      "sha256": "5dc1ff181cc9658460a16180d1aa082730f1a3831548124fa4086280d75d9dfe",
+      "lines": 111,
+      "ranges": [
+        [
+          1,
+          111
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/api/routes/agent.routes.ts",
+      "sha256": "2b0e7aa332c84ba2ac23374efbe59f11fa417c83b924201cc4d98c44cb210163",
+      "lines": 108,
+      "ranges": [
+        [
+          60,
+          64
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/realtime/sse.ts",
+      "sha256": "c2342960aad3460996ed50097f497e21b7f601502c2993d88f9994e0620bc1db",
+      "lines": 396,
+      "ranges": [
+        [
+          8,
+          18
+        ],
+        [
+          224,
+          300
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/server.ts",
+      "sha256": "4203e2c579c97c967fdd8a0634f0a5c14337518b38f405486afb7990e080a74b",
+      "lines": 258,
+      "ranges": [
+        [
+          180,
+          225
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/web/App.tsx",
+      "sha256": "920d471c7b135d1412da2809d63cedf2e22320b09a87d4c829b54ada66a3a297",
+      "lines": 773,
+      "ranges": [
+        [
+          190,
+          260
+        ],
+        [
+          290,
+          435
+        ],
+        [
+          478,
+          489
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/web/components/KanbanBoard.tsx",
+      "sha256": "099cc1dc1f3a73603d3a87651c18005de7a5f7beb45e4785b30d4068e8d85828",
+      "lines": 1019,
+      "ranges": [
+        [
+          147,
+          165
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/web/components/AccessibleDialog.tsx",
+      "sha256": "01a7e9494f6ab5ad3963095ac12d9630f970fc6c97676605091091c5331b4949",
+      "lines": 87,
+      "ranges": [
+        [
+          1,
+          87
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/web/components/kanban/MobileLaneSwitcher.tsx",
+      "sha256": "264a3f7e35c989c5508e645beceac0a11d31b23ccfab75a017929128689c711c",
+      "lines": 30,
+      "ranges": [
+        [
+          1,
+          30
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "src/web/markdown.ts",
+      "sha256": "e9f96309333e62495d88553f2006fdd498dad82208d6567bfa72feeeb6f64f27",
+      "lines": 68,
+      "ranges": [
+        [
+          1,
+          68
+        ]
+      ],
+      "method": "Targeted implementation/source inspection; candidate not executed"
+    },
+    {
+      "path": "docs/transactions.md",
+      "sha256": "097317bcbbe94e052a662ebeccaa0ea7d7bf9e54af45f4e70b41139feb5f5e9a",
+      "lines": 56,
+      "ranges": [
+        [
+          1,
+          56
+        ]
+      ],
+      "method": "Declared transaction inventory compared with inspected adapter/service paths; not treated as test execution evidence"
+    },
+    {
+      "path": "tests/card-claim.test.ts",
+      "sha256": "1f03dd0906581f58d363fb3decc89c52400cc33dc2fb765b1d9043d02ada6f63",
+      "lines": 509,
+      "ranges": [
+        [
+          1,
+          190
+        ],
+        [
+          237,
+          302
+        ]
+      ],
+      "method": "Selected test fixture and assertion-body inspection; tests not run; declarations outside ranges inventoried only"
+    },
+    {
+      "path": "tests/card-rules.test.ts",
+      "sha256": "6a7740a066870bdf4fba3507c3cf8909e97fc8b05f70a074e59c980f00396a55",
+      "lines": 142,
+      "ranges": [
+        [
+          1,
+          142
+        ]
+      ],
+      "method": "Selected test fixture and assertion-body inspection; tests not run; declarations outside ranges inventoried only"
+    },
+    {
+      "path": "tests/document-state-machine.test.ts",
+      "sha256": "40a1bde64131f0cece9d7de9f098d1ce25c43d1be8d56c164dc8505eb4d53a59",
+      "lines": 377,
+      "ranges": [
+        [
+          88,
+          145
+        ],
+        [
+          169,
+          221
+        ]
+      ],
+      "method": "Selected test fixture and assertion-body inspection; tests not run; declarations outside ranges inventoried only"
+    },
+    {
+      "path": "tests/event-transaction-delivery.test.ts",
+      "sha256": "f87d7b215905bdea9fef14a79668a3c9ed1c2e0e75c322733f8967fc2f824b6f",
+      "lines": 136,
+      "ranges": [
+        [
+          1,
+          136
+        ]
+      ],
+      "method": "Selected test fixture and assertion-body inspection; tests not run; declarations outside ranges inventoried only"
+    },
+    {
+      "path": "tests/realtime-sse.test.ts",
+      "sha256": "13959a009e836e678c6655741afd1c8a9e586e03408f0f8c8575cb4261ae9105",
+      "lines": 283,
+      "ranges": [
+        [
+          119,
+          160
+        ]
+      ],
+      "method": "Selected test fixture and assertion-body inspection; tests not run; declarations outside ranges inventoried only"
+    }
+  ]
+}

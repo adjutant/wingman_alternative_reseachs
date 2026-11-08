@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-08T16:52:07.124477+00:00",
+  "checked_at": "2026-11-08T17:03:03.377005+00:00",
   "scope": "Checkout preservation, materialization, baseline/requirement coverage, source evidence hashes and local links. Not a semantic or runtime audit.",
   "required_repository_count": 25,
   "checkout_count": 25,
@@ -8,6 +8,7 @@
     "agent-hq",
     "agent-kanban-rs",
     "devboard",
+    "muster",
     "rhizome-mcp"
   ],
   "assessments_remaining": [
@@ -21,7 +22,6 @@
     "gemba",
     "gitlab",
     "kanboard",
-    "muster",
     "openproject",
     "paperclip",
     "plane",

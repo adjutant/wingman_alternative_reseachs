@@ -25,7 +25,7 @@ The source manifest records clean status, tracked-path counts and hashes, commit
 
 ## Completed source assessments
 
-Four of 25 assessments are complete at this checkpoint.
+Five of 25 assessments are complete at this checkpoint.
 The [progress record](progress.json) lists all pending codebases.
 HTML publication and the cross-project comparison remain pending.
 
@@ -34,6 +34,7 @@ HTML publication and the cross-project comparison remain pending.
 | Agent HQ | [Source assessment](agent-hq/assessment/ASSESSMENT.md) | [Review ledger](agent-hq/assessment/review.json) |
 | agent-kanban-rs | [Source assessment](agent-kanban-rs/assessment/ASSESSMENT.md) | [Review ledger](agent-kanban-rs/assessment/review.json) |
 | DevBoard | [Source assessment](devboard/assessment/ASSESSMENT.md) | [Review ledger](devboard/assessment/review.json) |
+| Muster | [Source assessment](muster/assessment/ASSESSMENT.md) | [Review ledger](muster/assessment/review.json) |
 | Rhizome MCP | [Source assessment](rhizome-mcp/assessment/ASSESSMENT.md) | [Review ledger](rhizome-mcp/assessment/review.json) |
 
 ## Assessment method

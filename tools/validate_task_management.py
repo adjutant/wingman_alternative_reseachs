@@ -112,6 +112,20 @@ def main():
             path = doc.parent / unquote(target.split('#')[0])
             if not path.exists():
                 issues.append(f'Broken local link: {doc.relative_to(ROOT)} -> {target}')
+        # A valid file link can still cite lines beyond the source. Check the
+        # explicit prose ranges used by these assessments as well as the path.
+        # This is a bounds check, not proof that the cited lines support prose.
+        for match in re.finditer(r'\]\(([^\n)]+)\), lines ([\d–, and]+)', body):
+            target, line_text = match.groups()
+            if re.match(r'\w+:|#', target):
+                continue
+            path = doc.parent / unquote(target.split('#')[0])
+            if not path.is_file():
+                continue
+            count = len(path.read_bytes().splitlines())
+            cited = [int(value) for value in re.findall(r'\d+', line_text)]
+            if any(not 1 <= value <= count for value in cited):
+                issues.append(f'Source citation outside file: {doc.relative_to(ROOT)} -> {target}, lines {line_text.strip()} ({count} available)')
     if args.require_complete and remaining:
         issues.append(f'Assessments remain: {", ".join(remaining)}')
     result = {
