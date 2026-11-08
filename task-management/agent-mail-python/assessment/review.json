@@ -1,0 +1,385 @@
+{
+  "project": "agent-mail-python",
+  "commit": "9138f34b1ed220235dbfeaa3f1fc9fe4444f4e72",
+  "baseline": "AGENT_TASK_MANAGEMENT.md",
+  "baseline_sha256": "4dcfe707e292330c65b66c9bbbf4999d90dcf54991adf76ffe82a5efd3eee8a3",
+  "reviewed_on": "2026-11-09",
+  "review_status": "source_review_complete",
+  "scope": "Full tracked checkout; complete model and MCP decorator inventories with targeted static lifecycle, token/session, persistence, advisory reservations, stale cleanup, HTTP role/browser write, archive sequencing, representative template and selected test assertion review. Not every-line audit; no CLI/export/full viewer/complete attachment or alternate database certification.",
+  "candidate_executed": false,
+  "candidate_tests_run": false,
+  "requirement_verdicts": {
+    "T01": "Similar",
+    "T02": "Absent",
+    "T03": "Resembles",
+    "T04": "Absent",
+    "T05": "Similar",
+    "T06": "Similar",
+    "T07": "Resembles",
+    "T08": "Resembles",
+    "T09": "Resembles",
+    "T10": "Similar",
+    "T11": "Similar",
+    "T12": "Similar",
+    "T13": "Similar",
+    "T14": "Similar",
+    "T15": "Resembles",
+    "T16": "Resembles",
+    "T17": "Similar",
+    "T18": "Similar",
+    "T19": "Similar",
+    "T20": "Absent",
+    "T21": "Absent",
+    "T22": "Similar",
+    "T23": "Similar",
+    "T24": "Similar"
+  },
+  "lifecycle_review": {
+    "create": "Project row unique slug/retry; agent profile and registration token, existing identity authentication; durable mail creation rather than task creation",
+    "select": "No ready-task queue; external ticket key can be used as thread/reason; inbox and search support coordination only",
+    "claim": "BEGIN IMMEDIATE reservation read/check/write returns both grants and conflicts; optional slots also advisory and suppress file-write errors; no exclusive task claim",
+    "progress": "Authenticated sender, per-project message/recipient transaction, separate archive bundle, partial multi-project delivery results; mutable agent focus separate from durable messages",
+    "review": "No task acceptance/reviewer contract; authenticated recipient read/ack state indicates receipt only",
+    "complete": "External task authority required; release reservations and send a result do not enforce dependencies, children or accepted work",
+    "cancel": "Self-owned reservation release, agent retirement and project archival exist as coordination state; no worker execution cancellation",
+    "recover": "TTL/heuristic stale reservation and orphan cleanup, session reauthentication, unread polling, conditional receipts and best-effort DB compensation; browser writer retains DB state after archive failure; no durable operation journal or attempt fence"
+  },
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "b503bc2d94c92c5d9faa589efb2db9157a6140fcaa3571f7bf03f58f850544c7",
+      "lines": 519,
+      "ranges": [
+        [
+          1,
+          519
+        ]
+      ],
+      "method": "Instructions, license and metadata inspection; no candidate workflow executed or modified"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "32a82e0a5754e72e51fae44b65a936c831c07376f21c90f5fb9e76897fcc3509",
+      "lines": 73,
+      "ranges": [
+        [
+          1,
+          73
+        ]
+      ],
+      "method": "Instructions, license and metadata inspection; no candidate workflow executed or modified"
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "95da50f046044009f72379e388180d90d50ce24b24e2c659c9bf15fa8ea3ac0a",
+      "lines": 147,
+      "ranges": [
+        [
+          1,
+          70
+        ]
+      ],
+      "method": "Instructions, license and metadata inspection; no candidate workflow executed or modified"
+    },
+    {
+      "path": "src/mcp_agent_mail/models.py",
+      "sha256": "b5960ad286cb7668d17a29cb1e20df302b68435b9b8e8b3e65f2655206cc6a1a",
+      "lines": 219,
+      "ranges": [
+        [
+          1,
+          219
+        ]
+      ],
+      "method": "Complete domain/table field inventory; task/attempt absence assessed against models and MCP declaration catalogue"
+    },
+    {
+      "path": "src/mcp_agent_mail/app.py",
+      "sha256": "8134a17f27c67aee74eaf4255c1111d09ec4095da9f2ddd05ec2fdf759084a71",
+      "lines": 14670,
+      "ranges": [
+        [
+          2000,
+          2056
+        ],
+        [
+          2152,
+          2210
+        ],
+        [
+          2325,
+          2458
+        ],
+        [
+          2798,
+          2818
+        ],
+        [
+          3935,
+          4005
+        ],
+        [
+          4093,
+          4439
+        ],
+        [
+          4592,
+          4731
+        ],
+        [
+          5129,
+          5183
+        ],
+        [
+          5240,
+          5520
+        ],
+        [
+          5575,
+          5856
+        ],
+        [
+          6210,
+          6254
+        ],
+        [
+          7580,
+          7622
+        ],
+        [
+          8355,
+          8424
+        ],
+        [
+          9454,
+          9558
+        ],
+        [
+          9706,
+          9948
+        ],
+        [
+          10486,
+          10514
+        ],
+        [
+          10530,
+          10698
+        ],
+        [
+          11305,
+          11616
+        ],
+        [
+          11665,
+          11760
+        ],
+        [
+          11769,
+          11983
+        ],
+        [
+          11985,
+          12118
+        ],
+        [
+          12118,
+          12335
+        ]
+      ],
+      "method": "Targeted identity, auth, delivery, receipt, reservation and slot bodies at listed ranges; complete MCP decorator declaration inventory separately in catalogue.json, without importing candidate modules"
+    },
+    {
+      "path": "src/mcp_agent_mail/db.py",
+      "sha256": "e38ef0aa51a46f3706e26f43d80456a300af98d0dab3d6f72481da2ad76b57c2",
+      "lines": 992,
+      "ranges": [
+        [
+          602,
+          710
+        ]
+      ],
+      "method": "Targeted source/body inspection; candidate not executed"
+    },
+    {
+      "path": "src/mcp_agent_mail/storage.py",
+      "sha256": "b883b502b44447a2c7aebef1167aca3cd1b6e19be88772434990fdec600951c8",
+      "lines": 3768,
+      "ranges": [
+        [
+          100,
+          235
+        ],
+        [
+          1239,
+          1271
+        ],
+        [
+          1490,
+          1687
+        ],
+        [
+          2009,
+          2025
+        ],
+        [
+          2115,
+          2147
+        ],
+        [
+          2230,
+          2310
+        ]
+      ],
+      "method": "Targeted source/body inspection; candidate not executed"
+    },
+    {
+      "path": "src/mcp_agent_mail/http.py",
+      "sha256": "cd879655ef717569d5632442a83b8dadaeb831f4ea348d924ececf6c73e534d0",
+      "lines": 4485,
+      "ranges": [
+        [
+          722,
+          790
+        ],
+        [
+          888,
+          930
+        ],
+        [
+          1000,
+          1092
+        ],
+        [
+          1195,
+          1341
+        ],
+        [
+          1596,
+          1649
+        ],
+        [
+          3730,
+          4038
+        ],
+        [
+          4380,
+          4420
+        ]
+      ],
+      "method": "Targeted source/body inspection; candidate not executed"
+    },
+    {
+      "path": "src/mcp_agent_mail/config.py",
+      "sha256": "54d9f0c921230c2235e13fddbf472814086616150cc07892bde5268e0a415a13",
+      "lines": 632,
+      "ranges": [
+        [
+          394,
+          430
+        ]
+      ],
+      "method": "Targeted HTTP default declarations, not full configuration audit"
+    },
+    {
+      "path": "src/mcp_agent_mail/guard.py",
+      "sha256": "06240a0877185ab52fca3f105dbf2e3208b7c63b55dea2df49c3e36755a61a0c",
+      "lines": 906,
+      "ranges": [
+        [
+          268,
+          354
+        ],
+        [
+          437,
+          473
+        ]
+      ],
+      "method": "Targeted source/body inspection; candidate not executed"
+    },
+    {
+      "path": "src/mcp_agent_mail/templates/mail_project.html",
+      "sha256": "09197262b1f366b60799158c9bc12e08bd125dc94a9af0a671eee30b799355bc",
+      "lines": 619,
+      "ranges": [
+        [
+          1,
+          125
+        ]
+      ],
+      "method": "Targeted source/body inspection; candidate not executed"
+    },
+    {
+      "path": "tests/test_claim_overlap_and_macro_failures.py",
+      "sha256": "aa15dec0bf93f76d4976efabc7c2bfe547dbb8f99dc88178df4e5a53f606c997",
+      "lines": 49,
+      "ranges": [
+        [
+          1,
+          49
+        ]
+      ],
+      "method": "Selected fixture and assertion-body inspection only; tests not executed"
+    },
+    {
+      "path": "tests/test_outbox_and_claims.py",
+      "sha256": "2c3c82e72001fb3f4d5653a508f391863061f67afe0635e48bcb334569abf188",
+      "lines": 82,
+      "ranges": [
+        [
+          1,
+          82
+        ]
+      ],
+      "method": "Selected fixture and assertion-body inspection only; tests not executed"
+    },
+    {
+      "path": "tests/test_agent_activity_touch.py",
+      "sha256": "ee2f10130f97fc6232c73e1ab34c037283d724f19615c123495d0736c2029a26",
+      "lines": 244,
+      "ranges": [
+        [
+          191,
+          244
+        ]
+      ],
+      "method": "Selected fixture and assertion-body inspection only; tests not executed"
+    },
+    {
+      "path": "tests/test_message_delivery_regression.py",
+      "sha256": "11a6b096bcec31a7101e9877e9d650964f501576b898e1a95cea095dc447e347",
+      "lines": 949,
+      "ranges": [
+        [
+          825,
+          880
+        ]
+      ],
+      "method": "Selected fixture and assertion-body inspection only; tests not executed"
+    },
+    {
+      "path": "tests/test_http_auth_rate_limit.py",
+      "sha256": "40811d1b69bbb47833f1537a133192d89b38c4b08dc7b4e59537f2c6dc5c93f1",
+      "lines": 65,
+      "ranges": [
+        [
+          1,
+          65
+        ]
+      ],
+      "method": "Selected fixture and assertion-body inspection only; tests not executed"
+    },
+    {
+      "path": "tests/test_git_archive_failures.py",
+      "sha256": "b32389a86089937e0ba83cae6ea01a8ea9d237a1d8a82bb388a609a61f993571",
+      "lines": 567,
+      "ranges": [
+        [
+          1,
+          135
+        ]
+      ],
+      "method": "Selected fixture and assertion-body inspection only; tests not executed"
+    }
+  ]
+}

@@ -1,0 +1,635 @@
+{
+  "source": "src/mcp_agent_mail/app.py",
+  "source_sha256": "8134a17f27c67aee74eaf4255c1111d09ec4095da9f2ddd05ec2fdf759084a71",
+  "method": "Python AST declaration inventory; candidate modules not imported. Conditional declarations are included; this is not a runtime registration claim.",
+  "counts": {
+    "tool": 49,
+    "resource": 29
+  },
+  "declarations": [
+    {
+      "kind": "tool",
+      "name": "health_check",
+      "function": "health_check",
+      "start": 5961,
+      "end": 6006,
+      "decorator": "mcp.tool(name='health_check', description='Return basic readiness information for the Agent Mail server.')"
+    },
+    {
+      "kind": "tool",
+      "name": "ensure_project",
+      "function": "ensure_project",
+      "start": 6010,
+      "end": 6114,
+      "decorator": "mcp.tool(name='ensure_project')"
+    },
+    {
+      "kind": "tool",
+      "name": "register_agent",
+      "function": "register_agent",
+      "start": 6118,
+      "end": 6253,
+      "decorator": "mcp.tool(name='register_agent')"
+    },
+    {
+      "kind": "tool",
+      "name": "deregister_agent",
+      "function": "deregister_agent",
+      "start": 6261,
+      "end": 6294,
+      "decorator": "mcp.tool(name='deregister_agent', description='Remove an agent from a project. Marks the agent as inactive and removes it from the active roster. Messages from/to the agent are preserved for audit but the agent can no longer send or receive new messages.')"
+    },
+    {
+      "kind": "tool",
+      "name": "retire_agent",
+      "function": "retire_agent",
+      "start": 6302,
+      "end": 6334,
+      "decorator": "mcp.tool(name='retire_agent', description=\"Soft-delete an agent: mark it as retired so it stops accepting new messages while preserving message history. Retired agents are hidden from active agent lists but visible in 'all agents' views.\")"
+    },
+    {
+      "kind": "tool",
+      "name": "sweep_stale_agents",
+      "function": "sweep_stale_agents_tool",
+      "start": 6351,
+      "end": 6389,
+      "decorator": "mcp.tool(name='sweep_stale_agents', description=\"Retire abandoned agents in the caller's project using the server's conservative inactivity heuristic. The caller is never retired, the threshold has a 60-second floor, and active file reservations block retirement by default.\")"
+    },
+    {
+      "kind": "tool",
+      "name": "unretire_agent",
+      "function": "unretire_agent",
+      "start": 6396,
+      "end": 6428,
+      "decorator": "mcp.tool(name='unretire_agent', description='Restore a retired agent back to active status. The agent will resume accepting new messages.')"
+    },
+    {
+      "kind": "tool",
+      "name": "archive_project",
+      "function": "archive_project",
+      "start": 6436,
+      "end": 6465,
+      "decorator": "mcp.tool(name='archive_project', description='Soft-delete a project: mark it as archived so it is hidden from active project lists. All messages are preserved and the project can be restored with unarchive_project.')"
+    },
+    {
+      "kind": "tool",
+      "name": "unarchive_project",
+      "function": "unarchive_project",
+      "start": 6472,
+      "end": 6501,
+      "decorator": "mcp.tool(name='unarchive_project', description='Restore an archived project back to active status.')"
+    },
+    {
+      "kind": "tool",
+      "name": "hard_delete_agent",
+      "function": "hard_delete_agent",
+      "start": 6518,
+      "end": 6668,
+      "decorator": "mcp.tool(name='hard_delete_agent', description=\"IRREVERSIBLY delete an agent and ALL associated data: messages sent by the agent, message recipient records, file reservations, agent links, window identities, and on-disk archive files (inbox, outbox, attachments). This is NOT soft-delete \u2014 data is permanently destroyed and cannot be recovered. Requires the confirmation parameter to be exactly 'I UNDERSTAND'.\")"
+    },
+    {
+      "kind": "tool",
+      "name": "hard_delete_project",
+      "function": "hard_delete_project",
+      "start": 6681,
+      "end": 6864,
+      "decorator": "mcp.tool(name='hard_delete_project', description=\"IRREVERSIBLY delete a project and ALL associated data: every agent, message, message recipient, file reservation, agent link, window identity, message summary, sibling suggestion, product link, and the entire on-disk project archive directory. This is NOT soft-delete \u2014 data is permanently destroyed and cannot be recovered. Requires the confirmation parameter to be exactly 'I UNDERSTAND'.\")"
+    },
+    {
+      "kind": "tool",
+      "name": "whois",
+      "function": "whois",
+      "start": 6868,
+      "end": 6930,
+      "decorator": "mcp.tool(name='whois')"
+    },
+    {
+      "kind": "tool",
+      "name": "create_agent_identity",
+      "function": "create_agent_identity",
+      "start": 6934,
+      "end": 7053,
+      "decorator": "mcp.tool(name='create_agent_identity')"
+    },
+    {
+      "kind": "tool",
+      "name": "list_window_identities",
+      "function": "list_window_identities",
+      "start": 7063,
+      "end": 7106,
+      "decorator": "mcp.tool(name='list_window_identities')"
+    },
+    {
+      "kind": "tool",
+      "name": "rename_window",
+      "function": "rename_window",
+      "start": 7115,
+      "end": 7183,
+      "decorator": "mcp.tool(name='rename_window')"
+    },
+    {
+      "kind": "tool",
+      "name": "expire_window",
+      "function": "expire_window",
+      "start": 7192,
+      "end": 7247,
+      "decorator": "mcp.tool(name='expire_window')"
+    },
+    {
+      "kind": "tool",
+      "name": "send_message",
+      "function": "send_message",
+      "start": 7258,
+      "end": 8423,
+      "decorator": "mcp.tool(name='send_message')"
+    },
+    {
+      "kind": "tool",
+      "name": "purge_old_messages",
+      "function": "purge_old_messages",
+      "start": 8437,
+      "end": 8476,
+      "decorator": "mcp.tool(name='purge_old_messages', description='Delete messages older than the configured retention period. Defaults to retention_max_age_days from config (180 days). Returns count of messages purged.')"
+    },
+    {
+      "kind": "tool",
+      "name": "reply_message",
+      "function": "reply_message",
+      "start": 8486,
+      "end": 8973,
+      "decorator": "mcp.tool(name='reply_message')"
+    },
+    {
+      "kind": "tool",
+      "name": "request_contact",
+      "function": "request_contact",
+      "start": 8984,
+      "end": 9234,
+      "decorator": "mcp.tool(name='request_contact')"
+    },
+    {
+      "kind": "tool",
+      "name": "respond_contact",
+      "function": "respond_contact",
+      "start": 9245,
+      "end": 9343,
+      "decorator": "mcp.tool(name='respond_contact')"
+    },
+    {
+      "kind": "tool",
+      "name": "list_contacts",
+      "function": "list_contacts",
+      "start": 9353,
+      "end": 9392,
+      "decorator": "mcp.tool(name='list_contacts')"
+    },
+    {
+      "kind": "tool",
+      "name": "set_contact_policy",
+      "function": "set_contact_policy",
+      "start": 9402,
+      "end": 9444,
+      "decorator": "mcp.tool(name='set_contact_policy')"
+    },
+    {
+      "kind": "tool",
+      "name": "fetch_inbox",
+      "function": "fetch_inbox",
+      "start": 9454,
+      "end": 9558,
+      "decorator": "mcp.tool(name='fetch_inbox')"
+    },
+    {
+      "kind": "tool",
+      "name": "fetch_topic",
+      "function": "fetch_topic",
+      "start": 9567,
+      "end": 9696,
+      "decorator": "mcp.tool(name='fetch_topic')"
+    },
+    {
+      "kind": "tool",
+      "name": "mark_message_read",
+      "function": "mark_message_read",
+      "start": 9706,
+      "end": 9774,
+      "decorator": "mcp.tool(name='mark_message_read')"
+    },
+    {
+      "kind": "tool",
+      "name": "acknowledge_message",
+      "function": "acknowledge_message",
+      "start": 9784,
+      "end": 9863,
+      "decorator": "mcp.tool(name='acknowledge_message')"
+    },
+    {
+      "kind": "tool",
+      "name": "macro_start_session",
+      "function": "macro_start_session",
+      "start": 9873,
+      "end": 9948,
+      "decorator": "mcp.tool(name='macro_start_session')"
+    },
+    {
+      "kind": "tool",
+      "name": "macro_prepare_thread",
+      "function": "macro_prepare_thread",
+      "start": 9958,
+      "end": 10035,
+      "decorator": "mcp.tool(name='macro_prepare_thread')"
+    },
+    {
+      "kind": "tool",
+      "name": "macro_file_reservation_cycle",
+      "function": "macro_file_reservation_cycle",
+      "start": 10045,
+      "end": 10113,
+      "decorator": "mcp.tool(name='macro_file_reservation_cycle')"
+    },
+    {
+      "kind": "tool",
+      "name": "macro_contact_handshake",
+      "function": "macro_contact_handshake",
+      "start": 10124,
+      "end": 10482,
+      "decorator": "mcp.tool(name='macro_contact_handshake')"
+    },
+    {
+      "kind": "tool",
+      "name": "search_messages",
+      "function": "search_messages",
+      "start": 10486,
+      "end": 10698,
+      "decorator": "mcp.tool(name='search_messages')"
+    },
+    {
+      "kind": "tool",
+      "name": "summarize_thread",
+      "function": "summarize_thread",
+      "start": 10702,
+      "end": 10898,
+      "decorator": "mcp.tool(name='summarize_thread')"
+    },
+    {
+      "kind": "tool",
+      "name": "summarize_recent",
+      "function": "summarize_recent",
+      "start": 10909,
+      "end": 11139,
+      "decorator": "mcp.tool(name='summarize_recent')"
+    },
+    {
+      "kind": "tool",
+      "name": "fetch_summary",
+      "function": "fetch_summary",
+      "start": 11148,
+      "end": 11204,
+      "decorator": "mcp.tool(name='fetch_summary')"
+    },
+    {
+      "kind": "tool",
+      "name": "install_precommit_guard",
+      "function": "install_precommit_guard",
+      "start": 11211,
+      "end": 11257,
+      "decorator": "mcp.tool(name='install_precommit_guard')"
+    },
+    {
+      "kind": "tool",
+      "name": "uninstall_precommit_guard",
+      "function": "uninstall_precommit_guard",
+      "start": 11261,
+      "end": 11301,
+      "decorator": "mcp.tool(name='uninstall_precommit_guard')"
+    },
+    {
+      "kind": "tool",
+      "name": "file_reservation_paths",
+      "function": "file_reservation_paths",
+      "start": 11305,
+      "end": 11612,
+      "decorator": "mcp.tool(name='file_reservation_paths')"
+    },
+    {
+      "kind": "tool",
+      "name": "release_file_reservations",
+      "function": "release_file_reservations_tool",
+      "start": 11616,
+      "end": 11759,
+      "decorator": "mcp.tool(name='release_file_reservations')"
+    },
+    {
+      "kind": "tool",
+      "name": "force_release_file_reservation",
+      "function": "force_release_file_reservation",
+      "start": 11769,
+      "end": 11982,
+      "decorator": "mcp.tool(name='force_release_file_reservation')"
+    },
+    {
+      "kind": "tool",
+      "name": "renew_file_reservations",
+      "function": "renew_file_reservations",
+      "start": 11985,
+      "end": 12118,
+      "decorator": "mcp.tool(name='renew_file_reservations')"
+    },
+    {
+      "kind": "tool",
+      "name": "acquire_build_slot",
+      "function": "acquire_build_slot",
+      "start": 12189,
+      "end": 12248,
+      "decorator": "mcp.tool(name='acquire_build_slot')"
+    },
+    {
+      "kind": "tool",
+      "name": "renew_build_slot",
+      "function": "renew_build_slot",
+      "start": 12252,
+      "end": 12290,
+      "decorator": "mcp.tool(name='renew_build_slot')"
+    },
+    {
+      "kind": "tool",
+      "name": "release_build_slot",
+      "function": "release_build_slot",
+      "start": 12294,
+      "end": 12332,
+      "decorator": "mcp.tool(name='release_build_slot')"
+    },
+    {
+      "kind": "resource",
+      "name": "resource://config/environment",
+      "function": "environment_resource_exact",
+      "start": 12379,
+      "end": 12380,
+      "decorator": "mcp.resource('resource://config/environment', mime_type='application/json')"
+    },
+    {
+      "kind": "resource",
+      "name": "resource://config/environment{?format}",
+      "function": "environment_resource",
+      "start": 12383,
+      "end": 12384,
+      "decorator": "mcp.resource('resource://config/environment{?format}', mime_type='application/json')"
+    },
+    {
+      "kind": "tool",
+      "name": "ensure_product",
+      "function": "ensure_product_tool",
+      "start": 12397,
+      "end": 12431,
+      "decorator": "mcp.tool(name='ensure_product')"
+    },
+    {
+      "kind": "tool",
+      "name": "products_link",
+      "function": "products_link_tool",
+      "start": 12444,
+      "end": 12479,
+      "decorator": "mcp.tool(name='products_link')"
+    },
+    {
+      "kind": "resource",
+      "name": "resource://product/{key}{?format}",
+      "function": "product_resource",
+      "start": 12491,
+      "end": 12547,
+      "decorator": "mcp.resource('resource://product/{key}{?format}', mime_type='application/json')"
+    },
+    {
+      "kind": "tool",
+      "name": "search_messages_product",
+      "function": "search_messages_product",
+      "start": 12552,
+      "end": 12692,
+      "decorator": "mcp.tool(name='search_messages_product')"
+    },
+    {
+      "kind": "tool",
+      "name": "fetch_inbox_product",
+      "function": "fetch_inbox_product",
+      "start": 12708,
+      "end": 12756,
+      "decorator": "mcp.tool(name='fetch_inbox_product')"
+    },
+    {
+      "kind": "tool",
+      "name": "summarize_thread_product",
+      "function": "summarize_thread_product",
+      "start": 12775,
+      "end": 12902,
+      "decorator": "mcp.tool(name='summarize_thread_product')"
+    },
+    {
+      "kind": "resource",
+      "name": "resource://identity/{project}{?format}",
+      "function": "identity_resource",
+      "start": 12936,
+      "end": 12947,
+      "decorator": "mcp.resource('resource://identity/{project}{?format}', mime_type='application/json')"
+    },
+    {
+      "kind": "resource",
+      "name": "resource://tooling/directory",
+      "function": "tooling_directory_resource_exact",
+      "start": 13287,
+      "end": 13288,
+      "decorator": "mcp.resource('resource://tooling/directory', mime_type='application/json')"
+    },
+    {
+      "kind": "resource",
+      "name": "resource://tooling/directory{?format}",
+      "function": "tooling_directory_resource",
+      "start": 13291,
+      "end": 13292,
+      "decorator": "mcp.resource('resource://tooling/directory{?format}', mime_type='application/json')"
+    },
+    {
+      "kind": "resource",
+      "name": "resource://tooling/schemas",
+      "function": "tooling_schemas_resource_exact",
+      "start": 13341,
+      "end": 13342,
+      "decorator": "mcp.resource('resource://tooling/schemas', mime_type='application/json')"
+    },
+    {
+      "kind": "resource",
+      "name": "resource://tooling/schemas{?format}",
+      "function": "tooling_schemas_resource",
+      "start": 13345,
+      "end": 13346,
+      "decorator": "mcp.resource('resource://tooling/schemas{?format}', mime_type='application/json')"
+    },
+    {
+      "kind": "resource",
+      "name": "resource://tooling/metrics",
+      "function": "tooling_metrics_resource_exact",
+      "start": 13362,
+      "end": 13363,
+      "decorator": "mcp.resource('resource://tooling/metrics', mime_type='application/json')"
+    },
+    {
+      "kind": "resource",
+      "name": "resource://tooling/metrics{?format}",
+      "function": "tooling_metrics_resource",
+      "start": 13366,
+      "end": 13367,
+      "decorator": "mcp.resource('resource://tooling/metrics{?format}', mime_type='application/json')"
+    },
+    {
+      "kind": "resource",
+      "name": "resource://tooling/locks",
+      "function": "tooling_locks_resource_exact",
+      "start": 13382,
+      "end": 13383,
+      "decorator": "mcp.resource('resource://tooling/locks', mime_type='application/json')"
+    },
+    {
+      "kind": "resource",
+      "name": "resource://tooling/locks{?format}",
+      "function": "tooling_locks_resource",
+      "start": 13386,
+      "end": 13387,
+      "decorator": "mcp.resource('resource://tooling/locks{?format}', mime_type='application/json')"
+    },
+    {
+      "kind": "resource",
+      "name": "resource://tooling/capabilities/{agent}{?project,format}",
+      "function": "tooling_capabilities_resource",
+      "start": 13390,
+      "end": 13420,
+      "decorator": "mcp.resource('resource://tooling/capabilities/{agent}{?project,format}', mime_type='application/json')"
+    },
+    {
+      "kind": "resource",
+      "name": "resource://tooling/recent/{window_seconds}{?agent,project,format}",
+      "function": "tooling_recent_resource",
+      "start": 13423,
+      "end": 13475,
+      "decorator": "mcp.resource('resource://tooling/recent/{window_seconds}{?agent,project,format}', mime_type='application/json')"
+    },
+    {
+      "kind": "resource",
+      "name": "resource://tooling/projects",
+      "function": "projects_resource_exact",
+      "start": 13517,
+      "end": 13518,
+      "decorator": "mcp.resource('resource://tooling/projects', mime_type='application/json')"
+    },
+    {
+      "kind": "resource",
+      "name": "resource://tooling/projects{?format}",
+      "function": "projects_resource",
+      "start": 13521,
+      "end": 13522,
+      "decorator": "mcp.resource('resource://tooling/projects{?format}', mime_type='application/json')"
+    },
+    {
+      "kind": "resource",
+      "name": "resource://project/{slug}{?format}",
+      "function": "project_detail",
+      "start": 13525,
+      "end": 13566,
+      "decorator": "mcp.resource('resource://project/{slug}{?format}', mime_type='application/json')"
+    },
+    {
+      "kind": "resource",
+      "name": "resource://agents/{project_key}{?format}",
+      "function": "agents_directory",
+      "start": 13569,
+      "end": 13672,
+      "decorator": "mcp.resource('resource://agents/{project_key}{?format}', mime_type='application/json')"
+    },
+    {
+      "kind": "resource",
+      "name": "resource://file_reservations/{slug}{?active_only,format}",
+      "function": "file_reservations_resource",
+      "start": 13675,
+      "end": 13756,
+      "decorator": "mcp.resource('resource://file_reservations/{slug}{?active_only,format}', mime_type='application/json')"
+    },
+    {
+      "kind": "resource",
+      "name": "resource://message/{message_id}{?project,agent,agent_token,format}",
+      "function": "message_resource",
+      "start": 13759,
+      "end": 13845,
+      "decorator": "mcp.resource('resource://message/{message_id}{?project,agent,agent_token,format}', mime_type='application/json')"
+    },
+    {
+      "kind": "resource",
+      "name": "resource://thread/{thread_id}{?project,agent,agent_token,include_bodies,format}",
+      "function": "thread_resource",
+      "start": 13848,
+      "end": 13978,
+      "decorator": "mcp.resource('resource://thread/{thread_id}{?project,agent,agent_token,include_bodies,format}', mime_type='application/json')"
+    },
+    {
+      "kind": "resource",
+      "name": "resource://inbox/{agent}{?project,since_ts,urgent_only,include_bodies,limit,agent_token,format}",
+      "function": "inbox_resource",
+      "start": 13984,
+      "end": 14097,
+      "decorator": "mcp.resource('resource://inbox/{agent}{?project,since_ts,urgent_only,include_bodies,limit,agent_token,format}', mime_type='application/json')"
+    },
+    {
+      "kind": "resource",
+      "name": "resource://views/urgent-unread/{agent}{?project,limit,agent_token,format}",
+      "function": "urgent_unread_view",
+      "start": 14100,
+      "end": 14168,
+      "decorator": "mcp.resource('resource://views/urgent-unread/{agent}{?project,limit,agent_token,format}', mime_type='application/json')"
+    },
+    {
+      "kind": "resource",
+      "name": "resource://views/ack-required/{agent}{?project,limit,agent_token,format}",
+      "function": "ack_required_view",
+      "start": 14171,
+      "end": 14246,
+      "decorator": "mcp.resource('resource://views/ack-required/{agent}{?project,limit,agent_token,format}', mime_type='application/json')"
+    },
+    {
+      "kind": "resource",
+      "name": "resource://views/acks-stale/{agent}{?project,ttl_seconds,limit,agent_token,format}",
+      "function": "acks_stale_view",
+      "start": 14249,
+      "end": 14348,
+      "decorator": "mcp.resource('resource://views/acks-stale/{agent}{?project,ttl_seconds,limit,agent_token,format}', mime_type='application/json')"
+    },
+    {
+      "kind": "resource",
+      "name": "resource://views/ack-overdue/{agent}{?project,ttl_minutes,limit,agent_token,format}",
+      "function": "ack_overdue_view",
+      "start": 14351,
+      "end": 14426,
+      "decorator": "mcp.resource('resource://views/ack-overdue/{agent}{?project,ttl_minutes,limit,agent_token,format}', mime_type='application/json')"
+    },
+    {
+      "kind": "resource",
+      "name": "resource://mailbox/{agent}{?project,limit,agent_token,format}",
+      "function": "mailbox_resource",
+      "start": 14429,
+      "end": 14492,
+      "decorator": "mcp.resource('resource://mailbox/{agent}{?project,limit,agent_token,format}', mime_type='application/json')"
+    },
+    {
+      "kind": "resource",
+      "name": "resource://mailbox-with-commits/{agent}{?project,limit,agent_token,format}",
+      "function": "mailbox_with_commits_resource",
+      "start": 14498,
+      "end": 14552,
+      "decorator": "mcp.resource('resource://mailbox-with-commits/{agent}{?project,limit,agent_token,format}', mime_type='application/json')"
+    },
+    {
+      "kind": "resource",
+      "name": "resource://outbox/{agent}{?project,limit,include_bodies,since_ts,agent_token,format}",
+      "function": "outbox_resource",
+      "start": 14555,
+      "end": 14618,
+      "decorator": "mcp.resource('resource://outbox/{agent}{?project,limit,include_bodies,since_ts,agent_token,format}', mime_type='application/json')"
+    }
+  ]
+}
