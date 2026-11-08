@@ -1,0 +1,709 @@
+{
+  "project": "beads-viewer",
+  "commit": "516e96aa1ac78d6f634b0d394f5102bf430de016",
+  "baseline": "AGENT_TASK_MANAGEMENT.md",
+  "baseline_sha256": "4dcfe707e292330c65b66c9bbbf4999d90dcf54991adf76ffe82a5efd3eee8a3",
+  "reviewed_on": "2026-11-09",
+  "review_status": "source_review_complete",
+  "scope": "Full tracked checkout; targeted static bodies and selected assertion review of models/readiness, live-route binding, ingestion and workspace aggregation, triage/plan and metric/cache admission, native editor writes and refresh recovery, watcher/snapshot generations, sprint/ETA/risk, static export and preview, and selected correlation/search boundaries. Not every-line, complete numerical/engine/cache/installer/deployment/browser/runtime certification.",
+  "candidate_executed": false,
+  "candidate_tests_run": false,
+  "requirement_verdicts": {
+    "T01": "Similar",
+    "T02": "Resembles",
+    "T03": "Similar",
+    "T04": "Similar",
+    "T05": "Absent",
+    "T06": "Similar",
+    "T07": "Resembles",
+    "T08": "Resembles",
+    "T09": "Resembles",
+    "T10": "Similar",
+    "T11": "Resembles",
+    "T12": "Resembles",
+    "T13": "Similar",
+    "T14": "Resembles",
+    "T15": "Resembles",
+    "T16": "Similar",
+    "T17": "Resembles",
+    "T18": "Similar",
+    "T19": "Similar",
+    "T20": "Similar",
+    "T21": "Resembles",
+    "T22": "Resembles",
+    "T23": "Similar",
+    "T24": "Similar"
+  },
+  "lifecycle_review": {
+    "create": "Task creation external to viewer; reads rich issue snapshots from JSONL/SQLite and attaches verified live tracker origin separately; native sprint writer helper has no production caller beyond own delegation in inspected call inventory",
+    "select": "Full-source readiness distinct from metric graph/candidate scope; missing references and hierarchy cycles unknown; ready includes ongoing work, claimable excludes assignment/epic/open children; triage partial source and native route guards; metric gate specifically PageRank/betweenness",
+    "claim": "Generates routed literal argv for br/bd update --claim when installed help advertises support; no reservation or attempt token; tracker must recheck authority at execution",
+    "progress": "TUI editor revalidates source/session/metadata and native issue via show, then separate unconditional update; no if-unchanged flag, so preflight/write race remains; descriptive progress and comments imported rather than native handoff protocol",
+    "review": "Acceptance/review state displayed; source hashes and confidence-bearing correlation help investigation but no qualified review authority, result evidence pin or acceptance transition",
+    "complete": "Task close delegated to installed tracker; viewer does not enforce child result acceptance or stop workers; graph what-if completion and track groups are analytical only",
+    "cancel": "Command context cancels viewer subprocess wait and background analysis; possible committed tracker outcome remains inspectable; no worker/task execution cancellation or external effect compensation",
+    "recover": "Last-good snapshots and generation-gated publication, watcher fallback and coalescing; draft retained after failed save and committed-save/export gap; export-only retry; abandoned-claim alerts heuristic not task lease/reclaim; independent stores lack shared online ownership"
+  },
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "dac02db5bc89c0b63d445c1e7b22812a805c6120c7592202e84e7cf1e3ae501d",
+      "lines": 1025,
+      "ranges": [
+        [
+          1,
+          1025
+        ]
+      ],
+      "method": "Contributor instructions, manifest or license inspection; no candidate development workflow, dependency install or runtime executed."
+    },
+    {
+      "path": "go.mod",
+      "sha256": "15b0c4bb99b5cf62dfd2ddcfe34367bf0e362560d7bbb3c4b7dfc278e7e8f439",
+      "lines": 87,
+      "ranges": [
+        [
+          1,
+          70
+        ]
+      ],
+      "method": "Contributor instructions, manifest or license inspection; no candidate development workflow, dependency install or runtime executed."
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "32a82e0a5754e72e51fae44b65a936c831c07376f21c90f5fb9e76897fcc3509",
+      "lines": 73,
+      "ranges": [
+        [
+          1,
+          73
+        ]
+      ],
+      "method": "Contributor instructions, manifest or license inspection; no candidate development workflow, dependency install or runtime executed."
+    },
+    {
+      "path": "pkg/model/types.go",
+      "sha256": "c2a81f25151f2fdce0c5f87f157471d5529119a580661ce4a8f17784413e3ad7",
+      "lines": 573,
+      "ranges": [
+        [
+          1,
+          240
+        ],
+        [
+          281,
+          410
+        ],
+        [
+          418,
+          449
+        ],
+        [
+          498,
+          563
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed; no mathematical, runtime or every-line certification."
+    },
+    {
+      "path": "pkg/model/readiness.go",
+      "sha256": "274a8f3ea1803f42413ff03241624cec208100e5e12c3b3df0259d09886a619d",
+      "lines": 264,
+      "ranges": [
+        [
+          1,
+          264
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed; no mathematical, runtime or every-line certification."
+    },
+    {
+      "path": "pkg/loader/loader.go",
+      "sha256": "cda2cda74f944756d90776e4cc6c47f0ddb10d76238771ad3dab220de95b95bd",
+      "lines": 2169,
+      "ranges": [
+        [
+          96,
+          271
+        ],
+        [
+          553,
+          700
+        ],
+        [
+          1437,
+          1557
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed; no mathematical, runtime or every-line certification."
+    },
+    {
+      "path": "internal/datasource/sqlite.go",
+      "sha256": "e37a82b8cec4fd10c961b9cab5f6666c3d0c9e66a70bc2cd8c461e238bfbcbc5",
+      "lines": 795,
+      "ranges": [
+        [
+          44,
+          112
+        ],
+        [
+          230,
+          327
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed; no mathematical, runtime or every-line certification."
+    },
+    {
+      "path": "internal/datasource/load.go",
+      "sha256": "88919a436c70640ccf607f2c1305639d476786ea5b951ab33db620fbbc974ce4",
+      "lines": 480,
+      "ranges": [
+        [
+          464,
+          480
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed; no mathematical, runtime or every-line certification."
+    },
+    {
+      "path": "pkg/workspace/types.go",
+      "sha256": "bd8391424ecaa030e627b9a1bb3053b61aab9e203e315cb99b46d934a31ae46b",
+      "lines": 380,
+      "ranges": [
+        [
+          1,
+          115
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed; no mathematical, runtime or every-line certification."
+    },
+    {
+      "path": "pkg/workspace/loader.go",
+      "sha256": "f1c2cf647e90504178fa1b266b05426bef72637732587de56f6b391a418027a7",
+      "lines": 686,
+      "ranges": [
+        [
+          94,
+          180
+        ],
+        [
+          453,
+          558
+        ],
+        [
+          584,
+          623
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed; no mathematical, runtime or every-line certification."
+    },
+    {
+      "path": "pkg/analysis/graph.go",
+      "sha256": "b9521b25ed292697f67189ce89b9a5a7092cef268a5ffdd8a40b89aedb193f84",
+      "lines": 3346,
+      "ranges": [
+        [
+          149,
+          190
+        ],
+        [
+          202,
+          233
+        ],
+        [
+          1304,
+          1405
+        ],
+        [
+          1531,
+          1558
+        ],
+        [
+          1559,
+          1676
+        ],
+        [
+          1695,
+          1804
+        ],
+        [
+          2193,
+          2265
+        ],
+        [
+          2321,
+          2367
+        ],
+        [
+          2420,
+          2486
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed; no mathematical, runtime or every-line certification."
+    },
+    {
+      "path": "pkg/analysis/triage.go",
+      "sha256": "ee7707455f76122690fae702ee280511d98f961be43242028436b5e20052e4e5",
+      "lines": 1967,
+      "ranges": [
+        [
+          592,
+          745
+        ],
+        [
+          916,
+          967
+        ],
+        [
+          1157,
+          1210
+        ],
+        [
+          1304,
+          1338
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed; no mathematical, runtime or every-line certification."
+    },
+    {
+      "path": "pkg/analysis/plan.go",
+      "sha256": "1b28c3403fd34cf87324d24e52f4c3076f3529f7b66f467cd6cb34e7648a9b9a",
+      "lines": 326,
+      "ranges": [
+        [
+          1,
+          258
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed; no mathematical, runtime or every-line certification."
+    },
+    {
+      "path": "pkg/analysis/config.go",
+      "sha256": "08332c43b6cc75a1b5f3d0445b14e147b0d98bb21291881c87fcafa9c922f83c",
+      "lines": 451,
+      "ranges": [
+        [
+          1,
+          229
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed; no mathematical, runtime or every-line certification."
+    },
+    {
+      "path": "pkg/analysis/priority.go",
+      "sha256": "7023bd179d8e86e925fb571531e6556a7f11833308dd55a8b881bd5c0e8d3994",
+      "lines": 1133,
+      "ranges": [
+        [
+          1,
+          95
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed; no mathematical, runtime or every-line certification."
+    },
+    {
+      "path": "pkg/analysis/insights.go",
+      "sha256": "bcc7a69aaccddad7aed488e63906d6c3a84b5f3e011fb4d644b166c05424bc14",
+      "lines": 170,
+      "ranges": [
+        [
+          1,
+          90
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed; no mathematical, runtime or every-line certification."
+    },
+    {
+      "path": "cmd/bv/robot_registry.go",
+      "sha256": "68c98c0c9e6ceaa767e7023d325b74a8abe7a11e8bcc5da7ded86aeed240ca77",
+      "lines": 3916,
+      "ranges": [
+        [
+          1,
+          100
+        ],
+        [
+          234,
+          375
+        ],
+        [
+          1200,
+          1328
+        ],
+        [
+          2184,
+          2228
+        ],
+        [
+          2459,
+          2568
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed; no mathematical, runtime or every-line certification."
+    },
+    {
+      "path": "cmd/bv/main.go",
+      "sha256": "15be1aacdf460f91513d20b933db5065475e415f328d96a5594f2f50e18ee0a4",
+      "lines": 9911,
+      "ranges": [
+        [
+          3435,
+          3548
+        ],
+        [
+          7172,
+          7315
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed; no mathematical, runtime or every-line certification."
+    },
+    {
+      "path": "pkg/agents/detect.go",
+      "sha256": "8f8ebe92ff64e6aff8deee7da39da06141e04b70cd5947f73588d5b7b7ccda4a",
+      "lines": 269,
+      "ranges": [
+        [
+          1,
+          105
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed; no mathematical, runtime or every-line certification."
+    },
+    {
+      "path": "pkg/ui/model.go",
+      "sha256": "483ead9121dc5c17a05fae6d7ec351924ed38c2c3e8a5a414b0a397cc57c4467",
+      "lines": 11772,
+      "ranges": [
+        [
+          350,
+          755
+        ],
+        [
+          2781,
+          2857
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed; no mathematical, runtime or every-line certification."
+    },
+    {
+      "path": "pkg/ui/background_worker.go",
+      "sha256": "5de4b6f94e036755c0fcf085e409c00bb85a9309fce9843213efdc1669b1ae7d",
+      "lines": 2147,
+      "ranges": [
+        [
+          1132,
+          1194
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed; no mathematical, runtime or every-line certification."
+    },
+    {
+      "path": "pkg/watcher/watcher.go",
+      "sha256": "ff6fcfe398746535e45566a53b9efc7a2ba133e36a3eb182305cb6f0e4b7a3d4",
+      "lines": 606,
+      "ranges": [
+        [
+          397,
+          495
+        ],
+        [
+          515,
+          606
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed; no mathematical, runtime or every-line certification."
+    },
+    {
+      "path": "pkg/loader/sprint.go",
+      "sha256": "e5cd43f989ddd91a28b63f7b1c205643b2edba5b51144630f88eed7ae750a4b5",
+      "lines": 155,
+      "ranges": [
+        [
+          1,
+          155
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed; no mathematical, runtime or every-line certification."
+    },
+    {
+      "path": "pkg/analysis/eta.go",
+      "sha256": "8ca46d67de5b8d3c4dc4a2262a7a8a771d407897740fbfeb8866b67d86fe7ec2",
+      "lines": 298,
+      "ranges": [
+        [
+          31,
+          94
+        ],
+        [
+          151,
+          224
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed; no mathematical, runtime or every-line certification."
+    },
+    {
+      "path": "pkg/analysis/sprint.go",
+      "sha256": "7674762820cfd87457649770e79f6d50ed13255ac6e93fa0b71e80f6799eddf9",
+      "lines": 261,
+      "ranges": [
+        [
+          73,
+          100
+        ],
+        [
+          131,
+          246
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed; no mathematical, runtime or every-line certification."
+    },
+    {
+      "path": "pkg/drift/drift.go",
+      "sha256": "393db4f4eec4ca152dcac4642b140b0f13b0480619cea56c0e4b4f0465cbf393",
+      "lines": 1099,
+      "ranges": [
+        [
+          571,
+          652
+        ],
+        [
+          959,
+          1011
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed; no mathematical, runtime or every-line certification."
+    },
+    {
+      "path": "pkg/ui/board.go",
+      "sha256": "70ae3f07d7d21f26a41a4d63271388fccac14aed947a95906d70dcc149d4c48a",
+      "lines": 1784,
+      "ranges": [
+        [
+          1,
+          75
+        ],
+        [
+          291,
+          351
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed; no mathematical, runtime or every-line certification."
+    },
+    {
+      "path": "pkg/export/sqlite_export.go",
+      "sha256": "44f8211aab5bf92013ef192a55ca2f26e802fb4bc96cbff22d8ee1a9d4eb9782",
+      "lines": 1233,
+      "ranges": [
+        [
+          84,
+          245
+        ],
+        [
+          652,
+          700
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed; no mathematical, runtime or every-line certification."
+    },
+    {
+      "path": "pkg/export/sqlite_schema.go",
+      "sha256": "1b0e4b38e3f3895fe334050e79a36e5514ef0a2133b5a4e09cb832273de27b80",
+      "lines": 373,
+      "ranges": [
+        [
+          1,
+          98
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed; no mathematical, runtime or every-line certification."
+    },
+    {
+      "path": "pkg/export/viewer_embed.go",
+      "sha256": "f466ecabeb346285e3eb3e5f3c3fdd704b29b919b8717493a8ab2afdcaf7b7f6",
+      "lines": 355,
+      "ranges": [
+        [
+          73,
+          145
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed; no mathematical, runtime or every-line certification."
+    },
+    {
+      "path": "pkg/export/preview.go",
+      "sha256": "c303318b6b5040d9e5065c5ca5153338495f08c4353a0868b3618aee894ecc81",
+      "lines": 561,
+      "ranges": [
+        [
+          51,
+          95
+        ],
+        [
+          213,
+          244
+        ],
+        [
+          447,
+          519
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed; no mathematical, runtime or every-line certification."
+    },
+    {
+      "path": "pkg/export/viewer_assets/viewer.js",
+      "sha256": "703aa6e91111e84368619a25dcfc0b0f403677f6d78465ca4860a53a26e480fa",
+      "lines": 3647,
+      "ranges": [
+        [
+          1,
+          72
+        ],
+        [
+          551,
+          582
+        ],
+        [
+          2236,
+          2269
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed; no mathematical, runtime or every-line certification."
+    },
+    {
+      "path": "pkg/export/viewer_assets/index.html",
+      "sha256": "652ca4c658af57586c8ff7b9774114935450baf1fdf4126eca68f1f59d3a9a6a",
+      "lines": 4077,
+      "ranges": [
+        [
+          1,
+          100
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed; no mathematical, runtime or every-line certification."
+    },
+    {
+      "path": "pkg/loader/git.go",
+      "sha256": "d4ef892ac326c4667a935229d2dd21b1c7f9669e8701a2d9547e128ec79d36bd",
+      "lines": 686,
+      "ranges": [
+        [
+          1,
+          112
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed; no mathematical, runtime or every-line certification."
+    },
+    {
+      "path": "pkg/correlation/types.go",
+      "sha256": "ecac270acc2e8546b25b9afadc08b0f94ff661465bf888994c085e6a57d7c77a",
+      "lines": 312,
+      "ranges": [
+        [
+          70,
+          122
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed; no mathematical, runtime or every-line certification."
+    },
+    {
+      "path": "pkg/correlation/correlator.go",
+      "sha256": "ffc426230cc83c72cd2d2d7eef4c6b32f1a167c604529a6f49cffd736a30826a",
+      "lines": 907,
+      "ranges": [
+        [
+          403,
+          480
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed; no mathematical, runtime or every-line certification."
+    },
+    {
+      "path": "pkg/search/config.go",
+      "sha256": "80b7f4055cb82824c46d9a90713fbc5c3ad96830682dc2255782080b93543c18",
+      "lines": 170,
+      "ranges": [
+        [
+          1,
+          118
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed; no mathematical, runtime or every-line certification."
+    },
+    {
+      "path": "pkg/analysis/plan_test.go",
+      "sha256": "0a3f6ee4fb86c3294e7cbecb2b107d2a04d2d480eef16672624e162f7b6cbcb3",
+      "lines": 650,
+      "ranges": [
+        [
+          89,
+          118
+        ],
+        [
+          399,
+          505
+        ]
+      ],
+      "method": "Selected fixture and assertion bodies read, not run; editor uses a copied test executable as a fake native tracker, not real br/bd ownership tests."
+    },
+    {
+      "path": "cmd/bv/robot_envelope_test.go",
+      "sha256": "399686ab562efc873394d27814a53c3703a26a9447e7a073c98a2aea0f2fe801",
+      "lines": 198,
+      "ranges": [
+        [
+          1,
+          110
+        ]
+      ],
+      "method": "Selected fixture and assertion bodies read, not run; editor uses a copied test executable as a fake native tracker, not real br/bd ownership tests."
+    },
+    {
+      "path": "pkg/model/types_test.go",
+      "sha256": "7446591c1f3b1bfcc53cc4da2279da2d4bd70320250d6c45f4d27296208a9f09",
+      "lines": 1257,
+      "ranges": [
+        [
+          38,
+          108
+        ],
+        [
+          156,
+          168
+        ]
+      ],
+      "method": "Selected fixture and assertion bodies read, not run; editor uses a copied test executable as a fake native tracker, not real br/bd ownership tests."
+    },
+    {
+      "path": "pkg/ui/coverage_extra_test.go",
+      "sha256": "3ba7a70dab25a93bbf3f96e9f2e8cbf97febfda662baf8ca71adf6ae631771aa",
+      "lines": 2542,
+      "ranges": [
+        [
+          1,
+          204
+        ],
+        [
+          439,
+          515
+        ],
+        [
+          546,
+          586
+        ]
+      ],
+      "method": "Selected fixture and assertion bodies read, not run; editor uses a copied test executable as a fake native tracker, not real br/bd ownership tests."
+    },
+    {
+      "path": "pkg/ui/background_worker_authority_test.go",
+      "sha256": "7013d5c49b7468856eb1b94412fd5fa70d3519e58828c79ff75789a30e6c0d6e",
+      "lines": 152,
+      "ranges": [
+        [
+          21,
+          152
+        ]
+      ],
+      "method": "Selected fixture and assertion bodies read, not run; editor uses a copied test executable as a fake native tracker, not real br/bd ownership tests."
+    }
+  ]
+}
