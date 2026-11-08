@@ -1,0 +1,1381 @@
+{
+  "project": "openproject",
+  "commit": "05d9afe72a3c9198e26c0284c213f733c4863ca2",
+  "baseline": "AGENT_TASK_MANAGEMENT.md",
+  "baseline_sha256": "4dcfe707e292330c65b66c9bbbf4999d90dcf54991adf76ffe82a5efd3eee8a3",
+  "reviewed_on": "2026-11-09",
+  "review_status": "source_review_complete",
+  "scope": "Targeted static source review of project/work-package/table/principal-reference/status/progress/parent/relation/version/workflow/sprint/board domain; native MCP and HTTP work-package create/search/update/comment/relation interfaces and Enterprise/config gate; parser/lock-version contracts, service pipeline, transaction/advisory context, assignment/move permissions, ancestor/related updates, type/status and type-only relation validation boundaries, system duplicate closure and deletion; selected backlog single/batch placement locks/revalidation/rollback and sprint finish; journal SQL creation/aggregation, events/GoodJob notification workflow/completion timestamp/recipient visibility, selected outgoing webhook paths; authentication registration/API token hashing/expiry; representative frontend form/payload/detail and deployment/dependency configuration. Selected contract/request/threaded concurrency assertion bodies read. Relevant task/model/service/tool inventories searched for attempt/lease/heartbeat/capacity/agent-owner alternatives. No candidate application/install/build/migration/test executed. Not every-line, all plugins/automations/importers/exports/editions/custom fields/graph races/file/mail-push/OAuth-OIDC/dependency internals/performance/browser/accessibility/deployment/production concurrency certification.",
+  "candidate_executed": false,
+  "candidate_tests_run": false,
+  "requirement_verdicts": {
+    "T01": "Similar",
+    "T02": "Similar",
+    "T03": "Similar",
+    "T04": "Similar",
+    "T05": "Resembles",
+    "T06": "Similar",
+    "T07": "Resembles",
+    "T08": "Resembles",
+    "T09": "Resembles",
+    "T10": "Similar",
+    "T11": "Similar",
+    "T12": "Similar",
+    "T13": "Resembles",
+    "T14": "Absent",
+    "T15": "Similar",
+    "T16": "Resembles",
+    "T17": "Similar",
+    "T18": "Similar",
+    "T19": "Similar",
+    "T20": "Similar",
+    "T21": "Similar",
+    "T22": "Similar",
+    "T23": "Similar",
+    "T24": "Similar"
+  },
+  "lifecycle_review": {
+    "create": "Common create contract/set attributes, new default work-package model, SQL save and dependent ancestor/rescheduling/watcher work in user transaction. Native MCP create non-idempotent; structured API/MCP source records, no execution acquisition or retry result key claimed.",
+    "select": "Visible project/assignee/status/type/version/label/subject API/MCP snapshots; MCP paginated at declared size40. Parent/recursive relatability checks and blocker-aware closed-status filtering exist, but no execution ready reservation. Type-only canonical relation update does not trigger endpoint-changed cycle predicate; compound type/status follows destination-type available states rather than normal predecessor gate.",
+    "claim": "Model-class/id transaction-scoped advisory locking and optimistic lockVersion reject stale edits; parse missing version=>nil. Assignee/responsible principal validation and field/move permissions, no mandatory unowned/worker-eligible/capacity/current-attempt/lease predicate. A fresh user edit remains possible after assignment changes.",
+    "progress": "Durable notes/descriptions/custom fields/context, SQL journals and effort/progress hierarchy derivations. Status-based percentages and weighted/simple ancestor aggregation are planning metrics, not accepted results. Frontend carries lockVersion and schema writable values; local update event can precede persistence.",
+    "review": "Role/type/author-assignee workflow transitions, readonly states, blockers and custom field validation provide controlled edits. No reviewed immutable result-revision/attempt reviewer acceptance or verified-child join. Type-change and system EmptyContract duplicate paths are exceptions to normal transition policy.",
+    "complete": "Closed status classifies work; ancestor progress is not parent accepted-child completion. Before-save duplicate closure updates others as User.system with EmptyContract, cause and logged failure. Sprint finish moves unfinished work and marks iteration complete; distinct from all tasks accepted.",
+    "cancel": "Contracted deletion plans descendant detach/destroy, reschedules successors/ancestors, removes notifications and reloads stale descendants for retry. Transactions preserve planning changes, no external agent process abort, side-effect reversal, execution credential revocation or native runtime resume.",
+    "recover": "Shared PostgreSQL/user authority across hosts with model mutex and selected backlog placement/lifecycle locks/cohort reloads. No work-owner heartbeat/lease/current-attempt recovery in inspected task protocol. Journals coalesce compatible same-actor updates; dated completion jobs reject superseded snapshot timestamps. GoodJob external workers preserve jobs but unhandled-error automatic retry disabled; selected webhook timeout retry. Notification queries retain recipient/current-resource permission. Event-to-job/dependency adapter durability and HA not certified."
+  },
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "7bdfa2099a3a9bcef6d2a04a7d2338860eb0f1b86c890977c2b05afa1d414490",
+      "lines": 77,
+      "ranges": [
+        [
+          1,
+          77
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/AGENTS.md",
+      "sha256": "072fc79942ed97ccef6831d9f734e8111af6c298d49a9efde4a14ac7e1198e12",
+      "lines": 31,
+      "ranges": [
+        [
+          1,
+          31
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "frontend/AGENTS.md",
+      "sha256": "8799c9edf937cfd91c4772e265d9c9ea052dd557a4c6f34d1f74c237629fadd4",
+      "lines": 37,
+      "ranges": [
+        [
+          1,
+          37
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "spec/AGENTS.md",
+      "sha256": "0ef798d5d44bcc96c42d54e957084c8ac52f73595b9f9ad644fc48e2e7e2d9e2",
+      "lines": 32,
+      "ranges": [
+        [
+          1,
+          32
+        ]
+      ],
+      "method": "Selected test setup and assertion bodies inspected, not executed; no passing runtime/concurrency claim."
+    },
+    {
+      "path": "config/AGENTS.md",
+      "sha256": "3e7232788ca49fa19e2f1f4357fd7d4b8633155b2329a1f135a55a11f13252e5",
+      "lines": 13,
+      "ranges": [
+        [
+          1,
+          13
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "db/AGENTS.md",
+      "sha256": "98596fce0ad1d6f9370649c5747838b135a8ef333e74c2a8ac4d8ab136c124c9",
+      "lines": 29,
+      "ranges": [
+        [
+          1,
+          29
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+      "lines": 674,
+      "ranges": [
+        [
+          1,
+          25
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": ".ruby-version",
+      "sha256": "365c845737dc111861176ea1d0246ce7b335768d8dbd2cea234c305b2983beba",
+      "lines": 1,
+      "ranges": [
+        [
+          1,
+          1
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "package.json",
+      "sha256": "c602c847d83c23564f0c24557103923159c3e1350923872921e7d2532d4d047a",
+      "lines": 25,
+      "ranges": [
+        [
+          1,
+          25
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "Gemfile.lock",
+      "sha256": "f3ba842fe436a13aae27ae0d98ec69d9d389b81cf99a603bc7edca7f78fc2e36",
+      "lines": 2373,
+      "ranges": [
+        [
+          1248,
+          1266
+        ],
+        [
+          1558,
+          1568
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/models/work_package.rb",
+      "sha256": "d6cc2c41c81296bbf04b892defa752b7b37f7b2d622bbee53f58ef1085fc43af",
+      "lines": 733,
+      "ranges": [
+        [
+          31,
+          95
+        ],
+        [
+          136,
+          175
+        ],
+        [
+          195,
+          277
+        ],
+        [
+          657,
+          698
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/models/project.rb",
+      "sha256": "d1a3111e201f18bc3e56a09cb2054c457ad0bd62d5f4f794c8a2023adfdabc85",
+      "lines": 335,
+      "ranges": [
+        [
+          31,
+          110
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "db/migrate/tables/work_packages.rb",
+      "sha256": "fd4ff6daf7d9f072312141dda0a292edcee441ceb65a27d83927e92b8eacfd73",
+      "lines": 68,
+      "ranges": [
+        [
+          31,
+          68
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/models/work_package/status_transitions.rb",
+      "sha256": "448442abcf38980024005f35cb4a92911257a50754174e88110c40e0f3c5376e",
+      "lines": 54,
+      "ranges": [
+        [
+          31,
+          54
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/models/work_package/validations.rb",
+      "sha256": "1b263cfce27fbb68f4b932da8f2594ee83843892ae70455eae6b966176cdcf71",
+      "lines": 43,
+      "ranges": [
+        [
+          31,
+          43
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/models/work_package/hooks.rb",
+      "sha256": "be129ccdd6415ff99231707f347dafbf26b89a0d005b41969b8eba7a32f5e62b",
+      "lines": 49,
+      "ranges": [
+        [
+          31,
+          49
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/models/work_packages/scopes/relatable.rb",
+      "sha256": "cccdb1e7ad3037901fb16097328d9ae8ba0888b7df418bbef4c7659bb82e2e68",
+      "lines": 430,
+      "ranges": [
+        [
+          179,
+          226
+        ],
+        [
+          256,
+          285
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/contracts/work_packages/base_contract.rb",
+      "sha256": "ac806625c4103e42f51132e354dc7b3e45ebb29ac8d949c136191fbae2afe38c",
+      "lines": 788,
+      "ranges": [
+        [
+          31,
+          175
+        ],
+        [
+          188,
+          208
+        ],
+        [
+          243,
+          267
+        ],
+        [
+          300,
+          395
+        ],
+        [
+          638,
+          676
+        ],
+        [
+          708,
+          770
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/contracts/work_packages/update_contract.rb",
+      "sha256": "707f0d483a56f3da5fb393d6a2b26b3d618ec4da4933e1669bde004f4f2542ca",
+      "lines": 125,
+      "ranges": [
+        [
+          30,
+          125
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/contracts/work_packages/create_contract.rb",
+      "sha256": "9d93b3cb8d10ddc02b415e706c933cb00e7aab409dab89813dabf01281def00c",
+      "lines": 74,
+      "ranges": [
+        [
+          30,
+          74
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/services/base_services/base_callable.rb",
+      "sha256": "d77dd350521daf8978ae472068106337793c867e4b45b104b73d31d68683afd7",
+      "lines": 84,
+      "ranges": [
+        [
+          31,
+          84
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/services/base_services/base_contracted.rb",
+      "sha256": "dccfeefb0853626dd98edd58c8a2bcfd83d238e9d9bed2392d5a93207199df05",
+      "lines": 126,
+      "ranges": [
+        [
+          31,
+          126
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/services/base_services/update.rb",
+      "sha256": "ede41ac4779652a9bff2809257b2d8482baeae489eeeab7a63cb4c9d8884a721",
+      "lines": 47,
+      "ranges": [
+        [
+          31,
+          47
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/services/base_services/write.rb",
+      "sha256": "8176c265c87fbe3fb2828a3421ab473c39e6ceaf927ffddbf523e7a980ff98a2",
+      "lines": 84,
+      "ranges": [
+        [
+          31,
+          84
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/services/shared/service_context.rb",
+      "sha256": "80cb9c360ef2be2120909f1a4fe180b941a7aef31c799eafcfed2b7596a98f7a",
+      "lines": 72,
+      "ranges": [
+        [
+          31,
+          72
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "lib/open_project/mutex.rb",
+      "sha256": "7a436c0a7b492e5fd8fd5e993046514877a3f8fd95667f4ec630fe23f5b729c8",
+      "lines": 94,
+      "ranges": [
+        [
+          31,
+          94
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/services/work_packages/create_service.rb",
+      "sha256": "5ab1f33c67c90022fb3c66db908962c4a47b1408296809babb11aa1e873bdf4c",
+      "lines": 127,
+      "ranges": [
+        [
+          31,
+          127
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/services/work_packages/update_service.rb",
+      "sha256": "a036d0aa836ca15dff73aba6fb2155f2116f3c2764f5167c217fbd55712131df",
+      "lines": 203,
+      "ranges": [
+        [
+          31,
+          203
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/services/work_packages/set_attributes_service.rb",
+      "sha256": "ce0416be4853548a42d7e404bd7df446837671766b5be20677816e52c476a5ee",
+      "lines": 554,
+      "ranges": [
+        [
+          31,
+          158
+        ],
+        [
+          443,
+          503
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/services/work_packages/update_ancestors_service.rb",
+      "sha256": "cf75a3d239b390dec522c0e30006f2f9ae9883b6115b0d5105fd73c412d7549c",
+      "lines": 257,
+      "ranges": [
+        [
+          31,
+          151
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/services/work_packages/set_attributes_service/derive_progress_values_status_based.rb",
+      "sha256": "7b5a227442630a620f5d294b1c9c7fd1a2bd2113e5cd7c82a042f55c8b17b27c",
+      "lines": 82,
+      "ranges": [
+        [
+          31,
+          82
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/services/work_packages/delete_service.rb",
+      "sha256": "13cec952929a79178265cba4b63886057b7a9a2ef2756d16d3e47b88e8b15672",
+      "lines": 140,
+      "ranges": [
+        [
+          31,
+          128
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/models/relation.rb",
+      "sha256": "999c23aa48c35595bbf4cf8bae41840b31fa3ca9bd8d176f88de3c1dcbb5521c",
+      "lines": 219,
+      "ranges": [
+        [
+          31,
+          140
+        ],
+        [
+          211,
+          219
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/contracts/relations/base_contract.rb",
+      "sha256": "483a30d578b72f8439fde72ccd1801f8091d28a6f70500d6528e1a96df936ec0",
+      "lines": 118,
+      "ranges": [
+        [
+          31,
+          118
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/contracts/relations/update_contract.rb",
+      "sha256": "bbc955bd4c765f494c99bb9ff3fe285b46d7ea4c262dbdab6fd9cf60627d3018",
+      "lines": 57,
+      "ranges": [
+        [
+          31,
+          57
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/services/relations/base_service.rb",
+      "sha256": "538efcd8e4c4224bc892f7a2edf3c25ee08841adc0c3589ba7402184a3f32ae7",
+      "lines": 66,
+      "ranges": [
+        [
+          31,
+          66
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/services/relations/create_service.rb",
+      "sha256": "b599d9787a369fba5265eb3ec10eb2d23c79160cedfaa08dac87472dd81823d7",
+      "lines": 43,
+      "ranges": [
+        [
+          31,
+          43
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/services/relations/update_service.rb",
+      "sha256": "2ce035e6800aacb48addcbeec0bef37dcb691c954a39cb4998fac59996034578",
+      "lines": 44,
+      "ranges": [
+        [
+          31,
+          44
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/models/workflow.rb",
+      "sha256": "30b82f1e963925557eb2c4cd5be02de5a307b524deafde3d0d3b1a94d9a00f68",
+      "lines": 83,
+      "ranges": [
+        [
+          31,
+          83
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/models/version.rb",
+      "sha256": "95257f684e6a21cda058dcd05427c373be8a1d1c58b4a020fe0128c92dfb0776",
+      "lines": 251,
+      "ranges": [
+        [
+          31,
+          110
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "lib/api/v3/work_packages/work_packages_api.rb",
+      "sha256": "4d3d8b6de93f2d28c6fe6a1f02008424a731268bdda23ce3b72b46e813cd377b",
+      "lines": 113,
+      "ranges": [
+        [
+          31,
+          105
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "lib/api/v3/work_packages/update_end_point.rb",
+      "sha256": "fb3e119dca84e352b32de53ad1512bdbfabc38ad44132173ce4468cab50f7d86",
+      "lines": 42,
+      "ranges": [
+        [
+          31,
+          42
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "lib/api/v3/work_packages/parse_params_service.rb",
+      "sha256": "f0221ffc199560721ec8b80d0731de9ca2479b1468e158bbab0d217209d0c76d",
+      "lines": 58,
+      "ranges": [
+        [
+          31,
+          58
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "lib/api/v3/work_packages/work_package_lock_version_payload_representer.rb",
+      "sha256": "04afccd63abaabbbd9e69605b55f28ae4e0b88fb18f2a40eb3838c217aa0d832",
+      "lines": 42,
+      "ranges": [
+        [
+          1,
+          42
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "lib/api/utilities/endpoints/update.rb",
+      "sha256": "be1b3427136326ac870d2295f2134db0b367bbdaf902c90fe0d483b140054ad2",
+      "lines": 46,
+      "ranges": [
+        [
+          31,
+          46
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "lib/api/utilities/endpoints/modify.rb",
+      "sha256": "0ff710fa2b3f2cccdc36854603affe6cf5e9e7da1d6829f0ec3ec043fbca264f",
+      "lines": 100,
+      "ranges": [
+        [
+          31,
+          100
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "lib/api/v3/utilities/endpoints/update.rb",
+      "sha256": "7049f08d01011eefcc81f5ec6ece0562296e6b10ab84a16d949e35f49495b2c3",
+      "lines": 39,
+      "ranges": [
+        [
+          31,
+          39
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "lib/api/root_api.rb",
+      "sha256": "a6a7cbca749ee3ff13e4137869ac8db4ce7c0be95b9a81b995ef02fc48d00df6",
+      "lines": 341,
+      "ranges": [
+        [
+          32,
+          72
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "lib/api/mcp.rb",
+      "sha256": "164a56a36e96b7f46732337d37c2cb38e0556927b9944a94c236a52f6a0c4f88",
+      "lines": 72,
+      "ranges": [
+        [
+          31,
+          72
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/models/mcp_configuration.rb",
+      "sha256": "1edbe5e482c38926b72f1acb13d16fc0202d395298ef1f89f0ffa2d08735fc90",
+      "lines": 38,
+      "ranges": [
+        [
+          31,
+          38
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/services/mcp_tools/base.rb",
+      "sha256": "d1ada5f6a44a44b1c0526c73a3db989d80377ced8d857bf1716be3da83807bed",
+      "lines": 160,
+      "ranges": [
+        [
+          31,
+          110
+        ],
+        [
+          112,
+          157
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/services/mcp_tools/create_work_package.rb",
+      "sha256": "986f009027dd2573923e89b7e06bf9f75fd300af0717e62d4b0cad0fb4e2cf8d",
+      "lines": 77,
+      "ranges": [
+        [
+          1,
+          77
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/services/mcp_tools/update_work_package.rb",
+      "sha256": "0e4b3daa3f9d202fdefb52e7fc0f5dcef1cc5adc913a0b3e2aec05c925e4a71b",
+      "lines": 91,
+      "ranges": [
+        [
+          1,
+          91
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/services/mcp_tools/search_work_packages.rb",
+      "sha256": "7261a64962a785f9817f6e71629f6e2071702678cc1dc2043305fa8611ebf518",
+      "lines": 143,
+      "ranges": [
+        [
+          31,
+          143
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/services/mcp_tools/search_tool.rb",
+      "sha256": "d7376a4d997a64b7d85992def8f946fdf9bd94bfa58ff663371f386a011617e0",
+      "lines": 163,
+      "ranges": [
+        [
+          31,
+          151
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/services/mcp_tools/update_work_package_relation.rb",
+      "sha256": "3b0b99279bf3d02a11db9fa1dd74535c52dfa690f9300c2319dd666a36ee580c",
+      "lines": 101,
+      "ranges": [
+        [
+          31,
+          101
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/services/mcp_tools/create_work_package_comment.rb",
+      "sha256": "17827cc4247bc60f67975b3a616c3bc46fb6020c1f73d667b94494801dfb87b7",
+      "lines": 75,
+      "ranges": [
+        [
+          31,
+          75
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/services/add_work_package_note_service.rb",
+      "sha256": "57d78380c5ec6f9b2378dbd6b063e3ec602a611f697e1b96cec31d9536efa51b",
+      "lines": 91,
+      "ranges": [
+        [
+          31,
+          91
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "modules/boards/app/models/boards/grid.rb",
+      "sha256": "f1b5f2aec637e39f264e3666fa2515b8b551102109e03fc415b08a96ceb44f8a",
+      "lines": 79,
+      "ranges": [
+        [
+          31,
+          79
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "modules/boards/app/contracts/boards/create_contract.rb",
+      "sha256": "d1dd7724d9a6eb8e7455d7ee0b1283ac3c5580a598e44578c5c99e19ec901a83",
+      "lines": 41,
+      "ranges": [
+        [
+          30,
+          41
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "modules/backlogs/app/models/sprint.rb",
+      "sha256": "fd53318d7d3d953bf2802134d2d065603829a33f6c89ac50f257e5ef1a1b5bed",
+      "lines": 128,
+      "ranges": [
+        [
+          31,
+          122
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "modules/backlogs/app/services/backlogs/work_packages/update_service.rb",
+      "sha256": "5a5003ede28c49f30444ced0a56efd862965a44263ab7bcf355fc10ae69b15f2",
+      "lines": 91,
+      "ranges": [
+        [
+          31,
+          91
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "modules/backlogs/app/services/backlogs/work_packages/batch_update_service.rb",
+      "sha256": "422e8cff4c93c9ee4ef1599818699956a2bfa94950efeefe1891935a2d1557a9",
+      "lines": 324,
+      "ranges": [
+        [
+          31,
+          245
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "modules/backlogs/app/services/backlogs/sprints/finish_service.rb",
+      "sha256": "3d1b06d0acdbc1bbb4e3cecd0299f984459982fcdcce9568232d88dee61e9c8c",
+      "lines": 101,
+      "ranges": [
+        [
+          31,
+          101
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "lib_static/plugins/acts_as_journalized/lib/acts/journalized/save_hooks.rb",
+      "sha256": "0799773dc69be5b4b574e56e79d3a5fbe0b09b9267ec981bbc2d3e8af08c9238",
+      "lines": 107,
+      "ranges": [
+        [
+          31,
+          107
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/services/journals/create_service.rb",
+      "sha256": "706f9513a6a5abb2b3a62c5f9611fd8b5dd1d1ed4807ca21273c33dc27027776",
+      "lines": 642,
+      "ranges": [
+        [
+          44,
+          158
+        ],
+        [
+          179,
+          231
+        ],
+        [
+          592,
+          641
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/services/journals/create_service/helpers.rb",
+      "sha256": "2dece55ec279a396cf6f291b483734a69d4b3c3f0ca3bc4a723d699a1cd081ad",
+      "lines": 74,
+      "ranges": [
+        [
+          31,
+          74
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "config/initializers/subscribe_listeners.rb",
+      "sha256": "5a55f9f0ec4dea7a4be88bf4ffb3d0722ca2d49a8ab31cad1bf0ed5e4731ec56",
+      "lines": 114,
+      "ranges": [
+        [
+          31,
+          72
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "lib_static/open_project/notifications.rb",
+      "sha256": "67a849315ecfb193e8b7ca162fb37da9b03673eb3b0cc1e5866693e233db65da",
+      "lines": 89,
+      "ranges": [
+        [
+          30,
+          88
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "config/application.rb",
+      "sha256": "5ba08540c69e0c66b38cd0a502714bd21dc921ff19c9860622233290edbcfb2e",
+      "lines": 241,
+      "ranges": [
+        [
+          185,
+          225
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/workers/application_job.rb",
+      "sha256": "d4168cd383b8c22b5eab1481f3fbeb9218b62e0fe083384a83edd40d87883888",
+      "lines": 41,
+      "ranges": [
+        [
+          31,
+          41
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/workers/concerns/state_machine_job.rb",
+      "sha256": "ae2fd55e09a18d5604857a60ee346e561654f295eb5f8555e7c9d5701cfd43c1",
+      "lines": 80,
+      "ranges": [
+        [
+          31,
+          80
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/workers/work_packages/workflow_job.rb",
+      "sha256": "dc4447cfe6ba6707c1bfbc2bd2ed7e4e8a21df82357454a7adc358bbadfbd835",
+      "lines": 65,
+      "ranges": [
+        [
+          31,
+          65
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/workers/journals/completed_job.rb",
+      "sha256": "ba8f9ca5b8006668606c4848bd78ed8b04d7afb0d504d3ea9818f84da07cb792",
+      "lines": 87,
+      "ranges": [
+        [
+          31,
+          87
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/workers/notifications/workflow_job.rb",
+      "sha256": "b3aed9c6178a1caa1d201ae150036ac40e8f63dfc8a7a99d0a9ff3d3d7ddb62f",
+      "lines": 96,
+      "ranges": [
+        [
+          31,
+          96
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/services/notifications/create_from_model_service.rb",
+      "sha256": "f4ac37231d5ed5fd92c453593da541fac1cfc85ba32dd1f6bea7b5ea0d5b4808",
+      "lines": 381,
+      "ranges": [
+        [
+          31,
+          140
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/models/notification.rb",
+      "sha256": "585b0774bed0fdb70112975366530bac14b6a9ac8b3fffae222aa48d56de7c91",
+      "lines": 74,
+      "ranges": [
+        [
+          31,
+          74
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/models/notifications/scopes/visible.rb",
+      "sha256": "5f2c0e3f73a51635663c7e1e4bd7e59b354e99a209ca56fe41abc606bca36570",
+      "lines": 46,
+      "ranges": [
+        [
+          31,
+          46
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "lib/api/v3/notifications/notifications_api.rb",
+      "sha256": "475e9635a066761c7e74c8717e7ff024796bcea42d37d6d3d2b080b0a452d9a8",
+      "lines": 112,
+      "ranges": [
+        [
+          31,
+          112
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "modules/webhooks/app/workers/represented_webhook_job.rb",
+      "sha256": "fa6212170386b9175c68eddab435dffbe84cf36a0159fd51e8f75229cdf7d4ce",
+      "lines": 101,
+      "ranges": [
+        [
+          31,
+          101
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "modules/webhooks/app/workers/webhook_job.rb",
+      "sha256": "3b8d931db7849dedc732fa9797990ee2eaa417104a2194932d30b8fc83a2d811",
+      "lines": 46,
+      "ranges": [
+        [
+          31,
+          46
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "modules/webhooks/app/services/webhooks/outgoing/request_webhook_service.rb",
+      "sha256": "c089802d8e98200c7e47b306784c7fc6c09e08b1f20d03862ffb8db5f4374ba6",
+      "lines": 98,
+      "ranges": [
+        [
+          31,
+          98
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "config/initializers/warden.rb",
+      "sha256": "565f228829925de00fd3a517fa6b596b7ad14aea9264bb50753c0dc52d3cccc9",
+      "lines": 62,
+      "ranges": [
+        [
+          31,
+          62
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "lib_static/open_project/authentication/strategies/warden/user_api_token.rb",
+      "sha256": "095b0337a292429bf65cc34b81bd606ea8cfd46070e7a0dce7a075c135677b40",
+      "lines": 82,
+      "ranges": [
+        [
+          31,
+          82
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/models/token/base.rb",
+      "sha256": "95f49940155f7042828a87e6b66adaf96706d546e5910f479785afc384838731",
+      "lines": 126,
+      "ranges": [
+        [
+          31,
+          126
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/models/token/api.rb",
+      "sha256": "54ecc3f5e55834bd3547f6751502611a30ddaff5c8a33b5e620b68fa05211932",
+      "lines": 36,
+      "ranges": [
+        [
+          31,
+          36
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/models/token/named.rb",
+      "sha256": "2696500ad512ab402d99b29f71174cd1575668725ba1010c7853c4e8c4ac94df",
+      "lines": 40,
+      "ranges": [
+        [
+          31,
+          40
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/models/token/hashed_token.rb",
+      "sha256": "1ab581b13291c1794c8ae71a084b4c891832be78e75cca6fb1e24ec47ed979e8",
+      "lines": 128,
+      "ranges": [
+        [
+          31,
+          113
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/models/token/expirable.rb",
+      "sha256": "2c57fa8956b141d995818e8d4d10b87b0b411e2404674bb414b3153a12d3058c",
+      "lines": 82,
+      "ranges": [
+        [
+          31,
+          82
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "frontend/src/app/features/work-packages/components/wp-edit/work-package-changeset.ts",
+      "sha256": "bafe226e3687b1ae31a28c9e20109fe56ea48542de625ac6bd3e95b5bae88b45",
+      "lines": 123,
+      "ranges": [
+        [
+          1,
+          123
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "frontend/src/app/shared/components/fields/changeset/resource-changeset.ts",
+      "sha256": "41f3be559c5e471a6c9ca0cb2b5ebd11a1d78076290d91bfac792677978dda58",
+      "lines": 542,
+      "ranges": [
+        [
+          150,
+          215
+        ],
+        [
+          370,
+          465
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "frontend/src/app/features/work-packages/components/wp-single-view/wp-single-view.component.html",
+      "sha256": "c15d4c6f4f7ddd5a438f5ef5d0cc0920b600da38d8491c12f87392803bb4c606",
+      "lines": 158,
+      "ranges": [
+        [
+          1,
+          115
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "frontend/src/app/features/work-packages/components/wp-single-view-tabs/overview-tab/overview-tab.html",
+      "sha256": "89ce6b5de4c1abb2fe7d83817568c09d0faa5e41aa69cad814b0f869a1ce8dee",
+      "lines": 4,
+      "ranges": [
+        [
+          1,
+          4
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "frontend/src/app/features/work-packages/components/wp-single-view/wp-single-view.component.ts",
+      "sha256": "5935ee0a415a33ae944005066dc77cb7b77ba0cd18b3f385a5705483a476291b",
+      "lines": 455,
+      "ranges": [
+        [
+          136,
+          161
+        ],
+        [
+          309,
+          331
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "app/controllers/concerns/work_packages/activities_tab/polling_timestamp.rb",
+      "sha256": "79c33a8361d738c8d391de618127e8acc20cfa6581e26c0f4a3650aad4b32f91",
+      "lines": 49,
+      "ranges": [
+        [
+          31,
+          49
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "docker-compose.yml",
+      "sha256": "2b78d22c14cc1f86619d85113fedfa4b75f25823dc32b487d077cf5210bab607",
+      "lines": 282,
+      "ranges": [
+        [
+          1,
+          100
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "docker/prod/Dockerfile",
+      "sha256": "57b97fbd951ffe60708f7df9f989013ca122ed2a9eb95f7fbe6fac0677335f58",
+      "lines": 172,
+      "ranges": [
+        [
+          1,
+          62
+        ],
+        [
+          102,
+          172
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "docker/prod/entrypoint-slim.sh",
+      "sha256": "4c26fa6db3541072c0974c56b95e0d4fbd254aeaeb55e051dbf6f167ada44a06",
+      "lines": 17,
+      "ranges": [
+        [
+          1,
+          17
+        ]
+      ],
+      "method": "Targeted static instruction/domain/service/contract/API/job/client/deployment body inspection of recorded ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "spec/contracts/work_packages/update_contract_spec.rb",
+      "sha256": "adb0221036d4303d1ff15477429ceb1ecca7bdef0e7959eb707ce9b8a06396df",
+      "lines": 570,
+      "ranges": [
+        [
+          77,
+          104
+        ]
+      ],
+      "method": "Selected test setup and assertion bodies inspected, not executed; no passing runtime/concurrency claim."
+    },
+    {
+      "path": "spec/contracts/work_packages/base_contract_spec.rb",
+      "sha256": "c76e5b4f58a4445587bfc4ddc583d605cacbc5a725a14d5b50908f664c67923b",
+      "lines": 1965,
+      "ranges": [
+        [
+          1691,
+          1718
+        ]
+      ],
+      "method": "Selected test setup and assertion bodies inspected, not executed; no passing runtime/concurrency claim."
+    },
+    {
+      "path": "spec/contracts/work_packages/create_contract_parent_authorization_spec.rb",
+      "sha256": "594b7ca38eb281aadfd97bb8e431866cc6f186244fd4c8630fecb0e6b6c1c500",
+      "lines": 88,
+      "ranges": [
+        [
+          31,
+          88
+        ]
+      ],
+      "method": "Selected test setup and assertion bodies inspected, not executed; no passing runtime/concurrency claim."
+    },
+    {
+      "path": "spec/requests/api/v3/work_packages/update_resource_spec.rb",
+      "sha256": "e0e5b8a1797b00aaf263877d69e03c7c757982bc458b80fe267a5cfae44a182f",
+      "lines": 1334,
+      "ranges": [
+        [
+          1122,
+          1163
+        ]
+      ],
+      "method": "Selected test setup and assertion bodies inspected, not executed; no passing runtime/concurrency claim."
+    },
+    {
+      "path": "spec/requests/api/v3/support/response_examples.rb",
+      "sha256": "a6a55da36604982bed1f2818fd3613238b5ef20a844324a0f647519232336a58",
+      "lines": 289,
+      "ranges": [
+        [
+          191,
+          213
+        ]
+      ],
+      "method": "Selected test setup and assertion bodies inspected, not executed; no passing runtime/concurrency claim."
+    },
+    {
+      "path": "spec/requests/mcp/tools_list_spec.rb",
+      "sha256": "2cd6c5d7c5ece8826abe443b777bc7bdb671a08c9de904a2e0775e70f99aa308",
+      "lines": 126,
+      "ranges": [
+        [
+          30,
+          91
+        ]
+      ],
+      "method": "Selected test setup and assertion bodies inspected, not executed; no passing runtime/concurrency claim."
+    },
+    {
+      "path": "modules/backlogs/spec/services/backlogs/work_packages/batch_update_service_concurrency_spec.rb",
+      "sha256": "8635ea3109cb1beec83adaddd513500bd93e9861f8e08fd630c7c2a0b89074e6",
+      "lines": 554,
+      "ranges": [
+        [
+          93,
+          190
+        ]
+      ],
+      "method": "Selected test setup and assertion bodies inspected, not executed; no passing runtime/concurrency claim."
+    }
+  ]
+}
