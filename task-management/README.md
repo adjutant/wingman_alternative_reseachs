@@ -25,7 +25,7 @@ The source manifest records clean status, tracked-path counts and hashes, commit
 
 ## Completed source assessments
 
-Twenty of 25 assessments are complete at this checkpoint.
+Twenty-one of 25 assessments are complete at this checkpoint.
 The [progress record](progress.json) lists all pending codebases.
 HTML publication and the cross-project comparison remain pending.
 
@@ -35,6 +35,7 @@ HTML publication and the cross-project comparison remain pending.
 | agent-kanban-rs | [Source assessment](agent-kanban-rs/assessment/ASSESSMENT.md) | [Review ledger](agent-kanban-rs/assessment/review.json) |
 | Python Agent Mail | [Source assessment](agent-mail-python/assessment/ASSESSMENT.md) | [Review ledger](agent-mail-python/assessment/review.json) |
 | Rust Agent Mail | [Source assessment](agent-mail-rust/assessment/ASSESSMENT.md) | [Review ledger](agent-mail-rust/assessment/review.json) |
+| Agent Swarm | [Source assessment](agent-swarm/assessment/ASSESSMENT.md) | [Review ledger](agent-swarm/assessment/review.json) |
 | Backlog.md | [Source assessment](backlog-md/assessment/ASSESSMENT.md) | [Review ledger](backlog-md/assessment/review.json) |
 | Beads | [Source assessment](beads/assessment/ASSESSMENT.md) | [Review ledger](beads/assessment/review.json) |
 | beads_rust | [Source assessment](beads-rust/assessment/ASSESSMENT.md) | [Review ledger](beads-rust/assessment/review.json) |

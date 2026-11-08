@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-08T19:54:15.129270+00:00",
+  "checked_at": "2026-11-08T20:09:27.195609+00:00",
   "scope": "Checkout preservation, materialization, baseline/requirement coverage, source evidence hashes and local links. Not a semantic or runtime audit.",
   "required_repository_count": 25,
   "checkout_count": 25,
@@ -9,6 +9,7 @@
     "agent-kanban-rs",
     "agent-mail-python",
     "agent-mail-rust",
+    "agent-swarm",
     "backlog-md",
     "beads",
     "beads-rust",
@@ -27,7 +28,6 @@
     "vikunja"
   ],
   "assessments_remaining": [
-    "agent-swarm",
     "gitlab",
     "openproject",
     "paperclip",

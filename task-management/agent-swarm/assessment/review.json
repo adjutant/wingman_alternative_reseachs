@@ -1,0 +1,977 @@
+{
+  "project": "agent-swarm",
+  "commit": "6aff700f53755cb71bd6a1aa2e2fa1da9586b892",
+  "baseline": "AGENT_TASK_MANAGEMENT.md",
+  "baseline_sha256": "4dcfe707e292330c65b66c9bbbf4999d90dcf54991adf76ffe82a5efd3eee8a3",
+  "reviewed_on": "2026-11-09",
+  "review_status": "source_review_complete",
+  "scope": "Targeted static source review of task/agent/repository/session models; SQLite initialization and transaction implementation; task create, manual claim, automatic poll, capacity/affinity/harness/budget selection, alternate progress/finish writers and terminal guards; output schema/citation boundaries; delegation/defer/follow-up/context; task/session heartbeat, stale CAS, supersede/resume dependency repair, cancel and runner reconciliation; selected workflow step execution/checkpoint fences, validation and HITL approval paths; token/core admission and legacy progress rights; durable messages/read cursors; representative dashboard queries/board/detail/pause rollback and container/compose deployment. Selected test assertion bodies read. Historical Wingman probes not rerun or relabeled. Not every-line, all providers/integrations/extensions/migrations/script sandboxes/storage/security/browser/accessibility/performance/high availability/runtime or production race certification.",
+  "candidate_executed": false,
+  "candidate_tests_run": false,
+  "requirement_verdicts": {
+    "T01": "Resembles",
+    "T02": "Similar",
+    "T03": "Similar",
+    "T04": "Resembles",
+    "T05": "Similar",
+    "T06": "Similar",
+    "T07": "Similar",
+    "T08": "Similar",
+    "T09": "Similar",
+    "T10": "Similar",
+    "T11": "Similar",
+    "T12": "Similar",
+    "T13": "Similar",
+    "T14": "Similar",
+    "T15": "Similar",
+    "T16": "Similar",
+    "T17": "Similar",
+    "T18": "Similar",
+    "T19": "Similar",
+    "T20": "Resembles",
+    "T21": "Similar",
+    "T22": "Similar",
+    "T23": "Similar",
+    "T24": "Similar"
+  },
+  "lifecycle_review": {
+    "create": "Parent-inherited task context, explicit status/assignee/dependsOn/source/schema; transactional insertion with workflow actionability and selected tracker dedup; MCP routing and duplicate handling, no universal request idempotency claim.",
+    "select": "Assigned pending path checks dependencies; automatic pool candidate helper checks affinity and supplied harness compatibility without dependency readiness, then budget/claim. Static path inconsistency, not runtime reproduced; cycle failure traversal bounded but no proven cycle-admission policy.",
+    "claim": "Manual tool wraps capacity, readiness, affinity/runtime checks and atomic status=unassigned SQL in transaction. Poll is transactional acquisition but policy differs. Legacy progress policy allows unassigned writes; explicit-task MCP progress/finish can avoid claim, subject to token posture/extension restrictions.",
+    "progress": "Stable task progress/outcome, logs, attachments/citations/context; update by task ID with terminal protections in public handler, no universal current-attempt generation. Read cursor advances to now after limited/filtered retrieval or posting, so omitted entries can become read; durable history remains.",
+    "review": "MCP fresh completion schema validation and at-most-once citation refusal; HTTP fresh finish lacks equivalent server schema gate. Custom JSON Schema subset. Authored workflow validation and human approval nodes/checkpoints have stronger bounded contract, not global ordinary-task acceptance.",
+    "complete": "First terminal result wins with explicit text correction guard; completeTask nonterminal guard, no ordinary accepted-child join or immutable reviewed-result requirement. Deferred segment can finish while continuation remains. Memory/rating/lead follow-up effects can fail separately after primary state.",
+    "cancel": "Guarded terminal write, dependent cascade, steering promotion and after-commit signals. Runner later aborts local session and can force slot release after grace; no proof of OS death or external side-effect reversal. Task pause is state transition, not universal process freeze.",
+    "recover": "Task/session heartbeat classifier, lastUpdatedAt CAS and capped resume generations; boot guards and superseded gap repair; never-started dependencies repointed; fresh provider sessions get bounded ancestor preamble. Workflow retryCount fences reject stale checkpoint commits, ordinary task writes lack same universal attempt fence. Shared API/SQLite authority across hosts, no proven replicated/offline ownership or HA."
+  },
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "e5b53c52ded4a0f11f18006617178820923fa42af93cdba9e5e272192766d6f2",
+      "lines": 435,
+      "ranges": [
+        [
+          1,
+          435
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "apps/ui/AGENTS.md",
+      "sha256": "8c7f9a86e6759bc61af5204229ab723c7120216f57ea39c041d6cc219cd62420",
+      "lines": 327,
+      "ranges": [
+        [
+          1,
+          327
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "package.json",
+      "sha256": "081271dc6473dd7f74f3fb53d1e9dda0d15cf75c28a93b1d53654ede31b2259f",
+      "lines": 263,
+      "ranges": [
+        [
+          1,
+          50
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "cbf6cd95e41d73f6f008ebed5bb79ff4d50432c43b16e916c33d86bd1ba1f207",
+      "lines": 21,
+      "ranges": [
+        [
+          1,
+          17
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "templates/official/lead/CLAUDE.md",
+      "sha256": "e5f003bd945cb625d582f2a5df27629f335f17e86267be5dadf69f66c08d6034",
+      "lines": 46,
+      "ranges": [
+        [
+          1,
+          40
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/types.ts",
+      "sha256": "4f8efaf5550090afad39180cc446192a810568bf6b73b643822ec267c0042205",
+      "lines": 4064,
+      "ranges": [
+        [
+          309,
+          360
+        ],
+        [
+          667,
+          855
+        ],
+        [
+          1307,
+          1346
+        ],
+        [
+          2036,
+          2085
+        ],
+        [
+          2133,
+          2150
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/be/db-client.ts",
+      "sha256": "b6d789694a47d7e01bc6c5c15b7581a0470e0134447ca49a982c05bb22c33721",
+      "lines": 690,
+      "ranges": [
+        [
+          404,
+          481
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/be/db/runtime.ts",
+      "sha256": "6876971a018d04b4148d64d8dd93fc0c44281a20e6e240dc5a607fa98ff4559e",
+      "lines": 447,
+      "ranges": [
+        [
+          73,
+          139
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/be/db.ts",
+      "sha256": "662f1c390c3077897b38beb7c5582d4c13386bb92866d5f037dd62af6b26d257",
+      "lines": 14638,
+      "ranges": [
+        [
+          2505,
+          2599
+        ],
+        [
+          2890,
+          3101
+        ],
+        [
+          3107,
+          3205
+        ],
+        [
+          3208,
+          3260
+        ],
+        [
+          3610,
+          3667
+        ],
+        [
+          3700,
+          3762
+        ],
+        [
+          4068,
+          4136
+        ],
+        [
+          4222,
+          4293
+        ],
+        [
+          9951,
+          10055
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/be/db/agents.ts",
+      "sha256": "fccb74c9013e2ba2cf415462433379a05092f94ac767693e218fa40c8cc82280",
+      "lines": 699,
+      "ranges": [
+        [
+          538,
+          560
+        ],
+        [
+          642,
+          699
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/be/model-validation.ts",
+      "sha256": "9f5e14e0534e56f8ea0f520b2fff8c2c198213a720559fa8be4695b2749d7dee",
+      "lines": 212,
+      "ranges": [
+        [
+          107,
+          158
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/be/budget-admission.ts",
+      "sha256": "251a312f3d5fa558766bbaaa56e73805f1f0da9d085dda280fe78a18fc0959e5",
+      "lines": 146,
+      "ranges": [
+        [
+          64,
+          133
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/be/db/tasks/write.ts",
+      "sha256": "81414dc1fbe86522f28909a40a9f56e93f60893ad29e8b67fb8989626ec22824",
+      "lines": 1224,
+      "ranges": [
+        [
+          1,
+          100
+        ],
+        [
+          125,
+          204
+        ],
+        [
+          282,
+          314
+        ],
+        [
+          406,
+          537
+        ],
+        [
+          689,
+          878
+        ],
+        [
+          908,
+          961
+        ],
+        [
+          1003,
+          1076
+        ],
+        [
+          1188,
+          1211
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/tools/task-action.ts",
+      "sha256": "101f296ce27a2dc04f7b1beffb326a6964e69381a7cfa9f91996eca345e2c3c2",
+      "lines": 700,
+      "ranges": [
+        [
+          169,
+          254
+        ],
+        [
+          340,
+          451
+        ],
+        [
+          455,
+          533
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/tools/send-task.ts",
+      "sha256": "af9e0bbafbf339acb0b45f2a6ec5daa999b7a1acce97c9215a158178649a250c",
+      "lines": 784,
+      "ranges": [
+        [
+          396,
+          430
+        ],
+        [
+          482,
+          554
+        ],
+        [
+          581,
+          628
+        ],
+        [
+          656,
+          705
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/tools/store-progress.ts",
+      "sha256": "6315f24542cc845d4ac46e015e2b80d08fdeb654757ebdd728f684b3c93bfbe3",
+      "lines": 732,
+      "ranges": [
+        [
+          68,
+          134
+        ],
+        [
+          231,
+          285
+        ],
+        [
+          350,
+          429
+        ],
+        [
+          503,
+          620
+        ],
+        [
+          675,
+          712
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/tasks/terminal-result-guard.ts",
+      "sha256": "f40367a4a00e1cc85fa1a9389c17fda2de40a9c4c0ab0679b7cba76c9d26945a",
+      "lines": 134,
+      "ranges": [
+        [
+          25,
+          130
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/tools/utils.ts",
+      "sha256": "733210f6d1b8dfdc6ae7958bd90bc0d60c3cef69cde0db7e05d19e41db556067",
+      "lines": 1159,
+      "ranges": [
+        [
+          50,
+          88
+        ],
+        [
+          976,
+          1055
+        ],
+        [
+          1069,
+          1159
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/tools/request-human-input.ts",
+      "sha256": "acf37102431185a07291e826e005aca04ceefbea33339bf8c543fb7737c115ad",
+      "lines": 134,
+      "ranges": [
+        [
+          1,
+          134
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/tools/defer-task.ts",
+      "sha256": "05c7472bc5cb419d3b769ae9315ae9e3ceacf7ca47daaa10e209e2012b3f2f8d",
+      "lines": 478,
+      "ranges": [
+        [
+          162,
+          215
+        ],
+        [
+          287,
+          452
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/tasks/task-terminal-effects.ts",
+      "sha256": "7f174d01bbef81767747bc1f3090a7fdfc341125b21324ae5c051648ac687c35",
+      "lines": 174,
+      "ranges": [
+        [
+          27,
+          174
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/tasks/worker-follow-up.ts",
+      "sha256": "d7ba3cb70ea2394f949fa0937a768435665a1829c3d947841f2af159a65a92e4",
+      "lines": 876,
+      "ranges": [
+        [
+          474,
+          662
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/heartbeat/heartbeat.ts",
+      "sha256": "ee8981350b4c4f8e91b52168c6440562a544b80170d4f87a7ef82e0003e3574a",
+      "lines": 2188,
+      "ranges": [
+        [
+          125,
+          164
+        ],
+        [
+          513,
+          595
+        ],
+        [
+          658,
+          700
+        ],
+        [
+          764,
+          830
+        ],
+        [
+          894,
+          1006
+        ],
+        [
+          1796,
+          1862
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/commands/resume-session.ts",
+      "sha256": "8ae0c623253e23cd1ea4a6789197440d92f90fc6eaea2a9c0bca88a753d9182a",
+      "lines": 75,
+      "ranges": [
+        [
+          1,
+          75
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/commands/context-preamble.ts",
+      "sha256": "1a609b3280ef26b72c337a8374725336e7b0b9839c5c28e0987ed01752e02e6f",
+      "lines": 518,
+      "ranges": [
+        [
+          31,
+          49
+        ],
+        [
+          112,
+          198
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/commands/runner.ts",
+      "sha256": "d2e909efa88312b820b9496af549cda733150ff08eaddf99fb083c4909699215",
+      "lines": 7745,
+      "ranges": [
+        [
+          1605,
+          1637
+        ],
+        [
+          1853,
+          1985
+        ],
+        [
+          5350,
+          5415
+        ],
+        [
+          7620,
+          7665
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/providers/codex-adapter.ts",
+      "sha256": "7f042b4a712091d49442ef6f1574ad2f95ead3b5d333697c0c23196b089dbdd1",
+      "lines": 2538,
+      "ranges": [
+        [
+          593,
+          613
+        ],
+        [
+          2510,
+          2529
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/workflows/executors/agent-task.ts",
+      "sha256": "82746f7a5890fa616fe34f11c237159338409d8e183ad2680c64f9235360e1aa",
+      "lines": 159,
+      "ranges": [
+        [
+          56,
+          89
+        ],
+        [
+          109,
+          159
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/workflows/executors/human-in-the-loop.ts",
+      "sha256": "2dc3b36b3d69a3f07da697caccb732915737b79a12f69ea92e3f14790b9f30fd",
+      "lines": 335,
+      "ranges": [
+        [
+          35,
+          143
+        ],
+        [
+          237,
+          335
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/workflows/engine.ts",
+      "sha256": "36a25f96d310d794f9213ec435185e509a9ab3a6473f94feb283e8860c5c371f",
+      "lines": 1495,
+      "ranges": [
+        [
+          843,
+          902
+        ],
+        [
+          1120,
+          1228
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/workflows/checkpoint.ts",
+      "sha256": "b169f9ec745ba32d383d22eceaf1129da6b60c62dbdde711dda2f9e129462b73",
+      "lines": 180,
+      "ranges": [
+        [
+          1,
+          102
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/workflows/recovery.ts",
+      "sha256": "a216bad26f801327d6a0c21be2d61bd0679e1eff2319de7a663927269ac7507b",
+      "lines": 557,
+      "ranges": [
+        [
+          257,
+          305
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/workflows/json-schema-validator.ts",
+      "sha256": "edda5522e509d40933bfa3a8ad802539f9864570c37d226d082312e854daed0f",
+      "lines": 177,
+      "ranges": [
+        [
+          1,
+          100
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/http/auth.ts",
+      "sha256": "cd3f9ab541573c8283c7bb9a9fa0d8a53cd4937900b5f7dd5c0769c868fc1fbe",
+      "lines": 72,
+      "ranges": [
+        [
+          1,
+          72
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/be/users.ts",
+      "sha256": "afc1b76da5466e2f3c5ae839f41457330650805d576343a06d4b215a3ac9636f",
+      "lines": 973,
+      "ranges": [
+        [
+          887,
+          973
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/http/core.ts",
+      "sha256": "23db4bda1607de69558291cd60726e40351a6f2742fa0669c77090e45f5acadd",
+      "lines": 877,
+      "ranges": [
+        [
+          458,
+          641
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/rbac/legacy-policy.ts",
+      "sha256": "ab6acc3a0deea991bb9801a520a9a53ef9c8ebbb941a6a01aca2cf299c0197c6",
+      "lines": 368,
+      "ranges": [
+        [
+          216,
+          254
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/http/tasks.ts",
+      "sha256": "97147381c99053658eedfb50a199e37c34ea59816ed49d9e7261a88027a42bbe",
+      "lines": 2186,
+      "ranges": [
+        [
+          653,
+          681
+        ],
+        [
+          1673,
+          1815
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/http/poll.ts",
+      "sha256": "a8a0cbf8b259f63ff78b441626a46a480cd01bd930c2b980c5416ca2f49bba44",
+      "lines": 774,
+      "ranges": [
+        [
+          319,
+          396
+        ],
+        [
+          548,
+          662
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/http/heartbeat.ts",
+      "sha256": "d49ea1b687a736696d66370eefb6d276ba6a17ac120fe7136ac4bf819df12ae3",
+      "lines": 85,
+      "ranges": [
+        [
+          1,
+          85
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/http/approval-requests.ts",
+      "sha256": "53bb098528d7905471aff29f3ce9cf768fc26a5c75ff29d3c2412b547c74c3c4",
+      "lines": 1011,
+      "ranges": [
+        [
+          475,
+          552
+        ],
+        [
+          716,
+          750
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/be/worker-nudges.ts",
+      "sha256": "d90c8db0044473b06c724665b0d531c9f07217346bd6b7f56235e02b579faa68",
+      "lines": 22,
+      "ranges": [
+        [
+          1,
+          22
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/tools/read-messages.ts",
+      "sha256": "310f40ce9b41e82e5e3cfee310248319e5d269151349229e22511530abb46279",
+      "lines": 189,
+      "ranges": [
+        [
+          1,
+          189
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/tools/post-message.ts",
+      "sha256": "b3951c192e8cf9722aa1893a7f03c58640bb8d5418c0c63394cb23adf0a8bd85",
+      "lines": 75,
+      "ranges": [
+        [
+          1,
+          75
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "apps/ui/src/api/hooks/use-tasks.ts",
+      "sha256": "2af892810c98e6c24e4d4097d405f0960f9965d706165238605a8e2c82e331a8",
+      "lines": 575,
+      "ranges": [
+        [
+          1,
+          123
+        ],
+        [
+          463,
+          496
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "apps/ui/src/app/providers.tsx",
+      "sha256": "d4dc09892555725aa4a3c684e8ced3b1757c5e5c9818c339ee6809f3a576e3e5",
+      "lines": 71,
+      "ranges": [
+        [
+          1,
+          71
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "apps/ui/src/pages/tasks/page.tsx",
+      "sha256": "1f138719bcccfdde2b35734242f213b5e9acd8ec874990efcb589dbe9d7488cd",
+      "lines": 489,
+      "ranges": [
+        [
+          1,
+          35
+        ],
+        [
+          42,
+          64
+        ],
+        [
+          107,
+          154
+        ],
+        [
+          370,
+          489
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "apps/ui/src/components/shared/tasks-kanban.tsx",
+      "sha256": "362e25744cc145e54a00d92a99b6533461aa97ddfcc419965ca363e35e89f8ae",
+      "lines": 118,
+      "ranges": [
+        [
+          1,
+          118
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "apps/ui/src/pages/tasks/[id]/task-actions.tsx",
+      "sha256": "1364a05e9a9f5ba6deb1b0ab24ebc83954a2aa28c356e3cdcc4c823c6c7854ab",
+      "lines": 597,
+      "ranges": [
+        [
+          30,
+          130
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "apps/ui/src/pages/tasks/[id]/page.tsx",
+      "sha256": "8a35fb091e011ddd950719c36270cb08d0506dfd9accaf294f1573fe01181caf",
+      "lines": 1276,
+      "ranges": [
+        [
+          373,
+          402
+        ],
+        [
+          770,
+          843
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "Dockerfile",
+      "sha256": "9449f9f80739e5b4c400efc811b65733d10066cf4876294673890e482da7521b",
+      "lines": 191,
+      "ranges": [
+        [
+          1,
+          100
+        ],
+        [
+          136,
+          191
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "docker-compose.example.yml",
+      "sha256": "655206fb6a70d0ef13b48179b0f19dfbdbf8c0fdc37fcdce0870dfe86ded0d15",
+      "lines": 1084,
+      "ranges": [
+        [
+          1,
+          81
+        ],
+        [
+          160,
+          184
+        ],
+        [
+          250,
+          283
+        ],
+        [
+          290,
+          338
+        ]
+      ],
+      "method": "Targeted static body inspection of the recorded instruction, model, mutation, client, lifecycle, policy or deployment ranges; partial large files, not every-line certification."
+    },
+    {
+      "path": "src/tests/heartbeat-stall-cas.test.ts",
+      "sha256": "827c20f4758acb1166330904b87df439982bd936e8ec7d547f17eaba023d71ce",
+      "lines": 80,
+      "ranges": [
+        [
+          25,
+          80
+        ]
+      ],
+      "method": "Selected test setup and assertion bodies inspected; not executed and not runtime/concurrency certification."
+    },
+    {
+      "path": "src/tests/trigger-claiming.test.ts",
+      "sha256": "8281e3231344e91364eb33f77956a728e9b23d94e8567e5aeb6da20f8f15b2ed",
+      "lines": 631,
+      "ranges": [
+        [
+          303,
+          350
+        ]
+      ],
+      "method": "Selected test setup and assertion bodies inspected; not executed and not runtime/concurrency certification."
+    },
+    {
+      "path": "src/tests/task-completion-idempotency.test.ts",
+      "sha256": "47a904c23fa7f1504a9513c6aa3df6e8f9b900899333b55286b25a2ca7a8e129",
+      "lines": 932,
+      "ranges": [
+        [
+          1,
+          105
+        ]
+      ],
+      "method": "Selected test setup and assertion bodies inspected; not executed and not runtime/concurrency certification."
+    },
+    {
+      "path": "src/tests/task-cascade-fail.test.ts",
+      "sha256": "7b9c58d463e87328fa8dc7a2be33f07d05a4955a34227297cebaa40df86fb84c",
+      "lines": 452,
+      "ranges": [
+        [
+          156,
+          189
+        ],
+        [
+          234,
+          263
+        ]
+      ],
+      "method": "Selected test setup and assertion bodies inspected; not executed and not runtime/concurrency certification."
+    },
+    {
+      "path": "src/tests/budget-claim-gate.test.ts",
+      "sha256": "06ff161e521906c0385511b1ad77fe671e34b1084b081c05e804fad31dea438a",
+      "lines": 384,
+      "ranges": [
+        [
+          244,
+          316
+        ]
+      ],
+      "method": "Selected test setup and assertion bodies inspected; not executed and not runtime/concurrency certification."
+    },
+    {
+      "path": "src/tests/db-capacity.test.ts",
+      "sha256": "ed31445c8c4c8c0d0bf38d3a27482c94c1c0e7a8c542744a5ddf31805251b9d4",
+      "lines": 212,
+      "ranges": [
+        [
+          1,
+          82
+        ]
+      ],
+      "method": "Selected test setup and assertion bodies inspected; not executed and not runtime/concurrency certification."
+    }
+  ]
+}
