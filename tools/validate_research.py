@@ -75,8 +75,8 @@ def main():
         repos.append(result)
     actual = {p.parent.parent.name for p in ROOT.glob('*/repo/.git')}
     if expected != actual: issues.append(f'Checkout set differs: {sorted(expected ^ actual)}')
-    pages = sorted([ROOT/'index.html', *ROOT.glob('*/index.html'), ROOT/'generic/method.html', ROOT/'generic/purpose.html'])
-    if len(pages) != 79: issues.append(f'Expected 79 HTML pages, found {len(pages)}')
+    pages = sorted([ROOT/'index.html', *ROOT.glob('*/index.html'), ROOT/'generic/method.html', ROOT/'generic/purpose.html', ROOT/'generic/task-coordination.html'])
+    if len(pages) != 80: issues.append(f'Expected 80 HTML pages, found {len(pages)}')
     parsed = {p: Document(p.read_text()) for p in pages}
     for page, doc in parsed.items():
         if doc.h1 != 1: issues.append(f'Expected one h1: {page.relative_to(ROOT)}')
@@ -102,6 +102,7 @@ def main():
     docs = [ROOT/'WINGMAN_PURPOSE.md', ROOT/'AGENTS.md', ROOT/'README.md']
     docs += list(ROOT.glob('*/assessment/*.md'))
     docs += list(ROOT.glob('generic/assessments/*.md'))
+    docs += list(ROOT.glob('generic/assessments/agent-task-coordination/*.md'))
     docs += list(ROOT.glob('generic/assessments/_audits/qa*.md'))
     for doc in docs:
         if not doc.exists(): issues.append(f'Missing guide: {doc.relative_to(ROOT)}'); continue

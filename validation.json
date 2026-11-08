@@ -1,9 +1,9 @@
 {
   "scope": "Repository preservation, structure, feature coverage, local links, HTML anchors, and shared assets. Not a semantic or STE certification.",
   "repository_count": 75,
-  "html_count": 79,
-  "markdown_links_checked": 10633,
-  "html_links_checked": 13661,
+  "html_count": 80,
+  "markdown_links_checked": 10652,
+  "html_links_checked": 13778,
   "issues": [],
   "repositories": [
     {

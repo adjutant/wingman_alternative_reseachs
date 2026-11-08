@@ -34,7 +34,7 @@ class ReportHandler(SimpleHTTPRequestHandler):
             return True
         if parts[0] == 'generic':
             return len(parts) == 1 or parts[1] in {
-                'index.html', 'purpose.html', 'method.html', 'assessments',
+                'index.html', 'purpose.html', 'method.html', 'task-coordination.html', 'assessments',
             }
         if parts[0] in self.projects:
             return len(parts) == 1 or parts[1] in {

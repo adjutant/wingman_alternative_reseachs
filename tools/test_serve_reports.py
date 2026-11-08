@@ -25,6 +25,7 @@ class ReportServerTests(unittest.TestCase):
             'assets/report.css': 'body { color: navy; }',
             'assets/report.js': 'console.log("report");',
             'generic/purpose.html': '<h1>Purpose</h1>',
+            'generic/task-coordination.html': '<h1>Agent task coordination</h1>',
             '.git/config': 'private Git config',
             '.env': 'private configuration',
             'private.txt': 'unpublished file',
@@ -62,7 +63,7 @@ class ReportServerTests(unittest.TestCase):
 
     def test_reports_assets_and_head(self):
         with self.serving() as port:
-            for path in ['/', '/project/', '/generic/purpose.html', '/project/assessment/ASSESSMENT.md', '/assets/report.css', '/assets/report.js']:
+            for path in ['/', '/project/', '/generic/purpose.html', '/generic/task-coordination.html', '/project/assessment/ASSESSMENT.md', '/assets/report.css', '/assets/report.js']:
                 with self.subTest(path=path):
                     self.assertEqual(self.request(port, path)[0], 200)
             status, headers, body = self.request(port, '/assets/report.css', 'HEAD')

@@ -37,12 +37,17 @@ The original categories remain in `checkouts.json` as metadata.
 - [Wingman purpose](generic/purpose.html) defines the required product.
 - [Architecture findings](generic/index.html) explain shared mechanisms and decisions.
 - [Method and evidence](generic/method.html) define verdicts and verification limits.
+- [Agent task coordination](generic/task-coordination.html) compares shared trackers, boards, claims and handoffs for agents and subagents.
 - [Source index](generic/assessments/CHECKOUT_INDEX.md) lists all checkouts and commits.
 - [Feature matrix](generic/assessments/FEATURE_MATRIX.md) provides the complete Markdown comparison.
 
 Project reports start with a decision summary.
 Their technical sections cover architecture, 24 features, lifecycle, coordination, extra capabilities, and adoption gaps.
 Code links refer to the pinned local checkout.
+
+Focused studies can add new upstream source evidence without adding projects to the original 75-checkout comparison.
+The task coordination study records 17 open-source systems and five restricted alternatives or companions.
+Its revisions, licenses, file hashes and review scopes are in [the evidence index](generic/assessments/agent-task-coordination/EVIDENCE.md).
 
 ## Serve on your LAN
 

@@ -60,6 +60,7 @@ report_map = {ROOT / x['report']: ROOT / Path(x['directory']).parts[0] / 'index.
 report_map[ROOT / 'WINGMAN_PURPOSE.md'] = ROOT / 'generic/purpose.html'
 report_map[ROOT / 'generic/assessments/ARCHITECTURE.md'] = ROOT / 'generic/index.html'
 report_map[ROOT / 'generic/assessments/METHOD.md'] = ROOT / 'generic/method.html'
+report_map[ROOT / 'generic/assessments/AGENT_TASK_COORDINATION.md'] = ROOT / 'generic/task-coordination.html'
 for x in coverage['repositories']:
     folder = (ROOT / x['report']).parent
     for chapter in folder.glob('*.md'):
@@ -108,10 +109,11 @@ def render(path, page, prefix):
             text.parent['class'] = list(text.parent.get('class', [])) + ['url-text']
     return str(doc)
 
-def shell(page, title, subtitle, body, section, toc=''):
+def shell(page, title, subtitle, body, section, toc='', review_date='05 NOV 2026'):
     base = lambda p: E(rel(ROOT / p, page))
     links = [('index.html', 'Overview', 'overview'), ('generic/index.html', 'Architecture findings', 'architecture'),
-             ('generic/purpose.html', 'Wingman purpose', 'purpose'), ('generic/method.html', 'Method and evidence', 'method')]
+             ('generic/purpose.html', 'Wingman purpose', 'purpose'), ('generic/method.html', 'Method and evidence', 'method'),
+             ('generic/task-coordination.html', 'Agent task coordination', 'coordination')]
     nav = ''.join(f'<a class="nav-link {"active" if key == section else ""}" href="{base(path)}"'
                   f'{" aria-current=page" if key == section else ""}>{label}</a>' for path, label, key in links)
     groupnav = ''.join(f'<a class="nav-link" href="{base("index.html")}#group-{slug}">{label}</a>' for slug, label in GROUPS.items())
@@ -127,7 +129,7 @@ def shell(page, title, subtitle, body, section, toc=''):
 <p class="nav-label">Research collection</p><nav>{nav}</nav>
 <p class="nav-label">Source groups</p><nav>{groupnav}</nav>
 <div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="{base('README.md')}">Open the file guide →</a></div></aside>
-<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="{base('index.html')}">Wingman Research</a><span class="crumb">/</span><span>{E(title)}</span></div><span class="topbar-note">SOURCE REVIEW · 05 NOV 2026</span></header>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="{base('index.html')}">Wingman Research</a><span class="crumb">/</span><span>{E(title)}</span></div><span class="topbar-note">SOURCE REVIEW · {E(review_date)}</span></header>
 <main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>{E(title)}</h1><p class="subtitle">{E(subtitle)}</p></div>
 {toc}{body}
 <footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="{base('index.html')}">Return to overview <img src="{base('assets/icons/arrow-right.svg')}" width="14" height="14" alt=""></a></footer>
@@ -189,6 +191,7 @@ def build_master():
 <p><a href="generic/purpose.html">Read the full Wingman purpose →</a></p></section>'''
     stats = '<div class="summary"><div><strong>75</strong><span>Source checkouts</span></div><div><strong>24</strong><span>Common requirements</span></div><div><strong>6</strong><span>Source groups</span></div><div><strong>25</strong><span>Historical source audits</span></div></div>'
     reading = '''<section><h2>Choose a reading path</h2><div class="table-scroll"><table><thead><tr><th>Question</th><th>Start here</th><th>Main decision</th></tr></thead><tbody>
+<tr><td>How can agents share tasks and hand off work?</td><td><a href="generic/task-coordination.html">Agent task coordination</a></td><td>Compare 17 open-source task systems, ownership, dependencies, recovery and agent interfaces.</td></tr>
 <tr><td>How can a standing team work?</td><td><a href="paperclip/index.html">Paperclip</a>, <a href="openrig/index.html">OpenRig</a>, <a href="multica/index.html">Multica</a>, <a href="crewly/index.html">Crewly</a>, <a href="agent-swarm/index.html">Agent Swarm</a></td><td>Choose the agent, project, task, and authority model.</td></tr>
 <tr><td>How can workers execute and recover?</td><td><a href="orca/index.html">Orca</a>, <a href="codex-autorunner/index.html">CAR</a>, <a href="agent-deck/index.html">Agent Deck</a>, <a href="scion/index.html">Scion</a></td><td>Choose session, attempt, delivery, and host contracts.</td></tr>
 <tr><td>How can work reach accepted delivery?</td><td><a href="gstack/index.html">gstack</a>, <a href="gastown/index.html">Gas Town</a>, <a href="superplane/index.html">SuperPlane</a>, <a href="babysitter/index.html">Babysitter</a></td><td>Connect product definition to versioned verification evidence.</td></tr>
@@ -226,7 +229,8 @@ def build_master():
 
 def build_generic():
     docs = [('ARCHITECTURE.md', 'index.html', 'Architecture findings', 'architecture'),
-            ('METHOD.md', 'method.html', 'Method and evidence', 'method')]
+            ('METHOD.md', 'method.html', 'Method and evidence', 'method'),
+            ('AGENT_TASK_COORDINATION.md', 'task-coordination.html', 'Agent task coordination', 'coordination')]
     for filename, output, title, section in docs:
         page = ROOT / 'generic' / output
         body = render(ROOT / 'generic/assessments' / filename, page, section)
@@ -234,7 +238,10 @@ def build_generic():
             body += '<section><h2>Common Wingman requirements</h2><div class="table-scroll" tabindex="0" role="region" aria-label="Wingman requirements"><table><thead><tr><th scope="col">ID</th><th scope="col">Requirement</th></tr></thead><tbody>'
             body += ''.join(f'<tr id="feature-{key.lower()}"><th scope="row">{key}</th><td>{E(label)}</td></tr>' for key,label in features)
             body += '</tbody></table></div></section><p><a href="assessments/ASSESSMENT_GUIDE.md">Read the complete assessment guide</a></p>'
-        shell(page, title, 'Shared technical findings and evidence boundaries.', f'<article class="technical">{body}</article>', section, generic_contents(body))
+        subtitle = ('Open-source task boards, shared queues and handoffs for agents and subagents.'
+                    if section == 'coordination' else 'Shared technical findings and evidence boundaries.')
+        shell(page, title, subtitle, f'<article class="technical">{body}</article>', section,
+              generic_contents(body), review_date='08 NOV 2026' if section == 'coordination' else '05 NOV 2026')
     page = ROOT / 'generic/purpose.html'
     body = render(ROOT / 'WINGMAN_PURPOSE.md', page, 'purpose')
     shell(page, 'Wingman purpose', 'The product baseline used for all 75 assessments.',
@@ -246,7 +253,7 @@ def main():
         build_project(item)
     (ROOT / 'coverage.json').write_text(json.dumps(coverage, indent=2) + '\n')
     build_master(); build_generic()
-    print('Built 79 HTML reports: 75 projects, 3 generic reports, and 1 overview.')
+    print('Built 80 HTML reports: 75 projects, 4 generic reports, and 1 overview.')
 
 if __name__ == '__main__':
     main()

@@ -1,6 +1,6 @@
 (async () => {
   const manifest = await (await fetch('/coverage.json')).json();
-  const paths = ['index.html', 'generic/index.html', 'generic/purpose.html', 'generic/method.html',
+  const paths = ['index.html', 'generic/index.html', 'generic/purpose.html', 'generic/method.html', 'generic/task-coordination.html',
     ...manifest.repositories.map(r => r.directory.split('/')[0] + '/index.html')];
   const frame = document.createElement('iframe');
   frame.style.cssText = 'position:fixed;left:-5000px;top:0;border:0;height:900px';

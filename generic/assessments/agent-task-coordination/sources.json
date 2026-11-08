@@ -1,0 +1,1136 @@
+{
+  "method": "Public repository metadata, immutable source file reads and official documentation. Retrieval is not a complete source audit. No candidate code or candidate tests executed.",
+  "repositories": [
+    {
+      "slug": "agent-hq",
+      "repository": "tools-for-agents/agent-hq",
+      "url": "https://github.com/tools-for-agents/agent-hq",
+      "default_branch": "main",
+      "commit": "785cd8c9a55b2b517eb8eb8f680cd65985992282",
+      "archived": false,
+      "pushed_at": "2026-09-27T08:59:42Z",
+      "created_at": "2026-06-27T11:25:46Z",
+      "github_license_id": "MIT",
+      "retrieved_at": "2026-11-08T15:54:02.645589+00:00",
+      "tree_truncated": false,
+      "files": [
+        {
+          "path": "LICENSE",
+          "sha256": "9af986cb408a26e2c9ba69685002a38467cefedcbf1f02e15bab25926099d524",
+          "bytes": 1073,
+          "lines": 21,
+          "url": "https://github.com/tools-for-agents/agent-hq/blob/785cd8c9a55b2b517eb8eb8f680cd65985992282/LICENSE"
+        },
+        {
+          "path": "README.md",
+          "sha256": "45f601796ad7d557aa41702c49a491b060ddc345424deedc3e8ba2660e6c6645",
+          "bytes": 16643,
+          "lines": 226,
+          "url": "https://github.com/tools-for-agents/agent-hq/blob/785cd8c9a55b2b517eb8eb8f680cd65985992282/README.md"
+        },
+        {
+          "path": "mcp/mcp-server.js",
+          "sha256": "e423867e6ad8213e1b03fc102758207407abb0eb07faf000092b4a0105755e96",
+          "bytes": 27225,
+          "lines": 546,
+          "url": "https://github.com/tools-for-agents/agent-hq/blob/785cd8c9a55b2b517eb8eb8f680cd65985992282/mcp/mcp-server.js"
+        },
+        {
+          "path": "src/db.js",
+          "sha256": "970019984e569333411dd748cf82e92898df97e2c8d76ce2f9f90e0d1579bd75",
+          "bytes": 7271,
+          "lines": 195,
+          "url": "https://github.com/tools-for-agents/agent-hq/blob/785cd8c9a55b2b517eb8eb8f680cd65985992282/src/db.js"
+        },
+        {
+          "path": "src/server.js",
+          "sha256": "ccd6cd0c4c38a842bb447b9dd179629611f756053d58fc2dba2c57eea1949506",
+          "bytes": 9177,
+          "lines": 194,
+          "url": "https://github.com/tools-for-agents/agent-hq/blob/785cd8c9a55b2b517eb8eb8f680cd65985992282/src/server.js"
+        },
+        {
+          "path": "src/services.js",
+          "sha256": "9487e0e9bdbf51893a2070781e02b1bfc3f74270b71bda1b7aa7f1d1871a1613",
+          "bytes": 65974,
+          "lines": 1143,
+          "url": "https://github.com/tools-for-agents/agent-hq/blob/785cd8c9a55b2b517eb8eb8f680cd65985992282/src/services.js"
+        },
+        {
+          "path": "test/concurrency.test.js",
+          "sha256": "fd281f63b90a865d8265cd55654ae7ae2d20893f0c9e65f8300cbf521029768e",
+          "bytes": 3502,
+          "lines": 67,
+          "url": "https://github.com/tools-for-agents/agent-hq/blob/785cd8c9a55b2b517eb8eb8f680cd65985992282/test/concurrency.test.js"
+        }
+      ]
+    },
+    {
+      "slug": "agent-kanban-rs",
+      "repository": "fxeqxmulfx/agent-kanban-rs",
+      "url": "https://github.com/fxeqxmulfx/agent-kanban-rs",
+      "default_branch": "master",
+      "commit": "3ab1218eac51edca8556e6dfbeea322477e7a444",
+      "archived": false,
+      "pushed_at": "2026-10-27T07:24:02Z",
+      "created_at": "2026-07-03T16:12:19Z",
+      "github_license_id": "MIT",
+      "retrieved_at": "2026-11-08T15:54:04.259892+00:00",
+      "tree_truncated": false,
+      "files": [
+        {
+          "path": "LICENSE",
+          "sha256": "e973b7fae708a4f4647538a84e0c52fafaa6fe22802f0e346a2e2c22a76d8c28",
+          "bytes": 1093,
+          "lines": 21,
+          "url": "https://github.com/fxeqxmulfx/agent-kanban-rs/blob/3ab1218eac51edca8556e6dfbeea322477e7a444/LICENSE"
+        },
+        {
+          "path": "README.md",
+          "sha256": "c10139344edf2aaf1882796d5eca37e48d87add2b4510aeb336d8f0685ed9a19",
+          "bytes": 38004,
+          "lines": 645,
+          "url": "https://github.com/fxeqxmulfx/agent-kanban-rs/blob/3ab1218eac51edca8556e6dfbeea322477e7a444/README.md"
+        },
+        {
+          "path": "src/commands/deps.rs",
+          "sha256": "4632af28961ef8577ccc24c5427a78ba5dc62bd8171de52ffabbe188a5ad15a4",
+          "bytes": 11370,
+          "lines": 311,
+          "url": "https://github.com/fxeqxmulfx/agent-kanban-rs/blob/3ab1218eac51edca8556e6dfbeea322477e7a444/src/commands/deps.rs"
+        },
+        {
+          "path": "src/commands/lifecycle.rs",
+          "sha256": "ac16daf75d37d60afcb35c2fa1e5f9f7efda0db5aedc3852e94b43d73f81f1cb",
+          "bytes": 54354,
+          "lines": 1559,
+          "url": "https://github.com/fxeqxmulfx/agent-kanban-rs/blob/3ab1218eac51edca8556e6dfbeea322477e7a444/src/commands/lifecycle.rs"
+        },
+        {
+          "path": "src/db.rs",
+          "sha256": "5ced55404f0ac4566e2d78d632fece62e9935ef33bb130a4063a95b382fe6fd6",
+          "bytes": 36025,
+          "lines": 858,
+          "url": "https://github.com/fxeqxmulfx/agent-kanban-rs/blob/3ab1218eac51edca8556e6dfbeea322477e7a444/src/db.rs"
+        }
+      ]
+    },
+    {
+      "slug": "agent-mail-rust",
+      "repository": "Dicklesworthstone/mcp_agent_mail_rust",
+      "url": "https://github.com/Dicklesworthstone/mcp_agent_mail_rust",
+      "commit": "49866939b1f52af5741bd3c87145d01846b93a38",
+      "retrieved_at": "2026-11-08T15:57:16.423560+00:00",
+      "revision_method": "git ls-remote HEAD",
+      "files": [
+        {
+          "path": "LICENSE",
+          "sha256": "32a82e0a5754e72e51fae44b65a936c831c07376f21c90f5fb9e76897fcc3509",
+          "bytes": 3939,
+          "lines": 73,
+          "url": "https://github.com/Dicklesworthstone/mcp_agent_mail_rust/blob/49866939b1f52af5741bd3c87145d01846b93a38/LICENSE"
+        },
+        {
+          "path": "README.md",
+          "sha256": "7d149925bc35631faef9fd857b40aca80ffc894123774a6ae9a437852979b51c",
+          "bytes": 171804,
+          "lines": 2391,
+          "url": "https://github.com/Dicklesworthstone/mcp_agent_mail_rust/blob/49866939b1f52af5741bd3c87145d01846b93a38/README.md"
+        }
+      ]
+    },
+    {
+      "slug": "agent-swarm",
+      "repository": "desplega-ai/agent-swarm",
+      "url": "https://github.com/desplega-ai/agent-swarm",
+      "commit": "6aff700f53755cb71bd6a1aa2e2fa1da9586b892",
+      "revision_method": "Preserved local source checkout; no fetch or checkout mutation",
+      "original_assessment_date": "2026-11-05",
+      "rechecked_on": "2026-11-08",
+      "files": [
+        {
+          "path": "LICENSE",
+          "sha256": "cbf6cd95e41d73f6f008ebed5bb79ff4d50432c43b16e916c33d86bd1ba1f207",
+          "bytes": 1073,
+          "lines": 21,
+          "url": "https://github.com/desplega-ai/agent-swarm/blob/6aff700f53755cb71bd6a1aa2e2fa1da9586b892/LICENSE"
+        },
+        {
+          "path": "src/be/db.ts",
+          "sha256": "662f1c390c3077897b38beb7c5582d4c13386bb92866d5f037dd62af6b26d257",
+          "bytes": 503162,
+          "lines": 14638,
+          "url": "https://github.com/desplega-ai/agent-swarm/blob/6aff700f53755cb71bd6a1aa2e2fa1da9586b892/src/be/db.ts"
+        },
+        {
+          "path": "src/be/db/runtime.ts",
+          "sha256": "6876971a018d04b4148d64d8dd93fc0c44281a20e6e240dc5a607fa98ff4559e",
+          "bytes": 17303,
+          "lines": 447,
+          "url": "https://github.com/desplega-ai/agent-swarm/blob/6aff700f53755cb71bd6a1aa2e2fa1da9586b892/src/be/db/runtime.ts"
+        }
+      ]
+    },
+    {
+      "slug": "backlog-md",
+      "repository": "MrLesk/Backlog.md",
+      "url": "https://github.com/MrLesk/Backlog.md",
+      "default_branch": "main",
+      "commit": "3a296c0f6f949b31e458b849b9617702c56c1023",
+      "archived": false,
+      "pushed_at": "2026-11-04T19:08:58Z",
+      "created_at": "2025-06-04T19:43:33Z",
+      "github_license_id": "MIT",
+      "retrieved_at": "2026-11-08T15:54:02.697784+00:00",
+      "tree_truncated": false,
+      "files": [
+        {
+          "path": "LICENSE",
+          "sha256": "2039a3f558949ff32ce20b9a5a1dd36d01e5a7716a35dc0d0b7400bf68a1136e",
+          "bytes": 1067,
+          "lines": 21,
+          "url": "https://github.com/MrLesk/Backlog.md/blob/3a296c0f6f949b31e458b849b9617702c56c1023/LICENSE"
+        },
+        {
+          "path": "README.md",
+          "sha256": "5a239ea5a6751e5529b7387d4bf6b97d0eb31b2fb82ca814100f8ea901da22f4",
+          "bytes": 20249,
+          "lines": 436,
+          "url": "https://github.com/MrLesk/Backlog.md/blob/3a296c0f6f949b31e458b849b9617702c56c1023/README.md"
+        },
+        {
+          "path": "src/core/backlog.ts",
+          "sha256": "cebdd39de64cd53eb86fc9e556d17b811ef657fd5a029e9cc74f1ee813a433e8",
+          "bytes": 204141,
+          "lines": 5401,
+          "url": "https://github.com/MrLesk/Backlog.md/blob/3a296c0f6f949b31e458b849b9617702c56c1023/src/core/backlog.ts"
+        },
+        {
+          "path": "src/file-system/operations.ts",
+          "sha256": "e17efc32f7837841a0dc26789f40ae129688a7dbdd0655b455656b38c9200fa9",
+          "bytes": 96838,
+          "lines": 2583,
+          "url": "https://github.com/MrLesk/Backlog.md/blob/3a296c0f6f949b31e458b849b9617702c56c1023/src/file-system/operations.ts"
+        }
+      ]
+    },
+    {
+      "slug": "beads",
+      "repository": "gastownhall/beads",
+      "url": "https://github.com/gastownhall/beads",
+      "default_branch": "main",
+      "commit": "2edea9ced8c6f6124b6c157896ae53a0e09ff7be",
+      "archived": false,
+      "pushed_at": "2026-11-08T07:53:54Z",
+      "created_at": "2025-10-12T03:09:46Z",
+      "github_license_id": "MIT",
+      "retrieved_at": "2026-11-08T15:54:02.986644+00:00",
+      "tree_truncated": false,
+      "files": [
+        {
+          "path": "LICENSE",
+          "sha256": "caa2c60efbbf71e18b45ef6006a18213f8a42554b235af88883f6f1ec240b7db",
+          "bytes": 1075,
+          "lines": 21,
+          "url": "https://github.com/gastownhall/beads/blob/2edea9ced8c6f6124b6c157896ae53a0e09ff7be/LICENSE"
+        },
+        {
+          "path": "README.md",
+          "sha256": "95118932390d892f8585b2587f641c0f94876183cae298d0b77e835ca0508fe8",
+          "bytes": 23922,
+          "lines": 424,
+          "url": "https://github.com/gastownhall/beads/blob/2edea9ced8c6f6124b6c157896ae53a0e09ff7be/README.md"
+        },
+        {
+          "path": "backend/conformance/lease_reclaimer_contract.go",
+          "sha256": "5ea0432cb2ee00cc0fe460668332c50ea9f03c81e8c4e62b4d82a68bcb2a3be6",
+          "bytes": 27992,
+          "lines": 625,
+          "url": "https://github.com/gastownhall/beads/blob/2edea9ced8c6f6124b6c157896ae53a0e09ff7be/backend/conformance/lease_reclaimer_contract.go"
+        },
+        {
+          "path": "claim.go",
+          "sha256": "0b57e41d79eb69499aa5073ff4ee933cbfc8510163511e88238e035924952942",
+          "bytes": 4248,
+          "lines": 88,
+          "url": "https://github.com/gastownhall/beads/blob/2edea9ced8c6f6124b6c157896ae53a0e09ff7be/claim.go"
+        },
+        {
+          "path": "docs/architecture/dolt.md",
+          "sha256": "38881fae976d4d923fcecd939b03563d27348e3447d056a2093d329f3c83fa15",
+          "bytes": 46295,
+          "lines": 1148,
+          "url": "https://github.com/gastownhall/beads/blob/2edea9ced8c6f6124b6c157896ae53a0e09ff7be/docs/architecture/dolt.md"
+        },
+        {
+          "path": "docs/core-concepts/issues.md",
+          "sha256": "53f2f4d05850fa52aeb4f971fb8c8d0ae3b46f2583adf28065faa78d5307013b",
+          "bytes": 3551,
+          "lines": 180,
+          "url": "https://github.com/gastownhall/beads/blob/2edea9ced8c6f6124b6c157896ae53a0e09ff7be/docs/core-concepts/issues.md"
+        },
+        {
+          "path": "internal/httpapi/claim.go",
+          "sha256": "2570a74e7ab8857ed1eb46f5d4ee83c4da78c6e56dffb7cae57c271704651c17",
+          "bytes": 26660,
+          "lines": 612,
+          "url": "https://github.com/gastownhall/beads/blob/2edea9ced8c6f6124b6c157896ae53a0e09ff7be/internal/httpapi/claim.go"
+        },
+        {
+          "path": "internal/httpapi/claim_next.go",
+          "sha256": "3869a670affb72d122dfb9abfb03fe4e3378a53c9daabcdbdadcb301e68827a5",
+          "bytes": 5989,
+          "lines": 133,
+          "url": "https://github.com/gastownhall/beads/blob/2edea9ced8c6f6124b6c157896ae53a0e09ff7be/internal/httpapi/claim_next.go"
+        },
+        {
+          "path": "internal/storage/issueops/claim.go",
+          "sha256": "cc9c028c5ff3348f7606d195c412387899c41b5697fd6e91399fe0c09be6e398",
+          "bytes": 16774,
+          "lines": 371,
+          "url": "https://github.com/gastownhall/beads/blob/2edea9ced8c6f6124b6c157896ae53a0e09ff7be/internal/storage/issueops/claim.go"
+        },
+        {
+          "path": "internal/storage/issueops/claim_next.go",
+          "sha256": "47b9b78c2b18b1b75d2e2ac2aad29203feab4e61b2285d6e92477329720bba13",
+          "bytes": 4899,
+          "lines": 122,
+          "url": "https://github.com/gastownhall/beads/blob/2edea9ced8c6f6124b6c157896ae53a0e09ff7be/internal/storage/issueops/claim_next.go"
+        },
+        {
+          "path": "internal/storage/issueops/lease.go",
+          "sha256": "0f1e6e542563037bc7cd1e1a7d3b11ded07af47eea457d3ee07f64e9a0e9d043",
+          "bytes": 52280,
+          "lines": 1066,
+          "url": "https://github.com/gastownhall/beads/blob/2edea9ced8c6f6124b6c157896ae53a0e09ff7be/internal/storage/issueops/lease.go"
+        }
+      ]
+    },
+    {
+      "slug": "beads-rust",
+      "repository": "Dicklesworthstone/beads_rust",
+      "url": "https://github.com/Dicklesworthstone/beads_rust",
+      "default_branch": "main",
+      "commit": "117f81de0d5dae007d972a9ff7f1d73c392d8822",
+      "archived": false,
+      "pushed_at": "2026-11-08T05:17:53Z",
+      "created_at": "2026-01-18T19:19:59Z",
+      "github_license_id": "NOASSERTION",
+      "retrieved_at": "2026-11-08T15:54:03.125019+00:00",
+      "tree_truncated": false,
+      "files": [
+        {
+          "path": "LICENSE",
+          "sha256": "32a82e0a5754e72e51fae44b65a936c831c07376f21c90f5fb9e76897fcc3509",
+          "bytes": 3939,
+          "lines": 73,
+          "url": "https://github.com/Dicklesworthstone/beads_rust/blob/117f81de0d5dae007d972a9ff7f1d73c392d8822/LICENSE"
+        },
+        {
+          "path": "README.md",
+          "sha256": "2d8b7096ae77faf597e253741839c9429289adbc35c5cb5745990f85e78ed24e",
+          "bytes": 65826,
+          "lines": 1553,
+          "url": "https://github.com/Dicklesworthstone/beads_rust/blob/117f81de0d5dae007d972a9ff7f1d73c392d8822/README.md"
+        },
+        {
+          "path": "docs/COORDINATION_EVIDENCE.md",
+          "sha256": "164fe07c7c3a0e2260c70533a5eb41b4fb3e3397173c6e21979fc9e897d07369",
+          "bytes": 12814,
+          "lines": 282,
+          "url": "https://github.com/Dicklesworthstone/beads_rust/blob/117f81de0d5dae007d972a9ff7f1d73c392d8822/docs/COORDINATION_EVIDENCE.md"
+        },
+        {
+          "path": "src/cli/commands/coordination.rs",
+          "sha256": "5c04f23ddd626afbdfd34045846d00c2b5b2da5f005a62cae0bc5cc490a23d8c",
+          "bytes": 36423,
+          "lines": 1042,
+          "url": "https://github.com/Dicklesworthstone/beads_rust/blob/117f81de0d5dae007d972a9ff7f1d73c392d8822/src/cli/commands/coordination.rs"
+        },
+        {
+          "path": "src/cli/commands/update.rs",
+          "sha256": "5c36e080feebf73432203da0b631a2038ee49ddb4a7a09a1a1a0c947112b7a27",
+          "bytes": 159533,
+          "lines": 4182,
+          "url": "https://github.com/Dicklesworthstone/beads_rust/blob/117f81de0d5dae007d972a9ff7f1d73c392d8822/src/cli/commands/update.rs"
+        },
+        {
+          "path": "src/coordination.rs",
+          "sha256": "198fa4045f833b019d44c5d473e8d66a24f06a8098e90bd7d6eb713d16a581bf",
+          "bytes": 61486,
+          "lines": 1669,
+          "url": "https://github.com/Dicklesworthstone/beads_rust/blob/117f81de0d5dae007d972a9ff7f1d73c392d8822/src/coordination.rs"
+        }
+      ]
+    },
+    {
+      "slug": "beads-viewer",
+      "repository": "Dicklesworthstone/beads_viewer",
+      "url": "https://github.com/Dicklesworthstone/beads_viewer",
+      "commit": "516e96aa1ac78d6f634b0d394f5102bf430de016",
+      "retrieved_at": "2026-11-08T15:57:16.423783+00:00",
+      "revision_method": "git ls-remote HEAD",
+      "files": [
+        {
+          "path": "LICENSE",
+          "sha256": "32a82e0a5754e72e51fae44b65a936c831c07376f21c90f5fb9e76897fcc3509",
+          "bytes": 3939,
+          "lines": 73,
+          "url": "https://github.com/Dicklesworthstone/beads_viewer/blob/516e96aa1ac78d6f634b0d394f5102bf430de016/LICENSE"
+        },
+        {
+          "path": "README.md",
+          "sha256": "9f4b5ac6b9d2cb644ed6a33b47110abfa0669a9641a8c8fc18494ff46977c79f",
+          "bytes": 288329,
+          "lines": 4701,
+          "url": "https://github.com/Dicklesworthstone/beads_viewer/blob/516e96aa1ac78d6f634b0d394f5102bf430de016/README.md"
+        }
+      ]
+    },
+    {
+      "slug": "devboard",
+      "repository": "RapidWebs-Enterprise/DevBoard",
+      "url": "https://github.com/RapidWebs-Enterprise/DevBoard",
+      "default_branch": "master",
+      "commit": "cbe017a445fd4f9dee2de73f729c65b7fe0f9b9b",
+      "archived": false,
+      "pushed_at": "2026-07-02T11:41:29Z",
+      "created_at": "2026-06-16T12:37:00Z",
+      "github_license_id": "MIT",
+      "retrieved_at": "2026-11-08T15:54:04.173924+00:00",
+      "tree_truncated": false,
+      "files": [
+        {
+          "path": "LICENSE",
+          "sha256": "ccdc5cd87504c7ef1d3adddfefd38d2fdc9c1d476d260d4c2383ec3f21d0e7e3",
+          "bytes": 1080,
+          "lines": 21,
+          "url": "https://github.com/RapidWebs-Enterprise/DevBoard/blob/cbe017a445fd4f9dee2de73f729c65b7fe0f9b9b/LICENSE"
+        },
+        {
+          "path": "README.md",
+          "sha256": "2972812cfd5444e4b2fa9dcf3ccb1f651fa634f04051e93d091eb4d7105df41a",
+          "bytes": 3203,
+          "lines": 125,
+          "url": "https://github.com/RapidWebs-Enterprise/DevBoard/blob/cbe017a445fd4f9dee2de73f729c65b7fe0f9b9b/README.md"
+        },
+        {
+          "path": "docs/adrs/0003-atomic-claims.md",
+          "sha256": "74f2e023ecd698c3c8dea81e1ba605a145a6597c39673d1e724e2cb1759ff75d",
+          "bytes": 958,
+          "lines": 26,
+          "url": "https://github.com/RapidWebs-Enterprise/DevBoard/blob/cbe017a445fd4f9dee2de73f729c65b7fe0f9b9b/docs/adrs/0003-atomic-claims.md"
+        },
+        {
+          "path": "src/devboard/__init__.py",
+          "sha256": "52d21559f4ce564b3d8eb774804d69db68ea73ace8881e7da9c88d212e7b6ef4",
+          "bytes": 34135,
+          "lines": 934,
+          "url": "https://github.com/RapidWebs-Enterprise/DevBoard/blob/cbe017a445fd4f9dee2de73f729c65b7fe0f9b9b/src/devboard/__init__.py"
+        },
+        {
+          "path": "src/devboard/cli.py",
+          "sha256": "0d9d120461298d5769dc4995aed9baffecf3f641e4b6149b096b9fe155fe62ad",
+          "bytes": 33754,
+          "lines": 862,
+          "url": "https://github.com/RapidWebs-Enterprise/DevBoard/blob/cbe017a445fd4f9dee2de73f729c65b7fe0f9b9b/src/devboard/cli.py"
+        },
+        {
+          "path": "tests/test_devboard.py",
+          "sha256": "152e66087d4c055a35844e5c82e4034ab8e0567ba11ec9799d3d2e9ec51cd181",
+          "bytes": 12039,
+          "lines": 341,
+          "url": "https://github.com/RapidWebs-Enterprise/DevBoard/blob/cbe017a445fd4f9dee2de73f729c65b7fe0f9b9b/tests/test_devboard.py"
+        }
+      ]
+    },
+    {
+      "slug": "gemba",
+      "repository": "GembaCore/gemba-core",
+      "url": "https://github.com/GembaCore/gemba-core",
+      "default_branch": "main",
+      "commit": "64c266f889c6d6a579904c5e336676fa1c49b216",
+      "archived": false,
+      "pushed_at": "2026-07-02T14:17:48Z",
+      "created_at": "2026-04-18T22:13:37Z",
+      "github_license_id": "MIT",
+      "retrieved_at": "2026-11-08T15:54:04.608978+00:00",
+      "tree_truncated": false,
+      "files": [
+        {
+          "path": "LICENSE",
+          "sha256": "21d8872695b8fb10a97a44ffe4ee95025c96c16cc8bf4a53b0d54cda64c246a1",
+          "bytes": 1077,
+          "lines": 23,
+          "url": "https://github.com/GembaCore/gemba-core/blob/64c266f889c6d6a579904c5e336676fa1c49b216/LICENSE"
+        },
+        {
+          "path": "README.md",
+          "sha256": "b3f901fa0cc9a243a84458dec346f6c9e60d94692710c1025098eb5244d600e9",
+          "bytes": 40747,
+          "lines": 777,
+          "url": "https://github.com/GembaCore/gemba-core/blob/64c266f889c6d6a579904c5e336676fa1c49b216/README.md"
+        },
+        {
+          "path": "docs/adaptors/beads.md",
+          "sha256": "a1850c2f73a019ab8d5ecda3df13c7153ced82b23c5ce4fc5fba0caea1f8d1ff",
+          "bytes": 13140,
+          "lines": 300,
+          "url": "https://github.com/GembaCore/gemba-core/blob/64c266f889c6d6a579904c5e336676fa1c49b216/docs/adaptors/beads.md"
+        },
+        {
+          "path": "docs/getting-started/autonomous-dispatch.md",
+          "sha256": "254a6d18eb1e669d2b6720377b6494462369979a26be7bf3603ddb57d01fc1de",
+          "bytes": 14587,
+          "lines": 431,
+          "url": "https://github.com/GembaCore/gemba-core/blob/64c266f889c6d6a579904c5e336676fa1c49b216/docs/getting-started/autonomous-dispatch.md"
+        },
+        {
+          "path": "go.mod",
+          "sha256": "ae9c8e4446af2fbb7723804f0c70cc9688cdf1d5e6d8151bf841e4752daf31e6",
+          "bytes": 5430,
+          "lines": 118,
+          "url": "https://github.com/GembaCore/gemba-core/blob/64c266f889c6d6a579904c5e336676fa1c49b216/go.mod"
+        },
+        {
+          "path": "internal/adapter/bd/workplane.go",
+          "sha256": "3fad2c330deee3458633c699a7e3b708b993577a48dfaff840f25b22018acea0",
+          "bytes": 35358,
+          "lines": 915,
+          "url": "https://github.com/GembaCore/gemba-core/blob/64c266f889c6d6a579904c5e336676fa1c49b216/internal/adapter/bd/workplane.go"
+        },
+        {
+          "path": "internal/adapter/native/dispatch.go",
+          "sha256": "7c0badf88167d668058f006310c70a4118ec9dd4f0598ca52cccd62fe087d27b",
+          "bytes": 2691,
+          "lines": 83,
+          "url": "https://github.com/GembaCore/gemba-core/blob/64c266f889c6d6a579904c5e336676fa1c49b216/internal/adapter/native/dispatch.go"
+        }
+      ]
+    },
+    {
+      "slug": "kanboard",
+      "repository": "kanboard/kanboard",
+      "url": "https://github.com/kanboard/kanboard",
+      "default_branch": "main",
+      "commit": "2ddb31bf72d355727d0639fc3423630f3bae1a9c",
+      "archived": false,
+      "pushed_at": "2026-11-04T21:32:33Z",
+      "created_at": "2014-01-25T19:58:30Z",
+      "github_license_id": "MIT",
+      "retrieved_at": "2026-11-08T15:54:06.268726+00:00",
+      "tree_truncated": false,
+      "files": [
+        {
+          "path": "LICENSE",
+          "sha256": "df88a58a28ae686f60f737fcdc27c2a7895da9e89d93da710c595e4b95c4edac",
+          "bytes": 1080,
+          "lines": 21,
+          "url": "https://github.com/kanboard/kanboard/blob/2ddb31bf72d355727d0639fc3423630f3bae1a9c/LICENSE"
+        },
+        {
+          "path": "README.md",
+          "sha256": "2559998a4cf3104c3b628d4aa61e1c5ccafe2d7daf4866da2a05ed52ca5feb09",
+          "bytes": 1811,
+          "lines": 34,
+          "url": "https://github.com/kanboard/kanboard/blob/2ddb31bf72d355727d0639fc3423630f3bae1a9c/README.md"
+        },
+        {
+          "path": "app/Api/Procedure/SubtaskProcedure.php",
+          "sha256": "8d5b782d024e2277c59d553a2acc99c3105d3335c4b0c201107de81c179bfb73",
+          "bytes": 2721,
+          "lines": 80,
+          "url": "https://github.com/kanboard/kanboard/blob/2ddb31bf72d355727d0639fc3423630f3bae1a9c/app/Api/Procedure/SubtaskProcedure.php"
+        },
+        {
+          "path": "app/Api/Procedure/TaskProcedure.php",
+          "sha256": "c242a6a73e1691dd3aed0918e3fc34a059282e94fa7516380b0b212f96eea6e0",
+          "bytes": 8613,
+          "lines": 222,
+          "url": "https://github.com/kanboard/kanboard/blob/2ddb31bf72d355727d0639fc3423630f3bae1a9c/app/Api/Procedure/TaskProcedure.php"
+        }
+      ]
+    },
+    {
+      "slug": "muster",
+      "repository": "musterai/muster",
+      "url": "https://github.com/musterai/muster",
+      "default_branch": "main",
+      "commit": "bb98b21a6ac0ed4cb095f948e55ae8a644e10c40",
+      "archived": false,
+      "pushed_at": "2026-09-04T12:03:01Z",
+      "created_at": "2026-08-07T15:08:50Z",
+      "github_license_id": "MIT",
+      "retrieved_at": "2026-11-08T15:54:04.224159+00:00",
+      "tree_truncated": false,
+      "files": [
+        {
+          "path": "LICENSE",
+          "sha256": "f498c1e498aa6855ab056e84b01cdc801a3ae9ba465f88605fa28f4ef2cb4196",
+          "bytes": 1060,
+          "lines": 20,
+          "url": "https://github.com/musterai/muster/blob/bb98b21a6ac0ed4cb095f948e55ae8a644e10c40/LICENSE"
+        },
+        {
+          "path": "README.md",
+          "sha256": "07c75c517ab996401b3a169e823874fb7d720eb28efc2fbd12aee1d7892fd399",
+          "bytes": 19675,
+          "lines": 428,
+          "url": "https://github.com/musterai/muster/blob/bb98b21a6ac0ed4cb095f948e55ae8a644e10c40/README.md"
+        },
+        {
+          "path": "docs/deployment.md",
+          "sha256": "c9af9df99f0e361230f27849b3796965a836bc8bb46a3ab8cfee070133f36a52",
+          "bytes": 19931,
+          "lines": 343,
+          "url": "https://github.com/musterai/muster/blob/bb98b21a6ac0ed4cb095f948e55ae8a644e10c40/docs/deployment.md"
+        },
+        {
+          "path": "src/db/postgres-adapter.ts",
+          "sha256": "126d2c5697edf6ac052022ac6442877bf901c03bbf6c29cfbb2d765947a7edf9",
+          "bytes": 8568,
+          "lines": 212,
+          "url": "https://github.com/musterai/muster/blob/bb98b21a6ac0ed4cb095f948e55ae8a644e10c40/src/db/postgres-adapter.ts"
+        },
+        {
+          "path": "src/db/sqlite-adapter.ts",
+          "sha256": "7d41e1e46fd5be79401b54b8bc827b9a4c2a1f5c98975206489d7cbabc184606",
+          "bytes": 7468,
+          "lines": 205,
+          "url": "https://github.com/musterai/muster/blob/bb98b21a6ac0ed4cb095f948e55ae8a644e10c40/src/db/sqlite-adapter.ts"
+        },
+        {
+          "path": "src/services/card-assignment.operations.ts",
+          "sha256": "a8640b1ec2a47fcdc9d951b44612a1577d4bfa1aa1fefe504205d9313ba10234",
+          "bytes": 9253,
+          "lines": 252,
+          "url": "https://github.com/musterai/muster/blob/bb98b21a6ac0ed4cb095f948e55ae8a644e10c40/src/services/card-assignment.operations.ts"
+        },
+        {
+          "path": "src/services/card-lane.policy.ts",
+          "sha256": "267ae8f26b0f78ebd9573e076f71c2d3fa34d36569c6a14363e5dbe546da10d4",
+          "bytes": 6224,
+          "lines": 150,
+          "url": "https://github.com/musterai/muster/blob/bb98b21a6ac0ed4cb095f948e55ae8a644e10c40/src/services/card-lane.policy.ts"
+        },
+        {
+          "path": "src/services/card-move.operations.ts",
+          "sha256": "49b7a8326f8aed555cfec5a8e9845b626e3466890ebb3a47fb679e7ce6d1d6c6",
+          "bytes": 10875,
+          "lines": 273,
+          "url": "https://github.com/musterai/muster/blob/bb98b21a6ac0ed4cb095f948e55ae8a644e10c40/src/services/card-move.operations.ts"
+        },
+        {
+          "path": "tests/card-claim.test.ts",
+          "sha256": "1f03dd0906581f58d363fb3decc89c52400cc33dc2fb765b1d9043d02ada6f63",
+          "bytes": 22328,
+          "lines": 509,
+          "url": "https://github.com/musterai/muster/blob/bb98b21a6ac0ed4cb095f948e55ae8a644e10c40/tests/card-claim.test.ts"
+        }
+      ]
+    },
+    {
+      "slug": "openproject",
+      "repository": "opf/openproject",
+      "url": "https://github.com/opf/openproject",
+      "default_branch": "dev",
+      "commit": "05d9afe72a3c9198e26c0284c213f733c4863ca2",
+      "archived": false,
+      "pushed_at": "2026-11-08T15:52:03Z",
+      "created_at": "2012-11-28T09:59:11Z",
+      "github_license_id": "GPL-3.0",
+      "retrieved_at": "2026-11-08T15:54:06.787241+00:00",
+      "tree_truncated": false,
+      "files": [
+        {
+          "path": "LICENSE",
+          "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+          "bytes": 35149,
+          "lines": 674,
+          "url": "https://github.com/opf/openproject/blob/05d9afe72a3c9198e26c0284c213f733c4863ca2/LICENSE"
+        },
+        {
+          "path": "README.md",
+          "sha256": "869895442c909b22fc57fd985be5ddc222efc702c2f708bb7d83d41c0522d115",
+          "bytes": 6918,
+          "lines": 96,
+          "url": "https://github.com/opf/openproject/blob/05d9afe72a3c9198e26c0284c213f733c4863ca2/README.md"
+        }
+      ]
+    },
+    {
+      "slug": "paperclip",
+      "repository": "paperclipai/paperclip",
+      "url": "https://github.com/paperclipai/paperclip",
+      "commit": "46fb933b0155d183ce64a8bdc4950d1b58c926f6",
+      "revision_method": "Preserved local source checkout; no fetch or checkout mutation",
+      "original_assessment_date": "2026-11-05",
+      "rechecked_on": "2026-11-08",
+      "files": [
+        {
+          "path": "LICENSE",
+          "sha256": "7f8a27f0979bded50e240caa8c8c29f3088ddf87032cb83e5a9732bff91d18b4",
+          "bytes": 1069,
+          "lines": 21,
+          "url": "https://github.com/paperclipai/paperclip/blob/46fb933b0155d183ce64a8bdc4950d1b58c926f6/LICENSE"
+        },
+        {
+          "path": "server/src/services/issues.ts",
+          "sha256": "698ba14799d769f89b34df7b000cc728b16b55354914b596d530a4422067ea67",
+          "bytes": 533638,
+          "lines": 14312,
+          "url": "https://github.com/paperclipai/paperclip/blob/46fb933b0155d183ce64a8bdc4950d1b58c926f6/server/src/services/issues.ts"
+        }
+      ]
+    },
+    {
+      "slug": "plane",
+      "repository": "makeplane/plane",
+      "url": "https://github.com/makeplane/plane",
+      "default_branch": "preview",
+      "commit": "618d0eb74658329a6f6e92434ac54231422c5b96",
+      "archived": false,
+      "pushed_at": "2026-11-07T14:41:41Z",
+      "created_at": "2022-11-19T12:55:01Z",
+      "github_license_id": "AGPL-3.0",
+      "retrieved_at": "2026-11-08T15:54:05.972603+00:00",
+      "tree_truncated": false,
+      "files": [
+        {
+          "path": "LICENSE.txt",
+          "sha256": "0a4acb10f33c93841a8eedac172152096383ceaf7eb5a0aa7e303951cf204c7e",
+          "bytes": 34516,
+          "lines": 661,
+          "url": "https://github.com/makeplane/plane/blob/618d0eb74658329a6f6e92434ac54231422c5b96/LICENSE.txt"
+        },
+        {
+          "path": "README.md",
+          "sha256": "1527e5cd40ef95906faebb6f795e1260321e8296f97b9cc6365a77983197d677",
+          "bytes": 7699,
+          "lines": 165,
+          "url": "https://github.com/makeplane/plane/blob/618d0eb74658329a6f6e92434ac54231422c5b96/README.md"
+        },
+        {
+          "path": "apps/api/plane/api/views/issue.py",
+          "sha256": "fab1e3f2dfb5982525e515378cb1b42649b5ae4e5b4843612dc3b45e118b4c8e",
+          "bytes": 110766,
+          "lines": 2801,
+          "url": "https://github.com/makeplane/plane/blob/618d0eb74658329a6f6e92434ac54231422c5b96/apps/api/plane/api/views/issue.py"
+        },
+        {
+          "path": "apps/api/plane/db/models/issue.py",
+          "sha256": "ae65e270f1e7e1edd51869d077fad82be04839b449b2a63e9afbf7b5b057542f",
+          "bytes": 30185,
+          "lines": 822,
+          "url": "https://github.com/makeplane/plane/blob/618d0eb74658329a6f6e92434ac54231422c5b96/apps/api/plane/db/models/issue.py"
+        }
+      ]
+    },
+    {
+      "slug": "plane-mcp",
+      "repository": "makeplane/plane-mcp-server",
+      "url": "https://github.com/makeplane/plane-mcp-server",
+      "default_branch": "main",
+      "commit": "5c3467adb36fe15a2ef8f9df6fb9f5dc24b6d881",
+      "archived": false,
+      "pushed_at": "2026-11-06T09:49:25Z",
+      "created_at": "2025-04-08T00:13:08Z",
+      "github_license_id": "MIT",
+      "retrieved_at": "2026-11-08T15:54:05.680739+00:00",
+      "tree_truncated": false,
+      "files": [
+        {
+          "path": "LICENSE",
+          "sha256": "cb4963dc39462423c85aac9f4d945e7a85a03d2bd17ea79d157fc1592bc54ca7",
+          "bytes": 1087,
+          "lines": 22,
+          "url": "https://github.com/makeplane/plane-mcp-server/blob/5c3467adb36fe15a2ef8f9df6fb9f5dc24b6d881/LICENSE"
+        },
+        {
+          "path": "README.md",
+          "sha256": "5df368be927f9dfe94a04a4f9233c701893f3defbed1e62566088543af4e9645",
+          "bytes": 8432,
+          "lines": 271,
+          "url": "https://github.com/makeplane/plane-mcp-server/blob/5c3467adb36fe15a2ef8f9df6fb9f5dc24b6d881/README.md"
+        },
+        {
+          "path": "plane_mcp/client.py",
+          "sha256": "ee8542fbc48b51cc159b4570a74fec6152fa568c338825920192a6f6bdf19dd3",
+          "bytes": 3312,
+          "lines": 99,
+          "url": "https://github.com/makeplane/plane-mcp-server/blob/5c3467adb36fe15a2ef8f9df6fb9f5dc24b6d881/plane_mcp/client.py"
+        },
+        {
+          "path": "plane_mcp/tools/workitem.py",
+          "sha256": "b8fee878b9ab81fdb534d00d32995633913e5f31a310e237f9eb8b21111aadad",
+          "bytes": 14819,
+          "lines": 410,
+          "url": "https://github.com/makeplane/plane-mcp-server/blob/5c3467adb36fe15a2ef8f9df6fb9f5dc24b6d881/plane_mcp/tools/workitem.py"
+        }
+      ]
+    },
+    {
+      "slug": "planka",
+      "repository": "plankanban/planka",
+      "url": "https://github.com/plankanban/planka",
+      "default_branch": "master",
+      "commit": "2cf423824a09f84df7dc3acf0ded9a700292d882",
+      "archived": false,
+      "pushed_at": "2026-11-06T22:30:27Z",
+      "created_at": "2019-08-30T20:35:36Z",
+      "github_license_id": "NOASSERTION",
+      "retrieved_at": "2026-11-08T15:54:07.413258+00:00",
+      "tree_truncated": false,
+      "files": [
+        {
+          "path": "LICENSE.md",
+          "sha256": "9a2fa9331df8bc96b3196f7c73935807c10de259baa725584e5bcb2474703948",
+          "bytes": 6920,
+          "lines": 97,
+          "url": "https://github.com/plankanban/planka/blob/2cf423824a09f84df7dc3acf0ded9a700292d882/LICENSE.md"
+        },
+        {
+          "path": "README.md",
+          "sha256": "b28c061b21698b9016c846257308e151be31a2444fc0846d6b231c41b8e30df6",
+          "bytes": 6562,
+          "lines": 118,
+          "url": "https://github.com/plankanban/planka/blob/2cf423824a09f84df7dc3acf0ded9a700292d882/README.md"
+        }
+      ]
+    },
+    {
+      "slug": "rhizome-mcp",
+      "repository": "Odrin/rhizome-mcp",
+      "url": "https://github.com/Odrin/rhizome-mcp",
+      "default_branch": "main",
+      "commit": "03fffd7d1410ddccadf7c199f5d6e796a497b1f0",
+      "archived": false,
+      "pushed_at": "2026-10-14T08:55:03Z",
+      "created_at": "2026-07-15T15:10:09Z",
+      "github_license_id": "Apache-2.0",
+      "retrieved_at": "2026-11-08T15:54:02.776772+00:00",
+      "tree_truncated": false,
+      "files": [
+        {
+          "path": "LICENSE",
+          "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+          "bytes": 11357,
+          "lines": 201,
+          "url": "https://github.com/Odrin/rhizome-mcp/blob/03fffd7d1410ddccadf7c199f5d6e796a497b1f0/LICENSE"
+        },
+        {
+          "path": "README.md",
+          "sha256": "1b92c414076a26d61128a779ba66d959c3b29d7fe29ecec7a8980a3f660d051d",
+          "bytes": 23293,
+          "lines": 318,
+          "url": "https://github.com/Odrin/rhizome-mcp/blob/03fffd7d1410ddccadf7c199f5d6e796a497b1f0/README.md"
+        },
+        {
+          "path": "docs/04-storage-runtime.md",
+          "sha256": "2b601dcc740022e646ade477fc4798d41601045ae0fab9d69f86946effd966da",
+          "bytes": 20910,
+          "lines": 670,
+          "url": "https://github.com/Odrin/rhizome-mcp/blob/03fffd7d1410ddccadf7c199f5d6e796a497b1f0/docs/04-storage-runtime.md"
+        },
+        {
+          "path": "docs/08-local-http-transport.md",
+          "sha256": "9dd3fcb405a045251437ef05096ce495c751cdd3cd6af247e20ee7213c44a6ee",
+          "bytes": 5401,
+          "lines": 118,
+          "url": "https://github.com/Odrin/rhizome-mcp/blob/03fffd7d1410ddccadf7c199f5d6e796a497b1f0/docs/08-local-http-transport.md"
+        },
+        {
+          "path": "docs/09-review-workflow.md",
+          "sha256": "e5a44faf53ed3423aafb2041340598e5e47e3e376660b24653849b010161e44d",
+          "bytes": 16188,
+          "lines": 212,
+          "url": "https://github.com/Odrin/rhizome-mcp/blob/03fffd7d1410ddccadf7c199f5d6e796a497b1f0/docs/09-review-workflow.md"
+        },
+        {
+          "path": "docs/13-status-board.md",
+          "sha256": "97f98ec7705f4e0a4bb48790902cb1cc77776619bcc49c1dacc09eade0daab72",
+          "bytes": 11727,
+          "lines": 181,
+          "url": "https://github.com/Odrin/rhizome-mcp/blob/03fffd7d1410ddccadf7c199f5d6e796a497b1f0/docs/13-status-board.md"
+        },
+        {
+          "path": "integration/claim_race_test.go",
+          "sha256": "a255a63c4f5cdd2d78dad322f90dcbd104305b04af88dc22d3e6ad893e2c8bb9",
+          "bytes": 9992,
+          "lines": 276,
+          "url": "https://github.com/Odrin/rhizome-mcp/blob/03fffd7d1410ddccadf7c199f5d6e796a497b1f0/integration/claim_race_test.go"
+        },
+        {
+          "path": "internal/adapters/sqlite/attempts.go",
+          "sha256": "35507e738bfa6cc0ad82bb25604ccba88b31caf2ac3182f9dc830955ecf4482f",
+          "bytes": 87514,
+          "lines": 2023,
+          "url": "https://github.com/Odrin/rhizome-mcp/blob/03fffd7d1410ddccadf7c199f5d6e796a497b1f0/internal/adapters/sqlite/attempts.go"
+        },
+        {
+          "path": "internal/application/attempt_service.go",
+          "sha256": "f3e147160ee2d7c46855aa6db06550b13a4d6aa7242ff72fb80e64df5901d1c4",
+          "bytes": 17723,
+          "lines": 427,
+          "url": "https://github.com/Odrin/rhizome-mcp/blob/03fffd7d1410ddccadf7c199f5d6e796a497b1f0/internal/application/attempt_service.go"
+        }
+      ]
+    },
+    {
+      "slug": "taiga",
+      "repository": "taigaio/taiga-back",
+      "url": "https://github.com/taigaio/taiga-back",
+      "default_branch": "main",
+      "commit": "8ab6a4e3b5f6fbbfcbf108a6449011f07b7308aa",
+      "archived": false,
+      "pushed_at": "2026-11-03T11:43:01Z",
+      "created_at": "2021-04-14T12:18:59Z",
+      "github_license_id": "MPL-2.0",
+      "retrieved_at": "2026-11-08T15:54:07.239660+00:00",
+      "tree_truncated": false,
+      "files": [
+        {
+          "path": "LICENSE",
+          "sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+          "bytes": 16725,
+          "lines": 373,
+          "url": "https://github.com/taigaio/taiga-back/blob/8ab6a4e3b5f6fbbfcbf108a6449011f07b7308aa/LICENSE"
+        },
+        {
+          "path": "README.md",
+          "sha256": "6cd5219539c94339fc1305d6f9632a3893cc6236e8f2d1941024097882e8efb5",
+          "bytes": 3062,
+          "lines": 46,
+          "url": "https://github.com/taigaio/taiga-back/blob/8ab6a4e3b5f6fbbfcbf108a6449011f07b7308aa/README.md"
+        }
+      ]
+    },
+    {
+      "slug": "task-master",
+      "repository": "eyaltoledano/claude-task-master",
+      "url": "https://github.com/eyaltoledano/claude-task-master",
+      "default_branch": "main",
+      "commit": "c0c98d367c55296bfe69e65680625b6db437af02",
+      "archived": false,
+      "pushed_at": "2026-04-28T13:27:12Z",
+      "created_at": "2025-03-04T18:54:54Z",
+      "github_license_id": "NOASSERTION",
+      "retrieved_at": "2026-11-08T15:54:07.805444+00:00",
+      "tree_truncated": false,
+      "files": [
+        {
+          "path": "LICENSE",
+          "sha256": "406748f876bdb5dd39c565089685ff532c4b3a41bb6163b0cfcd0b1927017d45",
+          "bytes": 2191,
+          "lines": 25,
+          "url": "https://github.com/eyaltoledano/claude-task-master/blob/c0c98d367c55296bfe69e65680625b6db437af02/LICENSE"
+        },
+        {
+          "path": "README.md",
+          "sha256": "5a159c3bb7739bc8b7df10e3b181ea59e44cce635fc7bc05f2a80dd740345ea3",
+          "bytes": 17421,
+          "lines": 428,
+          "url": "https://github.com/eyaltoledano/claude-task-master/blob/c0c98d367c55296bfe69e65680625b6db437af02/README.md"
+        },
+        {
+          "path": "docs/task-structure.md",
+          "sha256": "4f43b0bcf1c17925aacc7a84c0e78c10caf2c46614def045cb6c3a398afe1f8e",
+          "bytes": 14790,
+          "lines": 426,
+          "url": "https://github.com/eyaltoledano/claude-task-master/blob/c0c98d367c55296bfe69e65680625b6db437af02/docs/task-structure.md"
+        },
+        {
+          "path": "package.json",
+          "sha256": "cd24d4def17538addc83cf812d503a37cb18cdf439083f9358f1614639f29478",
+          "bytes": 5710,
+          "lines": 179,
+          "url": "https://github.com/eyaltoledano/claude-task-master/blob/c0c98d367c55296bfe69e65680625b6db437af02/package.json"
+        }
+      ]
+    },
+    {
+      "slug": "vibe-kanban",
+      "repository": "BloopAI/vibe-kanban",
+      "url": "https://github.com/BloopAI/vibe-kanban",
+      "default_branch": "main",
+      "commit": "08064e043c2d78ad123b473257ed867e7ce74768",
+      "archived": false,
+      "pushed_at": "2026-11-04T11:52:09Z",
+      "created_at": "2025-06-14T19:10:21Z",
+      "github_license_id": "Apache-2.0",
+      "retrieved_at": "2026-11-08T15:54:05.160902+00:00",
+      "tree_truncated": false,
+      "files": [
+        {
+          "path": "LICENSE",
+          "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+          "bytes": 11357,
+          "lines": 201,
+          "url": "https://github.com/BloopAI/vibe-kanban/blob/08064e043c2d78ad123b473257ed867e7ce74768/LICENSE"
+        },
+        {
+          "path": "README.md",
+          "sha256": "d40826b01ec41a3a2fc8fa229907b21a9c0ba5174fbe48cac32679c667533e95",
+          "bytes": 7427,
+          "lines": 163,
+          "url": "https://github.com/BloopAI/vibe-kanban/blob/08064e043c2d78ad123b473257ed867e7ce74768/README.md"
+        },
+        {
+          "path": "crates/mcp/src/task_server/tools/remote_issues.rs",
+          "sha256": "ef3aae9468ac3176bc7cc8942bc4cac23556cc82a43033b935f8b422bfb071b9",
+          "bytes": 35189,
+          "lines": 978,
+          "url": "https://github.com/BloopAI/vibe-kanban/blob/08064e043c2d78ad123b473257ed867e7ce74768/crates/mcp/src/task_server/tools/remote_issues.rs"
+        },
+        {
+          "path": "crates/mcp/src/task_server/tools/task_attempts.rs",
+          "sha256": "e93d491ff4d7c3aa3361c6fc25004f58dff94bdada1c10acebbd7fc9d88e20be",
+          "bytes": 7890,
+          "lines": 244,
+          "url": "https://github.com/BloopAI/vibe-kanban/blob/08064e043c2d78ad123b473257ed867e7ce74768/crates/mcp/src/task_server/tools/task_attempts.rs"
+        },
+        {
+          "path": "crates/mcp/src/task_server/tools/workspaces.rs",
+          "sha256": "afc920cd315774c6cfcb0f827f99fb86472c6b5f00691e5a0dba730edeb1c255",
+          "bytes": 8650,
+          "lines": 250,
+          "url": "https://github.com/BloopAI/vibe-kanban/blob/08064e043c2d78ad123b473257ed867e7ce74768/crates/mcp/src/task_server/tools/workspaces.rs"
+        },
+        {
+          "path": "crates/remote/src/db/issues.rs",
+          "sha256": "eec6d60f06cb2065f4877646c5dc996c8e6b0f7ddea6cb96ce4e720f35739248",
+          "bytes": 26012,
+          "lines": 705,
+          "url": "https://github.com/BloopAI/vibe-kanban/blob/08064e043c2d78ad123b473257ed867e7ce74768/crates/remote/src/db/issues.rs"
+        },
+        {
+          "path": "docs/self-hosting/deploy-docker.mdx",
+          "sha256": "ad03b8811149377115c68e3654a1cd66b666c9340e674d15c3f6be594175c76b",
+          "bytes": 11261,
+          "lines": 383,
+          "url": "https://github.com/BloopAI/vibe-kanban/blob/08064e043c2d78ad123b473257ed867e7ce74768/docs/self-hosting/deploy-docker.mdx"
+        }
+      ]
+    },
+    {
+      "slug": "vikunja",
+      "repository": "go-vikunja/vikunja",
+      "url": "https://github.com/go-vikunja/vikunja",
+      "default_branch": "main",
+      "commit": "d2c9aee4f8894edc02611a8b40becbd5dfc95e33",
+      "archived": false,
+      "pushed_at": "2026-11-08T08:11:54Z",
+      "created_at": "2018-11-28T19:52:27Z",
+      "github_license_id": "AGPL-3.0",
+      "retrieved_at": "2026-11-08T15:54:06.711618+00:00",
+      "tree_truncated": false,
+      "files": [
+        {
+          "path": "LICENSE",
+          "sha256": "0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0",
+          "bytes": 34523,
+          "lines": 661,
+          "url": "https://github.com/go-vikunja/vikunja/blob/d2c9aee4f8894edc02611a8b40becbd5dfc95e33/LICENSE"
+        },
+        {
+          "path": "README.md",
+          "sha256": "28f13e45d1ff7c86f7c65fd7b542e8252aa5633fdcef791c9929e0cecbd2f46a",
+          "bytes": 3150,
+          "lines": 66,
+          "url": "https://github.com/go-vikunja/vikunja/blob/d2c9aee4f8894edc02611a8b40becbd5dfc95e33/README.md"
+        }
+      ]
+    }
+  ],
+  "fetch_errors": [],
+  "review_date": "2026-11-08",
+  "collection_notes": [
+    "GitHub REST metadata reached its unauthenticated rate limit. Subsequent source reads used raw URLs at already resolved commits. Companion revisions were resolved with git ls-remote HEAD."
+  ],
+  "documentation": [
+    {
+      "id": "gitlab-boards",
+      "url": "https://docs.gitlab.com/user/project/issue_board/",
+      "supports": "Issue boards and Free/paid tier boundaries",
+      "checked_on": "2026-11-08",
+      "immutable": false
+    },
+    {
+      "id": "gitlab-issues-api",
+      "url": "https://docs.gitlab.com/api/issues/",
+      "supports": "Issue lifecycle and authenticated API access",
+      "checked_on": "2026-11-08",
+      "immutable": false
+    },
+    {
+      "id": "gitlab-boards-api",
+      "url": "https://docs.gitlab.com/api/boards/",
+      "supports": "Board and list API",
+      "checked_on": "2026-11-08",
+      "immutable": false
+    },
+    {
+      "id": "gitlab-license",
+      "url": "https://gitlab.com/gitlab-org/gitlab/-/blob/master/LICENSE",
+      "supports": "Community license; no GitLab source implementation claim",
+      "checked_on": "2026-11-08",
+      "immutable": false
+    },
+    {
+      "id": "openproject-api",
+      "url": "https://www.openproject.org/docs/api/endpoints/work-packages/",
+      "supports": "lockVersion optimistic locking",
+      "checked_on": "2026-11-08",
+      "immutable": false
+    },
+    {
+      "id": "openproject-community-boards",
+      "url": "https://www.openproject.org/blog/openproject-17-3-release/",
+      "supports": "Action boards available in Community since 17.3",
+      "checked_on": "2026-11-08",
+      "immutable": false
+    },
+    {
+      "id": "openproject-mcp-edition",
+      "url": "https://www.openproject.org/blog/openproject-17-8-release/",
+      "supports": "MCP write operations and Enterprise plan boundary",
+      "checked_on": "2026-11-08",
+      "immutable": false
+    },
+    {
+      "id": "vikunja-features",
+      "url": "https://vikunja.io/features/",
+      "supports": "Projects, subtasks, collaboration and task views",
+      "checked_on": "2026-11-08",
+      "immutable": false
+    },
+    {
+      "id": "vikunja-api",
+      "url": "https://try.vikunja.io/api/v2/docs",
+      "supports": "Task relation API discovery; no lease guarantee established",
+      "checked_on": "2026-11-08",
+      "immutable": false
+    },
+    {
+      "id": "taiga-api",
+      "url": "https://docs.taiga.io/api.html",
+      "supports": "Task/story/milestone API and optimistic concurrency",
+      "checked_on": "2026-11-08",
+      "immutable": false
+    },
+    {
+      "id": "mcp-tasks",
+      "url": "https://github.com/modelcontextprotocol/modelcontextprotocol/blob/main/docs/specification/2025-11-25/basic/utilities/tasks.mdx",
+      "supports": "Protocol tasks differ from a shared project tracker",
+      "checked_on": "2026-11-08",
+      "immutable": false
+    },
+    {
+      "id": "agent-mail-python-status",
+      "url": "https://github.com/Dicklesworthstone/mcp_agent_mail",
+      "supports": "Python implementation is superseded by Rust rewrite",
+      "checked_on": "2026-11-08",
+      "immutable": false
+    }
+  ]
+}

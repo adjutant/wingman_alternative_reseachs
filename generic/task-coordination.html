@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Open-source task boards, shared queues and handoffs for agents and subagents."><title>Agent task coordination · Wingman Research</title>
+<link rel="icon" href="../assets/icons/signal-dash.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/report.css"><script defer src="../assets/report.js"></script></head>
+<body><a class="skip-link" href="#content">Skip to content</a>
+<aside id="sidebar" class="sidebar" aria-label="Research navigation">
+<a class="brand" href="../index.html"><img src="../assets/icons/signal-dash.svg" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
+<p class="nav-label">Research collection</p><nav><a class="nav-link " href="../index.html">Overview</a><a class="nav-link " href="index.html">Architecture findings</a><a class="nav-link " href="purpose.html">Wingman purpose</a><a class="nav-link " href="method.html">Method and evidence</a><a class="nav-link active" href="task-coordination.html" aria-current=page>Agent task coordination</a></nav>
+<p class="nav-label">Source groups</p><nav><a class="nav-link" href="../index.html#group-standing-teams">Standing teams</a><a class="nav-link" href="../index.html#group-workbenches">Coding workspaces</a><a class="nav-link" href="../index.html#group-delivery-engines">Delivery engines</a><a class="nav-link" href="../index.html#group-workflow-layers">Workflow layers</a><a class="nav-link" href="../index.html#group-infrastructure">Infrastructure</a><a class="nav-link" href="../index.html#group-agent-harnesses">Agent runtimes</a></nav>
+<div class="sidebar-bottom"><strong>75 source snapshots</strong><p>24 common requirements.<br>Evidence at pinned revisions.</p><a href="../README.md">Open the file guide →</a></div></aside>
+<div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="../index.html">Wingman Research</a><span class="crumb">/</span><span>Agent task coordination</span></div><span class="topbar-note">SOURCE REVIEW · 08 NOV 2026</span></header>
+<main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>Agent task coordination</h1><p class="subtitle">Open-source task boards, shared queues and handoffs for agents and subagents.</p></div>
+<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div><a href="#coordination-task-coordination-for-ai-agents-and-subagents">Task coordination for AI agents and subagents</a><a href="#coordination-decisions-by-use-case">Decisions by use case</a><a href="#coordination-what-agents-need-from-a-tracker">What agents need from a tracker</a><a href="#coordination-agent-oriented-task-systems">Agent-oriented task systems</a><a href="#coordination-boards-connected-to-coding-execution">Boards connected to coding execution</a><a href="#coordination-established-trackers-agents-can-operate">Established trackers agents can operate</a><a href="#coordination-license-constrained-alternatives-and-companions">License-constrained alternatives and companions</a><a href="#coordination-how-to-connect-agents-and-subagents">How to connect agents and subagents</a><a href="#coordination-evaluation-plan-before-adoption">Evaluation plan before adoption</a><a href="#coordination-evidence-and-revision-boundaries">Evidence and revision boundaries</a></div></nav><article class="technical"><h2 id="coordination-task-coordination-for-ai-agents-and-subagents">Task coordination for AI agents and subagents</h2>
+<p>Review date: November 8, 2026.</p>
+<p><strong>Start with Paperclip for a shared organization, Beads for a lightweight task graph, and Rhizome MCP for lease-based handoffs on one host.</strong> Compare Muster when the main interface should be a shared agent board. Use Plane when conventional project management is the priority. Backlog.md is the clearest file-based option for humans and agents working in the same repository.</p>
+<p>The important unit is a durable task with an owner, dependencies and a recoverable execution attempt. A board presents that state. An agent runtime performs the work. Some products provide both layers. Others provide one layer and need an adapter.</p>
+<p>This study covers 17 candidate systems, three alternatives with restrictive licenses, and two communication or visualization companions with restrictive licenses. It includes GitHub projects and GitLab's own self-hosted tracker. The official Plane MCP server is an integration, not an additional tracker. GitHub hosting alone does not establish an open-source license.</p>
+<p>The findings below distinguish implementation review from documentation review. None of the candidate applications or their test suites was started for this study. Recommendations identify evaluation paths, not measured reliability rankings. The original 75-project comparison remains a separate assessment against all 24 Wingman requirements.</p>
+<h2 id="coordination-decisions-by-use-case">Decisions by use case</h2>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Need</th>
+<th scope="col">First candidates to evaluate</th>
+<th scope="col">Reason and adoption boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Shared projects and durable specialist agents across hosts</td>
+<td>Paperclip; Agent Swarm</td>
+<td>Both already have source assessments in this collection. They connect task ownership to independently running agents through a central service. They bring more runtime and organization policy than a small tracker needs.</td>
+</tr>
+<tr>
+<td>Small task graph that agents can query and claim from a CLI</td>
+<td>Beads</td>
+<td>Native dependencies, machine-readable commands, conditional claims and recovery primitives. Use one shared authority for concurrent ownership. Separate replicas synchronized later are not a globally exclusive queue.</td>
+</tr>
+<tr>
+<td>Crash recovery and reviewer handoff on one machine</td>
+<td>Rhizome MCP; agent-kanban-rs</td>
+<td>Leases and execution state are explicit. Rhizome adds version-bound reviews and reservations. Both are local coordination tools; Rhizome deliberately rejects non-loopback HTTP bindings.</td>
+</tr>
+<tr>
+<td>Shared browser board and MCP access without adopting an agent runtime</td>
+<td>Muster</td>
+<td>Agents, projects, cards, claims, dependencies and documents share one application. Its source history is short; validate the deployment and database mode you intend to use.</td>
+</tr>
+<tr>
+<td>Very small service whose coordination code is easy to inspect</td>
+<td>Agent HQ</td>
+<td>Node standard-library server, SQLite, MCP adapter, claims, messaging and memory. The inspected HTTP routes lack authentication, and direct claims bypass readiness checks used by the next-task selector.</td>
+</tr>
+<tr>
+<td>Markdown tickets committed with the product</td>
+<td>Backlog.md</td>
+<td>CLI, optional MCP, browser board, acceptance criteria and local mutation locks. These locks protect file updates. They do not establish a distributed worker lease.</td>
+</tr>
+<tr>
+<td>Established project-management interface with agent access</td>
+<td>Plane; OpenProject; Kanboard</td>
+<td>Standard projects, tickets and APIs. Plane has an official open-source MCP adapter. A dispatcher still needs a claim, renewal and recovery contract. OpenProject's built-in MCP is an Enterprise add-on.</td>
+</tr>
+<tr>
+<td>Visual coding execution, workspaces and review</td>
+<td>Vibe Kanban; Gemba</td>
+<td>Vibe Kanban starts agent workspaces from MCP. Gemba adds a board and dispatch layer over a work tracker. Neither should be assumed to replace a general shared task service without checking its ownership contract.</td>
+</tr>
+<tr>
+<td>Existing GitLab projects and development workflow</td>
+<td>GitLab Community Edition</td>
+<td>Issues, boards, comments, milestones, APIs and merge requests can remain the shared record. Add worker coordination around that record. Check the tier of each required feature.</td>
+</tr>
+</tbody>
+</table></div>
+<p>For Wingman's Mac and Linux arrangement, evaluate <strong>Paperclip against a smaller Muster-based tracker</strong> first. Paperclip is the more complete organization and execution layer. Muster is closer to the requested shared project board. Beads is the strongest alternative when a CLI and a dependency graph matter more than a central browser application. These are architectural recommendations inferred from the mechanisms reviewed below.</p>
+<h2 id="coordination-what-agents-need-from-a-tracker">What agents need from a tracker</h2>
+<p>Agents must be able to create follow-up work, claim a task, explain a blocker, hand work to a reviewer and resume after losing a session. Human Scrum features are useful when they describe the product. Runtime coordination needs additional rules.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Requirement</th>
+<th scope="col">Evidence to seek</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Durable identity</td>
+<td>Distinguish an agent, a parent agent, a session, a task and each execution attempt.</td>
+</tr>
+<tr>
+<td>Shared ownership</td>
+<td>A competing claim has one winner at the authoritative store. An assignee label alone is insufficient.</td>
+</tr>
+<tr>
+<td>Recovery</td>
+<td>A crashed worker's claim can expire or be explicitly recovered. The replacement can read its checkpoint.</td>
+</tr>
+<tr>
+<td>Dependencies</td>
+<td>Ready-work selection respects blockers. Direct task claims must not silently bypass the same rule.</td>
+</tr>
+<tr>
+<td>Delegation</td>
+<td>Parent and child tasks preserve context, outcomes and the rule for completing the parent.</td>
+</tr>
+<tr>
+<td>Handoff</td>
+<td>A comment, result or artifact tells the next worker what changed and what remains.</td>
+</tr>
+<tr>
+<td>Verification</td>
+<td>Review refers to a particular task or artifact version. A later edit must not inherit an obsolete approval.</td>
+</tr>
+<tr>
+<td>Inspection</td>
+<td>A person can see owners, blockers, activity, questions and delivered artifacts.</td>
+</tr>
+<tr>
+<td>Cross-host access</td>
+<td>Independent workers use one service or a defined synchronization protocol. Shared files alone do not establish global ownership.</td>
+</tr>
+<tr>
+<td>Agent interface</td>
+<td>CLI, REST or MCP operations return bounded, structured results and useful conflict errors.</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>MCP Tasks and project tickets are different concepts.</strong> MCP's task utility tracks a long-running protocol request. It does not by itself supply projects, epics, dependencies, agent ownership or a Kanban board. An MCP wrapper also does not add those guarantees to a tracker whose API only edits cards.</p>
+<p class="url-text">Protocol reference: https://github.com/modelcontextprotocol/modelcontextprotocol/blob/main/docs/specification/2025-11-25/basic/utilities/tasks.mdx</p>
+<h2 id="coordination-agent-oriented-task-systems">Agent-oriented task systems</h2>
+<p>The license column describes the inspected revision. “Source” means the named mechanism was read in implementation files. “Docs” means the listed behavior comes from upstream documentation. Neither means a runtime test passed here.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">System</th>
+<th scope="col">Store and interface</th>
+<th scope="col">Ownership and recovery observed</th>
+<th scope="col">Human view and execution</th>
+<th scope="col">License and evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Beads</td>
+<td>Dolt; CLI, JSON and HTTP-related implementation paths</td>
+<td>Conditional row-version claim; ready-task claim; leases and explicit reclaim</td>
+<td>CLI; external viewers. No general coding-worker runtime in the task tracker</td>
+<td>MIT. Source</td>
+</tr>
+<tr>
+<td>Rhizome MCP</td>
+<td>Per-project SQLite outside the source repo; MCP and CLI</td>
+<td>Lease-token attempt gates; expiring attempts; version-bound review requests</td>
+<td>Read-only status board and editor integration. Bring your own agents</td>
+<td>Apache-2.0. Source and transport docs</td>
+</tr>
+<tr>
+<td>agent-kanban-rs</td>
+<td>One SQLite database; compact CLI output</td>
+<td>Immediate transactions, conditional claims, lease expiry and dependency predicate</td>
+<td>Terminal views; developer and reviewer workflow. Bring your own agents</td>
+<td>MIT. Source</td>
+</tr>
+<tr>
+<td>Backlog.md</td>
+<td>Markdown files; CLI, optional MCP and local browser</td>
+<td>Locks around local read-modify-write operations. No distributed worker lease established by this review</td>
+<td>Board, acceptance criteria, plans and notes</td>
+<td>MIT. Source</td>
+</tr>
+<tr>
+<td>Muster</td>
+<td>SQLite or PostgreSQL; REST and MCP</td>
+<td>Transactional claims, expiry, heartbeat renewal and blocker checks</td>
+<td>Shared project board, agent roster, documents and live events. Bring your own runtime</td>
+<td>MIT. Source</td>
+</tr>
+<tr>
+<td>Agent HQ</td>
+<td>SQLite; HTTP API and stdio MCP proxy</td>
+<td>Conditional claim and lease. Next-task selection filters blockers; direct claim does not</td>
+<td>Live board, memory, messages, flow and cost ledger. Bring your own runtime</td>
+<td>MIT. Source</td>
+</tr>
+<tr>
+<td>Paperclip</td>
+<td>PostgreSQL; company/project issue API</td>
+<td>Conditional checkout ties agent, issue status and execution run; terminal-run cleanup</td>
+<td>Organization, issue board, activity and runtime adapters</td>
+<td>MIT. Existing pinned source, rechecked</td>
+</tr>
+<tr>
+<td>Agent Swarm</td>
+<td>Central SQLite behind HTTP/MCP</td>
+<td>Conditional task claim; worker runner and cancellation/recovery paths</td>
+<td>Task dashboard, agents, messages and worker execution</td>
+<td>MIT. Existing pinned source, rechecked</td>
+</tr>
+<tr>
+<td>DevBoard</td>
+<td>Markdown/YAML files; Python CLI</td>
+<td>Claim checks and file write are separate. Own design note acknowledges a race</td>
+<td>Terminal board, priorities, WIP and dependency conventions</td>
+<td>MIT. Source. Do not select for competing claims</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="coordination-beads">Beads</h3>
+<p class="url-text">Repository: https://github.com/gastownhall/beads</p>
+<p>Beads is a task graph for agents. Issues carry dependencies and ownership. <code>bd ready</code> finds workable issues, and <code>bd ready --claim --json</code> combines selection with a claim. The inspected claim implementation compares the row version in the update condition. The ready-claim path reuses the ready-work predicate inside its transaction.</p>
+<p>Current storage is Dolt. Embedded mode has one writer. Server mode supports concurrent writers. The inspected lease code defines a five-minute default and explicit reclaim after a worker stops heartbeating. This is more than an assignee field, but it does not supervise the coding process itself.</p>
+<p>Use a shared authority for Mac and Linux workers. Dolt push/pull between separate databases is synchronization; it does not prevent two isolated replicas from assigning the same work before they reconcile. The current README also identifies JSONL as an export rather than the authoritative store. Older descriptions of Beads as SQLite plus JSONL do not describe this revision.</p>
+<p>Source: <code>internal/storage/issueops/claim.go</code>, <code>claim_next.go</code>, <code>lease.go</code>; storage mode in <code>README.md</code> lines 151–165. Pinned source links and file hashes appear in the <a href="assessments/agent-task-coordination/EVIDENCE.md">evidence index</a>.</p>
+<h3 id="coordination-rhizome-mcp">Rhizome MCP</h3>
+<p class="url-text">Repository: https://github.com/Odrin/rhizome-mcp</p>
+<p>Rhizome separates the issue from each work attempt. A renewable lease controls the attempt. An active lease produces the in-progress view, and attempt mutations validate the lease token. A replacement worker can use saved attempt notes. Review requests refer to a particular issue version and event position, so review can be superseded when its target changes.</p>
+<p>This is a good design to study for subagent handoff and recovery. It also supports resource reservations and a human status board. Reservations coordinate cooperating clients; they do not stop a process from editing a file outside the protocol.</p>
+<p>Its HTTP contract accepts literal loopback addresses only. The browser board is read-only. It is therefore a local coordinator, not a ready-made LAN task service for two machines. Remote access would need a separately assessed adapter or transport. Do not assume a reverse proxy is supported by a server that also validates Host and Origin.</p>
+<p>Source: attempt repository and application service. Transport and board boundaries: <code>docs/08-local-http-transport.md</code> and <code>docs/13-status-board.md</code>. The upstream cross-process claim-race test was read, not run.</p>
+<h3 id="coordination-agent-kanban-rs">agent-kanban-rs</h3>
+<p class="url-text">Repository: https://github.com/fxeqxmulfx/agent-kanban-rs</p>
+<p>This small Rust CLI provides tasks, agents, dependencies, leases and review. Mutations use SQLite immediate transactions. The claim statement checks ownership, expiry, allowed state and the developer's dependency predicate. Claim-next selects and updates in the database. Reviewer operations record a decision for the task revision.</p>
+<p>It is a compact alternative when all agents can use one local database and terminal commands. Agent registration and developer/reviewer roles describe cooperation inside that local trust boundary. They do not establish authenticated remote identities. There is no shared web service to deploy across hosts in the reviewed interface.</p>
+<p>Source: <code>src/commands/lifecycle.rs</code>, especially transaction setup, claim predicates and review decisions; <code>src/commands/deps.rs</code>.</p>
+<h3 id="coordination-backlogmd">Backlog.md</h3>
+<p class="url-text">Repository: https://github.com/MrLesk/Backlog.md</p>
+<p>Backlog.md keeps tasks as readable Markdown. It supplies acceptance criteria, definition-of-done items, plans, implementation notes, dependencies and board views. The current interface is CLI-first; MCP remains optional. It is a strong fit when the task record should travel with the source repository.</p>
+<p>The inspected implementation protects task edits with a file lock and reloads the current task inside that lock. This is useful local concurrency control. It does not make an assignment a renewable worker lease, and independent Git clones do not share the same lock. Use explicit worker ownership outside this layer when independent agents choose tasks across machines.</p>
+<p>The README also places its browser interface on localhost. Prefer it for repository work and reviewable tickets. Do not treat its browser as an authenticated central team service without a separate deployment assessment.</p>
+<p>Source: <code>src/core/backlog.ts</code> lines 3070–3095 and <code>src/file-system/operations.ts</code>; current interface and browser posture in README.</p>
+<h3 id="coordination-muster">Muster</h3>
+<p class="url-text">Repository: https://github.com/musterai/muster</p>
+<p>This is the human-agent collaboration project from <strong>musterai</strong>, not other similarly named agent frameworks. It has projects, cards, agents, comments, documents and MCP access. Its claim operation opens a transaction, reads the card with locking requested, checks the holder and expiry, checks unresolved blockers, and writes the claim. Heartbeats renew claims; an expiry sweep releases them.</p>
+<p>Muster is one of the closest matches to a shared Jira-style record that agents operate themselves. Claiming and moving a card into an active lane are separate operations. A worker protocol must handle interruption between them. It does not need to launch the coding agent to be useful as the shared tracker.</p>
+<p>The deployment docs distinguish local open mode from enforced shared access, with OAuth/OIDC paths and non-loopback binding rules. Its repository dates from August 2026. Evaluate the actual database and authentication mode before using it as the organization record.</p>
+<p>Source: <code>card-assignment.operations.ts</code>, <code>card-move.operations.ts</code>, database adapters and <code>tests/card-claim.test.ts</code>. Deployment statements are documented upstream; no deployment was run here.</p>
+<h3 id="coordination-agent-hq">Agent HQ</h3>
+<p class="url-text">Repository: https://github.com/tools-for-agents/agent-hq</p>
+<p>Agent HQ combines a board, agents, memory, messages, activity and a run/cost ledger. The Node server uses the standard library and SQLite. A stdio MCP process proxies operations to its HTTP service. A conditional SQL update prevents a live claim held by another agent from being overwritten through the claim endpoint.</p>
+<p>Two boundaries matter. The next-task selector filters unfinished dependencies and Done columns, but direct claim does not apply those filters. Its lease guard is also not an authorization boundary around all task edits. The inspected server routes have no authentication gate and accept actor identity from request data.</p>
+<p>It is a useful small reference implementation for a trusted team. It needs stronger mutation rules and access control before it can serve as authoritative cross-host work allocation. Its concurrency test exercises worker-thread contention; that test was read, not run.</p>
+<p>Source: <code>src/services.js</code> lines 630–705, <code>src/server.js</code>, <code>src/db.js</code> and <code>test/concurrency.test.js</code>.</p>
+<h3 id="coordination-paperclip">Paperclip</h3>
+<p class="url-text">Repository: https://github.com/paperclipai/paperclip</p>
+<p>Paperclip combines durable agents, reporting relationships, companies, projects, issues and execution runs. Checkout checks expected status and ownership, then conditionally writes the agent and run identifiers. Completion and terminal-run cleanup remain tied to the execution model. This is a much richer basis for agent coordination than a shared assignee label.</p>
+<p>It is the first candidate to evaluate when Wingman needs one record connecting project leadership, worker assignments, detailed execution and human supervision. The cost is adopting a broader control plane and configuring its organization and runtime adapters. Wingman's named leadership roles and acceptance rules still need explicit policy.</p>
+<p>This entry uses the preserved November 5 checkout, not an unpinned claim about upstream HEAD. Its full <a href="../paperclip/index.html">technical assessment</a> covers lifecycle, dependencies, approvals, recovery and multi-host limits. Checkout was rechecked in <code>server/src/services/issues.ts</code> lines 12168–12303 for this study.</p>
+<h3 id="coordination-agent-swarm">Agent Swarm</h3>
+<p class="url-text">Repository: https://github.com/desplega-ai/agent-swarm</p>
+<p>Agent Swarm joins a central task service to independent worker runners. Tasks carry assignments, offers, parents, dependencies, priorities and routing context. The inspected <code>claimTask</code> uses a conditional update from unassigned to in-progress. Worker clients call the central service rather than sharing its SQLite file, which fits agents on separate hosts.</p>
+<p>Evaluate it when worker dispatch, communication and task execution should come from one platform. It introduces more runtime machinery than a stand-alone board. The single-row claim establishes task ownership at that operation; it does not establish exactly-once external effects or product acceptance.</p>
+<p>This entry also uses the preserved November 5 checkout. The full <a href="../agent-swarm/index.html">technical assessment</a> explains cancellation, failure handling, conversations and worker/provider boundaries. The claim was rechecked in <code>src/be/db.ts</code> lines 3107–3159.</p>
+<h3 id="coordination-devboard">DevBoard</h3>
+<p class="url-text">Repository: https://github.com/RapidWebs-Enterprise/DevBoard</p>
+<p>DevBoard provides file-based tasks, a Python CLI, priorities, dependencies, claims and WIP conventions. It is relevant to simple local task tracking, but its concurrency claim must be narrowed.</p>
+<p>The core reads a task, checks availability, changes the owner and writes the file. Its accepted claim design note explicitly states that the read and write are separate and that locking could be added later. Two processes can therefore both pass the availability check. Atomic replacement of a file, even when used, would not make the whole read-check-write sequence atomic.</p>
+<p>Do not select this revision for agents that independently compete for work. It could still serve a single writer or a human-dispatched workflow.</p>
+<p>Source: <code>src/devboard/__init__.py</code> and <code>docs/adrs/0003-atomic-claims.md</code>. This is a source-level finding; no race experiment was run.</p>
+<h2 id="coordination-boards-connected-to-coding-execution">Boards connected to coding execution</h2>
+<h3 id="coordination-vibe-kanban">Vibe Kanban</h3>
+<p class="url-text">Repository: https://github.com/BloopAI/vibe-kanban</p>
+<p>License: Apache-2.0.</p>
+<p>Vibe Kanban connects issue tracking, coding workspaces, branches, sessions and review. Its MCP interface can create issues and start a workspace with a selected executor, repositories and an optional linked issue. This lets a coordinating agent create work and launch another coding session, rather than merely display a board.</p>
+<p>The reviewed revision includes self-hosting instructions for its shared service. That is a different deployment from the local application. Evaluate it for parallel coding, isolated workspaces and human review. This review did not establish an exclusive worker-claim contract for arbitrary external agents. Starting a workspace linked to an issue should not be assumed to grant that guarantee.</p>
+<p>Sources: pinned <code>crates/mcp/src/task_server/tools/task_attempts.rs</code>, issue and workspace tools, and <code>docs/self-hosting/deploy-docker.mdx</code>.</p>
+<h3 id="coordination-gemba">Gemba</h3>
+<p class="url-text">Repository: https://github.com/GembaCore/gemba-core</p>
+<p>License: MIT.</p>
+<p>Gemba separates its work tracker from its orchestration layer. The reviewed Beads adapter shells out to <code>bd</code> and maps tasks, status, assignees and labels into its WorkPlane interface. Native terminal orchestration adds sessions and dispatch. A tracker-only mode can provide the human board without starting agents.</p>
+<p>This is a useful example of adding planning and operator views above a task graph. It is an additional layer, not a replacement storage engine. Its generic adapter design is not proof that every named tracker is implemented. Also pin the Gemba/Beads pair together: the Gemba revision predates the Beads revision inspected here, and compatibility between them was not tested.</p>
+<p>Sources: <code>internal/adapter/bd/workplane.go</code>, native dispatch code, <code>docs/adaptors/beads.md</code> and the autonomous dispatch guide.</p>
+<h2 id="coordination-established-trackers-agents-can-operate">Established trackers agents can operate</h2>
+<p>These products make sense when a person needs conventional projects, issues, history and permissions. Their documented APIs let agents participate. The listed API evidence does not establish automatic worker launch, expiring ownership or stale-worker fencing.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">System</th>
+<th scope="col">Why it belongs here</th>
+<th scope="col">Agent access and concurrency boundary</th>
+<th scope="col">License and operating cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Plane</td>
+<td>Projects, work items, cycles, modules and browser planning</td>
+<td>Official MCP server supports self-hosted base URLs. Work-item operations edit tracker state; add an explicit claim service or a single dispatcher</td>
+<td>Core AGPL-3.0; MCP adapter MIT. Multi-service application</td>
+</tr>
+<tr>
+<td>OpenProject</td>
+<td>Work packages, hierarchy, relations, sprints and boards</td>
+<td>REST updates use <code>lockVersion</code> optimistic locking. Useful protection against stale edits, not a worker lease. Built-in MCP is an Enterprise add-on</td>
+<td>GPL-3.0 core. Larger application than a small board</td>
+</tr>
+<tr>
+<td>Kanboard</td>
+<td>Focused Kanban with tasks, subtasks, comments and automation</td>
+<td>JSON-RPC task and subtask operations are straightforward to wrap. The inspected procedures do not establish a lease queue</td>
+<td>MIT. PHP application; relatively small deployment</td>
+</tr>
+<tr>
+<td>Vikunja</td>
+<td>Projects, subtasks, relations, assignees, list/Gantt/table/Kanban views</td>
+<td>Documented REST/OpenAPI access. A task relation is not proof that claiming or starting work is dependency-gated</td>
+<td>Core AGPL-3.0-or-later; desktop GPL-3.0-or-later. Some features are Pro</td>
+</tr>
+<tr>
+<td>Taiga</td>
+<td>Scrum and Kanban concepts with stories, tasks, issues and milestones</td>
+<td>REST API has version-based optimistic concurrency. Use it on updates; it does not recover a dead worker's assignment</td>
+<td>MPL-2.0 backend. Frontend and supporting services need their own deployment</td>
+</tr>
+<tr>
+<td>GitLab Community Edition</td>
+<td>Issues, boards, comments, milestones and code review in one development service</td>
+<td>Issues and boards APIs support agent clients. Assignees and labels are not an exclusive queue; a dispatcher or claim layer must enforce that rule</td>
+<td>MIT community code; Enterprise features have separate terms and tier gates. Large if installed solely as a tracker</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="coordination-plane-and-its-official-mcp-integration">Plane and its official MCP integration</h3>
+<p class="url-text">Core: https://github.com/makeplane/plane</p>
+<p class="url-text">MCP adapter: https://github.com/makeplane/plane-mcp-server</p>
+<p>Plane is the first conventional tracker to compare with the agent-native shortlist. Its official Python MCP implementation resolves workspace credentials and supports a configurable Plane base URL. Work items expose tasks, epics, state, assignees and relations. Agents can share the same records that a person sees in the browser.</p>
+<p>The integration solves agent access to project management. It does not, from the inspected work-item operations, supply the lease and execution-attempt contract needed for a distributed worker pool. Keep one dispatcher in charge of allocation or implement that contract beside Plane, with a clear rule for which record owns each field.</p>
+<p>The current Python adapter replaces a deprecated Node adapter. Do not copy old Node-only setup instructions. The pinned core and adapter are recorded separately in the evidence manifest.</p>
+<h3 id="coordination-openproject">OpenProject</h3>
+<p class="url-text">Repository: https://github.com/opf/openproject</p>
+<p>OpenProject's API requires the current <code>lockVersion</code> when updating a work package. Two workers should not treat a successful read as ownership. A conditional update can help an adapter detect a competing edit, but the adapter must still define who owns the task, when ownership expires and what completion is allowed.</p>
+<p>Current edition details matter. Action boards became available in Community in version 17.3. The built-in MCP integration remains an Enterprise Professional feature or higher. Community users can build agent access through REST without assuming that paid MCP is included.</p>
+<p class="url-text">API: https://www.openproject.org/docs/api/endpoints/work-packages/</p>
+<p class="url-text">Community board change: https://www.openproject.org/blog/openproject-17-3-release/</p>
+<p class="url-text">MCP edition boundary: https://www.openproject.org/blog/openproject-17-8-release/</p>
+<h3 id="coordination-kanboard">Kanboard</h3>
+<p class="url-text">Repository: https://github.com/kanboard/kanboard</p>
+<p>Kanboard is a practical baseline for a small shared board. Its task and subtask JSON-RPC procedures support a thin agent adapter. It is worth comparing when agent-specific dashboards, memory and execution adapters are unnecessary. The remaining work is ownership and worker lifecycle policy, not natural-language access to a card.</p>
+<p>Source: pinned <code>app/Api/Procedure/TaskProcedure.php</code> and <code>SubtaskProcedure.php</code>.</p>
+<h3 id="coordination-vikunja">Vikunja</h3>
+<p class="url-text">Repository: https://github.com/go-vikunja/vikunja</p>
+<p>Vikunja is a broader lightweight task manager with several human views. It can be an agent-accessible shared project record through its API. The reviewed feature and API documentation does not establish lease recovery or mandatory dependency checks at claim time. Community MCP adapters exist, but their presence should not be credited as built-in coordination guarantees.</p>
+<p class="url-text">Features: https://vikunja.io/features/</p>
+<p class="url-text">API: https://try.vikunja.io/api/v2/docs</p>
+<h3 id="coordination-taiga">Taiga</h3>
+<p class="url-text">Repository: https://github.com/taigaio/taiga-back</p>
+<p>Taiga is relevant when actual Scrum planning matters: stories, tasks, issues and milestones already have an established data model. Its API documents optimistic concurrency using a version field. An agent adapter should preserve that field and handle conflicts. Worker heartbeats, expired claims and result verification remain separate concerns.</p>
+<p class="url-text">API: https://docs.taiga.io/api.html</p>
+<h3 id="coordination-gitlab-community-edition">GitLab Community Edition</h3>
+<p class="url-text">Source: https://gitlab.com/gitlab-org/gitlab</p>
+<p>GitLab can keep tickets, discussions, code changes and review together. Agents can create issues, comment, change state and update board-related metadata through APIs. This is appealing when the projects already use GitLab. Installing the entire service solely to coordinate a few agents is a larger commitment than Beads, Muster or Kanboard.</p>
+<p>The current board documentation distinguishes Free and paid capabilities. Free has multiple project boards and one group board. Features such as configurable boards and assignee lists have tier limits. This study does not treat GitLab Duo or other paid agent features as part of the open-source coordination baseline.</p>
+<p class="url-text">Boards: https://docs.gitlab.com/user/project/issue_board/</p>
+<p class="url-text">Issues API: https://docs.gitlab.com/api/issues/</p>
+<p class="url-text">Boards API: https://docs.gitlab.com/api/boards/</p>
+<p class="url-text">License: https://gitlab.com/gitlab-org/gitlab/-/blob/master/LICENSE</p>
+<h2 id="coordination-license-constrained-alternatives-and-companions">License-constrained alternatives and companions</h2>
+<p>These projects are discoverable and relevant. Their inspected revisions should not be presented as ordinary MIT open-source choices. This classification follows the additional restrictions in their license files; it is not a full licensing review of every component.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Project</th>
+<th scope="col">Role</th>
+<th scope="col">Finding at the inspected revision</th>
+<th scope="col">Disposition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Task Master</td>
+<td>PRD decomposition, task/subtask planning and CLI/MCP workflow</td>
+<td>MIT text plus Commons Clause; package metadata says <code>MIT WITH Commons-Clause</code></td>
+<td>Separate source-available planning alternative. Do not list as unrestricted MIT</td>
+</tr>
+<tr>
+<td>PLANKA</td>
+<td>Human-facing Trello-style board</td>
+<td>Community/Fair Use terms restrict commercial third-party hosting and distinguish Pro/Enterprise files</td>
+<td>Separate source-available board. Not in the open-source shortlist</td>
+</tr>
+<tr>
+<td>Beads Rust</td>
+<td>SQLite/JSONL task graph and CLI</td>
+<td>MIT text plus an OpenAI/Anthropic rider that withholds rights from named parties and their defined representatives</td>
+<td>Separate restricted alternative. Do not treat as license-equivalent to Beads Go</td>
+</tr>
+<tr>
+<td>MCP Agent Mail Rust</td>
+<td>Agent identities, messages, threads and advisory resource reservations</td>
+<td>Same named-party rider in the inspected license</td>
+<td>Relevant communication companion, excluded from the open-source adoption shortlist at this revision</td>
+</tr>
+<tr>
+<td>Beads Viewer</td>
+<td>Graph analysis, terminal views and machine-readable triage</td>
+<td>Same named-party rider in the inspected license</td>
+<td>Relevant visualization companion, excluded from the open-source adoption shortlist at this revision</td>
+</tr>
+</tbody>
+</table></div>
+<p class="url-text">Task Master: https://github.com/eyaltoledano/claude-task-master</p>
+<p class="url-text">PLANKA: https://github.com/plankanban/planka</p>
+<p class="url-text">Beads Rust: https://github.com/Dicklesworthstone/beads_rust</p>
+<p class="url-text">MCP Agent Mail Rust: https://github.com/Dicklesworthstone/mcp_agent_mail_rust</p>
+<p class="url-text">Beads Viewer: https://github.com/Dicklesworthstone/beads_viewer</p>
+<p>The original Python Agent Mail repository now identifies the Rust rewrite as its successor. Treat it as a historical implementation, not a fresh recommendation. A communication layer also does not replace the task graph: a message thread and a file reservation answer different questions from ticket ownership and completion.</p>
+<p class="url-text">Historical Python project: https://github.com/Dicklesworthstone/mcp_agent_mail</p>
+<h2 id="coordination-how-to-connect-agents-and-subagents">How to connect agents and subagents</h2>
+<p>The tracker should retain work across sessions and hosts. A parent agent can delegate by creating child tickets rather than relying on a temporary in-memory subagent list. Each worker receives a task identifier, context and acceptance criteria. It claims an execution attempt before making changes.</p>
+<pre aria-label="Code or source excerpt" role="region" tabindex="0"><code class="language-text">Human and project leaders
+          |
+          v
+Shared project and task record &lt;----&gt; Browser board
+          |
+    ready work / claims / results
+          |
+          +---- Mac worker ---- child task ---- reviewer
+          |
+          +---- Linux worker -- child task ---- reviewer
+</code></pre>
+<p>This is a proposed integration pattern, not a claim that every candidate implements the complete flow.</p>
+<ol>
+<li>A leader creates a task with project context, outcome, acceptance criteria and dependencies.</li>
+<li>The leader creates child tasks where the work can proceed independently.</li>
+<li>A worker claims ready work and receives an attempt identifier and lease or equivalent ownership token.</li>
+<li>The worker renews ownership and saves progress, blockers and artifact references.</li>
+<li>A blocked worker records the question or dependency. It does not mark incomplete work done.</li>
+<li>A worker submits a result for review against a specific artifact revision.</li>
+<li>A reviewer accepts or returns that revision with concrete findings.</li>
+<li>Parent completion checks required children and acceptance evidence.</li>
+<li>Recovery closes or expires the old attempt before assigning a replacement.</li>
+</ol>
+<p>A logical task owner should remain distinct from the temporary worker holding an execution lease. A lead can stay responsible while a coder, tester and reviewer make separate attempts. This distinction supports durable leadership without forcing a ticket to appear unowned between sessions.</p>
+<h3 id="coordination-contract-for-a-conventional-board-adapter">Contract for a conventional board adapter</h3>
+<p>Use this contract when Plane, Kanboard, Taiga, GitLab or another tracker supplies the project record but does not provide the worker queue. Keep one authoritative owner for execution state. Do not let the board and a second task store independently assign the same work.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Operation</th>
+<th scope="col">Required behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>List ready</td>
+<td>Return bounded results whose required blockers are complete.</td>
+</tr>
+<tr>
+<td>Claim</td>
+<td>Check eligibility and acquire ownership atomically. Return a conflict to a losing worker.</td>
+</tr>
+<tr>
+<td>Renew</td>
+<td>Require the current attempt token. Reject expired or superseded attempts.</td>
+</tr>
+<tr>
+<td>Checkpoint</td>
+<td>Append meaningful progress and artifact links with the attempt identity.</td>
+</tr>
+<tr>
+<td>Submit</td>
+<td>Pin the result and requested review to an artifact revision.</td>
+</tr>
+<tr>
+<td>Review</td>
+<td>Accept or reject that revision. Invalidate approval when its target changes.</td>
+</tr>
+<tr>
+<td>Recover</td>
+<td>Record why ownership ended. Give the replacement the prior checkpoint.</td>
+</tr>
+<tr>
+<td>Finish</td>
+<td>Enforce the definition of done and required review before closing the task.</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>A lease is not exactly-once execution.</strong> A paused worker may resume after its lease expires. A replacement may already be working. The result, merge or delivery path must reject the old attempt where possible. External effects need idempotency or another guard. Task ownership also does not prevent two valid tasks from editing the same file; use workspaces, reservations or integration policy for that separate problem.</p>
+<h2 id="coordination-evaluation-plan-before-adoption">Evaluation plan before adoption</h2>
+<p>Run these checks on a disposable project after selecting a candidate. They are proposed acceptance tests, not tests completed in this study.</p>
+<div aria-label="Technical comparison table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Scenario</th>
+<th scope="col">Passing result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Two agents claim the same ready task concurrently</td>
+<td>One succeeds. The loser receives a useful conflict and does no work.</td>
+</tr>
+<tr>
+<td>Two agents claim different tasks</td>
+<td>Both can proceed within configured limits.</td>
+</tr>
+<tr>
+<td>Direct claim of a blocked task</td>
+<td>The authoritative path rejects it, or a privileged override is explicit and recorded.</td>
+</tr>
+<tr>
+<td>Worker dies after claiming</td>
+<td>Ownership becomes recoverable. The next attempt can read its checkpoint.</td>
+</tr>
+<tr>
+<td>Old worker returns after recovery</td>
+<td>Its stale completion or publication is rejected where the system controls that effect.</td>
+</tr>
+<tr>
+<td>Parent agent disappears after creating children</td>
+<td>Another session can discover the children, dependencies and responsibility.</td>
+</tr>
+<tr>
+<td>Code changes after review approval</td>
+<td>The system requires review of the new target.</td>
+</tr>
+<tr>
+<td>Mac and Linux claim concurrently</td>
+<td>Both use the same authority, with the same conflict behavior.</td>
+</tr>
+<tr>
+<td>Service restarts during a transition</td>
+<td>Task, ownership, activity and notification state remain consistent or are repaired explicitly.</td>
+</tr>
+<tr>
+<td>Human asks what is blocked</td>
+<td>The board shows the responsible agent, blocker, question and next action.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Start with the first five checks. They expose most differences between a visual task list and a task coordinator. Add real subagent and cross-host handoffs before selecting the shared record for Wingman.</p>
+<h2 id="coordination-evidence-and-revision-boundaries">Evidence and revision boundaries</h2>
+<p>The <a href="assessments/agent-task-coordination/EVIDENCE.md">evidence index</a> contains full commit identifiers, pinned implementation links and review scopes. The <a href="assessments/agent-task-coordination/sources.json">source manifest</a> records retrieved file hashes and repository metadata. The <a href="assessments/agent-task-coordination/candidates.json">candidate table</a> gives a machine-readable screening result. Documentation URLs were checked on November 8, 2026; unpinned documentation can change.</p>
+<p>Paperclip and Agent Swarm use preserved local revisions assessed on November 5. New upstream file reads use the immutable revisions in the source manifest. Upstream test files establish what those tests are designed to check. They do not establish that the tests passed here. No candidate was installed, configured or started.</p>
+<p>The practical next comparison is <strong>Paperclip versus Muster for a shared service</strong>, with <strong>Beads as the lightweight task-graph alternative</strong>. Use <strong>Rhizome MCP or agent-kanban-rs</strong> when coordination stays on one host. Use <strong>Plane plus a defined worker contract</strong> when a conventional project-management interface is the main requirement.</p></article>
+<footer><p>Wingman Research · Source findings at pinned commits. Read the evidence limits for each project.</p><a href="../index.html">Return to overview <img src="../assets/icons/arrow-right.svg" width="14" height="14" alt=""></a></footer>
+</main></div></body></html>

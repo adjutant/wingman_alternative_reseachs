@@ -17,6 +17,8 @@ Read a checkout's own instructions before you operate inside that checkout.
 - `generic/assessments/` contains shared methods, comparisons, and audit records.
 - `generic/index.html` contains the shared architecture report.
 - `generic/method.html` explains evidence and assessment limits.
+- `generic/task-coordination.html` presents the focused study of shared agent tasks, boards, claims and handoffs.
+- `generic/assessments/agent-task-coordination/` records focused candidate screening, immutable source references and verification evidence.
 - `generic/purpose.html` presents the Wingman purpose.
 - `assets/` contains shared CSS, JavaScript, fonts, and navigation icons.
 - `tools/` contains the report builder and validators.
@@ -38,6 +40,8 @@ Separate logical agent identity from a process, a session, a task, and an execut
 
 Use the verdicts Exact, Similar, Resembles, Absent, and Unclear.
 State the boundary of each verdict. Do not convert verdict counts into a product ranking.
+Focused studies outside the original 75-project comparison can use topic-specific criteria.
+State their review scope and evidence level. Do not imply that they received the full 24-feature assessment.
 Preserve code links and line references. Keep the complete commit ID.
 Use bare complete external URLs. Use relative links for local evidence.
 

@@ -1,0 +1,366 @@
+{
+  "review_date": "2026-11-08",
+  "scope": "Task coordination only; not the original 24-feature Wingman assessment.",
+  "open_source_system_count": 17,
+  "restricted_alternative_count": 3,
+  "restricted_companion_count": 2,
+  "candidates": [
+    {
+      "slug": "beads",
+      "name": "Beads",
+      "category": "task graph",
+      "license_at_revision": "MIT",
+      "license_classification": "open-source",
+      "evidence_level": "implementation",
+      "boundary": "shared authority required",
+      "disposition": "Evaluate for dependency-aware CLI work",
+      "repository": "https://github.com/gastownhall/beads",
+      "commit": "2edea9ced8c6f6124b6c157896ae53a0e09ff7be",
+      "candidate_runtime_tested": false,
+      "source_ids": [
+        "beads"
+      ]
+    },
+    {
+      "slug": "rhizome-mcp",
+      "name": "Rhizome MCP",
+      "category": "local task coordinator",
+      "license_at_revision": "Apache-2.0",
+      "license_classification": "open-source",
+      "evidence_level": "implementation",
+      "boundary": "loopback/local database",
+      "disposition": "Evaluate for attempts, recovery and review",
+      "repository": "https://github.com/Odrin/rhizome-mcp",
+      "commit": "03fffd7d1410ddccadf7c199f5d6e796a497b1f0",
+      "candidate_runtime_tested": false,
+      "source_ids": [
+        "rhizome-mcp"
+      ]
+    },
+    {
+      "slug": "agent-kanban-rs",
+      "name": "agent-kanban-rs",
+      "category": "local task coordinator",
+      "license_at_revision": "MIT",
+      "license_classification": "open-source",
+      "evidence_level": "implementation",
+      "boundary": "one local SQLite store",
+      "disposition": "Evaluate for small CLI developer/reviewer teams",
+      "repository": "https://github.com/fxeqxmulfx/agent-kanban-rs",
+      "commit": "3ab1218eac51edca8556e6dfbeea322477e7a444",
+      "candidate_runtime_tested": false,
+      "source_ids": [
+        "agent-kanban-rs"
+      ]
+    },
+    {
+      "slug": "backlog-md",
+      "name": "Backlog.md",
+      "category": "file-based tracker",
+      "license_at_revision": "MIT",
+      "license_classification": "open-source",
+      "evidence_level": "implementation",
+      "boundary": "independent clones have independent locks",
+      "disposition": "Evaluate for inspectable repository tickets",
+      "repository": "https://github.com/MrLesk/Backlog.md",
+      "commit": "3a296c0f6f949b31e458b849b9617702c56c1023",
+      "candidate_runtime_tested": false,
+      "source_ids": [
+        "backlog-md"
+      ]
+    },
+    {
+      "slug": "muster",
+      "name": "Muster",
+      "category": "shared agent board",
+      "license_at_revision": "MIT",
+      "license_classification": "open-source",
+      "evidence_level": "implementation",
+      "boundary": "central service; assess chosen auth/database mode",
+      "disposition": "Evaluate for tracker-only cross-host coordination",
+      "repository": "https://github.com/musterai/muster",
+      "commit": "bb98b21a6ac0ed4cb095f948e55ae8a644e10c40",
+      "candidate_runtime_tested": false,
+      "source_ids": [
+        "muster"
+      ]
+    },
+    {
+      "slug": "agent-hq",
+      "name": "Agent HQ",
+      "category": "shared agent board",
+      "license_at_revision": "MIT",
+      "license_classification": "open-source",
+      "evidence_level": "implementation",
+      "boundary": "HTTP routes lack authentication",
+      "disposition": "Reference implementation; harden before shared authority",
+      "repository": "https://github.com/tools-for-agents/agent-hq",
+      "commit": "785cd8c9a55b2b517eb8eb8f680cd65985992282",
+      "candidate_runtime_tested": false,
+      "source_ids": [
+        "agent-hq"
+      ]
+    },
+    {
+      "slug": "paperclip",
+      "name": "Paperclip",
+      "category": "organization and execution",
+      "license_at_revision": "MIT",
+      "license_classification": "open-source",
+      "evidence_level": "existing pinned implementation",
+      "boundary": "central PostgreSQL/API and runtime adapters",
+      "disposition": "Evaluate for Wingman organization and execution",
+      "repository": "https://github.com/paperclipai/paperclip",
+      "commit": "46fb933b0155d183ce64a8bdc4950d1b58c926f6",
+      "candidate_runtime_tested": false,
+      "source_ids": [
+        "paperclip"
+      ]
+    },
+    {
+      "slug": "agent-swarm",
+      "name": "Agent Swarm",
+      "category": "task service and worker runtime",
+      "license_at_revision": "MIT",
+      "license_classification": "open-source",
+      "evidence_level": "existing pinned implementation",
+      "boundary": "central HTTP service and independent workers",
+      "disposition": "Evaluate for integrated worker dispatch",
+      "repository": "https://github.com/desplega-ai/agent-swarm",
+      "commit": "6aff700f53755cb71bd6a1aa2e2fa1da9586b892",
+      "candidate_runtime_tested": false,
+      "source_ids": [
+        "agent-swarm"
+      ]
+    },
+    {
+      "slug": "devboard",
+      "name": "DevBoard",
+      "category": "file-based tracker",
+      "license_at_revision": "MIT",
+      "license_classification": "open-source",
+      "evidence_level": "implementation",
+      "boundary": "read-check-write claim race",
+      "disposition": "Do not select for competing worker claims",
+      "repository": "https://github.com/RapidWebs-Enterprise/DevBoard",
+      "commit": "cbe017a445fd4f9dee2de73f729c65b7fe0f9b9b",
+      "candidate_runtime_tested": false,
+      "source_ids": [
+        "devboard"
+      ]
+    },
+    {
+      "slug": "vibe-kanban",
+      "name": "Vibe Kanban",
+      "category": "coding execution board",
+      "license_at_revision": "Apache-2.0",
+      "license_classification": "open-source",
+      "evidence_level": "implementation and deployment documentation",
+      "boundary": "separate local and shared service deployments",
+      "disposition": "Evaluate for issue-linked coding workspaces",
+      "repository": "https://github.com/BloopAI/vibe-kanban",
+      "commit": "08064e043c2d78ad123b473257ed867e7ce74768",
+      "candidate_runtime_tested": false,
+      "source_ids": [
+        "vibe-kanban"
+      ]
+    },
+    {
+      "slug": "gemba",
+      "name": "Gemba",
+      "category": "board and dispatch adapter",
+      "license_at_revision": "MIT",
+      "license_classification": "open-source",
+      "evidence_level": "implementation",
+      "boundary": "depends on work tracker and tested adapter pairing",
+      "disposition": "Evaluate above Beads; pin compatible versions",
+      "repository": "https://github.com/GembaCore/gemba-core",
+      "commit": "64c266f889c6d6a579904c5e336676fa1c49b216",
+      "candidate_runtime_tested": false,
+      "source_ids": [
+        "gemba"
+      ]
+    },
+    {
+      "slug": "plane",
+      "name": "Plane",
+      "category": "conventional project tracker",
+      "license_at_revision": "AGPL-3.0 core; official MCP MIT",
+      "license_classification": "open-source",
+      "evidence_level": "targeted model/API and adapter source",
+      "boundary": "central service; no worker lease contract established",
+      "disposition": "Evaluate for conventional PM with agent access",
+      "repository": "https://github.com/makeplane/plane",
+      "commit": "618d0eb74658329a6f6e92434ac54231422c5b96",
+      "candidate_runtime_tested": false,
+      "source_ids": [
+        "plane",
+        "plane-mcp"
+      ]
+    },
+    {
+      "slug": "openproject",
+      "name": "OpenProject",
+      "category": "conventional project tracker",
+      "license_at_revision": "GPL-3.0 core",
+      "license_classification": "open-source",
+      "evidence_level": "official API/edition docs plus license",
+      "boundary": "REST optimistic locking; built-in MCP Enterprise",
+      "disposition": "Evaluate for hierarchy, sprints and governed PM",
+      "repository": "https://github.com/opf/openproject",
+      "commit": "05d9afe72a3c9198e26c0284c213f733c4863ca2",
+      "candidate_runtime_tested": false,
+      "source_ids": [
+        "openproject"
+      ]
+    },
+    {
+      "slug": "kanboard",
+      "name": "Kanboard",
+      "category": "conventional project tracker",
+      "license_at_revision": "MIT",
+      "license_classification": "open-source",
+      "evidence_level": "targeted API procedure source",
+      "boundary": "central JSON-RPC service; add worker lifecycle",
+      "disposition": "Evaluate for a small conventional board",
+      "repository": "https://github.com/kanboard/kanboard",
+      "commit": "2ddb31bf72d355727d0639fc3423630f3bae1a9c",
+      "candidate_runtime_tested": false,
+      "source_ids": [
+        "kanboard"
+      ]
+    },
+    {
+      "slug": "vikunja",
+      "name": "Vikunja",
+      "category": "conventional task tracker",
+      "license_at_revision": "AGPL-3.0-or-later core; GPL-3.0-or-later desktop",
+      "license_classification": "open-source",
+      "evidence_level": "official docs plus license",
+      "boundary": "REST access; no worker lease contract established",
+      "disposition": "Evaluate for lightweight human task views",
+      "repository": "https://github.com/go-vikunja/vikunja",
+      "commit": "d2c9aee4f8894edc02611a8b40becbd5dfc95e33",
+      "candidate_runtime_tested": false,
+      "source_ids": [
+        "vikunja"
+      ]
+    },
+    {
+      "slug": "taiga",
+      "name": "Taiga",
+      "category": "conventional Scrum tracker",
+      "license_at_revision": "MPL-2.0 backend",
+      "license_classification": "open-source",
+      "evidence_level": "official API docs plus license",
+      "boundary": "version-based updates; add worker recovery",
+      "disposition": "Evaluate for Scrum planning",
+      "repository": "https://github.com/taigaio/taiga-back",
+      "commit": "8ab6a4e3b5f6fbbfcbf108a6449011f07b7308aa",
+      "candidate_runtime_tested": false,
+      "source_ids": [
+        "taiga"
+      ]
+    },
+    {
+      "slug": "gitlab",
+      "name": "GitLab Community Edition",
+      "category": "development tracker",
+      "license_at_revision": "MIT community code; Enterprise exceptions",
+      "license_classification": "open-source",
+      "evidence_level": "official documentation",
+      "boundary": "tier-specific boards; no exclusive worker queue established",
+      "disposition": "Evaluate when projects already use GitLab",
+      "repository": "https://gitlab.com/gitlab-org/gitlab",
+      "commit": null,
+      "candidate_runtime_tested": false,
+      "source_ids": [
+        "gitlab-boards",
+        "gitlab-issues-api",
+        "gitlab-boards-api",
+        "gitlab-license"
+      ],
+      "license_scope": "Community code only; Enterprise features and terms are outside this classification"
+    },
+    {
+      "slug": "task-master",
+      "name": "Task Master",
+      "category": "task planner",
+      "license_at_revision": "MIT with Commons Clause",
+      "license_classification": "restricted source-available",
+      "evidence_level": "license and planning documentation",
+      "boundary": "not evaluated as a distributed lease service",
+      "disposition": "Separate from open-source shortlist",
+      "repository": "https://github.com/eyaltoledano/claude-task-master",
+      "commit": "c0c98d367c55296bfe69e65680625b6db437af02",
+      "candidate_runtime_tested": false,
+      "source_ids": [
+        "task-master"
+      ]
+    },
+    {
+      "slug": "planka",
+      "name": "PLANKA",
+      "category": "conventional board",
+      "license_at_revision": "Community/Fair Use and Pro/Enterprise terms",
+      "license_classification": "restricted source-available",
+      "evidence_level": "license and README",
+      "boundary": "commercial third-party hosting restrictions",
+      "disposition": "Separate from open-source shortlist",
+      "repository": "https://github.com/plankanban/planka",
+      "commit": "2cf423824a09f84df7dc3acf0ded9a700292d882",
+      "candidate_runtime_tested": false,
+      "source_ids": [
+        "planka"
+      ]
+    },
+    {
+      "slug": "beads-rust",
+      "name": "Beads Rust",
+      "category": "task graph",
+      "license_at_revision": "MIT with OpenAI/Anthropic rider",
+      "license_classification": "restricted source-available",
+      "evidence_level": "license and README; no adoption review",
+      "boundary": "not license-equivalent to Beads Go",
+      "disposition": "Separate from open-source shortlist",
+      "repository": "https://github.com/Dicklesworthstone/beads_rust",
+      "commit": "117f81de0d5dae007d972a9ff7f1d73c392d8822",
+      "candidate_runtime_tested": false,
+      "source_ids": [
+        "beads-rust"
+      ]
+    },
+    {
+      "slug": "agent-mail-rust",
+      "name": "MCP Agent Mail Rust",
+      "category": "communication companion",
+      "license_at_revision": "MIT with OpenAI/Anthropic rider",
+      "license_classification": "restricted source-available",
+      "evidence_level": "license and README; no adoption review",
+      "boundary": "messages and reservations do not replace task ownership",
+      "disposition": "Companion only; excluded from open-source shortlist",
+      "repository": "https://github.com/Dicklesworthstone/mcp_agent_mail_rust",
+      "commit": "49866939b1f52af5741bd3c87145d01846b93a38",
+      "candidate_runtime_tested": false,
+      "source_ids": [
+        "agent-mail-rust"
+      ]
+    },
+    {
+      "slug": "beads-viewer",
+      "name": "Beads Viewer",
+      "category": "visualization companion",
+      "license_at_revision": "MIT with OpenAI/Anthropic rider",
+      "license_classification": "restricted source-available",
+      "evidence_level": "license and README; no adoption review",
+      "boundary": "analytics/viewing does not allocate exclusive work",
+      "disposition": "Companion only; excluded from open-source shortlist",
+      "repository": "https://github.com/Dicklesworthstone/beads_viewer",
+      "commit": "516e96aa1ac78d6f634b0d394f5102bf430de016",
+      "candidate_runtime_tested": false,
+      "source_ids": [
+        "beads-viewer"
+      ]
+    }
+  ]
+}
