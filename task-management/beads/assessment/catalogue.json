@@ -1,0 +1,349 @@
+{
+  "method": "Static public Go role-interface declaration inventory; not a Go AST, generated API compatibility guarantee or execution/body review claim.",
+  "sources": [
+    {
+      "path": "issueops/batchapplier.go",
+      "sha256": "02fe9f3866c31ad75b27770b0eaf107f2e1fee212ca1ab0b9b5585fedbf311ab",
+      "declarations": [
+        {
+          "name": "BatchApplier",
+          "line": 606
+        }
+      ]
+    },
+    {
+      "path": "issueops/batchcloser.go",
+      "sha256": "cefc16b6bf60cacb321f8bfc4daa6a93a45406cb247b180b89af4270a3f137a1",
+      "declarations": [
+        {
+          "name": "BatchCloser",
+          "line": 162
+        }
+      ]
+    },
+    {
+      "path": "issueops/batchcreator.go",
+      "sha256": "a1b29336b7fce6d8b1d5a18ed3b4d37e13a6f5a3f6887ca877ff81d111ed5bb1",
+      "declarations": [
+        {
+          "name": "BatchCreator",
+          "line": 152
+        }
+      ]
+    },
+    {
+      "path": "issueops/batchgetter.go",
+      "sha256": "009a47b9b1d8e420bdf9c2dc75f32f1c193ba3773d96131d08188656f9261cf5",
+      "declarations": [
+        {
+          "name": "BatchGetter",
+          "line": 133
+        }
+      ]
+    },
+    {
+      "path": "issueops/blockedlister.go",
+      "sha256": "f5911e244ed9b80546ef5b23528c5a21b7d24b95c2d49f057b6c0f91c31dc4cd",
+      "declarations": [
+        {
+          "name": "BlockedLister",
+          "line": 61
+        }
+      ]
+    },
+    {
+      "path": "issueops/blockingannotator.go",
+      "sha256": "d16373a0b489c4e02ae771a1becb421ac1d9f7f82353d4a09102b1fe439ea39d",
+      "declarations": [
+        {
+          "name": "BlockingAnnotator",
+          "line": 165
+        }
+      ]
+    },
+    {
+      "path": "issueops/bootstrapper.go",
+      "sha256": "8f75c907ecaa9c90ddb83bc64fe7b228a266922cde54b1c78f85bcc60aea50da",
+      "declarations": [
+        {
+          "name": "Bootstrapper",
+          "line": 90
+        }
+      ]
+    },
+    {
+      "path": "issueops/claimer.go",
+      "sha256": "ad6d3a1a1d0455bc2f312062554fac7c81ec16613ea148b91fda64cfc9c6938b",
+      "declarations": [
+        {
+          "name": "Claimer",
+          "line": 42
+        }
+      ]
+    },
+    {
+      "path": "issueops/commenter.go",
+      "sha256": "6330fa61aace3f3b8515c0adbd22ef9b6dc65a7c4df32fe18053846a4a0a99d7",
+      "declarations": [
+        {
+          "name": "Commenter",
+          "line": 67
+        }
+      ]
+    },
+    {
+      "path": "issueops/counter.go",
+      "sha256": "7691c27743d2ecae10c5c346f90b29ad479fc7d122fb2702eaca28111a868c58",
+      "declarations": [
+        {
+          "name": "Counter",
+          "line": 313
+        }
+      ]
+    },
+    {
+      "path": "issueops/cycledetector.go",
+      "sha256": "9f52d2cbbd1f7036679abd85f897a9e749b30a9cd30900f48f2f29eef5af5e21",
+      "declarations": [
+        {
+          "name": "CycleDetector",
+          "line": 183
+        }
+      ]
+    },
+    {
+      "path": "issueops/deleter.go",
+      "sha256": "8e654127a92bd2a087604991b4b6b784ebe71843b806435f0064c212c8f2e84a",
+      "declarations": [
+        {
+          "name": "Deleter",
+          "line": 296
+        }
+      ]
+    },
+    {
+      "path": "issueops/dependencyeditor.go",
+      "sha256": "98c2deb8e523b6be2f2ee46a14c443b1250760d42f997e586838e724f9f2aa5c",
+      "declarations": [
+        {
+          "name": "DependencyEditor",
+          "line": 153
+        }
+      ]
+    },
+    {
+      "path": "issueops/edgereader.go",
+      "sha256": "662363dac72efbd18ba41e384ac33d7505803694442b0a1f8059681ec15be730",
+      "declarations": [
+        {
+          "name": "EdgeReader",
+          "line": 179
+        }
+      ]
+    },
+    {
+      "path": "issueops/graphcounter.go",
+      "sha256": "4a2fad4d8fe493a25008f2bacfa68ee0fc1b785aceea9c20fd4cd45eeedb465e",
+      "declarations": [
+        {
+          "name": "GraphCounter",
+          "line": 273
+        }
+      ]
+    },
+    {
+      "path": "issueops/heartbeater.go",
+      "sha256": "ff5ef574fe9364419115341bd488c447272b49e4097d5db1f41f76d7fd74d51f",
+      "declarations": [
+        {
+          "name": "Heartbeater",
+          "line": 166
+        }
+      ]
+    },
+    {
+      "path": "issueops/importer.go",
+      "sha256": "473681da903f93ae6a1af3a32a9246ff5bbfe78a2ccdcc50df3dde072b8b186b",
+      "declarations": [
+        {
+          "name": "Importer",
+          "line": 85
+        }
+      ]
+    },
+    {
+      "path": "issueops/initverifier.go",
+      "sha256": "6497561e9c69fe4431ac4ab2e796ca7cb01eaac6b7c22471fa47013fd62560bb",
+      "declarations": [
+        {
+          "name": "InitVerifier",
+          "line": 69
+        }
+      ]
+    },
+    {
+      "path": "issueops/issueops.go",
+      "sha256": "d82429f2a29185ccf982654504457e1b4fbe87fa6cc79ad91401d34f4534a9da",
+      "declarations": [
+        {
+          "name": "Lifecycle",
+          "line": 552
+        }
+      ]
+    },
+    {
+      "path": "issueops/leasereclaimer.go",
+      "sha256": "fdc409e823126991804b7021301406ee9277c41739da5763da13b1b1b6692f79",
+      "declarations": [
+        {
+          "name": "LeaseReclaimer",
+          "line": 154
+        }
+      ]
+    },
+    {
+      "path": "issueops/metadatacas.go",
+      "sha256": "11d4f39a5be962df15de0ac05c5e7486ff10209d2338026356c8de9eefad511c",
+      "declarations": [
+        {
+          "name": "MetadataCAS",
+          "line": 148
+        }
+      ]
+    },
+    {
+      "path": "issueops/molecule.go",
+      "sha256": "81280c59ca303a6076b70d7d58366491226b4b489555763517776b55d43b153c",
+      "declarations": [
+        {
+          "name": "moleculeRoleSource",
+          "line": 61
+        }
+      ]
+    },
+    {
+      "path": "issueops/moleculestepper.go",
+      "sha256": "976fc63c1f64a7cf7060d115ab30ea76f5609bde78eb96c3818ba7ec6d257afb",
+      "declarations": [
+        {
+          "name": "MoleculeStepper",
+          "line": 58
+        },
+        {
+          "name": "moleculeStepperSource",
+          "line": 71
+        }
+      ]
+    },
+    {
+      "path": "issueops/querier.go",
+      "sha256": "7bdbe6f176155ccc2ddb79b906b8a90e33d0a3787a0a6ba4b7076fde4b922752",
+      "declarations": [
+        {
+          "name": "Querier",
+          "line": 128
+        }
+      ]
+    },
+    {
+      "path": "issueops/reader.go",
+      "sha256": "433df7a0372f47b70265e26019456a521b2ab2105f8fd3ba3fa5015006dc9203",
+      "declarations": [
+        {
+          "name": "Reader",
+          "line": 732
+        }
+      ]
+    },
+    {
+      "path": "issueops/readyclaimer.go",
+      "sha256": "913b59005faa5b09987edb39d52d934424397c75914ca650e7efa53b7be9c375",
+      "declarations": [
+        {
+          "name": "ReadyClaimer",
+          "line": 63
+        }
+      ]
+    },
+    {
+      "path": "issueops/readycounter.go",
+      "sha256": "3439f86e39b1e8934ad5e4a4a02aebb14df66d5a10cf3177d6d37f45c47f7800",
+      "declarations": [
+        {
+          "name": "ReadyCounter",
+          "line": 57
+        }
+      ]
+    },
+    {
+      "path": "issueops/relations.go",
+      "sha256": "571808c22141a7c301587cbb0740338b6e08407d1a6ac77d0b08740e5ff49985",
+      "declarations": [
+        {
+          "name": "Relations",
+          "line": 88
+        }
+      ]
+    },
+    {
+      "path": "issueops/releaser.go",
+      "sha256": "492bf2c243223a70ba215567540c56b16e90765ebebe7032159b297e76e4fd55",
+      "declarations": [
+        {
+          "name": "Releaser",
+          "line": 223
+        }
+      ]
+    },
+    {
+      "path": "issueops/statsreporter.go",
+      "sha256": "7e23dc9ab9a4c599bfd1008980525e59fbc623d4b8254e56de9cfbd0658e01d1",
+      "declarations": [
+        {
+          "name": "StatsReporter",
+          "line": 145
+        }
+      ]
+    },
+    {
+      "path": "issueops/sweeper.go",
+      "sha256": "d9d7458e4a00cc7f365009538c97e5009a9b893091ed4c6710b357b4309475fd",
+      "declarations": [
+        {
+          "name": "Sweeper",
+          "line": 388
+        }
+      ]
+    },
+    {
+      "path": "issueops/treewalker.go",
+      "sha256": "ade8de1ec523f3b4d1689800b3180ac204b2a1cfc3cd3b38686663c0aabf3ed4",
+      "declarations": [
+        {
+          "name": "TreeWalker",
+          "line": 266
+        }
+      ]
+    },
+    {
+      "path": "issueops/versionreconciler.go",
+      "sha256": "9bab0ad0045d6c5772e0af03b16b5324b5861ed92ded20e7049a26e4073be841",
+      "declarations": [
+        {
+          "name": "VersionReconciler",
+          "line": 153
+        }
+      ]
+    },
+    {
+      "path": "issueops/workspaceconfig.go",
+      "sha256": "83ea00ae1e4e03626840b037a7e336ab7d4864334d0549582ba8c2c57b05a5f9",
+      "declarations": [
+        {
+          "name": "WorkspaceConfig",
+          "line": 220
+        }
+      ]
+    }
+  ]
+}

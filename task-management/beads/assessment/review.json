@@ -1,0 +1,673 @@
+{
+  "project": "beads",
+  "commit": "2edea9ced8c6f6124b6c157896ae53a0e09ff7be",
+  "baseline": "AGENT_TASK_MANAGEMENT.md",
+  "baseline_sha256": "4dcfe707e292330c65b66c9bbbf4999d90dcf54991adf76ffe82a5efd3eee8a3",
+  "reviewed_on": "2026-11-09",
+  "review_status": "source_review_complete",
+  "scope": "Full tracked checkout; targeted static review of issue model, role contracts, common create/update/claim/ready-claim/heartbeat/reclaim/close/edge bodies, Dolt SQL/history retry ordering, selected embedded/HTTP callers, journal/auth posture, molecule advancement and MCP claim forwarding, with selected conformance and wire-mapping assertions. Not every-line audit, full storage-driver/replication/migration/import/repair/integration/runtime equivalence certification.",
+  "candidate_executed": false,
+  "candidate_tests_run": false,
+  "requirement_verdicts": {
+    "T01": "Similar",
+    "T02": "Similar",
+    "T03": "Similar",
+    "T04": "Similar",
+    "T05": "Resembles",
+    "T06": "Similar",
+    "T07": "Similar",
+    "T08": "Resembles",
+    "T09": "Similar",
+    "T10": "Similar",
+    "T11": "Similar",
+    "T12": "Similar",
+    "T13": "Similar",
+    "T14": "Similar",
+    "T15": "Similar",
+    "T16": "Similar",
+    "T17": "Similar",
+    "T18": "Similar",
+    "T19": "Similar",
+    "T20": "Similar",
+    "T21": "Similar",
+    "T22": "Similar",
+    "T23": "Similar",
+    "T24": "Similar"
+  },
+  "lifecycle_review": {
+    "create": "Attempt-local validation/configuration/ID and parent/dependency wiring in transaction; guarded create refuses skipped edges; persistence plane determines history/recovery contract",
+    "select": "Shared readiness SQL and priority/age filters; claim-next selects, claims and hydrates within one transaction; named claim checks status/assignment without querying readiness",
+    "claim": "CAS on lifecycle row token with actor/pool eligibility, durable lease grant and events/version; same-actor retry is no-op without TTL extension; actor asserted rather than authenticated",
+    "progress": "Typed patches with optional revision/status/assignee preconditions and transfer/notes/template checks; merge operations resolved inside transaction; no required execution attempt token",
+    "review": "Acceptance text and selected CLI gate conditions plus child/blocker policy; no qualified reviewer/evidence revision contract; CLI conditions not universal role/API policy",
+    "complete": "Checked close guards template/pin/holder, children/direct blockers and optional revision, deletes lease and versions/recomputes; generic done status patch omits pin/holder guards; force and auto-close molecule boundaries explicit",
+    "cancel": "Task reopen/unclaim/reclaim restore workflow state; no worker process cancellation or external-effect compensation",
+    "recover": "Node-local TTL lease heartbeat/re-arm and guarded reclaim, provenance-aware replica policy with permissive unnamed default, optional row-token stale-write guards, known-rollback retries and indeterminate-commit refusal, durable journal checkpoint/truncation mapping; SQL task durability distinct from later Dolt history publication"
+  },
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "e9b5ea4adca58de8103b58010170e78c4128d9fc970f0790b8ad33962513a85f",
+      "lines": 244,
+      "ranges": [
+        [
+          1,
+          244
+        ]
+      ],
+      "method": "Contributor instructions, product boundary, license or build metadata inspection; no candidate development workflow executed"
+    },
+    {
+      "path": "cmd/bd/AGENTS.md",
+      "sha256": "e7b664a2f81683dcf5dca28648fe9420936a742fab2fbd59075f0235a9c926a6",
+      "lines": 97,
+      "ranges": [
+        [
+          1,
+          97
+        ]
+      ],
+      "method": "Contributor instructions, product boundary, license or build metadata inspection; no candidate development workflow executed"
+    },
+    {
+      "path": "engdocs/AGENTS.md",
+      "sha256": "68bd4ea8de070aac347082d701a1749781276e3725b5d7af748f6037117ec7e3",
+      "lines": 45,
+      "ranges": [
+        [
+          1,
+          45
+        ]
+      ],
+      "method": "Contributor instructions, product boundary, license or build metadata inspection; no candidate development workflow executed"
+    },
+    {
+      "path": "engdocs/PROJECT_CHARTER.md",
+      "sha256": "e121621137e5e836a3cfc88dbc54c2e4ebd3cc208520b147af8e1df3d872593a",
+      "lines": 133,
+      "ranges": [
+        [
+          1,
+          133
+        ]
+      ],
+      "method": "Contributor instructions, product boundary, license or build metadata inspection; no candidate development workflow executed"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "caa2c60efbbf71e18b45ef6006a18213f8a42554b235af88883f6f1ec240b7db",
+      "lines": 21,
+      "ranges": [
+        [
+          1,
+          21
+        ]
+      ],
+      "method": "Contributor instructions, product boundary, license or build metadata inspection; no candidate development workflow executed"
+    },
+    {
+      "path": "go.mod",
+      "sha256": "1ec49d1a3f6bd4d0b443650346e4deec34bcbe27549e85bb5cce0a72cb64f730",
+      "lines": 289,
+      "ranges": [
+        [
+          1,
+          60
+        ]
+      ],
+      "method": "Contributor instructions, product boundary, license or build metadata inspection; no candidate development workflow executed"
+    },
+    {
+      "path": "internal/types/types.go",
+      "sha256": "8fa141c5c3f9ebd627c1d2645ad3cb9bfc98eb23ba284c56ff726bb053c07488",
+      "lines": 2660,
+      "ranges": [
+        [
+          20,
+          208
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "issueops/claimer.go",
+      "sha256": "ad6d3a1a1d0455bc2f312062554fac7c81ec16613ea148b91fda64cfc9c6938b",
+      "lines": 67,
+      "ranges": [
+        [
+          1,
+          67
+        ]
+      ],
+      "method": "Public contract/type inventory and targeted molecule orchestration body; implementation checked in common storage bodies where cited"
+    },
+    {
+      "path": "issueops/readyclaimer.go",
+      "sha256": "913b59005faa5b09987edb39d52d934424397c75914ca650e7efa53b7be9c375",
+      "lines": 98,
+      "ranges": [
+        [
+          1,
+          98
+        ]
+      ],
+      "method": "Public contract/type inventory and targeted molecule orchestration body; implementation checked in common storage bodies where cited"
+    },
+    {
+      "path": "issueops/issueops.go",
+      "sha256": "d82429f2a29185ccf982654504457e1b4fbe87fa6cc79ad91401d34f4534a9da",
+      "lines": 599,
+      "ranges": [
+        [
+          1,
+          90
+        ],
+        [
+          254,
+          365
+        ]
+      ],
+      "method": "Public contract/type inventory and targeted molecule orchestration body; implementation checked in common storage bodies where cited"
+    },
+    {
+      "path": "issueops/moleculestepper.go",
+      "sha256": "976fc63c1f64a7cf7060d115ab30ea76f5609bde78eb96c3818ba7ec6d257afb",
+      "lines": 209,
+      "ranges": [
+        [
+          115,
+          209
+        ]
+      ],
+      "method": "Public contract/type inventory and targeted molecule orchestration body; implementation checked in common storage bodies where cited"
+    },
+    {
+      "path": "internal/storage/issueops/claim.go",
+      "sha256": "cc9c028c5ff3348f7606d195c412387899c41b5697fd6e91399fe0c09be6e398",
+      "lines": 371,
+      "ranges": [
+        [
+          1,
+          328
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "internal/storage/issueops/claim_next.go",
+      "sha256": "47b9b78c2b18b1b75d2e2ac2aad29203feab4e61b2285d6e92477329720bba13",
+      "lines": 122,
+      "ranges": [
+        [
+          1,
+          118
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "internal/storage/issueops/lease.go",
+      "sha256": "0f1e6e542563037bc7cd1e1a7d3b11ded07af47eea457d3ee07f64e9a0e9d043",
+      "lines": 1066,
+      "ranges": [
+        [
+          1,
+          120
+        ],
+        [
+          400,
+          675
+        ],
+        [
+          864,
+          1066
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "internal/storage/issueops/heartbeat_role.go",
+      "sha256": "caeec714e07299ea8ea5046efaea33ee3dc903e6de1b494bed811e44b62adb0c",
+      "lines": 135,
+      "ranges": [
+        [
+          1,
+          80
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "internal/storage/issueops/lease_reclaimer.go",
+      "sha256": "f5e55a587c87722428cb94267e9f27a1a412b0e7e2384f72fdea5b18e5cd1e30",
+      "lines": 123,
+      "ranges": [
+        [
+          91,
+          123
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "internal/storage/issueops/close.go",
+      "sha256": "919d4958badb594d18536a94114f0138d2b2f4f22ec6ea080d49da7379fe2921",
+      "lines": 417,
+      "ranges": [
+        [
+          1,
+          110
+        ],
+        [
+          132,
+          213
+        ],
+        [
+          333,
+          417
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "internal/storage/issueops/close_guard.go",
+      "sha256": "99b3023477a88da427135ea027f598ad74beeff416a10eca5e4b3ea3f5a51dd4",
+      "lines": 112,
+      "ranges": [
+        [
+          1,
+          110
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "internal/storage/issueops/update.go",
+      "sha256": "4a81c2ff302877ef76973ad6de94516ebf19fa4657b196d16ae3c414a541a395",
+      "lines": 1065,
+      "ranges": [
+        [
+          355,
+          490
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "internal/storage/issueops/update_cas.go",
+      "sha256": "045b076a551c793edd81ed25f9c12d33bf9a4e7db3ad593c709728e5c1deb232",
+      "lines": 59,
+      "ranges": [
+        [
+          1,
+          59
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "internal/storage/issueops/aggregate.go",
+      "sha256": "4aebd80c93e7302d34f8de0b855fe7e3b1f1aba74f7e5d34f3fac917f3bd0d5d",
+      "lines": 556,
+      "ranges": [
+        [
+          165,
+          240
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "internal/storage/issueops/execution.go",
+      "sha256": "02fb003db0d5e422bb9cfba69fb041dc0fae20d190f550831d976424eb213af5",
+      "lines": 390,
+      "ranges": [
+        [
+          37,
+          253
+        ],
+        [
+          328,
+          388
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "internal/storage/issueops/dependency_coordination.go",
+      "sha256": "54e8600a4e93fb044ae84436b42a4d047fd0841777dbed5129423f799f002075",
+      "lines": 60,
+      "ranges": [
+        [
+          1,
+          60
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "internal/storage/issueops/dependencies.go",
+      "sha256": "87d90d32555f45f7e3318690b2c15b7c7d4ff6eefb80fae3437f376b1048fd57",
+      "lines": 1564,
+      "ranges": [
+        [
+          1,
+          160
+        ],
+        [
+          246,
+          483
+        ],
+        [
+          519,
+          572
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "internal/storage/issueops/dependency_editor.go",
+      "sha256": "60a03bce478d53951f51ff0b3345962abb3190e5480eba283dcd0ce5ef9aacf7",
+      "lines": 284,
+      "ranges": [
+        [
+          119,
+          170
+        ],
+        [
+          226,
+          254
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "internal/storage/issueops/ready_work.go",
+      "sha256": "04ac31c4e97a35be91396a16c74cd5e0e7319621ff0f861284bfee00c355b12f",
+      "lines": 727,
+      "ranges": [
+        [
+          1,
+          155
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "internal/storage/sqlbuild/ready.go",
+      "sha256": "74613bd0a9d44af66587c5695d20c4e39f0ce5f07660d8fadad1c8cc7b5b1e39",
+      "lines": 285,
+      "ranges": [
+        [
+          207,
+          285
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "internal/storage/dolt/issue_claimer.go",
+      "sha256": "1b452f0887e4d68444961a6874daf8a8a9524f707f1279faf012d16f465910dd",
+      "lines": 56,
+      "ranges": [
+        [
+          1,
+          56
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "internal/storage/dolt/ready_claimer.go",
+      "sha256": "3389955f19db1be962b0d0500f3d0116b7ebf4e5aa09663b1ded1cb31783c7ab",
+      "lines": 105,
+      "ranges": [
+        [
+          1,
+          105
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "internal/storage/dolt/heartbeater.go",
+      "sha256": "57725d5100e635e203688e70f5c9815c5791bfdcfb23abaa01d52618211efd8c",
+      "lines": 59,
+      "ranges": [
+        [
+          1,
+          59
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "internal/storage/dolt/issue_operations_tx.go",
+      "sha256": "0bd765f9739bd30776128acce85c3d52497849624fc8710eedac9ce3cd395e3f",
+      "lines": 103,
+      "ranges": [
+        [
+          1,
+          103
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "internal/storage/dolt/store.go",
+      "sha256": "c3f4e830cec4edb51cb0c9f6b477bae894941e7b18f27214422b0870bdc03de1",
+      "lines": 6490,
+      "ranges": [
+        [
+          1283,
+          1400
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "internal/storage/dolt/issues.go",
+      "sha256": "3eb1d64614b45857eb030372a92d70e7bf2b13f6b984b70a3a217c3dbd8385d6",
+      "lines": 880,
+      "ranges": [
+        [
+          431,
+          518
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "internal/storage/embeddeddolt/issue_operations.go",
+      "sha256": "1a905f2855831c4006f0646034846d2c727492b9a6f8385e6fa359096e9f783d",
+      "lines": 87,
+      "ranges": [
+        [
+          1,
+          82
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "internal/httpapi/update.go",
+      "sha256": "3afad9e79b65f44c2170c04ddaf4daf9993323d6e32abda53ce442365808ed9c",
+      "lines": 746,
+      "ranges": [
+        [
+          1,
+          100
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "internal/httpapi/close.go",
+      "sha256": "8d221fe10d21d7293b59aea94c9d1c5155ba215ecbba60f9d5c513261b674df7",
+      "lines": 305,
+      "ranges": [
+        [
+          1,
+          100
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "internal/httpapi/claim_next.go",
+      "sha256": "3869a670affb72d122dfb9abfb03fe4e3378a53c9daabcdbdadcb301e68827a5",
+      "lines": 133,
+      "ranges": [
+        [
+          1,
+          100
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "internal/httpapi/events.go",
+      "sha256": "e4e979bc403148b0027d87f78e95b26166e753e66804569acbb393ffad4cb506",
+      "lines": 194,
+      "ranges": [
+        [
+          1,
+          184
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "internal/httpapi/auth.go",
+      "sha256": "65ba1a3bd283b96085246eff96935a0e2cbab18cc785b9a1fc91147648fffee9",
+      "lines": 262,
+      "ranges": [
+        [
+          1,
+          60
+        ],
+        [
+          115,
+          145
+        ],
+        [
+          170,
+          262
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "internal/httpapi/server.go",
+      "sha256": "6f5b4a6e891c8b3a445c396cf376fe86b5ed3c04749aa1079f1fe288afbe2406",
+      "lines": 2471,
+      "ranges": [
+        [
+          1,
+          100
+        ],
+        [
+          598,
+          626
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "cmd/bd/ready.go",
+      "sha256": "a8b000b9a9823534433426d2328b72230fb14d92ccdb15cda1b7e12d8f3f2e21",
+      "lines": 1093,
+      "ranges": [
+        [
+          1,
+          70
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "cmd/bd/close.go",
+      "sha256": "50be874c14d8a31a346c5a16c57de427e72393343433c67cc08ff562d8962eb8",
+      "lines": 1022,
+      "ranges": [
+        [
+          683,
+          755
+        ]
+      ],
+      "method": "Targeted source/body inspection at listed ranges; candidate not executed"
+    },
+    {
+      "path": "integrations/beads-mcp/src/beads_mcp/bd_client.py",
+      "sha256": "724cf9fb82accc5a859ccee3c28619b3709c0fe54ea2b41f05ab9faf1a9e8433",
+      "lines": 1011,
+      "ranges": [
+        [
+          609,
+          628
+        ]
+      ],
+      "method": "Targeted included MCP adapter claim-to-CLI forwarding body only; complete adapter not audited"
+    },
+    {
+      "path": "backend/conformance/ready_claimer_contract.go",
+      "sha256": "687ba3c9b04603b0614da0484210cbca8f696740ca4f66d60caa020aab9801e7",
+      "lines": 1066,
+      "ranges": [
+        [
+          405,
+          448
+        ]
+      ],
+      "method": "Selected conformance helper assertion bodies; fixture-dependent skip noted; no test or backend execution"
+    },
+    {
+      "path": "backend/conformance/heartbeater_contract.go",
+      "sha256": "e7989ff20aca6e62443301665e8e89af3695fe4b27e3d3d64ecfe860904bea18",
+      "lines": 837,
+      "ranges": [
+        [
+          213,
+          235
+        ]
+      ],
+      "method": "Selected conformance helper assertion bodies; fixture-dependent skip noted; no test or backend execution"
+    },
+    {
+      "path": "internal/storage/issueops/lease_replica_test.go",
+      "sha256": "c60ed3cae6c0e47004114c7f1db0f2c74234f17f21431ae29f996afdb82f65c7",
+      "lines": 197,
+      "ranges": [
+        [
+          16,
+          82
+        ]
+      ],
+      "method": "Selected test fixture/assertion bodies only; mapping/SQL predicate tests distinguished from real storage execution; tests not run"
+    },
+    {
+      "path": "internal/httpapi/close_guards_test.go",
+      "sha256": "3a922c15797bc14c0d443651c4097401c3dfcb7d87c34382bc5de3a55de90975",
+      "lines": 163,
+      "ranges": [
+        [
+          1,
+          125
+        ]
+      ],
+      "method": "Selected test fixture/assertion bodies only; mapping/SQL predicate tests distinguished from real storage execution; tests not run"
+    },
+    {
+      "path": "internal/httpapi/events_test.go",
+      "sha256": "c3528170473fb2a99e3d21f2f330f49598312f793dc8b324b7bb8aa0ba776dbb",
+      "lines": 593,
+      "ranges": [
+        [
+          201,
+          239
+        ]
+      ],
+      "method": "Selected test fixture/assertion bodies only; mapping/SQL predicate tests distinguished from real storage execution; tests not run"
+    }
+  ]
+}
