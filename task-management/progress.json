@@ -1,0 +1,240 @@
+{
+  "checked_at": "2026-11-08T16:37:55.981924+00:00",
+  "scope": "Checkout preservation, materialization, baseline/requirement coverage, source evidence hashes and local links. Not a semantic or runtime audit.",
+  "required_repository_count": 25,
+  "checkout_count": 25,
+  "baseline_sha256": "4dcfe707e292330c65b66c9bbbf4999d90dcf54991adf76ffe82a5efd3eee8a3",
+  "assessments_complete": [
+    "agent-hq",
+    "agent-kanban-rs",
+    "devboard"
+  ],
+  "assessments_remaining": [
+    "agent-mail-python",
+    "agent-mail-rust",
+    "agent-swarm",
+    "backlog-md",
+    "beads",
+    "beads-rust",
+    "beads-viewer",
+    "gemba",
+    "gitlab",
+    "kanboard",
+    "muster",
+    "openproject",
+    "paperclip",
+    "plane",
+    "plane-mcp",
+    "planka",
+    "rhizome-mcp",
+    "taiga",
+    "taiga-front",
+    "task-master",
+    "vibe-kanban",
+    "vikunja"
+  ],
+  "required_complete_gate": false,
+  "issues": [],
+  "checkouts": [
+    {
+      "slug": "agent-hq",
+      "head": "785cd8c9a55b2b517eb8eb8f680cd65985992282",
+      "tracked_files": 32,
+      "missing_paths": 0,
+      "sparse_paths": 0,
+      "clean": true
+    },
+    {
+      "slug": "agent-kanban-rs",
+      "head": "3ab1218eac51edca8556e6dfbeea322477e7a444",
+      "tracked_files": 40,
+      "missing_paths": 0,
+      "sparse_paths": 0,
+      "clean": true
+    },
+    {
+      "slug": "agent-mail-python",
+      "head": "9138f34b1ed220235dbfeaa3f1fc9fe4444f4e72",
+      "tracked_files": 306,
+      "missing_paths": 0,
+      "sparse_paths": 0,
+      "clean": true
+    },
+    {
+      "slug": "agent-mail-rust",
+      "head": "49866939b1f52af5741bd3c87145d01846b93a38",
+      "tracked_files": 3928,
+      "missing_paths": 0,
+      "sparse_paths": 0,
+      "clean": true
+    },
+    {
+      "slug": "agent-swarm",
+      "head": "6aff700f53755cb71bd6a1aa2e2fa1da9586b892",
+      "tracked_files": 6392,
+      "missing_paths": 0,
+      "sparse_paths": 0,
+      "clean": true
+    },
+    {
+      "slug": "backlog-md",
+      "head": "3a296c0f6f949b31e458b849b9617702c56c1023",
+      "tracked_files": 1533,
+      "missing_paths": 0,
+      "sparse_paths": 0,
+      "clean": true
+    },
+    {
+      "slug": "beads",
+      "head": "2edea9ced8c6f6124b6c157896ae53a0e09ff7be",
+      "tracked_files": 5315,
+      "missing_paths": 0,
+      "sparse_paths": 0,
+      "clean": true
+    },
+    {
+      "slug": "beads-rust",
+      "head": "117f81de0d5dae007d972a9ff7f1d73c392d8822",
+      "tracked_files": 4288,
+      "missing_paths": 0,
+      "sparse_paths": 0,
+      "clean": true
+    },
+    {
+      "slug": "beads-viewer",
+      "head": "516e96aa1ac78d6f634b0d394f5102bf430de016",
+      "tracked_files": 5133,
+      "missing_paths": 0,
+      "sparse_paths": 0,
+      "clean": true
+    },
+    {
+      "slug": "devboard",
+      "head": "cbe017a445fd4f9dee2de73f729c65b7fe0f9b9b",
+      "tracked_files": 37,
+      "missing_paths": 0,
+      "sparse_paths": 0,
+      "clean": true
+    },
+    {
+      "slug": "gemba",
+      "head": "64c266f889c6d6a579904c5e336676fa1c49b216",
+      "tracked_files": 1752,
+      "missing_paths": 0,
+      "sparse_paths": 0,
+      "clean": true
+    },
+    {
+      "slug": "gitlab",
+      "head": "a8f1a2df276bdcf7f0e612492ab5412f16de62fe",
+      "tracked_files": 116819,
+      "missing_paths": 0,
+      "sparse_paths": 0,
+      "clean": true
+    },
+    {
+      "slug": "kanboard",
+      "head": "2ddb31bf72d355727d0639fc3423630f3bae1a9c",
+      "tracked_files": 2792,
+      "missing_paths": 0,
+      "sparse_paths": 0,
+      "clean": true
+    },
+    {
+      "slug": "muster",
+      "head": "bb98b21a6ac0ed4cb095f948e55ae8a644e10c40",
+      "tracked_files": 317,
+      "missing_paths": 0,
+      "sparse_paths": 0,
+      "clean": true
+    },
+    {
+      "slug": "openproject",
+      "head": "05d9afe72a3c9198e26c0284c213f733c4863ca2",
+      "tracked_files": 25930,
+      "missing_paths": 0,
+      "sparse_paths": 0,
+      "clean": true
+    },
+    {
+      "slug": "paperclip",
+      "head": "46fb933b0155d183ce64a8bdc4950d1b58c926f6",
+      "tracked_files": 14032,
+      "missing_paths": 0,
+      "sparse_paths": 0,
+      "clean": true
+    },
+    {
+      "slug": "plane",
+      "head": "618d0eb74658329a6f6e92434ac54231422c5b96",
+      "tracked_files": 5166,
+      "missing_paths": 0,
+      "sparse_paths": 0,
+      "clean": true
+    },
+    {
+      "slug": "plane-mcp",
+      "head": "5c3467adb36fe15a2ef8f9df6fb9f5dc24b6d881",
+      "tracked_files": 109,
+      "missing_paths": 0,
+      "sparse_paths": 0,
+      "clean": true
+    },
+    {
+      "slug": "planka",
+      "head": "2cf423824a09f84df7dc3acf0ded9a700292d882",
+      "tracked_files": 1648,
+      "missing_paths": 0,
+      "sparse_paths": 0,
+      "clean": true
+    },
+    {
+      "slug": "rhizome-mcp",
+      "head": "03fffd7d1410ddccadf7c199f5d6e796a497b1f0",
+      "tracked_files": 516,
+      "missing_paths": 0,
+      "sparse_paths": 0,
+      "clean": true
+    },
+    {
+      "slug": "taiga",
+      "head": "8ab6a4e3b5f6fbbfcbf108a6449011f07b7308aa",
+      "tracked_files": 2015,
+      "missing_paths": 0,
+      "sparse_paths": 0,
+      "clean": true
+    },
+    {
+      "slug": "taiga-front",
+      "head": "da8afa50b2a59c3aaec78854c0ae8145a16e6cd8",
+      "tracked_files": 2879,
+      "missing_paths": 0,
+      "sparse_paths": 0,
+      "clean": true
+    },
+    {
+      "slug": "task-master",
+      "head": "c0c98d367c55296bfe69e65680625b6db437af02",
+      "tracked_files": 1254,
+      "missing_paths": 0,
+      "sparse_paths": 0,
+      "clean": true
+    },
+    {
+      "slug": "vibe-kanban",
+      "head": "08064e043c2d78ad123b473257ed867e7ce74768",
+      "tracked_files": 2208,
+      "missing_paths": 0,
+      "sparse_paths": 0,
+      "clean": true
+    },
+    {
+      "slug": "vikunja",
+      "head": "d2c9aee4f8894edc02611a8b40becbd5dfc95e33",
+      "tracked_files": 2501,
+      "missing_paths": 0,
+      "sparse_paths": 0,
+      "clean": true
+    }
+  ]
+}

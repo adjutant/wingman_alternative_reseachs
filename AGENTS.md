@@ -10,6 +10,8 @@ Read a checkout's own instructions before you operate inside that checkout.
 
 - `index.html` contains the portfolio overview and comparison table.
 - `WINGMAN_PURPOSE.md` defines the assessment baseline.
+- `AGENT_TASK_MANAGEMENT.md` defines the dedicated baseline for project and task coordination among agents.
+- `task-management/` holds the full source study against its T01–T24 requirements. Its checkout and assessment progress are separate from the original 75-project comparison.
 - `<project>/repo/` contains one independent Git checkout.
 - `<project>/assessment/ASSESSMENT.md` contains the technical assessment.
 - `<project>/assessment/` also holds supporting chapters and retained experiment evidence.
@@ -41,6 +43,8 @@ Separate logical agent identity from a process, a session, a task, and an execut
 Use the verdicts Exact, Similar, Resembles, Absent, and Unclear.
 State the boundary of each verdict. Do not convert verdict counts into a product ranking.
 Focused studies outside the original 75-project comparison can use topic-specific criteria.
+For the full task-management study, use `task-management/checkouts.json`, each project's `assessment/ASSESSMENT.md` and `assessment/review.json`.
+Run `tools/validate_task_management.py --write` for progress integrity and add `--require-complete` for its final source-assessment coverage gate.
 State their review scope and evidence level. Do not imply that they received the full 24-feature assessment.
 Preserve code links and line references. Keep the complete commit ID.
 Use bare complete external URLs. Use relative links for local evidence.

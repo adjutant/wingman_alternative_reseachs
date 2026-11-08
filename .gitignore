@@ -1,5 +1,6 @@
 # Independent source snapshots stay local. Assessment provenance is in coverage.json.
 /*/repo/
+/task-management/*/repo/
 
 # Local environment and generated caches.
 .venv/

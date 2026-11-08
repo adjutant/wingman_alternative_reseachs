@@ -1,0 +1,265 @@
+{
+  "project": "agent-kanban-rs",
+  "commit": "3ab1218eac51edca8556e6dfbeea322477e7a444",
+  "baseline": "AGENT_TASK_MANAGEMENT.md",
+  "baseline_sha256": "4dcfe707e292330c65b66c9bbbf4999d90dcf54991adf76ffe82a5efd3eee8a3",
+  "reviewed_on": "2026-11-08",
+  "review_status": "source_review_complete",
+  "scope": "Full local checkout; lifecycle, alternate mutations, storage, interfaces and operating boundaries. Not every-line audit or runtime certification.",
+  "candidate_executed": false,
+  "candidate_tests_run": false,
+  "requirement_verdicts": {
+    "T01": "Resembles",
+    "T02": "Similar",
+    "T03": "Absent",
+    "T04": "Exact",
+    "T05": "Resembles",
+    "T06": "Similar",
+    "T07": "Similar",
+    "T08": "Resembles",
+    "T09": "Absent",
+    "T10": "Resembles",
+    "T11": "Resembles",
+    "T12": "Similar",
+    "T13": "Resembles",
+    "T14": "Similar",
+    "T15": "Resembles",
+    "T16": "Similar",
+    "T17": "Absent",
+    "T18": "Resembles",
+    "T19": "Similar",
+    "T20": "Resembles",
+    "T21": "Similar",
+    "T22": "Resembles",
+    "T23": "Resembles",
+    "T24": "Similar"
+  },
+  "lifecycle_review": {
+    "create": "Immediate task/prerequisite transaction with required criteria",
+    "select": "atomic claim-next with shared readiness predicate",
+    "claim": "state/lease/agent conditional update",
+    "progress": "mail and recorded criteria; no general checkpoint model",
+    "review": "revisioned criteria, live reviewer lease, all-pass approval guard",
+    "complete": "reviewer decision to Done; generic move cannot finish",
+    "cancel": "release or eligible remove; no interrupted-attempt state",
+    "recover": "expired identity lease, agent removal and transactional full restore; no attempt fencing"
+  },
+  "files": [
+    {
+      "path": "src/db.rs",
+      "sha256": "5ced55404f0ac4566e2d78d632fece62e9935ef33bb130a4063a95b382fe6fd6",
+      "lines": 858,
+      "ranges": [
+        [
+          1,
+          195
+        ],
+        [
+          234,
+          359
+        ]
+      ],
+      "method": "Targeted implementation and test-source inspection; candidate not executed"
+    },
+    {
+      "path": "src/main.rs",
+      "sha256": "937fa10b0a1ff80bdf7cb7f66a3a2a51fa7925f2559fa8fa13843dafa6e3fe66",
+      "lines": 532,
+      "ranges": [
+        [
+          20,
+          57
+        ],
+        [
+          400,
+          525
+        ]
+      ],
+      "method": "Targeted implementation and test-source inspection; candidate not executed"
+    },
+    {
+      "path": "src/commands/agent.rs",
+      "sha256": "f9db055fbc6ab2b234e82e44cedee631694742fb77c210c2220be59973042d3a",
+      "lines": 418,
+      "ranges": [
+        [
+          1,
+          172
+        ]
+      ],
+      "method": "Targeted implementation and test-source inspection; candidate not executed"
+    },
+    {
+      "path": "src/commands/task.rs",
+      "sha256": "1ab734060eea2b724a233d12b7e35a1bbe2c2b0eb6ad65514e723eb3988c9ced",
+      "lines": 1328,
+      "ranges": [
+        [
+          23,
+          108
+        ],
+        [
+          174,
+          265
+        ],
+        [
+          270,
+          405
+        ],
+        [
+          435,
+          487
+        ]
+      ],
+      "method": "Targeted implementation and test-source inspection; candidate not executed"
+    },
+    {
+      "path": "src/commands/lifecycle.rs",
+      "sha256": "ac16daf75d37d60afcb35c2fa1e5f9f7efda0db5aedc3852e94b43d73f81f1cb",
+      "lines": 1559,
+      "ranges": [
+        [
+          1,
+          177
+        ],
+        [
+          245,
+          282
+        ],
+        [
+          300,
+          625
+        ]
+      ],
+      "method": "Targeted implementation and test-source inspection; candidate not executed"
+    },
+    {
+      "path": "src/commands/deps.rs",
+      "sha256": "4632af28961ef8577ccc24c5427a78ba5dc62bd8171de52ffabbe188a5ad15a4",
+      "lines": 311,
+      "ranges": [
+        [
+          1,
+          180
+        ]
+      ],
+      "method": "Targeted implementation and test-source inspection; candidate not executed"
+    },
+    {
+      "path": "src/commands/mail.rs",
+      "sha256": "5f4cea11ab6aa235a80c2200ffaa8eb89a875f99f684c1f5879d53068ee72466",
+      "lines": 236,
+      "ranges": [
+        [
+          1,
+          195
+        ]
+      ],
+      "method": "Targeted implementation and test-source inspection; candidate not executed"
+    },
+    {
+      "path": "src/commands/status.rs",
+      "sha256": "b5551db879a93e6f3cb9fda3fa7cd99c4691dd2ecd296aae3bb405838bd5130c",
+      "lines": 191,
+      "ranges": [
+        [
+          1,
+          80
+        ]
+      ],
+      "method": "Targeted implementation and test-source inspection; candidate not executed"
+    },
+    {
+      "path": "src/commands/wait.rs",
+      "sha256": "c33bf5e7f79c9f19d457fb29c6b0b9ec4cd0b670c476911e9384cec72a0441b6",
+      "lines": 121,
+      "ranges": [
+        [
+          1,
+          54
+        ]
+      ],
+      "method": "Targeted implementation and test-source inspection; candidate not executed"
+    },
+    {
+      "path": "src/commands/view.rs",
+      "sha256": "a82fd3222bc4bce8b89be44bbc2412a09b0e407ae610dfddbbdc9c48e84e9ea6",
+      "lines": 948,
+      "ranges": [
+        [
+          1,
+          175
+        ],
+        [
+          179,
+          265
+        ]
+      ],
+      "method": "Targeted implementation and test-source inspection; candidate not executed"
+    },
+    {
+      "path": "src/commands/full_dump.rs",
+      "sha256": "9ff2f4c49de3c7e478c6d6336b97f3fe70bde7753110c5ac8b03ade0cd74c856",
+      "lines": 1850,
+      "ranges": [
+        [
+          169,
+          261
+        ],
+        [
+          1020,
+          1148
+        ]
+      ],
+      "method": "Targeted implementation and test-source inspection; candidate not executed"
+    },
+    {
+      "path": "tests/claim_race.rs",
+      "sha256": "9a1aae9b02ab5972dec4c953e96f8139fa967b99ec20614f9e97758362310b6d",
+      "lines": 213,
+      "ranges": [
+        [
+          1,
+          125
+        ]
+      ],
+      "method": "Targeted implementation and test-source inspection; candidate not executed"
+    },
+    {
+      "path": "tests/lifecycle.rs",
+      "sha256": "ee89cfa1348affd1bdccebeafbb69ee2a405066518fa7aa7c5f57e9c56779a72",
+      "lines": 1019,
+      "ranges": [
+        [
+          1,
+          100
+        ]
+      ],
+      "method": "Targeted implementation and test-source inspection; candidate not executed"
+    },
+    {
+      "path": "tests/mutation_race.rs",
+      "sha256": "169891a6b1d3b53d98da53dc7808e5d1fca345be0e39041c0c77b41f5d33455a",
+      "lines": 392,
+      "ranges": [
+        [
+          1,
+          82
+        ]
+      ],
+      "method": "Targeted implementation and test-source inspection; candidate not executed"
+    },
+    {
+      "path": "Cargo.toml",
+      "sha256": "b148937f03d71a199915cddfd9c6102d1fbca9531abb5da6838acdc3ab074d86",
+      "lines": 31,
+      "ranges": [
+        [
+          1,
+          31
+        ]
+      ],
+      "method": "Targeted implementation and test-source inspection; candidate not executed"
+    }
+  ]
+}

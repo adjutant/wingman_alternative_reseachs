@@ -38,6 +38,8 @@ The original categories remain in `checkouts.json` as metadata.
 - [Architecture findings](generic/index.html) explain shared mechanisms and decisions.
 - [Method and evidence](generic/method.html) define verdicts and verification limits.
 - [Agent task coordination](generic/task-coordination.html) compares shared trackers, boards, claims and handoffs for agents and subagents.
+- [Agent task management baseline](AGENT_TASK_MANAGEMENT.md) defines the dedicated coordination requirements.
+- [Full task-management source study](task-management/README.md) tracks the deeper codebase assessments. This study is in progress.
 - [Source index](generic/assessments/CHECKOUT_INDEX.md) lists all checkouts and commits.
 - [Feature matrix](generic/assessments/FEATURE_MATRIX.md) provides the complete Markdown comparison.
 
