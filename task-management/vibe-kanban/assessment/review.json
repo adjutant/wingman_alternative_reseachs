@@ -1,0 +1,864 @@
+{
+  "project": "vibe-kanban",
+  "commit": "08064e043c2d78ad123b473257ed867e7ce74768",
+  "baseline": "AGENT_TASK_MANAGEMENT.md",
+  "baseline_sha256": "4dcfe707e292330c65b66c9bbbf4999d90dcf54991adf76ffe82a5efd3eee8a3",
+  "reviewed_on": "2026-11-09",
+  "review_status": "source_review_complete",
+  "scope": "Targeted static local/remote issue and execution architecture, selected issue CRUD/bulk/relation/assignee/schema writers, MCP modes/context/session delegation, local workspace create/link/delete, execution start/monitor/stop/reset/startup recovery, selected approval/queue/log/summary/notification/sync/authentication paths, current retired project UI route and selected mutation hooks, deployment/license declarations and selected unit assertions. Not every-line, full executor/provider/relay/SSH/cryptographic/OAuth/file/preview/terminal/cleanup/all-migrations/security/browser/runtime/scaling certification.",
+  "candidate_executed": false,
+  "candidate_tests_run": false,
+  "requirement_verdicts": {
+    "T01": "Similar",
+    "T02": "Similar",
+    "T03": "Similar",
+    "T04": "Resembles",
+    "T05": "Similar",
+    "T06": "Similar",
+    "T07": "Resembles",
+    "T08": "Resembles",
+    "T09": "Similar",
+    "T10": "Similar",
+    "T11": "Similar",
+    "T12": "Similar",
+    "T13": "Similar",
+    "T14": "Resembles",
+    "T15": "Resembles",
+    "T16": "Similar",
+    "T17": "Similar",
+    "T18": "Similar",
+    "T19": "Resembles",
+    "T20": "Resembles",
+    "T21": "Resembles",
+    "T22": "Similar",
+    "T23": "Similar",
+    "T24": "Resembles"
+  },
+  "lifecycle_review": {
+    "create": "Remote issue SQL creation transaction with optional client UUID/txid; creator follow-up separate. Local workspace record/repos/attachments/session/process and remote link separate commits/effects; link error can follow successful agent launch.",
+    "select": "Structured remote search/status/assignee/parent filters, not authoritative ready selection. Blocking edges and parent pointers are record relationships; selected schema excludes self-links/duplicate edges without dependency cycle or readiness gate.",
+    "claim": "Multiple issue/user memberships and linked workspaces. First-workspace status propagation and empty-assignee default are read-then-write, not exclusive claim/CAS. No issue lease, owner generation or reserved capacity in inspected launch/write paths.",
+    "progress": "Workspace/session/execution/turn/provider session and message IDs distinct; raw JSONL local logs, status, exit codes, last-assistant summaries and before/after HEAD references. Process records created Running before OS spawn; selected pre-spawn errors can leave pending state. Same-workspace sessions share worktrees.",
+    "review": "Orchestrator MCP starts child sessions and inspects IDs but has no durable result join. Approval questions/tool permissions have typed outcomes and timeouts in memory; not task acceptance. Project UI mounts export-only sunset page at pin.",
+    "complete": "OS exit/executor signal drive process status; closed executor channel assumes success. ID-only completion update plus read-before-write stopped check; remote issue/bulk/status sync writers have no expected owner/revision or accepted-child/reviewer/evidence gate. All-linked-PR-merged check also true for no linked PRs in local merge sync.",
+    "cancel": "Local stop marks terminal before cancellation/group kill; failures can persist changed DB status. Workspace stop helper logs errors and HTTP returns success. Deletion running check separate from delete and later cleanup; queued follow-up is single volatile replaceable item discarded on failure/kill.",
+    "recover": "Startup marks remaining Running records Failed rather than reattaching OS process/lease. Follow-up resumes provider IDs; reset validates process/session but reconciles files before best-effort stop and ignores reset outcome before soft-dropping history. Notification/remote sync errors logged outside original transaction; process maps, approvals and queue local/volatile; no durable distributed execution authority established."
+  },
+  "external_sources": [
+    {
+      "url": "https://www.vibekanban.com/blog/shutdown",
+      "title": "Goodbye bloop",
+      "published_on": "2026-04-10",
+      "reviewed_on": "2026-11-09",
+      "reviewed_zero_based_web_ranges": [
+        [
+          0,
+          22
+        ]
+      ],
+      "method": "Primary maintainer announcement read through web tool: community-maintenance transition, hosted remote removal plan and local-workspace continuity. No live service availability test. Separate from pinned candidate source hashes."
+    }
+  ],
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "c82e8bb68b45691cfc3faecc9e937f758ae9482b4d0769e237ca93b34a35d4a8",
+      "lines": 58,
+      "ranges": [
+        [
+          1,
+          58
+        ]
+      ],
+      "method": "Applicable repository instructions read; research-only no-source-change/no-runtime constraints retained."
+    },
+    {
+      "path": "crates/remote/AGENTS.md",
+      "sha256": "807fe48d9d55f50b312499afc007bd108d2bf08313d5a34ea90171106b3c8840",
+      "lines": 178,
+      "ranges": [
+        [
+          1,
+          178
+        ]
+      ],
+      "method": "Applicable repository instructions read; research-only no-source-change/no-runtime constraints retained."
+    },
+    {
+      "path": "packages/local-web/AGENTS.md",
+      "sha256": "7859d9567ab193e701e4e9703a334cab1b7d111d181ebb367002fb053c3ca8b3",
+      "lines": 72,
+      "ranges": [
+        [
+          1,
+          72
+        ]
+      ],
+      "method": "Applicable repository instructions read; research-only no-source-change/no-runtime constraints retained."
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "lines": 201,
+      "ranges": [
+        [
+          1,
+          52
+        ]
+      ],
+      "method": "Pinned license/dependency/deployment declaration inspection; no install/build/deployment tested."
+    },
+    {
+      "path": "Cargo.toml",
+      "sha256": "b4f61a7a63053b246e3029a6672499f8acd350d525057e0e3455f0ef17ee4a95",
+      "lines": 60,
+      "ranges": [
+        [
+          1,
+          60
+        ]
+      ],
+      "method": "Pinned license/dependency/deployment declaration inspection; no install/build/deployment tested."
+    },
+    {
+      "path": "package.json",
+      "sha256": "d44b4d42b55baaf9dba2b0af2468fec28d3ba0b58b60754e4a1cec6e11c0b285",
+      "lines": 69,
+      "ranges": [
+        [
+          1,
+          20
+        ]
+      ],
+      "method": "Pinned license/dependency/deployment declaration inspection; no install/build/deployment tested."
+    },
+    {
+      "path": "crates/remote/Cargo.toml",
+      "sha256": "d9700d9a2930674f9ae8768f2a41fd7c489d5b5487186c35f79cea1b6d085e6c",
+      "lines": 74,
+      "ranges": [
+        [
+          1,
+          65
+        ]
+      ],
+      "method": "Pinned license/dependency/deployment declaration inspection; no install/build/deployment tested."
+    },
+    {
+      "path": "crates/remote/Dockerfile",
+      "sha256": "3decfc2b4b92c29ffa108b9a002681738d2a21afeda0bea982bf0bfc6c184444",
+      "lines": 128,
+      "ranges": [
+        [
+          1,
+          55
+        ],
+        [
+          88,
+          108
+        ]
+      ],
+      "method": "Pinned license/dependency/deployment declaration inspection; no install/build/deployment tested."
+    },
+    {
+      "path": "packages/web-core/src/pages/kanban/ProjectKanban.tsx",
+      "sha256": "4763dbf4f22b59e00dc04c6bfc40ea9436c02e8145f0c2bb428c4f5ab31d0d1a",
+      "lines": 115,
+      "ranges": [
+        [
+          1,
+          115
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "packages/web-core/src/pages/kanban/LocalProjectKanban.tsx",
+      "sha256": "80401951d1cfbed664ac7044a4b0510e2bb6d48c03b71a7200b48fb98c72d9be",
+      "lines": 5,
+      "ranges": [
+        [
+          1,
+          5
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "packages/web-core/src/pages/kanban/ProjectSunsetPage.tsx",
+      "sha256": "22b4c201af34fd3d956d09323b36486039e908f49133d7f0a9581d897bf9fe50",
+      "lines": 63,
+      "ranges": [
+        [
+          1,
+          63
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "packages/local-web/src/routes/_app.projects.$projectId.tsx",
+      "sha256": "9c9068ba1f3571a615281f3fb23be8996109441fc75c5c23a53428461fa6a3eb",
+      "lines": 8,
+      "ranges": [
+        [
+          1,
+          8
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/api-types/src/project.rs",
+      "sha256": "28b1e9ecb5d56d9f7b3ce27dcbf819e352c1fc526ee5c2e50046f442508f27fc",
+      "lines": 66,
+      "ranges": [
+        [
+          1,
+          57
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/api-types/src/issue.rs",
+      "sha256": "ce2182cf8f373be20b66c42186afd496cc80a7c3a77036c5d37eb34498fff962",
+      "lines": 204,
+      "ranges": [
+        [
+          21,
+          163
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/db/src/models/task.rs",
+      "sha256": "1fc973b6a6a1854528dce737e082730211b780c1dc95625670b753cff1d62679",
+      "lines": 58,
+      "ranges": [
+        [
+          1,
+          56
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/db/src/models/workspace.rs",
+      "sha256": "c555218d730f9ddff6d1aa14d392acbbff137ec86c3d0fb979b8e4ecd126ac0f",
+      "lines": 712,
+      "ranges": [
+        [
+          1,
+          135
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/db/src/models/session.rs",
+      "sha256": "9e4cca3a3e4ccaa2702e9a23ebb20abe7979ae362aa6b23f0c2c33a1a4f1b4c7",
+      "lines": 229,
+      "ranges": [
+        [
+          20,
+          42
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/db/src/models/execution_process.rs",
+      "sha256": "2759552f46cc8dde802136529f0fbb728cc160d4fe0f4a4b3d8b3ab7cf332faa",
+      "lines": 682,
+      "ranges": [
+        [
+          1,
+          85
+        ],
+        [
+          383,
+          475
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/db/src/models/coding_agent_turn.rs",
+      "sha256": "3c3b426631ffeaa155fc31491de08498377a3530645f7131c1e5a9d128bcb6b2",
+      "lines": 274,
+      "ranges": [
+        [
+          1,
+          70
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/workspace-manager/src/workspace_manager.rs",
+      "sha256": "7a2d5f8346b3de1afd03d7f6d8bffa7279270731b86264e1c7e0a52eb7fb55c7",
+      "lines": 653,
+      "ranges": [
+        [
+          292,
+          373
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/remote/src/routes/issues.rs",
+      "sha256": "46acebd5dcea92555b4a8602efba7317e104331bbfb446818060079764c54958",
+      "lines": 584,
+      "ranges": [
+        [
+          180,
+          218
+        ],
+        [
+          264,
+          405
+        ],
+        [
+          491,
+          584
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/remote/src/db/issues.rs",
+      "sha256": "eec6d60f06cb2065f4877646c5dc996c8e6b0f7ddea6cb96ce4e720f35739248",
+      "lines": 705,
+      "ranges": [
+        [
+          1,
+          90
+        ],
+        [
+          325,
+          506
+        ],
+        [
+          523,
+          693
+        ],
+        [
+          698,
+          705
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment. Selected unit-test assertion bodies read as source; no tests executed."
+    },
+    {
+      "path": "crates/remote/migrations/20260112000000_remote-projects.sql",
+      "sha256": "2efb7457ad1fb28c8ba49b02733417008bd578c7b5643829fcfb9cce2066401a",
+      "lines": 284,
+      "ranges": [
+        [
+          1,
+          48
+        ],
+        [
+          55,
+          95
+        ],
+        [
+          120,
+          158
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/remote/src/routes/issue_relationships.rs",
+      "sha256": "65f1e90db357cb96db5ec2cae41169103d8a37d708af9f163cafaa53365651b8",
+      "lines": 152,
+      "ranges": [
+        [
+          90,
+          152
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/remote/src/db/issue_relationships.rs",
+      "sha256": "794b68d92b42cac6a50872dad1f204dcea5a3a55ace9b8f5be13cb171a7bf572",
+      "lines": 131,
+      "ranges": [
+        [
+          1,
+          131
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/remote/src/db/issue_assignees.rs",
+      "sha256": "a67b7eda72bf0675e70d7f9931bbe62b7aaec225a754cace3a07627de9d854cf",
+      "lines": 126,
+      "ranges": [
+        [
+          1,
+          126
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/server/src/routes/workspaces/create.rs",
+      "sha256": "33c7884d7bdc1cd8ad3b37b8d3566e81baecd31c3596d78c461304d49f633a78",
+      "lines": 472,
+      "ranges": [
+        [
+          1,
+          90
+        ],
+        [
+          212,
+          345
+        ],
+        [
+          351,
+          388
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment. Selected unit-test assertion bodies read as source; no tests executed."
+    },
+    {
+      "path": "crates/mcp/src/task_server/tools/task_attempts.rs",
+      "sha256": "e93d491ff4d7c3aa3361c6fc25004f58dff94bdada1c10acebbd7fc9d88e20be",
+      "lines": 244,
+      "ranges": [
+        [
+          1,
+          226
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/server/src/routes/workspaces/links.rs",
+      "sha256": "c382664abd162bde2354ddaf29404f8fe6f6434a0b424e072d826643f4045c62",
+      "lines": 116,
+      "ranges": [
+        [
+          24,
+          90
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/remote/src/routes/workspaces.rs",
+      "sha256": "2b0bf77d7b07906f9734fefb53f788e0e5042550050292360cb031dec2d5db81",
+      "lines": 322,
+      "ranges": [
+        [
+          1,
+          104
+        ],
+        [
+          167,
+          192
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/mcp/src/task_server/tools/mod.rs",
+      "sha256": "6e40c3593a51865e3172b00f27c8bacceddb44f50eea57691692d66471515cf2",
+      "lines": 501,
+      "ranges": [
+        [
+          1,
+          170
+        ],
+        [
+          177,
+          285
+        ],
+        [
+          414,
+          438
+        ],
+        [
+          468,
+          483
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment. Selected unit-test assertion bodies read as source; no tests executed."
+    },
+    {
+      "path": "crates/mcp/src/task_server/mod.rs",
+      "sha256": "3b73d712ce4313171009fde34a64a5e98e41997f13025997bffeef4561c83dee",
+      "lines": 245,
+      "ranges": [
+        [
+          1,
+          125
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/mcp/src/task_server/tools/sessions.rs",
+      "sha256": "af40018b6bdf51c4bcfe89cb5f9e584f856b362f7b54817e3e71c30a8ca1e128",
+      "lines": 396,
+      "ranges": [
+        [
+          146,
+          194
+        ],
+        [
+          258,
+          321
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/services/src/services/container.rs",
+      "sha256": "9b2eb1ab913bf3c1852fe59adfd9583b6a55de95486043223b09c0a6dd8c3b54",
+      "lines": 1392,
+      "ranges": [
+        [
+          1,
+          115
+        ],
+        [
+          204,
+          326
+        ],
+        [
+          633,
+          748
+        ],
+        [
+          1047,
+          1255
+        ],
+        [
+          1256,
+          1328
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/local-deployment/src/container.rs",
+      "sha256": "7071ddd2f3eb0b607ec58871be3a01a8db0478786468e7c0b2db286935179e43",
+      "lines": 1647,
+      "ranges": [
+        [
+          69,
+          146
+        ],
+        [
+          480,
+          755
+        ],
+        [
+          857,
+          886
+        ],
+        [
+          897,
+          942
+        ],
+        [
+          1048,
+          1118
+        ],
+        [
+          1316,
+          1479
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/server/src/routes/workspaces/execution.rs",
+      "sha256": "5828a5186f5b1c93c23deda0c33c945547949a1ca65754310e0d500e7d1c98d0",
+      "lines": 288,
+      "ranges": [
+        [
+          139,
+          157
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/server/src/startup.rs",
+      "sha256": "732e0661049e0de78340e3e0b19cb2c87abe575e500eaad3aca2435f8efce387",
+      "lines": 548,
+      "ranges": [
+        [
+          145,
+          177
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/server/src/routes/sessions/mod.rs",
+      "sha256": "3dd3e15ae53fd9b2321411b4971ff33828cd3fb10ea8d2aa937566f2b71c7afd",
+      "lines": 332,
+      "ranges": [
+        [
+          65,
+          92
+        ],
+        [
+          124,
+          235
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/git/src/lib.rs",
+      "sha256": "9db127fe7143debcb62fec4c29d1fba04f4c2c844aa8462bdfb4e176b89f8fd7",
+      "lines": 1722,
+      "ranges": [
+        [
+          892,
+          947
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/server/src/routes/workspaces/core.rs",
+      "sha256": "0f251687e4519d2692191546a80175f49d18c046440951d51dc4bcb9b148740a",
+      "lines": 193,
+      "ranges": [
+        [
+          99,
+          185
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/services/src/services/approvals.rs",
+      "sha256": "3c32da5997d4940fc557c2bbe600d6598e9508c1abee6c8ccbeae560f1dc7949",
+      "lines": 291,
+      "ranges": [
+        [
+          1,
+          258
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/services/src/services/approvals/executor_approvals.rs",
+      "sha256": "09a8042c814fe3e899831d26381624d51e3941b05b4713472c64d6d2c839be0a",
+      "lines": 179,
+      "ranges": [
+        [
+          1,
+          149
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/services/src/services/queued_message.rs",
+      "sha256": "c7cc34f0e295186c3eb34d87793ebe02d30f43f4963c951c5b36be3654651de3",
+      "lines": 90,
+      "ranges": [
+        [
+          1,
+          90
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/services/src/services/execution_process.rs",
+      "sha256": "3c74739773cbb24d0f3112bd3abf50f0f4f10a06538bfe41d2a8c83a4a27235c",
+      "lines": 407,
+      "ranges": [
+        [
+          1,
+          110
+        ],
+        [
+          241,
+          306
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/services/src/services/remote_sync.rs",
+      "sha256": "5fc9a71251b8acade5d1320808f42047846b32c3e0da9321cfc62496285ff072",
+      "lines": 222,
+      "ranges": [
+        [
+          1,
+          108
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/remote/src/notifications.rs",
+      "sha256": "ae3ba7755e8ca82be5a5b55a0937fbe4e62634e6d7e55ed3e2bbd6a76f3fff92",
+      "lines": 202,
+      "ranges": [
+        [
+          45,
+          83
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "packages/web-core/src/shared/lib/electric/collections.ts",
+      "sha256": "9caaf8bffe656dbb47fb32dccbe3b613489db16b7dc1e89d6f76bcba382080d9",
+      "lines": 822,
+      "ranges": [
+        [
+          1,
+          95
+        ],
+        [
+          627,
+          724
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/remote/src/db/mod.rs",
+      "sha256": "5017d2ef9c748c208f41f3406b2abd006ff4a10e614ac9113e8bbcdfc9937382",
+      "lines": 115,
+      "ranges": [
+        [
+          41,
+          85
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/remote/src/routes/mod.rs",
+      "sha256": "8e0b58427e84dce352d1afc012cabd3fd74c829cbcfe1436cce682283d8eb889",
+      "lines": 201,
+      "ranges": [
+        [
+          1,
+          151
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/remote/src/auth/middleware.rs",
+      "sha256": "8c2296edf299ab7f7c64ba6c8d76032c4cb106285fe0fb35585d0fab69bfac5c",
+      "lines": 172,
+      "ranges": [
+        [
+          1,
+          95
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/remote/src/routes/organization_members.rs",
+      "sha256": "8da5a8de1fb0c708fd69c4d72e5f91ac4c596de2d74867cfe8ef9109d774d93f",
+      "lines": 715,
+      "ranges": [
+        [
+          604,
+          648
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/server/src/main.rs",
+      "sha256": "d21dad4f57de16b40e9972f754d29fe2ab0de3425a979d736ca6738ed9826b76",
+      "lines": 205,
+      "ranges": [
+        [
+          55,
+          84
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/server/src/middleware/origin.rs",
+      "sha256": "1ec96c1cba5be4d1c34df420ebebda08c8ea93a889e2f7500644c1b509f94a31",
+      "lines": 260,
+      "ranges": [
+        [
+          1,
+          80
+        ],
+        [
+          81,
+          130
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/server/src/middleware/relay_request_signature.rs",
+      "sha256": "0f29bbea2ca7c8cf7c31d81ee0b246417b4e246155b448ea626daf9863321100",
+      "lines": 300,
+      "ranges": [
+        [
+          1,
+          75
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/server/src/routes/mod.rs",
+      "sha256": "eda48568b6c233e8622bf6d49e83bdc8898cc6e45d978ff2b746f4d57e0b4102",
+      "lines": 86,
+      "ranges": [
+        [
+          1,
+          86
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/remote/src/audit/mod.rs",
+      "sha256": "936ba922542c4104db9cde0b89e3438b593d4e393d5410e77413c8a7c51593d4",
+      "lines": 132,
+      "ranges": [
+        [
+          1,
+          132
+        ]
+      ],
+      "method": "Targeted static model/control-flow/persistence/permission/interface review; selected cited bodies and ranges inspected, not an every-line audit or runtime experiment."
+    },
+    {
+      "path": "crates/remote/docker-compose.yml",
+      "sha256": "40d9cf18843c12c5842aec700c1aecabbaf93a3f74d2b3cf3fee623d82da5ed8",
+      "lines": 185,
+      "ranges": [
+        [
+          1,
+          80
+        ]
+      ],
+      "method": "Pinned license/dependency/deployment declaration inspection; no install/build/deployment tested."
+    }
+  ]
+}

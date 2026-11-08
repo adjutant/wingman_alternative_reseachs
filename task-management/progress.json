@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-08T19:06:44.316685+00:00",
+  "checked_at": "2026-11-08T19:18:53.009537+00:00",
   "scope": "Checkout preservation, materialization, baseline/requirement coverage, source evidence hashes and local links. Not a semantic or runtime audit.",
   "required_repository_count": 25,
   "checkout_count": 25,
@@ -20,6 +20,7 @@
     "plane-mcp",
     "planka",
     "rhizome-mcp",
+    "vibe-kanban",
     "vikunja"
   ],
   "assessments_remaining": [
@@ -30,8 +31,7 @@
     "plane",
     "taiga",
     "taiga-front",
-    "task-master",
-    "vibe-kanban"
+    "task-master"
   ],
   "required_complete_gate": false,
   "issues": [],
