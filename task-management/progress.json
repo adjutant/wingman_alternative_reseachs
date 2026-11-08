@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-08T17:11:33.922014+00:00",
+  "checked_at": "2026-11-08T17:22:53.248432+00:00",
   "scope": "Checkout preservation, materialization, baseline/requirement coverage, source evidence hashes and local links. Not a semantic or runtime audit.",
   "required_repository_count": 25,
   "checkout_count": 25,
@@ -7,6 +7,7 @@
   "assessments_complete": [
     "agent-hq",
     "agent-kanban-rs",
+    "backlog-md",
     "devboard",
     "muster",
     "plane-mcp",
@@ -16,7 +17,6 @@
     "agent-mail-python",
     "agent-mail-rust",
     "agent-swarm",
-    "backlog-md",
     "beads",
     "beads-rust",
     "beads-viewer",

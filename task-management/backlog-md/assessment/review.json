@@ -1,0 +1,509 @@
+{
+  "project": "backlog-md",
+  "commit": "3a296c0f6f949b31e458b849b9617702c56c1023",
+  "baseline": "AGENT_TASK_MANAGEMENT.md",
+  "baseline_sha256": "4dcfe707e292330c65b66c9bbbf4999d90dcf54991adf76ffe82a5efd3eee8a3",
+  "reviewed_on": "2026-11-09",
+  "review_status": "source_review_complete",
+  "scope": "Full tracked local checkout; targeted static review of task model, create/edit/board/archive/delete/restore paths, dependency validation and readiness, local locks and Git/worktree boundaries, MCP/HTTP interfaces, browser refresh/focus controls, package launcher and selected test assertion bodies. Not an every-line audit, full watcher audit or runtime certification.",
+  "candidate_executed": false,
+  "candidate_tests_run": false,
+  "requirement_verdicts": {
+    "T01": "Similar",
+    "T02": "Similar",
+    "T03": "Similar",
+    "T04": "Similar",
+    "T05": "Absent",
+    "T06": "Similar",
+    "T07": "Absent",
+    "T08": "Resembles",
+    "T09": "Resembles",
+    "T10": "Similar",
+    "T11": "Similar",
+    "T12": "Resembles",
+    "T13": "Resembles",
+    "T14": "Absent",
+    "T15": "Absent",
+    "T16": "Resembles",
+    "T17": "Resembles",
+    "T18": "Resembles",
+    "T19": "Similar",
+    "T20": "Similar",
+    "T21": "Resembles",
+    "T22": "Resembles",
+    "T23": "Similar",
+    "T24": "Similar"
+  },
+  "lifecycle_review": {
+    "create": "Allocator lock, occupied identity scan including sibling worktrees, parent/dependency validation, exclusive filename write, separate Git finalization with ownership-aware rollback",
+    "select": "Shared full-corpus readiness and graph projection; unresolved/ambiguous dependencies fail closed; configured final status defines completion",
+    "claim": "No execution claim; editable assignee lists and short mutation locks do not reserve worker ownership",
+    "progress": "Canonical patch rereads under per-task lock; notes, checklists, comments and summary are mutable task content; board bulk writes instead use pre-lock full snapshots",
+    "review": "Structured AC and DoD records without independent reviewer identity, evidence revision binding or enforced acceptance gate",
+    "complete": "Canonical status edit or public board move; no readiness, children, checklist or review gate in these paths; post-save callback does not veto transition",
+    "cancel": "Any-status archive and restore preserve record identity/status; archived-only deletion refuses children, rewrites references and may release ID; no worker process cancellation",
+    "recover": "Durable files, stale edit-lock handling and moved/deleted-but-not-committed errors aid manual recovery; no attempt lease/fencing/resume protocol; multi-file and Git stages are not one transaction"
+  },
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "0d193bf3891808e996fe3f8733242d9c1b55e2c63460fbdf4e02beb9a8fdeed9",
+      "lines": 223,
+      "ranges": [
+        [
+          1,
+          223
+        ]
+      ],
+      "method": "Instructions, design intent, license or package metadata inspection; claims checked against implementation"
+    },
+    {
+      "path": "MANIFESTO.md",
+      "sha256": "7e6c40d5eb3be6a2647351e4248c799f583fb2b9c8950795b2054d2a2e7c4bef",
+      "lines": 129,
+      "ranges": [
+        [
+          1,
+          129
+        ]
+      ],
+      "method": "Instructions, design intent, license or package metadata inspection; claims checked against implementation"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "2039a3f558949ff32ce20b9a5a1dd36d01e5a7716a35dc0d0b7400bf68a1136e",
+      "lines": 21,
+      "ranges": [
+        [
+          1,
+          21
+        ]
+      ],
+      "method": "Instructions, design intent, license or package metadata inspection; claims checked against implementation"
+    },
+    {
+      "path": "package.json",
+      "sha256": "bca18549f6d184787f480e685565ea82620f82683bf22676843e56f3a1f1611f",
+      "lines": 108,
+      "ranges": [
+        [
+          1,
+          90
+        ]
+      ],
+      "method": "Instructions, design intent, license or package metadata inspection; claims checked against implementation"
+    },
+    {
+      "path": "src/types/index.ts",
+      "sha256": "75fd82ef5cc7a49a5141cd75796ab23d210fe27d663a073cfc57c1afc5a8f02d",
+      "lines": 447,
+      "ranges": [
+        [
+          1,
+          118
+        ]
+      ],
+      "method": "Task/domain field inventory; no inference of execution authority from editable metadata"
+    },
+    {
+      "path": "src/core/backlog.ts",
+      "sha256": "cebdd39de64cd53eb86fc9e556d17b811ef657fd5a029e9cc74f1ee813a433e8",
+      "lines": 5401,
+      "ranges": [
+        [
+          378,
+          382
+        ],
+        [
+          1254,
+          1324
+        ],
+        [
+          1978,
+          2095
+        ],
+        [
+          2202,
+          2379
+        ],
+        [
+          2413,
+          2538
+        ],
+        [
+          2540,
+          2575
+        ],
+        [
+          2585,
+          2660
+        ],
+        [
+          3053,
+          3149
+        ],
+        [
+          3340,
+          3464
+        ],
+        [
+          3505,
+          3579
+        ],
+        [
+          3750,
+          3796
+        ],
+        [
+          3813,
+          3855
+        ],
+        [
+          3866,
+          3948
+        ]
+      ],
+      "method": "Targeted implementation/body inspection; candidate not executed"
+    },
+    {
+      "path": "src/file-system/operations.ts",
+      "sha256": "e17efc32f7837841a0dc26789f40ae129688a7dbdd0655b455656b38c9200fa9",
+      "lines": 2583,
+      "ranges": [
+        [
+          700,
+          1020
+        ]
+      ],
+      "method": "Targeted implementation/body inspection; candidate not executed"
+    },
+    {
+      "path": "src/core/task-detail.ts",
+      "sha256": "62ebfee75a0ce29e88aaaf9bed8d42bcc3d3d3810c16e899e6d69c08523c3ece",
+      "lines": 151,
+      "ranges": [
+        [
+          1,
+          145
+        ]
+      ],
+      "method": "Targeted implementation/body inspection; candidate not executed"
+    },
+    {
+      "path": "src/core/content-store.ts",
+      "sha256": "660e3369593cf48969379a15926b30cb543a7ed2e615d8c4d80acec45f8fa1e1",
+      "lines": 2144,
+      "ranges": [
+        [
+          1,
+          170
+        ]
+      ],
+      "method": "Targeted implementation/body inspection; candidate not executed"
+    },
+    {
+      "path": "src/core/search-service.ts",
+      "sha256": "5709abf44351db363c210e2be9f1c81b8beed53cc299dc9b739aec134473e1ce",
+      "lines": 277,
+      "ranges": [
+        [
+          1,
+          115
+        ]
+      ],
+      "method": "Targeted implementation/body inspection; candidate not executed"
+    },
+    {
+      "path": "src/core/cross-branch-tasks.ts",
+      "sha256": "56248692c3ff6b7cc805c3d196934bd55d60860596982a247e56a1f001f314e6",
+      "lines": 261,
+      "ranges": [
+        [
+          1,
+          100
+        ]
+      ],
+      "method": "Targeted implementation/body inspection; candidate not executed"
+    },
+    {
+      "path": "src/utils/task-builders.ts",
+      "sha256": "f53a5d6f4224f534873a2c2efa5dc14407d901d3dcb8dbd7f3b48692c318b490",
+      "lines": 310,
+      "ranges": [
+        [
+          1,
+          210
+        ]
+      ],
+      "method": "Targeted implementation/body inspection; candidate not executed"
+    },
+    {
+      "path": "src/utils/dependency-graph.ts",
+      "sha256": "0aa80ca2bbe0093f828180e4c13744448cd976b6fc95a777990bbd914336d847",
+      "lines": 339,
+      "ranges": [
+        [
+          1,
+          165
+        ]
+      ],
+      "method": "Targeted implementation/body inspection; candidate not executed"
+    },
+    {
+      "path": "src/utils/task-record-index.ts",
+      "sha256": "ec2335a240a51312c23223f7369dac558bb2a68cd988307568266258ddb5156b",
+      "lines": 92,
+      "ranges": [
+        [
+          1,
+          92
+        ]
+      ],
+      "method": "Targeted implementation/body inspection; candidate not executed"
+    },
+    {
+      "path": "src/utils/terminal-status.ts",
+      "sha256": "077c40e0adc6b3c42a876f6b40d098252288e4d8911d1201d703353c00afe942",
+      "lines": 16,
+      "ranges": [
+        [
+          1,
+          16
+        ]
+      ],
+      "method": "Targeted implementation/body inspection; candidate not executed"
+    },
+    {
+      "path": "src/utils/readiness.ts",
+      "sha256": "f0e9f0b29a6367bc22d1d1bc2ce601c9a3d87e1210e3a4c3ccfad7fe5592add9",
+      "lines": 121,
+      "ranges": [
+        [
+          1,
+          121
+        ]
+      ],
+      "method": "Targeted implementation/body inspection; candidate not executed"
+    },
+    {
+      "path": "src/utils/status-callback.ts",
+      "sha256": "5510a14f77bb0b4e75f107653ed12710149f8154df34aa1b7c9900aa93ecc14d",
+      "lines": 69,
+      "ranges": [
+        [
+          1,
+          69
+        ]
+      ],
+      "method": "Targeted implementation/body inspection; candidate not executed"
+    },
+    {
+      "path": "src/commands/mcp.ts",
+      "sha256": "ece543dc1430c28ca3dc52a9405a0981f79f6eb9166a4d2d802345792df19cfe",
+      "lines": 113,
+      "ranges": [
+        [
+          1,
+          85
+        ]
+      ],
+      "method": "Targeted implementation/body inspection; candidate not executed"
+    },
+    {
+      "path": "src/mcp/tools/tasks/index.ts",
+      "sha256": "8c21567298305849873900ab44391b262ca4e17d0bf6e2c83198d22793351cd7",
+      "lines": 132,
+      "ranges": [
+        [
+          1,
+          132
+        ]
+      ],
+      "method": "Targeted implementation/body inspection; candidate not executed"
+    },
+    {
+      "path": "src/mcp/tools/tasks/handlers.ts",
+      "sha256": "ad8dd13002c149f6c0d5ca07ac70aecd08e64b467d32982c2d56f27895dfe540",
+      "lines": 521,
+      "ranges": [
+        [
+          1,
+          145
+        ],
+        [
+          249,
+          252
+        ],
+        [
+          492,
+          512
+        ]
+      ],
+      "method": "Targeted implementation/body inspection; candidate not executed"
+    },
+    {
+      "path": "src/server/index.ts",
+      "sha256": "772a42036ae6235839a9da3b1a02cabd94fef8e0a85b3f19d1e60cf03486a97f",
+      "lines": 2128,
+      "ranges": [
+        [
+          220,
+          225
+        ],
+        [
+          391,
+          438
+        ],
+        [
+          1100,
+          1237
+        ],
+        [
+          1826,
+          1916
+        ]
+      ],
+      "method": "Targeted implementation/body inspection; candidate not executed"
+    },
+    {
+      "path": "src/web/App.tsx",
+      "sha256": "3b772af1e166d3195d6fffe18a9cf11843d249425177137ec4264fd4d947080b",
+      "lines": 1126,
+      "ranges": [
+        [
+          470,
+          490
+        ],
+        [
+          780,
+          855
+        ]
+      ],
+      "method": "Targeted implementation/body inspection; candidate not executed"
+    },
+    {
+      "path": "src/web/hooks/useHealthCheck.tsx",
+      "sha256": "166cf6cddb886c3775e2d075f8234ca4cded76334f0b794ede20e67e808a4501",
+      "lines": 103,
+      "ranges": [
+        [
+          1,
+          103
+        ]
+      ],
+      "method": "Targeted implementation/body inspection; candidate not executed"
+    },
+    {
+      "path": "src/web/components/Modal.tsx",
+      "sha256": "bc059cc5fadd30211b5d67875b62fbf01760af0a2741a33ab32e5de78d6bec6c",
+      "lines": 147,
+      "ranges": [
+        [
+          1,
+          145
+        ]
+      ],
+      "method": "Targeted implementation/body inspection; candidate not executed"
+    },
+    {
+      "path": "src/web/components/BoardPage.tsx",
+      "sha256": "17d9f9e855210ad73d2d6b620f887145feedc7a005fe01f9c56e577842f86b8b",
+      "lines": 225,
+      "ranges": [
+        [
+          1,
+          130
+        ]
+      ],
+      "method": "Targeted implementation/body inspection; candidate not executed"
+    },
+    {
+      "path": "scripts/cli.cjs",
+      "sha256": "cd077eb9d8ef9e9337c23eaf18a392139cff5efc69ddccf778aa5d7e343dc235",
+      "lines": 125,
+      "ranges": [
+        [
+          1,
+          125
+        ]
+      ],
+      "method": "Targeted implementation/body inspection; candidate not executed"
+    },
+    {
+      "path": "src/test/atomic-task-edit.test.ts",
+      "sha256": "e5fd60f231e8215362b58a9a0efab9bf7449dff94a1cc7e523caab8dc61f686e",
+      "lines": 403,
+      "ranges": [
+        [
+          1,
+          130
+        ],
+        [
+          221,
+          356
+        ]
+      ],
+      "method": "Selected fixture and assertion-body inspection only; candidate tests not run"
+    },
+    {
+      "path": "src/test/atomic-task-create.test.ts",
+      "sha256": "087ceeb9df02c28a64411ba57ca6f805ee3b1f2cdcae59ac3ef3522daf1ce607",
+      "lines": 283,
+      "ranges": [
+        [
+          1,
+          185
+        ]
+      ],
+      "method": "Selected fixture and assertion-body inspection only; candidate tests not run"
+    },
+    {
+      "path": "src/test/readiness.test.tsx",
+      "sha256": "820b8ecc1b46718dee70bb606e8474e44b8053e41dd2c129a0bb63d5f90a78d0",
+      "lines": 363,
+      "ranges": [
+        [
+          1,
+          180
+        ]
+      ],
+      "method": "Selected fixture and assertion-body inspection only; candidate tests not run"
+    },
+    {
+      "path": "src/test/dependency.test.ts",
+      "sha256": "d3e6727ad076575a0ab780220754d266f4cbb3ea60792c641892e7f405121693",
+      "lines": 658,
+      "ranges": [
+        [
+          448,
+          490
+        ]
+      ],
+      "method": "Selected fixture and assertion-body inspection only; candidate tests not run"
+    },
+    {
+      "path": "src/test/worktree-task-id-allocation.test.ts",
+      "sha256": "a1503f4ab88d3dc1843a330ed17b34f3f4b1fd7712e6b0ddc2620af4f3b4b44f",
+      "lines": 184,
+      "ranges": [
+        [
+          124,
+          163
+        ]
+      ],
+      "method": "Selected fixture and assertion-body inspection only; candidate tests not run"
+    },
+    {
+      "path": "src/test/server-reorder-publication.test.ts",
+      "sha256": "4c48833bd1537b0732ce12d2b0b077edf8fb958ecceeff5c70d96f541885eb92",
+      "lines": 126,
+      "ranges": [
+        [
+          1,
+          126
+        ]
+      ],
+      "method": "Selected fixture and assertion-body inspection only; candidate tests not run"
+    }
+  ]
+}
