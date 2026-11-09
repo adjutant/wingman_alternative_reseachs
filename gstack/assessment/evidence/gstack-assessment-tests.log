@@ -75,7 +75,7 @@ test/office-hours-review.test.ts:
 217 |       const second = JSON.parse(String(run('prepare', '--design', design, '--out-dir', outDir, first.verdictPath).stdout));
                                 ^
 SyntaxError: JSON Parse error: Unexpected EOF
-      at <anonymous> (/Users/stk/tmp/gstack/test/office-hours-review.test.ts:217:27)
+      at <anonymous> (gstack/repo/test/office-hours-review.test.ts:217:27)
 (fail) office-hours delta re-review > prepare, seal and check enforce citations against the snapshots prepare captured [42.98ms]
 (pass) office-hours caller round limit > --max-rounds lowers the cap; reaching it stops at MAX_ITERATIONS with the usual dispositions [0.31ms]
 261 |       fs.mkdirSync(outDir);
@@ -86,7 +86,7 @@ SyntaxError: JSON Parse error: Unexpected EOF
 266 |       const second = JSON.parse(String(run('prepare', '--max-rounds', '2', '--design', design, '--out-dir', outDir, first.verdictPath).stdout));
                                 ^
 SyntaxError: JSON Parse error: Unexpected EOF
-      at <anonymous> (/Users/stk/tmp/gstack/test/office-hours-review.test.ts:266:27)
+      at <anonymous> (gstack/repo/test/office-hours-review.test.ts:266:27)
 (fail) office-hours caller round limit > the helper applies the same limit to prepare, seal, check and finalize [28.68ms]
 (pass) office-hours lifecycle and deterministic preservation > convergence precedes further editing even when another finding is new [0.23ms]
 (pass) office-hours lifecycle and deterministic preservation > unverified stays unresolved without triggering convergence; round 3 still stops [0.11ms]
@@ -125,11 +125,11 @@ You checked the evidence. [0.03ms]
                                        ^
 error: expect(received).toBe(expected)
 
-Expected: "/tmp/office-review-uKITHN/reviews/round-1.json"
-Received: "/private/tmp/office-review-uKITHN/reviews/round-1.json"
+Expected: "<temp-root>/office-review-uKITHN/reviews/round-1.json"
+Received: "<resolved-temp-root>/office-review-uKITHN/reviews/round-1.json"
 
-      at <anonymous> (/Users/stk/tmp/gstack/test/office-hours-review.test.ts:467:34)
-      at fixture (/Users/stk/tmp/gstack/test/office-hours-review.test.ts:442:7)
+      at <anonymous> (gstack/repo/test/office-hours-review.test.ts:467:34)
+      at fixture (gstack/repo/test/office-hours-review.test.ts:442:7)
 (fail) office-hours review CLI > prepare assigns rounds and writes the complete canonical prompt without rewriting input evidence [16.18ms]
 (pass) office-hours review CLI > seal validates the saved verdict and prints the receipt that check requires [490.87ms]
 (pass) office-hours review CLI > prepare refuses stale output, malformed or terminal history, and incomplete ordered history [69.81ms]
@@ -152,10 +152,10 @@ test/autoplan-checkpoint.test.ts:
                                    ^
 error: expect(received).toBe(expected)
 
-Expected: "/tmp/autoplan-checkpoint-PSsmws/roundtrip/second/run/plan-active.md"
-Received: "/private/tmp/autoplan-checkpoint-PSsmws/roundtrip/run/plan-active.md"
+Expected: "<temp-root>/autoplan-checkpoint-PSsmws/roundtrip/second/run/plan-active.md"
+Received: "<resolved-temp-root>/autoplan-checkpoint-PSsmws/roundtrip/run/plan-active.md"
 
-      at <anonymous> (/Users/stk/tmp/gstack/test/autoplan-checkpoint.test.ts:76:31)
+      at <anonymous> (gstack/repo/test/autoplan-checkpoint.test.ts:76:31)
 (fail) checkpoint and restore > write at gate_pending, delete the run and the plan file, restore twice, answer, revise and export: validate passes [863.38ms]
 (pass) checkpoint and restore > `checkpoints` lists every generation; a corrupt newest is skipped for the newest valid; an interrupted publish keeps the previous current [1008.22ms]
 (pass) checkpoint and restore > a stale copy never replaces a newer generation [1163.21ms]
@@ -166,13 +166,13 @@ Received: "/private/tmp/autoplan-checkpoint-PSsmws/roundtrip/run/plan-active.md"
 135 |     const same = autoplan(['export', '--out', live], { env: env({ GSTACK_AUTOPLAN_CHECKPOINT_DIR: root }) });
 136 |     expect(same.status, same.stderr).toBe(0);
                                            ^
-error: gstack-autoplan export: ENOENT: no such file or directory, open '/private/tmp/autoplan-checkpoint-PSsmws/overlap/run/plan-active.md'
+error: gstack-autoplan export: ENOENT: no such file or directory, open '<resolved-temp-root>/autoplan-checkpoint-PSsmws/overlap/run/plan-active.md'
 
 
 Expected: 0
 Received: 1
 
-      at <anonymous> (/Users/stk/tmp/gstack/test/autoplan-checkpoint.test.ts:136:38)
+      at <anonymous> (gstack/repo/test/autoplan-checkpoint.test.ts:136:38)
 (fail) checkpoint and restore > a checkpoint directory that is, contains or aliases the live run is refused before anything moves; the command still succeeds [860.62ms]
 (pass) checkpoint and restore > tampered, escaping, symlink-escaping and non-validating checkpoints and a non-empty target are refused and write nothing [891.53ms]
 

@@ -1,8 +1,8 @@
-// Relocated copy: import paths only; original retained beside this file.
-import { closeDb, initDb, createAgent, createChannel, postMessage, getMentionsForAgent, updateReadState, claimMentions, getUnreadMessages, getDbClient, createTaskExtended, startTask, getSteeringMessageById, markSteeringDelivered, completeTask } from '../../../alternatives/standing-teams/agent-swarm/src/be/db.ts';
-import { requestSteering } from '../../../alternatives/standing-teams/agent-swarm/src/be/steering.ts';
-import { registerReadMessagesTool } from '../../../alternatives/standing-teams/agent-swarm/src/tools/read-messages.ts';
-import { registerCreateChannelTool } from '../../../alternatives/standing-teams/agent-swarm/src/tools/create-channel.ts';
+// Repository-relative copy; historical runs were not repeated after path normalization.
+import { closeDb, initDb, createAgent, createChannel, postMessage, getMentionsForAgent, updateReadState, claimMentions, getUnreadMessages, getDbClient, createTaskExtended, startTask, getSteeringMessageById, markSteeringDelivered, completeTask } from '../../repo/src/be/db.ts';
+import { requestSteering } from '../../repo/src/be/steering.ts';
+import { registerReadMessagesTool } from '../../repo/src/tools/read-messages.ts';
+import { registerCreateChannelTool } from '../../repo/src/tools/create-channel.ts';
 initDb(':memory:');
 const reader = await createAgent({ name: 'probe-reader', isLead: false, status: 'idle', harnessProvider: 'codex', maxTasks: 10 });
 const sender = await createAgent({ name: 'probe-sender', isLead: false, status: 'idle' });

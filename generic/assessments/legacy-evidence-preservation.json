@@ -1,75 +1,89 @@
 {
-  "scope": "Raw selected legacy evidence preserved without content changes. Historical paths inside raw artifacts remain unchanged.",
+  "scope": "Selected historical evidence. Original and current hashes distinguish path-normalized presentations from unchanged bytes. No candidate tests were rerun.",
   "files": [
     {
       "path": "orca/assessment/evidence/orca-assessment.mjs",
-      "sha256": "469c5dc659ee7ed7ee16cd401893d9fcc9b545d2353db72e93427cdcaef80ecd",
-      "matches_original": true
+      "sha256": "4af225d29fb18257b1c12aff1454b90d409a955450fc1a23e43a5e03b10276e0",
+      "matches_original": false,
+      "original_sha256": "469c5dc659ee7ed7ee16cd401893d9fcc9b545d2353db72e93427cdcaef80ecd"
     },
     {
       "path": "orca/assessment/evidence/orca-communication-audit.mjs",
-      "sha256": "eda38e8909ea70fdfc882cf8ca759f63472855bd6c96bccd1f54e128b230228c",
-      "matches_original": true
+      "sha256": "2a1165ca136267f6e2ee3032235724c451dbfd2ca79bc4526af6726888f5daed",
+      "matches_original": false,
+      "original_sha256": "eda38e8909ea70fdfc882cf8ca759f63472855bd6c96bccd1f54e128b230228c"
     },
     {
       "path": "orca/assessment/evidence/orca-communication-exports.ts",
-      "sha256": "e47af7188eabbe1b5e6146bb243cb894095ffc93ec380b3367a51e9539f031d9",
-      "matches_original": true
+      "sha256": "d5f65e29c08697785ca18da62bfa23890ec8700895d3eea8a2724acb4beed6f5",
+      "matches_original": false,
+      "original_sha256": "e47af7188eabbe1b5e6146bb243cb894095ffc93ec380b3367a51e9539f031d9"
     },
     {
       "path": "orca/assessment/evidence/orca-communication-tests.mjs",
       "sha256": "3c18d69e624ad93a003db75ee86893f25fee97d08597e7812e32594dafb46a7b",
-      "matches_original": true
+      "matches_original": true,
+      "original_sha256": "3c18d69e624ad93a003db75ee86893f25fee97d08597e7812e32594dafb46a7b"
     },
     {
       "path": "orca/assessment/evidence/orca-orchestration-audit.mjs",
-      "sha256": "8c9ce320f653f261ecfc8e1d2964081b3487d1b791f22ab46726641233b64c5a",
-      "matches_original": true
+      "sha256": "0868cc373bb9999e206a2703e975e89587fee170386a76a7c8ee1832bb78a77a",
+      "matches_original": false,
+      "original_sha256": "8c9ce320f653f261ecfc8e1d2964081b3487d1b791f22ab46726641233b64c5a"
     },
     {
       "path": "orca/assessment/evidence/relocated-assessment-tests.log",
       "sha256": "d22a36b679a3dae7b1ab88c3a7e256869f5693e4bae5c056dc7b7690eb32fbd9",
-      "matches_original": true
+      "matches_original": true,
+      "original_sha256": "d22a36b679a3dae7b1ab88c3a7e256869f5693e4bae5c056dc7b7690eb32fbd9"
     },
     {
       "path": "agent-swarm/assessment/evidence/agent-swarm-assessment-tests.log",
       "sha256": "77b309db9291f6e164994c2a177f954cd995af71f8ed2f2312c50f0f99311134",
-      "matches_original": true
+      "matches_original": true,
+      "original_sha256": "77b309db9291f6e164994c2a177f954cd995af71f8ed2f2312c50f0f99311134"
     },
     {
       "path": "agent-swarm/assessment/evidence/agent-swarm-communication-probe.log",
       "sha256": "d7bd8138f2016deb10e4faaccca0f509e75a4e940524f02a698cbca2dbe44d4b",
-      "matches_original": true
+      "matches_original": true,
+      "original_sha256": "d7bd8138f2016deb10e4faaccca0f509e75a4e940524f02a698cbca2dbe44d4b"
     },
     {
       "path": "agent-swarm/assessment/evidence/agent-swarm-communication-probe.relocated.ts",
-      "sha256": "5a4057fd995a50ae156b134588f274133f821ad20456463ef5302d5dd327ab08",
-      "matches_original": true
+      "sha256": "ed5f538e6f0d3b76db4e2a4fe9e652c34eb5c5cb45e81c32e44050278f88a9a8",
+      "matches_original": false,
+      "original_sha256": "5a4057fd995a50ae156b134588f274133f821ad20456463ef5302d5dd327ab08"
     },
     {
       "path": "agent-swarm/assessment/evidence/agent-swarm-communication-probe.ts",
-      "sha256": "29af5d16ba3fe9868a6116a60b4a45fc0cd7de57ab9f76fe9700fa073b6f4138",
-      "matches_original": true
+      "sha256": "a59e7474a33c933cc2b3003cc89f45ad5aa1ea71ddefdb837e798de4bf797fb1",
+      "matches_original": false,
+      "original_sha256": "29af5d16ba3fe9868a6116a60b4a45fc0cd7de57ab9f76fe9700fa073b6f4138"
     },
     {
       "path": "agent-swarm/assessment/evidence/relocated-probe-preflight.log",
-      "sha256": "9d718487438e2c9011f99b971b0cfc5e776a82440fbc5633c38aec6c059d18ef",
-      "matches_original": true
+      "sha256": "685815e14a2c57de57de9b16f17ff7e1c730e7b4dada048d8ed3f25eabc08f11",
+      "matches_original": false,
+      "original_sha256": "9d718487438e2c9011f99b971b0cfc5e776a82440fbc5633c38aec6c059d18ef"
     },
     {
       "path": "agent-swarm/assessment/evidence/relocated-probe.log",
       "sha256": "aa7f4c42b498fc0ac7e8439e1b3d394c5d8b75d854afca1fcdc3e8d326cf4f3b",
-      "matches_original": true
+      "matches_original": true,
+      "original_sha256": "aa7f4c42b498fc0ac7e8439e1b3d394c5d8b75d854afca1fcdc3e8d326cf4f3b"
     },
     {
       "path": "gstack/assessment/evidence/gstack-assessment-canonical-path-tests.log",
       "sha256": "4bb8de4a36728de5db656baea6e62765d5ac06916200936d42a35e7b36e5be28",
-      "matches_original": true
+      "matches_original": true,
+      "original_sha256": "4bb8de4a36728de5db656baea6e62765d5ac06916200936d42a35e7b36e5be28"
     },
     {
       "path": "gstack/assessment/evidence/gstack-assessment-tests.log",
-      "sha256": "887560d8d261c5a7f36629c9c1ee02e2d64d2b4e649b8d663910eeb77cc30f64",
-      "matches_original": true
+      "sha256": "ca7e37a2f8ab00e4599557b598089abecee56b2667d1e2fec1b4afc9ee150175",
+      "matches_original": false,
+      "original_sha256": "887560d8d261c5a7f36629c9c1ee02e2d64d2b4e649b8d663910eeb77cc30f64"
     }
   ]
 }

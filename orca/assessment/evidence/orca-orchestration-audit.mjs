@@ -4,10 +4,10 @@ var __export = (target, all) => {
     __defProp(target, name, { get: all[name], enumerable: true });
 };
 
-// ../../../../tmp/orca/src/main/sqlite/sync-database.ts
+// Bundled source: orca/repo/src/main/sqlite/sync-database.ts
 import { existsSync } from "node:fs";
 
-// ../../../../tmp/orca/src/main/sqlite/sqlite-integer-reader.ts
+// Bundled source: orca/repo/src/main/sqlite/sqlite-integer-reader.ts
 var SqliteIntegerReader = class {
   readBigInts = false;
   row(row) {
@@ -42,7 +42,7 @@ var SqliteIntegerReader = class {
   }
 };
 
-// ../../../../tmp/orca/src/main/sqlite/node-sqlite-statement.ts
+// Bundled source: orca/repo/src/main/sqlite/node-sqlite-statement.ts
 var NodeSqliteStatement = class {
   constructor(statement) {
     this.statement = statement;
@@ -74,7 +74,7 @@ var NodeSqliteStatement = class {
   }
 };
 
-// ../../../../tmp/orca/src/main/sqlite/sync-database.ts
+// Bundled source: orca/repo/src/main/sqlite/sync-database.ts
 var STATEMENT_CACHE_LIMIT = 256;
 var AGGREGATE_STAR = /\(\s*\*\s*\)/g;
 var PRAGMA_STATEMENT = /^\s*PRAGMA\b/i;
@@ -168,7 +168,7 @@ var SyncDatabase = class {
 };
 var sync_database_default = SyncDatabase;
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/orchestration-error.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/orchestration-error.ts
 var OrchestrationError = class extends Error {
   code;
   data;
@@ -180,7 +180,7 @@ var OrchestrationError = class extends Error {
   }
 };
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/attempt-observation-store.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/attempt-observation-store.ts
 function canonicalPayload(value) {
   if (Array.isArray(value)) {
     return `[${value.map(canonicalPayload).join(",")}]`;
@@ -295,14 +295,14 @@ function attachAttemptObservationStore(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/generated-id.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/generated-id.ts
 import { randomBytes } from "node:crypto";
 var GENERATED_ID_BYTES = 6;
 function generateId(prefix) {
   return `${prefix}_${randomBytes(GENERATED_ID_BYTES).toString("hex")}`;
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/coordinator-runs/coordinator-run-store.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/coordinator-runs/coordinator-run-store.ts
 function createCoordinatorRun(run) {
   const id = generateId("run");
   this.db.prepare(
@@ -349,7 +349,7 @@ function attachCoordinatorRunStore(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/lifecycle-transition.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/lifecycle-transition.ts
 function beginLifecycleWriteTransaction(db, savepoint) {
   if (!/^[a-z][a-z0-9_]*$/.test(savepoint)) {
     throw new Error(`Invalid lifecycle savepoint: ${savepoint}`);
@@ -483,7 +483,7 @@ function attachLifecycleTransition(ctor) {
   Object.assign(ctor.prototype, { transitionLifecycle });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/row-column-lists.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/row-column-lists.ts
 var RUN_COLUMNS = [
   "id",
   "objective",
@@ -593,7 +593,7 @@ var REMOTE_DISPATCH_ATTACHMENT_COLUMN_LIST = selectColumns(
   REMOTE_DISPATCH_ATTACHMENT_COLUMNS
 );
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/decision-gates/decision-gate-store.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/decision-gates/decision-gate-store.ts
 function createGate(gate) {
   this.db.exec("SAVEPOINT create_gate");
   try {
@@ -713,10 +713,10 @@ function attachDecisionGateStore(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/dispatch-context/dispatch-circuit-breaker.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/dispatch-context/dispatch-circuit-breaker.ts
 var DISPATCH_CIRCUIT_BREAK_FAILURES = 3;
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/dispatch-context/task-dispatch-reconciliation.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/dispatch-context/task-dispatch-reconciliation.ts
 function getActiveDispatchForTask(db, taskId) {
   return db.db.prepare(
     "SELECT * FROM dispatch_contexts WHERE task_id = ? AND status IN ('pending', 'dispatched') ORDER BY rowid DESC LIMIT 1"
@@ -741,7 +741,7 @@ function reconcileTaskAfterDispatchInterruption(db, taskId, dispatchId) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/worker-dispatch/worker-dispatch-settlement.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/worker-dispatch/worker-dispatch-settlement.ts
 function settleWorkerForCompletedDispatch(db, dispatchId) {
   const worker = db.prepare(
     `SELECT wd.state FROM worker_dispatches wd
@@ -792,7 +792,7 @@ function reconcileSettledWorkerDispatches(db) {
   }
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/dispatch-context/dispatch-completion.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/dispatch-context/dispatch-completion.ts
 var FAIL_DISPATCH_SAVEPOINT = "fail_dispatch";
 function completeDispatch(ctxId) {
   const dispatch = this.getDispatchContextById(ctxId);
@@ -950,7 +950,7 @@ function attachDispatchCompletion(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/shared/stable-pane-id.ts
+// Bundled source: orca/repo/src/shared/stable-pane-id.ts
 var UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
 function isStablePaneId(value) {
   return UUID_RE.test(value);
@@ -971,7 +971,7 @@ function parsePaneKey(paneKey) {
   return { tabId, leafId, stablePaneId: leafId };
 }
 
-// ../../../../tmp/orca/src/shared/account-runtime-capabilities.ts
+// Bundled source: orca/repo/src/shared/account-runtime-capabilities.ts
 var CODEX_RESET_CREDIT_RUNTIME_CAPABILITY = "accounts.codex-reset-credit.v1";
 var ACCOUNT_IMPORT_RUNTIME_CAPABILITY = "accounts.import-host-credentials.v1";
 var CLAUDE_SIGN_IN_RUNTIME_CAPABILITY = "accounts.claude-sign-in.v1";
@@ -991,7 +991,7 @@ var ACCOUNT_RUNTIME_CAPABILITIES = [
   HOST_ACCOUNT_SIGN_IN_RUNTIME_CAPABILITY
 ];
 
-// ../../../../tmp/orca/src/shared/agent-launch-runtime-capability.ts
+// Bundled source: orca/repo/src/shared/agent-launch-runtime-capability.ts
 var AGENT_LAUNCH_RUNTIME_CAPABILITY = "agent.launch.v2";
 var AGENT_LAUNCH_REPLAY_RUNTIME_CAPABILITY = "agent.launch.replay.v1";
 var AGENT_LAUNCH_PROMPT_CARRY_RUNTIME_CAPABILITY = "agent.launch.prompt-carry.v1";
@@ -1025,7 +1025,7 @@ var AGENT_LAUNCH_RUNTIME_CAPABILITIES = [
   AGENT_LAUNCH_SURFACE_RUNTIME_CAPABILITY
 ];
 
-// ../../../../tmp/orca/src/shared/agent-session/agent-session-attention-capabilities.ts
+// Bundled source: orca/repo/src/shared/agent-session/agent-session-attention-capabilities.ts
 var AGENT_SESSION_STATUS_FEED_RUNTIME_CAPABILITY = "agent-session.status-feed.v1";
 var AGENT_SESSION_TURN_COMPLETION_RUNTIME_CAPABILITY = "agent-session.turn-completion.v1";
 var AGENT_SESSION_ATTENTION_ACK_RUNTIME_CAPABILITY = "agent-session.attention-ack.v1";
@@ -1035,13 +1035,13 @@ var AGENT_SESSION_ATTENTION_RUNTIME_CAPABILITIES = [
   AGENT_SESSION_ATTENTION_ACK_RUNTIME_CAPABILITY
 ];
 
-// ../../../../tmp/orca/src/shared/agent-session/agent-session-background-task-child-views-capability.ts
+// Bundled source: orca/repo/src/shared/agent-session/agent-session-background-task-child-views-capability.ts
 var AGENT_SESSION_BACKGROUND_TASK_CHILD_VIEWS_CAPABILITY = "agent-session.background-task-child-views.v1";
 
-// ../../../../tmp/orca/src/shared/agent-session/agent-session-continue-interrupted-capability.ts
+// Bundled source: orca/repo/src/shared/agent-session/agent-session-continue-interrupted-capability.ts
 var AGENT_SESSION_CONTINUE_INTERRUPTED_RUNTIME_CAPABILITY = "agent-session.continue-interrupted.v1";
 
-// ../../../../tmp/orca/src/shared/agent-session/agent-session-create-capabilities.ts
+// Bundled source: orca/repo/src/shared/agent-session/agent-session-create-capabilities.ts
 var AGENT_SESSION_CREATE_TAB_ID_RUNTIME_CAPABILITY = "agentSession.create.tab-id.v1";
 var AGENT_SESSION_CREATE_TAB_PLACEMENT_RUNTIME_CAPABILITY = "agentSession.create.tab-placement.v1";
 var AGENT_SESSION_CREATE_MESSAGE_RUNTIME_CAPABILITY = "agentSession.create.message.v1";
@@ -1065,14 +1065,14 @@ var AGENT_SESSION_CREATE_RUNTIME_CAPABILITIES = [
   AGENT_SESSION_RESUME_EFFORT_RUNTIME_CAPABILITY
 ];
 
-// ../../../../tmp/orca/src/shared/agent-session/requests/agent-session-current-requests-capability.ts
+// Bundled source: orca/repo/src/shared/agent-session/requests/agent-session-current-requests-capability.ts
 var AGENT_SESSION_CURRENT_REQUESTS_CLIENT_CAPABILITY = "agent-session.current-requests.v1";
 
-// ../../../../tmp/orca/src/shared/agent-session/agent-session-permission-modes-capability.ts
+// Bundled source: orca/repo/src/shared/agent-session/agent-session-permission-modes-capability.ts
 var AGENT_SESSION_PERMISSION_MODES_RUNTIME_CAPABILITY = "agent-session.permission-modes.v1";
 var AGENT_SESSION_PERMISSION_OWN_RUNTIME_CAPABILITY = "agent-session.permission-own.v1";
 
-// ../../../../tmp/orca/src/shared/agent-session/lifecycle/agent-session-resume-runtime-capabilities.ts
+// Bundled source: orca/repo/src/shared/agent-session/lifecycle/agent-session-resume-runtime-capabilities.ts
 var AGENT_SESSION_CURSOR_RESUME_RUNTIME_CAPABILITY = "agent-session.cursor-resume.v1";
 var AGENT_SESSION_KIMI_RESUME_RUNTIME_CAPABILITY = "agent-session.kimi-resume.v1";
 var AGENT_SESSION_OPENCODE2_RESUME_RUNTIME_CAPABILITY = "agent-session.opencode2-resume.v1";
@@ -1100,7 +1100,7 @@ var AGENT_SESSION_RESUME_RUNTIME_CAPABILITIES = [
   AGENT_SESSION_ZCODE_RESUME_RUNTIME_CAPABILITY
 ];
 
-// ../../../../tmp/orca/src/shared/agent-session/lifecycle/agent-session-stop-capabilities.ts
+// Bundled source: orca/repo/src/shared/agent-session/lifecycle/agent-session-stop-capabilities.ts
 var AGENT_SESSION_CONVERSATION_STOP_RUNTIME_CAPABILITY = "agent-session.conversation-stop.v1";
 var AGENT_SESSION_PROMPT_CANCEL_RUNTIME_CAPABILITY = "agent-session.prompt-cancel.v1";
 var AGENT_SESSION_REPEATED_STOP_RUNTIME_CAPABILITY = "agent-session.repeated-stop.v1";
@@ -1110,10 +1110,10 @@ var AGENT_SESSION_STOP_RUNTIME_CAPABILITIES = [
   AGENT_SESSION_REPEATED_STOP_RUNTIME_CAPABILITY
 ];
 
-// ../../../../tmp/orca/src/shared/agent-session/agent-session-workspace-sleep.ts
+// Bundled source: orca/repo/src/shared/agent-session/agent-session-workspace-sleep.ts
 var AGENT_SESSION_WORKSPACE_SLEEP_MARK_RUNTIME_CAPABILITY = "agent-session.workspace-sleep-mark.v1";
 
-// ../../../../tmp/orca/src/shared/agent-session/structured-agent-session-surface-capabilities.ts
+// Bundled source: orca/repo/src/shared/agent-session/structured-agent-session-surface-capabilities.ts
 var STRUCTURED_AGENT_SESSION_REGISTERED_AGENTS_RUNTIME_CAPABILITY = "agent-session.structured.registered-agents.v1";
 var PI_STRUCTURED_DIALOGS_RUNTIME_CAPABILITY = "agent-session.structured.pi-dialogs.v1";
 var STRUCTURED_AGENT_SESSION_HOLD_RUNTIME_CAPABILITY = "agent-session.structured.hold.v1";
@@ -1146,7 +1146,7 @@ var STRUCTURED_AGENT_SESSION_SURFACE_RUNTIME_CAPABILITIES = [
   STRUCTURED_AGENT_SESSION_RENAME_RUNTIME_CAPABILITY
 ];
 
-// ../../../../tmp/orca/src/shared/agent-session/agent-session-runtime-capabilities.ts
+// Bundled source: orca/repo/src/shared/agent-session/agent-session-runtime-capabilities.ts
 var AGENT_SESSION_BOUNDARY_RUNTIME_CAPABILITY = "agent-session.session-boundary.v1";
 var AGENT_SESSION_HOST_AUTHORITY_RUNTIME_CAPABILITY = "agent-session.host-authority.v1";
 var AGENT_SESSION_KEYBOARD_RUNTIME_CAPABILITY = "agent-session.keyboard.v1";
@@ -1214,10 +1214,10 @@ var AGENT_SESSION_RUNTIME_CAPABILITIES = [
   ...AGENT_SESSION_RESUME_RUNTIME_CAPABILITIES
 ];
 
-// ../../../../tmp/orca/src/shared/ai-vault-resume-preparation.ts
+// Bundled source: orca/repo/src/shared/ai-vault-resume-preparation.ts
 var AI_VAULT_CHAT_FORK_SOURCE_CAPABILITY = "ai-vault.chat-fork-source.v1";
 
-// ../../../../tmp/orca/src/shared/ai-vault-runtime-capabilities.ts
+// Bundled source: orca/repo/src/shared/ai-vault-runtime-capabilities.ts
 var AI_VAULT_RUNTIME_CAPABILITY = "aiVault.v1";
 var AI_VAULT_SESSION_TITLES_RUNTIME_CAPABILITY = "aiVault.session-titles.v1";
 var AI_VAULT_DELETE_SESSION_RUNTIME_CAPABILITY = "aiVault.delete-session.v1";
@@ -1228,7 +1228,7 @@ var AI_VAULT_RUNTIME_CAPABILITIES = [
   AI_VAULT_CHAT_FORK_SOURCE_CAPABILITY
 ];
 
-// ../../../../tmp/orca/src/shared/automation-runtime-capabilities.ts
+// Bundled source: orca/repo/src/shared/automation-runtime-capabilities.ts
 var AUTOMATION_LIST_HOST_SCOPE_RUNTIME_CAPABILITY = "automation.list-host-scope.v1";
 var AUTOMATION_OWNER_FENCING_RUNTIME_CAPABILITY = "automation.owner-fencing.v1";
 var AUTOMATION_CREATE_IDEMPOTENCY_RUNTIME_CAPABILITY = "automation.create-idempotency.v1";
@@ -1246,7 +1246,7 @@ var AUTOMATION_RUNTIME_CLIENT_CAPABILITIES = [
   AUTOMATION_CREATE_IDEMPOTENCY_RUNTIME_CAPABILITY
 ];
 
-// ../../../../tmp/orca/src/shared/browser-runtime-capabilities.ts
+// Bundled source: orca/repo/src/shared/browser-runtime-capabilities.ts
 var BROWSER_GOOGLE_COOKIE_CLEAR_CAPABILITY = "browser.google-cookie-clear.v1";
 var BROWSER_SCREENCAST_RUNTIME_CAPABILITY = "browser.screencast.v1";
 var BROWSER_TAB_CREATE_KNOWN_ID_RUNTIME_CAPABILITY = "browser.tab-create-known-id.v1";
@@ -1268,7 +1268,7 @@ var BROWSER_RUNTIME_CAPABILITIES = [
   BROWSER_NETWORK_EXECUTION_HOSTS_RUNTIME_CAPABILITY
 ];
 
-// ../../../../tmp/orca/src/shared/device-key-capability.ts
+// Bundled source: orca/repo/src/shared/device-key-capability.ts
 var DEVICE_KEY_RUNTIME_CAPABILITY = "pairing.device-key.v1";
 var DEVICE_KEY_EPHEMERAL_RUNTIME_CAPABILITY = "pairing.device-key-ephemeral.v1";
 var DEVICE_KEY_RUNTIME_CAPABILITIES = [
@@ -1276,11 +1276,11 @@ var DEVICE_KEY_RUNTIME_CAPABILITIES = [
   DEVICE_KEY_EPHEMERAL_RUNTIME_CAPABILITY
 ];
 
-// ../../../../tmp/orca/src/shared/file-write-disk-precondition.ts
+// Bundled source: orca/repo/src/shared/file-write-disk-precondition.ts
 var FILE_WRITE_DISK_PRECONDITION_RUNTIME_CAPABILITY = "files.write.disk-precondition.v1";
 var FILE_WRITE_IDENTICAL_RUNTIME_CAPABILITY = "files.write.identical-noop.v1";
 
-// ../../../../tmp/orca/src/shared/staged-file-save.ts
+// Bundled source: orca/repo/src/shared/staged-file-save.ts
 var STAGED_FILE_SAVE_RUNTIME_CAPABILITY = "files.write.staged.v1";
 var STAGED_FILE_SAVE_CHUNK_BYTES = 384 * 1024;
 var STAGED_FILE_SAVE_LIMITS = {
@@ -1293,11 +1293,11 @@ var STAGED_FILE_SAVE_LIMITS = {
   idleMs: 2 * 60 * 1e3
 };
 
-// ../../../../tmp/orca/src/shared/file-bytes-write.ts
+// Bundled source: orca/repo/src/shared/file-bytes-write.ts
 var FILE_REPLACE_WITH_UPLOAD_RUNTIME_CAPABILITY = "files.replace-with-upload.v1";
 var FILE_BYTES_WRITE_CHUNK_BYTES = 384 * 1024;
 
-// ../../../../tmp/orca/src/shared/files-runtime-capabilities.ts
+// Bundled source: orca/repo/src/shared/files-runtime-capabilities.ts
 var FILE_MUTATION_OWNERSHIP_RUNTIME_CAPABILITY = "files.mutation-ownership.v1";
 var FILE_READ_DIR_PAGED_RUNTIME_CAPABILITY = "files.readDir.paged.v1";
 var FILE_DOC_PREVIEW_RUNTIME_CAPABILITY = "files.readDocPreview";
@@ -1314,17 +1314,17 @@ var FILES_RUNTIME_CAPABILITIES = [
   FILE_REPLACE_WITH_UPLOAD_RUNTIME_CAPABILITY
 ];
 
-// ../../../../tmp/orca/src/shared/managed-runtime-install.ts
+// Bundled source: orca/repo/src/shared/managed-runtime-install.ts
 var MANAGED_RUNTIME_INSTALL_RUNTIME_CAPABILITY = "managed-runtime.install.v1";
 var MANAGED_RUNTIME_REMOVE_RUNTIME_CAPABILITY = "managed-runtime.remove.v1";
 
-// ../../../../tmp/orca/src/shared/remote-server-update.ts
+// Bundled source: orca/repo/src/shared/remote-server-update.ts
 var REMOTE_SERVER_UPDATE_CAPABILITY = "updater.remote-control.v1";
 
-// ../../../../tmp/orca/src/shared/ssh-target-management.ts
+// Bundled source: orca/repo/src/shared/ssh-target-management.ts
 var SSH_TARGET_MANAGEMENT_RUNTIME_CAPABILITY = "ssh.target-management.v1";
 
-// ../../../../tmp/orca/src/shared/host-runtime-capabilities.ts
+// Bundled source: orca/repo/src/shared/host-runtime-capabilities.ts
 var REMOTE_RUNTIME_SHARED_CONTROL_CAPABILITY = "remote-runtime.shared-control.v1";
 var RUNTIME_AUTOMATIC_WORK_RUNTIME_CAPABILITY = "runtime.automatic-work.v1";
 var RUNTIME_SOURCE_FENCE_RUNTIME_CAPABILITY = "runtime-source-fence.v1";
@@ -1340,12 +1340,12 @@ var HOST_RUNTIME_CAPABILITIES = [
   SSH_TARGET_MANAGEMENT_RUNTIME_CAPABILITY
 ];
 
-// ../../../../tmp/orca/src/shared/desktop-client-presence.ts
+// Bundled source: orca/repo/src/shared/desktop-client-presence.ts
 var NOTIFICATIONS_DESKTOP_PRESENCE_RUNTIME_CAPABILITY = "notifications.desktop-presence.v1";
 var DESKTOP_PRESENCE_REPORT_INTERVAL_MS = 3e4;
 var DESKTOP_PRESENCE_TTL_MS = 3 * DESKTOP_PRESENCE_REPORT_INTERVAL_MS;
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/classic/external.js
+// Bundled dependency: zod/v4/classic/external.js
 var external_exports = {};
 __export(external_exports, {
   $brand: () => $brand,
@@ -1608,7 +1608,7 @@ __export(external_exports, {
   xor: () => xor
 });
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/core/index.js
+// Bundled dependency: zod/v4/core/index.js
 var core_exports2 = {};
 __export(core_exports2, {
   $ZodAny: () => $ZodAny,
@@ -1925,7 +1925,7 @@ __export(core_exports2, {
   withParser: () => withParser
 });
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/core/util.js
+// Bundled dependency: zod/v4/core/util.js
 var util_exports = {};
 __export(util_exports, {
   BIGINT_FORMAT_RANGES: () => BIGINT_FORMAT_RANGES,
@@ -2781,7 +2781,7 @@ function constantCatch(value) {
   return fn;
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/core/core.js
+// Bundled dependency: zod/v4/core/core.js
 var _a;
 var NEVER = /* @__PURE__ */ Object.freeze({
   status: "aborted"
@@ -2903,7 +2903,7 @@ function config(newConfig) {
   return globalConfig;
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/core/errors.js
+// Bundled dependency: zod/v4/core/errors.js
 function _getMessage() {
   const internals = this._zod;
   internals.message ?? (internals.message = JSON.stringify(internals.def, jsonStringifyReplacer, 2));
@@ -3095,7 +3095,7 @@ function prettifyError(error62) {
   return lines.join("\n");
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/core/parse.js
+// Bundled dependency: zod/v4/core/parse.js
 function finalizeParams(callee, params) {
   return { callee: params?.callee ?? callee, Err: params?.Err };
 }
@@ -3255,7 +3255,7 @@ var _safeDecodeAsync = (_Err) => async (schema, value, _ctx) => {
 };
 var safeDecodeAsync = /* @__PURE__ */ _safeDecodeAsync($ZodRealError);
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/core/regexes.js
+// Bundled dependency: zod/v4/core/regexes.js
 var regexes_exports = {};
 __export(regexes_exports, {
   anyString: () => anyString,
@@ -3427,7 +3427,7 @@ var sha512_hex = /^[0-9a-fA-F]{128}$/;
 var sha512_base64 = /* @__PURE__ */ fixedBase64(86, "==");
 var sha512_base64url = /* @__PURE__ */ fixedBase64url(86);
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/core/checks.js
+// Bundled dependency: zod/v4/core/checks.js
 var $ZodCheck = /* @__PURE__ */ $constructor("$ZodCheck", (inst, def) => {
   var _a3;
   inst._zod ?? (inst._zod = {});
@@ -3903,7 +3903,7 @@ var $ZodCheckOverwrite = /* @__PURE__ */ $constructor("$ZodCheckOverwrite", (ins
   };
 });
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/core/doc.js
+// Bundled dependency: zod/v4/core/doc.js
 var Doc = class {
   constructor(args = [], closed = {}) {
     this.content = [];
@@ -3944,14 +3944,14 @@ ${content.join("\n")}
   }
 };
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/core/versions.js
+// Bundled dependency: zod/v4/core/versions.js
 var version = {
   major: 4,
   minor: 6,
   patch: 7
 };
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/core/schemas.js
+// Bundled dependency: zod/v4/core/schemas.js
 var $ZodType = /* @__PURE__ */ $constructor("$ZodType", (inst, def) => {
   var _a3;
   inst ?? (inst = {});
@@ -6393,7 +6393,7 @@ function handleRefineResult(result, payload, input2, inst) {
   }
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/core/memoizer.js
+// Bundled dependency: zod/v4/core/memoizer.js
 var $ZodCyclicError = class extends Error {
   constructor() {
     super(`Cannot parse a reference cycle that closes through a transform`);
@@ -6670,7 +6670,7 @@ function isBackEdge(ctx, value) {
   return backEdges !== void 0 && isRef(value) && backEdges.has(value);
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/index.js
+// Bundled dependency: zod/v4/locales/index.js
 var locales_exports = {};
 __export(locales_exports, {
   ar: () => ar_default,
@@ -6738,7 +6738,7 @@ __export(locales_exports, {
   zhTW: () => zh_TW_default
 });
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/ar.js
+// Bundled dependency: zod/v4/locales/ar.js
 var error = () => {
   const Sizable = {
     string: { unit: "\u062D\u0631\u0641", verb: "\u0623\u0646 \u064A\u062D\u0648\u064A" },
@@ -6850,7 +6850,7 @@ function ar_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/az.js
+// Bundled dependency: zod/v4/locales/az.js
 var error2 = () => {
   const Sizable = {
     string: { unit: "simvol", verb: "olmal\u0131d\u0131r" },
@@ -6961,7 +6961,7 @@ function az_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/be.js
+// Bundled dependency: zod/v4/locales/be.js
 function getBelarusianPlural(count, one, few, many) {
   const absCount = Math.abs(count);
   const lastDigit = absCount % 10;
@@ -7130,7 +7130,7 @@ function be_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/bg.js
+// Bundled dependency: zod/v4/locales/bg.js
 var error4 = () => {
   const Sizable = {
     string: { unit: "\u0441\u0438\u043C\u0432\u043E\u043B\u0430", verb: "\u0434\u0430 \u0441\u044A\u0434\u044A\u0440\u0436\u0430" },
@@ -7256,7 +7256,7 @@ function bg_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/bn.js
+// Bundled dependency: zod/v4/locales/bn.js
 var error5 = () => {
   const Sizable = {
     string: { unit: "\u0985\u0995\u09CD\u09B7\u09B0", verb: "\u09A5\u09BE\u0995\u09A4\u09C7 \u09B9\u09AC\u09C7" },
@@ -7370,7 +7370,7 @@ function bn_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/ca.js
+// Bundled dependency: zod/v4/locales/ca.js
 var error6 = () => {
   const Sizable = {
     string: { unit: "car\xE0cters", verb: "contenir" },
@@ -7484,7 +7484,7 @@ function ca_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/ckb.js
+// Bundled dependency: zod/v4/locales/ckb.js
 var error7 = () => {
   const Sizable = {
     string: { unit: "\u067E\u06CC\u062A", verb: "\u0628\u06CE\u062A" },
@@ -7617,7 +7617,7 @@ function ckb_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/cs.js
+// Bundled dependency: zod/v4/locales/cs.js
 var error8 = () => {
   const Sizable = {
     string: { unit: "znak\u016F", verb: "m\xEDt" },
@@ -7734,7 +7734,7 @@ function cs_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/da.js
+// Bundled dependency: zod/v4/locales/da.js
 var error9 = () => {
   const Sizable = {
     string: { unit: "tegn", verb: "havde" },
@@ -7855,7 +7855,7 @@ function da_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/de.js
+// Bundled dependency: zod/v4/locales/de.js
 var error10 = () => {
   const Sizable = {
     string: { unit: "Zeichen", verb: "zu haben" },
@@ -7969,7 +7969,7 @@ function de_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/el.js
+// Bundled dependency: zod/v4/locales/el.js
 var error11 = () => {
   const Sizable = {
     string: { unit: "\u03C7\u03B1\u03C1\u03B1\u03BA\u03C4\u03AE\u03C1\u03B5\u03C2", verb: "\u03BD\u03B1 \u03AD\u03C7\u03B5\u03B9" },
@@ -8082,7 +8082,7 @@ function el_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/en.js
+// Bundled dependency: zod/v4/locales/en.js
 var error12 = () => {
   const Sizable = {
     string: { unit: "characters", verb: "to have" },
@@ -8207,7 +8207,7 @@ function en_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/eo.js
+// Bundled dependency: zod/v4/locales/eo.js
 var error13 = () => {
   const Sizable = {
     string: { unit: "karaktrojn", verb: "havi" },
@@ -8322,7 +8322,7 @@ function eo_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/es.js
+// Bundled dependency: zod/v4/locales/es.js
 var error14 = () => {
   const Sizable = {
     string: { unit: "caracteres", verb: "tener" },
@@ -8459,7 +8459,7 @@ function es_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/fa.js
+// Bundled dependency: zod/v4/locales/fa.js
 var error15 = () => {
   const Sizable = {
     string: { unit: "\u06A9\u0627\u0631\u0627\u06A9\u062A\u0631", verb: "\u062F\u0627\u0634\u062A\u0647 \u0628\u0627\u0634\u062F" },
@@ -8579,7 +8579,7 @@ function fa_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/fi.js
+// Bundled dependency: zod/v4/locales/fi.js
 var error16 = () => {
   const Sizable = {
     string: { unit: "merkki\xE4", subject: "merkkijonon" },
@@ -8697,7 +8697,7 @@ function fi_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/fr.js
+// Bundled dependency: zod/v4/locales/fr.js
 var error17 = () => {
   const Sizable = {
     string: { unit: "caract\xE8res", verb: "avoir" },
@@ -8827,7 +8827,7 @@ function fr_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/fr-CA.js
+// Bundled dependency: zod/v4/locales/fr-CA.js
 var error18 = () => {
   const Sizable = {
     string: { unit: "caract\xE8res", verb: "avoir" },
@@ -8940,7 +8940,7 @@ function fr_CA_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/gu.js
+// Bundled dependency: zod/v4/locales/gu.js
 var error19 = () => {
   const Sizable = {
     string: { unit: "\u0A85\u0A95\u0ACD\u0AB7\u0AB0", verb: "\u0AB9\u0ACB\u0AB5\u0ABE \u0A9C\u0ACB\u0A88\u0A8F" },
@@ -9054,7 +9054,7 @@ function gu_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/he.js
+// Bundled dependency: zod/v4/locales/he.js
 var error20 = () => {
   const TypeNames = {
     string: { label: "\u05DE\u05D7\u05E8\u05D5\u05D6\u05EA", gender: "f" },
@@ -9256,7 +9256,7 @@ function he_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/hi.js
+// Bundled dependency: zod/v4/locales/hi.js
 var error21 = () => {
   const Sizable = {
     string: { unit: "\u0905\u0915\u094D\u0937\u0930", verb: "\u0930\u0916\u0928\u0947 \u0915\u0947 \u0932\u093F\u090F" },
@@ -9368,7 +9368,7 @@ function hi_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/hr.js
+// Bundled dependency: zod/v4/locales/hr.js
 var error22 = () => {
   const Sizable = {
     string: { unit: "znakova", verb: "imati" },
@@ -9495,7 +9495,7 @@ function hr_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/hu.js
+// Bundled dependency: zod/v4/locales/hu.js
 var error23 = () => {
   const Sizable = {
     string: { unit: "karakter", verb: "legyen" },
@@ -9609,7 +9609,7 @@ function hu_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/hy.js
+// Bundled dependency: zod/v4/locales/hy.js
 function getArmenianPlural(count, one, many) {
   return Math.abs(count) === 1 ? one : many;
 }
@@ -9768,7 +9768,7 @@ function hy_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/id.js
+// Bundled dependency: zod/v4/locales/id.js
 var error25 = () => {
   const Sizable = {
     string: { unit: "karakter", verb: "memiliki" },
@@ -9880,7 +9880,7 @@ function id_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/is.js
+// Bundled dependency: zod/v4/locales/is.js
 var error26 = () => {
   const Sizable = {
     string: { unit: "stafi", verb: "a\xF0 hafa" },
@@ -9995,7 +9995,7 @@ function is_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/it.js
+// Bundled dependency: zod/v4/locales/it.js
 var error27 = () => {
   const Sizable = {
     string: { unit: "caratteri", verb: "avere" },
@@ -10109,7 +10109,7 @@ function it_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/ja.js
+// Bundled dependency: zod/v4/locales/ja.js
 var error28 = () => {
   const Sizable = {
     string: { unit: "\u6587\u5B57", verb: "\u3067\u3042\u308B" },
@@ -10222,7 +10222,7 @@ function ja_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/ka.js
+// Bundled dependency: zod/v4/locales/ka.js
 var error29 = () => {
   const Sizable = {
     string: { unit: "\u10E1\u10D8\u10DB\u10D1\u10DD\u10DA\u10DD", verb: "\u10E3\u10DC\u10D3\u10D0 \u10E8\u10D4\u10D8\u10EA\u10D0\u10D5\u10D3\u10D4\u10E1" },
@@ -10340,7 +10340,7 @@ function ka_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/km.js
+// Bundled dependency: zod/v4/locales/km.js
 var error30 = () => {
   const Sizable = {
     string: { unit: "\u178F\u17BD\u17A2\u1780\u17D2\u179F\u179A", verb: "\u1782\u17BD\u179A\u1798\u17B6\u1793" },
@@ -10456,12 +10456,12 @@ function km_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/kh.js
+// Bundled dependency: zod/v4/locales/kh.js
 function kh_default() {
   return km_default();
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/kn.js
+// Bundled dependency: zod/v4/locales/kn.js
 var error31 = () => {
   const Sizable = {
     string: { unit: "\u0C85\u0C95\u0CCD\u0CB7\u0CB0\u0C97\u0CB3\u0CC1", verb: "\u0CB9\u0CCA\u0C82\u0CA6\u0CB2\u0CC1" },
@@ -10577,7 +10577,7 @@ function kn_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/ko.js
+// Bundled dependency: zod/v4/locales/ko.js
 var error32 = () => {
   const Sizable = {
     string: { unit: "\uBB38\uC790", verb: "to have" },
@@ -10694,7 +10694,7 @@ function ko_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/lt.js
+// Bundled dependency: zod/v4/locales/lt.js
 var capitalizeFirstCharacter = (text2) => {
   return text2.charAt(0).toUpperCase() + text2.slice(1);
 };
@@ -10902,7 +10902,7 @@ function lt_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/mk.js
+// Bundled dependency: zod/v4/locales/mk.js
 var error34 = () => {
   const Sizable = {
     string: { unit: "\u0437\u043D\u0430\u0446\u0438", verb: "\u0434\u0430 \u0438\u043C\u0430\u0430\u0442" },
@@ -11017,7 +11017,7 @@ function mk_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/ms.js
+// Bundled dependency: zod/v4/locales/ms.js
 var error35 = () => {
   const Sizable = {
     string: { unit: "aksara", verb: "mempunyai" },
@@ -11130,7 +11130,7 @@ function ms_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/ne.js
+// Bundled dependency: zod/v4/locales/ne.js
 var error36 = () => {
   const Sizable = {
     string: { unit: "\u0905\u0915\u094D\u0937\u0930", verb: "\u0939\u0941\u0928\u0941\u092A\u0930\u094D\u091B" },
@@ -11242,7 +11242,7 @@ function ne_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/nl.js
+// Bundled dependency: zod/v4/locales/nl.js
 var error37 = () => {
   const Sizable = {
     string: { unit: "tekens", verb: "heeft" },
@@ -11358,7 +11358,7 @@ function nl_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/nn.js
+// Bundled dependency: zod/v4/locales/nn.js
 var error38 = () => {
   const Sizable = {
     string: { unit: "teikn", verb: "\xE5 ha" },
@@ -11472,7 +11472,7 @@ function nn_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/no.js
+// Bundled dependency: zod/v4/locales/no.js
 var error39 = () => {
   const Sizable = {
     string: { unit: "tegn", verb: "\xE5 ha" },
@@ -11586,7 +11586,7 @@ function no_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/ota.js
+// Bundled dependency: zod/v4/locales/ota.js
 var error40 = () => {
   const Sizable = {
     string: { unit: "harf", verb: "olmal\u0131d\u0131r" },
@@ -11701,7 +11701,7 @@ function ota_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/ps.js
+// Bundled dependency: zod/v4/locales/ps.js
 var error41 = () => {
   const Sizable = {
     string: { unit: "\u062A\u0648\u06A9\u064A", verb: "\u0648\u0644\u0631\u064A" },
@@ -11821,7 +11821,7 @@ function ps_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/pl.js
+// Bundled dependency: zod/v4/locales/pl.js
 var error42 = () => {
   const Sizable = {
     string: { unit: "znak\xF3w", verb: "mie\u0107" },
@@ -11936,7 +11936,7 @@ function pl_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/pt.js
+// Bundled dependency: zod/v4/locales/pt.js
 var error43 = () => {
   const Sizable = {
     string: { unit: "caracteres" },
@@ -12080,7 +12080,7 @@ function pt_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/pt-BR.js
+// Bundled dependency: zod/v4/locales/pt-BR.js
 var error44 = () => {
   const Sizable = {
     string: { unit: "caracteres" },
@@ -12225,7 +12225,7 @@ function pt_BR_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/ro.js
+// Bundled dependency: zod/v4/locales/ro.js
 var error45 = () => {
   const Sizable = {
     string: { unit: "caractere", verb: "s\u0103 aib\u0103" },
@@ -12348,7 +12348,7 @@ function ro_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/ru.js
+// Bundled dependency: zod/v4/locales/ru.js
 function getRussianPlural(count, one, few, many) {
   const absCount = Math.abs(count);
   const lastDigit = absCount % 10;
@@ -12517,7 +12517,7 @@ function ru_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/sk.js
+// Bundled dependency: zod/v4/locales/sk.js
 var error47 = () => {
   const Sizable = {
     string: { unit: "znakov", verb: "ma\u0165" },
@@ -12634,7 +12634,7 @@ function sk_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/sl.js
+// Bundled dependency: zod/v4/locales/sl.js
 var error48 = () => {
   const Sizable = {
     string: { unit: "znakov", verb: "imeti" },
@@ -12749,7 +12749,7 @@ function sl_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/sv.js
+// Bundled dependency: zod/v4/locales/sv.js
 var error49 = () => {
   const Sizable = {
     string: { unit: "tecken", verb: "att ha" },
@@ -12865,7 +12865,7 @@ function sv_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/ta.js
+// Bundled dependency: zod/v4/locales/ta.js
 var error50 = () => {
   const Sizable = {
     string: { unit: "\u0B8E\u0BB4\u0BC1\u0BA4\u0BCD\u0BA4\u0BC1\u0B95\u0BCD\u0B95\u0BB3\u0BCD", verb: "\u0B95\u0BCA\u0BA3\u0BCD\u0B9F\u0BBF\u0BB0\u0BC1\u0B95\u0BCD\u0B95 \u0BB5\u0BC7\u0BA3\u0BCD\u0B9F\u0BC1\u0BAE\u0BCD" },
@@ -12981,7 +12981,7 @@ function ta_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/tg.js
+// Bundled dependency: zod/v4/locales/tg.js
 var error51 = () => {
   const Sizable = {
     string: { unit: "\u0430\u043B\u043E\u043C\u0430\u0442", verb: "\u0434\u043E\u0448\u0442\u0430 \u0431\u043E\u0448\u0430\u0434" },
@@ -13098,7 +13098,7 @@ function tg_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/th.js
+// Bundled dependency: zod/v4/locales/th.js
 var error52 = () => {
   const Sizable = {
     string: { unit: "\u0E15\u0E31\u0E27\u0E2D\u0E31\u0E01\u0E29\u0E23", verb: "\u0E04\u0E27\u0E23\u0E21\u0E35" },
@@ -13214,7 +13214,7 @@ function th_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/tk.js
+// Bundled dependency: zod/v4/locales/tk.js
 var error53 = () => {
   const Sizable = {
     string: { unit: "simwol", verb: "bolmaly" },
@@ -13322,7 +13322,7 @@ function tk_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/tr.js
+// Bundled dependency: zod/v4/locales/tr.js
 var error54 = () => {
   const Sizable = {
     string: { unit: "karakter", verb: "olmal\u0131" },
@@ -13433,7 +13433,7 @@ function tr_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/uk.js
+// Bundled dependency: zod/v4/locales/uk.js
 var error55 = () => {
   const Sizable = {
     string: { unit: "\u0441\u0438\u043C\u0432\u043E\u043B\u0456\u0432", verb: "\u043C\u0430\u0442\u0438\u043C\u0435" },
@@ -13547,12 +13547,12 @@ function uk_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/ua.js
+// Bundled dependency: zod/v4/locales/ua.js
 function ua_default() {
   return uk_default();
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/ur.js
+// Bundled dependency: zod/v4/locales/ur.js
 var error56 = () => {
   const Sizable = {
     string: { unit: "\u062D\u0631\u0648\u0641", verb: "\u06C1\u0648\u0646\u0627" },
@@ -13668,7 +13668,7 @@ function ur_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/uz.js
+// Bundled dependency: zod/v4/locales/uz.js
 var error57 = () => {
   const Sizable = {
     string: { unit: "belgi", verb: "bo\u2018lishi kerak" },
@@ -13782,7 +13782,7 @@ function uz_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/vi.js
+// Bundled dependency: zod/v4/locales/vi.js
 var error58 = () => {
   const Sizable = {
     string: { unit: "k\xFD t\u1EF1", verb: "c\xF3" },
@@ -13896,7 +13896,7 @@ function vi_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/zh-CN.js
+// Bundled dependency: zod/v4/locales/zh-CN.js
 var error59 = () => {
   const Sizable = {
     string: { unit: "\u5B57\u7B26", verb: "\u5305\u542B" },
@@ -14011,7 +14011,7 @@ function zh_CN_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/zh-TW.js
+// Bundled dependency: zod/v4/locales/zh-TW.js
 var error60 = () => {
   const Sizable = {
     string: { unit: "\u5B57\u5143", verb: "\u64C1\u6709" },
@@ -14124,7 +14124,7 @@ function zh_TW_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/locales/yo.js
+// Bundled dependency: zod/v4/locales/yo.js
 var error61 = () => {
   const Sizable = {
     string: { unit: "\xE0mi", verb: "n\xED" },
@@ -14237,7 +14237,7 @@ function yo_default() {
   };
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/core/registries.js
+// Bundled dependency: zod/v4/core/registries.js
 var _a2;
 var $output = /* @__PURE__ */ Symbol("ZodOutput");
 var $input = /* @__PURE__ */ Symbol("ZodInput");
@@ -14287,7 +14287,7 @@ function registry() {
 (_a2 = globalThis).__zod_globalRegistry ?? (_a2.__zod_globalRegistry = registry());
 var globalRegistry = globalThis.__zod_globalRegistry;
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/core/compile.js
+// Bundled dependency: zod/v4/core/compile.js
 var INVALID = /* @__PURE__ */ Symbol.for("zod.compile.invalid");
 var FALLBACK_FLAG = /* @__PURE__ */ Symbol.for("zod.compile.fallback");
 var ZodCompileAsyncError = class extends Error {
@@ -15897,7 +15897,7 @@ function generateTransformCheck(doc, ctx, schema, accessor) {
   return accessor;
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/core/api.js
+// Bundled dependency: zod/v4/core/api.js
 function snapshotChecks(def) {
   if (def.checks)
     def.checks = [...def.checks];
@@ -16956,7 +16956,7 @@ function _stringFormat(Class2, format, fnOrRegex, _params = {}) {
   return inst;
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/core/to-json-schema.js
+// Bundled dependency: zod/v4/core/to-json-schema.js
 function assignProps(target, ...sources) {
   for (const source of sources) {
     for (const key of Reflect.ownKeys(source)) {
@@ -17486,7 +17486,7 @@ var createStandardJSONSchemaMethod = (schema, io, processors = {}) => (params) =
   return finalize(ctx, schema);
 };
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/core/json-schema-processors.js
+// Bundled dependency: zod/v4/core/json-schema-processors.js
 var narrowMin = (agg, key, value) => {
   if (agg[key] === void 0 || value > agg[key])
     agg[key] = value;
@@ -18234,7 +18234,7 @@ function toJSONSchema(input2, params) {
   return finalize(ctx, input2);
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/core/json-schema-generator.js
+// Bundled dependency: zod/v4/core/json-schema-generator.js
 var JSONSchemaGenerator = class {
   /** @deprecated Access via ctx instead */
   get metadataRegistry() {
@@ -18312,10 +18312,10 @@ var JSONSchemaGenerator = class {
   }
 };
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/core/json-schema.js
+// Bundled dependency: zod/v4/core/json-schema.js
 var json_schema_exports = {};
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/classic/schemas.js
+// Bundled dependency: zod/v4/classic/schemas.js
 var schemas_exports2 = {};
 __export(schemas_exports2, {
   ZodAny: () => ZodAny,
@@ -18496,7 +18496,7 @@ __export(schemas_exports2, {
   xor: () => xor
 });
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/classic/checks.js
+// Bundled dependency: zod/v4/classic/checks.js
 var checks_exports2 = {};
 __export(checks_exports2, {
   endsWith: () => _endsWith,
@@ -18531,7 +18531,7 @@ __export(checks_exports2, {
   uppercase: () => _uppercase
 });
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/classic/errors.js
+// Bundled dependency: zod/v4/classic/errors.js
 var _installedErrorProtos = /* @__PURE__ */ new WeakSet([Object.prototype, Error.prototype]);
 function _lazyMethod(proto, key, make) {
   Object.defineProperty(proto, key, {
@@ -18577,7 +18577,7 @@ var ZodRealError = /* @__PURE__ */ $constructor("ZodError", initializer2, void 0
   Parent: Error
 });
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/classic/parse.js
+// Bundled dependency: zod/v4/classic/parse.js
 var parse2 = /* @__PURE__ */ _parse(ZodRealError);
 var parseAsync2 = /* @__PURE__ */ _parseAsync(ZodRealError);
 var safeParse2 = /* @__PURE__ */ _safeParse(ZodRealError);
@@ -18591,7 +18591,7 @@ var safeDecode2 = /* @__PURE__ */ _safeDecode(ZodRealError);
 var safeEncodeAsync2 = /* @__PURE__ */ _safeEncodeAsync(ZodRealError);
 var safeDecodeAsync2 = /* @__PURE__ */ _safeDecodeAsync(ZodRealError);
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/classic/schemas.js
+// Bundled dependency: zod/v4/classic/schemas.js
 function _ensureDefaultLocale() {
   if (!globalConfig.localeError)
     config(en_default());
@@ -20056,7 +20056,7 @@ function preprocess(fn, schema) {
   });
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/classic/compat.js
+// Bundled dependency: zod/v4/classic/compat.js
 var ZodIssueCode = {
   invalid_type: "invalid_type",
   too_big: "too_big",
@@ -20082,7 +20082,7 @@ var ZodFirstPartyTypeKind;
 /* @__PURE__ */ (function(ZodFirstPartyTypeKind2) {
 })(ZodFirstPartyTypeKind || (ZodFirstPartyTypeKind = {}));
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/classic/iso.js
+// Bundled dependency: zod/v4/classic/iso.js
 var iso_exports = {};
 __export(iso_exports, {
   ZodISODate: () => ZodISODate,
@@ -20107,7 +20107,7 @@ function duration2(params) {
   return _isoDuration(ZodISODuration, params);
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/classic/from-json-schema.js
+// Bundled dependency: zod/v4/classic/from-json-schema.js
 var z = {
   ...schemas_exports2,
   ...checks_exports2,
@@ -20840,7 +20840,7 @@ function fromJSONSchema(schema, params) {
   return convertSchema(normalized, ctx);
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/core/visit.js
+// Bundled dependency: zod/v4/core/visit.js
 var RESOLVING = /* @__PURE__ */ Symbol("z.visit/resolving");
 function visit(schema, fnOrHandlers) {
   const fn = typeof fnOrHandlers === "function" ? fnOrHandlers : (node2, rewritten) => {
@@ -20995,7 +20995,7 @@ function visit(schema, fnOrHandlers) {
   return run(schema);
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/classic/deep-partial.js
+// Bundled dependency: zod/v4/classic/deep-partial.js
 function deepPartial(schema) {
   return visit(schema, {
     object: (s) => s.partial(),
@@ -21007,7 +21007,7 @@ function deepPartial(schema) {
   });
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/classic/in-out.js
+// Bundled dependency: zod/v4/classic/in-out.js
 function withChecks(side, checks) {
   if (!checks?.length)
     return side;
@@ -21037,7 +21037,7 @@ function output(schema) {
   });
 }
 
-// ../../../../tmp/orca-assessment-tools/node_modules/zod/v4/classic/coerce.js
+// Bundled dependency: zod/v4/classic/coerce.js
 var coerce_exports = {};
 __export(coerce_exports, {
   bigint: () => bigint3,
@@ -21062,7 +21062,7 @@ function date4(params) {
   return _coercedDate(ZodDate, params);
 }
 
-// ../../../../tmp/orca/src/shared/delegated-mobile-device-contract.ts
+// Bundled source: orca/repo/src/shared/delegated-mobile-device-contract.ts
 var DELEGATED_MOBILE_DEVICES_RUNTIME_CAPABILITY = "pairing.delegated-mobile-devices.v1";
 var DELEGATED_MOBILE_DEVICE_SYNC_MAX_PHONES = 32;
 var DELEGATED_PHONE_NAME_MAX_CHARS = 128;
@@ -21076,7 +21076,7 @@ var DelegatedMobileDeviceSyncParamsSchema = external_exports.object({
   })
 }).strict();
 
-// ../../../../tmp/orca/src/shared/mobile-desktop-relay-contract.ts
+// Bundled source: orca/repo/src/shared/mobile-desktop-relay-contract.ts
 var MOBILE_DESKTOP_RELAY_RUNTIME_CAPABILITY = "mobile.desktop-relay.v1";
 var MOBILE_RELAY_HOST_WORKTREE_DELTAS_RUNTIME_CAPABILITY = "mobile.relay-host-worktree-deltas.v1";
 var MOBILE_RELAY_RUNTIME_CAPABILITIES = [
@@ -21085,7 +21085,7 @@ var MOBILE_RELAY_RUNTIME_CAPABILITIES = [
   MOBILE_RELAY_HOST_WORKTREE_DELTAS_RUNTIME_CAPABILITY
 ];
 
-// ../../../../tmp/orca/src/shared/mobile-runtime-capabilities.ts
+// Bundled source: orca/repo/src/shared/mobile-runtime-capabilities.ts
 var NOTIFICATIONS_REMOTE_PUSH_RUNTIME_CAPABILITY = "notifications.remote-push.v1";
 var MOBILE_RUNTIME_CAPABILITIES = [
   "mobile.tasks.v1",
@@ -21094,7 +21094,7 @@ var MOBILE_RUNTIME_CAPABILITIES = [
   ...MOBILE_RELAY_RUNTIME_CAPABILITIES
 ];
 
-// ../../../../tmp/orca/src/shared/orcad-runtime-capabilities.ts
+// Bundled source: orca/repo/src/shared/orcad-runtime-capabilities.ts
 var ORCAD_TERMINAL_CENSUS_RUNTIME_CAPABILITY = "orcad.terminal-census.v1";
 var ORCAD_MIGRATION_CATALOG_RUNTIME_CAPABILITY = "orcad.migration-catalog.v1";
 var ORCAD_MIGRATION_CATALOG_ABORT_BY_REFERENCE_RUNTIME_CAPABILITY = "orcad.migration-catalog-abort-by-reference.v1";
@@ -21110,7 +21110,7 @@ var ORCAD_RUNTIME_CAPABILITIES = [
   ORCAD_PEER_DESKTOPS_RUNTIME_CAPABILITY
 ];
 
-// ../../../../tmp/orca/src/shared/orchestration-runtime-capabilities.ts
+// Bundled source: orca/repo/src/shared/orchestration-runtime-capabilities.ts
 var ORCHESTRATION_FEDERATION_RUNTIME_CAPABILITY = "orchestration.federation.v1";
 var ORCHESTRATION_FEDERATION_CONTROL_MAIL_RUNTIME_CAPABILITY = "orchestration.federation-control-mail.v1";
 var ORCHESTRATION_FEDERATION_LIFECYCLE_SETTLEMENT_RUNTIME_CAPABILITY = "orchestration.federation-lifecycle-settlement.v1";
@@ -21146,7 +21146,7 @@ var ORCHESTRATION_RUNTIME_CAPABILITIES = [
   ORCHESTRATION_CONTRACT_RUNTIME_CAPABILITY
 ];
 
-// ../../../../tmp/orca/src/shared/preflight-runtime-capabilities.ts
+// Bundled source: orca/repo/src/shared/preflight-runtime-capabilities.ts
 var PREFLIGHT_WORKSPACE_SCOPED_RUNTIME_CAPABILITY = "preflight.workspace-scoped.v1";
 var PREFLIGHT_OTHER_RUNTIME_REFUSAL_RUNTIME_CAPABILITY = "preflight.other-runtime-refusal.v1";
 var PREFLIGHT_PROJECT_LAUNCH_CONTEXT_RUNTIME_CAPABILITY = "preflight.project-launch-context.v1";
@@ -21158,10 +21158,10 @@ var PREFLIGHT_RUNTIME_CAPABILITIES = [
   PREFLIGHT_HOST_QUALIFIED_RUNTIME_CAPABILITY
 ];
 
-// ../../../../tmp/orca/src/shared/qoder-terminal-create-capability.ts
+// Bundled source: orca/repo/src/shared/qoder-terminal-create-capability.ts
 var QODER_OWNED_TERMINAL_CREATE_CAPABILITY = "session.tabs.qoderOwnedCreate.v1";
 
-// ../../../../tmp/orca/src/shared/session-tabs-runtime-capabilities.ts
+// Bundled source: orca/repo/src/shared/session-tabs-runtime-capabilities.ts
 var SESSION_TABS_SPLIT_GROUP_PLACEMENT_RUNTIME_CAPABILITY = "session-tabs.split-group-placement.v1";
 var SESSION_TABS_CHAT_FORK_CLI_RUNTIME_CAPABILITY = "session.tabs.chat-fork-cli.v1";
 var SESSION_TABS_EMPTY_WORKTREE_ANSWER_RUNTIME_CAPABILITY = "session-tabs.empty-worktree-answer.v1";
@@ -21184,7 +21184,7 @@ var SESSION_TABS_RUNTIME_CAPABILITIES = [
   SESSION_TABS_MOVE_PANE_TO_NEW_TAB_RUNTIME_CAPABILITY
 ];
 
-// ../../../../tmp/orca/src/shared/skill-install-capability.ts
+// Bundled source: orca/repo/src/shared/skill-install-capability.ts
 var SKILL_INSTALL_CAPABILITY = "skills.install.v1";
 var SKILL_INSTALL_RESULT_V2_CAPABILITY = "skills.install-result.v2";
 var SKILL_INSTALL_CANCEL_CAPABILITY = "skills.install-cancel.v1";
@@ -21212,7 +21212,7 @@ var SKILL_RUNTIME_CAPABILITIES = [
   SKILL_DISCOVER_WORKSPACE_CAPABILITY
 ];
 
-// ../../../../tmp/orca/src/shared/source-control-runtime-capabilities.ts
+// Bundled source: orca/repo/src/shared/source-control-runtime-capabilities.ts
 var GITHUB_MARK_PR_READY_RUNTIME_CAPABILITY = "github.markPRReadyForReview";
 var MOBILE_GITHUB_MARK_PR_READY_RUNTIME_CAPABILITY = "mobile.github.markPRReadyForReview.v1";
 var GITLAB_READY_FOR_REVIEW_RUNTIME_CAPABILITY = "gitlab.updateMR.readyForReview.v1";
@@ -21224,15 +21224,15 @@ var SOURCE_CONTROL_RUNTIME_CAPABILITIES = [
   GITLAB_READY_FOR_REVIEW_RUNTIME_CAPABILITY
 ];
 
-// ../../../../tmp/orca/src/shared/jira/jira-agent-capability.ts
+// Bundled source: orca/repo/src/shared/jira/jira-agent-capability.ts
 var JIRA_AGENT_ACCESS_RUNTIME_CAPABILITY = "jira.agent-access.v1";
 
-// ../../../../tmp/orca/src/shared/jira/jira-attachment-image.ts
+// Bundled source: orca/repo/src/shared/jira/jira-attachment-image.ts
 var JIRA_IMAGE_CAPABILITY = "jira.attachment-images.v1";
 var JIRA_IMAGE_MAX_BYTES = 8 * 1024 * 1024;
 var JIRA_IMAGE_CHUNK_BYTES = 64 * 1024;
 
-// ../../../../tmp/orca/src/shared/jira/jira-detail-capabilities.ts
+// Bundled source: orca/repo/src/shared/jira/jira-detail-capabilities.ts
 var JIRA_ISSUE_SUMMARY_RUNTIME_CAPABILITY = "jira.issue-summary-generation.v1";
 var JIRA_USER_FIELDS_RUNTIME_CAPABILITY = "jira.user-fields.v1";
 var JIRA_TRANSITION_FIELDS_RUNTIME_CAPABILITY = "jira.transition-fields.v1";
@@ -21243,13 +21243,13 @@ var JIRA_DETAIL_RUNTIME_CAPABILITIES = [
   JIRA_ISSUE_SUMMARY_RUNTIME_CAPABILITY
 ];
 
-// ../../../../tmp/orca/src/shared/jira/jira-quick-filters.ts
+// Bundled source: orca/repo/src/shared/jira/jira-quick-filters.ts
 var JIRA_STATUS_FILTER_RUNTIME_CAPABILITY = "jira.issue-list-statuses.v1";
 
-// ../../../../tmp/orca/src/shared/jira/jira-saved-filter-capability.ts
+// Bundled source: orca/repo/src/shared/jira/jira-saved-filter-capability.ts
 var JIRA_SAVED_FILTER_RUNTIME_CAPABILITY = "jira.saved-filter-state.v1";
 
-// ../../../../tmp/orca/src/shared/task-source-runtime-capabilities.ts
+// Bundled source: orca/repo/src/shared/task-source-runtime-capabilities.ts
 var TASK_SOURCE_CONTEXT_RUNTIME_CAPABILITY = "task-source-context.v1";
 var LINEAR_ISSUE_ATTRIBUTE_FILTER_RUNTIME_CAPABILITY = "linear.issue-attribute-filter.v1";
 var TASK_SOURCE_RUNTIME_CAPABILITIES = [
@@ -21263,10 +21263,10 @@ var TASK_SOURCE_RUNTIME_CAPABILITIES = [
   JIRA_STATUS_FILTER_RUNTIME_CAPABILITY
 ];
 
-// ../../../../tmp/orca/src/shared/terminal-limit-policy.ts
+// Bundled source: orca/repo/src/shared/terminal-limit-policy.ts
 var TERMINAL_LIMIT_RUNTIME_CAPABILITY = "terminal.limit-policy.v1";
 
-// ../../../../tmp/orca/src/shared/program-status/protocol.ts
+// Bundled source: orca/repo/src/shared/program-status/protocol.ts
 var PROGRAM_STATUS_OSC_PREFIX = "\x1B]7501;";
 var PROGRAM_STATUS_RUNTIME_CAPABILITY = "terminal.program-status.v1";
 var PROGRAM_STATUS_STATES = ["idle", "working", "done", "blocked", "error"];
@@ -21274,7 +21274,7 @@ var PROGRAM_STATUS_KINDS = ["permission", "question", "auth"];
 var PROGRAM_STATUS_QUERY_REPLY = `${PROGRAM_STATUS_OSC_PREFIX}?:states=${PROGRAM_STATUS_STATES.join(",")}:kinds=${PROGRAM_STATUS_KINDS.join(",")}\x1B\\`;
 var utf8Decoder = new TextDecoder("utf-8", { fatal: true });
 
-// ../../../../tmp/orca/src/shared/terminal-quick-command-capabilities.ts
+// Bundled source: orca/repo/src/shared/terminal-quick-command-capabilities.ts
 var TERMINAL_QUICK_COMMANDS_RUNTIME_CAPABILITY = "terminal.quick-commands.v1";
 var TERMINAL_QUICK_COMMAND_LONG_PROMPTS_RUNTIME_CAPABILITY = "terminal.quick-commands.long-prompts.v1";
 var TERMINAL_QUICK_COMMAND_LARGE_LISTS_RUNTIME_CAPABILITY = "terminal.quick-commands.large-lists.v1";
@@ -21284,7 +21284,7 @@ var TERMINAL_QUICK_COMMAND_RUNTIME_CAPABILITIES = [
   TERMINAL_QUICK_COMMAND_LARGE_LISTS_RUNTIME_CAPABILITY
 ];
 
-// ../../../../tmp/orca/src/shared/terminal-runtime-capabilities.ts
+// Bundled source: orca/repo/src/shared/terminal-runtime-capabilities.ts
 var TERMINAL_QUERY_REPLY_INPUT_RUNTIME_CAPABILITY = "terminal.query-reply-input.v1";
 var TERMINAL_PROMPT_DELIVERY_RUNTIME_CAPABILITY = "terminal.prompt-delivery.v1";
 var TERMINAL_PAIRED_PARKING_RUNTIME_CAPABILITY = "terminal.paired-parking.v1";
@@ -21309,14 +21309,14 @@ var TERMINAL_RUNTIME_CAPABILITIES = [
   TERMINAL_SPLIT_RETRY_RUNTIME_CAPABILITY
 ];
 
-// ../../../../tmp/orca/src/shared/workspace-ports-runtime-capabilities.ts
+// Bundled source: orca/repo/src/shared/workspace-ports-runtime-capabilities.ts
 var WORKSPACE_PORTS_HOST_SCOPED_RUNTIME_CAPABILITY = "workspace-ports.host-scoped.v1";
 var WORKSPACE_PORTS_RUNTIME_CAPABILITIES = [
   "workspace-ports.v1",
   WORKSPACE_PORTS_HOST_SCOPED_RUNTIME_CAPABILITY
 ];
 
-// ../../../../tmp/orca/src/shared/workspace-attachment-capabilities.ts
+// Bundled source: orca/repo/src/shared/workspace-attachment-capabilities.ts
 var WORKTREE_LINKED_ITEMS_RUNTIME_CAPABILITY = "worktree.linked-items.v1";
 var WORKTREE_LINKED_ITEMS_DELTA_RUNTIME_CAPABILITY = "worktree.linked-items-delta.v1";
 var WORKSPACE_ATTACHMENT_RUNTIME_CAPABILITIES = [
@@ -21324,7 +21324,7 @@ var WORKSPACE_ATTACHMENT_RUNTIME_CAPABILITIES = [
   WORKTREE_LINKED_ITEMS_DELTA_RUNTIME_CAPABILITY
 ];
 
-// ../../../../tmp/orca/src/shared/worktree-runtime-capabilities.ts
+// Bundled source: orca/repo/src/shared/worktree-runtime-capabilities.ts
 var WORKTREE_RENAME_ERROR_DISMISS_RUNTIME_CAPABILITY = "worktree.rename-error-dismiss.v1";
 var WORKTREE_OPEN_EXISTING_BRANCH_RUNTIME_CAPABILITY = "worktree.open-existing-branch.v1";
 var WORKTREE_OPEN_EXISTING_BRANCH_V2_RUNTIME_CAPABILITY = "worktree.open-existing-branch.v2";
@@ -21365,7 +21365,7 @@ var WORKTREE_RUNTIME_CAPABILITIES = [
   WORKTREE_CLIENT_AUTOMATION_PROVENANCE_RUNTIME_CAPABILITY
 ];
 
-// ../../../../tmp/orca/src/shared/protocol-version.ts
+// Bundled source: orca/repo/src/shared/protocol-version.ts
 var NATIVE_REMOTE_RUNTIME_CLIENT_CAPABILITIES = [
   SESSION_TAB_CLOSE_INTENT_RUNTIME_CAPABILITY,
   AGENT_SESSION_BOUNDARY_RUNTIME_CAPABILITY,
@@ -21401,11 +21401,11 @@ var RUNTIME_CAPABILITIES = [
   ...AI_VAULT_RUNTIME_CAPABILITIES
 ];
 
-// ../../../../tmp/orca/src/shared/orchestration-rpc-contract.ts
+// Bundled source: orca/repo/src/shared/orchestration-rpc-contract.ts
 var ORCHESTRATION_LEGACY_RUN_ID = "run_legacy_local";
 var ORCHESTRATION_UNBOUND_RUN_ID = "run_unbound";
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/contract-constants.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/contract-constants.ts
 var LEGACY_RUN_ID = ORCHESTRATION_LEGACY_RUN_ID;
 var UNBOUND_RUN_ID = ORCHESTRATION_UNBOUND_RUN_ID;
 var FEDERATED_STUB_HOME_RUN_ID_PREFIX = "run_federated_";
@@ -21416,7 +21416,7 @@ var LEGACY_CONTRACT_VERSION = 0;
 var CURRENT_CONTRACT_VERSION = ORCHESTRATION_CONTRACT_VERSION;
 var SCHEMA_VERSION = 46;
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/pane-key-match.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/pane-key-match.ts
 function isEquivalentPaneKey(a, b) {
   if (a === b) {
     return true;
@@ -21442,7 +21442,7 @@ function paneKeyMatchSuffix(paneKey) {
   return colon === -1 ? paneKey : paneKey.slice(colon + 1);
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/dispatch-row-writer.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/dispatch-row-writer.ts
 var DISPATCH_CONTEXT_CLAIM_SQL = `INSERT INTO dispatch_contexts (
   id, run_id, task_id, contract_version, launch_token_hash,
   assignee_handle, assignee_pane_key, assignee_orca_session_id, process_incarnation,
@@ -21543,7 +21543,7 @@ function insertRemoteDispatchAttachmentRow(db, params) {
   );
 }
 
-// ../../../../tmp/orca/src/shared/nested-worker-depth.ts
+// Bundled source: orca/repo/src/shared/nested-worker-depth.ts
 var ROOT_DISPATCH_DEPTH = 0;
 var NESTED_WORKER_DEPTH_EXCEEDED_CODE = "nested_worker_depth_exceeded";
 function nestedWorkerDepthExceededMessage(childDepth, maxDepth) {
@@ -21554,7 +21554,7 @@ var NESTED_WORKER_DEPTH_EXCEEDED_NEXT_STEPS = [
   'To allow deeper nesting, open Settings \u2192 Orchestration in the Orca desktop app and raise "Nested worker depth".'
 ];
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/federation/remote-attachment-liveness.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/federation/remote-attachment-liveness.ts
 var POTENTIALLY_LIVE_REMOTE_ATTACHMENT_STATES = [
   "starting",
   "ready",
@@ -21569,7 +21569,7 @@ function potentiallyLiveRemoteAttachmentSql(column = "state") {
   return `${column} IN (${POTENTIALLY_LIVE_REMOTE_ATTACHMENT_STATES.map((state) => `'${state}'`).join(", ")})`;
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/dispatch-depth.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/dispatch-depth.ts
 function recordedCreatorIdentity(creator) {
   if (creator.kind === "system") {
     return { creatorHandle: null, creatorPaneKey: null, creatorOrcaSessionId: null };
@@ -21676,7 +21676,7 @@ function attachDispatchDepth(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/shared/orca-cli-command-name.ts
+// Bundled source: orca/repo/src/shared/orca-cli-command-name.ts
 function getOrcaCliCommandNameForPlatform(platform) {
   if (platform === "linux") {
     return "orca-ide";
@@ -21687,7 +21687,7 @@ function getOrcaCliCommandNameForPlatform(platform) {
   return "orca";
 }
 
-// ../../../../tmp/orca/src/shared/tui-agent-config.ts
+// Bundled source: orca/repo/src/shared/tui-agent-config.ts
 function resolveTuiAgentConfig(source) {
   return {
     ...source,
@@ -22016,7 +22016,7 @@ var TUI_AGENT_CONFIG = Object.fromEntries(
   ])
 );
 
-// ../../../../tmp/orca/src/shared/orchestration-dispatch-refusal-contract.ts
+// Bundled source: orca/repo/src/shared/orchestration-dispatch-refusal-contract.ts
 function taskNotFoundRefusal(message, detail) {
   return {
     code: "task_not_found",
@@ -22067,7 +22067,7 @@ var RECOGNIZED_AGENT_PROCESS_NAMES = [
   ...new Set(Object.values(TUI_AGENT_CONFIG).map((config2) => config2.expectedProcess))
 ].sort();
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/task-dispatch-refusal.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/task-dispatch-refusal.ts
 function taskNotFoundError(message, detail) {
   return toError(taskNotFoundRefusal(message, detail));
 }
@@ -22100,12 +22100,12 @@ function unmetTaskDependencies(db, task) {
   );
 }
 
-// ../../../../tmp/orca/src/shared/agent-session/agent-session-context-usage.ts
+// Bundled source: orca/repo/src/shared/agent-session/agent-session-context-usage.ts
 var MAX_CONTEXT_MODEL_ID_CHARS = 256;
 var MAX_CONTEXT_CATEGORIES = 64;
 var MAX_CONTEXT_CATEGORY_NAME_CHARS = 80;
 
-// ../../../../tmp/orca/src/shared/agent-session/agent-session-context-usage-schema.ts
+// Bundled source: orca/repo/src/shared/agent-session/agent-session-context-usage-schema.ts
 var TokenCount = external_exports.number().finite().nonnegative();
 var WindowTokens = external_exports.number().finite().positive();
 var CapturedAt = external_exports.number().finite();
@@ -22141,7 +22141,7 @@ var AgentSessionContextUsageSchema = external_exports.object({
   used: Used.optional()
 });
 
-// ../../../../tmp/orca/src/shared/agent-session/journal/agent-session-journal-open-union.ts
+// Bundled source: orca/repo/src/shared/agent-session/journal/agent-session-journal-open-union.ts
 function knownTags(union2) {
   const key = union2.def.discriminator;
   return new Set(
@@ -22160,7 +22160,7 @@ function openDiscriminatedUnion(known) {
   return external_exports.union([known, unknown2]);
 }
 
-// ../../../../tmp/orca/src/shared/agent-session/journal/agent-session-journal-thread-goal-schema.ts
+// Bundled source: orca/repo/src/shared/agent-session/journal/agent-session-journal-thread-goal-schema.ts
 var ThreadGoal = external_exports.object({
   objective: external_exports.string(),
   status: external_exports.string().min(1),
@@ -22177,7 +22177,7 @@ var AgentJournalThreadGoalStateSchema = openDiscriminatedUnion(
   ])
 );
 
-// ../../../../tmp/orca/src/shared/agent-session/failures/agent-session-failure-fact-schema.ts
+// Bundled source: orca/repo/src/shared/agent-session/failures/agent-session-failure-fact-schema.ts
 var AgentSessionFailureFactSchema = external_exports.object({
   kind: external_exports.string().min(1),
   detail: external_exports.object({ text: external_exports.string(), audience: external_exports.string().min(1) }).optional(),
@@ -22186,7 +22186,7 @@ var AgentSessionFailureFactSchema = external_exports.object({
   requestTimeout: external_exports.looseObject({}).optional()
 });
 
-// ../../../../tmp/orca/src/shared/agent-session/journal/agent-session-journal-schemas.ts
+// Bundled source: orca/repo/src/shared/agent-session/journal/agent-session-journal-schemas.ts
 var BoundedPayload = external_exports.object({
   head: external_exports.string(),
   byteLength: external_exports.number(),
@@ -22436,7 +22436,7 @@ var AgentJournalKnownSchemas = {
   resolution: Resolution
 };
 
-// ../../../../tmp/orca/src/shared/agent-session/journal/agent-session-journal-item-key.ts
+// Bundled source: orca/repo/src/shared/agent-session/journal/agent-session-journal-item-key.ts
 var KEY_DELIMITER = ":";
 var VERBATIM_BOUNDED_COMPONENT_TAG = "%FF";
 var BOUNDED_COMPONENT_PATTERN = /^[\s\S]{0,40}~orca-oversized~(?:[1-9]\d*)~[0-9a-f]{16}$/;
@@ -22506,10 +22506,10 @@ function parsedIdentity(identity, key, preserveExactKey) {
   return identity;
 }
 
-// ../../../../tmp/orca/src/shared/agent-session/failures/agent-session-usage-limit.ts
+// Bundled source: orca/repo/src/shared/agent-session/failures/agent-session-usage-limit.ts
 var MAX_RESET_WAIT_MS = 31 * 24 * 60 * 60 * 1e3;
 
-// ../../../../tmp/orca/src/shared/tui-agent-display-names.ts
+// Bundled source: orca/repo/src/shared/tui-agent-display-names.ts
 var TUI_AGENT_DISPLAY_NAMES = {
   claude: "Claude",
   "claude-agent-teams": "Claude Agent Teams",
@@ -22559,7 +22559,7 @@ var TUI_AGENT_DISPLAY_NAMES = {
 };
 var ALL_TUI_AGENTS = Object.keys(TUI_AGENT_DISPLAY_NAMES);
 
-// ../../../../tmp/orca/src/shared/agent-session/lifecycle/agent-session-rewind.ts
+// Bundled source: orca/repo/src/shared/agent-session/lifecycle/agent-session-rewind.ts
 var Key = external_exports.string().min(1).max(4096);
 var AgentSessionRewindRecordSchema = external_exports.object({
   operationId: Key,
@@ -22604,10 +22604,10 @@ var AgentSessionRewindRecordSchema = external_exports.object({
   ).max(1e4).optional()
 });
 
-// ../../../../tmp/orca/src/shared/agent-session/lifecycle/agent-session-launch-args.ts
+// Bundled source: orca/repo/src/shared/agent-session/lifecycle/agent-session-launch-args.ts
 var MAX_LAUNCH_ARGS_BYTES = 16 * 1024;
 
-// ../../../../tmp/orca/src/shared/surrogate-safe-text-slice.ts
+// Bundled source: orca/repo/src/shared/surrogate-safe-text-slice.ts
 function sliceAtCodeUnitLimit(value, limit) {
   if (value.length <= limit) {
     return value;
@@ -22619,7 +22619,7 @@ function isHighSurrogate(code) {
   return code >= 55296 && code <= 56319;
 }
 
-// ../../../../tmp/orca/src/shared/agent-session/agent-session-conversation-name.ts
+// Bundled source: orca/repo/src/shared/agent-session/agent-session-conversation-name.ts
 var AGENT_SESSION_CONVERSATION_NAME_MAX_LENGTH = 200;
 var UNRENDERABLE_RUN = /(?:[\s\p{Cc}\p{Zl}\p{Zp}]|(?![\u200C\u200D])\p{Cf})+/gu;
 var BLANK_ONLY = /^[\s\u200C\u200D]+$/u;
@@ -22643,30 +22643,30 @@ function normalizeAgentSessionConversationName(value) {
   return truncated || null;
 }
 
-// ../../../../tmp/orca/src/shared/utf8-byte-limits.ts
+// Bundled source: orca/repo/src/shared/utf8-byte-limits.ts
 var MAX_UTF8_SCRATCH_BYTES = 1024 * 1024;
 var utf8Encoder = new TextEncoder();
 var utf8Scratch = new Uint8Array(0);
 
-// ../../../../tmp/orca/src/shared/ssh-retained-payload-limits.ts
+// Bundled source: orca/repo/src/shared/ssh-retained-payload-limits.ts
 var SSH_CONNECTION_ERROR_MAX_UTF8_BYTES = 16 * 1024;
 
-// ../../../../tmp/orca/src/shared/agent-session/lifecycle/agent-session-record.ts
+// Bundled source: orca/repo/src/shared/agent-session/lifecycle/agent-session-record.ts
 var SESSION_ID_PATTERN = /^[A-Za-z0-9_-]{8,128}$/;
 function isAgentSessionId(value) {
   return typeof value === "string" && SESSION_ID_PATTERN.test(value);
 }
 
-// ../../../../tmp/orca/src/shared/structured-worker-handle.ts
+// Bundled source: orca/repo/src/shared/structured-worker-handle.ts
 var STRUCTURED_WORKER_HANDLE_PREFIX = "structworker_";
 function isStructuredWorkerHandle(handle) {
   return typeof handle === "string" && handle.startsWith(STRUCTURED_WORKER_HANDLE_PREFIX);
 }
 
-// ../../../../tmp/orca/src/shared/orca-session-address-prefix.ts
+// Bundled source: orca/repo/src/shared/orca-session-address-prefix.ts
 var ORCA_SESSION_ADDRESS_PREFIX = "orca_session_id:";
 
-// ../../../../tmp/orca/src/shared/orca-session-address.ts
+// Bundled source: orca/repo/src/shared/orca-session-address.ts
 var TERMINAL_HANDLE_PREFIXES = ["term_", STRUCTURED_WORKER_HANDLE_PREFIX];
 function isOrcaSessionId(id) {
   return isAgentSessionId(id) && !TERMINAL_HANDLE_PREFIXES.some((prefix) => id.startsWith(prefix));
@@ -22689,10 +22689,10 @@ function isOrcaSessionAddress(address) {
   return parseOrcaSessionAddress(address) !== null;
 }
 
-// ../../../../tmp/orca/src/shared/agent-status-field-normalization.ts
+// Bundled source: orca/repo/src/shared/agent-status-field-normalization.ts
 var AGENT_TYPE_MAX_LENGTH = 40;
 
-// ../../../../tmp/orca/src/shared/agent-turn-outcome.ts
+// Bundled source: orca/repo/src/shared/agent-turn-outcome.ts
 var AGENT_JOURNAL_TURN_OUTCOMES = [
   "success",
   "failure",
@@ -22705,18 +22705,18 @@ var AGENT_TURN_OUTCOMES = [
   "unconfirmed"
 ];
 
-// ../../../../tmp/orca/src/shared/agent-status-freshness.ts
+// Bundled source: orca/repo/src/shared/agent-status-freshness.ts
 var AGENT_STATUS_STALE_AFTER_MS = 30 * 60 * 1e3;
 var AGENT_STATUS_HYDRATE_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1e3;
 
-// ../../../../tmp/orca/src/shared/agent-status-types.ts
+// Bundled source: orca/repo/src/shared/agent-status-types.ts
 var AGENT_STATUS_STATES = ["working", "blocked", "waiting", "done"];
 var VALID_STATES = new Set(AGENT_STATUS_STATES);
 
-// ../../../../tmp/orca/src/shared/native-chat/native-chat-visual-directive.ts
+// Bundled source: orca/repo/src/shared/native-chat/native-chat-visual-directive.ts
 var NATIVE_CHAT_VISUAL_MAX_BYTES = 512 * 1024;
 
-// ../../../../tmp/orca/src/shared/sha256.ts
+// Bundled source: orca/repo/src/shared/sha256.ts
 var K = new Uint32Array([
   1116352408,
   1899447441,
@@ -22856,7 +22856,7 @@ function sha256(message) {
   return digest;
 }
 
-// ../../../../tmp/orca/src/shared/zod-salvage.ts
+// Bundled source: orca/repo/src/shared/zod-salvage.ts
 var MAX_REPORTED_SALVAGE_PATHS = 100;
 var dropCollector = null;
 var dropPath = [];
@@ -22927,7 +22927,7 @@ function salvagedOptional(name, schema) {
   return salvagedField(name, schema.optional(), () => void 0).optional();
 }
 
-// ../../../../tmp/orca/src/shared/agent-session/agent-session-message-source.ts
+// Bundled source: orca/repo/src/shared/agent-session/agent-session-message-source.ts
 function agentMessageSenderName(value) {
   return normalizeAgentSessionConversationName(value);
 }
@@ -22966,7 +22966,7 @@ var sourceSchema = external_exports.object({
   ).transform((orchestration) => orchestration ?? null)
 });
 
-// ../../../../tmp/orca/src/shared/agent-session/view/structured-agent-session-projection.ts
+// Bundled source: orca/repo/src/shared/agent-session/view/structured-agent-session-projection.ts
 function structuredAgentSessionTabId(sessionId) {
   return `structured-agent-session-${sessionId}`;
 }
@@ -22977,7 +22977,7 @@ function structuredAgentSessionPaneKey(tabId, sessionId) {
   return `${tabId}:${leaf}`;
 }
 
-// ../../../../tmp/orca/src/shared/worker-terminal-host-scope.ts
+// Bundled source: orca/repo/src/shared/worker-terminal-host-scope.ts
 function readWorkerTerminalHostScope(value) {
   if (!value) {
     return { kind: "absent" };
@@ -23022,7 +23022,7 @@ function parseWorkerTerminalHostScope(value) {
   return read.kind === "local" || read.kind === "remote" ? read.scope : null;
 }
 
-// ../../../../tmp/orca/src/main/runtime/structured-worker-identity.ts
+// Bundled source: orca/repo/src/main/runtime/structured-worker-identity.ts
 var STRUCTURED_WORKER_INCARNATION_PREFIX = "structured:";
 function persistedStructuredWorkerPaneKeyIsValid(paneKey, sessionId) {
   const parsed = paneKey ? parsePaneKey(paneKey) : null;
@@ -23102,13 +23102,13 @@ var StructuredWorkerIdentityRegistry = class {
 };
 var structuredWorkerIdentities = new StructuredWorkerIdentityRegistry();
 
-// ../../../../tmp/orca/src/main/native-chat/agent-session-wire/structured-agent-session-registry.ts
+// Bundled source: orca/repo/src/main/native-chat/agent-session-wire/structured-agent-session-registry.ts
 var host = null;
 function getStructuredAgentSessionHost() {
   return host;
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/structured-session-lineage.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/structured-session-lineage.ts
 function readAgentSessionRecordStore() {
   const store = getStructuredAgentSessionHost()?.deps.store;
   return store ? conversationRecordReader(store) : null;
@@ -23126,7 +23126,7 @@ function clearedInto(record2) {
   return command?.command === "clear" && command.phase === "committed" ? command.replacementSessionId ?? null : null;
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/canonical-orca-session-id.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/canonical-orca-session-id.ts
 function canonicalOrcaSessionId(orcaSessionId, store = readAgentSessionRecordStore()) {
   if (!store) {
     return orcaSessionId;
@@ -23149,13 +23149,13 @@ function canonicalOrcaSessionId(orcaSessionId, store = readAgentSessionRecordSto
   return isOrcaSessionId(root) ? root : orcaSessionId;
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/dispatch-assignee-orca-session-id.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/dispatch-assignee-orca-session-id.ts
 function dispatchAssigneeOrcaSessionId(assignee) {
   const orcaSessionId = structuredWorkerOrcaSessionIdForIncarnation(assignee.processIncarnation) ?? parseOrcaSessionAddress(assignee.handle);
   return orcaSessionId === null ? null : canonicalOrcaSessionId(orcaSessionId);
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/worker-terminal/worker-terminal-transfer.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/worker-terminal/worker-terminal-transfer.ts
 function findTransferableWorkerTerminalResource(params) {
   if (!params.paneKey || !params.processIncarnation) {
     return void 0;
@@ -23247,7 +23247,7 @@ function attachWorkerTerminalTransfer(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/dispatch-context/dispatch-context-store.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/dispatch-context/dispatch-context-store.ts
 function createDispatchContext(params) {
   const { taskId, assigneeHandle, assigneePaneKey, launchTokenHash, processIncarnation } = params;
   const depth = this.resolveChildDispatchDepth(params.creator, params.maxDepth);
@@ -23354,7 +23354,7 @@ function attachDispatchContextStore(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/dispatch-context/dispatch-lookup.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/dispatch-context/dispatch-lookup.ts
 var ACTIVE_DISPATCH_BY_HANDLE_SQL = (
   // Newest-first avoids selecting a stale row when one handle has multiple active Dispatches.
   `SELECT ${DISPATCH_CONTEXT_COLUMN_LIST} FROM dispatch_contexts
@@ -23548,7 +23548,7 @@ function attachDispatchLookup(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/shared/agent-session/lifecycle/agent-session-resume.ts
+// Bundled source: orca/repo/src/shared/agent-session/lifecycle/agent-session-resume.ts
 var RESUMABLE_TUI_AGENTS = [
   "claude",
   "codebuddy",
@@ -23579,7 +23579,7 @@ var RESUMABLE_TUI_AGENTS = [
 ];
 var RESUMABLE_TUI_AGENT_SET = new Set(RESUMABLE_TUI_AGENTS);
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/dispatch-context/worker-follow-up-lineage.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/dispatch-context/worker-follow-up-lineage.ts
 function getFollowUpDispatch(db, dispatchId) {
   return db.db.prepare("SELECT * FROM dispatch_contexts WHERE follow_up_of_dispatch_id = ?").get(dispatchId);
 }
@@ -23607,15 +23607,15 @@ function takeFollowUpMail(db, fromDispatchId, toDispatchId) {
   markUnreadFollowUpMail(db, toDispatchId);
 }
 
-// ../../../../tmp/orca/src/shared/orchestration-timing-budgets.ts
+// Bundled source: orca/repo/src/shared/orchestration-timing-budgets.ts
 var AGENT_PROMPT_EFFECT_TIMEOUT_MS = 3e4;
 var ORCHESTRATION_FEDERATION_ATTACH_GRACE_MS = AGENT_PROMPT_EFFECT_TIMEOUT_MS + 1e4;
 var ORCHESTRATION_WORKER_START_CLIENT_GRACE_MS = AGENT_PROMPT_EFFECT_TIMEOUT_MS + 2e4;
 
-// ../../../../tmp/orca/src/main/runtime/agent-prompt-submission-verification.ts
+// Bundled source: orca/repo/src/main/runtime/agent-prompt-submission-verification.ts
 var AGENT_PROMPT_STALLED_ERROR = "agent_prompt_stalled";
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/lifecycle-write-transaction-runner.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/lifecycle-write-transaction-runner.ts
 function runLifecycleWriteTransaction(db, savepoint, operation) {
   const transaction = beginLifecycleWriteTransaction(db, savepoint);
   try {
@@ -23628,7 +23628,7 @@ function runLifecycleWriteTransaction(db, savepoint, operation) {
   }
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/worker-report-admission.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/worker-report-admission.ts
 var UNPROVEN_WORKER_STATES = [
   "start_unknown",
   "stop_unknown"
@@ -23641,7 +23641,7 @@ function isWorkerStateIn(states, state) {
   return state !== void 0 && states.includes(state);
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/dispatch-context/worker-report-settlement.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/dispatch-context/worker-report-settlement.ts
 var WORKER_REPORT_TRANSACTION_SAVEPOINT = "worker_report_transaction";
 function recordAcceptedReportFact(db, params) {
   if (!params.observation) {
@@ -23868,7 +23868,7 @@ function attachWorkerReportSettlement(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/federation/federated-dispatch-store.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/federation/federated-dispatch-store.ts
 function getFederatedDispatch(dispatchId) {
   return this.db.prepare("SELECT * FROM federated_dispatches WHERE dispatch_id = ?").get(dispatchId);
 }
@@ -23955,7 +23955,7 @@ function attachFederatedDispatchStore(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/federation/federated-dispatch-observation-fence.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/federation/federated-dispatch-observation-fence.ts
 var OBSERVATION_FENCE_SQL = `SELECT fd.dispatch_id, fd.remote_runtime_epoch, fd.remote_worktree_id,
               fd.remote_terminal_handle, dc.status AS dispatch_status,
               t.status AS task_status, wd.runtime_epoch AS worker_runtime_epoch,
@@ -24009,7 +24009,7 @@ function attachFederatedDispatchObservationFence(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/federated-worker-report-outcome.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/federated-worker-report-outcome.ts
 function parseFederatedWorkerReportOutcome(payload) {
   try {
     const message = JSON.parse(payload);
@@ -24023,7 +24023,7 @@ function parseFederatedWorkerReportOutcome(payload) {
   }
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/federation/federation-relay-ack.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/federation/federation-relay-ack.ts
 function listFederationRelay(params) {
   return this.db.prepare(
     `SELECT * FROM federation_relay_items
@@ -24156,7 +24156,7 @@ function attachFederationRelayAck(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/federation/federation-relay-enqueue.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/federation/federation-relay-enqueue.ts
 function enqueueFederationRelay(params) {
   const byteCount = Buffer.byteLength(params.payload, "utf8");
   const messageId = params.messageId ?? generateId("relay");
@@ -24298,7 +24298,7 @@ function attachFederationRelayEnqueue(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/federation/federation-relay-import.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/federation/federation-relay-import.ts
 function importFederatedRelayItem(params) {
   this.db.exec("BEGIN IMMEDIATE");
   try {
@@ -24385,7 +24385,7 @@ function attachFederationRelayImport(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/federation/federation-relay-item.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/federation/federation-relay-item.ts
 function getFederationRelayItem(dispatchId, direction, sequence) {
   return this.db.prepare(
     `SELECT * FROM federation_relay_items
@@ -24427,7 +24427,7 @@ function attachFederationRelayItem(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/federation/remote-dispatch-attachment-authority.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/federation/remote-dispatch-attachment-authority.ts
 function prepareRemoteAttachmentAuthority(params) {
   this.db.exec("BEGIN IMMEDIATE");
   try {
@@ -24559,7 +24559,7 @@ function attachRemoteDispatchAttachmentAuthority(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/mutation-receipt-capacity.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/mutation-receipt-capacity.ts
 var MUTATION_RECEIPT_MAX_ROWS = 1e4;
 var MUTATION_RECEIPT_MAX_AGE_DAYS = 30;
 var MUTATION_RECEIPT_PRUNE_BATCH_SIZE = 64;
@@ -24629,7 +24629,7 @@ function ensureMutationReceiptCapacity(db) {
   }
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/federation/remote-dispatch-attachment-create.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/federation/remote-dispatch-attachment-create.ts
 function createRemoteDispatchAttachment(params) {
   this.db.exec("BEGIN IMMEDIATE");
   try {
@@ -24755,7 +24755,7 @@ function attachRemoteDispatchAttachmentCreate(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/utc-timestamp.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/utc-timestamp.ts
 var SQLITE_UTC_TIMESTAMP_RE = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}(?:\.\d+)?$/;
 function exposeUtcTimestamp(timestamp) {
   if (!timestamp || !SQLITE_UTC_TIMESTAMP_RE.test(timestamp)) {
@@ -24799,7 +24799,7 @@ function exposeQuestionTimestamps(question) {
   };
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/worker-terminal-ownership.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/worker-terminal-ownership.ts
 var WORKER_SETTLED_STATES = [
   "succeeded",
   "failed",
@@ -24857,7 +24857,7 @@ function liveWorkerTerminalAutoReleaseAt(resource) {
   return resource?.auto_release_at && resource.auto_release_dispatch_id === resource.owner_dispatch_id && resource.ownership_state === "owned" && resource.release_state === "not_requested" ? exposeUtcTimestamp(resource.auto_release_at) : null;
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/federation/remote-dispatch-attachment-release.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/federation/remote-dispatch-attachment-release.ts
 function requestRemoteAttachmentTerminalRelease(dispatchId, mode = "interactive") {
   this.db.exec("BEGIN IMMEDIATE");
   try {
@@ -24928,7 +24928,7 @@ function attachRemoteDispatchAttachmentRelease(ctor) {
   Object.assign(ctor.prototype, { requestRemoteAttachmentTerminalRelease });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/worker-terminal/worker-terminal-archive.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/worker-terminal/worker-terminal-archive.ts
 function storeWorkerTerminalArchive(params) {
   this.db.prepare(
     `INSERT INTO worker_terminal_archives (dispatch_id, resource_id, kind, content)
@@ -25107,7 +25107,7 @@ function attachWorkerTerminalArchive(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/worker-terminal/worker-terminal-auto-release.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/worker-terminal/worker-terminal-auto-release.ts
 var WORKER_TERMINAL_AUTO_RELEASE_GRACE_MS = 2 * 6e4;
 var RELEASABLE_STATES_SQL = WORKER_RELEASABLE_STATES.map((state) => `'${state}'`).join(", ");
 var OWNER_RELEASABLE_SQL = `(
@@ -25292,7 +25292,7 @@ function attachWorkerTerminalAutoRelease(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/worker-terminal/worker-terminal-user-keep.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/worker-terminal/worker-terminal-user-keep.ts
 function findResources(db, paneKey, matchSql) {
   const exact = db.db.prepare(
     `SELECT id, owner_dispatch_id, pane_key FROM worker_terminal_resources
@@ -25412,7 +25412,7 @@ function closingAutomatically(resource) {
   return (resource.release_state === "requested" || resource.release_state === "releasing") && resource.auto_release_at !== null && resource.auto_release_dispatch_id === resource.owner_dispatch_id;
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/federation/remote-dispatch-attachment-stop.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/federation/remote-dispatch-attachment-stop.ts
 function beginRemoteAttachmentStop(dispatchId) {
   const attachment = this.getRemoteDispatchAttachment(dispatchId);
   if (!attachment) {
@@ -25481,7 +25481,7 @@ function attachRemoteDispatchAttachmentStop(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/federation/remote-question-store.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/federation/remote-question-store.ts
 function getRemoteQuestion(messageId) {
   return this.db.prepare("SELECT * FROM remote_questions WHERE message_id = ?").get(messageId);
 }
@@ -25565,7 +25565,7 @@ function attachRemoteQuestionStore(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/legacy-question-identity.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/legacy-question-identity.ts
 function normalizeLegacyQuestionText(value) {
   return value.replace(/\r\n/g, "\n").trim();
 }
@@ -25587,7 +25587,7 @@ function legacyMessageMatchesQuestion(message, question, options, recipientHandl
   }
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/legacy/legacy-ask-operation.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/legacy/legacy-ask-operation.ts
 function commitLegacyAskOperation(params) {
   this.db.exec("BEGIN IMMEDIATE");
   try {
@@ -25685,7 +25685,7 @@ function attachLegacyAskOperation(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/legacy/legacy-compatibility-candidates.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/legacy/legacy-compatibility-candidates.ts
 function resolveLegacyCompatibilityPrincipalByIdentity(params) {
   if (!params.terminalHandle && !params.paneKey) {
     return void 0;
@@ -25784,7 +25784,7 @@ function attachLegacyCompatibilityCandidates(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/legacy/legacy-compatibility-principals.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/legacy/legacy-compatibility-principals.ts
 function getLegacyAdoption() {
   return this.db.prepare("SELECT * FROM legacy_adoptions WHERE source_run_id = ?").get(LEGACY_RUN_ID);
 }
@@ -25902,7 +25902,7 @@ function attachLegacyCompatibilityPrincipals(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/legacy/legacy-lifecycle-operation.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/legacy/legacy-lifecycle-operation.ts
 function commitLegacyLifecycleOperation(params) {
   this.db.exec("BEGIN IMMEDIATE");
   try {
@@ -26014,7 +26014,7 @@ function attachLegacyLifecycleOperation(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/legacy/legacy-mail-acknowledge.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/legacy/legacy-mail-acknowledge.ts
 function acknowledgeLegacyMail(params) {
   if (params.messageIds.length === 0) {
     return { receipts: [], duplicate: true };
@@ -26093,7 +26093,7 @@ function attachLegacyMailAcknowledge(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/legacy/legacy-question-acknowledge.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/legacy/legacy-question-acknowledge.ts
 function acknowledgeLegacyQuestionAnswer(params) {
   this.db.exec("BEGIN IMMEDIATE");
   try {
@@ -26146,7 +26146,7 @@ function attachLegacyQuestionAcknowledge(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/legacy/legacy-question-lookup.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/legacy/legacy-question-lookup.ts
 function findPendingLegacyQuestions(params) {
   return this.findLegacyQuestionsBySemanticIdentity(params).filter((row) => row.question.status === "pending").map(({ question, message }) => ({ question, message }));
 }
@@ -26217,10 +26217,10 @@ function attachLegacyQuestionLookup(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/messages/mailbox-routing-page.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/messages/mailbox-routing-page.ts
 var ORCHESTRATION_DELIVERY_BATCH_LIMIT = 50;
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/legacy/legacy-recovery-cohort.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/legacy/legacy-recovery-cohort.ts
 function initializeLegacyRecoveryCohort(principal) {
   if (principal.role === "worker") {
     this.db.prepare(
@@ -26330,7 +26330,7 @@ function attachLegacyRecoveryCohort(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/legacy/legacy-reply-operation.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/legacy/legacy-reply-operation.ts
 function commitLegacyReplyOperation(params) {
   this.db.exec("BEGIN IMMEDIATE");
   try {
@@ -26451,7 +26451,7 @@ function attachLegacyReplyOperation(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/legacy/legacy-worker-completion.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/legacy/legacy-worker-completion.ts
 function findLegacyWorkerCompletion(params) {
   const principal = this.getLegacyCompatibilityPrincipal(params.principalId);
   if (!principal || principal.role !== "worker" || !principal.dispatch_id) {
@@ -26548,12 +26548,12 @@ function attachLegacyWorkerCompletion(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/orca-session-address-sql.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/orca-session-address-sql.ts
 function orcaSessionAddressSql(orcaSessionIdSql) {
   return `('${ORCA_SESSION_ADDRESS_PREFIX}' || ${orcaSessionIdSql})`;
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/runs/run-coordinator-orca-session.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/runs/run-coordinator-orca-session.ts
 function currentRunCoordinatorOrcaSessionId(run) {
   return run.coordinator_orca_session_id_generation === run.consumer_generation ? run.coordinator_orca_session_id : null;
 }
@@ -26565,7 +26565,7 @@ function currentRunCoordinatorSessionAddressSql(row) {
   return orcaSessionAddressSql(currentRunCoordinatorOrcaSessionIdSql(row));
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/runs/run-coordinator-mail-routing.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/runs/run-coordinator-mail-routing.ts
 function activeDispatchOwnsAddressSql(runIdSql, addressSql) {
   return `EXISTS (
     SELECT 1 FROM dispatch_contexts
@@ -26691,7 +26691,7 @@ function attachRunCoordinatorMailRouting(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/messages/direct-mailbox-routing.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/messages/direct-mailbox-routing.ts
 function hasUndeliveredDirectMessageForRun(runId, directHandle) {
   return Boolean(
     this.db.prepare(
@@ -26828,7 +26828,7 @@ function attachDirectMailboxRouting(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/messages/foreign-direct-mailbox-routing.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/messages/foreign-direct-mailbox-routing.ts
 function findActiveDispatchForDirectMessageOwner(runId, directHandle, paneKey) {
   const rawExact = this.db.prepare(
     `SELECT ${DISPATCH_CONTEXT_COLUMN_LIST} FROM dispatch_contexts
@@ -26983,7 +26983,7 @@ function attachForeignDirectMailboxRouting(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/messages/mailbox-pointer-enter-state.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/messages/mailbox-pointer-enter-state.ts
 var MAILBOX_POINTER_RESERVED = 1;
 var MAILBOX_POINTER_WRITE_ATTEMPTED = 2;
 var MAILBOX_POINTER_ENTER_ATTEMPTED = 3;
@@ -27161,7 +27161,7 @@ function attachMailboxPointerEnterState(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/lifecycle-rejection-marker.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/lifecycle-rejection-marker.ts
 function addLifecycleRejectionMarker(payload, code, reason) {
   let parsed = {};
   try {
@@ -27191,7 +27191,7 @@ function hasLifecycleRejectionMarker(payload) {
   }
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/messages/message-inbox.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/messages/message-inbox.ts
 var MESSAGE_ID_UPDATE_BATCH_SIZE = 500;
 var MESSAGE_MUTATION_SAVEPOINT = "message_id_mutation";
 function runBatchedMessageMutation(db, ids, sqlForPlaceholders, leadingBindings = []) {
@@ -27405,7 +27405,7 @@ function attachMessageInbox(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/messages/message-insert.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/messages/message-insert.ts
 var MESSAGE_INSERT_SAVEPOINT = "message_insert_batch";
 var WORKER_DONE_MESSAGE_SAVEPOINT = "worker_done_message_commit";
 function insertMessage(msg) {
@@ -27471,7 +27471,7 @@ function attachMessageInsert(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/messages/mailbox-consumer.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/messages/mailbox-consumer.ts
 var ACTIVE_DISPATCH_CONSUMER_SQL = `
   SELECT run_id, consumer_generation FROM dispatch_contexts
   WHERE id = ? AND status IN ('pending', 'dispatched')
@@ -27493,7 +27493,7 @@ function requireMailboxConsumer(db, params) {
   }
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/messages/role-mailbox-delivery.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/messages/role-mailbox-delivery.ts
 function getDeliveryRaw(id) {
   return this.db.prepare("SELECT * FROM deliveries WHERE id = ?").get(id);
 }
@@ -27679,7 +27679,7 @@ function attachRoleMailboxDelivery(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/messages/structured-pointer-operation-store.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/messages/structured-pointer-operation-store.ts
 function getStructuredPointerOperation(mailboxHandle) {
   return this.db.prepare("SELECT * FROM structured_pointer_operations WHERE mailbox_handle = ?").get(mailboxHandle);
 }
@@ -27710,7 +27710,7 @@ function attachStructuredPointerOperationStore(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/mutation-receipts/mutation-receipt-store.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/mutation-receipts/mutation-receipt-store.ts
 import { randomBytes as randomBytes2 } from "node:crypto";
 function getOrCreateLocalMutationCallerFingerprint() {
   if (this.localMutationCallerFingerprint) {
@@ -27844,7 +27844,7 @@ function attachMutationReceiptStore(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/messages/helper-mailbox-hand-back.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/messages/helper-mailbox-hand-back.ts
 function handHelperMailToRun(db, dispatchId) {
   const runId = db.db.prepare("SELECT run_id FROM dispatch_contexts WHERE id = ?").get(dispatchId)?.run_id;
   if (typeof runId !== "string") {
@@ -27886,7 +27886,7 @@ function handHelperMailToRun(db, dispatchId) {
   }
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/questions/question-threads.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/questions/question-threads.ts
 function createQuestion(params) {
   this.db.exec("BEGIN IMMEDIATE");
   try {
@@ -28052,7 +28052,7 @@ function attachQuestionThreads(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/shared/orchestration-removed-work.ts
+// Bundled source: orca/repo/src/shared/orchestration-removed-work.ts
 var text = external_exports.string().nullable().catch(null);
 var REMOVED_WORK_INT_FIELD = external_exports.number().nullable().catch(null);
 var int2 = REMOVED_WORK_INT_FIELD;
@@ -28139,7 +28139,7 @@ var RemovedWorkEntrySchema = external_exports.discriminatedUnion("kind", [
   external_exports.object({ ...workerBase, kind: external_exports.literal("federated_worker"), ...lineage.federated_worker })
 ]);
 
-// ../../../../tmp/orca/src/shared/orchestration-fleet-worker-projection.ts
+// Bundled source: orca/repo/src/shared/orchestration-fleet-worker-projection.ts
 var DURABLE_EXIT_PROOF = {
   workerState: "stopped",
   workerStage: "released",
@@ -28147,7 +28147,7 @@ var DURABLE_EXIT_PROOF = {
   terminationReasons: ["operator_close", "signaled", "exited"]
 };
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/reset/removed-orchestration-work-read.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/reset/removed-orchestration-work-read.ts
 var WORKER_KINDS = "('worker', 'remote_worker', 'federated_worker')";
 var sqlList = (values) => values.map((value) => `'${value}'`).join(", ");
 var field = (key) => `json_extract(record, '$.${key}')`;
@@ -28226,7 +28226,7 @@ function summarizeRemovedWorkSince(db, watermark) {
   }
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/reset/orchestration-reset.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/reset/orchestration-reset.ts
 function runResetTransaction(statements) {
   this.db.exec("BEGIN IMMEDIATE");
   try {
@@ -28316,7 +28316,7 @@ function attachOrchestrationReset(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/orchestration-caller-identity.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/orchestration-caller-identity.ts
 function mailboxAddressOf(party) {
   if (party.terminalHandle !== null) {
     return party.terminalHandle;
@@ -28337,7 +28337,7 @@ function runBoundToCoordinator(run, caller) {
   return caller.orcaSessionId !== null && currentRunCoordinatorOrcaSessionId(run) === caller.orcaSessionId;
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/runs/worker-run-binding.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/runs/worker-run-binding.ts
 function findCallerWorkerDispatches(db, caller) {
   const address = mailboxAddressOf(caller);
   if (address === null) {
@@ -28381,7 +28381,7 @@ function workerRunBindingRefusal(db, caller, runId, attempted) {
   return null;
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/runs/run-binding.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/runs/run-binding.ts
 function bindRun(params) {
   const coordinator = {
     terminalHandle: params.coordinatorHandle,
@@ -28512,7 +28512,7 @@ function attachRunBinding(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/runs/run-create.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/runs/run-create.ts
 function createRun(params) {
   const coordinator = {
     terminalHandle: params.coordinatorHandle,
@@ -28551,7 +28551,7 @@ function attachRunCreate(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/runs/run-delivery.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/runs/run-delivery.ts
 function requireCurrentConsumer(runId, consumerGeneration) {
   const run = this.getRunRaw(runId);
   if (!run || run.legacy === 1 || run.consumer_generation !== consumerGeneration) {
@@ -28638,10 +28638,10 @@ function attachRunDelivery(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/shared/orchestration-run-pagination.ts
+// Bundled source: orca/repo/src/shared/orchestration-run-pagination.ts
 var ORCHESTRATION_RUN_PAGE_LIMIT = 100;
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/run-list-cursor.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/run-list-cursor.ts
 function encodeRunListCursor(run) {
   const cursor = { createdAt: run.created_at, id: run.id };
   return Buffer.from(JSON.stringify(cursor)).toString("base64url");
@@ -28658,7 +28658,7 @@ function decodeRunListCursor(value) {
   }
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/runs/run-lookup.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/runs/run-lookup.ts
 var RUN_BY_ID_SQL = `SELECT ${RUN_COLUMN_LIST} FROM runs WHERE id = ?`;
 var RUNS_BOUND_TO_PANE_SQL = `SELECT ${RUN_COLUMN_LIST} FROM runs
          WHERE coordinator_pane_key IS NOT NULL AND legacy = 0
@@ -28790,7 +28790,7 @@ function attachRunLookup(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/runs/legacy-coordinator-mail-takeover.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/runs/legacy-coordinator-mail-takeover.ts
 function promoteLegacyCoordinatorMailForTakeover(runId, retainedCoordinatorHandle) {
   if (!retainedCoordinatorHandle) {
     return;
@@ -28925,7 +28925,7 @@ function attachLegacyCoordinatorMailTakeover(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/schema/adopt-legacy-run.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/schema/adopt-legacy-run.ts
 function adoptLegacyRunIfNeeded() {
   const existing = this.db.prepare("SELECT * FROM legacy_adoptions WHERE source_run_id = ?").get(LEGACY_RUN_ID);
   const hasGraph = this.db.prepare(
@@ -29038,7 +29038,7 @@ function attachAdoptLegacyRun(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/schema/backfill-legacy-question-threads.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/schema/backfill-legacy-question-threads.ts
 function backfillLegacyQuestionThreads() {
   const messages = this.db.prepare(
     `SELECT id, run_id, from_handle, to_handle, payload, created_at, sequence
@@ -29132,7 +29132,7 @@ function attachBackfillLegacyQuestionThreads(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/schema/create-core-tables-sql.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/schema/create-core-tables-sql.ts
 function createCoreTablesSql() {
   return `
 CREATE TABLE IF NOT EXISTS runs (
@@ -29365,7 +29365,7 @@ CREATE TABLE IF NOT EXISTS worker_terminal_archives (
   `;
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/schema/create-graph-tables-sql.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/schema/create-graph-tables-sql.ts
 var ADDITIVE_LIFECYCLE_DELETE_TRIGGERS_SQL = `
 CREATE TRIGGER IF NOT EXISTS trg_tasks_delete_additive_lifecycle
 AFTER DELETE ON tasks
@@ -29587,7 +29587,7 @@ CREATE TABLE IF NOT EXISTS coordinator_runs (
   `;
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/schema/migrate-v41.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/schema/migrate-v41.ts
 var OUTSTANDING_MAILBOX_INDEX_SQL = `
   CREATE INDEX IF NOT EXISTS idx_deliveries_one_outstanding
     ON deliveries(mailbox_handle) WHERE status = 'outstanding' AND mailbox_handle != '';
@@ -29619,7 +29619,7 @@ ${OUTSTANDING_MAILBOX_INDEX_SQL}`
   );
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/reset/removed-orchestration-work-store.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/reset/removed-orchestration-work-store.ts
 var REMOVED_WORK_SCHEMA_SQL = `
 CREATE TABLE IF NOT EXISTS removed_orchestration_work (
   seq        INTEGER PRIMARY KEY,
@@ -29802,7 +29802,7 @@ function installRemovedWorkCapture(db, captureWasIntact) {
   }
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/schema/create-tables.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/schema/create-tables.ts
 function createTables() {
   this.db.exec(`${createCoreTablesSql()}
 ${createGraphTablesSql()}
@@ -29816,7 +29816,7 @@ function attachCreateTables(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/schema/migrate-legacy-contract-storage.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/schema/migrate-legacy-contract-storage.ts
 function migrateLegacyContractStorage() {
   if (!this.hasColumn("dispatch_contexts", "contract_version")) {
     this.db.exec(
@@ -29936,7 +29936,7 @@ function attachMigrateLegacyContractStorage(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/orchestration-schema-version-skew.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/orchestration-schema-version-skew.ts
 var POST_V6_COLUMNS = [
   ["messages", "run_id"],
   ["messages", "delivery_contract"],
@@ -30083,7 +30083,7 @@ function resolveOrchestrationMigrationStartVersion(db, storedVersion, schemaVers
   return Math.min(storedVersion, schemaVersion, 6);
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/schema/migrate-v13-v30.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/schema/migrate-v13-v30.ts
 function applySchemaMigrationsV13ToV30(current) {
   if (current < 13 && !this.hasColumn("worker_dispatches", "runtime_epoch")) {
     this.db.exec("ALTER TABLE worker_dispatches ADD COLUMN runtime_epoch TEXT");
@@ -30302,7 +30302,7 @@ function applySchemaMigrationsV13ToV30(current) {
   this.createMailboxDeliveryIndexesIfPossible();
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/schema/migrate-v2-v12.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/schema/migrate-v2-v12.ts
 function applySchemaMigrationsV2ToV12(current) {
   if (current < 2) {
     if (!this.hasColumn("dispatch_contexts", "last_heartbeat_at")) {
@@ -30527,7 +30527,7 @@ function applySchemaMigrationsV2ToV12(current) {
   }
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/schema/migrate-mailbox-pointer-enter-v33.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/schema/migrate-mailbox-pointer-enter-v33.ts
 function migrateMailboxPointerEnterV33(current) {
   if (current >= 33) {
     return;
@@ -30549,7 +30549,7 @@ function migrateMailboxPointerEnterV33(current) {
   `);
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/schema/migrate-role-mailbox-delivery-v34.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/schema/migrate-role-mailbox-delivery-v34.ts
 function migrateRoleMailboxDeliveryV34(current) {
   if (current >= 34) {
     return;
@@ -30596,7 +30596,7 @@ function migrateRoleMailboxDeliveryV34(current) {
   `);
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/schema/migrate-v35.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/schema/migrate-v35.ts
 var ONE_OUTSTANDING_INDEX_SQL = `
   CREATE UNIQUE INDEX idx_deliveries_one_outstanding
     ON deliveries(mailbox_handle) WHERE status = 'outstanding' AND mailbox_handle != '';
@@ -30692,7 +30692,7 @@ function dropUnreadDispatchIdentityColumns() {
   }
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/schema/migrate-v36.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/schema/migrate-v36.ts
 function migrateV36(current) {
   if (current >= 36) {
     return;
@@ -30704,7 +30704,7 @@ function migrateV36(current) {
   }
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/schema/migrate-v37.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/schema/migrate-v37.ts
 function migrateV37(current) {
   if (current >= 37) {
     return;
@@ -30716,7 +30716,7 @@ function migrateV37(current) {
   }
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/schema/migrate-v38.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/schema/migrate-v38.ts
 function migrateV38(current) {
   if (current >= 38) {
     return;
@@ -30731,7 +30731,7 @@ function migrateV38(current) {
   );
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/schema/migrate-v39.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/schema/migrate-v39.ts
 function migrateV39(current) {
   if (current >= 39) {
     return;
@@ -30752,7 +30752,7 @@ function migrateV39(current) {
     `);
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/federation/federated-stub-home-run-backfill.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/federation/federated-stub-home-run-backfill.ts
 function backfillFederatedStubHomeRuns(db) {
   db.exec(`
     INSERT OR IGNORE INTO runs (id, objective, home_database, consumer_generation, legacy)
@@ -30765,7 +30765,7 @@ function backfillFederatedStubHomeRuns(db) {
   `);
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/schema/migrate-v40.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/schema/migrate-v40.ts
 function migrateV40(current) {
   if (current >= 40) {
     return;
@@ -30778,7 +30778,7 @@ function migrateV40(current) {
   backfillFederatedStubHomeRuns(this.db);
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/schema/migrate-v42.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/schema/migrate-v42.ts
 var ORCA_SESSION_ID_COLUMNS = [
   ["runs", "coordinator_orca_session_id", "TEXT"],
   ["runs", "coordinator_orca_session_id_generation", "INTEGER"],
@@ -30802,7 +30802,7 @@ function migrateV42(current) {
   `);
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/schema/migrate-v43.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/schema/migrate-v43.ts
 var LEGACY_PREFIX = "session:";
 var CURRENT_PREFIX = "orca_session_id:";
 var ADDRESS_COLUMNS = [
@@ -30831,7 +30831,7 @@ function migrateV43(current) {
   }
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/schema/migrate-v44.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/schema/migrate-v44.ts
 function migrateV44(current) {
   if (current >= 44) {
     return;
@@ -30847,7 +30847,7 @@ function migrateV44(current) {
   `);
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/schema/migrate-v45.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/schema/migrate-v45.ts
 function migrateV45(current) {
   if (current >= 45) {
     return;
@@ -30863,7 +30863,7 @@ function migrateV45(current) {
   `);
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/schema/migrate-v46.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/schema/migrate-v46.ts
 function migrateV46(current) {
   if (current >= 46) {
     return;
@@ -30883,7 +30883,7 @@ function migrateV46(current) {
   `);
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/schema/migrate.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/schema/migrate.ts
 function migrate() {
   const storedVersion = this.db.pragma("user_version", { simple: true });
   const current = resolveOrchestrationMigrationStartVersion(this.db, storedVersion, SCHEMA_VERSION);
@@ -30927,7 +30927,7 @@ function attachSchemaMigrate(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/schema/schema-column-probes.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/schema/schema-column-probes.ts
 function hasColumn(table, column) {
   const rows = this.db.pragma(`table_info(${table})`);
   return rows.some((r) => r.name === column);
@@ -30998,7 +30998,7 @@ function attachSchemaColumnProbes(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/shared/orchestration-task-display.ts
+// Bundled source: orca/repo/src/shared/orchestration-task-display.ts
 var ORCHESTRATION_TASK_TITLE_MAX_LENGTH = 80;
 var ORCHESTRATION_DISPLAY_NAME_MAX_LENGTH = 160;
 function buildOrchestrationTaskDisplayMetadata(input2) {
@@ -31037,7 +31037,7 @@ function trimDanglingHighSurrogate(value) {
   return lastCode >= 55296 && lastCode <= 56319 ? value.slice(0, -1) : value;
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/tasks/task-store.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/tasks/task-store.ts
 function createTask(task) {
   const runId = task.runId;
   if (!runId) {
@@ -31202,7 +31202,7 @@ function attachTaskStore(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/tasks/task-status-transition.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/tasks/task-status-transition.ts
 var UPDATE_TASK_STATUS_SAVEPOINT = "update_task_status";
 function updateTaskStatus(id, status, result) {
   const terminalStatus = status === "completed" || status === "failed";
@@ -31294,7 +31294,7 @@ function attachTaskStatusTransition(ctor) {
   Object.assign(ctor.prototype, { updateTaskStatus });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/worker-dispatch/federated-worker-start-reconcile.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/worker-dispatch/federated-worker-start-reconcile.ts
 function reconcileFederatedWorkerStart(params) {
   const transaction = beginLifecycleWriteTransaction(this.db, "federated_worker_start_reconcile");
   try {
@@ -31429,7 +31429,7 @@ function attachFederatedWorkerStartReconcile(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/context-only-dispatch-release.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/context-only-dispatch-release.ts
 function releaseContextOnlyDispatch(db, dispatch, requestedState) {
   if (dispatch.status !== "pending" && dispatch.status !== "dispatched") {
     return {
@@ -31471,7 +31471,7 @@ function persistedReleaseState(dispatch) {
   return dispatch.last_failure === "abandoned" || dispatch.last_failure === "stopped" ? dispatch.last_failure : dispatch.status;
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/worker-dispatch/worker-dispatch-stop.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/worker-dispatch/worker-dispatch-stop.ts
 function isDispatchProcessCurrent(params) {
   const dispatch = this.getDispatchContextById(params.dispatchId);
   return Boolean(
@@ -31696,7 +31696,7 @@ function attachWorkerDispatchStop(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/worker-dispatch/worker-dispatch-abandon.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/worker-dispatch/worker-dispatch-abandon.ts
 function abandonWorkerDispatch(dispatchId, runtimeEpoch, abandonedBy) {
   this.db.exec("BEGIN IMMEDIATE");
   try {
@@ -31775,7 +31775,7 @@ function attachWorkerDispatchAbandon(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/worker-dispatch/worker-dispatch-authority.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/worker-dispatch/worker-dispatch-authority.ts
 function prepareStartingWorkerAuthority(params) {
   this.db.exec("BEGIN IMMEDIATE");
   try {
@@ -31940,7 +31940,7 @@ function attachWorkerDispatchAuthority(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/worker-terminal/failed-start-dispatch-identity.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/worker-terminal/failed-start-dispatch-identity.ts
 function recordFailedStartDispatchIdentity(db, worker) {
   const resource = db.getWorkerTerminalResourceByOwner(worker.dispatch_id);
   if (!resource || resource.terminal_handle !== worker.agent_terminal_handle) {
@@ -31964,7 +31964,7 @@ function recordFailedStartDispatchIdentity(db, worker) {
   );
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/worker-launch-observation.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/worker-launch-observation.ts
 var object2 = external_exports.record(external_exports.string(), external_exports.unknown());
 var selection = external_exports.object({
   agent: salvagedOptional("agent", external_exports.string().min(1).max(AGENT_TYPE_MAX_LENGTH).nullable()),
@@ -32015,7 +32015,7 @@ function mergeWorkerLaunchObservation(json2, observation) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/worker-dispatch/worker-dispatch-outcome.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/worker-dispatch/worker-dispatch-outcome.ts
 function retainWorkerLaunchObservation(dispatchId, observation) {
   this.db.exec("BEGIN IMMEDIATE");
   try {
@@ -32167,7 +32167,7 @@ function attachWorkerDispatchOutcome(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/worker-dispatch/worker-dispatch-stage.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/worker-dispatch/worker-dispatch-stage.ts
 function recordWorkerStage(params) {
   const current = this.getWorkerDispatch(params.dispatchId);
   if (!current) {
@@ -32245,7 +32245,7 @@ function attachWorkerDispatchStage(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/worker-dispatch/worker-dispatch-start.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/worker-dispatch/worker-dispatch-start.ts
 function createStartingWorkerDispatch(params) {
   this.db.exec("BEGIN IMMEDIATE");
   try {
@@ -32405,7 +32405,7 @@ function attachWorkerDispatchStart(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/worker-dispatch/worker-terminal-recovery.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/worker-dispatch/worker-terminal-recovery.ts
 function listLegacyWorkerTerminalRecoveryRows(dispatchIds) {
   if (dispatchIds?.length === 0) {
     return [];
@@ -32495,7 +32495,7 @@ function attachWorkerTerminalRecovery(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/attempt-outcome-projection.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/attempt-outcome-projection.ts
 var DEFAULT_FRESH_AFTER_MS = 6e4;
 var FUTURE_TOLERANCE_MS = 5e3;
 function latestByFacet(facts) {
@@ -32602,7 +32602,7 @@ function projectAttemptOutcome(args) {
   };
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/worker-terminal/worker-terminal-attention-query.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/worker-terminal/worker-terminal-attention-query.ts
 function getWorkerAttentionFactsForDispatches(dispatchIds, authorityNow) {
   const ids = [...new Set(dispatchIds)];
   if (ids.length === 0) {
@@ -32682,7 +32682,7 @@ function getWorkerAttentionFacts(dispatchId, authorityNow) {
   return facts;
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/worker-terminal/worker-terminal-inventory-counts.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/worker-terminal/worker-terminal-inventory-counts.ts
 function buildInventoryScope(params) {
   const orderExpression = "COALESCE(w.created_at, d.created_at)";
   const where = [];
@@ -32743,7 +32743,7 @@ function countWorkerTerminalInventory(params = {}) {
   };
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/worker-terminal/worker-terminal-listing.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/worker-terminal/worker-terminal-listing.ts
 function listWorkerTerminalReleaseBacklog(limit) {
   return this.db.prepare(
     `SELECT * FROM worker_terminal_resources
@@ -32908,7 +32908,7 @@ function attachWorkerTerminalListing(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/worker-terminal/worker-terminal-release.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/worker-terminal/worker-terminal-release.ts
 function requestWorkerTerminalRelease(dispatchId) {
   this.db.exec("BEGIN IMMEDIATE");
   try {
@@ -33026,7 +33026,7 @@ function attachWorkerTerminalRelease(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/worker-terminal/worker-terminal-resource-store.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/worker-terminal/worker-terminal-resource-store.ts
 function backfillWorkerTerminalResources() {
   const rows = this.db.prepare(
     `SELECT w.dispatch_id, w.worktree_id, w.agent_terminal_handle,
@@ -33204,7 +33204,7 @@ function attachWorkerTerminalResourceStore(ctor) {
   });
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/attach-orchestration-db-methods.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/attach-orchestration-db-methods.ts
 function attachOrchestrationDbMethods(ctor) {
   attachAttemptObservationStore(ctor);
   attachCreateTables(ctor);
@@ -33276,7 +33276,7 @@ function attachOrchestrationDbMethods(ctor) {
   attachOrchestrationReset(ctor);
 }
 
-// ../../../../tmp/orca/src/main/sqlite/harden-database-files.ts
+// Bundled source: orca/repo/src/main/sqlite/harden-database-files.ts
 import { chmodSync, existsSync as existsSync2 } from "node:fs";
 function hardenSqliteDatabaseFiles(dbPath) {
   if (dbPath === ":memory:" || process.platform === "win32") {
@@ -33292,12 +33292,12 @@ function hardenSqliteDatabaseFiles(dbPath) {
   }
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/database-file-permissions.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/database-file-permissions.ts
 function hardenOrchestrationDatabaseFiles(dbPath) {
   hardenSqliteDatabaseFiles(dbPath);
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/schema/structured-worker-orca-session-backfill.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/schema/structured-worker-orca-session-backfill.ts
 var CURRENT_COORDINATOR_ORCA_SESSION_ID_SQL = currentRunCoordinatorOrcaSessionIdSql("runs");
 var HANDLE_GLOB = `${STRUCTURED_WORKER_HANDLE_PREFIX}*`;
 var INCARNATION_GLOB = `${STRUCTURED_WORKER_INCARNATION_PREFIX}*`;
@@ -33390,7 +33390,7 @@ function recordedWorkerSessionsByHandle(db) {
   return sessionsByHandle;
 }
 
-// ../../../../tmp/orca/src/main/runtime/orchestration/db/orchestration-db.ts
+// Bundled source: orca/repo/src/main/runtime/orchestration/db/orchestration-db.ts
 var OrchestrationDbCore = class {
   db;
   // Cache Dispatch emptiness to skip per-terminal queries on 16ms graph ticks for users without orchestration.

@@ -435,9 +435,9 @@ Database initialized at :memory:
 103 |     throw new Error(
                     ^
 error: In-memory database requires SECRETS_ENCRYPTION_KEY or SECRETS_ENCRYPTION_KEY_FILE to be set explicitly
-      at resolveEncryptionKey (/Users/stk/workspace/engineering/adjutant/wingman/alternatives/agent-swarm/src/be/crypto/key-bootstrap.ts:103:15)
-      at bootOpenedDb (/Users/stk/workspace/engineering/adjutant/wingman/alternatives/agent-swarm/src/be/db/runtime.ts:290:3)
-      at initDb (/Users/stk/workspace/engineering/adjutant/wingman/alternatives/agent-swarm/src/be/db/runtime.ts:115:12)
-      at /Users/stk/workspace/engineering/adjutant/wingman/research/evidence/agent-swarm/agent-swarm-communication-probe.relocated.ts:6:1
+      at resolveEncryptionKey (agent-swarm/repo/src/be/crypto/key-bootstrap.ts:103:15)
+      at bootOpenedDb (agent-swarm/repo/src/be/db/runtime.ts:290:3)
+      at initDb (agent-swarm/repo/src/be/db/runtime.ts:115:12)
+      at agent-swarm/assessment/evidence/agent-swarm-communication-probe.relocated.ts:6:1
 
 Bun v1.4.4 (macOS arm64)

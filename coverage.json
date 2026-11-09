@@ -1865,8 +1865,10 @@
       "verification_scope": "source assessment and independent static audit; runtime exceptions stated in report"
     }
   ],
-  "baseline_sha256": "e418163d6bce45434266a7ea4f43b66e15ad1a39fdcd0667496fe073ba3d3467",
+  "baseline_sha256": "7a5beee12a0c90d5d30a063e944a65d419501737161553a1fd85e0a3f2bf8af1",
   "completed_at": "2026-11-05T08:46:35.035839+00:00",
   "validation": "validation.json",
-  "completion_audit": "COMPLETION_AUDIT.md"
+  "completion_audit": "COMPLETION_AUDIT.md",
+  "assessed_baseline_sha256": "e418163d6bce45434266a7ea4f43b66e15ad1a39fdcd0667496fe073ba3d3467",
+  "baseline_note": "Location examples use symbolic roots; the assessed requirements are unchanged."
 }

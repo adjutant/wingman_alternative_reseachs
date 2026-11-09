@@ -1,0 +1,23 @@
+{
+  "date": "2026-11-10",
+  "scope": "Copied the entire Git assessment file inventory into a differently named isolated folder under local scratch. No .git directory, source checkout or pre-existing project environment was copied. Standard Python and uv-managed declared builder packages are the toolchain.",
+  "files_copied": 320,
+  "source_checkouts_copied": 0,
+  "reports_rebuilt": 66,
+  "rebuilt_reports_identical": true,
+  "checks": [
+    {
+      "check": "Build all reports",
+      "exit_code": 0
+    },
+    {
+      "check": "Boundary and local targets with optional checkouts absent",
+      "exit_code": 0
+    },
+    {
+      "check": "Publication fidelity",
+      "exit_code": 0
+    }
+  ],
+  "issues": []
+}

@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-09T17:27:23.054971+00:00",
+  "checked_at": "2026-11-09T18:00:21.002905+00:00",
   "scope": "Checkout preservation, materialization, baseline/requirement coverage, source evidence hashes and local links. Not a semantic or runtime audit.",
   "required_repository_count": 9,
   "checkout_count": 9,

@@ -12,7 +12,9 @@ from serve_reports import make_server
 
 class ReportServerTests(unittest.TestCase):
     def setUp(self):
-        self.temp = TemporaryDirectory()
+        scratch = Path(__file__).resolve().parents[1] / '.run'
+        scratch.mkdir(exist_ok=True)
+        self.temp = TemporaryDirectory(dir=scratch)
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name) / 'reports'
         self.root.mkdir()

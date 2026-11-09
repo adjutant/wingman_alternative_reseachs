@@ -307,7 +307,12 @@ They do not guarantee exactly-once effects in external tools.</p>
 </ul>
 <p>These are historical runs. This reorganization did not rerun them.
 Inspect imports and runtime requirements before using a retained script.
-The source-derived bundles cover selected paths. They are not the full installed application.</p></section>
+The source-derived bundles cover selected paths. They are not the full installed application.</p>
+<p>Source exports now resolve into <code>orca/repo/</code> through paths relative to their own files. Bundle provenance comments use repository-relative labels.
+The optional fixture script stores scratch state under this repository's <code>.run/</code> folder.
+Embedded candidate implementation logic remains unchanged.
+These are path-normalized historical artifacts; no candidate probe was rerun.
+See <a href="../generic/assessments/PORTABILITY_AUDIT.md">the portability audit</a> for original and current hashes.</p></section>
 <section id="source-record"><h2>Source and evidence</h2><p class="url-text">https://github.com/stablyai/orca</p>
 <ul><li><a href="repo/">Open the pinned source checkout</a></li><li><a href="assessment/ASSESSMENT.md">Read the Markdown assessment</a></li>
 <li><a href="../generic/assessments/_audits/qa11.md">Read the historical independent source audit</a></li><li><a href="../generic/method.html">Read the method and evidence limits</a></li></ul></section>

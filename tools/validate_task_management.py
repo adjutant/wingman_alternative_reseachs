@@ -63,8 +63,6 @@ def main():
                 issues.append(f'{slug}: checkout is incomplete or HEAD changed')
             if status != record.get('git_status', '') or status:
                 issues.append(f'{slug}: source checkout is not clean and preserved')
-            if repo.stat().st_ino != record.get('directory_inode'):
-                issues.append(f'{slug}: checkout directory was replaced')
             if hashlib.sha256(paths).hexdigest() != record.get('tracked_paths_sha256'):
                 issues.append(f'{slug}: tracked path set changed')
             if missing or sparse:

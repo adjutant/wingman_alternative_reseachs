@@ -1,7 +1,7 @@
-import { closeDb, initDb, createAgent, createChannel, postMessage, getMentionsForAgent, updateReadState, claimMentions, getUnreadMessages, getDbClient, createTaskExtended, startTask, getSteeringMessageById, markSteeringDelivered, completeTask } from '/Users/stk/tmp/agent-swarm/src/be/db.ts';
-import { requestSteering } from '/Users/stk/tmp/agent-swarm/src/be/steering.ts';
-import { registerReadMessagesTool } from '/Users/stk/tmp/agent-swarm/src/tools/read-messages.ts';
-import { registerCreateChannelTool } from '/Users/stk/tmp/agent-swarm/src/tools/create-channel.ts';
+import { closeDb, initDb, createAgent, createChannel, postMessage, getMentionsForAgent, updateReadState, claimMentions, getUnreadMessages, getDbClient, createTaskExtended, startTask, getSteeringMessageById, markSteeringDelivered, completeTask } from '../../repo/src/be/db.ts';
+import { requestSteering } from '../../repo/src/be/steering.ts';
+import { registerReadMessagesTool } from '../../repo/src/tools/read-messages.ts';
+import { registerCreateChannelTool } from '../../repo/src/tools/create-channel.ts';
 initDb(':memory:');
 const reader = await createAgent({ name: 'probe-reader', isLead: false, status: 'idle', harnessProvider: 'codex', maxTasks: 10 });
 const sender = await createAgent({ name: 'probe-sender', isLead: false, status: 'idle' });

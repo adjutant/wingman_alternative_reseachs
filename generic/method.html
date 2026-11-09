@@ -146,8 +146,10 @@ Selected focused experiment evidence remains with the relevant project.</p>
 </tbody>
 </table></div>
 <p>Each project has a <a href="../orca/index.html#support-legacy-evidence">legacy evidence note</a> with its own links and limits.
-Do not run retained scripts blindly. Some imports name historical paths or temporary dependencies.
-Keep raw logs unchanged. An edited log cannot serve as the original observation.</p>
+Retained scripts use local evidence bundles or the declared source checkouts. Check their runtime requirements before a new run.
+Historical host paths can be normalized when the change is disclosed with original and current hashes.
+Call these files path-normalized historical evidence. Do not call them unchanged raw logs or new test runs.
+See <a href="assessments/PORTABILITY_AUDIT.md">the portability audit</a> for the transformation record.</p>
 <h2 id="method-writing-review">Writing review</h2>
 <p>Use ASD-STE100 principles for authored assessments and reports.
 Use short sentences, active voice, one topic per sentence, and consistent terminology.
@@ -155,7 +157,7 @@ Preserve API names, state names, code paths, and necessary technical terms.
 Explain a technical term at its first use when the reader needs that definition.
 Avoid a formal compliance claim without a controlled-vocabulary review.</p>
 <p>A sentence-length check can locate difficult prose. It cannot establish active voice or technical accuracy.
-Source excerpts and raw experiment evidence retain their original wording.
+Source findings and experiment outcomes retain their original meaning. Disclosed path normalization does not establish a new observation.
 The report review must distinguish those records from authored explanations.</p>
 <h2 id="method-report-design">Report design</h2>
 <p>The reports share one stylesheet and one script.

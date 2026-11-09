@@ -35,3 +35,9 @@ They do not guarantee exactly-once effects in external tools.
 These are historical runs. This reorganization did not rerun them.
 Inspect imports and runtime requirements before using a retained script.
 The source-derived bundles cover selected paths. They are not the full installed application.
+
+Source exports now resolve into `orca/repo/` through paths relative to their own files. Bundle provenance comments use repository-relative labels.
+The optional fixture script stores scratch state under this repository's `.run/` folder.
+Embedded candidate implementation logic remains unchanged.
+These are path-normalized historical artifacts; no candidate probe was rerun.
+See [the portability audit](../../generic/assessments/PORTABILITY_AUDIT.md) for original and current hashes.

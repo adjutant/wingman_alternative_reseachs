@@ -33,3 +33,9 @@ Procedure artifacts and runtime guarantees must remain separate in the assessmen
 
 This reorganization did not rerun these tests.
 No complete free acceptance suite, paid evaluation, live browser workflow, or remote-host deployment is established by these logs.
+
+Source stack traces now use `gstack/repo/` relative to the research root.
+`<temp-root>` preserves the lexical temporary path; `<resolved-temp-root>` preserves its resolved alias.
+The distinction remains because it caused a recorded assertion failure.
+These path edits preserve pass/fail results and do not represent a rerun.
+See [the portability audit](../../generic/assessments/PORTABILITY_AUDIT.md) for original and current hashes.

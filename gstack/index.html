@@ -391,7 +391,12 @@ Procedure artifacts and runtime guarantees must remain separate in the assessmen
 <li><a href="assessment/evidence/gstack-assessment-canonical-path-tests.log">Canonical-path rerun log</a>.</li>
 </ul>
 <p>This reorganization did not rerun these tests.
-No complete free acceptance suite, paid evaluation, live browser workflow, or remote-host deployment is established by these logs.</p></section>
+No complete free acceptance suite, paid evaluation, live browser workflow, or remote-host deployment is established by these logs.</p>
+<p>Source stack traces now use <code>gstack/repo/</code> relative to the research root.
+<code>&lt;temp-root&gt;</code> preserves the lexical temporary path; <code>&lt;resolved-temp-root&gt;</code> preserves its resolved alias.
+The distinction remains because it caused a recorded assertion failure.
+These path edits preserve pass/fail results and do not represent a rerun.
+See <a href="../generic/assessments/PORTABILITY_AUDIT.md">the portability audit</a> for original and current hashes.</p></section>
 <section id="source-record"><h2>Source and evidence</h2><p class="url-text">https://github.com/garrytan/gstack</p>
 <ul><li><a href="repo/">Open the pinned source checkout</a></li><li><a href="assessment/ASSESSMENT.md">Read the Markdown assessment</a></li>
 <li><a href="../generic/assessments/_audits/qa18.md">Read the historical independent source audit</a></li><li><a href="../generic/method.html">Read the method and evidence limits</a></li></ul></section>

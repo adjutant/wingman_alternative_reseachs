@@ -72,3 +72,10 @@ Current assessment hashes are in `coverage.json`.
 Candidate products and their test suites were not started during this reorganization.
 Retained experiment records establish only their named historical runs.
 Structural checks and report browser tests do not establish candidate runtime reliability or product acceptance.
+
+## Portability correction — November 10, 2026
+
+The earlier byte-preservation statement describes the November 7 check.
+Later path normalization supersedes that statement for the edited evidence files.
+The [portability audit](PORTABILITY_AUDIT.md) records the changes and original/current hashes.
+Historical findings and pass/fail outcomes remain unchanged. Candidate tests were not rerun.

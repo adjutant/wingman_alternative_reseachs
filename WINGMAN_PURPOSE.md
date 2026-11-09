@@ -249,11 +249,11 @@ This continuity supports later improvements and resumed work.
 | Location | Purpose |
 |---|---|
 | `Wingman workspace (this folder)` | Wingman's own source, scope, specifications, and supporting workspace |
-| `~/neuralForge/wingman/` | Generated products and shared coordination |
-| `/tmp/wingman/` | Temporary working material |
+| `<generated-products-root>/` | Generated products and shared coordination |
+| `<temporary-work-root>/` | Temporary working material |
 
 ```text
-~/neuralForge/wingman/
+<generated-products-root>/
 ├── ProjectTracker/
 ├── Communication/
 │   ├── Room1/

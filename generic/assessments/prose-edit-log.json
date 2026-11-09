@@ -1,6 +1,5 @@
 {
   "scope": "Conservative terminology, clause, filler, and inventory edits. Full semantic prose review remains required.",
-  "backup": "/var/folders/v4/ygpb7xgn3vd_p18mtk1ggmfr0000gn/T/wingman-prose-before-krlp1v0g",
   "documents": [
     {
       "path": "agency/assessment/ASSESSMENT.md",
@@ -488,5 +487,6 @@
       "after_sha256": "f3f66e0f59f3117e61c21f8398e28b99633b91b7b45b68a95ad9dc68ba09540c",
       "inventories_changed_to_lists": 0
     }
-  ]
+  ],
+  "backup_note": "Temporary backups are not assessment inputs; original content hashes are retained where recorded."
 }

@@ -1,0 +1,2643 @@
+{
+  "scope": "Exact literals reviewed during the repository-wide audit. Each exception is bound to named files and covers descriptive or test text only. Links, imports, symlinks and manifest paths still undergo independent boundary checks. New literals or new file contexts fail validation.",
+  "reviewed_literals": [
+    {
+      "value": "$HOME/other/source.ts",
+      "reason": "Deliberately invalid regression input; the test asserts rejection and does not read this path.",
+      "files": [
+        "tools/test_portability.py"
+      ]
+    },
+    {
+      "value": "/${defsSegment}/${encodeJSONPointerSegment",
+      "reason": "Preserved candidate bundle syntax, JSON pointer, slash command or test-expression fragment; not a local file reference.",
+      "files": [
+        "orca/assessment/evidence/orca-communication-audit.mjs",
+        "orca/assessment/evidence/orca-orchestration-audit.mjs"
+      ]
+    },
+    {
+      "value": "/${seen.cycle",
+      "reason": "Preserved candidate bundle syntax, JSON pointer, slash command or test-expression fragment; not a local file reference.",
+      "files": [
+        "orca/assessment/evidence/orca-communication-audit.mjs",
+        "orca/assessment/evidence/orca-orchestration-audit.mjs"
+      ]
+    },
+    {
+      "value": "/-/g",
+      "reason": "Preserved candidate bundle syntax, JSON pointer, slash command or test-expression fragment; not a local file reference.",
+      "files": [
+        "orca/assessment/evidence/orca-communication-audit.mjs",
+        "orca/assessment/evidence/orca-orchestration-audit.mjs"
+      ]
+    },
+    {
+      "value": "/...",
+      "reason": "Preserved candidate bundle syntax, JSON pointer, slash command or test-expression fragment; not a local file reference.",
+      "files": [
+        "orca/assessment/evidence/orca-communication-audit.mjs",
+        "orca/assessment/evidence/orca-orchestration-audit.mjs"
+      ]
+    },
+    {
+      "value": "/.env",
+      "reason": "HTTP request path used by the isolated report-server security fixture.",
+      "files": [
+        "tools/test_serve_reports.py"
+      ]
+    },
+    {
+      "value": "/.git/config",
+      "reason": "HTTP request path used by the isolated report-server security fixture.",
+      "files": [
+        "tools/test_serve_reports.py"
+      ]
+    },
+    {
+      "value": "/.git/config",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/.test",
+      "reason": "Preserved candidate bundle syntax, JSON pointer, slash command or test-expression fragment; not a local file reference.",
+      "files": [
+        "orca/assessment/evidence/orca-communication-audit.mjs",
+        "orca/assessment/evidence/orca-orchestration-audit.mjs"
+      ]
+    },
+    {
+      "value": "/2",
+      "reason": "Preserved candidate bundle syntax, JSON pointer, slash command or test-expression fragment; not a local file reference.",
+      "files": [
+        "orca/assessment/evidence/orca-communication-tests.mjs"
+      ]
+    },
+    {
+      "value": "/AGENT_TASK_MANAGEMENT.md",
+      "reason": "HTTP request path used by the isolated report-server security fixture.",
+      "files": [
+        "tools/test_serve_reports.py"
+      ]
+    },
+    {
+      "value": "/AGENT_TASK_MANAGEMENT.md",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/JSONL",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "openclaw/assessment/ASSESSMENT.md",
+        "openclaw/index.html"
+      ]
+    },
+    {
+      "value": "/REPOSITORY_INVENTORY.md",
+      "reason": "HTTP request path used by the isolated report-server security fixture.",
+      "files": [
+        "tools/test_serve_reports.py"
+      ]
+    },
+    {
+      "value": "/SQLite",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "sortie/assessment/ASSESSMENT.md",
+        "sortie/index.html"
+      ]
+    },
+    {
+      "value": "/[",
+      "reason": "Preserved candidate bundle syntax, JSON pointer, slash command or test-expression fragment; not a local file reference.",
+      "files": [
+        "orca/assessment/evidence/orca-communication-audit.mjs",
+        "orca/assessment/evidence/orca-orchestration-audit.mjs"
+      ]
+    },
+    {
+      "value": "/[-",
+      "reason": "Preserved candidate bundle syntax, JSON pointer, slash command or test-expression fragment; not a local file reference.",
+      "files": [
+        "orca/assessment/evidence/orca-communication-audit.mjs",
+        "orca/assessment/evidence/orca-orchestration-audit.mjs"
+      ]
+    },
+    {
+      "value": "/[-_]/g",
+      "reason": "Preserved candidate bundle syntax, JSON pointer, slash command or test-expression fragment; not a local file reference.",
+      "files": [
+        "orca/assessment/evidence/orca-communication-audit.mjs",
+        "orca/assessment/evidence/orca-orchestration-audit.mjs"
+      ]
+    },
+    {
+      "value": "/[.",
+      "reason": "Preserved candidate bundle syntax, JSON pointer, slash command or test-expression fragment; not a local file reference.",
+      "files": [
+        "orca/assessment/evidence/orca-communication-audit.mjs",
+        "orca/assessment/evidence/orca-orchestration-audit.mjs"
+      ]
+    },
+    {
+      "value": "/[\\s\\u200C\\u200D]+$/u",
+      "reason": "Preserved candidate bundle syntax, JSON pointer, slash command or test-expression fragment; not a local file reference.",
+      "files": [
+        "orca/assessment/evidence/orca-communication-audit.mjs",
+        "orca/assessment/evidence/orca-orchestration-audit.mjs"
+      ]
+    },
+    {
+      "value": "/[\\s_-]+/g",
+      "reason": "Preserved candidate bundle syntax, JSON pointer, slash command or test-expression fragment; not a local file reference.",
+      "files": [
+        "orca/assessment/evidence/orca-communication-audit.mjs",
+        "orca/assessment/evidence/orca-orchestration-audit.mjs"
+      ]
+    },
+    {
+      "value": "/[\\t\\n\\r]/g",
+      "reason": "Preserved candidate bundle syntax, JSON pointer, slash command or test-expression fragment; not a local file reference.",
+      "files": [
+        "orca/assessment/evidence/orca-communication-audit.mjs",
+        "orca/assessment/evidence/orca-orchestration-audit.mjs"
+      ]
+    },
+    {
+      "value": "/[\\uD800-\\uDBFF]/",
+      "reason": "Preserved candidate bundle syntax, JSON pointer, slash command or test-expression fragment; not a local file reference.",
+      "files": [
+        "orca/assessment/evidence/orca-communication-audit.mjs",
+        "orca/assessment/evidence/orca-orchestration-audit.mjs"
+      ]
+    },
+    {
+      "value": "/[\\uD800-\\uDFFF]/gu",
+      "reason": "Preserved candidate bundle syntax, JSON pointer, slash command or test-expression fragment; not a local file reference.",
+      "files": [
+        "orca/assessment/evidence/orca-communication-audit.mjs",
+        "orca/assessment/evidence/orca-orchestration-audit.mjs"
+      ]
+    },
+    {
+      "value": "/]",
+      "reason": "Path-matching grammar syntax in the boundary checker, not a filesystem input.",
+      "files": [
+        "tools/validate_portability.py"
+      ]
+    },
+    {
+      "value": "/]",
+      "reason": "Preserved candidate bundle syntax, JSON pointer, slash command or test-expression fragment; not a local file reference.",
+      "files": [
+        "orca/assessment/evidence/orca-communication-audit.mjs",
+        "orca/assessment/evidence/orca-orchestration-audit.mjs"
+      ]
+    },
+    {
+      "value": "/]{${bodyLength}}${padding}$",
+      "reason": "Preserved candidate bundle syntax, JSON pointer, slash command or test-expression fragment; not a local file reference.",
+      "files": [
+        "orca/assessment/evidence/orca-communication-audit.mjs",
+        "orca/assessment/evidence/orca-orchestration-audit.mjs"
+      ]
+    },
+    {
+      "value": "/]{2}",
+      "reason": "Preserved candidate bundle syntax, JSON pointer, slash command or test-expression fragment; not a local file reference.",
+      "files": [
+        "orca/assessment/evidence/orca-communication-audit.mjs",
+        "orca/assessment/evidence/orca-orchestration-audit.mjs"
+      ]
+    },
+    {
+      "value": "/]{3}",
+      "reason": "Preserved candidate bundle syntax, JSON pointer, slash command or test-expression fragment; not a local file reference.",
+      "files": [
+        "orca/assessment/evidence/orca-communication-audit.mjs",
+        "orca/assessment/evidence/orca-orchestration-audit.mjs"
+      ]
+    },
+    {
+      "value": "/]{4}",
+      "reason": "Preserved candidate bundle syntax, JSON pointer, slash command or test-expression fragment; not a local file reference.",
+      "files": [
+        "orca/assessment/evidence/orca-communication-audit.mjs",
+        "orca/assessment/evidence/orca-orchestration-audit.mjs"
+      ]
+    },
+    {
+      "value": "/_",
+      "reason": "Preserved candidate bundle syntax, JSON pointer, slash command or test-expression fragment; not a local file reference.",
+      "files": [
+        "orca/assessment/evidence/orca-communication-audit.mjs",
+        "orca/assessment/evidence/orca-orchestration-audit.mjs"
+      ]
+    },
+    {
+      "value": "/_/g",
+      "reason": "Preserved candidate bundle syntax, JSON pointer, slash command or test-expression fragment; not a local file reference.",
+      "files": [
+        "orca/assessment/evidence/orca-communication-audit.mjs",
+        "orca/assessment/evidence/orca-orchestration-audit.mjs"
+      ]
+    },
+    {
+      "value": "/adjutant/i.test",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "tools/browser_audit.js"
+      ]
+    },
+    {
+      "value": "/agency/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/agent-deck/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/agent-of-empires/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/agent-orchestrator/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/agent-swarm/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/agentopology/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/agentrail/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/agents",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "bernstein/assessment/ASSESSMENT.md",
+        "bernstein/index.html",
+        "scion/assessment/Lifecycle_and_Coordination.md",
+        "scion/index.html",
+        "warren/assessment/ASSESSMENT.md",
+        "warren/index.html"
+      ]
+    },
+    {
+      "value": "/agents/",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "plano/assessment/ASSESSMENT.md",
+        "plano/index.html"
+      ]
+    },
+    {
+      "value": "/agents/...",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "plano/assessment/ASSESSMENT.md",
+        "plano/index.html"
+      ]
+    },
+    {
+      "value": "/amux/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/antfarm/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/api",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "paperclip/assessment/ASSESSMENT.md",
+        "paperclip/index.html"
+      ]
+    },
+    {
+      "value": "/api/acp",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "routa/assessment/ASSESSMENT.md",
+        "routa/index.html"
+      ]
+    },
+    {
+      "value": "/api/agents",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "agent-swarm/assessment/ASSESSMENT.md",
+        "agent-swarm/index.html"
+      ]
+    },
+    {
+      "value": "/api/agents/{id}/runtime-instances",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "agent-swarm/assessment/evidence/agent-swarm-assessment-tests.log"
+      ]
+    },
+    {
+      "value": "/api/config",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "agent-swarm/assessment/evidence/agent-swarm-assessment-tests.log"
+      ]
+    },
+    {
+      "value": "/api/connect",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "mission-control/assessment/ASSESSMENT.md",
+        "mission-control/index.html"
+      ]
+    },
+    {
+      "value": "/api/maf/workflow/from-instruction",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "nasiko/assessment/ASSESSMENT.md",
+        "nasiko/index.html"
+      ]
+    },
+    {
+      "value": "/api/maf/workflow/{id}/run",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "nasiko/assessment/ASSESSMENT.md",
+        "nasiko/index.html"
+      ]
+    },
+    {
+      "value": "/api/message",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "generic/assessments/_audits/original-audit-prose.json",
+        "generic/assessments/_audits/qa04.md"
+      ]
+    },
+    {
+      "value": "/api/queue/create",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "openrig/assessment/ASSESSMENT.md",
+        "openrig/index.html"
+      ]
+    },
+    {
+      "value": "/api/review/analyze",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "routa/assessment/ASSESSMENT.md",
+        "routa/index.html"
+      ]
+    },
+    {
+      "value": "/api/sessions/{id}/acp/prompt",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "agent-of-empires/assessment/ASSESSMENT.md",
+        "agent-of-empires/index.html"
+      ]
+    },
+    {
+      "value": "/api/sessions/{rootTaskId}",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "agent-swarm/assessment/ASSESSMENT.md",
+        "agent-swarm/index.html"
+      ]
+    },
+    {
+      "value": "/api/task",
+      "reason": "Deliberately invalid regression input; the test asserts rejection and does not read this path.",
+      "files": [
+        "tools/test_portability.py"
+      ]
+    },
+    {
+      "value": "/api/tasks",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "generic/assessments/_audits/original-audit-prose.json",
+        "generic/assessments/_audits/qa02.md",
+        "mission-control/assessment/ASSESSMENT.md",
+        "mission-control/index.html"
+      ]
+    },
+    {
+      "value": "/api/tasks/",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "agent-swarm/assessment/evidence/agent-swarm-assessment-tests.log"
+      ]
+    },
+    {
+      "value": "/api/up",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "generic/assessments/_audits/original-audit-prose.json",
+        "generic/assessments/_audits/qa04.md",
+        "openrig/assessment/ASSESSMENT.md",
+        "openrig/index.html"
+      ]
+    },
+    {
+      "value": "/assessment",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "generic/assessments/_audits/original-audit-prose.json",
+        "generic/assessments/_audits/qa24.md"
+      ]
+    },
+    {
+      "value": "/assets/%00.txt",
+      "reason": "HTTP request path used by the isolated report-server security fixture.",
+      "files": [
+        "tools/test_serve_reports.py"
+      ]
+    },
+    {
+      "value": "/assets/%2e%2e/.git/config",
+      "reason": "HTTP request path used by the isolated report-server security fixture.",
+      "files": [
+        "tools/test_serve_reports.py"
+      ]
+    },
+    {
+      "value": "/assets/%5cprivate.txt",
+      "reason": "HTTP request path used by the isolated report-server security fixture.",
+      "files": [
+        "tools/test_serve_reports.py"
+      ]
+    },
+    {
+      "value": "/assets/escape.txt",
+      "reason": "HTTP request path used by the isolated report-server security fixture.",
+      "files": [
+        "tools/test_serve_reports.py"
+      ]
+    },
+    {
+      "value": "/assets/report.css",
+      "reason": "HTTP request path used by the isolated report-server security fixture.",
+      "files": [
+        "tools/test_serve_reports.py"
+      ]
+    },
+    {
+      "value": "/assets/report.js",
+      "reason": "HTTP request path used by the isolated report-server security fixture.",
+      "files": [
+        "tools/test_serve_reports.py"
+      ]
+    },
+    {
+      "value": "/assets/source.txt",
+      "reason": "HTTP request path used by the isolated report-server security fixture.",
+      "files": [
+        "tools/test_serve_reports.py"
+      ]
+    },
+    {
+      "value": "/automaker/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/ax",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "ax/assessment/ASSESSMENT.md",
+        "ax/index.html"
+      ]
+    },
+    {
+      "value": "/ax/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/ax/initialized-<workspace-path>",
+      "reason": "Describes the candidate product runtime location; the assessment does not access it.",
+      "files": [
+        "ax/assessment/ASSESSMENT.md",
+        "ax/index.html"
+      ]
+    },
+    {
+      "value": "/babysitter/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/bernstein/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/broadcast",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "agent-swarm/assessment/ASSESSMENT.md",
+        "agent-swarm/index.html"
+      ]
+    },
+    {
+      "value": "/canary",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "gstack/assessment/ASSESSMENT.md",
+        "gstack/index.html"
+      ]
+    },
+    {
+      "value": "/cannot",
+      "reason": "Preserved candidate bundle syntax, JSON pointer, slash command or test-expression fragment; not a local file reference.",
+      "files": [
+        "orca/assessment/evidence/orca-communication-tests.mjs"
+      ]
+    },
+    {
+      "value": "/claude-squad/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/claw-empire/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/clawteam/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/clear",
+      "reason": "Preserved candidate bundle syntax, JSON pointer, slash command or test-expression fragment; not a local file reference.",
+      "files": [
+        "orca/assessment/evidence/orca-communication-audit.mjs",
+        "orca/assessment/evidence/orca-orchestration-audit.mjs"
+      ]
+    },
+    {
+      "value": "/cli-agent-orchestrator/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/cmux/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/codex-autorunner/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/command",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "gstack/assessment/ASSESSMENT.md",
+        "gstack/index.html",
+        "stagewise/assessment/ASSESSMENT.md",
+        "stagewise/index.html"
+      ]
+    },
+    {
+      "value": "/companyhelm/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/complete",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "bernstein/assessment/ASSESSMENT.md",
+        "bernstein/index.html"
+      ]
+    },
+    {
+      "value": "/continuous-claude-v3/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/conversation",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "generic/assessments/_audits/original-audit-prose.json",
+        "generic/assessments/_audits/qa05.md"
+      ]
+    },
+    {
+      "value": "/coverage.json",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "tools/browser_audit.js"
+      ]
+    },
+    {
+      "value": "/crewly/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/cso",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "gstack/assessment/ASSESSMENT.md",
+        "gstack/index.html"
+      ]
+    },
+    {
+      "value": "/cursor",
+      "reason": "Preserved candidate bundle syntax, JSON pointer, slash command or test-expression fragment; not a local file reference.",
+      "files": [
+        "orca/assessment/evidence/orca-communication-tests.mjs"
+      ]
+    },
+    {
+      "value": "/deepcode/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/default",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "scion/assessment/Lifecycle_and_Coordination.md",
+        "scion/index.html"
+      ]
+    },
+    {
+      "value": "/dev/null",
+      "reason": "Standard OS null device in a quoted example; not retained assessment evidence.",
+      "files": [
+        "open-multi-agent/assessment/ASSESSMENT.md",
+        "open-multi-agent/index.html"
+      ]
+    },
+    {
+      "value": "/do",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "generic/assessments/_audits/original-audit-prose.json",
+        "generic/assessments/_audits/qa20.md"
+      ]
+    },
+    {
+      "value": "/edict/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/emdash/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/fleet/search",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "bernstein/assessment/ASSESSMENT.md",
+        "bernstein/index.html",
+        "generic/assessments/_audits/original-audit-prose.json",
+        "generic/assessments/_audits/qa24.md"
+      ]
+    },
+    {
+      "value": "/function_calling",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "plano/assessment/ASSESSMENT.md",
+        "plano/index.html"
+      ]
+    },
+    {
+      "value": "/gastown/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/generic/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/generic/assessments/AGENT_TASK_COORDINATION.md",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/agent-task-coordination/verification.json"
+      ]
+    },
+    {
+      "value": "/generic/assessments/agent-task-coordination/EVIDENCE.md",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/agent-task-coordination/verification.json"
+      ]
+    },
+    {
+      "value": "/generic/assessments/agent-task-coordination/candidates.json",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/agent-task-coordination/verification.json"
+      ]
+    },
+    {
+      "value": "/generic/assessments/agent-task-coordination/sources.json",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/agent-task-coordination/verification.json"
+      ]
+    },
+    {
+      "value": "/generic/method.html",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/generic/purpose.html",
+      "reason": "HTTP request path used by the isolated report-server security fixture.",
+      "files": [
+        "tools/test_serve_reports.py"
+      ]
+    },
+    {
+      "value": "/generic/purpose.html",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/generic/task-coordination.html",
+      "reason": "HTTP request path used by the isolated report-server security fixture.",
+      "files": [
+        "tools/test_serve_reports.py"
+      ]
+    },
+    {
+      "value": "/generic/task-coordination.html",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json",
+        "generic/assessments/agent-task-coordination/verification.json"
+      ]
+    },
+    {
+      "value": "/goal",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "openhands/assessment/ASSESSMENT.md",
+        "openhands/index.html"
+      ]
+    },
+    {
+      "value": "/golutra/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/gstack/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/gu",
+      "reason": "Preserved candidate bundle syntax, JSON pointer, slash command or test-expression fragment; not a local file reference.",
+      "files": [
+        "orca/assessment/evidence/orca-communication-audit.mjs",
+        "orca/assessment/evidence/orca-orchestration-audit.mjs"
+      ]
+    },
+    {
+      "value": "/hamlet/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/happy/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/hcom",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "generic/assessments/_audits/original-audit-prose.json",
+        "generic/assessments/_audits/qa22.md"
+      ]
+    },
+    {
+      "value": "/hcom/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/healthz",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "ax/assessment/ASSESSMENT.md",
+        "ax/index.html"
+      ]
+    },
+    {
+      "value": "/herdr/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/i.test",
+      "reason": "Preserved candidate bundle syntax, JSON pointer, slash command or test-expression fragment; not a local file reference.",
+      "files": [
+        "orca/assessment/evidence/orca-communication-audit.mjs",
+        "orca/assessment/evidence/orca-orchestration-audit.mjs"
+      ]
+    },
+    {
+      "value": "/inbox",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "generic/assessments/writing-review.json"
+      ]
+    },
+    {
+      "value": "/index.html",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "tools/browser_audit.js"
+      ]
+    },
+    {
+      "value": "/intent/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/kander/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/landing-report",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "gstack/assessment/ASSESSMENT.md",
+        "gstack/index.html"
+      ]
+    },
+    {
+      "value": "/loop",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "ruflo/assessment/ASSESSMENT.md",
+        "ruflo/index.html"
+      ]
+    },
+    {
+      "value": "/maestro/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/mission-control/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/molecule",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "gastown/assessment/ASSESSMENT.md",
+        "gastown/index.html"
+      ]
+    },
+    {
+      "value": "/multi-agent-shogun/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/multica/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/multiclaude/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/munder-difflin/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/myclaude/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/nasiko/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/oh-my-claudecode/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/oh-my-codex/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/oh-my-openagent/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/omnigent/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/open-multi-agent/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/open-swe/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/openclaw/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/openhands/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/openrig/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/orca/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/orchestration",
+      "reason": "Preserved candidate bundle syntax, JSON pointer, slash command or test-expression fragment; not a local file reference.",
+      "files": [
+        "orca/assessment/evidence/orca-communication-tests.mjs"
+      ]
+    },
+    {
+      "value": "/orkas/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/overview",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "routa/assessment/ASSESSMENT.md",
+        "routa/index.html"
+      ]
+    },
+    {
+      "value": "/pair",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "gstack/assessment/ASSESSMENT.md",
+        "gstack/index.html"
+      ]
+    },
+    {
+      "value": "/paperclip/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/paperclip/repo/AGENTS.md",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/paradev/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/paseo/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/plan-runs",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "warren/assessment/ASSESSMENT.md",
+        "warren/index.html"
+      ]
+    },
+    {
+      "value": "/plano/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/private.txt",
+      "reason": "HTTP request path used by the isolated report-server security fixture.",
+      "files": [
+        "tools/test_serve_reports.py"
+      ]
+    },
+    {
+      "value": "/project/",
+      "reason": "HTTP request path used by the isolated report-server security fixture.",
+      "files": [
+        "tools/test_serve_reports.py"
+      ]
+    },
+    {
+      "value": "/project/assessment/",
+      "reason": "HTTP request path used by the isolated report-server security fixture.",
+      "files": [
+        "tools/test_serve_reports.py"
+      ]
+    },
+    {
+      "value": "/project/assessment/ASSESSMENT.md",
+      "reason": "HTTP request path used by the isolated report-server security fixture.",
+      "files": [
+        "tools/test_serve_reports.py"
+      ]
+    },
+    {
+      "value": "/project/assessment/REPOSITORY_PROFILE.md",
+      "reason": "HTTP request path used by the isolated report-server security fixture.",
+      "files": [
+        "tools/test_serve_reports.py"
+      ]
+    },
+    {
+      "value": "/project/repo/.git/config",
+      "reason": "HTTP request path used by the isolated report-server security fixture.",
+      "files": [
+        "tools/test_serve_reports.py"
+      ]
+    },
+    {
+      "value": "/project/repo/source.txt",
+      "reason": "HTTP request path used by the isolated report-server security fixture.",
+      "files": [
+        "tools/test_serve_reports.py"
+      ]
+    },
+    {
+      "value": "/projects",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "warren/assessment/ASSESSMENT.md",
+        "warren/index.html"
+      ]
+    },
+    {
+      "value": "/prompt/model",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "oh-my-openagent/assessment/ASSESSMENT.md",
+        "oh-my-openagent/index.html"
+      ]
+    },
+    {
+      "value": "/ralph-orchestrator/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/readyz",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "ax/assessment/ASSESSMENT.md",
+        "ax/index.html"
+      ]
+    },
+    {
+      "value": "/receipt",
+      "reason": "Preserved candidate bundle syntax, JSON pointer, slash command or test-expression fragment; not a local file reference.",
+      "files": [
+        "orca/assessment/evidence/orca-communication-tests.mjs"
+      ]
+    },
+    {
+      "value": "/repositories.html",
+      "reason": "HTTP request path used by the isolated report-server security fixture.",
+      "files": [
+        "tools/test_serve_reports.py"
+      ]
+    },
+    {
+      "value": "/resume",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "scion/assessment/ASSESSMENT.md",
+        "scion/index.html"
+      ]
+    },
+    {
+      "value": "/rocketride-server/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/root/<task_name>",
+      "reason": "Virtual agent task address namespace, not a filesystem location.",
+      "files": [
+        "oh-my-openagent/assessment/ASSESSMENT.md",
+        "oh-my-openagent/index.html"
+      ]
+    },
+    {
+      "value": "/roster",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "routa/assessment/ASSESSMENT.md",
+        "routa/index.html"
+      ]
+    },
+    {
+      "value": "/routa/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/routing/...",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "plano/assessment/ASSESSMENT.md",
+        "plano/index.html"
+      ]
+    },
+    {
+      "value": "/ruflo/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/run",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "bernstein/assessment/ASSESSMENT.md",
+        "bernstein/index.html",
+        "generic/assessments/_audits/original-audit-prose.json",
+        "generic/assessments/_audits/qa24.md"
+      ]
+    },
+    {
+      "value": "/runs",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "warren/assessment/ASSESSMENT.md",
+        "warren/index.html"
+      ]
+    },
+    {
+      "value": "/runtime/state",
+      "reason": "Deliberately invalid regression input; the test asserts rejection and does not read this path.",
+      "files": [
+        "tools/test_portability.py"
+      ]
+    },
+    {
+      "value": "/scion/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/sessions",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "agent-orchestrator/assessment/ASSESSMENT.md",
+        "agent-orchestrator/index.html",
+        "cli-agent-orchestrator/assessment/ASSESSMENT.md",
+        "cli-agent-orchestrator/index.html"
+      ]
+    },
+    {
+      "value": "/setup",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "scion/assessment/Lifecycle_and_Coordination.md",
+        "scion/index.html"
+      ]
+    },
+    {
+      "value": "/ship",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "gstack/assessment/ASSESSMENT.md",
+        "gstack/index.html"
+      ]
+    },
+    {
+      "value": "/skills",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "stagewise/assessment/ASSESSMENT.md",
+        "stagewise/index.html"
+      ]
+    },
+    {
+      "value": "/sortie/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/spec",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "gstack/assessment/ASSESSMENT.md",
+        "gstack/index.html"
+      ]
+    },
+    {
+      "value": "/squad/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/stagewise/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/status",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "bernstein/assessment/ASSESSMENT.md",
+        "bernstein/index.html",
+        "generic/assessments/_audits/original-audit-prose.json",
+        "generic/assessments/_audits/qa24.md"
+      ]
+    },
+    {
+      "value": "/stop",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "bernstein/assessment/ASSESSMENT.md",
+        "bernstein/index.html"
+      ]
+    },
+    {
+      "value": "/superplane/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/swarm/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/swarmos/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/swe-agent/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/switch",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "bernstein/assessment/ASSESSMENT.md",
+        "bernstein/index.html"
+      ]
+    },
+    {
+      "value": "/symphony/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "agent-swarm/assessment/ASSESSMENT.md",
+        "agent-swarm/index.html"
+      ]
+    },
+    {
+      "value": "/task-management/",
+      "reason": "HTTP request path used by the isolated report-server security fixture.",
+      "files": [
+        "tools/test_serve_reports.py"
+      ]
+    },
+    {
+      "value": "/task-management/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/",
+      "reason": "Repository-root Git ignore pattern.",
+      "files": [
+        ".gitignore"
+      ]
+    },
+    {
+      "value": "/task-management/COMPARISON.md",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/REQUIREMENT_MATRIX.md",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/agent-hq/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/agent-hq/assessment/ASSESSMENT.md",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/agent-hq/assessment/review.json",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/agent-kanban-rs/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/agent-kanban-rs/assessment/ASSESSMENT.md",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/agent-kanban-rs/assessment/review.json",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/agent-mail-python/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/agent-mail-python/assessment/ASSESSMENT.md",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/agent-mail-python/assessment/review.json",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/agent-mail-rust/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/agent-mail-rust/assessment/ASSESSMENT.md",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/agent-mail-rust/assessment/review.json",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/agent-swarm/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/agent-swarm/assessment/ASSESSMENT.md",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/agent-swarm/assessment/review.json",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/backlog-md/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/backlog-md/assessment/ASSESSMENT.md",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/backlog-md/assessment/review.json",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/beads-rust/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/beads-rust/assessment/ASSESSMENT.md",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/beads-rust/assessment/review.json",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/beads-viewer/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/beads-viewer/assessment/ASSESSMENT.md",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/beads-viewer/assessment/review.json",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/beads/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/beads/assessment/ASSESSMENT.md",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/beads/assessment/review.json",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/candidate/",
+      "reason": "HTTP request path used by the isolated report-server security fixture.",
+      "files": [
+        "tools/test_serve_reports.py"
+      ]
+    },
+    {
+      "value": "/task-management/candidate/assessment/review.json",
+      "reason": "HTTP request path used by the isolated report-server security fixture.",
+      "files": [
+        "tools/test_serve_reports.py"
+      ]
+    },
+    {
+      "value": "/task-management/candidate/repo/.git/config",
+      "reason": "HTTP request path used by the isolated report-server security fixture.",
+      "files": [
+        "tools/test_serve_reports.py"
+      ]
+    },
+    {
+      "value": "/task-management/candidate/repo/source.txt",
+      "reason": "HTTP request path used by the isolated report-server security fixture.",
+      "files": [
+        "tools/test_serve_reports.py"
+      ]
+    },
+    {
+      "value": "/task-management/checkouts.json",
+      "reason": "HTTP request path used by the isolated report-server security fixture.",
+      "files": [
+        "tools/test_serve_reports.py"
+      ]
+    },
+    {
+      "value": "/task-management/checkouts.json",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json",
+        "tools/browser_audit.js"
+      ]
+    },
+    {
+      "value": "/task-management/devboard/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/devboard/assessment/ASSESSMENT.md",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/devboard/assessment/review.json",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/gemba/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/gemba/assessment/ASSESSMENT.md",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/gemba/assessment/review.json",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/gitlab/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/gitlab/assessment/ASSESSMENT.md",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/gitlab/assessment/review.json",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/gitlab/repo/.git/config",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/gitlab/repo/AGENTS.md",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/kanboard/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/kanboard/assessment/ASSESSMENT.md",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/kanboard/assessment/review.json",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/muster/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/muster/assessment/ASSESSMENT.md",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/muster/assessment/review.json",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/openproject/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/openproject/assessment/ASSESSMENT.md",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/openproject/assessment/review.json",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/paperclip/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/paperclip/assessment/ASSESSMENT.md",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/paperclip/assessment/review.json",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/plane-mcp/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/plane-mcp/assessment/ASSESSMENT.md",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/plane-mcp/assessment/review.json",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/plane/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/plane/assessment/ASSESSMENT.md",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/plane/assessment/review.json",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/planka/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/planka/assessment/ASSESSMENT.md",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/planka/assessment/review.json",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/private.txt",
+      "reason": "HTTP request path used by the isolated report-server security fixture.",
+      "files": [
+        "tools/test_serve_reports.py"
+      ]
+    },
+    {
+      "value": "/task-management/progress.json",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/purpose.html",
+      "reason": "HTTP request path used by the isolated report-server security fixture.",
+      "files": [
+        "tools/test_serve_reports.py"
+      ]
+    },
+    {
+      "value": "/task-management/purpose.html",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/rhizome-mcp/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/rhizome-mcp/assessment/ASSESSMENT.md",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/rhizome-mcp/assessment/review.json",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/taiga-front/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/taiga-front/assessment/ASSESSMENT.md",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/taiga-front/assessment/review.json",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/taiga/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/taiga/assessment/ASSESSMENT.md",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/taiga/assessment/review.json",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/task-master/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/task-master/assessment/ASSESSMENT.md",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/task-master/assessment/review.json",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/unlisted/index.html",
+      "reason": "HTTP request path used by the isolated report-server security fixture.",
+      "files": [
+        "tools/test_serve_reports.py"
+      ]
+    },
+    {
+      "value": "/task-management/vibe-kanban/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/vibe-kanban/assessment/ASSESSMENT.md",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/vibe-kanban/assessment/review.json",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/vikunja/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/vikunja/assessment/ASSESSMENT.md",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/task-management/vikunja/assessment/review.json",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/tasks",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "bernstein/assessment/ASSESSMENT.md",
+        "bernstein/index.html"
+      ]
+    },
+    {
+      "value": "/teammcp/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/threads",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "open-swe/assessment/ASSESSMENT.md",
+        "open-swe/index.html"
+      ]
+    },
+    {
+      "value": "/tinyagi/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/tmp",
+      "reason": "Describes the candidate product runtime location; the assessment does not access it.",
+      "files": [
+        "ax/assessment/ASSESSMENT.md",
+        "ax/index.html"
+      ]
+    },
+    {
+      "value": "/tmp/wingman/",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "generic/purpose.html"
+      ]
+    },
+    {
+      "value": "/u",
+      "reason": "Preserved candidate bundle syntax, JSON pointer, slash command or test-expression fragment; not a local file reference.",
+      "files": [
+        "orca/assessment/evidence/orca-communication-audit.mjs",
+        "orca/assessment/evidence/orca-orchestration-audit.mjs"
+      ]
+    },
+    {
+      "value": "/ubicloud",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "generic/assessments/_audits/original-audit-prose.json",
+        "generic/assessments/_audits/qa18.md"
+      ]
+    },
+    {
+      "value": "/unavailable",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "generic/assessments/_audits/original-audit-prose.json",
+        "generic/assessments/_audits/qa24.md"
+      ]
+    },
+    {
+      "value": "/unfamiliar-volume/account/source.ts",
+      "reason": "Deliberately invalid regression input; the test asserts rejection and does not read this path.",
+      "files": [
+        "tools/test_portability.py"
+      ]
+    },
+    {
+      "value": "/urgent",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "agent-deck/assessment/Execution_and_Coordination.md",
+        "agent-deck/index.html"
+      ]
+    },
+    {
+      "value": "/usr/bin/env",
+      "reason": "Standard interpreter lookup in a tool shebang.",
+      "files": [
+        "tools/checkout_task_management.py",
+        "tools/serve_reports.py",
+        "tools/validate_task_management.py"
+      ]
+    },
+    {
+      "value": "/usr/local/bin/ax-task-runner",
+      "reason": "Describes the candidate product runtime location; the assessment does not access it.",
+      "files": [
+        "ax/assessment/ASSESSMENT.md",
+        "ax/index.html"
+      ]
+    },
+    {
+      "value": "/v0",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "happy/assessment/ASSESSMENT.md",
+        "happy/index.html"
+      ]
+    },
+    {
+      "value": "/v0/bots",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "generic/assessments/_audits/original-audit-prose.json",
+        "generic/assessments/_audits/qa11.md"
+      ]
+    },
+    {
+      "value": "/v0/tasks",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "generic/assessments/_audits/original-audit-prose.json",
+        "generic/assessments/_audits/qa11.md"
+      ]
+    },
+    {
+      "value": "/v1",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "happy/assessment/ASSESSMENT.md",
+        "happy/index.html"
+      ]
+    },
+    {
+      "value": "/v1/exec",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "generic/assessments/_audits/original-audit-prose.json",
+        "generic/assessments/_audits/qa13.md"
+      ]
+    },
+    {
+      "value": "/v1/messages",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "routa/assessment/ASSESSMENT.md",
+        "routa/index.html"
+      ]
+    },
+    {
+      "value": "/v1/models",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "plano/assessment/ASSESSMENT.md",
+        "plano/index.html"
+      ]
+    },
+    {
+      "value": "/v1/sessions",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "omnigent/assessment/ASSESSMENT.md",
+        "omnigent/index.html"
+      ]
+    },
+    {
+      "value": "/v3",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "happy/assessment/ASSESSMENT.md",
+        "happy/index.html"
+      ]
+    },
+    {
+      "value": "/v3/sessions/",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "happy/assessment/ASSESSMENT.md",
+        "happy/index.html"
+      ]
+    },
+    {
+      "value": "/warren/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/workspace",
+      "reason": "Describes the candidate product runtime location; the assessment does not access it.",
+      "files": [
+        "ax/assessment/ASSESSMENT.md",
+        "ax/index.html",
+        "deepcode/assessment/ASSESSMENT.md",
+        "deepcode/index.html",
+        "generic/assessments/_audits/original-audit-prose.json",
+        "generic/assessments/_audits/qa23.md"
+      ]
+    },
+    {
+      "value": "/workspace/claude-output.md",
+      "reason": "Describes the candidate product runtime location; the assessment does not access it.",
+      "files": [
+        "ax/assessment/ASSESSMENT.md",
+        "ax/index.html"
+      ]
+    },
+    {
+      "value": "/wrenyard/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/ws/terminal",
+      "reason": "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.",
+      "files": [
+        "generic/assessments/_audits/original-audit-prose.json",
+        "generic/assessments/_audits/qa01.md"
+      ]
+    },
+    {
+      "value": "/zeroshot/",
+      "reason": "HTTP route or browser-audit expression, not an assessment filesystem path.",
+      "files": [
+        "generic/assessments/_audits/task-management-http.json"
+      ]
+    },
+    {
+      "value": "/~/g",
+      "reason": "Preserved candidate bundle syntax, JSON pointer, slash command or test-expression fragment; not a local file reference.",
+      "files": [
+        "orca/assessment/evidence/orca-communication-audit.mjs",
+        "orca/assessment/evidence/orca-orchestration-audit.mjs"
+      ]
+    },
+    {
+      "value": "/~0/g",
+      "reason": "Preserved candidate bundle syntax, JSON pointer, slash command or test-expression fragment; not a local file reference.",
+      "files": [
+        "orca/assessment/evidence/orca-communication-audit.mjs",
+        "orca/assessment/evidence/orca-orchestration-audit.mjs"
+      ]
+    },
+    {
+      "value": "/~1/g",
+      "reason": "Preserved candidate bundle syntax, JSON pointer, slash command or test-expression fragment; not a local file reference.",
+      "files": [
+        "orca/assessment/evidence/orca-communication-audit.mjs",
+        "orca/assessment/evidence/orca-orchestration-audit.mjs"
+      ]
+    },
+    {
+      "value": "file:///arbitrary/source.ts",
+      "reason": "Deliberately invalid regression input; the test asserts rejection and does not read this path.",
+      "files": [
+        "tools/test_portability.py"
+      ]
+    },
+    {
+      "value": "file://[",
+      "reason": "Path-matching grammar syntax in the boundary checker, not a filesystem input.",
+      "files": [
+        "tools/validate_portability.py"
+      ]
+    },
+    {
+      "value": "file://[^\\s",
+      "reason": "Path-matching grammar syntax in the boundary checker, not a filesystem input.",
+      "files": [
+        "tools/validate_portability.py"
+      ]
+    },
+    {
+      "value": "~/.claude/helpers/federation.sh",
+      "reason": "Describes the candidate product runtime location; the assessment does not access it.",
+      "files": [
+        "ruflo/assessment/ASSESSMENT.md",
+        "ruflo/index.html"
+      ]
+    },
+    {
+      "value": "~/.gstack",
+      "reason": "Describes the candidate product runtime location; the assessment does not access it.",
+      "files": [
+        "gstack/assessment/ASSESSMENT.md",
+        "gstack/index.html"
+      ]
+    },
+    {
+      "value": "~/.hcom",
+      "reason": "Describes the candidate product runtime location; the assessment does not access it.",
+      "files": [
+        "hcom/assessment/ASSESSMENT.md",
+        "hcom/index.html"
+      ]
+    },
+    {
+      "value": "~/.intent/specialists/",
+      "reason": "Describes the candidate product runtime location; the assessment does not access it.",
+      "files": [
+        "intent/assessment/ASSESSMENT.md",
+        "intent/index.html"
+      ]
+    },
+    {
+      "value": "~/.omo/runtime/<teamRunId>/state.json",
+      "reason": "Describes the candidate product runtime location; the assessment does not access it.",
+      "files": [
+        "oh-my-openagent/assessment/ASSESSMENT.md",
+        "oh-my-openagent/index.html"
+      ]
+    },
+    {
+      "value": "~/.routa/specialists/",
+      "reason": "Describes the candidate product runtime location; the assessment does not access it.",
+      "files": [
+        "routa/assessment/ASSESSMENT.md",
+        "routa/index.html"
+      ]
+    },
+    {
+      "value": "~/neuralForge/wingman/",
+      "reason": "Describes the candidate product runtime location; the assessment does not access it.",
+      "files": [
+        "generic/purpose.html"
+      ]
+    },
+    {
+      "value": "~/other/source.ts",
+      "reason": "Deliberately invalid regression input; the test asserts rejection and does not read this path.",
+      "files": [
+        "tools/test_portability.py"
+      ]
+    },
+    {
+      "value": "../../foreign.png",
+      "files": [
+        "tools/test_portability.py"
+      ],
+      "reason": "Deliberately invalid parent-traversal regression input; asserted rejected, never read."
+    },
+    {
+      "value": "../../outside",
+      "files": [
+        "tools/test_portability.py"
+      ],
+      "reason": "Deliberately invalid parent-traversal regression input; asserted rejected, never read."
+    },
+    {
+      "value": "../../../../outside.md",
+      "files": [
+        "tools/test_portability.py"
+      ],
+      "reason": "Deliberately invalid parent-traversal regression input; asserted rejected, never read."
+    },
+    {
+      "value": "${expected}\\u060C",
+      "files": [
+        "orca/assessment/evidence/orca-communication-audit.mjs"
+      ],
+      "reason": "Preserved candidate JSON-schema pointer or localized template escape; not a filesystem path."
+    },
+    {
+      "value": "${expected}\\u304C\\u671F\\u5F85\\u3055\\u308C\\u307E\\u3057\\u305F\\u304C\\u3001${received}\\u304C\\u5165\\u529B\\u3055\\u308C\\u307E\\u3057\\u305F",
+      "files": [
+        "orca/assessment/evidence/orca-communication-audit.mjs"
+      ],
+      "reason": "Preserved candidate JSON-schema pointer or localized template escape; not a filesystem path."
+    },
+    {
+      "value": "${received}\\uC785\\uB2C8\\uB2E4",
+      "files": [
+        "orca/assessment/evidence/orca-communication-audit.mjs"
+      ],
+      "reason": "Preserved candidate JSON-schema pointer or localized template escape; not a filesystem path."
+    },
+    {
+      "value": "${received}\\uC785\\uB2C8\\uB2E4",
+      "files": [
+        "orca/assessment/evidence/orca-communication-audit.mjs"
+      ],
+      "reason": "Preserved candidate JSON-schema pointer or localized template escape; not a filesystem path."
+    },
+    {
+      "value": "${expected}\\uFF0C\\u5B9E\\u9645\\u63A5\\u6536",
+      "files": [
+        "orca/assessment/evidence/orca-communication-audit.mjs"
+      ],
+      "reason": "Preserved candidate JSON-schema pointer or localized template escape; not a filesystem path."
+    },
+    {
+      "value": "${expected}\\uFF0C\\u4F46\\u6536\\u5230",
+      "files": [
+        "orca/assessment/evidence/orca-communication-audit.mjs"
+      ],
+      "reason": "Preserved candidate JSON-schema pointer or localized template escape; not a filesystem path."
+    },
+    {
+      "value": "${uriPrefix}/${defsSegment}/",
+      "files": [
+        "orca/assessment/evidence/orca-communication-audit.mjs"
+      ],
+      "reason": "Preserved candidate JSON-schema pointer or localized template escape; not a filesystem path."
+    },
+    {
+      "value": "$defs/$ref",
+      "files": [
+        "orca/assessment/evidence/orca-communication-audit.mjs"
+      ],
+      "reason": "Preserved candidate JSON-schema pointer or localized template escape; not a filesystem path."
+    },
+    {
+      "value": "${expected}\\u060C",
+      "files": [
+        "orca/assessment/evidence/orca-orchestration-audit.mjs"
+      ],
+      "reason": "Preserved candidate JSON-schema pointer or localized template escape; not a filesystem path."
+    },
+    {
+      "value": "${expected}\\u304C\\u671F\\u5F85\\u3055\\u308C\\u307E\\u3057\\u305F\\u304C\\u3001${received}\\u304C\\u5165\\u529B\\u3055\\u308C\\u307E\\u3057\\u305F",
+      "files": [
+        "orca/assessment/evidence/orca-orchestration-audit.mjs"
+      ],
+      "reason": "Preserved candidate JSON-schema pointer or localized template escape; not a filesystem path."
+    },
+    {
+      "value": "${received}\\uC785\\uB2C8\\uB2E4",
+      "files": [
+        "orca/assessment/evidence/orca-orchestration-audit.mjs"
+      ],
+      "reason": "Preserved candidate JSON-schema pointer or localized template escape; not a filesystem path."
+    },
+    {
+      "value": "${received}\\uC785\\uB2C8\\uB2E4",
+      "files": [
+        "orca/assessment/evidence/orca-orchestration-audit.mjs"
+      ],
+      "reason": "Preserved candidate JSON-schema pointer or localized template escape; not a filesystem path."
+    },
+    {
+      "value": "${expected}\\uFF0C\\u5B9E\\u9645\\u63A5\\u6536",
+      "files": [
+        "orca/assessment/evidence/orca-orchestration-audit.mjs"
+      ],
+      "reason": "Preserved candidate JSON-schema pointer or localized template escape; not a filesystem path."
+    },
+    {
+      "value": "${expected}\\uFF0C\\u4F46\\u6536\\u5230",
+      "files": [
+        "orca/assessment/evidence/orca-orchestration-audit.mjs"
+      ],
+      "reason": "Preserved candidate JSON-schema pointer or localized template escape; not a filesystem path."
+    },
+    {
+      "value": "${uriPrefix}/${defsSegment}/",
+      "files": [
+        "orca/assessment/evidence/orca-orchestration-audit.mjs"
+      ],
+      "reason": "Preserved candidate JSON-schema pointer or localized template escape; not a filesystem path."
+    },
+    {
+      "value": "$defs/$ref",
+      "files": [
+        "orca/assessment/evidence/orca-orchestration-audit.mjs"
+      ],
+      "reason": "Preserved candidate JSON-schema pointer or localized template escape; not a filesystem path."
+    },
+    {
+      "value": "$UNRELATED_STORAGE/deps/source.ts",
+      "files": [
+        "tools/test_portability.py"
+      ],
+      "reason": "Deliberately invalid regression input; the test asserts rejection and does not read this path."
+    }
+  ]
+}

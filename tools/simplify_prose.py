@@ -59,7 +59,9 @@ def edit(body):
     return restore('\n\n'.join(paragraphs), saved), lists
 
 def main():
-    backup = Path(tempfile.mkdtemp(prefix='wingman-prose-before-'))
+    scratch = ROOT / '.run'
+    scratch.mkdir(exist_ok=True)
+    backup = Path(tempfile.mkdtemp(prefix='prose-before-', dir=scratch))
     log=[]
     docs=sorted(ROOT.glob('*/assessment/*.md'))
     for path in docs:
@@ -71,7 +73,8 @@ def main():
                     'after_sha256':hashlib.sha256(after.encode()).hexdigest(), 'inventories_changed_to_lists':count})
     (ROOT/'generic/assessments/prose-edit-log.json').write_text(json.dumps({
         'scope':'Conservative terminology, clause, filler, and inventory edits. Full semantic prose review remains required.',
-        'backup':str(backup),'documents':log},indent=2)+'\n')
+        'backup_note':'Local working backups are not assessment inputs; document hashes record the edit.',
+        'documents':log},indent=2)+'\n')
     print(f'Edited {len(log)} documents. Converted {sum(x["inventories_changed_to_lists"] for x in log)} inventories to lists.')
 
 if __name__=='__main__':main()

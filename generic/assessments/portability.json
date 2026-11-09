@@ -1,0 +1,561 @@
+{
+  "scope": "All versioned assessment files and unignored additions; links, assets, imports, manifest paths, archived embedded Markdown, symlinks and generic absolute/home/Windows literals. Candidate checkouts are immutable optional inputs under declared repo/ paths. Runtime literals are reviewed individually, not allowed as file dependencies.",
+  "reports_only": false,
+  "counts": {
+    "files": 320,
+    "text_files": 314,
+    "path_literals": 918,
+    "markdown": 8888,
+    "html_or_svg": 11276,
+    "source_import": 16,
+    "binary_files": 6,
+    "css": 2,
+    "manifest": 363
+  },
+  "reviewed_runtime_literals": [
+    {
+      "file": ".gitignore",
+      "classifications": {
+        "Repository-root Git ignore pattern.": 1
+      }
+    },
+    {
+      "file": "agent-deck/assessment/Execution_and_Coordination.md",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 1
+      }
+    },
+    {
+      "file": "agent-deck/index.html",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 1
+      }
+    },
+    {
+      "file": "agent-of-empires/assessment/ASSESSMENT.md",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 1
+      }
+    },
+    {
+      "file": "agent-of-empires/index.html",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 1
+      }
+    },
+    {
+      "file": "agent-orchestrator/assessment/ASSESSMENT.md",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 1
+      }
+    },
+    {
+      "file": "agent-orchestrator/index.html",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 1
+      }
+    },
+    {
+      "file": "agent-swarm/assessment/ASSESSMENT.md",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 5
+      }
+    },
+    {
+      "file": "agent-swarm/assessment/evidence/agent-swarm-assessment-tests.log",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 11
+      }
+    },
+    {
+      "file": "agent-swarm/index.html",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 5
+      }
+    },
+    {
+      "file": "ax/assessment/ASSESSMENT.md",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 3,
+        "Describes the candidate product runtime location; the assessment does not access it.": 11
+      }
+    },
+    {
+      "file": "ax/index.html",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 3,
+        "Describes the candidate product runtime location; the assessment does not access it.": 11
+      }
+    },
+    {
+      "file": "bernstein/assessment/ASSESSMENT.md",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 12
+      }
+    },
+    {
+      "file": "bernstein/index.html",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 12
+      }
+    },
+    {
+      "file": "cli-agent-orchestrator/assessment/ASSESSMENT.md",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 1
+      }
+    },
+    {
+      "file": "cli-agent-orchestrator/index.html",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 1
+      }
+    },
+    {
+      "file": "deepcode/assessment/ASSESSMENT.md",
+      "classifications": {
+        "Describes the candidate product runtime location; the assessment does not access it.": 1
+      }
+    },
+    {
+      "file": "deepcode/index.html",
+      "classifications": {
+        "Describes the candidate product runtime location; the assessment does not access it.": 1
+      }
+    },
+    {
+      "file": "gastown/assessment/ASSESSMENT.md",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 1
+      }
+    },
+    {
+      "file": "gastown/index.html",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 1
+      }
+    },
+    {
+      "file": "generic/assessments/_audits/original-audit-prose.json",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 19,
+        "Describes the candidate product runtime location; the assessment does not access it.": 1
+      }
+    },
+    {
+      "file": "generic/assessments/_audits/qa01.md",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 1
+      }
+    },
+    {
+      "file": "generic/assessments/_audits/qa02.md",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 1
+      }
+    },
+    {
+      "file": "generic/assessments/_audits/qa04.md",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 2
+      }
+    },
+    {
+      "file": "generic/assessments/_audits/qa05.md",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 1
+      }
+    },
+    {
+      "file": "generic/assessments/_audits/qa11.md",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 2
+      }
+    },
+    {
+      "file": "generic/assessments/_audits/qa13.md",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 1
+      }
+    },
+    {
+      "file": "generic/assessments/_audits/qa18.md",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 2
+      }
+    },
+    {
+      "file": "generic/assessments/_audits/qa20.md",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 1
+      }
+    },
+    {
+      "file": "generic/assessments/_audits/qa22.md",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 1
+      }
+    },
+    {
+      "file": "generic/assessments/_audits/qa23.md",
+      "classifications": {
+        "Describes the candidate product runtime location; the assessment does not access it.": 1
+      }
+    },
+    {
+      "file": "generic/assessments/_audits/qa24.md",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 7
+      }
+    },
+    {
+      "file": "generic/assessments/_audits/task-management-http.json",
+      "classifications": {
+        "HTTP route or browser-audit expression, not an assessment filesystem path.": 165
+      }
+    },
+    {
+      "file": "generic/assessments/agent-task-coordination/verification.json",
+      "classifications": {
+        "HTTP route or browser-audit expression, not an assessment filesystem path.": 5
+      }
+    },
+    {
+      "file": "generic/assessments/writing-review.json",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 1
+      }
+    },
+    {
+      "file": "gstack/assessment/ASSESSMENT.md",
+      "classifications": {
+        "Describes the candidate product runtime location; the assessment does not access it.": 1,
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 15
+      }
+    },
+    {
+      "file": "gstack/index.html",
+      "classifications": {
+        "Describes the candidate product runtime location; the assessment does not access it.": 1,
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 15
+      }
+    },
+    {
+      "file": "happy/assessment/ASSESSMENT.md",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 5
+      }
+    },
+    {
+      "file": "happy/index.html",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 5
+      }
+    },
+    {
+      "file": "hcom/assessment/ASSESSMENT.md",
+      "classifications": {
+        "Describes the candidate product runtime location; the assessment does not access it.": 1
+      }
+    },
+    {
+      "file": "hcom/index.html",
+      "classifications": {
+        "Describes the candidate product runtime location; the assessment does not access it.": 1
+      }
+    },
+    {
+      "file": "intent/assessment/ASSESSMENT.md",
+      "classifications": {
+        "Describes the candidate product runtime location; the assessment does not access it.": 1
+      }
+    },
+    {
+      "file": "intent/index.html",
+      "classifications": {
+        "Describes the candidate product runtime location; the assessment does not access it.": 1
+      }
+    },
+    {
+      "file": "mission-control/assessment/ASSESSMENT.md",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 2
+      }
+    },
+    {
+      "file": "mission-control/index.html",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 2
+      }
+    },
+    {
+      "file": "nasiko/assessment/ASSESSMENT.md",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 2
+      }
+    },
+    {
+      "file": "nasiko/index.html",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 2
+      }
+    },
+    {
+      "file": "oh-my-openagent/assessment/ASSESSMENT.md",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 1,
+        "Virtual agent task address namespace, not a filesystem location.": 1,
+        "Describes the candidate product runtime location; the assessment does not access it.": 1
+      }
+    },
+    {
+      "file": "oh-my-openagent/index.html",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 1,
+        "Virtual agent task address namespace, not a filesystem location.": 1,
+        "Describes the candidate product runtime location; the assessment does not access it.": 1
+      }
+    },
+    {
+      "file": "omnigent/assessment/ASSESSMENT.md",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 1
+      }
+    },
+    {
+      "file": "omnigent/index.html",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 1
+      }
+    },
+    {
+      "file": "open-multi-agent/assessment/ASSESSMENT.md",
+      "classifications": {
+        "Standard OS null device in a quoted example; not retained assessment evidence.": 1
+      }
+    },
+    {
+      "file": "open-multi-agent/index.html",
+      "classifications": {
+        "Standard OS null device in a quoted example; not retained assessment evidence.": 1
+      }
+    },
+    {
+      "file": "open-swe/assessment/ASSESSMENT.md",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 1
+      }
+    },
+    {
+      "file": "open-swe/index.html",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 1
+      }
+    },
+    {
+      "file": "openclaw/assessment/ASSESSMENT.md",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 1
+      }
+    },
+    {
+      "file": "openclaw/index.html",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 1
+      }
+    },
+    {
+      "file": "openhands/assessment/ASSESSMENT.md",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 1
+      }
+    },
+    {
+      "file": "openhands/index.html",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 1
+      }
+    },
+    {
+      "file": "openrig/assessment/ASSESSMENT.md",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 3
+      }
+    },
+    {
+      "file": "openrig/index.html",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 3
+      }
+    },
+    {
+      "file": "orca/assessment/evidence/orca-communication-audit.mjs",
+      "classifications": {
+        "Preserved candidate bundle syntax, JSON pointer, slash command or test-expression fragment; not a local file reference.": 33,
+        "Preserved candidate JSON-schema pointer or localized template escape; not a filesystem path.": 8
+      }
+    },
+    {
+      "file": "orca/assessment/evidence/orca-communication-tests.mjs",
+      "classifications": {
+        "Preserved candidate bundle syntax, JSON pointer, slash command or test-expression fragment; not a local file reference.": 6
+      }
+    },
+    {
+      "file": "orca/assessment/evidence/orca-orchestration-audit.mjs",
+      "classifications": {
+        "Preserved candidate bundle syntax, JSON pointer, slash command or test-expression fragment; not a local file reference.": 33,
+        "Preserved candidate JSON-schema pointer or localized template escape; not a filesystem path.": 8
+      }
+    },
+    {
+      "file": "paperclip/assessment/ASSESSMENT.md",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 1
+      }
+    },
+    {
+      "file": "paperclip/index.html",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 1
+      }
+    },
+    {
+      "file": "plano/assessment/ASSESSMENT.md",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 7
+      }
+    },
+    {
+      "file": "plano/index.html",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 7
+      }
+    },
+    {
+      "file": "routa/assessment/ASSESSMENT.md",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 5,
+        "Describes the candidate product runtime location; the assessment does not access it.": 1
+      }
+    },
+    {
+      "file": "routa/index.html",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 5,
+        "Describes the candidate product runtime location; the assessment does not access it.": 1
+      }
+    },
+    {
+      "file": "ruflo/assessment/ASSESSMENT.md",
+      "classifications": {
+        "Describes the candidate product runtime location; the assessment does not access it.": 1,
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 1
+      }
+    },
+    {
+      "file": "ruflo/index.html",
+      "classifications": {
+        "Describes the candidate product runtime location; the assessment does not access it.": 1,
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 1
+      }
+    },
+    {
+      "file": "scion/assessment/ASSESSMENT.md",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 1
+      }
+    },
+    {
+      "file": "scion/assessment/Lifecycle_and_Coordination.md",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 3
+      }
+    },
+    {
+      "file": "scion/index.html",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 4
+      }
+    },
+    {
+      "file": "sortie/assessment/ASSESSMENT.md",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 1
+      }
+    },
+    {
+      "file": "sortie/index.html",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 1
+      }
+    },
+    {
+      "file": "stagewise/assessment/ASSESSMENT.md",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 2
+      }
+    },
+    {
+      "file": "stagewise/index.html",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 2
+      }
+    },
+    {
+      "file": "tools/browser_audit.js",
+      "classifications": {
+        "HTTP route or browser-audit expression, not an assessment filesystem path.": 5
+      }
+    },
+    {
+      "file": "tools/checkout_task_management.py",
+      "classifications": {
+        "Standard interpreter lookup in a tool shebang.": 1
+      }
+    },
+    {
+      "file": "tools/serve_reports.py",
+      "classifications": {
+        "Standard interpreter lookup in a tool shebang.": 1
+      }
+    },
+    {
+      "file": "tools/test_portability.py",
+      "classifications": {
+        "Deliberately invalid regression input; the test asserts rejection and does not read this path.": 11
+      }
+    },
+    {
+      "file": "tools/test_serve_reports.py",
+      "classifications": {
+        "HTTP request path used by the isolated report-server security fixture.": 32
+      }
+    },
+    {
+      "file": "tools/validate_portability.py",
+      "classifications": {
+        "Path-matching grammar syntax in the boundary checker, not a filesystem input.": 7
+      }
+    },
+    {
+      "file": "tools/validate_task_management.py",
+      "classifications": {
+        "Standard interpreter lookup in a tool shebang.": 1
+      }
+    },
+    {
+      "file": "warren/assessment/ASSESSMENT.md",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 4
+      }
+    },
+    {
+      "file": "warren/index.html",
+      "classifications": {
+        "Candidate HTTP route, slash command, or slash-separated prose fragment; not a local file reference.": 4
+      }
+    }
+  ],
+  "issues": []
+}

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { mkdtempSync, rmSync } from 'node:fs';
-import { tmpdir } from 'node:os';
+import { mkdirSync, mkdtempSync, rmSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
 import { OrchestrationDb } from './orca-orchestration-audit.mjs';
 
@@ -83,7 +83,9 @@ test('starting a worker records a task attempt and refuses a duplicate active at
 });
 
 test('run, task, and unacknowledged mail survive reopening the database', () => {
-  const dir = mkdtempSync(join(tmpdir(), 'orca-assessment-'));
+  const scratch = fileURLToPath(new URL('../../../.run/', import.meta.url));
+  mkdirSync(scratch, { recursive: true });
+  const dir = mkdtempSync(join(scratch, 'orca-assessment-'));
   const path = join(dir, 'orchestration.db');
   let db = new OrchestrationDb(path);
   try {

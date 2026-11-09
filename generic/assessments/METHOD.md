@@ -70,8 +70,10 @@ Selected focused experiment evidence remains with the relevant project.
 | [gstack](../../gstack/index.html) | Initial run: 180 passes and five failures. A two-file rerun: 84 passes and zero failures. | The rerun overlaps the first run. It does not erase the failures or add 84 distinct tests. |
 
 Each project has a [legacy evidence note](../../orca/assessment/LEGACY_EVIDENCE.md) with its own links and limits.
-Do not run retained scripts blindly. Some imports name historical paths or temporary dependencies.
-Keep raw logs unchanged. An edited log cannot serve as the original observation.
+Retained scripts use local evidence bundles or the declared source checkouts. Check their runtime requirements before a new run.
+Historical host paths can be normalized when the change is disclosed with original and current hashes.
+Call these files path-normalized historical evidence. Do not call them unchanged raw logs or new test runs.
+See [the portability audit](PORTABILITY_AUDIT.md) for the transformation record.
 
 ## Writing review
 
@@ -82,7 +84,7 @@ Explain a technical term at its first use when the reader needs that definition.
 Avoid a formal compliance claim without a controlled-vocabulary review.
 
 A sentence-length check can locate difficult prose. It cannot establish active voice or technical accuracy.
-Source excerpts and raw experiment evidence retain their original wording.
+Source findings and experiment outcomes retain their original meaning. Disclosed path normalization does not establish a new observation.
 The report review must distinguish those records from authored explanations.
 
 ## Report design

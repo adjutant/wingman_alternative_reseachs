@@ -19,7 +19,6 @@
       "tracked_file_count": 306,
       "tracked_paths_sha256": "517a20903ca8800861ac86a26728af59ab9d64c27c4652f85297584200a4c0c4",
       "root_tree_sha256": "950886e8771646afa81f5abc014757011742e9f1fe1d7e74cda7e5017644c3fb",
-      "directory_inode": 18333834,
       "missing_tracked_paths": [],
       "submodule_paths": [],
       "instruction_paths": [
@@ -44,7 +43,6 @@
       "tracked_file_count": 3928,
       "tracked_paths_sha256": "e2b50280ac49c408d5029fd18aed387e28198dfec700b383d2608e3082752e27",
       "root_tree_sha256": "c62e119de076bcabc962a70ac1735944a46fcc565c8c11ffb111867353856c7d",
-      "directory_inode": 18333836,
       "missing_tracked_paths": [],
       "submodule_paths": [],
       "instruction_paths": [
@@ -69,7 +67,6 @@
       "tracked_file_count": 6392,
       "tracked_paths_sha256": "dc82a5d7e88d389b754bd1e626e7f54c1051e84ab8efc9c696a213bf27c92d56",
       "root_tree_sha256": "6567cd467a9db0c03a4d832a96c7d2d72ab8bc0c1c719087f73440269bf88ce3",
-      "directory_inode": 15320358,
       "missing_tracked_paths": [],
       "submodule_paths": [],
       "instruction_paths": [
@@ -110,7 +107,6 @@
       "tracked_file_count": 1533,
       "tracked_paths_sha256": "262b995dcaeaf71a92fd8f0685714a35605f911499314e0c59b86004ab2bb8f8",
       "root_tree_sha256": "1bd85a4aa9c7153658939af8f347c6c24118aa0dd0298a13a7d2eb870815a826",
-      "directory_inode": 18334192,
       "missing_tracked_paths": [],
       "submodule_paths": [],
       "instruction_paths": [
@@ -136,7 +132,6 @@
       "tracked_file_count": 5315,
       "tracked_paths_sha256": "5cc6c34e0161657dc6b21f5e1a6ed2c44eb0b92470c5d2ea88433abd518bbd5d",
       "root_tree_sha256": "f6d7927d20767e301b36d5db896e902dce404dd425c77c05b755a3eb3373474e",
-      "directory_inode": 18334238,
       "missing_tracked_paths": [],
       "submodule_paths": [],
       "instruction_paths": [
@@ -168,7 +163,6 @@
       "tracked_file_count": 4288,
       "tracked_paths_sha256": "a929df07d747cae20279a16d3b48f89c5cb455dd1ed583d8612663a39d9145bb",
       "root_tree_sha256": "f054e8a88040ac02bdece51bb7545eec3415ce4de20448b0af544a4eab688dae",
-      "directory_inode": 18334705,
       "missing_tracked_paths": [],
       "submodule_paths": [],
       "instruction_paths": [
@@ -194,7 +188,6 @@
       "tracked_file_count": 5133,
       "tracked_paths_sha256": "d789dc504debb4607b7e80093d63086bff25c7e7f1e38423350b123806fd4ae5",
       "root_tree_sha256": "d322742428c674ad926fc13e5a0ac3e998e7a8fa30bc9db2505c99f58a181ff5",
-      "directory_inode": 18336419,
       "missing_tracked_paths": [],
       "submodule_paths": [],
       "instruction_paths": [
@@ -226,7 +219,6 @@
       "tracked_file_count": 14032,
       "tracked_paths_sha256": "ffb2b9acb31c2a80ab25af0d73fe1cedd36e9d3242983a2d52bd73a94967704c",
       "root_tree_sha256": "f64a1b0f3dda619925b50adc057b8916164f8d17ca23ab41f101be65d4b341d5",
-      "directory_inode": 17034974,
       "missing_tracked_paths": [],
       "submodule_paths": [],
       "instruction_paths": [
@@ -272,7 +264,6 @@
       "tracked_file_count": 2208,
       "tracked_paths_sha256": "e41a139d3cf94e80f2f3522b5922926de07c56560964264b03e02764b24d799e",
       "root_tree_sha256": "de53ebdc43177efe2a91649397b2b83d42dd3e8104d339654a2b3fcacaa2b819",
-      "directory_inode": 18377474,
       "missing_tracked_paths": [],
       "submodule_paths": [],
       "instruction_paths": [

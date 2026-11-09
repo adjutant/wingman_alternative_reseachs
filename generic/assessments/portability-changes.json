@@ -1,0 +1,252 @@
+{
+  "date": "2026-11-10",
+  "scope": "Changed retained authored artifacts and evidence compared with the pre-correction working tree. Generated HTML and validation outputs are regenerated separately; new audit/checker artifacts are tracked in Git. Original hashes are provenance, not current-byte claims. No candidate tests were rerun.",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "original_sha256": "d627540a2e2f3518047a0fba02b1116a7676480e1b8833e5f79f5e545b427594",
+      "current_sha256": "492a922764ee26e9bdc7d9b5f2384d790c59324773b0cf5a9f63c86a4796c0d9",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "README.md",
+      "original_sha256": "4cf0a4eb3353003f2f616b78fbccb8dcdcbb99220dd64508d1b03eb97ab49fca",
+      "current_sha256": "822e8b801ef7d04c4274c888947aef9d61059ade103e9c0c314bc8b9e472fd34",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "WINGMAN_PURPOSE.md",
+      "original_sha256": "08f5e62bb2a6186e9eca882c28bcd3986f92504290a07c77aef718b669e7d6ec",
+      "current_sha256": "7a5beee12a0c90d5d30a063e944a65d419501737161553a1fd85e0a3f2bf8af1",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "agent-swarm/assessment/LEGACY_EVIDENCE.md",
+      "original_sha256": "dd1ce867b940fc13575bec8ed5718a1f7e06fb65437d5077b48af30944df1d12",
+      "current_sha256": "378412a442f13f764d7d6b4c83f3c43fbddfa15df52f4b4c15aefcea359e81fc",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "agent-swarm/assessment/evidence/agent-swarm-communication-probe.relocated.ts",
+      "original_sha256": "5a4057fd995a50ae156b134588f274133f821ad20456463ef5302d5dd327ab08",
+      "current_sha256": "ed5f538e6f0d3b76db4e2a4fe9e652c34eb5c5cb45e81c32e44050278f88a9a8",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "agent-swarm/assessment/evidence/agent-swarm-communication-probe.ts",
+      "original_sha256": "29af5d16ba3fe9868a6116a60b4a45fc0cd7de57ab9f76fe9700fa073b6f4138",
+      "current_sha256": "a59e7474a33c933cc2b3003cc89f45ad5aa1ea71ddefdb837e798de4bf797fb1",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "agent-swarm/assessment/evidence/relocated-probe-preflight.log",
+      "original_sha256": "9d718487438e2c9011f99b971b0cfc5e776a82440fbc5633c38aec6c059d18ef",
+      "current_sha256": "685815e14a2c57de57de9b16f17ff7e1c730e7b4dada048d8ed3f25eabc08f11",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "checkouts.json",
+      "original_sha256": "e1e2202dfd792cfa1c99573517f9f275daa2f68ae176fb42be2e9f9dec20b5d7",
+      "current_sha256": "55c14cb02a59ac093b039fc05c10c26e9eaa87dd7700ad8c8a8a71e3a33e0e53",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "coverage.json",
+      "original_sha256": "60785df86d1b7b054098abb91776eda140d2a4e95878ee9e236a3fd0334fbf6b",
+      "current_sha256": "6c3fb5afffbfd5de3f335f515ed149301cf17a9466b9333b4e7f93aa5a434f8e",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "generic/assessments/COMPLETION_AUDIT.md",
+      "original_sha256": "dc06c8cda07ed2003a3a76e30dc094ee31ae55712ef193f052fb3df62f5fc5c5",
+      "current_sha256": "dc95a98f63b8b700a909a769d5b4db2c85565899e40b124ceca5e12410a5e116",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "generic/assessments/METHOD.md",
+      "original_sha256": "55efc6aeb29ebeae9a0a4f8379d64f312b6f3c4ed0ee1c50f54e09ed03222c9b",
+      "current_sha256": "7ed65ae731e6edba4e0fdc5a974ff3a9cc06c7bb5064feb8006a118839ca9578",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "generic/assessments/_audits/legacy-validator.py",
+      "original_sha256": "0a72053baf5a02298f3839421995565b39ff7675343cd8cd8a55035afe151940",
+      "current_sha256": "80e76b59878cdca27aac885442d83bbf6deaf955b488148aadff7b98b9d2a9b9",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "generic/assessments/_audits/original-audit-prose.json",
+      "original_sha256": "779bde783fd7e78d2d3e4974b8e4bb55b4e7fb988ec1b8eba4a59c60acda95d4",
+      "current_sha256": "43760ceead13d91460ef24d6bfd9c97721ccf4444035d97a2e1acc1ff2cd9ecf",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "generic/assessments/_audits/original-completion.md",
+      "original_sha256": "c4fbd21dc026d232358030707e15dfd9f67476c5fe6088327cd7dea67f330356",
+      "current_sha256": "90d09ecf58ad69f6b8cf6c9a7ba0175933d466a35999137f5359f28a4fb13d8c",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "generic/assessments/_audits/purpose-baseline.txt",
+      "original_sha256": "e418163d6bce45434266a7ea4f43b66e15ad1a39fdcd0667496fe073ba3d3467",
+      "current_sha256": "e1dc90f142f117cec4e0bf6a0838effebc75c9fd94f1a48cf66f78b5c961b9b6",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "generic/assessments/_audits/qa02.md",
+      "original_sha256": "5626b797fb1f58c7e50fb12d95a41c4047fd587e6a9cff9b0e15acabeb6e50f6",
+      "current_sha256": "837bb0f52094f3e21b0f4abcff15910ae573a5b8db0dac5e6999fe2c1c009218",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "generic/assessments/_audits/qa04.md",
+      "original_sha256": "89d8e4f7a459c9e2759a970ef4282f7d3afaea9fb1159ee93a4961b45d6290a8",
+      "current_sha256": "cbc021dbfae2cce7ce9688de70e589f501ce440d82e48883be4e8bd706643f2a",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "generic/assessments/_audits/qa05.md",
+      "original_sha256": "1aa1082d64512ad31fd5588de210e8351aaa598871ba9cefcebce5cfca58f98e",
+      "current_sha256": "b9f23b3c44d6a090adb413869dda427446b1627582403510fd2c3aee69d2797c",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "generic/assessments/_audits/qa06.md",
+      "original_sha256": "99a404aed405495d56a95fd62556e2f5674ad7a1fa83b1a018734e6f8017de94",
+      "current_sha256": "a4a8f24b750a3679a70f97cecf38eb66c0d73d2ec7348536f975488e4a727cbb",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "generic/assessments/_audits/qa10.md",
+      "original_sha256": "b22ec8c3385e9b7a4dcf19bbfba33e05aa642e2bbab9d886967ea2049bcf5a53",
+      "current_sha256": "aba94959eef9af08ef5007f4738fdda7d1ad862860d4fd94d63934b10df2430c",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "generic/assessments/_audits/qa12.md",
+      "original_sha256": "073f7ed1184aba7ab0f5e9afa2e0019c23074404bacd1a4c2a8bff3f45d5a00d",
+      "current_sha256": "b03c5928f2d07e37e61742e69f484173feb0e9357e8571d4f095017570e9e965",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "generic/assessments/_audits/qa16.md",
+      "original_sha256": "40398ddc50a88e8a7152d498a4c9b64bfbb95c065b507692c278c9b6ed1c0b11",
+      "current_sha256": "94e91c1058a38fb43832b79832d57886a10b99eabf43ad1c1be88123bd8d7b06",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "generic/assessments/_audits/qa18.md",
+      "original_sha256": "b743b1aaeca356a7001c782b873b345153f8e99ccecc8cab51ca2fbc06e61913",
+      "current_sha256": "40538a6ea2dc09dc857245616d127c3f50d92ba4e625bfa9b36b249edd4deafb",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "generic/assessments/_audits/qa24.md",
+      "original_sha256": "a6167d57bb7ab7ababfc3e864ca65a650bcd2eda066f74a6c5cd18194e932112",
+      "current_sha256": "cccba6c7ffb8033bbecdec05e03e5667d963b08155923f8abb47afc13392803e",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "generic/assessments/legacy-evidence-preservation.json",
+      "original_sha256": "948522a6d52b92ccc26d9ee03f59ba88086d98fd6acc44310887123882f8ef46",
+      "current_sha256": "f51fb1adcd53d2012c29f5f021560a9ad086ec671ac7a2596858052de3bb977e",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "generic/assessments/prose-edit-log.json",
+      "original_sha256": "a8a6e40150084851a407156a3f4a28b9cb5abe07734fb47b6c8f2a41d131f9f3",
+      "current_sha256": "4f93609381ed9dd691291112fa0b76c4751c337d0cbaa9ef97082d25fe13cb4e",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "gstack/assessment/LEGACY_EVIDENCE.md",
+      "original_sha256": "2a12879acae987d9ce1d4820a22bbf93416a9a88e084974dd70929ae76f580b1",
+      "current_sha256": "cad4ba43df989d80fe730ddd71b1fda151f9b8e9023ee03951c0d3206404e14e",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "gstack/assessment/evidence/gstack-assessment-tests.log",
+      "original_sha256": "887560d8d261c5a7f36629c9c1ee02e2d64d2b4e649b8d663910eeb77cc30f64",
+      "current_sha256": "ca7e37a2f8ab00e4599557b598089abecee56b2667d1e2fec1b4afc9ee150175",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "migration.json",
+      "original_sha256": "347fe271c2b760116c8ad2c6f44e1959638ddfd6b08d0c8c6614e98104e740f5",
+      "current_sha256": "027c263bfea69fc89f4792b7a9054d3b9679e98515dd947366512f1ea3043731",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "orca/assessment/LEGACY_EVIDENCE.md",
+      "original_sha256": "e83ec35761cf61cc5b31c8bdd8e555e577928a4b9c016202be1aa9d155f014c9",
+      "current_sha256": "48a491b2bb92e1095c50a3167131e57f3fda65c6493170f90a73e52f6029afe5",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "orca/assessment/evidence/orca-assessment.mjs",
+      "original_sha256": "469c5dc659ee7ed7ee16cd401893d9fcc9b545d2353db72e93427cdcaef80ecd",
+      "current_sha256": "4af225d29fb18257b1c12aff1454b90d409a955450fc1a23e43a5e03b10276e0",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "orca/assessment/evidence/orca-communication-audit.mjs",
+      "original_sha256": "eda38e8909ea70fdfc882cf8ca759f63472855bd6c96bccd1f54e128b230228c",
+      "current_sha256": "2a1165ca136267f6e2ee3032235724c451dbfd2ca79bc4526af6726888f5daed",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "orca/assessment/evidence/orca-communication-exports.ts",
+      "original_sha256": "e47af7188eabbe1b5e6146bb243cb894095ffc93ec380b3367a51e9539f031d9",
+      "current_sha256": "d5f65e29c08697785ca18da62bfa23890ec8700895d3eea8a2724acb4beed6f5",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "orca/assessment/evidence/orca-orchestration-audit.mjs",
+      "original_sha256": "8c9ce320f653f261ecfc8e1d2964081b3487d1b791f22ab46726641233b64c5a",
+      "current_sha256": "0868cc373bb9999e206a2703e975e89587fee170386a76a7c8ee1832bb78a77a",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "task-management/checkouts.json",
+      "original_sha256": "059a7da29419dffe6fb7f04733db1784d242e39c89d53d7406c697622338a8e8",
+      "current_sha256": "860ffe571eaa8c9741e3668425e46a3ec3be049994d3cea4fbdb69f25a2a69d2",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "tools/checkout_task_management.py",
+      "original_sha256": "efa48909236a3250be618dcb02fddc939dedbb8b50909c0042d41822f469d50e",
+      "current_sha256": "873c254fae67e1fae951e835e9577ae7ebdfcdffbe4957b1a9e17ba0b6fb4089",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "tools/reorganize.py",
+      "original_sha256": "f88962d49226bb91972e83d13687e6eabdbcb2eec8f7fa6143ec74f85b1ac181",
+      "current_sha256": null,
+      "change": "removed obsolete cross-workspace utility"
+    },
+    {
+      "path": "tools/simplify_prose.py",
+      "original_sha256": "ce235d6f520d99315e5f11cb35c65094cac211f9ef3805b7ca7ea0fc8ef293d9",
+      "current_sha256": "bdf76e936148df63acf2ccc1b84b7076c518d887ff45f93c95588b5e4a7a57a1",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "tools/test_serve_reports.py",
+      "original_sha256": "a07cb35f54a7930d58e5e02a5ce77dbdaf9822eb976e7c3c6920d2befbb12fed",
+      "current_sha256": "35ab7861bfe933ebe7bdbecfe9140442bdb1ba2ca3e0362a8b2798eeb6e52636",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "tools/validate_research.py",
+      "original_sha256": "834c5ad7d0830bc22728b0eec4dad5994d013c11ed0b05b317ebbdf6edbf2512",
+      "current_sha256": "dc0780522d0652fdd931e113bedb1e019067aea3c545567bdd2a8ccb49d72468",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    },
+    {
+      "path": "tools/validate_task_management.py",
+      "original_sha256": "2f9386f4e09e3ab51de201e2b743b3305794f829df4fd3b736f96f2a2ccad145",
+      "current_sha256": "71206c66facdc986d920a71379bea844bc4801bd4dad35a3a6dfd1e35b10822b",
+      "change": "path normalization, portable tool behavior, or disclosure/metadata update"
+    }
+  ]
+}

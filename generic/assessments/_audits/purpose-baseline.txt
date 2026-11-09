@@ -262,14 +262,14 @@ WINGMAN's own development workspace is separate from the products it creates:
 
 | Location | Purpose |
 |---|---|
-| `~/workspace/engineering/adjutant/wingman/` | WINGMAN's own code, scope, specifications and supporting workspace. |
-| `~/neuralForge/wingman/` | Generated products and their shared tracking and communication environment. |
-| `/tmp/wingman/` | Temporary working material. |
+| `<wingman-source-root>/` | WINGMAN's own code, scope, specifications and supporting workspace. |
+| `<generated-products-root>/` | Generated products and their shared tracking and communication environment. |
+| `<temporary-work-root>/` | Temporary working material. |
 
 The product environment is organized around shared coordination and distinct product directories:
 
 ```text
-~/neuralForge/wingman/
+<generated-products-root>/
 ├── ProjectTracker/
 ├── Communication/
 │   ├── Room1/

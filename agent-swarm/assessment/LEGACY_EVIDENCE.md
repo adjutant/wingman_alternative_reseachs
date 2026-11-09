@@ -32,5 +32,7 @@ Stored messages can still exist after an unread cursor advances.
 
 The preflight refusal required an explicit encryption key for an in-memory database.
 The later run used a temporary test key.
-The scripts retain historical import paths. Inspect those paths before a new run.
-This reorganization preserved the raw records without editing them.
+Both probe scripts now import from `agent-swarm/repo/` through paths relative to their own files.
+Stack traces use canonical repository-relative source locations.
+These are path-normalized historical records, not new runs.
+The [portability audit](../../generic/assessments/PORTABILITY_AUDIT.md) records original and current hashes.

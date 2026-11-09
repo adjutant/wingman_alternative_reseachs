@@ -2,7 +2,7 @@
 
 ## Scope
 
-This folder contains Wingman research. Do not read `../main/` or `../newman/` for this task.
+This folder contains Wingman research. Do not read the sibling main or newman projects for this task.
 Keep retained source checkouts unchanged. Do not install or start a candidate product to update a report.
 Read a checkout's own instructions before you operate inside that checkout.
 
@@ -63,6 +63,11 @@ Do not describe those historical hashes as current file hashes.
 Retained tests and logs establish only the named experiment at the recorded revision.
 A test read is not a test run. A successful turn is not product acceptance.
 Do not rerun old probes without checking their imports and environment first.
+Keep all assessment inputs, imports, links and scratch files within this repository.
+Use repository-relative manifest paths. Do not record machine-specific paths or directory inodes.
+Historical path normalization requires a notice and original/current hashes; it is not a new test run.
+Runtime paths described as candidate behavior are reviewed separately in `generic/assessments/portability-runtime-paths.json`.
+Run `python3 tools/validate_portability.py --write` before publishing.
 
 ## Writing and reports
 

@@ -53,7 +53,7 @@ The active inventory excludes repositories with fewer than 100 stars in the Nove
 - [Method and evidence](generic/method.html) define verdicts and verification limits.
 - [Agent task coordination](generic/task-coordination.html) compares shared trackers, boards, claims and handoffs for agents and subagents.
 - [Agent task management baseline](AGENT_TASK_MANAGEMENT.md) defines the dedicated coordination requirements.
-- [Agent task management](task-management/index.html) compares all 11 codebase assessments against T01–T24.
+- [Agent task management](task-management/index.html) compares all 9 codebase assessments against T01–T24.
 - [Task-study source guide](task-management/README.md) links Markdown reports, source ledgers and verification evidence.
 - [Source index](generic/assessments/CHECKOUT_INDEX.md) lists all checkouts and commits.
 - [Feature matrix](generic/assessments/FEATURE_MATRIX.md) provides the complete Markdown comparison.
@@ -121,6 +121,7 @@ Use the user's uv installation. The builder declares its dependencies.
 
 ```sh
 uv run --script tools/build_reports.py
+python3 tools/validate_portability.py --write
 python3 tools/validate_research.py --write
 python3 tools/validate_task_management.py --write --require-complete
 uv run --script tools/validate_task_publication.py --write
@@ -130,8 +131,12 @@ python3 tools/test_serve_reports.py
 Run these commands from this repository's root.
 The builder does not install or start candidate products.
 The validator checks repository preservation, coverage, links, anchors, and assets.
-The full migration validation needs the original local checkouts and workspace layout.
-It compares their directory inodes with the recorded pre-move state.
+Source validation needs the pinned checkouts in their declared `repo/` directories.
+It compares commits and Git state, not host paths or filesystem inodes.
+The report collection builds and reads without source checkouts.
+Run `python3 tools/validate_portability.py --reports-only` to check such a report-only clone.
+The portability check covers every tracked file, including archived evidence and generated reports.
+See [the portability audit](generic/assessments/PORTABILITY_AUDIT.md) for path normalization, evidence hashes and relocation checks.
 It does not certify source semantics or formal ASD-STE100 compliance.
 
 Read [the completion audit](generic/assessments/COMPLETION_AUDIT.md) for the current review state.

@@ -15,7 +15,6 @@ from checkout_task_management import excluded_repo_urls, repo_key
 from repository_profiles import INVENTORY_HTML, INVENTORY_MD, PROFILE_NAME, inventory_markdown, load_profiles
 
 ROOT = Path(__file__).resolve().parents[1]
-WORKSPACE = ROOT.parent
 
 class Document(HTMLParser):
     def __init__(self, text):
@@ -42,15 +41,9 @@ def main():
     args = parser.parse_args()
     coverage = json.loads((ROOT / 'coverage.json').read_text())
     checkouts = json.loads((ROOT / 'checkouts.json').read_text())
-    migration = json.loads((ROOT / 'migration.json').read_text())
-    before = {x['slug']: x for x in migration['checkouts_before']}
     issues = []; repos = []; markdown_links = 0; html_links = 0
-    for old in ['alternatives', 'alt_researchs', 'other-research', 'researchs']:
-        if (WORKSPACE / old).exists() or (WORKSPACE / old).is_symlink():
-            issues.append(f'Old folder remains: {old}')
-    canonical = WORKSPACE/'research'
-    if canonical.is_symlink() or not canonical.is_dir() or canonical.resolve() != ROOT:
-        issues.append('research must be the real directory')
+    if ROOT.is_symlink() or not ROOT.is_dir():
+        issues.append('The repository root must be a real directory')
     if not (ROOT/'AGENTS.md').is_file() or (ROOT/'AGENTS.md').is_symlink():
         issues.append('AGENTS.md must be a regular file')
     if (ROOT/'AGENTS.m').exists() or (ROOT/'AGENTS.m').is_symlink():
@@ -65,9 +58,8 @@ def main():
         slug = Path(item['directory']).parts[0]; expected.add(slug)
         repo = ROOT/item['directory']; doc = ROOT/item['report']
         result = {'project': slug, 'head': git(repo,'rev-parse','HEAD'),
-                  'git_status': git(repo,'status','--porcelain'),
-                  'same_directory_inode': repo.stat().st_ino == before[slug]['inode']}
-        if result['head'] != before[slug]['head'] or result['git_status'] != before[slug]['status'] or not result['same_directory_inode']:
+                  'git_status': git(repo,'status','--porcelain')}
+        if result['head'] != item['commit'] or result['git_status'] != item['initial_git_status']:
             issues.append(f'Checkout changed: {slug}')
         body = doc.read_text(); rows = {}
         for line in body.splitlines():
@@ -133,22 +125,15 @@ def main():
                 continue
             dest=Path(os.path.normpath(page.parent/unquote(u.path))) if u.path else page
             html_links += 1
-            if not dest.exists(): issues.append(f'Broken HTML link: {page.relative_to(ROOT)} -> {target}')
+            if not dest.resolve().is_relative_to(ROOT): issues.append(f'HTML link escapes repository: {page.relative_to(ROOT)} -> {target}')
+            elif not dest.exists(): issues.append(f'Broken HTML link: {page.relative_to(ROOT)} -> {target}')
             elif u.fragment and dest.suffix=='.html':
                 ids=parsed.get(dest)
                 if ids and unquote(u.fragment) not in ids.ids:
                     issues.append(f'Broken HTML anchor: {page.relative_to(ROOT)} -> {target}')
-    # Historical audits retain references to their original evidence, including pruned projects.
-    retired = set(before) - expected
-    audits = ROOT / 'generic/assessments/_audits'
     def local_link_exists(doc, target):
         dest = (doc.parent / unquote(target.split('#')[0])).resolve()
-        if dest.exists():
-            return True
-        if doc.parent == audits and dest.is_relative_to(ROOT):
-            parts = dest.relative_to(ROOT).parts
-            return bool(parts and parts[0] in retired)
-        return False
+        return dest.is_relative_to(ROOT) and dest.exists()
 
     docs = [ROOT/'WINGMAN_PURPOSE.md', ROOT/'AGENT_TASK_MANAGEMENT.md', ROOT/'AGENTS.md', ROOT/'README.md',
             ROOT/INVENTORY_MD]
@@ -157,7 +142,7 @@ def main():
     docs += list(ROOT.glob('*/assessment/*.md'))
     docs += list(ROOT.glob('generic/assessments/*.md'))
     docs += list(ROOT.glob('generic/assessments/agent-task-coordination/*.md'))
-    docs += list(ROOT.glob('generic/assessments/_audits/qa*.md'))
+    docs += list(ROOT.glob('generic/assessments/_audits/*.md'))
     for doc in docs:
         if not doc.exists(): issues.append(f'Missing guide: {doc.relative_to(ROOT)}'); continue
         body=doc.read_text()

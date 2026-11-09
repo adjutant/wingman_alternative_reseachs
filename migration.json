@@ -122,526 +122,451 @@
       "slug": "agent-swarm",
       "old_path": "alternatives/standing-teams/agent-swarm",
       "head": "6aff700f53755cb71bd6a1aa2e2fa1da9586b892",
-      "status": "",
-      "inode": 15320358
+      "status": ""
     },
     {
       "slug": "agency",
       "old_path": "alternatives/standing-teams/agency",
       "head": "b62e995aac7d4204166831b3f4c212181771ead9",
-      "status": "",
-      "inode": 17077179
+      "status": ""
     },
     {
       "slug": "teammcp",
       "old_path": "alternatives/standing-teams/teammcp",
       "head": "c82572da10c290429fa53b7d2706ee4687b3fe6f",
-      "status": "",
-      "inode": 17077189
+      "status": ""
     },
     {
       "slug": "edict",
       "old_path": "alternatives/standing-teams/edict",
       "head": "14a207557719c046af0f993a7bff1cc5a5015b33",
-      "status": "",
-      "inode": 17077177
+      "status": ""
     },
     {
       "slug": "claw-empire",
       "old_path": "alternatives/standing-teams/claw-empire",
       "head": "66a24ea7df2435ef897c48c147deb7ec572c01c2",
-      "status": "",
-      "inode": 17077505
+      "status": ""
     },
     {
       "slug": "clawteam",
       "old_path": "alternatives/standing-teams/clawteam",
       "head": "01198332ef9270c32c5460b8a178f964fc0df451",
-      "status": "",
-      "inode": 17078194
+      "status": ""
     },
     {
       "slug": "multica",
       "old_path": "alternatives/standing-teams/multica",
       "head": "3c5c8b245359b9b8e913a47f97211f2a3426f149",
-      "status": "",
-      "inode": 17078988
+      "status": ""
     },
     {
       "slug": "scion",
       "old_path": "alternatives/standing-teams/scion",
       "head": "fe4556ad66b7ce68cf0c2d6871544496dfdfd4c4",
-      "status": "",
-      "inode": 17077244
+      "status": ""
     },
     {
       "slug": "paperclip",
       "old_path": "alternatives/standing-teams/paperclip",
       "head": "46fb933b0155d183ce64a8bdc4950d1b58c926f6",
-      "status": "",
-      "inode": 17034974
+      "status": ""
     },
     {
       "slug": "openrig",
       "old_path": "alternatives/standing-teams/openrig",
       "head": "fa3262d360fbb8d785acfa9bd8f1b40439325b4f",
-      "status": "",
-      "inode": 17079292
+      "status": ""
     },
     {
       "slug": "tinyagi",
       "old_path": "alternatives/standing-teams/tinyagi",
       "head": "2db3a03a891b302c460f624d6c5a0523b8aa3528",
-      "status": "",
-      "inode": 17106716
+      "status": ""
     },
     {
       "slug": "hamlet",
       "old_path": "alternatives/standing-teams/hamlet",
       "head": "c944a2ff4081bf54cf3049e613c0833a7910e180",
-      "status": "",
-      "inode": 17107223
+      "status": ""
     },
     {
       "slug": "multi-agent-shogun",
       "old_path": "alternatives/standing-teams/multi-agent-shogun",
       "head": "aff8dc8495da26a2aad582257457655fa953b57e",
-      "status": "",
-      "inode": 17108190
+      "status": ""
     },
     {
       "slug": "agent-of-empires",
       "old_path": "alternatives/workbenches/agent-of-empires",
       "head": "db073acb257e666264e0309c683d38bbbfe1c46a",
-      "status": "",
-      "inode": 17108592
+      "status": ""
     },
     {
       "slug": "orkas",
       "old_path": "alternatives/standing-teams/orkas",
       "head": "c7c0e21fad7ff55f5a72a575b7a464f3cf9bc3a1",
-      "status": "",
-      "inode": 17096319
+      "status": ""
     },
     {
       "slug": "amux",
       "old_path": "alternatives/workbenches/amux",
       "head": "ce8542b8a2764a14f6dbce2a3ce443f4ac0c5b21",
-      "status": "",
-      "inode": 17111955
+      "status": ""
     },
     {
       "slug": "automaker",
       "old_path": "alternatives/workbenches/automaker",
       "head": "5888d2e6f3618e06762803687ea7b181c10edcbd",
-      "status": "",
-      "inode": 17115844
+      "status": ""
     },
     {
       "slug": "emdash",
       "old_path": "alternatives/workbenches/emdash",
       "head": "592281113a9d83a2987d8a1715d0fedf854d44c4",
-      "status": "",
-      "inode": 17117785
+      "status": ""
     },
     {
       "slug": "paseo",
       "old_path": "alternatives/workbenches/paseo",
       "head": "b920243c74e25ec06e523019fb154f78ea9870be",
-      "status": "",
-      "inode": 17124510
+      "status": ""
     },
     {
       "slug": "golutra",
       "old_path": "alternatives/workbenches/golutra",
       "head": "8b68a14183afa6ec26f9905f2a81cbd91ed1b35b",
-      "status": "",
-      "inode": 17131899
+      "status": ""
     },
     {
       "slug": "munder-difflin",
       "old_path": "alternatives/standing-teams/munder-difflin",
       "head": "83acdc1de9eacf23f42df7a5d31b36d023ae64ec",
-      "status": "",
-      "inode": 17077852
+      "status": ""
     },
     {
       "slug": "herdr",
       "old_path": "alternatives/workbenches/herdr",
       "head": "ee5bfb5041bb3e4a49d591c72308aae3c81ecdde",
-      "status": "",
-      "inode": 17132323
+      "status": ""
     },
     {
       "slug": "agent-deck",
       "old_path": "alternatives/workbenches/agent-deck",
       "head": "2e897f2a62f6dd570628d2021a0994a3a7db1f4f",
-      "status": "",
-      "inode": 17114289
+      "status": ""
     },
     {
       "slug": "intent",
       "old_path": "alternatives/workbenches/intent",
       "head": "33fcf9273d2f819897cdbc81f5f1f472813e809d",
-      "status": "",
-      "inode": 17142246
+      "status": ""
     },
     {
       "slug": "omnigent",
       "old_path": "alternatives/workbenches/omnigent",
       "head": "539fe5da7769fde0f6d2ed48fca10ef93e174a23",
-      "status": "",
-      "inode": 17146840
+      "status": ""
     },
     {
       "slug": "agent-orchestrator",
       "old_path": "alternatives/workbenches/agent-orchestrator",
       "head": "fc92e7ec6f43fc06317cd47cdf8813956612fe50",
-      "status": "",
-      "inode": 17147350
+      "status": ""
     },
     {
       "slug": "routa",
       "old_path": "alternatives/workbenches/routa",
       "head": "9dc7b7be8fa92b760f6ebf0ac7f8b44db1b4dc34",
-      "status": "",
-      "inode": 17161620
+      "status": ""
     },
     {
       "slug": "crewly",
       "old_path": "alternatives/standing-teams/crewly",
       "head": "f05af05be4a8a76e22bfbaa26643e9c4d5ff0ab5",
-      "status": "",
-      "inode": 17104142
+      "status": ""
     },
     {
       "slug": "maestro",
       "old_path": "alternatives/workbenches/maestro",
       "head": "5b4d5e4f190a1701024d0567fa85aad458c59104",
-      "status": "",
-      "inode": 17165409
+      "status": ""
     },
     {
       "slug": "claude-squad",
       "old_path": "alternatives/workbenches/claude-squad",
       "head": "ce1ffb4392b01f38e2c4599c7c84d2a93973b138",
-      "status": "",
-      "inode": 17191486
+      "status": ""
     },
     {
       "slug": "happy",
       "old_path": "alternatives/workbenches/happy",
       "head": "76ed3d0abaf5586b1929df77797af8783b38d21c",
-      "status": "",
-      "inode": 17173599
+      "status": ""
     },
     {
       "slug": "orca",
       "old_path": "alternatives/workbenches/orca",
       "head": "0e25b0e22bf331fda82e470585df58eeef848d6b",
-      "status": "",
-      "inode": 15186886
+      "status": ""
     },
     {
       "slug": "paradev",
       "old_path": "alternatives/workbenches/paradev",
       "head": "3b5472d2fd07f9067f380a79525cf1200900f693",
-      "status": "",
-      "inode": 17155269
+      "status": ""
     },
     {
       "slug": "wrenyard",
       "old_path": "alternatives/workbenches/wrenyard",
       "head": "cdaed14b3cfa0901d2feddc86d9b82060d6c3d5b",
-      "status": "",
-      "inode": 17207110
+      "status": ""
     },
     {
       "slug": "cli-agent-orchestrator",
       "old_path": "alternatives/delivery-engines/cli-agent-orchestrator",
       "head": "8b962ee515caf9351838c1805f4cfef969e04dda",
-      "status": "",
-      "inode": 17207134
+      "status": ""
     },
     {
       "slug": "multiclaude",
       "old_path": "alternatives/delivery-engines/multiclaude",
       "head": "dfad1a58343bceaf20017fe93cfad55af54550d1",
-      "status": "",
-      "inode": 17208717
+      "status": ""
     },
     {
       "slug": "kander",
       "old_path": "alternatives/delivery-engines/kander",
       "head": "285fb4f2994a2dc6e10dff589179fa8a6ead4cb6",
-      "status": "",
-      "inode": 17211482
+      "status": ""
     },
     {
       "slug": "codex-autorunner",
       "old_path": "alternatives/delivery-engines/codex-autorunner",
       "head": "3bedfe817e6fc70eb16650f216eca93cd37fa411",
-      "status": "",
-      "inode": 15320357
+      "status": ""
     },
     {
       "slug": "gastown",
       "old_path": "alternatives/delivery-engines/gastown",
       "head": "466aa41c83ee73b1fa0eb79eb9d172fb1eca9476",
-      "status": "",
-      "inode": 17211687
+      "status": ""
     },
     {
       "slug": "stagewise",
       "old_path": "alternatives/workbenches/stagewise",
       "head": "17a0123a0e896885465df36169457199d5225eb5",
-      "status": "",
-      "inode": 17207085
+      "status": ""
     },
     {
       "slug": "cmux",
       "old_path": "alternatives/workbenches/cmux",
       "head": "7af8f3ce26c8e6e181cabe60ebef679ff25f55ca",
-      "status": "",
-      "inode": 17142963
+      "status": ""
     },
     {
       "slug": "open-swe",
       "old_path": "alternatives/delivery-engines/open-swe",
       "head": "b471e036907ce4e3cbd5d5d049f65adcdc4f76a8",
-      "status": "",
-      "inode": 17218906
+      "status": ""
     },
     {
       "slug": "warren",
       "old_path": "alternatives/delivery-engines/warren",
       "head": "ce088e854c96492358b6f0a0e26695baf801968d",
-      "status": "",
-      "inode": 17215133
+      "status": ""
     },
     {
       "slug": "agentrail",
       "old_path": "alternatives/delivery-engines/agentrail",
       "head": "ac75225f090ac67fafbdf63b3fdcd5ad520d867d",
-      "status": "",
-      "inode": 17246079
+      "status": ""
     },
     {
       "slug": "sortie",
       "old_path": "alternatives/delivery-engines/sortie",
       "head": "d297d5a2a9dc7a3eae785262b18e6bd0e746be54",
-      "status": "",
-      "inode": 17248742
+      "status": ""
     },
     {
       "slug": "symphony",
       "old_path": "alternatives/delivery-engines/symphony",
       "head": "be10a1b79df723d6d7612b5651c8522704dafb2e",
-      "status": "",
-      "inode": 17224556
+      "status": ""
     },
     {
       "slug": "openhands",
       "old_path": "alternatives/delivery-engines/openhands",
       "head": "6d2d9df4af1337abf4ed967a7b396f46fed7559c",
-      "status": "",
-      "inode": 17242726
+      "status": ""
     },
     {
       "slug": "swarmos",
       "old_path": "alternatives/delivery-engines/swarmos",
       "head": "76604741648a59b6d1cd7afab66ddfb4ea7e0aa9",
-      "status": "",
-      "inode": 17249234
+      "status": ""
     },
     {
       "slug": "swe-agent",
       "old_path": "alternatives/delivery-engines/swe-agent",
       "head": "3ea751c087f32b16e039a2233dd6eefecef325d5",
-      "status": "",
-      "inode": 17252113
+      "status": ""
     },
     {
       "slug": "zeroshot",
       "old_path": "alternatives/delivery-engines/zeroshot",
       "head": "3aad736924cb631e0d13f7ed2ab7ef216055cc53",
-      "status": "",
-      "inode": 17255093
+      "status": ""
     },
     {
       "slug": "agentopology",
       "old_path": "alternatives/workflow-layers/agentopology",
       "head": "6aab63339a1bad43e87ff156dabf77d18208ee26",
-      "status": "",
-      "inode": 17256656
+      "status": ""
     },
     {
       "slug": "superplane",
       "old_path": "alternatives/delivery-engines/superplane",
       "head": "7d755d16b8ae836ecebf61639efc6266d74a4b0b",
-      "status": "",
-      "inode": 17252104
+      "status": ""
     },
     {
       "slug": "gstack",
       "old_path": "alternatives/workflow-layers/gstack",
       "head": "f8085aa0e499085c411f712d6d5c00a81d1b104a",
-      "status": "",
-      "inode": 16417694
+      "status": ""
     },
     {
       "slug": "squad",
       "old_path": "alternatives/workflow-layers/squad",
       "head": "7b731ec97f35346bdc4fa87c3edaf16b808fc0ae",
-      "status": "",
-      "inode": 17258934
+      "status": ""
     },
     {
       "slug": "deepcode",
       "old_path": "alternatives/workflow-layers/deepcode",
       "head": "aa6ed16148719101b994882c94608ae12e88f870",
-      "status": "",
-      "inode": 17272916
+      "status": ""
     },
     {
       "slug": "ralph-orchestrator",
       "old_path": "alternatives/workflow-layers/ralph-orchestrator",
       "head": "b5789dfbb25bd4aa65ce565c756d95acc8c42f76",
-      "status": "",
-      "inode": 17272919
+      "status": ""
     },
     {
       "slug": "continuous-claude-v3",
       "old_path": "alternatives/workflow-layers/continuous-claude-v3",
       "head": "d07ff4b06b62f43771bc0c927d0211b734d6149e",
-      "status": "",
-      "inode": 17275450
+      "status": ""
     },
     {
       "slug": "antfarm",
       "old_path": "alternatives/workflow-layers/antfarm",
       "head": "a442ad7dcb8cf8746175cc4a2e2dcafd501156cf",
-      "status": "",
-      "inode": 17276944
+      "status": ""
     },
     {
       "slug": "oh-my-openagent",
       "old_path": "alternatives/workflow-layers/oh-my-openagent",
       "head": "8c9e1a991b3603dca14dd1a8dd6ebcaeff2cd26f",
-      "status": "",
-      "inode": 17264880
+      "status": ""
     },
     {
       "slug": "myclaude",
       "old_path": "alternatives/workflow-layers/myclaude",
       "head": "f2e75c1263a2d5f09cdc4bb3dfe3635c635ff296",
-      "status": "",
-      "inode": 17287096
+      "status": ""
     },
     {
       "slug": "oh-my-codex",
       "old_path": "alternatives/workflow-layers/oh-my-codex",
       "head": "509a299d586b48f145c2c7a7baac8ce08d01a015",
-      "status": "",
-      "inode": 17291527
+      "status": ""
     },
     {
       "slug": "oh-my-claudecode",
       "old_path": "alternatives/workflow-layers/oh-my-claudecode",
       "head": "0564555b63dfedd158669c6799d53743abd7d6bf",
-      "status": "",
-      "inode": 17291132
+      "status": ""
     },
     {
       "slug": "ruflo",
       "old_path": "alternatives/workflow-layers/ruflo",
       "head": "bf5d71a1852071660b3489a0ff02d998676200e5",
-      "status": "",
-      "inode": 17275701
+      "status": ""
     },
     {
       "slug": "hcom",
       "old_path": "alternatives/infrastructure/hcom",
       "head": "de33e31a0cdbba4c5863f7cc050d8b79aa50bcdf",
-      "status": "",
-      "inode": 17303057
+      "status": ""
     },
     {
       "slug": "mission-control",
       "old_path": "alternatives/infrastructure/mission-control",
       "head": "c1a846fe020567bb3ceb3b65db9f00db875618cd",
-      "status": "",
-      "inode": 17304241
+      "status": ""
     },
     {
       "slug": "companyhelm",
       "old_path": "alternatives/infrastructure/companyhelm",
       "head": "8651f20e14b3fa0daa4d11e56abca0981554532b",
-      "status": "",
-      "inode": 17312504
+      "status": ""
     },
     {
       "slug": "ax",
       "old_path": "alternatives/infrastructure/ax",
       "head": "2187dd453d60952a4952eb1fc07c81b5721d5680",
-      "status": "",
-      "inode": 17313932
+      "status": ""
     },
     {
       "slug": "open-multi-agent",
       "old_path": "alternatives/infrastructure/open-multi-agent",
       "head": "a2fe43ce3414f106f2e57366c55b244ecea7a74b",
-      "status": "",
-      "inode": 17316079
+      "status": ""
     },
     {
       "slug": "plano",
       "old_path": "alternatives/infrastructure/plano",
       "head": "b13ddd632bde1fea7678386c345665ea5fa671af",
-      "status": "",
-      "inode": 17313956
+      "status": ""
     },
     {
       "slug": "nasiko",
       "old_path": "alternatives/infrastructure/nasiko",
       "head": "10a085818d585fcc487487df89d09c87f74bd577",
-      "status": "",
-      "inode": 17315880
+      "status": ""
     },
     {
       "slug": "swarm",
       "old_path": "alternatives/infrastructure/swarm",
       "head": "25699c00e8d56c51117589ccdd0bf2ab843a9a2b",
-      "status": "",
-      "inode": 17320555
+      "status": ""
     },
     {
       "slug": "bernstein",
       "old_path": "alternatives/infrastructure/bernstein",
       "head": "1ad038ab7f2475e45afc008a614c17da83090966",
-      "status": "",
-      "inode": 17317878
+      "status": ""
     },
     {
       "slug": "rocketride-server",
       "old_path": "alternatives/infrastructure/rocketride-server",
       "head": "a7f3770b1910b34080e07cf66bf0b242ef3b09ac",
-      "status": "",
-      "inode": 17317854
+      "status": ""
     },
     {
       "slug": "babysitter",
       "old_path": "alternatives/workflow-layers/babysitter",
       "head": "feb68abe397acc14f32b34984975c48fedba2b33",
-      "status": "",
-      "inode": 17256068
+      "status": ""
     },
     {
       "slug": "openclaw",
       "old_path": "alternatives/agent-harnesses/openclaw",
       "head": "6d3ff6f8bd62154540fee1ad3a123bdd539d904b",
-      "status": "",
-      "inode": 17324099
+      "status": ""
     }
   ],
   "discarded_old_research_sha256": {
@@ -1543,6 +1468,7 @@
     "evidence/alternative-checkouts/logs/swe-agent.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "evidence/alternative-checkouts/logs/paradev.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   },
-  "temporary_backup": "/var/folders/v4/ygpb7xgn3vd_p18mtk1ggmfr0000gn/T/wingman-old-research-rd_y4eo4",
-  "policy": "Retain all current assessments and repos. Retain old focused experiment evidence. Replace old opinions with curated findings."
+  "policy": "Retain all current assessments and repos. Retain old focused experiment evidence. Replace old opinions with curated findings.",
+  "backup_note": "Temporary backups are not assessment inputs; original content hashes are retained where recorded.",
+  "path_labels_note": "Keys in historical hash maps identify original document labels, not retained input paths. Current paths are relative to the repository root in checkouts.json and coverage.json."
 }

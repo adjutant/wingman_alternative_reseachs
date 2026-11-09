@@ -71,7 +71,6 @@ def inspect(record):
         'commit': head, 'git_status': status, 'tracked_file_count': len(tracked),
         'tracked_paths_sha256': hashlib.sha256(paths).hexdigest(),
         'root_tree_sha256': hashlib.sha256(tree.encode()).hexdigest(),
-        'directory_inode': directory.stat().st_ino,
         'missing_tracked_paths': [], 'sparse_paths': [], 'submodule_paths': submodules,
         'instruction_paths': instruction_paths,
         'lfs_payloads': 'Not downloaded; tracked pointer files retained when present',
