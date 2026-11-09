@@ -1,6 +1,6 @@
 # Task coordination for AI agents and subagents
 
-Review date: November 8, 2026.
+Review date: November 8, 2026. This is the historical screening. The [active task-management study](../../task-management/index.html) uses a narrower selection. Recommendations here reflect the original screening.
 
 **Start with Paperclip for a shared organization, Beads for a lightweight task graph, and Rhizome MCP for lease-based handoffs on one host.** Compare Muster when the main interface should be a shared agent board. Use Plane when conventional project management is the priority. Backlog.md is the clearest file-based option for humans and agents working in the same repository.
 

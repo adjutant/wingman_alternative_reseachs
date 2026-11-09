@@ -109,6 +109,14 @@ def checkout(record, data):
     return f"{record['slug']}: {result['commit'][:12]}, {result['tracked_file_count']} tracked files, clean"
 
 
+def repo_key(url):
+    return url.rstrip('/').removesuffix('.git').casefold()
+
+
+def excluded_repo_urls():
+    return {repo_key(line.strip()) for line in (ROOT / 'SHITLIST.md').read_text().splitlines() if line.strip()}
+
+
 def initial_manifest():
     sources = json.loads((ROOT / 'generic/assessments/agent-task-coordination/sources.json').read_text())
     entries = []
@@ -120,24 +128,19 @@ def initial_manifest():
             'directory': f'{slug}/repo' if reuse else f'task-management/{slug}/repo',
             'mode': 'preserved' if reuse else 'new', 'state': 'pending',
             'assessment': f'task-management/{slug}/assessment/ASSESSMENT.md',
-            'role': 'integration' if slug == 'plane-mcp' else 'system or companion',
+            'role': 'system or companion',
         })
     entries.extend([
-        {'slug': 'gitlab', 'url': 'https://gitlab.com/gitlab-org/gitlab.git',
-         'directory': 'task-management/gitlab/repo', 'mode': 'new', 'state': 'pending',
-         'assessment': 'task-management/gitlab/assessment/ASSESSMENT.md', 'role': 'system'},
         {'slug': 'agent-mail-python', 'url': 'https://github.com/Dicklesworthstone/mcp_agent_mail.git',
          'requested_commit': '9138f34b1ed220235dbfeaa3f1fc9fe4444f4e72',
          'directory': 'task-management/agent-mail-python/repo', 'mode': 'new', 'state': 'pending',
          'assessment': 'task-management/agent-mail-python/assessment/ASSESSMENT.md', 'role': 'historical companion'},
-        {'slug': 'taiga-front', 'url': 'https://github.com/taigaio/taiga-front.git',
-         'directory': 'task-management/taiga-front/repo', 'mode': 'new', 'state': 'pending',
-         'assessment': 'task-management/taiga-front/assessment/ASSESSMENT.md', 'role': 'frontend supporting Taiga'},
     ])
+    excluded = excluded_repo_urls()
     return {'baseline': 'AGENT_TASK_MANAGEMENT.md', 'created_at': stamp(),
-            'scope': 'All repositories in the task coordination study, GitLab, the historical Python communication companion, and the Taiga frontend.',
+            'scope': 'Active agent task-management candidates and companions after the design and repository activity filters.',
             'checkout_policy': 'Full tracked worktrees at pinned commits; no sparse checkout; source code ignored by outer research Git; no candidate application executed.',
-            'repositories': sorted(entries, key=lambda r: r['slug'])}
+            'repositories': sorted((r for r in entries if repo_key(r['url']) not in excluded), key=lambda r: r['slug'])}
 
 
 def main():
@@ -147,6 +150,9 @@ def main():
     args = parser.parse_args()
     STUDY.mkdir(exist_ok=True)
     data = json.loads(MANIFEST.read_text()) if MANIFEST.exists() else initial_manifest()
+    excluded = excluded_repo_urls()
+    if any(repo_key(r['url']) in excluded for r in data['repositories']):
+        parser.error('Remove excluded repositories from the active checkout manifest first.')
     save(data)
     selected = [r for r in data['repositories'] if not args.only or r['slug'] in args.only]
     failures = []

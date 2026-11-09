@@ -1,8 +1,8 @@
-# Agent task management: findings across 25 codebases
+# Agent task management: findings across 9 codebases
 
-This study assesses shared project and task records for an organization of agents, subagents, leaders, reviewers and a human owner. The [baseline](../AGENT_TASK_MANAGEMENT.md) defines T01–T24. All 25 codebases have complete tracked worktrees at recorded commits and a targeted source assessment against every requirement. The collection includes systems, an adapter, communication companions and a frontend. These are not 25 interchangeable products.
+This study assesses shared project and task records for an organization of agents, subagents, leaders, reviewers and a human owner. The [baseline](../AGENT_TASK_MANAGEMENT.md) defines T01–T24. All 9 codebases have complete tracked worktrees at recorded commits and a targeted source assessment against every requirement. The collection includes task systems, execution workspaces and companions.
 
-The conclusions below synthesize the individual reports. Their source links, inspected ranges, hashes and lifecycle limits remain authoritative. No candidate application or test suite was run. Feature presence, a test assertion and an observed working deployment are different evidence levels. The original 75-project Wingman study and the earlier task-coordination screening retain their separate scope.
+The conclusions below synthesize the individual reports. Their source links, inspected ranges, hashes and lifecycle limits remain authoritative. No candidate application or test suite was run. Feature presence, a test assertion and an observed working deployment are different evidence levels. The orchestration study uses a separate baseline. The earlier task-coordination screening records its historical scope.
 
 ## Main finding
 
@@ -10,26 +10,38 @@ The central choice is the shared authority and its execution contract. A board c
 
 No reviewed implementation establishes the entire baseline, without qualification, across every inspected writer and deployment mode. Several have substantial native mechanisms. Their boundaries concern current-attempt authority, readiness consistency, child-result acceptance, alternate mutations and recovery across hosts. Read the boundary beside each mechanism rather than ranking products by verdict counts.
 
+## Design and implementation review
+
+The shortlist evaluates each project against its own role. A local tracker, browser board, execution workspace and mail companion each have different responsibilities. Early projects can qualify when their design is coherent and the source implements a substantial part of that role.
+
+- **DevBoard** (`cbe017a445fd4f9dee2de73f729c65b7fe0f9b9b`). In `src/devboard/__init__.py`, competing processes can both claim a task or generate the same ID because the checks and file writes run separately. A rename deletes the old file before writing its replacement. A failed write can lose the task. Source repository https://github.com/RapidWebs-Enterprise/DevBoard
+- **Agent HQ** (`785cd8c9a55b2b517eb8eb8f680cd65985992282`). In `src/services.js`, ordinary updates can overwrite a claimed assignee, release can clear a claim without an actor, and direct claims skip the readiness checks used by next-task selection. The HTTP interface accepts caller-supplied identities without authentication.
+- **Task Master** (`c0c98d367c55296bfe69e65680625b6db437af02`). The file storage adapter can replace a whole task group with a snapshot read before locking, losing concurrent edits. The legacy and current writers use incompatible lock types at the same path. Workflow finalization can delete workflow state after the task status save fails.
+
+Vibe Kanban stays for local execution, worktrees and session inspection. Its project board route is retired.
+
 ## Fit routes at the assessed revisions
 
 | Need | Relevant source studies | Decision that remains |
 |---|---|---|
 | Organization records and agent execution in one control plane | [Paperclip](paperclip/assessment/ASSESSMENT.md), [Agent Swarm](agent-swarm/assessment/ASSESSMENT.md) | Select and validate one execution profile and transition policy. Native workflow guarantees do not automatically govern legacy or ordinary task paths. |
-| Local task authority with explicit ownership/review invariants | [Rhizome MCP](rhizome-mcp/assessment/ASSESSMENT.md), [agent-kanban-rs](agent-kanban-rs/assessment/ASSESSMENT.md), [Beads](beads/assessment/ASSESSMENT.md), [beads_rust](beads-rust/assessment/ASSESSMENT.md) | Choose the identity, attempt and trust model. Local stores do not create exclusive ownership across independent host replicas. Licensing differs. |
-| Shared browser planning with a separate execution coordinator | [OpenProject](openproject/assessment/ASSESSMENT.md), [GitLab](gitlab/assessment/ASSESSMENT.md), [Plane](plane/assessment/ASSESSMENT.md), [Taiga backend](taiga/assessment/ASSESSMENT.md), [Kanboard](kanboard/assessment/ASSESSMENT.md), [Vikunja](vikunja/assessment/ASSESSMENT.md), [Planka](planka/assessment/ASSESSMENT.md) | Add atomic execution admission, attempts, recovery and accepted-result policy. Normal assignment and workflow permissions solve a different problem. |
-| Integrated operator workspace and dispatch references | [Gemba](gemba/assessment/ASSESSMENT.md), [Muster](muster/assessment/ASSESSMENT.md), [Vibe Kanban](vibe-kanban/assessment/ASSESSMENT.md) | Confirm durable ownership and routed human functionality. Gemba's session-map guard, Muster's later writes and Vibe Kanban's retired project routes have distinct limits. |
-| Repository-local planning and task context | [Backlog.md](backlog-md/assessment/ASSESSMENT.md), [Task Master](task-master/assessment/ASSESSMENT.md) | Supply the execution supervisor and reconcile concurrent writers. File replacement and edit locks are not worker reservations. |
+| Local task authority with explicit ownership/review invariants | [Beads](beads/assessment/ASSESSMENT.md), [beads_rust](beads-rust/assessment/ASSESSMENT.md) | Choose the identity, attempt and trust model. Local stores do not create exclusive ownership across independent host replicas. Licensing differs. |
+| Local execution workspaces | [Vibe Kanban](vibe-kanban/assessment/ASSESSMENT.md) | Supply durable task ownership and a project board above the local execution layer. |
+| Repository-local planning and task context | [Backlog.md](backlog-md/assessment/ASSESSMENT.md) | Supply the execution supervisor and reconcile concurrent writers. File replacement and edit locks are not worker reservations. |
 | Communication, resource coordination and inspection alongside a tracker | [Python Agent Mail](agent-mail-python/assessment/ASSESSMENT.md), [Rust Agent Mail](agent-mail-rust/assessment/ASSESSMENT.md), [beads-viewer](beads-viewer/assessment/ASSESSMENT.md) | Keep task ownership and acceptance in the tracker. Acknowledgements, resource leases and graph recommendations do not finish tasks. |
 
-[Agent HQ](agent-hq/assessment/ASSESSMENT.md) is a compact board/API reference with conditional claims, but general updates bypass its claim/readiness contract and its HTTP actor is not authenticated. [DevBoard](devboard/assessment/ASSESSMENT.md) has read-check-write allocation and file durability defects at its pin. These are different findings from merely lacking optional project-management features.
+## Human interfaces
 
-[Plane MCP](plane-mcp/assessment/ASSESSMENT.md) exposes extensive upstream operations but does not add an independent task authority. Its retrieve/replace assignment helper is not atomic allocation. [Taiga frontend](taiga-front/assessment/ASSESSMENT.md) provides the browser half of the backend; reconnect, board reconciliation and build-chain findings belong to that separate codebase. The matrix retains both companions so their implementation limits stay visible.
+| Interface | Assessed codebases |
+|---|---|
+| Browser UI for projects and tasks | Paperclip |
+| Task UI scoped to a project or workspace | Backlog.md has a browser board and TUI. |
+| Browser task dashboard with limited project views | Agent Swarm has a task board, table and execution details. |
+| Interactive TUI and cross-repository overview | beads-viewer supplies terminal Kanban, search and graph views, plus static browser reports. It reads an external tracker. |
+| Terminal commands and summaries | Beads and beads_rust. |
+| Other interface or no task board | Python Agent Mail and Rust Agent Mail show mail and reservations. Vibe Kanban shows execution sessions, while its project board route is export-only at the assessed revision. |
 
 ## Ownership and readiness must agree
-
-[Rhizome](rhizome-mcp/assessment/ASSESSMENT.md) has attempt-specific lease credentials, checkpoints, version checks and transactional completion gates. Its HTTP boundary is deliberately literal loopback, without authenticated project users. This is useful local execution authority, not an already available shared LAN service.
-
-[agent-kanban-rs](agent-kanban-rs/assessment/ASSESSMENT.md) enforces conditional claim, dependencies and reviewer completion. It lacks project organization and an execution-attempt identity: two sessions using the same agent name remain indistinguishable. Strong local state transitions do not prove strong remote identity.
 
 [Beads](beads/assessment/ASSESSMENT.md) has conditional claims, durable claim leases, ready selection and revision support. Named claim and claim-next differ: named claim does not use the same readiness query. Close verbs and generic status patches also differ. Actor attribution and optional row-version guards do not become mandatory authenticated attempt capabilities.
 
@@ -37,7 +49,7 @@ No reviewed implementation establishes the entire baseline, without qualificatio
 
 [Agent Swarm](agent-swarm/assessment/ASSESSMENT.md) implements transactional manual claims, worker capacity and recovery. Its automatic pool selection does not apply the same dependency check as manual acquisition. MCP and fresh HTTP completion also apply different output validation. A coordinator must consolidate these paths before relying on one readiness or completion rule.
 
-[Muster](muster/assessment/ASSESSMENT.md) transactionally claims a card and renews claims through agent heartbeat. Later lane edits and completion do not require that lease or an attempt credential. [Paperclip](paperclip/assessment/ASSESSMENT.md) binds native tool mutations to the current running native execution and stores replay receipts transactionally. Its general route and legacy guards have different authority branches. Both studies show why a working claim endpoint is only part of the ownership lifecycle.
+[Paperclip](paperclip/assessment/ASSESSMENT.md) binds native tool mutations to the current running native execution and stores replay receipts transactionally. Its general route and legacy guards have different authority branches.
 
 ## Completion has several meanings
 
@@ -45,11 +57,7 @@ Three common meanings must remain distinct: a worker stopped, a task changed to 
 
 [Paperclip](paperclip/assessment/ASSESSMENT.md) supplies revisioned completion contracts, durable evidence assessment and an optional human quality gate bound to current output revision or attachment hash. Its lightweight agent-claim policy can accept claimed criteria without every independent verification passing. Native child creation leaves automatic parent blocking off, and pending-child wake delivery is not acceptance of all children.
 
-[Agent Swarm](agent-swarm/assessment/ASSESSMENT.md) has stronger fenced workflow execution and validation/approval nodes than its ordinary task completion path. [GitLab](gitlab/assessment/ASSESSMENT.md) separates issue closure, session finish, plan writing and merge approval. New-session restart prevents reuse of old session identity, while normal issue writers still lack a universal task-attempt lease. These are implemented distinctions, not reasons to merge all terminal labels into one success signal.
-
-Conventional planning products also differ. [Taiga](taiga/assessment/ASSESSMENT.md) calculates story completion from closed child tasks when children exist; that is status aggregation. [Kanboard](kanboard/assessment/ASSESSMENT.md) closes subtasks when the parent closes. [Planka](planka/assessment/ASSESSMENT.md) transactionally synchronizes selected linked checklist state on closure. [OpenProject](openproject/assessment/ASSESSMENT.md) aggregates progress and governs workflow transitions. None of those mechanisms alone is a reviewer accepting the versioned outputs of independent child executions.
-
-[Vikunja's](vikunja/assessment/ASSESSMENT.md) agent CLI asks workers to leave closure to a human, but direct done writes remain available. [Gemba's](gemba/assessment/ASSESSMENT.md) definition of done is informational and its runtime done signal checks worktree cleanliness rather than accepted results. [Task Master's](task-master/assessment/ASSESSMENT.md) Git/workflow/task/log effects can diverge during finalization. Prompt conventions and clean Git state are useful context, not enforced acceptance.
+[Agent Swarm](agent-swarm/assessment/ASSESSMENT.md) has stronger fenced workflow execution and validation/approval nodes than its ordinary task completion path.
 
 ## Communication and recovery are separate contracts
 
@@ -57,9 +65,9 @@ The two Agent Mail implementations must not be treated as equivalent. [Python Ag
 
 [beads-viewer](beads-viewer/assessment/ASSESSMENT.md) produces planning tracks and routed tracker commands. A recommendation does not reserve the suggested work. Its mutation authority comes from the installed tracker, and source snapshots can become stale between analysis and execution.
 
-Recovery needs more than a timestamp or reconnecting socket. [Rhizome](rhizome-mcp/assessment/ASSESSMENT.md) persists checkpoints and expires attempts. [Paperclip](paperclip/assessment/ASSESSMENT.md) checks checkpoint identity and holds ambiguous/live-owned execution rather than always restarting it. [Agent Swarm](agent-swarm/assessment/ASSESSMENT.md) has stale classification and generation-aware workflow recovery, while ordinary task writes have weaker fencing. [GitLab](gitlab/assessment/ASSESSMENT.md) cleans up stale created/running sessions and restarts failed/stopped execution as a new session. These mechanisms act on different records and cannot be substituted without a defined task contract.
+Recovery needs more than a timestamp or reconnecting socket. [Paperclip](paperclip/assessment/ASSESSMENT.md) checks checkpoint identity and holds ambiguous/live-owned execution rather than always restarting it. [Agent Swarm](agent-swarm/assessment/ASSESSMENT.md) has stale classification and generation-aware workflow recovery, while ordinary task writes have weaker fencing. These mechanisms act on different records and cannot be substituted without a defined task contract.
 
-Human views also have recovery boundaries. [Planka](planka/assessment/ASSESSMENT.md) fetches new snapshots after reconnect, while [Taiga frontend](taiga-front/assessment/ASSESSMENT.md) and [Gemba](gemba/assessment/ASSESSMENT.md) have gaps in the inspected universal reconnect/replay path. [Vibe Kanban](vibe-kanban/assessment/ASSESSMENT.md) retains useful local execution tools, but the routed project page is retired at its pin. Existing board components and historical screenshots do not prove an active project experience.
+[Vibe Kanban](vibe-kanban/assessment/ASSESSMENT.md) retains useful local execution tools, but the routed project page is retired at its pin. Existing board components and historical screenshots do not prove an active project experience.
 
 ## Deployment and licensing boundaries
 
@@ -67,11 +75,11 @@ One local SQLite or file authority is different from independent replicated stor
 
 Shared web planners provide project membership, history and inspection but bring a larger operating boundary. Their database, assets, repository or object storage, secrets, queues and workers must be restored coherently. Embedded or single-process configurations can simplify setup while limiting the available concurrency guarantees. A process-local start lock is not a multi-server capacity lock, as the Paperclip review makes explicit.
 
-Licensing and availability must be evaluated separately from technical fit. GitLab has CE/EE boundaries. OpenProject's inspected native MCP endpoint requires an Enterprise entitlement and configuration. Plane MCP's MIT license does not establish every upstream resource's availability. Planka's Community terms, Task Master's Commons Clause and the riders in the two Agent Mail projects, beads_rust and beads-viewer impose distinct use restrictions. The reports link the pinned declarations. None is reclassified as unrestricted open source merely because its code is public.
+Licensing and availability must be evaluated separately from technical fit. The two Agent Mail projects, beads_rust and beads-viewer have license riders that restrict use. The reports link the pinned declarations. None is reclassified as unrestricted open source merely because its code is public.
 
 ## What the matrix means
 
-The matrix contains all 600 requirement verdicts from the 25 source-review ledgers. Exact, Similar, Resembles, Absent and Unclear retain each report's stated boundary. They are not points, maturity scores, installation results or a reliability ranking. Read the relevant row's detailed report before carrying a feature into a design.
+The matrix contains all 216 requirement verdicts from the 9 source-review ledgers. Exact, Similar, Resembles, Absent and Unclear retain each report's stated boundary. They are not points, maturity scores, installation results or a reliability ranking. Read the relevant row's detailed report before carrying a feature into a design.
 
 The [full Markdown matrix](REQUIREMENT_MATRIX.md) and the browser matrix use the same recorded verdicts. The [checkout manifest](checkouts.json) records revisions and materialization. The [progress record](progress.json) records integrity checks, and the [completion audit](COMPLETION_AUDIT.md) separates source review from publication and presentation verification.
 

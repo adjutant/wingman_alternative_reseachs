@@ -17,6 +17,8 @@ import re
 import subprocess
 from urllib.parse import unquote
 
+from checkout_task_management import initial_manifest
+
 ROOT = Path(__file__).resolve().parents[1]
 STUDY = ROOT / 'task-management'
 
@@ -38,8 +40,7 @@ def main():
     if len(requirements) != 24 or set(requirements) != expected_requirements:
         issues.append('Baseline must define T01 through T24 once each')
     manifest = json.loads((STUDY / 'checkouts.json').read_text())
-    screening = json.loads((ROOT / 'generic/assessments/agent-task-coordination/sources.json').read_text())
-    expected = {r['slug'] for r in screening['repositories']} | {'gitlab', 'agent-mail-python', 'taiga-front'}
+    expected = {r['slug'] for r in initial_manifest()['repositories']}
     actual = [r['slug'] for r in manifest['repositories']]
     if len(actual) != len(set(actual)) or set(actual) != expected:
         issues.append('Checkout manifest differs from the complete study scope')

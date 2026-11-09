@@ -15,10 +15,10 @@ The comparison table describes source behavior in these layers. It does not rank
 
 | Layer | Useful source studies | What to inspect | Main Wingman gap |
 |---|---|---|---|
-| Standing organization | [Paperclip](../../paperclip/index.html), [OpenRig](../../openrig/index.html), [Multica](../../multica/index.html), [Crewly](../../crewly/index.html), [Agent Swarm](../../agent-swarm/index.html) | Agent records, assignment authority, durable decisions, wake policy | The full Butler and project-leadership workflow needs explicit implementation. |
+| Standing organization | [Paperclip](../../paperclip/index.html), [OpenRig](../../openrig/index.html), [Multica](../../multica/index.html), [Agent Swarm](../../agent-swarm/index.html) | Agent records, assignment authority, durable decisions, wake policy | The full Butler and project-leadership workflow needs explicit implementation. |
 | Coding workspace | [Orca](../../orca/index.html), [CAR](../../codex-autorunner/index.html), [Maestro](../../maestro/index.html), [Agent Deck](../../agent-deck/index.html) | Native session identity, task attempts, inbox recovery, detailed workspace | Portfolio discovery and authoritative product acceptance remain separate work. |
-| Distributed execution | [Scion](../../scion/index.html), [Hcom](../../hcom/index.html), [SwarmOS](../../swarmos/index.html), [OpenClaw](../../openclaw/index.html) | Host registration, delivery acknowledgment, remote placement, recovery | A remote process does not establish shared product state or common files. |
-| Engineering process | [gstack](../../gstack/index.html), [Babysitter](../../babysitter/index.html), [Ralph Orchestrator](../../ralph-orchestrator/index.html) | Reviewed plans, evidence receipts, state transitions, recovery checkpoints | A process layer can depend on a separate host for agents and messages. |
+| Distributed execution | [Scion](../../scion/index.html), [Hcom](../../hcom/index.html), [OpenClaw](../../openclaw/index.html) | Host registration, delivery acknowledgment, remote placement, recovery | A remote process does not establish shared product state or common files. |
+| Engineering process | [gstack](../../gstack/index.html), [Ralph Orchestrator](../../ralph-orchestrator/index.html) | Reviewed plans, evidence receipts, state transitions, recovery checkpoints | A process layer can depend on a separate host for agents and messages. |
 
 ## Identity and ownership
 

@@ -2,26 +2,11 @@
   "families": {
     "coordination": "Agent coordination systems",
     "task-authority": "Local task authorities",
-    "shared-planning": "Shared project planners",
     "execution": "Execution workspaces",
     "local-planning": "Local planning tools",
-    "companions": "Adapters and companions"
+    "companions": "Companions"
   },
   "projects": [
-    {
-      "slug": "agent-hq",
-      "name": "Agent HQ",
-      "family": "coordination",
-      "use": "Compact board, messages and expiring claims",
-      "boundary": "General task writes bypass claim and readiness; HTTP actor is unauthenticated."
-    },
-    {
-      "slug": "agent-kanban-rs",
-      "name": "agent-kanban-rs",
-      "family": "task-authority",
-      "use": "Local transactional claims and reviewer completion",
-      "boundary": "No project registry, remote authentication or per-attempt identity."
-    },
     {
       "slug": "agent-mail-python",
       "name": "Python Agent Mail",
@@ -72,48 +57,6 @@
       "boundary": "Suggestions do not reserve work; mutations depend on installed tracker; restricted license."
     },
     {
-      "slug": "devboard",
-      "name": "DevBoard",
-      "family": "local-planning",
-      "use": "Small file tracker and agent tool plugin",
-      "boundary": "Allocation and ID races, file-write durability and alternate-mutation defects."
-    },
-    {
-      "slug": "gemba",
-      "name": "Gemba",
-      "family": "execution",
-      "use": "Operator board, agent launch and escalation",
-      "boundary": "Process-local claim check follows spawn; no durable multi-coordinator reservation."
-    },
-    {
-      "slug": "gitlab",
-      "name": "GitLab",
-      "family": "shared-planning",
-      "use": "Project work records, code integration and agent sessions",
-      "boundary": "Issue assignment, workflow turn ownership and merge acceptance are separate; CE/EE limits."
-    },
-    {
-      "slug": "kanboard",
-      "name": "Kanboard",
-      "family": "shared-planning",
-      "use": "Shared board, subtasks, automation and JSON-RPC",
-      "boundary": "Assignment is not a lease; parent closure marks subtasks done."
-    },
-    {
-      "slug": "muster",
-      "name": "Muster",
-      "family": "coordination",
-      "use": "Agent/project boards, claims and versioned documents",
-      "boundary": "Atomic claim does not fence later edits or terminal lane changes."
-    },
-    {
-      "slug": "openproject",
-      "name": "OpenProject",
-      "family": "shared-planning",
-      "use": "Governed work packages, workflow, journals and sprints",
-      "boundary": "Edit versions do not lease execution; native MCP is Enterprise gated."
-    },
-    {
       "slug": "paperclip",
       "name": "Paperclip",
       "family": "coordination",
@@ -121,67 +64,11 @@
       "boundary": "Native and legacy guarantees differ; project capacity and accepted-child limits."
     },
     {
-      "slug": "plane",
-      "name": "Plane",
-      "family": "shared-planning",
-      "use": "Workspace/project backlog, cycles, modules and pages",
-      "boundary": "Multiple assignees and ordinary state edits lack execution-attempt ownership."
-    },
-    {
-      "slug": "plane-mcp",
-      "name": "Plane MCP",
-      "family": "companions",
-      "use": "Structured agent access to upstream Plane operations",
-      "boundary": "Retrieve/replace assignment does not add atomic claims or upstream authority."
-    },
-    {
-      "slug": "planka",
-      "name": "Planka",
-      "family": "shared-planning",
-      "use": "Shared cards, checklists, notifications and live views",
-      "boundary": "Card membership is not exclusive ownership; restricted Community license."
-    },
-    {
-      "slug": "rhizome-mcp",
-      "name": "Rhizome MCP",
-      "family": "task-authority",
-      "use": "Attempt credentials, checkpoints and frozen completion gates",
-      "boundary": "Trusted local authority; HTTP loopback; no authenticated remote project management."
-    },
-    {
-      "slug": "taiga",
-      "name": "Taiga backend",
-      "family": "shared-planning",
-      "use": "Stories, tasks, iterations, history and discussion",
-      "boundary": "Versioned edits and child-status aggregation do not accept child execution results."
-    },
-    {
-      "slug": "taiga-front",
-      "name": "Taiga frontend",
-      "family": "companions",
-      "use": "Human backlog, board, sprint and detail views",
-      "boundary": "Backend owns work; reconnect and failed-move reconciliation have gaps."
-    },
-    {
-      "slug": "task-master",
-      "name": "Task Master",
-      "family": "local-planning",
-      "use": "Task decomposition, native MCP and local autopilot",
-      "boundary": "Snapshot selection is not reservation; mixed writers; Commons Clause license."
-    },
-    {
       "slug": "vibe-kanban",
       "name": "Vibe Kanban",
       "family": "execution",
       "use": "Coding sessions, worktrees, delegation and approvals",
       "boundary": "Routed project UI is retired at pin; local execution is not shared task ownership."
-    },
-    {
-      "slug": "vikunja",
-      "name": "Vikunja",
-      "family": "shared-planning",
-      "use": "Project tasks, bot users, MCP and agent CLI",
-      "boundary": "Claim is several requests; human-close instructions are not server acceptance gates."
     }
   ]
 }

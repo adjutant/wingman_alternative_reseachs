@@ -14,7 +14,7 @@ It does not prove completion of this deeper study.
 
 ## Source scope
 
-The [checkout manifest](checkouts.json) covers all repositories in the previous study, GitLab, the historical Python communication companion and the Taiga frontend.
+The [checkout manifest](checkouts.json) covers the retained repositories from the earlier screening, plus the historical Python communication companion. The current study excludes general-purpose planners and applies design, repository activity and GitHub star filters. The [design and implementation review](COMPARISON.md#design-and-implementation-review) records three further exclusions based on defects in their core workflows.
 Paperclip and Agent Swarm reuse their preserved local checkouts.
 New source worktrees are at `<project>/repo/` under this folder.
 They are independent repositories ignored by the research Git repository.
@@ -27,16 +27,14 @@ The source manifest records clean status, tracked-path counts and hashes, commit
 
 ## Completed source assessments
 
-All 25 source assessments are complete at this checkpoint.
+All 9 source assessments are complete at this checkpoint.
 The [progress record](progress.json) records source coverage and checkout integrity.
 The [cross-project findings](COMPARISON.md) synthesize their fit and lifecycle boundaries.
-All reports are published in the HTML collection. The matrix contains all 600 recorded verdicts, with links to their explanations.
-The [publication check](publication.json), [browser evidence](../generic/assessments/_audits/task-management-browser.json) and [HTTP evidence](../generic/assessments/_audits/task-management-http.json) record verification of the research presentation.
+All reports are published in the HTML collection. The matrix contains all 216 recorded verdicts, with links to their explanations.
+The [publication check](publication.json), [historical browser evidence](../generic/assessments/_audits/task-management-browser.json) and [historical HTTP evidence](../generic/assessments/_audits/task-management-http.json) record verification of the research presentation.
 
 | Codebase | Assessment | Evidence ledger |
 |---|---|---|
-| Agent HQ | [Source assessment](agent-hq/assessment/ASSESSMENT.md) | [Review ledger](agent-hq/assessment/review.json) |
-| agent-kanban-rs | [Source assessment](agent-kanban-rs/assessment/ASSESSMENT.md) | [Review ledger](agent-kanban-rs/assessment/review.json) |
 | Python Agent Mail | [Source assessment](agent-mail-python/assessment/ASSESSMENT.md) | [Review ledger](agent-mail-python/assessment/review.json) |
 | Rust Agent Mail | [Source assessment](agent-mail-rust/assessment/ASSESSMENT.md) | [Review ledger](agent-mail-rust/assessment/review.json) |
 | Agent Swarm | [Source assessment](agent-swarm/assessment/ASSESSMENT.md) | [Review ledger](agent-swarm/assessment/review.json) |
@@ -44,22 +42,8 @@ The [publication check](publication.json), [browser evidence](../generic/assessm
 | Beads | [Source assessment](beads/assessment/ASSESSMENT.md) | [Review ledger](beads/assessment/review.json) |
 | beads_rust | [Source assessment](beads-rust/assessment/ASSESSMENT.md) | [Review ledger](beads-rust/assessment/review.json) |
 | beads-viewer | [Source assessment](beads-viewer/assessment/ASSESSMENT.md) | [Review ledger](beads-viewer/assessment/review.json) |
-| DevBoard | [Source assessment](devboard/assessment/ASSESSMENT.md) | [Review ledger](devboard/assessment/review.json) |
-| Gemba | [Source assessment](gemba/assessment/ASSESSMENT.md) | [Review ledger](gemba/assessment/review.json) |
-| GitLab | [Source assessment](gitlab/assessment/ASSESSMENT.md) | [Review ledger](gitlab/assessment/review.json) |
-| Kanboard | [Source assessment](kanboard/assessment/ASSESSMENT.md) | [Review ledger](kanboard/assessment/review.json) |
-| Muster | [Source assessment](muster/assessment/ASSESSMENT.md) | [Review ledger](muster/assessment/review.json) |
-| OpenProject | [Source assessment](openproject/assessment/ASSESSMENT.md) | [Review ledger](openproject/assessment/review.json) |
 | Paperclip | [Source assessment](paperclip/assessment/ASSESSMENT.md) | [Review ledger](paperclip/assessment/review.json) |
-| Plane | [Source assessment](plane/assessment/ASSESSMENT.md) | [Review ledger](plane/assessment/review.json) |
-| Plane MCP adapter | [Source assessment](plane-mcp/assessment/ASSESSMENT.md) | [Review ledger](plane-mcp/assessment/review.json) |
-| Planka | [Source assessment](planka/assessment/ASSESSMENT.md) | [Review ledger](planka/assessment/review.json) |
-| Rhizome MCP | [Source assessment](rhizome-mcp/assessment/ASSESSMENT.md) | [Review ledger](rhizome-mcp/assessment/review.json) |
-| Taiga backend | [Source assessment](taiga/assessment/ASSESSMENT.md) | [Review ledger](taiga/assessment/review.json) |
-| Taiga frontend | [Source assessment](taiga-front/assessment/ASSESSMENT.md) | [Review ledger](taiga-front/assessment/review.json) |
-| Task Master | [Source assessment](task-master/assessment/ASSESSMENT.md) | [Review ledger](task-master/assessment/review.json) |
 | Vibe Kanban | [Source assessment](vibe-kanban/assessment/ASSESSMENT.md) | [Review ledger](vibe-kanban/assessment/review.json) |
-| Vikunja | [Source assessment](vikunja/assessment/ASSESSMENT.md) | [Review ledger](vikunja/assessment/review.json) |
 
 ## Assessment method
 

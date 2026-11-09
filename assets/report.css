@@ -12,3 +12,6 @@
 /* Long technical identifiers must wrap without widening the document. */
 .technical{overflow-wrap:anywhere}.technical code{word-break:break-word}
 .technical a,.content p a,.content td a{text-decoration:underline;text-underline-offset:3px;text-decoration-color:#9cabbf}.technical a:hover,.content p a:hover,.content td a:hover{text-decoration-color:currentColor}
+.repository-profile{border-bottom:1px solid var(--line);padding-bottom:15px}.repository-profile .profile-facts{grid-template-columns:repeat(6,minmax(0,1fr));gap:15px;margin:18px 0;padding-bottom:0;border:0}.inventory-scroll table{min-width:950px}.inventory-scroll th[scope=row]{min-width:120px}.inventory-scroll small{display:block;margin-top:6px}.inventory-number{white-space:nowrap;font-variant-numeric:tabular-nums}.inventory-findings{min-width:245px}
+@media(max-width:540px){.repository-profile .profile-facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media print{#inventory-filters,.inventory-scroll th,.inventory-findings{min-width:0}.inventory-scroll th,.inventory-scroll td{padding:5px}}

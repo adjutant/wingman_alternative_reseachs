@@ -15,6 +15,10 @@ from urllib.parse import unquote
 
 import markdown
 from bs4 import BeautifulSoup
+from repository_profiles import (
+    INVENTORY_HTML, INVENTORY_MD, PROFILE_NAME, TABLE_FIELDS,
+    grouped_inventory, inventory_markdown, load_profiles, repo_identity, snapshot_note,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 E = html.escape
@@ -27,14 +31,17 @@ features = [(m[1], m[2].strip()) for m in re.finditer(
     r'^\| (F\d{2}) \| ([^|]+)\|',
     (ROOT / 'generic/assessments/ASSESSMENT_GUIDE.md').read_text(), re.M)]
 assert len(features) == 24
-assert len(briefs) == len(coverage['repositories']) == 75
+orchestration_count = len(coverage['repositories'])
+assert set(briefs) == set(metadata) == {Path(item['directory']).parts[0] for item in coverage['repositories']}
 task_checkouts = json.loads((ROOT / 'task-management/checkouts.json').read_text())
+task_count = len(task_checkouts['repositories'])
 task_catalog = json.loads((ROOT / 'task-management/catalog.json').read_text())
 task_briefs = {item['slug']: item for item in task_catalog['projects']}
 task_features = [(m[1], m[2].strip()) for m in re.finditer(
     r'^\| (T\d{2}) \| ([^|]+)\|', (ROOT / 'AGENT_TASK_MANAGEMENT.md').read_text(), re.M)]
 assert len(task_features) == 24
 assert set(task_briefs) == {item['slug'] for item in task_checkouts['repositories']}
+profiles, inventory = load_profiles(ROOT, checkouts, task_checkouts)
 
 GROUPS = {
     'standing-teams': 'Standing teams', 'workbenches': 'Coding workspaces',
@@ -75,7 +82,7 @@ for item in task_checkouts['repositories']:
 for x in coverage['repositories']:
     folder = (ROOT / x['report']).parent
     for chapter in folder.glob('*.md'):
-        if chapter.name != 'ASSESSMENT.md':
+        if chapter.name not in ('ASSESSMENT.md', PROFILE_NAME):
             report_map[chapter] = (ROOT / Path(x['directory']).parts[0] / 'index.html',
                                    'support-' + chapter.stem.lower().replace('_', '-'))
 
@@ -126,7 +133,8 @@ def render(path, page, prefix):
 
 def shell(page, title, subtitle, body, section, toc='', review_date='05 NOV 2026'):
     base = lambda p: E(rel(ROOT / p, page))
-    links = [('index.html', 'Overview', 'overview'), ('generic/index.html', 'Architecture findings', 'architecture'),
+    links = [('index.html', 'Overview', 'overview'), (INVENTORY_HTML, 'Repository inventory', 'inventory'),
+             ('generic/index.html', 'Architecture findings', 'architecture'),
              ('generic/purpose.html', 'Wingman purpose', 'purpose'), ('generic/method.html', 'Method and evidence', 'method'),
              ('task-management/index.html', 'Agent task management', 'tasks'),
              ('generic/task-coordination.html', 'Initial task screening', 'coordination')]
@@ -144,7 +152,7 @@ def shell(page, title, subtitle, body, section, toc='', review_date='05 NOV 2026
 <a class="brand" href="{base('index.html')}"><img src="{base('assets/icons/signal-dash.svg')}" width="20" height="12" alt="">WINGMAN<span>RESEARCH</span></a>
 <p class="nav-label">Research collection</p><nav>{nav}</nav>
 <p class="nav-label">Source groups</p><nav>{groupnav}</nav>
-<div class="sidebar-bottom"><strong>Two source studies</strong><p>75 organization snapshots.<br>25 task coordination codebases.<br>Evidence at pinned revisions.</p><a href="{base('README.md')}">Open the file guide →</a></div></aside>
+<div class="sidebar-bottom"><strong>Two source studies</strong><p>{orchestration_count} organization snapshots.<br>{task_count} task coordination codebases.<br>Evidence at pinned revisions.</p><a href="{base('README.md')}">Open the file guide →</a></div></aside>
 <div class="workspace"><header class="topbar"><div><button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button><a href="{base('index.html')}">Wingman Research</a><span class="crumb">/</span><span>{E(title)}</span></div><span class="topbar-note">SOURCE REVIEW · {E(review_date)}</span></header>
 <main id="content" class="content"><div class="page-heading"><p class="eyebrow"><span></span>PERSONAL DEVELOPMENT ORGANIZATION</p><h1>{E(title)}</h1><p class="subtitle">{E(subtitle)}</p></div>
 {toc}{body}
@@ -160,20 +168,69 @@ def generic_contents(body):
         f'<a href="#{E(h["id"])}">{E(h.get_text())}</a>' for h in headings
     ) + '</div></nav>'
 
+def profile_section(source, page, url):
+    profile = profiles[source.with_name(PROFILE_NAME)]
+    fields = profile.fields
+    facts = []
+    for key in ('Stars', 'Forks', 'Watches', 'Default branch', 'First commit', 'Last commit'):
+        value = f'{int(fields[key]):,}' if key in ('Stars', 'Forks', 'Watches') else fields[key]
+        facts.append(f'<div><dt>{key}</dt><dd>{E(value)}</dd></div>')
+    others = ''.join(
+        f' · <a href="{E(rel(other.report, page))}#repository-profile">{"Task management assessment" if other.group == "task" else "Orchestration assessment"}</a>'
+        for other in inventory[repo_identity(url)] if other.path != profile.path
+    )
+    return f'''<section id="repository-profile" class="repository-profile"><h2>Repository profile</h2>
+<p class="url-text">{E(fields['Repository'])}</p><p class="profile-findings">{E(profile.findings)}</p>
+<dl class="facts profile-facts">{''.join(facts)}</dl>
+<p class="scope-note">GitHub snapshot: {E(fields['Snapshot date'])} · Watches are subscribers. Commit dates follow the default branch; the assessment uses its pinned revision.</p>
+<p><a href="assessment/{PROFILE_NAME}">Read the Markdown profile</a> · <a href="#technical-assessment">Technical assessment</a> · <a href="{E(rel(ROOT / INVENTORY_HTML, page))}">Repository inventory</a>{others}</p></section>'''
+
+
+def build_inventory():
+    page = ROOT / INVENTORY_HTML
+    (ROOT / INVENTORY_MD).write_text(inventory_markdown(ROOT, inventory))
+    groups = list(grouped_inventory(inventory))
+    options = ''.join(f'<option value="{group}">{E(title)}</option>' for group, title, _ in groups)
+    body = f'''<p>{E(snapshot_note(inventory))}</p>
+<p><a href="{INVENTORY_MD}">Open the Markdown inventory</a> · <a href="index.html#comparison">Orchestration comparison</a> · <a href="task-management/index.html#comparison">Task management comparison</a></p>
+<form class="filters" id="inventory-filters" role="search"><label class="search">Find a repository<input type="search" id="inventory-search" placeholder="Name, repository URL or mechanism" autocomplete="off"></label>
+<label>Category<select id="inventory-group"><option value="">All categories</option>{options}</select></label></form>
+<p id="inventory-count" class="result-count" role="status">{len(inventory)} repositories</p>
+<p id="inventory-empty" hidden>No repository matches these filters.</p>'''
+    for group, title, studies in groups:
+        body += f'<section data-inventory-group="{group}" aria-labelledby="inventory-{group}"><h2 id="inventory-{group}">{E(title)}</h2><div class="table-scroll inventory-scroll" tabindex="0" role="region" aria-label="{E(title)}"><table><thead><tr>'
+        body += ''.join(f'<th scope="col">{field}</th>' for field in TABLE_FIELDS)
+        body += '</tr></thead><tbody>'
+        for primary, *others in studies:
+            links = f'<a href="{E(rel(primary.report, page))}#repository-profile">{E(primary.fields["Name"])}</a>'
+            links += ''.join(
+                f'<small><a href="{E(rel(other.report, page))}#repository-profile">Task study</a></small>'
+                for other in others
+            )
+            cells = primary.table_values()
+            body += f'<tr><th scope="row">{links}</th><td class="url-text">{E(cells[0])}</td>'
+            body += ''.join(f'<td class="inventory-number">{E(value)}</td>' for value in cells[1:6])
+            body += f'<td class="inventory-findings">{E(cells[6])}</td></tr>'
+        body += '</tbody></table></div></section>'
+    shell(page, 'Repository inventory',
+          f'{len(inventory)} active repositories across the orchestration and task management studies.',
+          body, 'inventory', review_date='09 NOV 2026')
+
+
 def build_project(item):
     slug = Path(item['directory']).parts[0]; project = ROOT / slug
     page = project / 'index.html'; brief = briefs[slug]; meta = metadata[slug]
     source = ROOT / item['report']
     doc = BeautifulSoup(render(source, page, 'assessment'), 'html.parser')
     toc = '<nav class="contents" aria-label="Report contents"><strong>In this report</strong><div>'
-    toc += '<a href="#decision">Decision summary</a>'
+    toc += '<a href="#decision">Decision summary</a><a href="#repository-profile">Repository profile</a>'
     for heading in doc.select('h2[id]'):
         toc += f'<a href="#{E(heading["id"])}">{E(heading.get_text())}</a>'
     toc += '<a href="#source-record">Source and evidence</a></div></nav>'
     # Render the complete technical assessment after a short, authored decision brief.
     chapters = ''
     for chapter in sorted(source.parent.glob('*.md')):
-        if chapter.name == 'ASSESSMENT.md': continue
+        if chapter.name in ('ASSESSMENT.md', PROFILE_NAME): continue
         anchor = 'support-' + chapter.stem.lower().replace('_', '-')
         chapters += f'<section id="{anchor}" class="technical supporting">{render(chapter, page, anchor)}</section>'
     audit = E(rel(ROOT / item['independent_audit'], page))
@@ -181,6 +238,7 @@ def build_project(item):
 <div class="brief-columns"><div><h3>Useful for Wingman</h3><p>{E(brief['use'])}</p></div><div><h3>Adoption boundary</h3><p>{E(brief['boundary'])}</p></div></div>
 <p class="scope-note">Source assessment at the commit below. Runtime limits appear in the technical report.</p></section>
 <dl class="facts"><div><dt>Source group</dt><dd>{E(GROUPS[meta['group']])}</dd></div><div><dt>Commit</dt><dd><code>{E(item['commit'])}</code></dd></div><div><dt>Coverage</dt><dd>24 Wingman features</dd></div></dl>
+{profile_section(source, page, item['url'])}
 <article id="technical-assessment" class="technical">{str(doc)}</article>{chapters}
 <section id="source-record"><h2>Source and evidence</h2><p class="url-text">{E(item['url'])}</p>
 <ul><li><a href="repo/">Open the pinned source checkout</a></li><li><a href="assessment/ASSESSMENT.md">Read the Markdown assessment</a></li>
@@ -196,7 +254,7 @@ def build_master():
     page = ROOT / 'index.html'
     findings = '''<section id="findings"><h2>High-impact findings</h2><div class="findings">
 <p><strong>Keep organization and execution separate.</strong> Durable projects, role ownership, decisions, and acceptance need explicit records. A coding session cannot supply all of them.</p>
-<p><strong>Study several foundations.</strong> Paperclip, OpenRig, Multica, Crewly, and Agent Swarm provide useful organization mechanisms. Their workflow boundaries differ.</p>
+<p><strong>Study several foundations.</strong> Paperclip, OpenRig, Multica, and Agent Swarm provide useful organization mechanisms. Their workflow boundaries differ.</p>
 <p><strong>Protect continuity and ownership.</strong> Separate agent, session, task, and attempt identity. Reject stale results. Distinguish delivery from handling and acceptance.</p>
 <p><strong>Build the product journey.</strong> Connect discovery, specifications, technical assignments, integrated verification, and human acceptance. Keep that evidence after delivery.</p></div>
 <p><a href="generic/index.html">Read the architecture findings →</a></p></section>'''
@@ -205,12 +263,13 @@ def build_master():
 <p>Butler receives Telegram requests. ProjectMaster identifies the product and supervises progress. ProductMaster defines the product. TechMaster assigns technical work. Independent specialists implement and verify it.</p>
 <p>The organization supports parallel products and work across hosts. Shared records connect tasks, conversations, decisions, specifications, and deliverables. The executive view shows recent results, current work, next work, and blockers.</p>
 <p><a href="generic/purpose.html">Read the full Wingman purpose →</a></p></section>'''
-    stats = '<div class="summary"><div><strong>75</strong><span>Source checkouts</span></div><div><strong>24</strong><span>Common requirements</span></div><div><strong>6</strong><span>Source groups</span></div><div><strong>25</strong><span>Historical source audits</span></div></div>'
-    reading = '''<section><h2>Choose a reading path</h2><div class="table-scroll"><table><thead><tr><th>Question</th><th>Start here</th><th>Main decision</th></tr></thead><tbody>
-<tr><td>How can agents share tasks and hand off work?</td><td><a href="task-management/index.html">Agent task management</a></td><td>Read 25 codebase assessments against T01–T24: ownership, dependencies, recovery, review and agent interfaces.</td></tr>
-<tr><td>How can a standing team work?</td><td><a href="paperclip/index.html">Paperclip</a>, <a href="openrig/index.html">OpenRig</a>, <a href="multica/index.html">Multica</a>, <a href="crewly/index.html">Crewly</a>, <a href="agent-swarm/index.html">Agent Swarm</a></td><td>Choose the agent, project, task, and authority model.</td></tr>
+    stats = f'<div class="summary"><div><strong>{orchestration_count}</strong><span>Source checkouts</span></div><div><strong>24</strong><span>Common requirements</span></div><div><strong>6</strong><span>Source groups</span></div><div><strong>25</strong><span>Historical source audits</span></div></div>'
+    reading = f'''<section><h2>Choose a reading path</h2><div class="table-scroll"><table><thead><tr><th>Question</th><th>Start here</th><th>Main decision</th></tr></thead><tbody>
+<tr><td>Which repositories are in the active research?</td><td><a href="{INVENTORY_HTML}">Repository inventory</a></td><td>Compare {len(inventory)} repositories by activity and findings, then open their full assessments.</td></tr>
+<tr><td>How can agents share tasks and hand off work?</td><td><a href="task-management/index.html">Agent task management</a></td><td>Read {task_count} codebase assessments against T01–T24: ownership, dependencies, recovery, review and agent interfaces.</td></tr>
+<tr><td>How can a standing team work?</td><td><a href="paperclip/index.html">Paperclip</a>, <a href="openrig/index.html">OpenRig</a>, <a href="multica/index.html">Multica</a>, <a href="agent-swarm/index.html">Agent Swarm</a></td><td>Choose the agent, project, task, and authority model.</td></tr>
 <tr><td>How can workers execute and recover?</td><td><a href="orca/index.html">Orca</a>, <a href="codex-autorunner/index.html">CAR</a>, <a href="agent-deck/index.html">Agent Deck</a>, <a href="scion/index.html">Scion</a></td><td>Choose session, attempt, delivery, and host contracts.</td></tr>
-<tr><td>How can work reach accepted delivery?</td><td><a href="gstack/index.html">gstack</a>, <a href="gastown/index.html">Gas Town</a>, <a href="superplane/index.html">SuperPlane</a>, <a href="babysitter/index.html">Babysitter</a></td><td>Connect product definition to versioned verification evidence.</td></tr>
+<tr><td>How can work reach accepted delivery?</td><td><a href="gstack/index.html">gstack</a>, <a href="gastown/index.html">Gas Town</a>, <a href="superplane/index.html">SuperPlane</a></td><td>Connect product definition to versioned verification evidence.</td></tr>
 </tbody></table></div><p class="scope-note">These are source-study paths. They are not measured reliability rankings or deployment recommendations.</p></section>'''
     options = ''.join(f'<option value="{E(key)}">{E(label)}</option>' for key, label in GROUPS.items())
     table = f'''<section id="comparison"><h2>Compare the source assessments</h2><p>Choose a requirement group. Open a project to read the evidence and implementation limits.</p>
@@ -218,7 +277,7 @@ def build_master():
 <label>Source group<select id="group-filter"><option value="">All groups</option>{options}</select></label>
 <label>Requirements<select id="lens-filter"><option value="priority">High-impact requirements</option><option value="organization">Organization and intake</option><option value="work">Work and collaboration</option><option value="runtime">Continuity and execution</option><option value="visibility">Visibility and acceptance</option><option value="all">All 24 requirements</option></select></label></form>
 <p class="legend"><strong>Verdicts:</strong> Exact · Similar · Resembles · Absent · Unclear. Each verdict has a stated boundary. Counts are not a product score.</p>
-<p id="result-count" class="result-count" role="status">75 projects</p>
+<p id="result-count" class="result-count" role="status">{orchestration_count} projects</p>
 <div class="table-scroll matrix-scroll" tabindex="0" role="region" aria-label="Project comparison"><table id="comparison-table"><thead><tr><th scope="col">Project / useful mechanism</th>'''
     for key, label in features:
         table += f'<th scope="col" data-feature="{key}"><a href="generic/method.html#feature-{key.lower()}" title="{E(label)}">{key}</a><span>{E(label)}</span></th>'
@@ -260,7 +319,7 @@ def build_generic():
               generic_contents(body), review_date='08 NOV 2026' if section == 'coordination' else '05 NOV 2026')
     page = ROOT / 'generic/purpose.html'
     body = render(ROOT / 'WINGMAN_PURPOSE.md', page, 'purpose')
-    shell(page, 'Wingman purpose', 'The product baseline used for all 75 assessments.',
+    shell(page, 'Wingman purpose', 'The product baseline used by the orchestration study.',
           '<article class="technical">' + body + '</article>', 'purpose', generic_contents(body))
 
 
@@ -270,21 +329,21 @@ def build_task_management():
     reviews = {item['slug']: json.loads((ROOT / item['assessment']).with_name('review.json').read_text())
                for item in records}
     matrix_md = ['# Task-management requirement matrix', '',
-                 'Derived from the 25 source-review ledgers at their pinned commits. Read each report for verdict boundaries. No candidate application or test suite was run. Verdict counts are not product scores.', '',
+                 f'Derived from the {task_count} source-review ledgers at their pinned commits. Read each report for verdict boundaries. No candidate application or test suite was run. Verdict counts are not product scores.', '',
                  '| Codebase | ' + ' | '.join(key for key, _ in task_features) + ' |',
                  '|---|' + '---|' * len(task_features)]
     page = folder / 'index.html'
     options = ''.join(f'<option value="{E(key)}">{E(label)}</option>'
                       for key, label in task_catalog['families'].items())
-    body = '''<div class="summary"><div><strong>25</strong><span>Codebase assessments</span></div><div><strong>24</strong><span>Task requirements</span></div><div><strong>600</strong><span>Explained verdicts</span></div><div><strong>0</strong><span>Candidate test suites run</span></div></div>
+    body = f'''<div class="summary"><div><strong>{task_count}</strong><span>Codebase assessments</span></div><div><strong>{len(task_features)}</strong><span>Task requirements</span></div><div><strong>{task_count * len(task_features)}</strong><span>Explained verdicts</span></div><div><strong>0</strong><span>Candidate test suites run</span></div></div>
 <p class="lead">Shared work that survives agent sessions.</p><p>Compare project records, ready work, ownership, delegation, recovery and acceptance. Each report traces a pinned source revision and states its evidence limits.</p>
-<p><a href="purpose.html">Read the task-management baseline →</a> · <a href="REQUIREMENT_MATRIX.md">Open the Markdown matrix</a> · <a href="README.md">Source study guide</a></p>
+<p><a href="purpose.html">Read the task-management baseline →</a> · <a href="REQUIREMENT_MATRIX.md">Open the Markdown matrix</a> · <a href="README.md">Source study guide</a> · <a href="../{INVENTORY_HTML}">Repository inventory</a></p>
 <section id="comparison"><h2>Compare coordination mechanisms</h2>
 <form class="filters" role="search"><label class="search">Find a codebase or mechanism<input type="search" id="project-search" placeholder="Name, lease, review, dependency…" autocomplete="off"></label>
-<label>Source family<select id="group-filter"><option value="">All families</option>''' + options + '''</select></label>
+<label>Source family<select id="group-filter"><option value="">All families</option>{options}</select></label>
 <label>Requirements<select id="lens-filter"><option value="priority">Ownership and acceptance</option><option value="organization">Project organization</option><option value="work">Work and communication</option><option value="runtime">Failure and continuity</option><option value="visibility">Inspection and governance</option><option value="all">All 24 requirements</option></select></label></form>
 <p class="legend"><strong>Verdicts:</strong> Exact · Similar · Resembles · Absent · Unclear. Open any verdict for its explanation. These are fit categories, not a reliability ranking.</p>
-<p id="result-count" class="result-count" role="status">25 codebases</p>
+<p id="result-count" class="result-count" role="status">{task_count} codebases</p>
 <div class="table-scroll matrix-scroll" tabindex="0" role="region" aria-label="Task management requirement comparison"><table id="comparison-table" data-study="tasks"><thead><tr><th scope="col">Codebase / useful mechanism</th>'''
     for key, label in task_features:
         body += f'<th scope="col" data-feature="{key}"><a href="purpose.html#task-purpose-{key.lower()}" title="{E(label)}">{key}</a><span>{E(label)}</span></th>'
@@ -311,18 +370,20 @@ def build_task_management():
             adjacent += f'<a href="../{following}/index.html">Next: {E(task_briefs[following]["name"])}</a>'
         adjacent += '</nav>'
         shell(project_page, brief['name'] + ' · task management', brief['use'],
-              '<article class="technical">' + project_body + '</article>' + adjacent,
-              'tasks', generic_contents(project_body), review_date='09 NOV 2026')
+              profile_section(ROOT / item['assessment'], project_page, item['url'])
+              + '<article id="technical-assessment" class="technical">' + project_body + '</article>' + adjacent,
+              'tasks', '<p><a href="#repository-profile">Repository profile</a></p>' + generic_contents(project_body),
+              review_date='09 NOV 2026')
     body += '</tbody></table></div><p id="empty-result" hidden>No codebase matches these filters. Change the search or source family.</p></section>'
     comparison = render(folder / 'COMPARISON.md', page, 'task-findings')
     body += '<article class="technical">' + comparison + '</article>'
-    shell(page, 'Agent task management', '25 codebases assessed against shared project and task coordination requirements.',
+    shell(page, 'Agent task management', f'{task_count} codebases assessed against shared project and task coordination requirements.',
           body, 'tasks', '<p><a href="#comparison">Requirement matrix</a></p>' + generic_contents(comparison),
           review_date='09 NOV 2026')
     (folder / 'REQUIREMENT_MATRIX.md').write_text('\n'.join(matrix_md) + '\n')
     purpose_page = folder / 'purpose.html'
     purpose = render(ROOT / 'AGENT_TASK_MANAGEMENT.md', purpose_page, 'task-purpose')
-    shell(purpose_page, 'Agent task management baseline', 'The T01–T24 purpose used by all 25 task-management assessments.',
+    shell(purpose_page, 'Agent task management baseline', f'The T01–T24 purpose used by all {task_count} task-management assessments.',
           '<p><a href="index.html">Return to the task comparison →</a></p><article class="technical">' + purpose + '</article>',
           'tasks', generic_contents(purpose), review_date='09 NOV 2026')
 
@@ -331,8 +392,8 @@ def main():
         item['report_sha256'] = hashlib.sha256((ROOT / item['report']).read_bytes()).hexdigest()
         build_project(item)
     (ROOT / 'coverage.json').write_text(json.dumps(coverage, indent=2) + '\n')
-    build_master(); build_generic(); build_task_management()
-    print('Built 107 HTML reports: the original 80 plus 25 task assessments, task baseline and task comparison.')
+    build_master(); build_generic(); build_task_management(); build_inventory()
+    print(f'Built {orchestration_count + task_count + 8} HTML reports, including {orchestration_count} orchestration and {task_count} task assessments.')
 
 if __name__ == '__main__':
     main()

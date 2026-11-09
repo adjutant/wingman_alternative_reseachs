@@ -3,19 +3,21 @@
 ## Scope
 
 This folder contains Wingman research. Do not read `../main/` or `../newman/` for this task.
-Keep each source checkout unchanged. Do not install or start a candidate product to update a report.
+Keep retained source checkouts unchanged. Do not install or start a candidate product to update a report.
 Read a checkout's own instructions before you operate inside that checkout.
 
 ## Structure
 
 - `index.html` contains the portfolio overview and comparison table.
+- `repositories.html` and `REPOSITORY_INVENTORY.md` are built from the active repository profiles. They list each upstream once and link both studies when applicable.
 - `WINGMAN_PURPOSE.md` defines the assessment baseline.
 - `AGENT_TASK_MANAGEMENT.md` defines the dedicated baseline for project and task coordination among agents.
 - `task-management/` holds the full source study against its T01–T24 requirements. Its checkout and assessment progress are separate from the original 75-project comparison.
-- `task-management/index.html` contains the 25-codebase comparison and searchable requirement matrix.
+- `task-management/index.html` contains the 9-codebase comparison and searchable requirement matrix.
 - `task-management/purpose.html` presents `AGENT_TASK_MANAGEMENT.md`; each `<codebase>/index.html` presents its complete task assessment.
 - `<project>/repo/` contains one independent Git checkout.
 - `<project>/assessment/ASSESSMENT.md` contains the technical assessment.
+- `<project>/assessment/REPOSITORY_PROFILE.md` records the dated GitHub snapshot and concise findings for the corresponding assessment. Both studies use this filename.
 - `<project>/assessment/` also holds supporting chapters and retained experiment evidence.
 - `<project>/index.html` contains the project report.
 - `generic/assessments/` contains shared methods, comparisons, and audit records.
@@ -27,7 +29,8 @@ Read a checkout's own instructions before you operate inside that checkout.
 - `assets/` contains shared CSS, JavaScript, fonts, and navigation icons.
 - `tools/` contains the report builder and validators.
 - `tools/serve_reports.py` serves reports on the LAN. Source checkout access requires `--include-source`.
-- `checkouts.json`, `coverage.json`, and `migration.json` record source provenance.
+- `checkouts.json` and `coverage.json` list active sources. `migration.json` records historical source provenance.
+- `SHITLIST.md` records one repository URL per line for excluded sources.
 
 `research/` is the physical folder and Git repository root.
 Use `AGENTS.md` for these instructions. Do not create compatibility symlinks for misspelled names.
@@ -76,6 +79,6 @@ Support keyboard navigation, small screens, print, and reduced motion.
 
 Use `tools/build_reports.py` to generate HTML from the curated research and project assessments.
 Use `tools/validate_research.py` to check repository preservation, coverage, links, assets, and report structure.
-Use `tools/validate_task_publication.py --write` to check complete task-report prose, all 600 matrix verdicts and their explanation links against the source artifacts.
+Use `tools/validate_task_publication.py --write` to check complete task-report prose, all matrix verdicts and their explanation links against the source artifacts.
 Inspect representative desktop and mobile renders. Check search, filters, and return navigation.
 Keep a completion audit that states unresolved work. Do not treat a structural check as a semantic review.

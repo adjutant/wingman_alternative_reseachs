@@ -1,6 +1,7 @@
 # Wingman research
 
 Open [index.html](index.html) for the overview and comparison table.
+Open the [repository inventory](repositories.html) or its [Markdown version](REPOSITORY_INVENTORY.md) for GitHub statistics, commit dates, and concise findings across both studies.
 All reports use local fonts, icons, CSS, and JavaScript.
 Search and filters need JavaScript. The complete content does not.
 
@@ -9,6 +10,8 @@ Search and filters need JavaScript. The complete content does not.
 ```text
 research/
 ├── index.html
+├── repositories.html
+├── REPOSITORY_INVENTORY.md
 ├── WINGMAN_PURPOSE.md
 ├── AGENT_TASK_MANAGEMENT.md
 ├── AGENTS.md
@@ -23,6 +26,7 @@ research/
 │   ├── repo/
 │   ├── assessment/
 │   │   ├── ASSESSMENT.md
+│   │   ├── REPOSITORY_PROFILE.md
 │   │   └── ...supporting chapters and evidence...
 │   └── index.html
 ├── generic/
@@ -34,11 +38,13 @@ research/
 ├── tools/
 ├── checkouts.json
 ├── coverage.json
+├── SHITLIST.md
 └── migration.json
 ```
 
 `research/` is the real folder and Git repository root.
-The original categories remain in `checkouts.json` as metadata.
+The original categories remain in `checkouts.json` as metadata. The active studies cover 49 orchestration checkouts and 9 task assessments. Paperclip and Agent Swarm appear in both studies. Excluded repositories are recorded in `SHITLIST.md`.
+The active inventory excludes repositories with fewer than 100 stars in the November 9, 2026 GitHub snapshot.
 
 ## Reading paths
 
@@ -47,7 +53,7 @@ The original categories remain in `checkouts.json` as metadata.
 - [Method and evidence](generic/method.html) define verdicts and verification limits.
 - [Agent task coordination](generic/task-coordination.html) compares shared trackers, boards, claims and handoffs for agents and subagents.
 - [Agent task management baseline](AGENT_TASK_MANAGEMENT.md) defines the dedicated coordination requirements.
-- [Agent task management](task-management/index.html) compares all 25 codebase assessments against T01–T24.
+- [Agent task management](task-management/index.html) compares all 11 codebase assessments against T01–T24.
 - [Task-study source guide](task-management/README.md) links Markdown reports, source ledgers and verification evidence.
 - [Source index](generic/assessments/CHECKOUT_INDEX.md) lists all checkouts and commits.
 - [Feature matrix](generic/assessments/FEATURE_MATRIX.md) provides the complete Markdown comparison.
@@ -55,11 +61,12 @@ The original categories remain in `checkouts.json` as metadata.
 Project reports start with a decision summary.
 Their technical sections cover architecture, 24 features, lifecycle, coordination, extra capabilities, and adoption gaps.
 Code links refer to the pinned local checkout.
+Each study's Markdown profile records GitHub metadata as observed on November 9, 2026, alongside the findings from its pinned technical assessment. Update the profiles and rebuild both inventories together when collecting a new snapshot.
 
 Focused studies can add new upstream source evidence without adding projects to the original 75-checkout comparison.
 The earlier task coordination screening records 17 open-source systems and five restricted alternatives or companions.
 Its revisions, licenses, file hashes and review scopes are in [the evidence index](generic/assessments/agent-task-coordination/EVIDENCE.md).
-The deeper task-management study has 25 complete checkouts and reports, including the adapter, communication companions and Taiga frontend. It preserves license and implementation boundaries.
+The deeper task-management study has 9 complete checkouts and reports, including the communication companions. The earlier screening also considered general-purpose project planners.
 
 ## Serve on your LAN
 

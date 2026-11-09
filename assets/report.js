@@ -11,6 +11,38 @@
     if (e.key === 'Escape' && sidebar?.classList.contains('open')) { closeMenu(); menu.focus(); }
   });
   sidebar?.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+  const inventoryFilters = document.querySelector('#inventory-filters');
+  if (inventoryFilters) {
+    const search = document.querySelector('#inventory-search');
+    const group = document.querySelector('#inventory-group');
+    const sections = Array.from(document.querySelectorAll('[data-inventory-group]'), section => ({
+      section,
+      rows: Array.from(section.querySelectorAll('tbody tr'), row => ({
+        row, text: row.textContent.toLocaleLowerCase()
+      }))
+    }));
+    const total = sections.reduce((sum, {rows}) => sum + rows.length, 0);
+    const apply = () => {
+      const query = search.value.trim().toLocaleLowerCase();
+      let count = 0;
+      for (const {section, rows} of sections) {
+        const inGroup = !group.value || group.value === section.dataset.inventoryGroup;
+        let matches = 0;
+        for (const {row, text} of rows) {
+          row.hidden = !inGroup || !text.includes(query);
+          if (!row.hidden) matches++;
+        }
+        section.hidden = matches === 0;
+        count += matches;
+      }
+      document.querySelector('#inventory-count').textContent = `${count} of ${total} repositories`;
+      document.querySelector('#inventory-empty').hidden = count !== 0;
+    };
+    search.addEventListener('input', apply);
+    group.addEventListener('change', apply);
+    inventoryFilters.addEventListener('submit', e => e.preventDefault());
+    apply();
+  }
   const table = document.querySelector('#comparison-table');
   if (!table) return;
   const search = document.querySelector('#project-search');

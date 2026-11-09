@@ -3,12 +3,16 @@ from pathlib import Path
 import argparse
 import collections
 import hashlib
+from html import escape
 from html.parser import HTMLParser
 import json
 import os
 import re
 import subprocess
 from urllib.parse import unquote, urlsplit
+
+from checkout_task_management import excluded_repo_urls, repo_key
+from repository_profiles import INVENTORY_HTML, INVENTORY_MD, PROFILE_NAME, inventory_markdown, load_profiles
 
 ROOT = Path(__file__).resolve().parents[1]
 WORKSPACE = ROOT.parent
@@ -37,6 +41,7 @@ def main():
     parser.add_argument('--write', action='store_true')
     args = parser.parse_args()
     coverage = json.loads((ROOT / 'coverage.json').read_text())
+    checkouts = json.loads((ROOT / 'checkouts.json').read_text())
     migration = json.loads((ROOT / 'migration.json').read_text())
     before = {x['slug']: x for x in migration['checkouts_before']}
     issues = []; repos = []; markdown_links = 0; html_links = 0
@@ -51,6 +56,11 @@ def main():
     if (ROOT/'AGENTS.m').exists() or (ROOT/'AGENTS.m').is_symlink():
         issues.append('Remove the misspelled AGENTS.m entry')
     expected = set()
+    excluded = excluded_repo_urls()
+    if {item['directory'] for item in checkouts['repositories']} != {item['directory'] for item in coverage['repositories']}:
+        issues.append('Orchestration checkout manifest differs from assessment coverage')
+    if any(repo_key(item['url']) in excluded for item in checkouts['repositories']):
+        issues.append('Excluded repository remains in the active orchestration manifest')
     for item in coverage['repositories']:
         slug = Path(item['directory']).parts[0]; expected.add(slug)
         repo = ROOT/item['directory']; doc = ROOT/item['report']
@@ -75,13 +85,38 @@ def main():
         repos.append(result)
     actual = {p.parent.parent.name for p in ROOT.glob('*/repo/.git')}
     if expected != actual: issues.append(f'Checkout set differs: {sorted(expected ^ actual)}')
-    pages = [ROOT/'index.html', *[ROOT / slug / 'index.html' for slug in sorted(expected)],
+    pages = [ROOT/'index.html', ROOT/INVENTORY_HTML, *[ROOT / slug / 'index.html' for slug in sorted(expected)],
              ROOT/'generic/index.html', ROOT/'generic/method.html', ROOT/'generic/purpose.html', ROOT/'generic/task-coordination.html']
     task_manifest = json.loads((ROOT / 'task-management/checkouts.json').read_text())
+    if any(repo_key(item['url']) in excluded for item in task_manifest['repositories']):
+        issues.append('Excluded repository remains in the active task manifest')
     task_pages = [ROOT / 'task-management/index.html', ROOT / 'task-management/purpose.html',
                   *[ROOT / 'task-management' / item['slug'] / 'index.html' for item in task_manifest['repositories']]]
+    actual_task_pages = set((ROOT / 'task-management').glob('*/index.html'))
+    if actual_task_pages != set(task_pages[2:]):
+        issues.append(f'Task report pages differ from the manifest: {sorted(actual_task_pages ^ set(task_pages[2:]))}')
+    profiles, inventory = load_profiles(ROOT, checkouts, task_manifest)
+    if (ROOT / INVENTORY_MD).read_text() != inventory_markdown(ROOT, inventory):
+        issues.append('Markdown repository inventory differs from the active profiles')
+    inventory_html = (ROOT / INVENTORY_HTML).read_text()
+    inventory_links = collections.Counter(Document(inventory_html).links)
+    if inventory_html.count('<th scope="row">') != len(inventory):
+        issues.append('HTML repository inventory row count differs from the deduplicated scope')
+    for profile in profiles.values():
+        href = str(profile.report.relative_to(ROOT)) + '#repository-profile'
+        if inventory_links[href] != 1:
+            issues.append(f'Repository inventory must link exactly once to {href}')
+        report_html = profile.report.read_text()
+        section = re.search(r'<section id="repository-profile".*?</section>', report_html, re.S)
+        if not section or any(
+            escape(value) not in section[0]
+            for value in [*profile.table_values(), profile.fields['Snapshot date'], f'assessment/{PROFILE_NAME}']
+        ):
+            issues.append(f'Published profile is missing or incomplete: {profile.path.relative_to(ROOT)}')
+    for primary, *_ in inventory.values():
+        if any(f'>{escape(value)}</td>' not in inventory_html for value in primary.table_values()):
+            issues.append(f'HTML repository inventory has missing data: {primary.path.relative_to(ROOT)}')
     pages = sorted(pages + task_pages)
-    if len(pages) != 107: issues.append(f'Expected 107 HTML pages, found {len(pages)}')
     parsed = {p: Document(p.read_text()) for p in pages}
     for page, doc in parsed.items():
         if doc.h1 != 1: issues.append(f'Expected one h1: {page.relative_to(ROOT)}')
@@ -103,8 +138,20 @@ def main():
                 ids=parsed.get(dest)
                 if ids and unquote(u.fragment) not in ids.ids:
                     issues.append(f'Broken HTML anchor: {page.relative_to(ROOT)} -> {target}')
-    # Historical audits retain their findings and report hashes. Their current links still need validation.
-    docs = [ROOT/'WINGMAN_PURPOSE.md', ROOT/'AGENT_TASK_MANAGEMENT.md', ROOT/'AGENTS.md', ROOT/'README.md']
+    # Historical audits retain references to their original evidence, including pruned projects.
+    retired = set(before) - expected
+    audits = ROOT / 'generic/assessments/_audits'
+    def local_link_exists(doc, target):
+        dest = (doc.parent / unquote(target.split('#')[0])).resolve()
+        if dest.exists():
+            return True
+        if doc.parent == audits and dest.is_relative_to(ROOT):
+            parts = dest.relative_to(ROOT).parts
+            return bool(parts and parts[0] in retired)
+        return False
+
+    docs = [ROOT/'WINGMAN_PURPOSE.md', ROOT/'AGENT_TASK_MANAGEMENT.md', ROOT/'AGENTS.md', ROOT/'README.md',
+            ROOT/INVENTORY_MD]
     docs += list(ROOT.glob('task-management/*.md'))
     docs += list(ROOT.glob('task-management/*/assessment/*.md'))
     docs += list(ROOT.glob('*/assessment/*.md'))
@@ -119,16 +166,16 @@ def main():
         for target in re.findall(r'\[[^\n]*?\]\(([^\n)]+)\)',body):
             if re.match(r'\w+:|#',target): continue
             markdown_links += 1
-            dest=doc.parent/unquote(target.split('#')[0])
-            if not dest.exists(): issues.append(f'Broken Markdown link: {doc.relative_to(ROOT)} -> {target}')
+            if not local_link_exists(doc, target): issues.append(f'Broken Markdown link: {doc.relative_to(ROOT)} -> {target}')
         for target in re.findall(r'^\[[^\]\n]+\]:\s*(\S+)',body,re.M):
             if re.match(r'\w+:|#',target): continue
             markdown_links += 1
-            if not (doc.parent/unquote(target.split('#')[0])).exists():
+            if not local_link_exists(doc, target):
                 issues.append(f'Broken reference link: {doc.relative_to(ROOT)} -> {target}')
         if re.search(r'\[[^\]]*\]\(https?://',body): issues.append(f'External URL is not bare: {doc.relative_to(ROOT)}')
     result = {'scope':'Repository preservation, structure, feature coverage, local links, HTML anchors, and shared assets. Not a semantic or STE certification.',
-              'repository_count':len(repos), 'html_count':len(pages), 'markdown_links_checked':markdown_links,
+              'repository_count':len(repos), 'repository_profiles':len(profiles), 'inventory_repositories':len(inventory),
+              'html_count':len(pages), 'markdown_links_checked':markdown_links,
               'html_links_checked':html_links, 'issues':issues, 'repositories':repos}
     if args.write: (ROOT/'validation.json').write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps({k:v for k,v in result.items() if k not in ['repositories','issues']},indent=2))

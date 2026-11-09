@@ -12,6 +12,7 @@ from urllib.parse import unquote, urlsplit
 ROOT = Path(__file__).resolve().parents[1]
 ROOT_FILES = {
     'index.html', 'README.md', 'AGENTS.md', 'WINGMAN_PURPOSE.md', 'AGENT_TASK_MANAGEMENT.md',
+    'repositories.html', 'REPOSITORY_INVENTORY.md',
     'coverage.json', 'checkouts.json', 'migration.json', 'validation.json',
 }
 

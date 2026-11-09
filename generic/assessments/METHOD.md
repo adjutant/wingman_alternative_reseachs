@@ -2,7 +2,7 @@
 
 ## Scope
 
-The collection contains 75 source assessments. Each assessment uses one pinned local checkout.
+The active orchestration study contains 49 source assessments. Each assessment uses one pinned local checkout.
 The common baseline is [Wingman's purpose](../../WINGMAN_PURPOSE.md).
 The original source review date is November 5, 2026.
 The report reorganization started on November 6, 2026.

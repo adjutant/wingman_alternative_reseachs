@@ -1,6 +1,6 @@
 # Assessment guide
 
-Assess the 75 checkouts in [the source manifest](../../checkouts.json).
+Assess the active checkouts in [the source manifest](../../checkouts.json).
 Use [Wingman's purpose](../../WINGMAN_PURPOSE.md) as the product baseline.
 Describe the pinned local commit. Keep each checkout unchanged.
 

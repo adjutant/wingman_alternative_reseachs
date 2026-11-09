@@ -18,8 +18,11 @@ class ReportServerTests(unittest.TestCase):
         self.root.mkdir()
         files = {
             'index.html': '<h1>Overview</h1>',
+            'repositories.html': '<h1>Repository inventory</h1>',
+            'REPOSITORY_INVENTORY.md': '# Repository inventory',
             'project/index.html': '<h1>Project</h1>',
             'project/assessment/ASSESSMENT.md': '# Assessment',
+            'project/assessment/REPOSITORY_PROFILE.md': '# Repository profile',
             'project/repo/source.txt': 'source checkout',
             'project/repo/.git/config': 'private Git config',
             'assets/report.css': 'body { color: navy; }',
@@ -72,7 +75,10 @@ class ReportServerTests(unittest.TestCase):
 
     def test_reports_assets_and_head(self):
         with self.serving() as port:
-            for path in ['/', '/project/', '/generic/purpose.html', '/generic/task-coordination.html', '/project/assessment/ASSESSMENT.md', '/assets/report.css', '/assets/report.js']:
+            for path in ['/', '/repositories.html', '/REPOSITORY_INVENTORY.md', '/project/',
+                         '/generic/purpose.html', '/generic/task-coordination.html',
+                         '/project/assessment/ASSESSMENT.md', '/project/assessment/REPOSITORY_PROFILE.md',
+                         '/assets/report.css', '/assets/report.js']:
                 with self.subTest(path=path):
                     self.assertEqual(self.request(port, path)[0], 200)
             status, headers, body = self.request(port, '/assets/report.css', 'HEAD')

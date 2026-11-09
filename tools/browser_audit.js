@@ -1,7 +1,7 @@
 (async () => {
   const manifest = await (await fetch('/coverage.json')).json();
   const taskManifest = await (await fetch('/task-management/checkouts.json')).json();
-  const paths = ['index.html', 'generic/index.html', 'generic/purpose.html', 'generic/method.html', 'generic/task-coordination.html',
+  const paths = ['index.html', 'repositories.html', 'generic/index.html', 'generic/purpose.html', 'generic/method.html', 'generic/task-coordination.html',
     ...manifest.repositories.map(r => r.directory.split('/')[0] + '/index.html'),
     'task-management/index.html', 'task-management/purpose.html',
     ...taskManifest.repositories.map(r => 'task-management/' + r.slug + '/index.html')];
